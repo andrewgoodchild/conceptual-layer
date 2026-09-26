@@ -1,0 +1,725 @@
+{
+ "database": "cross_border_large",
+ "verdicts": [
+  {
+   "id": "API_Control_Map.api_code -> API_Endpoint.Api_code",
+   "verdict": "yes",
+   "reason": "Map table's api_code names API_Endpoint's own key column; 39 of 40 endpoints referenced across 150 rows."
+  },
+  {
+   "id": "API_Control_Map.control_number -> Legal_Article.ARTICLE_NO",
+   "verdict": "no",
+   "reason": "A control number is not a legal article; only 25 distinct values over 150-350 rows means it draws from a 25-row control table, not 1..30."
+  },
+  {
+   "id": "API_Control_Map.log_retention_days -> EmployeeCertification.CERT_ID",
+   "verdict": "no",
+   "reason": "Four retention periods (30/90/180/365 days), not certificate ids."
+  },
+  {
+   "id": "API_Endpoint.endpoint_security_code -> Legal_Article.ARTICLE_NO",
+   "verdict": "no",
+   "reason": "A security code on an endpoint is not a legal article; 22 small integers inside 1..30 is coincidence."
+  },
+  {
+   "id": "Compliance_Detail.compliance_code -> Vendor_Contract_Detail.VCONTRACT_DETAIL_NO",
+   "verdict": "no",
+   "reason": "compliance_code is a 1..240 sequence naming its own compliance master; nesting in the 240-row vendor-contract table is same-length coincidence."
+  },
+  {
+   "id": "Compliance_Detail.consent_renewal_days -> EmployeeCertification.CERT_ID",
+   "verdict": "no",
+   "reason": "A number of days, not a certificate id."
+  },
+  {
+   "id": "Compliance_Detail.storage_limitation_days -> DataProfile_Lineage.LINEAGE_NO",
+   "verdict": "no",
+   "reason": "A number of days, not a lineage row."
+  },
+  {
+   "id": "ConsentRecord.dsr_ref -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "verdict": "no",
+   "reason": "dsr_ref means DataSubjectRequest (DSR_ID, also 150 rows 1..150); a stakeholder consultation is the wrong target."
+  },
+  {
+   "id": "ConsentRecord.DATASET_REF -> Dataset_Catalog.dataset_code",
+   "verdict": "yes",
+   "reason": "DATASET_REF is the plain name for Dataset_Catalog's key; all 50 datasets hit across 300 consents."
+  },
+  {
+   "id": "Control_Scenario_Map.control_no -> Legal_Article.ARTICLE_NO",
+   "verdict": "no",
+   "reason": "A control number is not a legal article; only 25 distinct values over 150-350 rows means it draws from a 25-row control table, not 1..30."
+  },
+  {
+   "id": "Control_Scenario_Map.scenario_code -> API_Endpoint.Api_code",
+   "verdict": "no",
+   "reason": "scenario_code names Risk_Scenario.Scenario_Code (also 40 rows 1..40); an API endpoint is the wrong target."
+  },
+  {
+   "id": "Control_Scenario_Map.test_frequency_days -> EmployeeCertification.CERT_ID",
+   "verdict": "no",
+   "reason": "Four test intervals (30/90/180/365 days), not certificate ids."
+  },
+  {
+   "id": "DPIAAssessmentCriteria.dpia_ref -> DPIARecord.DPIA_ID",
+   "verdict": "yes",
+   "reason": "dpia_ref names the DPIA table; 96 of 100 DPIAs referenced from 300 criteria rows."
+  },
+  {
+   "id": "DPIARecommendation.DPIA_REF -> DPIARecord.DPIA_ID",
+   "verdict": "yes",
+   "reason": "DPIA_REF names the DPIA table; 81 of 100 DPIAs hit from 200 recommendations, random-draw shape."
+  },
+  {
+   "id": "DPIARecord.compliance_trace_ref -> DPIA_Dataset_Map.DPIA_DATASET_MAP_ID",
+   "verdict": "no",
+   "reason": "compliance_trace_ref names a compliance record; a DPIA-to-dataset map row is the wrong target."
+  },
+  {
+   "id": "DPIARecord.PROCESSING_PURPOSES_COUNT -> System_Inventory.SYSTEM_CODE",
+   "verdict": "no",
+   "reason": "A count of purposes (1..8), not a system code."
+  },
+  {
+   "id": "DPIAStakeholderConsultation.DPIA_REF -> DPIARecord.DPIA_ID",
+   "verdict": "yes",
+   "reason": "Consultation belongs to a DPIA; DPIA_REF names the target and 71 of 100 DPIAs are hit from 150 rows."
+  },
+  {
+   "id": "DPIA_Dataset_Map.dpia_ref -> DPIARecord.DPIA_ID",
+   "verdict": "yes",
+   "reason": "Map table's dpia_ref side; 93 of 100 DPIAs referenced across 250 map rows."
+  },
+  {
+   "id": "DPIA_Dataset_Map.DATASET_REF -> Dataset_Catalog.dataset_code",
+   "verdict": "yes",
+   "reason": "Map table's dataset side; all 50 datasets referenced across 250 map rows."
+  },
+  {
+   "id": "DataField_Catalog.dataset_code -> Dataset_Catalog.dataset_code",
+   "verdict": "yes",
+   "reason": "Field catalog carries the dataset it belongs to under Dataset_Catalog's own key name; 30 datasets from 45 fields."
+  },
+  {
+   "id": "DataField_Catalog.NULL_COUNT -> DataFlow_Detail.FLOWDETAIL_CODE",
+   "verdict": "no",
+   "reason": "A null count, not a flow-detail id."
+  },
+  {
+   "id": "DataFlow_Detail.detail_flow_code -> DataFlow.RecordRegistry",
+   "verdict": "yes",
+   "reason": "Detail table pointing at its master: 999/999 CB###### codes on both sides in the same format."
+  },
+  {
+   "id": "DataProfile_Lineage.lineage_flow_code -> RiskManagement_Detail.RISK_DETAIL_CODE",
+   "verdict": "no",
+   "reason": "lineage_flow_code names a data flow, not a risk detail; only the equal 870-row counts make it nest."
+  },
+  {
+   "id": "DataSubjectRequest.COMPLIANCE_REF -> Compliance_Detail.COMPLIANCE_DETAIL_NO",
+   "verdict": "yes",
+   "reason": "Named compliance reference; 110 distinct in 150 rows is exactly uniform draws over the 240 compliance rows."
+  },
+  {
+   "id": "DataSubjectRequest.jurisdiction_ref -> API_Endpoint.Api_code",
+   "verdict": "no",
+   "reason": "jurisdiction_ref means Geo_Jurisdiction.JURISDICTION_CODE (also 40 rows 1..40), not an API endpoint."
+  },
+  {
+   "id": "DataSubjectRequest.systems_searched -> Legal_Article.ARTICLE_NO",
+   "verdict": "no",
+   "reason": "A plural count of systems searched, not a legal article."
+  },
+  {
+   "id": "DataSubjectRequest.EXTENSION_DAYS -> PolicyVersion.POLICY_VERSION_ID",
+   "verdict": "no",
+   "reason": "A number of days, not a policy version."
+  },
+  {
+   "id": "Dataset_Catalog.retention_days -> EmployeeCertification.CERT_ID",
+   "verdict": "no",
+   "reason": "A retention period in days, not a certificate id."
+  },
+  {
+   "id": "Dataset_Catalog.BKP_FREQUENCY_DAYS -> Legal_Article.ARTICLE_NO",
+   "verdict": "no",
+   "reason": "A backup interval in days, not a legal article."
+  },
+  {
+   "id": "Dataset_Legal_Map.dataset_code -> Dataset_Catalog.dataset_code",
+   "verdict": "yes",
+   "reason": "Map table's dataset side using Dataset_Catalog's own key name; 45 of 50 datasets from 95 rows."
+  },
+  {
+   "id": "Dataset_Legal_Map.article_number -> Legal_Article.ARTICLE_NO",
+   "verdict": "yes",
+   "reason": "Map table's legal-article side; all 30 articles referenced across 95 rows."
+  },
+  {
+   "id": "Dataset_Legal_Map.consent_renewal_days -> EmployeeCertification.CERT_ID",
+   "verdict": "no",
+   "reason": "A number of days, not a certificate id."
+  },
+  {
+   "id": "Dataset_Legal_Map.RETENTION_DAYS -> DataProfile_Lineage.LINEAGE_NO",
+   "verdict": "no",
+   "reason": "A retention period in days, not a lineage row."
+  },
+  {
+   "id": "DisposalRecord.retention_ref -> Dataset_Catalog.dataset_code",
+   "verdict": "no",
+   "reason": "retention_ref means RetentionSchedule.RETENTION_ID (also 50 rows 1..50); DATASET_REF is the sibling column that points at datasets."
+  },
+  {
+   "id": "DisposalRecord.DATASET_REF -> Dataset_Catalog.dataset_code",
+   "verdict": "yes",
+   "reason": "Disposal of a dataset; DATASET_REF names the target and 49 of 50 datasets are hit."
+  },
+  {
+   "id": "DisposalRecord.SYSTEMS_AFFECTED -> System_Inventory.SYSTEM_CODE",
+   "verdict": "no",
+   "reason": "A plural count of systems affected; 200 rows reach only 15 of 20 systems, which a reference would not do."
+  },
+  {
+   "id": "DueDiligenceAssessment.SUBPROCESSOR_REF -> ForensicInvestigation.forensic_id",
+   "verdict": "no",
+   "reason": "SUBPROCESSOR_REF means SubprocessorRegistry.SUBPROCESSOR_ID (also 80 rows 1..80), not a forensic investigation."
+  },
+  {
+   "id": "EmployeeCertification.training_prog_ref -> PolicyVersion.POLICY_VERSION_ID",
+   "verdict": "no",
+   "reason": "training_prog_ref names PrivacyTrainingProgram.TRAINING_PROG_ID (also 60 rows 1..60), not a policy version."
+  },
+  {
+   "id": "EmployeeCertification.attempts -> System_Inventory.SYSTEM_CODE",
+   "verdict": "no",
+   "reason": "A number of attempts (1..4), not a system code."
+  },
+  {
+   "id": "ErasureRequest.dsr_ref -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "verdict": "no",
+   "reason": "dsr_ref means DataSubjectRequest.DSR_ID (also 150 rows), not a stakeholder consultation."
+  },
+  {
+   "id": "ErasureRequest.systems_to_erase -> System_Inventory.SYSTEM_CODE",
+   "verdict": "no",
+   "reason": "A plural count of systems, like its sibling columns systems_searched and SYSTEMS_AFFECTED; not a single system reference."
+  },
+  {
+   "id": "ForensicInvestigation.INCIDENT_REF -> ErasureRequest.ERASURE_ID",
+   "verdict": "no",
+   "reason": "INCIDENT_REF means IncidentRegister.INCIDENT_ID (also 120 rows 1..120), not an erasure request."
+  },
+  {
+   "id": "ForensicInvestigation.evidence_items_collected -> DPIARecommendation.recommendation_id",
+   "verdict": "no",
+   "reason": "A count of evidence items, not a recommendation id."
+  },
+  {
+   "id": "Geo_Jurisdiction.AGE_OF_CONSENT_YEARS -> Legal_Article.ARTICLE_NO",
+   "verdict": "no",
+   "reason": "Ages 13..18, not legal article numbers."
+  },
+  {
+   "id": "Geo_Jurisdiction.BREACH_NOTIFY_HOURS -> DPIARecord.DPIA_ID",
+   "verdict": "no",
+   "reason": "Deadlines of 24/48/72 hours, not DPIA ids."
+  },
+  {
+   "id": "Geo_Jurisdiction.electric_standard_v -> Incident_Control_Map.ICM_ID",
+   "verdict": "no",
+   "reason": "Mains voltages (110.0..240.0), not map-row ids."
+  },
+  {
+   "id": "GovernanceDecision.policy_ref -> PolicyVersion.POLICY_VERSION_ID",
+   "verdict": "yes",
+   "reason": "policy_ref names the only policy table; 47 of 60 versions from 80 decisions matches random draws."
+  },
+  {
+   "id": "GovernanceDecision.SCENARIO_REF -> API_Endpoint.Api_code",
+   "verdict": "no",
+   "reason": "SCENARIO_REF means Risk_Scenario.Scenario_Code (also 40 rows), not an API endpoint."
+  },
+  {
+   "id": "IncidentNotification.incident_id_ref -> ErasureRequest.ERASURE_ID",
+   "verdict": "no",
+   "reason": "incident_id_ref means IncidentRegister.INCIDENT_ID (also 120 rows), not an erasure request."
+  },
+  {
+   "id": "IncidentNotification.JURISDICTION_REF -> API_Endpoint.Api_code",
+   "verdict": "no",
+   "reason": "JURISDICTION_REF means Geo_Jurisdiction.JURISDICTION_CODE (also 40 rows), not an API endpoint."
+  },
+  {
+   "id": "IncidentNotification.DEADLINE_HOURS -> ForensicInvestigation.forensic_id",
+   "verdict": "no",
+   "reason": "A deadline in hours, not a forensic investigation id."
+  },
+  {
+   "id": "IncidentRegister.risk_trace_ref -> DataProfile_Lineage.LINEAGE_NO",
+   "verdict": "no",
+   "reason": "risk_trace_ref reads as RiskManagement_Detail.RISK_DETAIL_CODE (also 870 rows); data-profile lineage is the wrong target."
+  },
+  {
+   "id": "IncidentRegister.compliance_ref -> Compliance_Detail.COMPLIANCE_DETAIL_NO",
+   "verdict": "yes",
+   "reason": "Named compliance reference; 96 distinct in 120 rows matches uniform draws over the 240 compliance rows."
+  },
+  {
+   "id": "IncidentRegister.SLA_NOTIFICATION_HOURS -> ForensicInvestigation.forensic_id",
+   "verdict": "no",
+   "reason": "An SLA in hours, not a forensic investigation id."
+  },
+  {
+   "id": "IncidentResponsePlan.incident_ref -> ErasureRequest.ERASURE_ID",
+   "verdict": "no",
+   "reason": "incident_ref means IncidentRegister.INCIDENT_ID (also 120 rows), not an erasure request."
+  },
+  {
+   "id": "IncidentResponsePlan.team_size -> Legal_Article.ARTICLE_NO",
+   "verdict": "no",
+   "reason": "A team size, not a legal article."
+  },
+  {
+   "id": "IncidentResponsePlan.ACTION_ITEMS_TOTAL -> Dataset_Catalog.dataset_code",
+   "verdict": "no",
+   "reason": "A count of action items, not a dataset."
+  },
+  {
+   "id": "Incident_Control_Map.INCIDENT_REF -> ErasureRequest.ERASURE_ID",
+   "verdict": "no",
+   "reason": "INCIDENT_REF means IncidentRegister.INCIDENT_ID (also 120 rows), not an erasure request."
+  },
+  {
+   "id": "Incident_Control_Map.control_ref -> Legal_Article.ARTICLE_NO",
+   "verdict": "no",
+   "reason": "A control number is not a legal article; only 25 distinct values over 150-350 rows means it draws from a 25-row control table, not 1..30."
+  },
+  {
+   "id": "Jurisdiction_Mechanism_Map.jurisdiction_number -> API_Endpoint.Api_code",
+   "verdict": "no",
+   "reason": "jurisdiction_number means Geo_Jurisdiction.JURISDICTION_CODE (also 40 rows), not an API endpoint."
+  },
+  {
+   "id": "Jurisdiction_Mechanism_Map.mechanism_no -> System_Inventory.SYSTEM_CODE",
+   "verdict": "no",
+   "reason": "mechanism_no is literally Transfer_Mechanism's key column name (also 20 rows 1..20); a system is the wrong target."
+  },
+  {
+   "id": "Legal_Article.BREACH_NOTIFY_HOURS -> ForensicInvestigation.forensic_id",
+   "verdict": "no",
+   "reason": "A deadline in hours, not a forensic investigation id."
+  },
+  {
+   "id": "PolicyAcknowledgment.POLICY_REF -> PolicyVersion.POLICY_VERSION_ID",
+   "verdict": "yes",
+   "reason": "Acknowledging a policy version; all 60 versions referenced across 500 acknowledgments."
+  },
+  {
+   "id": "PolicyVersion.pages -> Dataset_Catalog.dataset_code",
+   "verdict": "no",
+   "reason": "A page count, not a dataset."
+  },
+  {
+   "id": "PolicyVersion.review_cycle_months -> Legal_Article.ARTICLE_NO",
+   "verdict": "no",
+   "reason": "A number of months, not a legal article."
+  },
+  {
+   "id": "PortabilityRequest.DSR_REF -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "verdict": "no",
+   "reason": "DSR_REF means DataSubjectRequest.DSR_ID (also 150 rows), not a stakeholder consultation."
+  },
+  {
+   "id": "PortabilityRequest.data_categories_included -> System_Inventory.SYSTEM_CODE",
+   "verdict": "no",
+   "reason": "A count of data categories, not a system code."
+  },
+  {
+   "id": "PrivacyTrainingProgram.PASS_MARK_PCT -> ErasureRequest.ERASURE_ID",
+   "verdict": "no",
+   "reason": "A percentage (66..90), not an erasure request id."
+  },
+  {
+   "id": "PrivacyTrainingProgram.VALIDITY_MONTHS -> API_Endpoint.Api_code",
+   "verdict": "no",
+   "reason": "A number of months, not an API endpoint."
+  },
+  {
+   "id": "PrivacyTrainingProgram.renewal_reminder_days -> DPIARecord.DPIA_ID",
+   "verdict": "no",
+   "reason": "A number of days, not a DPIA id."
+  },
+  {
+   "id": "PrivacyTrainingProgram.total_modules -> System_Inventory.SYSTEM_CODE",
+   "verdict": "no",
+   "reason": "A module count, not a system code."
+  },
+  {
+   "id": "RemediationAction.incident_ref -> ErasureRequest.ERASURE_ID",
+   "verdict": "no",
+   "reason": "incident_ref means IncidentRegister.INCIDENT_ID (also 120 rows), not an erasure request."
+  },
+  {
+   "id": "RemediationAction.DOWNTIME_MINUTES -> PolicyAcknowledgment.ACK_ID",
+   "verdict": "no",
+   "reason": "Minutes of downtime, not acknowledgment ids."
+  },
+  {
+   "id": "RetentionSchedule.jurisdiction_ref -> API_Endpoint.Api_code",
+   "verdict": "no",
+   "reason": "jurisdiction_ref means Geo_Jurisdiction.JURISDICTION_CODE (also 40 rows), not an API endpoint."
+  },
+  {
+   "id": "RetentionSchedule.systems_covered -> System_Inventory.SYSTEM_CODE",
+   "verdict": "no",
+   "reason": "A plural count of systems covered, like the other systems_* columns; not a single system reference."
+  },
+  {
+   "id": "Retention_Dataset_Map.RETENTION_REF -> Dataset_Catalog.dataset_code",
+   "verdict": "no",
+   "reason": "RETENTION_REF means RetentionSchedule.RETENTION_ID (also 50 rows); dataset_ref is the sibling column for datasets."
+  },
+  {
+   "id": "Retention_Dataset_Map.dataset_ref -> Dataset_Catalog.dataset_code",
+   "verdict": "yes",
+   "reason": "Map table's dataset side; 47 of 50 datasets hit across 150 rows."
+  },
+  {
+   "id": "Retention_Dataset_Map.fields_covered -> DPIARecord.DPIA_ID",
+   "verdict": "no",
+   "reason": "A count of fields covered, not a DPIA id."
+  },
+  {
+   "id": "Rights_Compliance_Map.DSR_REF -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "verdict": "no",
+   "reason": "DSR_REF means DataSubjectRequest.DSR_ID (also 150 rows), not a stakeholder consultation."
+  },
+  {
+   "id": "Rights_Compliance_Map.article_ref -> Legal_Article.ARTICLE_NO",
+   "verdict": "yes",
+   "reason": "article_ref names Legal_Article; all 30 articles referenced across 300 rows."
+  },
+  {
+   "id": "Rights_Compliance_Map.RESPONSE_TIME_DAYS -> DPIARecord.DPIA_ID",
+   "verdict": "no",
+   "reason": "A response time in days, not a DPIA id."
+  },
+  {
+   "id": "RiskManagement_Detail.risk_flow_code -> DataProfile_Lineage.LINEAGE_NO",
+   "verdict": "no",
+   "reason": "risk_flow_code is a 1..870 sequence in the risk detail table; nesting in the 870-row lineage table is same-length coincidence."
+  },
+  {
+   "id": "RiskManagement_Detail.risk_velocity_Days -> DPIARecommendation.recommendation_id",
+   "verdict": "no",
+   "reason": "A number of days, not a recommendation id."
+  },
+  {
+   "id": "RiskManagement_Detail.Review_frequency_days -> EmployeeCertification.CERT_ID",
+   "verdict": "no",
+   "reason": "Four review intervals (30/90/180/365 days), not certificate ids."
+  },
+  {
+   "id": "RiskManagement_Detail.Sim_runs -> DataFlow_Detail.FLOWDETAIL_CODE",
+   "verdict": "no",
+   "reason": "A count of simulation runs, not a flow-detail id."
+  },
+  {
+   "id": "SLAMonitoring.subprocessor_ref -> ForensicInvestigation.forensic_id",
+   "verdict": "no",
+   "reason": "subprocessor_ref means SubprocessorRegistry.SUBPROCESSOR_ID (also 80 rows), not a forensic investigation."
+  },
+  {
+   "id": "SecurityProfile_CipherDetail.security_code -> PolicyAcknowledgment.ACK_ID",
+   "verdict": "no",
+   "reason": "security_code is a 430-value permutation of the cipher-detail rows, not policy acknowledgments; 430 inside 500 is coincidence."
+  },
+  {
+   "id": "SubprocessorRegistry.vendor_ref -> DPIA_Dataset_Map.DPIA_DATASET_MAP_ID",
+   "verdict": "no",
+   "reason": "vendor_ref means VendorManagement; a DPIA-to-dataset map row is not a vendor."
+  },
+  {
+   "id": "SubprocessorRegistry.JURISDICTION_REF -> API_Endpoint.Api_code",
+   "verdict": "no",
+   "reason": "JURISDICTION_REF means Geo_Jurisdiction.JURISDICTION_CODE (also 40 rows), not an API endpoint."
+  },
+  {
+   "id": "Subprocessor_Vendor_Map.SUBPROCESSOR_REF -> ForensicInvestigation.forensic_id",
+   "verdict": "no",
+   "reason": "SUBPROCESSOR_REF means SubprocessorRegistry.SUBPROCESSOR_ID (also 80 rows), not a forensic investigation."
+  },
+  {
+   "id": "Subprocessor_Vendor_Map.vendor_ref -> DPIA_Dataset_Map.DPIA_DATASET_MAP_ID",
+   "verdict": "no",
+   "reason": "vendor_ref means VendorManagement; a DPIA-to-dataset map row is not a vendor."
+  },
+  {
+   "id": "TrainingCompletionLog.cert_ref -> EmployeeCertification.CERT_ID",
+   "verdict": "yes",
+   "reason": "cert_ref names the certification table; 292 distinct in 500 rows matches uniform draws over 400 certs."
+  },
+  {
+   "id": "TrainingCompletionLog.PROGRAM_REF -> PolicyVersion.POLICY_VERSION_ID",
+   "verdict": "no",
+   "reason": "PROGRAM_REF means PrivacyTrainingProgram.TRAINING_PROG_ID (also 60 rows), not a policy version."
+  },
+  {
+   "id": "TrainingCompletionLog.module_number -> System_Inventory.SYSTEM_CODE",
+   "verdict": "no",
+   "reason": "A module number within a program, not a system code."
+  },
+  {
+   "id": "TrainingCompletionLog.questions_total -> Legal_Article.ARTICLE_NO",
+   "verdict": "no",
+   "reason": "A question count, not a legal article."
+  },
+  {
+   "id": "TrainingCompletionLog.QUESTIONS_CORRECT -> Legal_Article.ARTICLE_NO",
+   "verdict": "no",
+   "reason": "A score (questions correct), not a legal article."
+  },
+  {
+   "id": "TrainingMaterial.program_ref -> PolicyVersion.POLICY_VERSION_ID",
+   "verdict": "no",
+   "reason": "program_ref means PrivacyTrainingProgram.TRAINING_PROG_ID (also 60 rows), not a policy version."
+  },
+  {
+   "id": "TrainingMaterial.duration_minutes -> ErasureRequest.ERASURE_ID",
+   "verdict": "no",
+   "reason": "A duration in minutes, not an erasure request id."
+  },
+  {
+   "id": "TrainingMaterial.MODULE_ORDER -> System_Inventory.SYSTEM_CODE",
+   "verdict": "no",
+   "reason": "An ordering position, not a system code."
+  },
+  {
+   "id": "Transfer_Mechanism.RE_EVALUATION_CYCLE_DAYS -> DataProfile_Lineage.LINEAGE_NO",
+   "verdict": "no",
+   "reason": "Cycles of 180/365/730 days, not lineage rows."
+  },
+  {
+   "id": "Vendor_Contract_Detail.vendor_code -> Compliance_Detail.COMPLIANCE_DETAIL_NO",
+   "verdict": "no",
+   "reason": "vendor_code names a vendor, not a compliance detail; 1..240 nesting in 1..240 is same-length coincidence."
+  },
+  {
+   "id": "API_Endpoint.Api_code -> Geo_Jurisdiction.JURISDICTION_CODE",
+   "verdict": "no",
+   "reason": "Own primary key (40 rows) nesting in an unrelated table's equal-length 1..40 surrogate sequence; no entity split between API_Endpoint and Geo_Jurisdiction."
+  },
+  {
+   "id": "Compliance_Detail.COMPLIANCE_DETAIL_NO -> Vendor_Contract_Detail.VCONTRACT_DETAIL_NO",
+   "verdict": "no",
+   "reason": "Own primary key (240 rows) nesting in an unrelated table's equal-length 1..240 surrogate sequence; no entity split between Compliance_Detail and Vendor_Contract_Detail."
+  },
+  {
+   "id": "ConsentRecord.CONSENT_ID -> DPIAAssessmentCriteria.CRITERIA_ID",
+   "verdict": "no",
+   "reason": "Own primary key (300 rows) nesting in an unrelated table's equal-length 1..300 surrogate sequence; no entity split between ConsentRecord and DPIAAssessmentCriteria."
+  },
+  {
+   "id": "DPIAAssessmentCriteria.CRITERIA_ID -> ConsentRecord.CONSENT_ID",
+   "verdict": "no",
+   "reason": "Own primary key (300 rows) nesting in an unrelated table's equal-length 1..300 surrogate sequence; no entity split between DPIAAssessmentCriteria and ConsentRecord."
+  },
+  {
+   "id": "DPIARecommendation.recommendation_id -> DisposalRecord.DISPOSAL_ID",
+   "verdict": "no",
+   "reason": "Own primary key (200 rows) nesting in an unrelated table's equal-length 1..200 surrogate sequence; no entity split between DPIARecommendation and DisposalRecord."
+  },
+  {
+   "id": "DPIARecord.DPIA_ID -> PortabilityRequest.PORTABILITY_ID",
+   "verdict": "no",
+   "reason": "Own primary key (100 rows) nesting in an unrelated table's equal-length 1..100 surrogate sequence; no entity split between DPIARecord and PortabilityRequest."
+  },
+  {
+   "id": "DPIAStakeholderConsultation.CONSULTATION_ID -> DataSubjectRequest.DSR_ID",
+   "verdict": "no",
+   "reason": "Own primary key (150 rows) nesting in an unrelated table's equal-length 1..150 surrogate sequence; no entity split between DPIAStakeholderConsultation and DataSubjectRequest."
+  },
+  {
+   "id": "DPIA_Dataset_Map.DPIA_DATASET_MAP_ID -> RemediationAction.REMEDIATION_ID",
+   "verdict": "no",
+   "reason": "Own primary key (250 rows) nesting in an unrelated table's equal-length 1..250 surrogate sequence; no entity split between DPIA_Dataset_Map and RemediationAction."
+  },
+  {
+   "id": "DataField_Catalog.FIELD_CODE -> Dataset_Catalog.dataset_code",
+   "verdict": "no",
+   "reason": "Own primary key (45 rows) nesting in an unrelated table's shorter 1..50 surrogate sequence; no entity split between DataField_Catalog and Dataset_Catalog."
+  },
+  {
+   "id": "DataProfile_Lineage.LINEAGE_NO -> RiskManagement_Detail.RISK_DETAIL_CODE",
+   "verdict": "no",
+   "reason": "Own primary key (870 rows) nesting in an unrelated table's equal-length 1..870 surrogate sequence; no entity split between DataProfile_Lineage and RiskManagement_Detail."
+  },
+  {
+   "id": "DataSubjectRequest.DSR_ID -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "verdict": "no",
+   "reason": "Own primary key (150 rows) nesting in an unrelated table's equal-length 1..150 surrogate sequence; no entity split between DataSubjectRequest and DPIAStakeholderConsultation."
+  },
+  {
+   "id": "Dataset_Catalog.dataset_code -> RetentionSchedule.RETENTION_ID",
+   "verdict": "no",
+   "reason": "Own primary key (50 rows) nesting in an unrelated table's equal-length 1..50 surrogate sequence; no entity split between Dataset_Catalog and RetentionSchedule."
+  },
+  {
+   "id": "DisposalRecord.DISPOSAL_ID -> DPIARecommendation.recommendation_id",
+   "verdict": "no",
+   "reason": "Own primary key (200 rows) nesting in an unrelated table's equal-length 1..200 surrogate sequence; no entity split between DisposalRecord and DPIARecommendation."
+  },
+  {
+   "id": "DueDiligenceAssessment.DDA_ID -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "verdict": "no",
+   "reason": "Own primary key (150 rows) nesting in an unrelated table's equal-length 1..150 surrogate sequence; no entity split between DueDiligenceAssessment and DPIAStakeholderConsultation."
+  },
+  {
+   "id": "EmployeeCertification.CERT_ID -> SecurityProfile_CipherDetail.CIPHER_DETAIL_NO",
+   "verdict": "no",
+   "reason": "Own primary key (400 rows) nesting in an unrelated table's shorter 1..430 surrogate sequence; no entity split between EmployeeCertification and SecurityProfile_CipherDetail."
+  },
+  {
+   "id": "ErasureRequest.ERASURE_ID -> IncidentRegister.INCIDENT_ID",
+   "verdict": "no",
+   "reason": "Own primary key (120 rows) nesting in an unrelated table's equal-length 1..120 surrogate sequence; no entity split between ErasureRequest and IncidentRegister."
+  },
+  {
+   "id": "ForensicInvestigation.forensic_id -> GovernanceDecision.DECISION_ID",
+   "verdict": "no",
+   "reason": "Own primary key (80 rows) nesting in an unrelated table's equal-length 1..80 surrogate sequence; no entity split between ForensicInvestigation and GovernanceDecision."
+  },
+  {
+   "id": "Geo_Jurisdiction.JURISDICTION_CODE -> API_Endpoint.Api_code",
+   "verdict": "no",
+   "reason": "Own primary key (40 rows) nesting in an unrelated table's equal-length 1..40 surrogate sequence; no entity split between Geo_Jurisdiction and API_Endpoint."
+  },
+  {
+   "id": "GovernanceDecision.DECISION_ID -> ForensicInvestigation.forensic_id",
+   "verdict": "no",
+   "reason": "Own primary key (80 rows) nesting in an unrelated table's equal-length 1..80 surrogate sequence; no entity split between GovernanceDecision and ForensicInvestigation."
+  },
+  {
+   "id": "IncidentNotification.NOTIFICATION_ID -> DPIARecommendation.recommendation_id",
+   "verdict": "no",
+   "reason": "Own primary key (200 rows) nesting in an unrelated table's equal-length 1..200 surrogate sequence; no entity split between IncidentNotification and DPIARecommendation."
+  },
+  {
+   "id": "IncidentRegister.INCIDENT_ID -> ErasureRequest.ERASURE_ID",
+   "verdict": "no",
+   "reason": "Own primary key (120 rows) nesting in an unrelated table's equal-length 1..120 surrogate sequence; no entity split between IncidentRegister and ErasureRequest."
+  },
+  {
+   "id": "IncidentResponsePlan.RESPONSE_PLAN_ID -> ForensicInvestigation.forensic_id",
+   "verdict": "no",
+   "reason": "Own primary key (80 rows) nesting in an unrelated table's equal-length 1..80 surrogate sequence; no entity split between IncidentResponsePlan and ForensicInvestigation."
+  },
+  {
+   "id": "Incident_Control_Map.ICM_ID -> EmployeeCertification.CERT_ID",
+   "verdict": "no",
+   "reason": "Own primary key (350 rows) nesting in an unrelated table's shorter 1..400 surrogate sequence; no entity split between Incident_Control_Map and EmployeeCertification."
+  },
+  {
+   "id": "Legal_Article.ARTICLE_NO -> API_Endpoint.Api_code",
+   "verdict": "no",
+   "reason": "Own primary key (30 rows) nesting in an unrelated table's shorter 1..40 surrogate sequence; no entity split between Legal_Article and API_Endpoint."
+  },
+  {
+   "id": "PolicyAcknowledgment.ACK_ID -> TrainingCompletionLog.LOG_ID",
+   "verdict": "no",
+   "reason": "Own primary key (500 rows) nesting in an unrelated table's equal-length 1..500 surrogate sequence; no entity split between PolicyAcknowledgment and TrainingCompletionLog."
+  },
+  {
+   "id": "PolicyVersion.POLICY_VERSION_ID -> PrivacyTrainingProgram.TRAINING_PROG_ID",
+   "verdict": "no",
+   "reason": "Own primary key (60 rows) nesting in an unrelated table's equal-length 1..60 surrogate sequence; no entity split between PolicyVersion and PrivacyTrainingProgram."
+  },
+  {
+   "id": "PortabilityRequest.PORTABILITY_ID -> DPIARecord.DPIA_ID",
+   "verdict": "no",
+   "reason": "Own primary key (100 rows) nesting in an unrelated table's equal-length 1..100 surrogate sequence; no entity split between PortabilityRequest and DPIARecord."
+  },
+  {
+   "id": "PrivacyTrainingProgram.TRAINING_PROG_ID -> PolicyVersion.POLICY_VERSION_ID",
+   "verdict": "no",
+   "reason": "Own primary key (60 rows) nesting in an unrelated table's equal-length 1..60 surrogate sequence; no entity split between PrivacyTrainingProgram and PolicyVersion."
+  },
+  {
+   "id": "RemediationAction.REMEDIATION_ID -> DPIA_Dataset_Map.DPIA_DATASET_MAP_ID",
+   "verdict": "no",
+   "reason": "Own primary key (250 rows) nesting in an unrelated table's equal-length 1..250 surrogate sequence; no entity split between RemediationAction and DPIA_Dataset_Map."
+  },
+  {
+   "id": "RetentionSchedule.RETENTION_ID -> Dataset_Catalog.dataset_code",
+   "verdict": "no",
+   "reason": "Own primary key (50 rows) nesting in an unrelated table's equal-length 1..50 surrogate sequence; no entity split between RetentionSchedule and Dataset_Catalog."
+  },
+  {
+   "id": "Retention_Dataset_Map.RDM_ID -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "verdict": "no",
+   "reason": "Own primary key (150 rows) nesting in an unrelated table's equal-length 1..150 surrogate sequence; no entity split between Retention_Dataset_Map and DPIAStakeholderConsultation."
+  },
+  {
+   "id": "Rights_Compliance_Map.RCM_ID -> ConsentRecord.CONSENT_ID",
+   "verdict": "no",
+   "reason": "Own primary key (300 rows) nesting in an unrelated table's equal-length 1..300 surrogate sequence; no entity split between Rights_Compliance_Map and ConsentRecord."
+  },
+  {
+   "id": "RiskManagement_Detail.RISK_DETAIL_CODE -> DataProfile_Lineage.LINEAGE_NO",
+   "verdict": "no",
+   "reason": "Own primary key (870 rows) nesting in an unrelated table's equal-length 1..870 surrogate sequence; no entity split between RiskManagement_Detail and DataProfile_Lineage."
+  },
+  {
+   "id": "Risk_Scenario.Scenario_Code -> API_Endpoint.Api_code",
+   "verdict": "no",
+   "reason": "Own primary key (40 rows) nesting in an unrelated table's equal-length 1..40 surrogate sequence; no entity split between Risk_Scenario and API_Endpoint."
+  },
+  {
+   "id": "SLAMonitoring.SLA_MON_ID -> ConsentRecord.CONSENT_ID",
+   "verdict": "no",
+   "reason": "Own primary key (300 rows) nesting in an unrelated table's equal-length 1..300 surrogate sequence; no entity split between SLAMonitoring and ConsentRecord."
+  },
+  {
+   "id": "SecurityProfile_CipherDetail.CIPHER_DETAIL_NO -> PolicyAcknowledgment.ACK_ID",
+   "verdict": "no",
+   "reason": "Own primary key (430 rows) nesting in an unrelated table's shorter 1..500 surrogate sequence; no entity split between SecurityProfile_CipherDetail and PolicyAcknowledgment."
+  },
+  {
+   "id": "SubprocessorRegistry.SUBPROCESSOR_ID -> ForensicInvestigation.forensic_id",
+   "verdict": "no",
+   "reason": "Own primary key (80 rows) nesting in an unrelated table's equal-length 1..80 surrogate sequence; no entity split between SubprocessorRegistry and ForensicInvestigation."
+  },
+  {
+   "id": "Subprocessor_Vendor_Map.SVM_ID -> DPIARecommendation.recommendation_id",
+   "verdict": "no",
+   "reason": "Own primary key (200 rows) nesting in an unrelated table's equal-length 1..200 surrogate sequence; no entity split between Subprocessor_Vendor_Map and DPIARecommendation."
+  },
+  {
+   "id": "System_Inventory.SYSTEM_CODE -> Transfer_Mechanism.mechanism_no",
+   "verdict": "no",
+   "reason": "Own primary key (20 rows) nesting in an unrelated table's equal-length 1..20 surrogate sequence; no entity split between System_Inventory and Transfer_Mechanism."
+  },
+  {
+   "id": "TrainingCompletionLog.LOG_ID -> PolicyAcknowledgment.ACK_ID",
+   "verdict": "no",
+   "reason": "Own primary key (500 rows) nesting in an unrelated table's equal-length 1..500 surrogate sequence; no entity split between TrainingCompletionLog and PolicyAcknowledgment."
+  },
+  {
+   "id": "TrainingMaterial.MATERIAL_ID -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "verdict": "no",
+   "reason": "Own primary key (150 rows) nesting in an unrelated table's equal-length 1..150 surrogate sequence; no entity split between TrainingMaterial and DPIAStakeholderConsultation."
+  },
+  {
+   "id": "Transfer_Mechanism.mechanism_no -> System_Inventory.SYSTEM_CODE",
+   "verdict": "no",
+   "reason": "Own primary key (20 rows) nesting in an unrelated table's equal-length 1..20 surrogate sequence; no entity split between Transfer_Mechanism and System_Inventory."
+  },
+  {
+   "id": "Vendor_Contract_Detail.VCONTRACT_DETAIL_NO -> Compliance_Detail.COMPLIANCE_DETAIL_NO",
+   "verdict": "no",
+   "reason": "Own primary key (240 rows) nesting in an unrelated table's equal-length 1..240 surrogate sequence; no entity split between Vendor_Contract_Detail and Compliance_Detail."
+  }
+ ]
+}

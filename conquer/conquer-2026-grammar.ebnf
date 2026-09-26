@@ -1,0 +1,192 @@
+(* ConQuer 2026 grammar, ISO-EBNF style. An EXTENSION of the 1992 grammar, not a
+   replacement: that is ConQuer-92 as H.A. Proper published it (arXiv:2105.11926,
+   appendices A and B), and is correct as history. This file records what
+   `conquer/parser.py` accepts that the 1992 grammar does not.
+
+   Read the two together. A production named here that also exists there is REDEFINED here;
+   everything else in the 1992 grammar still applies unchanged.
+
+   Conventions, as in the 1992 file: lower_case = nonterminal, UPPER_CASE = named token,
+   'quoted' = literal keyword, ? ... ? = token supplied by the schema, ( )? optional,
+   ( )* zero or more, ( )+ one or more.
+
+   Status of each production: `conquer/conquer-2026.md` numbers the items and says why. The
+   suite checks that every keyword below is reachable (conquer/tests/test_spec.py) and that
+   each construct computes what it claims (conquer/tests/). This grammar is DESCRIPTIVE --
+   the parser is hand-written and is the authority; see "Why the parser is not generated"
+   at the end. *)
+
+
+(* ==== Query: projections, definitions, ordering, cuts  (2026 items 8, 10, 27) ==== *)
+
+query ::= ( definition )* query_body ;
+
+(* item 27: a derivation rule scoped to one query. `::=` is section 6.11's own operator. *)
+definition ::= 'DEFINE' name '::=' query_body ;
+
+(* item 10: whole-query scalars with no FROM -- `LIST THE COUNT OF A, THE COUNT OF B`. *)
+query_body ::=
+      'LIST' projection_list 'FROM' information_descriptor ( ordering )? ( cut )?
+    | 'LIST' projection_list                                             (* closed scalars *)
+    | information_descriptor ( ordering )? ( cut )? ;
+
+projection_list ::= projection ( ',' projection )* ;
+projection      ::= scalar_expression ( 'AS' name )? | name ;
+
+(* 1992 B.2's <order specification>, with the direction accepted on either side: the report
+   writes `<name> ASCENDING` in the grammar and `ASCENDING <name>` in rule [P59]. *)
+ordering  ::= 'ORDERED' ( 'WITH' order_item ( ',' order_item )* )? direction? ;
+order_item ::= ( direction )? name ( direction )? ;
+direction ::= 'ASCENDING' | 'DESCENDING' ;
+
+(* item 8: a limit that applies somewhere other than the whole result. `THE TOP` is a
+   synonym for `THE FIRST`; `PER` makes the cut apply within each partition. *)
+cut ::= ( 'THE FIRST' | 'THE TOP' ) NUMBER ( 'AFTER' NUMBER )? ( 'PER' name )? ;
+
+
+(* ==== Descriptors: the Fr and set levels the 1992 grammar has, plus WHERE  ==== *)
+
+information_descriptor ::= set_level ( 'WHERE' condition ( fr_tail )* ( set_tail )* )? ;
+
+set_level ::= fr_level ( set_operator fr_level )* ;
+fr_level  ::= comparison ( fr_operator comparison )* ;
+
+fr_operator  ::= 'AND ALSO' | 'OR OTHERWISE' | 'BUT NOT' ;
+set_operator ::= 'UNITED WITH' | 'INTERSECTED WITH' | 'MINUS' ;
+
+
+(* ==== Path: the 1992 head-and-verb-parts, plus optionality and subtype narrowing ==== *)
+
+path ::= ( 'DISTINCT' )? ( 'ONLY' )? path_head ( path_step )* ;
+
+(* item 2 / section 6.5: `OPTIONALLY` is the per-role outer read. The 1992 grammar has no
+   optionality at all -- every role read is required. *)
+path_step ::= ( 'OPTIONALLY' )? verb_part ( descriptor_operand )? ;
+
+verb_part ::= ? a verb part of a reading in the schema ? ;
+
+(* item 16: a subtype named at a node narrows it, rather than silently meaning the
+   supertype -- `Patient [is of AbnormalLaboratory]`. *)
+path_head ::= type | name | denotation | subquery | '(' information_descriptor ')' ;
+
+denotation ::= type ':' ( constant | correlation ) ;
+correlation ::= '!' name ;                          (* 1992's correlation, unchanged *)
+
+(* A bracket restricts the head so far and does not move the path. Item 26: it keeps its own
+   disjunction, so `[A] [B OR OTHERWISE C]` is `A AND (B OR C)`. *)
+restriction ::= '[' information_descriptor ']' ;
+
+
+(* ==== Group functions  (2026 items 7, 23, 28, 29, 30) ==== *)
+
+(* The 1992 grammar has <group function> over an information descriptor. These are the ones
+   this project added, and the two clauses that partition it. *)
+group_function ::=
+      'THE COUNT OF' | 'THE DISTINCT COUNT OF'
+    | 'THE SUM OF'   | 'THE DISTINCT SUM OF'
+    | 'THE MINIMUM'  | 'THE MAXIMUM' | 'THE AVERAGE'
+    | 'THE MEDIAN'   | 'THE MEDIAN OF'                    (* item 30, where the dialect has one *)
+    | 'THE STANDARD DEVIATION' | 'THE STANDARD DEVIATION OF'
+    | 'THE STDDEV'   | 'THE STDDEV OF'
+    | 'THE VARIANCE' | 'THE VARIANCE OF'   (* item 35, where the dialect has them *)
+    | 'THE LIST OF'  | 'THE DISTINCT LIST OF' ;           (* item 23, result is a bag *)
+
+aggregate ::=
+      group_function ( name 'IN' )? information_descriptor
+        ( ordering )? ( cut )?                            (* item 23: a bag carries its own *)
+        ( partition )?
+    | row_relative ;
+
+(* item 28: GROUPED BY collapses to one row per group; WITHIN reports the same partition
+   beside every row. A key is a bound name or a computed value (item 14). *)
+partition ::= ( 'GROUPED BY' | 'WITHIN' ) partition_key ( ',' partition_key )* ;
+partition_key ::= name | scalar_expression ;
+
+(* item 29: what a row is against the other rows of its partition. Both are WITHIN-only --
+   GROUPED BY returns one row per group and leaves nothing to be relative to -- and each
+   carries the order its window runs in rather than borrowing the query's. *)
+row_relative ::=
+      'THE RANK OF' scalar_expression 'WITHIN' partition_key ( ',' partition_key )*
+    | 'THE PREVIOUS' scalar_expression 'BY' scalar_expression
+        'WITHIN' partition_key ( ',' partition_key )* ;
+
+
+(* ==== Scalar expressions  (2026 items 1, 4, 5, 6, 14, 31) ==== *)
+
+(* The 1992 grammar has <function> as an opaque symbol. The function TABLE is model data and
+   not grammar (model/model.md section 3), so no function name is a keyword here; these are
+   the forms a call may take. *)
+scalar_expression ::= scalar_term ( ( '+' | '-' ) scalar_term )* ;
+scalar_term       ::= scalar_factor ( ( '*' | '/' | '||' ) scalar_factor )* ;
+scalar_factor ::=
+      NUMBER | STRING | name
+    | ( '-' ) scalar_factor
+    | '(' scalar_expression ')'
+    | function_call
+    | conditional
+    | aggregate ;
+
+function_call ::= function_name '(' ( scalar_expression ( ',' scalar_expression )* )? ')' ;
+function_name ::= ? the name of a function the model's function table declares ? ;
+
+(* item 4: a scalar conditional, in both spellings. *)
+conditional ::=
+      'IF' condition 'THEN' scalar_expression ( 'ELSE' scalar_expression )?
+    | 'if' '(' condition ',' scalar_expression ',' scalar_expression ')' ;
+
+
+(* ==== Conditions ==== *)
+
+condition ::= condition ( 'AND' | 'OR' | 'EXCLUSIVE OR' | 'IMPLIES' | 'IFF' ) condition
+            | 'NOT' condition
+            | '(' condition ')'
+            | comparison
+            | function_call ;                    (* item 5: a boolean call stands alone *)
+
+comparison ::= scalar_expression value_comparitor scalar_expression
+             | path set_comparitor path
+             | path ;
+
+value_comparitor ::= '=' | '<>' | '!=' | '<' | '<=' | '>' | '>='
+                   | 'IS EQUAL TO' | 'IS NOT EQUAL TO'
+                   | 'IS LESS THAN' | 'IS LESS THAN OR EQUAL TO'
+                   | 'IS GREATER THAN' | 'IS GREATER THAN OR EQUAL TO' ;
+
+(* The report's set comparisons (its sections 6.4 and 7.5). The first three compare a head
+   against a correlated path; the rest compare two whole head sets. `DOES NOT EQUAL` lowers
+   as the negation of a match, the model having no negated set operator. *)
+set_comparitor ::= 'WHICH ARE ALL IN' | 'THAT INCLUDES ALL' | 'MATCHING ALL'
+                 | 'IS A SUBSET OF' | 'IS A PROPER SUBSET OF'
+                 | 'IS A SUPERSET OF' | 'IS A PROPER SUPERSET OF'
+                 | 'EQUALS' | 'DOES NOT EQUAL' | 'IS DISJOINT FROM' | 'EXCLUDES' ;
+
+
+(* ==== Subqueries ==== *)
+
+subquery ::= '(' query_body ')' ;
+
+
+(* ==== Not compiled ====
+   These parse and are refused with a reason rather than silently ignored. They are in the
+   1992 grammar and this compiler does not lower them:
+       'THE REVERSE OF'  'THE PATH FROM' ... 'VIA' ... 'TO'  'WITH'  'SOME'
+       'MISSING'  'EXCLUDING'  'OTHERWISE'  'IF' (as a path operator)
+*)
+
+
+(* ==== Why the parser is not generated from this ====
+
+   ConQuer's grammar is ambiguous BY DESIGN and the ambiguity is resolved by the schema, not
+   by the text. Report section 7 says so, and `parser.py` is built around it: a verb part
+   like `has` names dozens of different fact types, and which one a `has` refers to depends
+   on what the head is and what can be reached from it. `Employee has Name` and
+   `Department has Name` take different productions that are textually identical.
+
+   A generated LL or LALR parser cannot do that -- the token stream is not enough to choose
+   a production, and the choice depends on a model loaded at run time. The `Lexicon` is
+   rebuilt per model for exactly this reason.
+
+   So this grammar is DESCRIPTIVE: it records the shapes the parser accepts, for a reader
+   who wants to know what may be written without reading Python. It is not a specification a
+   generator consumes, and treating it as one would require abandoning the schema-driven
+   resolution that makes ConQuer readable in the first place. *)

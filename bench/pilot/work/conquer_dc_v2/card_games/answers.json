@@ -1,0 +1,60 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST l FROM ForeignData [has ForeignDataMultiverseid: 149934] has ForeignDataLanguage l",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": "LIST i, a FROM Card has CardId i AND ALSO has CardArtist a AND ALSO is of Legality [has LegalityFormat: 'commander'] has LegalityStatus s WHERE s = 'Legal' AND ( (THE COUNT OF Card [has CardId: !i] BUT NOT has CardPower) > 0 OR (THE COUNT OF Card [has CardId: !i] [has CardPower: '*']) > 0 )",
+  "attempts": 8
+ },
+ {
+  "question_id": 473,
+  "answer": "LIST nm, f FROM Set [has SetCode: 'CSP'] has SetName nm AND ALSO has SetIsForeignOnly f",
+  "attempts": 5,
+  "note": "The model has no fact type linking Card to Set (CardSetCode and SetCode are separate value types with no reading between them), so a single connected path from 'Adarkar Valkyrie' to its Set does not exist. The set code 'CSP' was found with a separate lookup (LIST c, r FROM Card has CardName n AND ALSO has CardSetCode c AND ALSO has CardIsReprint r WHERE n = 'Adarkar Valkyrie') and used as a literal; CSP is the non-reprint (original) printing. All 5 printings' sets (C14, C18, CSP, MMA, PLIST) share SetIsForeignOnly = 0, so the answer (No) is the same regardless of which printing is picked."
+ },
+ {
+  "question_id": 424,
+  "answer": "LIST THE COUNT OF Card [has CardIsTextless: '1'] [has CardLayout: 'normal'] * 100 / THE COUNT OF Card [has CardIsTextless: '1']",
+  "attempts": 3
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST n FROM Card [has CardRarity: 'mythic'] has CardName n AND ALSO is of Legality [has LegalityFormat: 'gladiator'] has LegalityStatus: 'Banned'",
+  "attempts": 2
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes s] WHERE s <> 'Angel'",
+  "attempts": 1
+ },
+ {
+  "question_id": 352,
+  "answer": "LIST THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF ForeignData",
+  "attempts": 1
+ },
+ {
+  "question_id": 518,
+  "answer": "LIST f, n FROM Card has CardName n AND ALSO is of Legality [has LegalityStatus: 'Banned'] has LegalityFormat f WHERE f = 'legacy'",
+  "attempts": 5,
+  "note": "The play format with the highest banned count was found first with a grouped aggregate (LIST f, c FROM Legality lg [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO THE COUNT OF lg GROUPED BY f AS c ORDERED WITH c DESCENDING THE FIRST 5), which gave legacy=546 as the top format; that literal is embedded in the final query since the model has no single-query top-N-then-filter construct."
+ },
+ {
+  "question_id": 416,
+  "answer": "LIST (THE COUNT OF ForeignData [has ForeignDataLanguage: 'French'] has Card has CardId ci WHERE (THE COUNT OF Card [has CardId: !ci] BUT NOT has CardPower) > 0 OR (THE COUNT OF Card [has CardId: !ci] [has CardPower: '*']) > 0) * 100 / (THE COUNT OF ForeignData has Card has CardId ci2 WHERE (THE COUNT OF Card [has CardId: !ci2] BUT NOT has CardPower) > 0 OR (THE COUNT OF Card [has CardId: !ci2] [has CardPower: '*']) > 0)",
+  "attempts": 11
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST n, a, p, c FROM Card e has CardName n AND ALSO has CardArtist a AND ALSO has CardIsPromo p AND ALSO THE COUNT OF rul IN (e is of Ruling rul) GROUPED BY e AS c ORDERED WITH c DESCENDING THE FIRST 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 462,
+  "answer": "LIST t FROM SetTranslation has Set has SetCode s AND ALSO has SetTranslationLanguage l AND ALSO has SetTranslationTranslation t WHERE s = 'JUD' AND l = 'Italian'",
+  "attempts": 4,
+  "note": "The model has no fact type linking Card to Set directly, so the set code had to be found separately: LIST c, r FROM Card has CardName n AND ALSO has CardSetCode c AND ALSO has CardIsReprint r WHERE n = 'Ancestor''s Chosen' returned 4 printings (10E, 10E, JUD, UMA); JUD (Judgment, the non-reprint/original printing) was used as the literal in the final query."
+ }
+]

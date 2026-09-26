@@ -1,0 +1,4 @@
+Writer's report (sql arm, disaster_relief_large), as returned.
+
+- Hardest: linking operations to disasters (Q1, 6, 7, 8, 9) -- `operations` has no column pointing to a disaster; only bridge tables link them, and nothing says which is intended (checked by querying that they agree). Q9 `total_personnel` not a column (used a JSON staff total). Q5 undefined "ongoing", cost sum, budget as '$4,227,090.00' text, runway depends on current_date. Q2 312 of 1000 disasters have supply rows. Q3/Q8 null counts in JSON; Q8 table has 20 rows. Q4 hub threshold never reached.
+- Material: schema.sql essential for showing inputs sit inside JSON and some numbers are text ('85.6 WQI'); `nan` in samples ambiguous (NaN or NULL); many "*Core" filler tables unlinked. knowledge.md formulas use column names that do not exist, and never says which table links an operation to its disaster -- the biggest gap.

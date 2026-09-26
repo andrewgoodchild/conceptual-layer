@@ -1,0 +1,17 @@
+{
+ "database": "codebase_community",
+ "verdicts": [
+  {"id": "badges.UserId -> users.Id", "verdict": "yes", "reason": "UserId names the users table; 79851 badges over 25078 users is badges-per-user, as in the Stack Exchange schema."},
+  {"id": "comments.UserId -> users.Id", "verdict": "yes", "reason": "UserId names the users table; many comments per user, values are ordinary user ids."},
+  {"id": "postHistory.UserId -> users.Id", "verdict": "yes", "reason": "UserId names the users table; the -1 sample is the Community user that users.Id also carries, which is what a real reference would contain."},
+  {"id": "postLinks.LinkTypeId -> tags.Id", "verdict": "no", "reason": "LinkTypeId is a two-valued enum (1 linked, 3 duplicate) whose lookup table is not in this schema; tags is not a link type."},
+  {"id": "posts.PostTypeId -> badges.Id", "verdict": "no", "reason": "PostTypeId is a 7-valued enum (question, answer, wiki...) with no lookup table here; badges is not a post type."},
+  {"id": "posts.OwnerUserId -> users.Id", "verdict": "yes", "reason": "OwnerUserId names the users table; 91966 posts over 21979 users is posts-per-author."},
+  {"id": "posts.LastEditorUserId -> users.Id", "verdict": "yes", "reason": "LastEditorUserId names the users table; a second role of user on posts, fewer distinct because most posts are never edited."},
+  {"id": "tags.WikiPostId -> posts.Id", "verdict": "yes", "reason": "WikiPostId names a post; samples (20257, 62157, 67814) look like post ids, and each tag's wiki is a post -- 596 tags have one."},
+  {"id": "users.Age -> postHistory.Id", "verdict": "no", "reason": "Age is an attribute with 70 distinct values that trivially fall inside a 303155-row surrogate sequence."},
+  {"id": "votes.PostId -> posts.Id", "verdict": "yes", "reason": "PostId names the posts table; many votes per post over 8584 posts."},
+  {"id": "votes.VoteTypeId -> posts.Id", "verdict": "no", "reason": "VoteTypeId is a 10-valued enum (upvote, downvote, bounty...) with no lookup table here; posts is not a vote type."},
+  {"id": "votes.UserId -> users.Id", "verdict": "yes", "reason": "UserId names the users table; only 509 distinct because votes record the user only for bounty types, which fits the schema, and the score is low only for that sparsity."}
+ ]
+}

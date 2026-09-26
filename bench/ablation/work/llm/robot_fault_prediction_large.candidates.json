@@ -1,0 +1,3149 @@
+{
+ "database": "robot_fault_prediction_large",
+ "tables": [
+  "actuation_data",
+  "anomaly_detection_log",
+  "automated_defect_classification",
+  "battery_thermal_management",
+  "calibration_events",
+  "certifications",
+  "digital_twin_sync_log",
+  "effluent_chemical_analysis",
+  "end_effector_attachment_log",
+  "end_effectors",
+  "environmental_readings",
+  "environmental_sensors",
+  "firmware_deployment_history",
+  "firmware_security_audit",
+  "grid_load_optimization",
+  "human_proximity_events",
+  "incident_reports",
+  "joint_condition",
+  "joint_lubrication_status",
+  "joint_performance",
+  "laser_tracker_verification",
+  "liability_claim_assessments",
+  "maintenance_and_fault",
+  "maintenance_logs",
+  "maintenance_parts_usage",
+  "material_storage_environment",
+  "materials",
+  "mechanical_status",
+  "operation",
+  "operator_biometric_telemetry",
+  "performance_and_safety",
+  "physics_engine_parameters",
+  "power_consumption_log",
+  "product_materials",
+  "production_log",
+  "production_orders",
+  "products",
+  "quality_inspections",
+  "robot_details",
+  "robot_record",
+  "simulation_models",
+  "simulation_runs",
+  "spare_parts_inventory",
+  "supplier_shipments",
+  "system_controller",
+  "technician_certifications",
+  "technicians",
+  "vibration_spectral_analysis",
+  "vision_system_telemetry",
+  "waste_recycling_log",
+  "workcells"
+ ],
+ "candidates": [
+  {
+   "id": "actuation_data.actoperref -> operation.operreg",
+   "source_table": "actuation_data",
+   "source_column": "actoperref",
+   "target_table": "operation",
+   "target_key": "operreg",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OP_ES8D6H",
+    "OP_0FUE4V",
+    "OP_BNMLPS",
+    "OP_82TO6O",
+    "OP_MCRH5P"
+   ],
+   "target_samples": [
+    "OP_00BDNN",
+    "OP_027MBH",
+    "OP_02HVAF",
+    "OP_02HWTR",
+    "OP_04NYLT"
+   ]
+  },
+  {
+   "id": "actuation_data.actrecref -> robot_details.botdetreg",
+   "source_table": "actuation_data",
+   "source_column": "actrecref",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 1000,
+   "source_distinct": 951,
+   "target_rows": 951,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RB2073",
+    "RB9067",
+    "RB2996",
+    "RB4545",
+    "RB8530"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "anomaly_detection_log.actreg -> actuation_data.actreg",
+   "source_table": "anomaly_detection_log",
+   "source_column": "actreg",
+   "target_table": "actuation_data",
+   "target_key": "actreg",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 1000,
+   "score": 3.54,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "AC_4IQ9GC",
+    "AC_DLLR82",
+    "AC_SQB4O4",
+    "AC_HLO6GZ",
+    "AC_4CU2EX"
+   ],
+   "target_samples": [
+    "AC_002O6Q",
+    "AC_04IZTG",
+    "AC_05R43X",
+    "AC_0633AF",
+    "AC_077EX0"
+   ]
+  },
+  {
+   "id": "anomaly_detection_log.tech_code -> technicians.tech_code",
+   "source_table": "anomaly_detection_log",
+   "source_column": "tech_code",
+   "target_table": "technicians",
+   "target_key": "tech_code",
+   "source_rows": 100,
+   "source_distinct": 35,
+   "target_rows": 50,
+   "score": 4.01,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TCH_1001",
+    "TCH_1002",
+    "TCH_1017",
+    "TCH_1008",
+    "TCH_1031"
+   ],
+   "target_samples": [
+    "TCH_1001",
+    "TCH_1002",
+    "TCH_1003",
+    "TCH_1004",
+    "TCH_1005"
+   ]
+  },
+  {
+   "id": "anomaly_detection_log.WorkOrderTag -> maintenance_logs.WorkOrderTag",
+   "source_table": "anomaly_detection_log",
+   "source_column": "WorkOrderTag",
+   "target_table": "maintenance_logs",
+   "target_key": "WorkOrderTag",
+   "source_rows": 100,
+   "source_distinct": 43,
+   "target_rows": 100,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "WO-25-0001",
+    "WO-25-0003",
+    "WO-25-0007",
+    "WO-25-0017",
+    "WO-25-0020"
+   ],
+   "target_samples": [
+    "WO-25-0001",
+    "WO-25-0002",
+    "WO-25-0003",
+    "WO-25-0004",
+    "WO-25-0005"
+   ]
+  },
+  {
+   "id": "automated_defect_classification.vision_log_ref -> vision_system_telemetry.vision_log_id",
+   "source_table": "automated_defect_classification",
+   "source_column": "vision_log_ref",
+   "target_table": "vision_system_telemetry",
+   "target_key": "vision_log_id",
+   "source_rows": 565,
+   "source_distinct": 121,
+   "target_rows": 124,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VIS-11076DCF2B5C",
+    "VIS-B5321B202A4E",
+    "VIS-A4A57ACDE750",
+    "VIS-1C2328C4E611",
+    "VIS-965E81CAADB8"
+   ],
+   "target_samples": [
+    "VIS-00B86B09B2E6",
+    "VIS-02569F8D1517",
+    "VIS-049F4D576C26",
+    "VIS-06314190D866",
+    "VIS-063959D9C54A"
+   ]
+  },
+  {
+   "id": "battery_thermal_management.grid_event_ref -> grid_load_optimization.grid_event_id",
+   "source_table": "battery_thermal_management",
+   "source_column": "grid_event_ref",
+   "target_table": "grid_load_optimization",
+   "target_key": "grid_event_id",
+   "source_rows": 1100,
+   "source_distinct": 410,
+   "target_rows": 456,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "GRI-427DD81FBA07",
+    "GRI-0F49C6BC9FB8",
+    "GRI-100484E74508",
+    "GRI-88DDBDA76B65",
+    "GRI-DB5F43F16106"
+   ],
+   "target_samples": [
+    "GRI-00F8FAFC5723",
+    "GRI-01761D790FE9",
+    "GRI-0193113F19B7",
+    "GRI-01A998E65B38",
+    "GRI-01E51255AC0D"
+   ]
+  },
+  {
+   "id": "calibration_events.end_effector_ref -> end_effectors.end_effector_tag",
+   "source_table": "calibration_events",
+   "source_column": "end_effector_ref",
+   "target_table": "end_effectors",
+   "target_key": "end_effector_tag",
+   "source_rows": 152,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "GRIP-VAC-003",
+    "SCAN-KEY-001",
+    "WELD-LINCOLN-001",
+    "DISP-TECHCON-001",
+    "GRIP-SCHUNK-002"
+   ],
+   "target_samples": [
+    "CAM-RGV-001",
+    "DISP-GRACO-001",
+    "DISP-NORD-001",
+    "DISP-TECHCON-001",
+    "GRIP-FESTO-001"
+   ]
+  },
+  {
+   "id": "calibration_events.calibration_duration_min -> maintenance_parts_usage.usage_record",
+   "source_table": "calibration_events",
+   "source_column": "calibration_duration_min",
+   "target_table": "maintenance_parts_usage",
+   "target_key": "usage_record",
+   "source_rows": 152,
+   "source_distinct": 26,
+   "target_rows": 45,
+   "score": 2.96,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "25",
+    "17",
+    "13",
+    "23",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "digital_twin_sync_log.sim_model_ref -> simulation_models.model_code",
+   "source_table": "digital_twin_sync_log",
+   "source_column": "sim_model_ref",
+   "target_table": "simulation_models",
+   "target_key": "model_code",
+   "source_rows": 126,
+   "source_distinct": 37,
+   "target_rows": 40,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SIM-RB4705-01",
+    "SIM-RB2073-01",
+    "SIM-RB9083-01",
+    "SIM-RB7982-01",
+    "SIM-RB5656-01"
+   ],
+   "target_samples": [
+    "SIM-RB1035-01",
+    "SIM-RB1412-01",
+    "SIM-RB1568-01",
+    "SIM-RB1690-01",
+    "SIM-RB2017-01"
+   ]
+  },
+  {
+   "id": "digital_twin_sync_log.simulation_frame_rate_fps -> anomaly_detection_log.anomaly_pk",
+   "source_table": "digital_twin_sync_log",
+   "source_column": "simulation_frame_rate_fps",
+   "target_table": "anomaly_detection_log",
+   "target_key": "anomaly_pk",
+   "source_rows": 126,
+   "source_distinct": 24,
+   "target_rows": 100,
+   "score": 2.46,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "63",
+    "56",
+    "62",
+    "58",
+    "48"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "effluent_chemical_analysis.waste_event_ref -> waste_recycling_log.waste_event_id",
+   "source_table": "effluent_chemical_analysis",
+   "source_column": "waste_event_ref",
+   "target_table": "waste_recycling_log",
+   "target_key": "waste_event_id",
+   "source_rows": 2262,
+   "source_distinct": 490,
+   "target_rows": 494,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WAS-71CECF086E6E",
+    "WAS-9C93D1C864C5",
+    "WAS-9262CB02E4ED",
+    "WAS-DAA06814B57A",
+    "WAS-8C6313885CFD"
+   ],
+   "target_samples": [
+    "WAS-00F117761EB6",
+    "WAS-0346277AF524",
+    "WAS-035BB3A1C611",
+    "WAS-0372BF40FB46",
+    "WAS-04B73963036A"
+   ]
+  },
+  {
+   "id": "end_effector_attachment_log.Attached_To_Robot -> robot_details.botdetreg",
+   "source_table": "end_effector_attachment_log",
+   "source_column": "Attached_To_Robot",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 80,
+   "source_distinct": 76,
+   "target_rows": 951,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RB8530",
+    "RB9067",
+    "RB9004",
+    "RB4545",
+    "RB4962"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "end_effector_attachment_log.Effector_Tool_Code -> end_effectors.end_effector_tag",
+   "source_table": "end_effector_attachment_log",
+   "source_column": "Effector_Tool_Code",
+   "target_table": "end_effectors",
+   "target_key": "end_effector_tag",
+   "source_rows": 80,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "GRIP-SCHUNK-001",
+    "PAINT-SATA-001",
+    "GRIP-RG6-001",
+    "SCAN-KEY-001",
+    "WELD-FRONIUS-001"
+   ],
+   "target_samples": [
+    "CAM-RGV-001",
+    "DISP-GRACO-001",
+    "DISP-NORD-001",
+    "DISP-TECHCON-001",
+    "GRIP-FESTO-001"
+   ]
+  },
+  {
+   "id": "end_effectors.warranty_period_months -> maintenance_parts_usage.usage_record",
+   "source_table": "end_effectors",
+   "source_column": "warranty_period_months",
+   "target_table": "maintenance_parts_usage",
+   "target_key": "usage_record",
+   "source_rows": 40,
+   "source_distinct": 2,
+   "target_rows": 45,
+   "score": 2.54,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "24",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "end_effectors.MaxOpenAperture_mm -> joint_condition.jcondid",
+   "source_table": "end_effectors",
+   "source_column": "MaxOpenAperture_mm",
+   "target_table": "joint_condition",
+   "target_key": "jcondid",
+   "source_rows": 40,
+   "source_distinct": 9,
+   "target_rows": 1000,
+   "score": 1.32,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "20.0",
+    "160.0",
+    "24.0",
+    "110.0",
+    "85.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "environmental_readings.Source_Sensor_Tag -> environmental_sensors.SENSOR_TAG",
+   "source_table": "environmental_readings",
+   "source_column": "Source_Sensor_Tag",
+   "target_table": "environmental_sensors",
+   "target_key": "SENSOR_TAG",
+   "source_rows": 94,
+   "source_distinct": 38,
+   "target_rows": 81,
+   "score": 3.86,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "AIRQ-WC104-01",
+    "AIRQ-WC404-01",
+    "HUMID-WC101-01",
+    "HUMID-WC103-01",
+    "HUMID-WC105-01"
+   ],
+   "target_samples": [
+    "AIRFLOW-WC401-01",
+    "AIRQ-WC101-01",
+    "AIRQ-WC104-01",
+    "AIRQ-WC404-01",
+    "HUMID-WC101-01"
+   ]
+  },
+  {
+   "id": "environmental_sensors.Installed_In_Workcell -> workcells.workcell_code",
+   "source_table": "environmental_sensors",
+   "source_column": "Installed_In_Workcell",
+   "target_table": "workcells",
+   "target_key": "workcell_code",
+   "source_rows": 81,
+   "source_distinct": 30,
+   "target_rows": 30,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WC-101",
+    "WC-102",
+    "WC-103",
+    "WC-104",
+    "WC-201"
+   ],
+   "target_samples": [
+    "WC-101",
+    "WC-102",
+    "WC-103",
+    "WC-104",
+    "WC-105"
+   ]
+  },
+  {
+   "id": "firmware_deployment_history.target_bot_ref -> robot_details.botdetreg",
+   "source_table": "firmware_deployment_history",
+   "source_column": "target_bot_ref",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 4369,
+   "source_distinct": 941,
+   "target_rows": 951,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RB6554",
+    "RB9790",
+    "RB9819",
+    "RB1155",
+    "RB3228"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "firmware_deployment_history.installation_duration_sec -> joint_condition.jcondid",
+   "source_table": "firmware_deployment_history",
+   "source_column": "installation_duration_sec",
+   "target_table": "joint_condition",
+   "target_key": "jcondid",
+   "source_rows": 4369,
+   "source_distinct": 330,
+   "target_rows": 1000,
+   "score": 2.43,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "362",
+    "423",
+    "333",
+    "316",
+    "283"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "firmware_security_audit.deployment_ref -> firmware_deployment_history.deployment_record_key",
+   "source_table": "firmware_security_audit",
+   "source_column": "deployment_ref",
+   "target_table": "firmware_deployment_history",
+   "target_key": "deployment_record_key",
+   "source_rows": 9185,
+   "source_distinct": 3855,
+   "target_rows": 4369,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FIR-E715E85BBE0C",
+    "FIR-9D8D982118B3",
+    "FIR-5B3B26B9BBA3",
+    "FIR-98CF9B9B6B30",
+    "FIR-0CD4E5F6269F"
+   ],
+   "target_samples": [
+    "FIR-001529CC4131",
+    "FIR-0015A4F0A946",
+    "FIR-001CC8F74A8A",
+    "FIR-002C3680E716",
+    "FIR-0031C2569858"
+   ]
+  },
+  {
+   "id": "grid_load_optimization.power_log_ref -> anomaly_detection_log.anomaly_pk",
+   "source_table": "grid_load_optimization",
+   "source_column": "power_log_ref",
+   "target_table": "anomaly_detection_log",
+   "target_key": "anomaly_pk",
+   "source_rows": 456,
+   "source_distinct": 98,
+   "target_rows": 100,
+   "score": 3.96,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "40",
+    "18",
+    "13",
+    "33",
+    "86"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "grid_load_optimization.carbon_intensity_g_kwh -> joint_condition.jcondid",
+   "source_table": "grid_load_optimization",
+   "source_column": "carbon_intensity_g_kwh",
+   "target_table": "joint_condition",
+   "target_key": "jcondid",
+   "source_rows": 456,
+   "source_distinct": 184,
+   "target_rows": 1000,
+   "score": 2.34,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "464",
+    "373",
+    "386",
+    "326",
+    "370"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "human_proximity_events.involved_robot_ref -> robot_details.botdetreg",
+   "source_table": "human_proximity_events",
+   "source_column": "involved_robot_ref",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 3804,
+   "source_distinct": 931,
+   "target_rows": 951,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RB9871",
+    "RB3175",
+    "RB3134",
+    "RB2420",
+    "RB5631"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "incident_reports.reporting_tech_ref -> technicians.tech_code",
+   "source_table": "incident_reports",
+   "source_column": "reporting_tech_ref",
+   "target_table": "technicians",
+   "target_key": "tech_code",
+   "source_rows": 241,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TCH_1021",
+    "TCH_1041",
+    "TCH_1023",
+    "TCH_1027",
+    "TCH_1040"
+   ],
+   "target_samples": [
+    "TCH_1001",
+    "TCH_1002",
+    "TCH_1003",
+    "TCH_1004",
+    "TCH_1005"
+   ]
+  },
+  {
+   "id": "incident_reports.severity_level -> maintenance_parts_usage.usage_record",
+   "source_table": "incident_reports",
+   "source_column": "severity_level",
+   "target_table": "maintenance_parts_usage",
+   "target_key": "usage_record",
+   "source_rows": 241,
+   "source_distinct": 5,
+   "target_rows": 45,
+   "score": 1.29,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "joint_condition.jcondoperref -> operation.operreg",
+   "source_table": "joint_condition",
+   "source_column": "jcondoperref",
+   "target_table": "operation",
+   "target_key": "operreg",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OP_MCRH5P",
+    "OP_TZVO4Q",
+    "OP_R5HF3P",
+    "OP_2HYAX9",
+    "OP_RQ18FZ"
+   ],
+   "target_samples": [
+    "OP_00BDNN",
+    "OP_027MBH",
+    "OP_02HVAF",
+    "OP_02HWTR",
+    "OP_04NYLT"
+   ]
+  },
+  {
+   "id": "joint_condition.jcdetref -> robot_details.botdetreg",
+   "source_table": "joint_condition",
+   "source_column": "jcdetref",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 1000,
+   "source_distinct": 951,
+   "target_rows": 951,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RB8530",
+    "RB4962",
+    "RB6554",
+    "RB5210",
+    "RB6405"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "joint_lubrication_status.vibration_sample_ref -> vibration_spectral_analysis.spectral_sample_id",
+   "source_table": "joint_lubrication_status",
+   "source_column": "vibration_sample_ref",
+   "target_table": "vibration_spectral_analysis",
+   "target_key": "spectral_sample_id",
+   "source_rows": 16386,
+   "source_distinct": 3513,
+   "target_rows": 3540,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VIB-4B5A2FEF04EE",
+    "VIB-16100D31BB65",
+    "VIB-00B59D2A6BDA",
+    "VIB-DEA2AE99D5E4",
+    "VIB-318A930795EC"
+   ],
+   "target_samples": [
+    "VIB-00107FF6EE38",
+    "VIB-0061925F7ADC",
+    "VIB-0063213C2F3B",
+    "VIB-00978F35C438",
+    "VIB-009EA15A2493"
+   ]
+  },
+  {
+   "id": "joint_performance.jperfoperref -> operation.operreg",
+   "source_table": "joint_performance",
+   "source_column": "jperfoperref",
+   "target_table": "operation",
+   "target_key": "operreg",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OP_MCRH5P",
+    "OP_TZVO4Q",
+    "OP_R5HF3P",
+    "OP_2HYAX9",
+    "OP_RQ18FZ"
+   ],
+   "target_samples": [
+    "OP_00BDNN",
+    "OP_027MBH",
+    "OP_02HVAF",
+    "OP_02HWTR",
+    "OP_04NYLT"
+   ]
+  },
+  {
+   "id": "joint_performance.jperfdetref -> robot_details.botdetreg",
+   "source_table": "joint_performance",
+   "source_column": "jperfdetref",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 1000,
+   "source_distinct": 951,
+   "target_rows": 951,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RB8530",
+    "RB4962",
+    "RB6554",
+    "RB5210",
+    "RB6405"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "laser_tracker_verification.calibration_ref -> calibration_events.calibration_id",
+   "source_table": "laser_tracker_verification",
+   "source_column": "calibration_ref",
+   "target_table": "calibration_events",
+   "target_key": "calibration_id",
+   "source_rows": 715,
+   "source_distinct": 151,
+   "target_rows": 152,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CAL-6710638DFCBA",
+    "CAL-A53C779B8E8D",
+    "CAL-9EC90470C301",
+    "CAL-B4C69AE42899",
+    "CAL-9AB7C523E93D"
+   ],
+   "target_samples": [
+    "CAL-00946CDDBA0B",
+    "CAL-04996D2B0109",
+    "CAL-07947178C368",
+    "CAL-0944CFA2E9AE",
+    "CAL-0A7E989D7E81"
+   ]
+  },
+  {
+   "id": "laser_tracker_verification.tracker_warmup_time_min -> production_log.production_log_pk",
+   "source_table": "laser_tracker_verification",
+   "source_column": "tracker_warmup_time_min",
+   "target_table": "production_log",
+   "target_key": "production_log_pk",
+   "source_rows": 715,
+   "source_distinct": 110,
+   "target_rows": 130,
+   "score": 3.69,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "47",
+    "28",
+    "79",
+    "56",
+    "89"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "liability_claim_assessments.incident_ref -> incident_reports.incident_id",
+   "source_table": "liability_claim_assessments",
+   "source_column": "incident_ref",
+   "target_table": "incident_reports",
+   "target_key": "incident_id",
+   "source_rows": 1131,
+   "source_distinct": 239,
+   "target_rows": 241,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "INC-6192FA2B0827",
+    "INC-C7E3EED584AC",
+    "INC-D3AD1959D145",
+    "INC-858C2A597A5D",
+    "INC-DA154248C0E3"
+   ],
+   "target_samples": [
+    "INC-01AEB9EC38B0",
+    "INC-035831DC9931",
+    "INC-03B0157AF048",
+    "INC-0431F4C95615",
+    "INC-057DAF9F5F22"
+   ]
+  },
+  {
+   "id": "maintenance_and_fault.upkeepoperation -> operation.operreg",
+   "source_table": "maintenance_and_fault",
+   "source_column": "upkeepoperation",
+   "target_table": "operation",
+   "target_key": "operreg",
+   "source_rows": 513,
+   "source_distinct": 513,
+   "target_rows": 1000,
+   "score": 3.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OP_ES8D6H",
+    "OP_82TO6O",
+    "OP_RQ18FZ",
+    "OP_CNBZV4",
+    "OP_ZKJD3A"
+   ],
+   "target_samples": [
+    "OP_00BDNN",
+    "OP_027MBH",
+    "OP_02HVAF",
+    "OP_02HWTR",
+    "OP_04NYLT"
+   ]
+  },
+  {
+   "id": "maintenance_logs.Maintained_Robot_Reg -> robot_details.botdetreg",
+   "source_table": "maintenance_logs",
+   "source_column": "Maintained_Robot_Reg",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 951,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RB8530",
+    "RB4962",
+    "RB3783",
+    "RB6554",
+    "RB9067"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "maintenance_logs.Related_Operation_Code -> operation.operreg",
+   "source_table": "maintenance_logs",
+   "source_column": "Related_Operation_Code",
+   "target_table": "operation",
+   "target_key": "operreg",
+   "source_rows": 100,
+   "source_distinct": 90,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP_MCRH5P",
+    "OP_TZVO4Q",
+    "OP_BSYY54",
+    "OP_R5HF3P",
+    "OP_0FUE4V"
+   ],
+   "target_samples": [
+    "OP_00BDNN",
+    "OP_027MBH",
+    "OP_02HVAF",
+    "OP_02HWTR",
+    "OP_04NYLT"
+   ]
+  },
+  {
+   "id": "maintenance_logs.Performing_Tech_Num -> technicians.tech_code",
+   "source_table": "maintenance_logs",
+   "source_column": "Performing_Tech_Num",
+   "target_table": "technicians",
+   "target_key": "tech_code",
+   "source_rows": 100,
+   "source_distinct": 48,
+   "target_rows": 50,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TCH_1001",
+    "TCH_1002",
+    "TCH_1017",
+    "TCH_1026",
+    "TCH_1009"
+   ],
+   "target_samples": [
+    "TCH_1001",
+    "TCH_1002",
+    "TCH_1003",
+    "TCH_1004",
+    "TCH_1005"
+   ]
+  },
+  {
+   "id": "maintenance_logs.PRIORITY_LEVEL -> maintenance_parts_usage.usage_record",
+   "source_table": "maintenance_logs",
+   "source_column": "PRIORITY_LEVEL",
+   "target_table": "maintenance_parts_usage",
+   "target_key": "usage_record",
+   "source_rows": 100,
+   "source_distinct": 4,
+   "target_rows": 45,
+   "score": 1.72,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "2",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "maintenance_logs.Approving_Supervisor_Tag -> technicians.tech_code",
+   "source_table": "maintenance_logs",
+   "source_column": "Approving_Supervisor_Tag",
+   "target_table": "technicians",
+   "target_key": "tech_code",
+   "source_rows": 100,
+   "source_distinct": 9,
+   "target_rows": 50,
+   "score": 2.43,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "TCH_1003",
+    "TCH_1001",
+    "TCH_1007",
+    "TCH_1032",
+    "TCH_1008"
+   ],
+   "target_samples": [
+    "TCH_1001",
+    "TCH_1002",
+    "TCH_1003",
+    "TCH_1004",
+    "TCH_1005"
+   ]
+  },
+  {
+   "id": "maintenance_parts_usage.Maintenance_Activity_Link -> maintenance_logs.WorkOrderTag",
+   "source_table": "maintenance_parts_usage",
+   "source_column": "Maintenance_Activity_Link",
+   "target_table": "maintenance_logs",
+   "target_key": "WorkOrderTag",
+   "source_rows": 45,
+   "source_distinct": 45,
+   "target_rows": 100,
+   "score": 3.85,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "WO-25-0001",
+    "WO-25-0002",
+    "WO-25-0003",
+    "WO-25-0005",
+    "WO-25-0007"
+   ],
+   "target_samples": [
+    "WO-25-0001",
+    "WO-25-0002",
+    "WO-25-0003",
+    "WO-25-0004",
+    "WO-25-0005"
+   ]
+  },
+  {
+   "id": "maintenance_parts_usage.Part_SKU_Link -> spare_parts_inventory.part_sku",
+   "source_table": "maintenance_parts_usage",
+   "source_column": "Part_SKU_Link",
+   "target_table": "spare_parts_inventory",
+   "target_key": "part_sku",
+   "source_rows": 45,
+   "source_distinct": 5,
+   "target_rows": 143,
+   "score": 3.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SP-FAN-MOT-001",
+    "SP-GEN-LUB-001",
+    "SP-ABB-CAB-001",
+    "SP-YAS-FAN-001",
+    "SP-KUK-GBX-001"
+   ],
+   "target_samples": [
+    "SP-ABB-BAT-001",
+    "SP-ABB-BRK-001",
+    "SP-ABB-CAB-001",
+    "SP-ABB-CAB-002",
+    "SP-ABB-CAB-003"
+   ]
+  },
+  {
+   "id": "maintenance_parts_usage.quantity_used -> quality_inspections.inspection_pk",
+   "source_table": "maintenance_parts_usage",
+   "source_column": "quantity_used",
+   "target_table": "quality_inspections",
+   "target_key": "inspection_pk",
+   "source_rows": 45,
+   "source_distinct": 4,
+   "target_rows": 62,
+   "score": 1.66,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "4",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "material_storage_environment.shipment_ref -> supplier_shipments.shipment_tracking_id",
+   "source_table": "material_storage_environment",
+   "source_column": "shipment_ref",
+   "target_table": "supplier_shipments",
+   "target_key": "shipment_tracking_id",
+   "source_rows": 550,
+   "source_distinct": 147,
+   "target_rows": 149,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SUP-C16F9403DCF2",
+    "SUP-89D4B40BF8B9",
+    "SUP-E1A91F148912",
+    "SUP-5B63B9DFF961",
+    "SUP-304457F53D2A"
+   ],
+   "target_samples": [
+    "SUP-019DB2BB7333",
+    "SUP-0416654916B8",
+    "SUP-0C55A470E97F",
+    "SUP-0CA9646AE85F",
+    "SUP-0EF8F0F9EB1A"
+   ]
+  },
+  {
+   "id": "material_storage_environment.logger_battery_level_percent -> anomaly_detection_log.anomaly_pk",
+   "source_table": "material_storage_environment",
+   "source_column": "logger_battery_level_percent",
+   "target_table": "anomaly_detection_log",
+   "target_key": "anomaly_pk",
+   "source_rows": 550,
+   "source_distinct": 94,
+   "target_rows": 100,
+   "score": 3.89,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "29",
+    "78",
+    "91",
+    "93",
+    "36"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "material_storage_environment.shelf_life_remaining_days -> joint_condition.jcondid",
+   "source_table": "material_storage_environment",
+   "source_column": "shelf_life_remaining_days",
+   "target_table": "joint_condition",
+   "target_key": "jcondid",
+   "source_rows": 550,
+   "source_distinct": 136,
+   "target_rows": 1000,
+   "score": 1.81,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "170",
+    "176",
+    "173",
+    "147",
+    "196"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "mechanical_status.mechactref -> actuation_data.actreg",
+   "source_table": "mechanical_status",
+   "source_column": "mechactref",
+   "target_table": "actuation_data",
+   "target_key": "actreg",
+   "source_rows": 728,
+   "source_distinct": 728,
+   "target_rows": 1000,
+   "score": 4.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AC_U95O0H",
+    "AC_4CU2EX",
+    "AC_CL809K",
+    "AC_IR7RE4",
+    "AC_H4X2Q2"
+   ],
+   "target_samples": [
+    "AC_002O6Q",
+    "AC_04IZTG",
+    "AC_05R43X",
+    "AC_0633AF",
+    "AC_077EX0"
+   ]
+  },
+  {
+   "id": "mechanical_status.mechdetref -> robot_details.botdetreg",
+   "source_table": "mechanical_status",
+   "source_column": "mechdetref",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 728,
+   "source_distinct": 698,
+   "target_rows": 951,
+   "score": 4.22,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RB9067",
+    "RB3783",
+    "RB7520",
+    "RB6552",
+    "RB1035"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "operation.operrecref -> robot_details.botdetreg",
+   "source_table": "operation",
+   "source_column": "operrecref",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 1000,
+   "source_distinct": 951,
+   "target_rows": 951,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RB2073",
+    "RB9067",
+    "RB2996",
+    "RB4545",
+    "RB8530"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "operation.axiscountval -> maintenance_parts_usage.usage_record",
+   "source_table": "operation",
+   "source_column": "axiscountval",
+   "target_table": "maintenance_parts_usage",
+   "target_key": "usage_record",
+   "source_rows": 1000,
+   "source_distinct": 4,
+   "target_rows": 45,
+   "score": 1.99,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "6",
+    "5",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "operator_biometric_telemetry.proximity_event_ref -> human_proximity_events.proximity_event_id",
+   "source_table": "operator_biometric_telemetry",
+   "source_column": "proximity_event_ref",
+   "target_table": "human_proximity_events",
+   "target_key": "proximity_event_id",
+   "source_rows": 12911,
+   "source_distinct": 3661,
+   "target_rows": 3804,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HUM-9536D501A9F4",
+    "HUM-6B7B4CFBFD52",
+    "HUM-9E24CAE84F43",
+    "HUM-657EC3F5E0CE",
+    "HUM-F350D2E0FF1C"
+   ],
+   "target_samples": [
+    "HUM-00029D06DE9F",
+    "HUM-0004E5CC4EB8",
+    "HUM-002736F76C32",
+    "HUM-003A6DDE654A",
+    "HUM-003FFF066E9C"
+   ]
+  },
+  {
+   "id": "operator_biometric_telemetry.heart_rate_bpm -> production_log.production_log_pk",
+   "source_table": "operator_biometric_telemetry",
+   "source_column": "heart_rate_bpm",
+   "target_table": "production_log",
+   "target_key": "production_log_pk",
+   "source_rows": 12911,
+   "source_distinct": 106,
+   "target_rows": 130,
+   "score": 3.59,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "71",
+    "41",
+    "92",
+    "81",
+    "60"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "performance_and_safety.effectivenessrobot -> robot_details.botdetreg",
+   "source_table": "performance_and_safety",
+   "source_column": "effectivenessrobot",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 479,
+   "source_distinct": 464,
+   "target_rows": 951,
+   "score": 3.96,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RB2073",
+    "RB9067",
+    "RB4545",
+    "RB4962",
+    "RB6554"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "performance_and_safety.toolchangecount -> joint_condition.jcondid",
+   "source_table": "performance_and_safety",
+   "source_column": "toolchangecount",
+   "target_table": "joint_condition",
+   "target_key": "jcondid",
+   "source_rows": 479,
+   "source_distinct": 191,
+   "target_rows": 1000,
+   "score": 3.65,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "940",
+    "954",
+    "160",
+    "92",
+    "658"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "physics_engine_parameters.sync_event_ref -> digital_twin_sync_log.sync_event_id",
+   "source_table": "physics_engine_parameters",
+   "source_column": "sync_event_ref",
+   "target_table": "digital_twin_sync_log",
+   "target_key": "sync_event_id",
+   "source_rows": 592,
+   "source_distinct": 126,
+   "target_rows": 126,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "DIG-10B7AC908A4E",
+    "DIG-B63604FBF543",
+    "DIG-85200FEBF561",
+    "DIG-340FBD1C7705",
+    "DIG-3DA51AC2B037"
+   ],
+   "target_samples": [
+    "DIG-064FDE90F0D3",
+    "DIG-0D084AFECF37",
+    "DIG-1016DB5FF674",
+    "DIG-101877D41665",
+    "DIG-10B7AC908A4E"
+   ]
+  },
+  {
+   "id": "physics_engine_parameters.solver_iterations_count -> quality_inspections.inspection_pk",
+   "source_table": "physics_engine_parameters",
+   "source_column": "solver_iterations_count",
+   "target_table": "quality_inspections",
+   "target_key": "inspection_pk",
+   "source_rows": 592,
+   "source_distinct": 3,
+   "target_rows": 62,
+   "score": 2.7,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "20",
+    "50",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "power_consumption_log.botdetreg -> robot_details.botdetreg",
+   "source_table": "power_consumption_log",
+   "source_column": "botdetreg",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 100,
+   "source_distinct": 36,
+   "target_rows": 951,
+   "score": 3.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RB8530",
+    "RB4962",
+    "RB2996",
+    "RB9067",
+    "RB4545"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "product_materials.Product_SKU_Assoc -> products.product_sku",
+   "source_table": "product_materials",
+   "source_column": "Product_SKU_Assoc",
+   "target_table": "products",
+   "target_key": "product_sku",
+   "source_rows": 100,
+   "source_distinct": 49,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PROD-ASM-001",
+    "PROD-ASM-002",
+    "PROD-ECU-010",
+    "PROD-GBX-10A",
+    "PROD-ENC-300"
+   ],
+   "target_samples": [
+    "PROD-ABS-MOD-T2",
+    "PROD-AIR-INTK-P2",
+    "PROD-ALT-120A",
+    "PROD-ASM-001",
+    "PROD-ASM-002"
+   ]
+  },
+  {
+   "id": "product_materials.Material_Code_Assoc -> materials.material_code",
+   "source_table": "product_materials",
+   "source_column": "Material_Code_Assoc",
+   "target_table": "materials",
+   "target_key": "material_code",
+   "source_rows": 100,
+   "source_distinct": 35,
+   "target_rows": 58,
+   "score": 4.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MAT-STL-1018",
+    "MAT-ABS-BLK",
+    "MAT-COP-C110",
+    "MAT-GLASS-AUTO",
+    "MAT-WIRE-18AWG-RD"
+   ],
+   "target_samples": [
+    "MAT-ABS-BLK",
+    "MAT-ADH-CYA-01",
+    "MAT-ADH-EPX-A",
+    "MAT-ADH-EPX-B",
+    "MAT-AL-6061"
+   ]
+  },
+  {
+   "id": "production_log.operreg -> operation.operreg",
+   "source_table": "production_log",
+   "source_column": "operreg",
+   "target_table": "operation",
+   "target_key": "operreg",
+   "source_rows": 130,
+   "source_distinct": 93,
+   "target_rows": 1000,
+   "score": 3.54,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP_MCRH5P",
+    "OP_TZVO4Q",
+    "OP_R5HF3P",
+    "OP_2HYAX9",
+    "OP_RQ18FZ"
+   ],
+   "target_samples": [
+    "OP_00BDNN",
+    "OP_027MBH",
+    "OP_02HVAF",
+    "OP_02HWTR",
+    "OP_04NYLT"
+   ]
+  },
+  {
+   "id": "production_log.order_num -> production_orders.order_num",
+   "source_table": "production_log",
+   "source_column": "order_num",
+   "target_table": "production_orders",
+   "target_key": "order_num",
+   "source_rows": 130,
+   "source_distinct": 19,
+   "target_rows": 80,
+   "score": 2.31,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ORD-25-0001",
+    "ORD-25-0002",
+    "ORD-25-0004",
+    "ORD-25-0005",
+    "ORD-25-0006"
+   ],
+   "target_samples": [
+    "ORD-25-0001",
+    "ORD-25-0002",
+    "ORD-25-0003",
+    "ORD-25-0004",
+    "ORD-25-0005"
+   ]
+  },
+  {
+   "id": "production_orders.product_sku -> products.product_sku",
+   "source_table": "production_orders",
+   "source_column": "product_sku",
+   "target_table": "products",
+   "target_key": "product_sku",
+   "source_rows": 80,
+   "source_distinct": 45,
+   "target_rows": 50,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PROD-ASM-001",
+    "PROD-ECU-010",
+    "PROD-GBX-10A",
+    "PROD-ASM-002",
+    "PROD-WHL-A18"
+   ],
+   "target_samples": [
+    "PROD-ABS-MOD-T2",
+    "PROD-AIR-INTK-P2",
+    "PROD-ALT-120A",
+    "PROD-ASM-001",
+    "PROD-ASM-002"
+   ]
+  },
+  {
+   "id": "production_orders.workcell_code -> workcells.workcell_code",
+   "source_table": "production_orders",
+   "source_column": "workcell_code",
+   "target_table": "workcells",
+   "target_key": "workcell_code",
+   "source_rows": 80,
+   "source_distinct": 15,
+   "target_rows": 30,
+   "score": 3.77,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WC-101",
+    "WC-105",
+    "WC-401",
+    "WC-403",
+    "WC-108"
+   ],
+   "target_samples": [
+    "WC-101",
+    "WC-102",
+    "WC-103",
+    "WC-104",
+    "WC-105"
+   ]
+  },
+  {
+   "id": "production_orders.priority -> maintenance_parts_usage.usage_record",
+   "source_table": "production_orders",
+   "source_column": "priority",
+   "target_table": "maintenance_parts_usage",
+   "target_key": "usage_record",
+   "source_rows": 80,
+   "source_distinct": 3,
+   "target_rows": 45,
+   "score": 1.66,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "1",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "quality_inspections.production_log_pk -> production_log.production_log_pk",
+   "source_table": "quality_inspections",
+   "source_column": "production_log_pk",
+   "target_table": "production_log",
+   "target_key": "production_log_pk",
+   "source_rows": 62,
+   "source_distinct": 61,
+   "target_rows": 130,
+   "score": 3.69,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "quality_inspections.tech_code -> technicians.tech_code",
+   "source_table": "quality_inspections",
+   "source_column": "tech_code",
+   "target_table": "technicians",
+   "target_key": "tech_code",
+   "source_rows": 62,
+   "source_distinct": 6,
+   "target_rows": 50,
+   "score": 2.67,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "TCH_1030",
+    "TCH_1043",
+    "TCH_1047",
+    "TCH_1042",
+    "TCH_1040"
+   ],
+   "target_samples": [
+    "TCH_1001",
+    "TCH_1002",
+    "TCH_1003",
+    "TCH_1004",
+    "TCH_1005"
+   ]
+  },
+  {
+   "id": "robot_details.payloadcapkg -> joint_condition.jcondid",
+   "source_table": "robot_details",
+   "source_column": "payloadcapkg",
+   "target_table": "joint_condition",
+   "target_key": "jcondid",
+   "source_rows": 951,
+   "source_distinct": 7,
+   "target_rows": 1000,
+   "score": 1.22,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5.0",
+    "200.0",
+    "100.0",
+    "50.0",
+    "20.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "simulation_models.botdetreg -> robot_details.botdetreg",
+   "source_table": "simulation_models",
+   "source_column": "botdetreg",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 40,
+   "source_distinct": 40,
+   "target_rows": 951,
+   "score": 3.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RB8530",
+    "RB4962",
+    "RB2996",
+    "RB9067",
+    "RB9004"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "simulation_runs.model_code -> simulation_models.model_code",
+   "source_table": "simulation_runs",
+   "source_column": "model_code",
+   "target_table": "simulation_models",
+   "target_key": "model_code",
+   "source_rows": 80,
+   "source_distinct": 25,
+   "target_rows": 40,
+   "score": 3.94,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SIM-RB8530-01",
+    "SIM-RB4962-01",
+    "SIM-RB2996-01",
+    "SIM-RB9067-01",
+    "SIM-RB9004-01"
+   ],
+   "target_samples": [
+    "SIM-RB1035-01",
+    "SIM-RB1412-01",
+    "SIM-RB1568-01",
+    "SIM-RB1690-01",
+    "SIM-RB2017-01"
+   ]
+  },
+  {
+   "id": "spare_parts_inventory.QUANTITY_ON_HAND -> joint_condition.jcondid",
+   "source_table": "spare_parts_inventory",
+   "source_column": "QUANTITY_ON_HAND",
+   "target_table": "joint_condition",
+   "target_key": "jcondid",
+   "source_rows": 143,
+   "source_distinct": 34,
+   "target_rows": 1000,
+   "score": 1.74,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "3",
+    "12",
+    "25",
+    "85"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "spare_parts_inventory.MAX_STOCK_LEVEL -> joint_condition.jcondid",
+   "source_table": "spare_parts_inventory",
+   "source_column": "MAX_STOCK_LEVEL",
+   "target_table": "joint_condition",
+   "target_key": "jcondid",
+   "source_rows": 143,
+   "source_distinct": 24,
+   "target_rows": 1000,
+   "score": 1.99,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "5",
+    "20",
+    "50",
+    "150"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "spare_parts_inventory.lead_time_days -> production_log.production_log_pk",
+   "source_table": "spare_parts_inventory",
+   "source_column": "lead_time_days",
+   "target_table": "production_log",
+   "target_key": "production_log_pk",
+   "source_rows": 143,
+   "source_distinct": 54,
+   "target_rows": 130,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "56",
+    "45",
+    "34",
+    "21",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "spare_parts_inventory.Inventory_Check_By_Tech -> technicians.tech_code",
+   "source_table": "spare_parts_inventory",
+   "source_column": "Inventory_Check_By_Tech",
+   "target_table": "technicians",
+   "target_key": "tech_code",
+   "source_rows": 143,
+   "source_distinct": 23,
+   "target_rows": 50,
+   "score": 3.23,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "TCH_1011",
+    "TCH_1002",
+    "TCH_1004",
+    "TCH_1009",
+    "TCH_1006"
+   ],
+   "target_samples": [
+    "TCH_1001",
+    "TCH_1002",
+    "TCH_1003",
+    "TCH_1004",
+    "TCH_1005"
+   ]
+  },
+  {
+   "id": "supplier_shipments.material_ref -> materials.material_code",
+   "source_table": "supplier_shipments",
+   "source_column": "material_ref",
+   "target_table": "materials",
+   "target_key": "material_code",
+   "source_rows": 149,
+   "source_distinct": 54,
+   "target_rows": 58,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MAT-PA66-GF30",
+    "MAT-ADH-EPX-B",
+    "MAT-CER-AL2O3",
+    "MAT-DIODE-1N4001",
+    "MAT-CI-G2500"
+   ],
+   "target_samples": [
+    "MAT-ABS-BLK",
+    "MAT-ADH-CYA-01",
+    "MAT-ADH-EPX-A",
+    "MAT-ADH-EPX-B",
+    "MAT-AL-6061"
+   ]
+  },
+  {
+   "id": "supplier_shipments.quantity_received -> anomaly_detection_log.anomaly_pk",
+   "source_table": "supplier_shipments",
+   "source_column": "quantity_received",
+   "target_table": "anomaly_detection_log",
+   "target_key": "anomaly_pk",
+   "source_rows": 149,
+   "source_distinct": 73,
+   "target_rows": 100,
+   "score": 3.69,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9",
+    "19",
+    "89",
+    "41",
+    "93"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "system_controller.systemoverseeroperation -> operation.operreg",
+   "source_table": "system_controller",
+   "source_column": "systemoverseeroperation",
+   "target_table": "operation",
+   "target_key": "operreg",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OP_ES8D6H",
+    "OP_0FUE4V",
+    "OP_BNMLPS",
+    "OP_82TO6O",
+    "OP_MCRH5P"
+   ],
+   "target_samples": [
+    "OP_00BDNN",
+    "OP_027MBH",
+    "OP_02HVAF",
+    "OP_02HWTR",
+    "OP_04NYLT"
+   ]
+  },
+  {
+   "id": "technician_certifications.Certified_Technician_Tag -> technicians.tech_code",
+   "source_table": "technician_certifications",
+   "source_column": "Certified_Technician_Tag",
+   "target_table": "technicians",
+   "target_key": "tech_code",
+   "source_rows": 80,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TCH_1001",
+    "TCH_1002",
+    "TCH_1003",
+    "TCH_1004",
+    "TCH_1007"
+   ],
+   "target_samples": [
+    "TCH_1001",
+    "TCH_1002",
+    "TCH_1003",
+    "TCH_1004",
+    "TCH_1005"
+   ]
+  },
+  {
+   "id": "technician_certifications.Certification_Index -> certifications.CERT_INDEX",
+   "source_table": "technician_certifications",
+   "source_column": "Certification_Index",
+   "target_table": "certifications",
+   "target_key": "CERT_INDEX",
+   "source_rows": 80,
+   "source_distinct": 31,
+   "target_rows": 40,
+   "score": 4.06,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CERT_FAN_01",
+    "CERT_FAN_02",
+    "CERT_GEN_01",
+    "CERT_KUK_01",
+    "CERT_KUK_02"
+   ],
+   "target_samples": [
+    "CERT_ABB_01",
+    "CERT_ABB_02",
+    "CERT_ABB_03",
+    "CERT_ABB_04",
+    "CERT_ABB_05"
+   ]
+  },
+  {
+   "id": "vibration_spectral_analysis.joint_perf_ref -> joint_condition.jcondid",
+   "source_table": "vibration_spectral_analysis",
+   "source_column": "joint_perf_ref",
+   "target_table": "joint_condition",
+   "target_key": "jcondid",
+   "source_rows": 3540,
+   "source_distinct": 981,
+   "target_rows": 1000,
+   "score": 3.98,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "44",
+    "396",
+    "338",
+    "628",
+    "492"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "vision_system_telemetry.workcell_ref -> workcells.workcell_code",
+   "source_table": "vision_system_telemetry",
+   "source_column": "workcell_ref",
+   "target_table": "workcells",
+   "target_key": "workcell_code",
+   "source_rows": 124,
+   "source_distinct": 28,
+   "target_rows": 30,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WC-111",
+    "WC-202",
+    "WC-301",
+    "WC-203",
+    "WC-109"
+   ],
+   "target_samples": [
+    "WC-101",
+    "WC-102",
+    "WC-103",
+    "WC-104",
+    "WC-105"
+   ]
+  },
+  {
+   "id": "waste_recycling_log.production_run_ref -> production_log.production_log_pk",
+   "source_table": "waste_recycling_log",
+   "source_column": "production_run_ref",
+   "target_table": "production_log",
+   "target_key": "production_log_pk",
+   "source_rows": 494,
+   "source_distinct": 124,
+   "target_rows": 130,
+   "score": 3.93,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "128",
+    "50",
+    "103",
+    "17",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "workcells.Cell_Primary_Robot_Code -> robot_details.botdetreg",
+   "source_table": "workcells",
+   "source_column": "Cell_Primary_Robot_Code",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 30,
+   "source_distinct": 30,
+   "target_rows": 951,
+   "score": 3.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RB8530",
+    "RB4962",
+    "RB2996",
+    "RB9067",
+    "RB9004"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "workcells.length_m -> maintenance_parts_usage.usage_record",
+   "source_table": "workcells",
+   "source_column": "length_m",
+   "target_table": "maintenance_parts_usage",
+   "target_key": "usage_record",
+   "source_rows": 30,
+   "source_distinct": 10,
+   "target_rows": 45,
+   "score": 1.97,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8.0",
+    "10.0",
+    "12.0",
+    "7.0",
+    "5.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "workcells.WIDTH_M -> maintenance_parts_usage.usage_record",
+   "source_table": "workcells",
+   "source_column": "WIDTH_M",
+   "target_table": "maintenance_parts_usage",
+   "target_key": "usage_record",
+   "source_rows": 30,
+   "source_distinct": 9,
+   "target_rows": 45,
+   "score": 1.85,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6.0",
+    "8.0",
+    "10.0",
+    "5.0",
+    "4.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "workcells.EmergencyStopCount -> maintenance_parts_usage.usage_record",
+   "source_table": "workcells",
+   "source_column": "EmergencyStopCount",
+   "target_table": "maintenance_parts_usage",
+   "target_key": "usage_record",
+   "source_rows": 30,
+   "source_distinct": 7,
+   "target_rows": 45,
+   "score": 2.01,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "6",
+    "3",
+    "5",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "actuation_data.actreg -> system_controller.systemoverseeractuation",
+   "source_table": "actuation_data",
+   "source_column": "actreg",
+   "target_table": "system_controller",
+   "target_key": "systemoverseeractuation",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "AC_002O6Q",
+    "AC_04IZTG",
+    "AC_05R43X",
+    "AC_0633AF",
+    "AC_077EX0"
+   ],
+   "target_samples": [
+    "AC_002O6Q",
+    "AC_04IZTG",
+    "AC_05R43X",
+    "AC_0633AF",
+    "AC_077EX0"
+   ]
+  },
+  {
+   "id": "anomaly_detection_log.anomaly_pk -> power_consumption_log.power_log_pk",
+   "source_table": "anomaly_detection_log",
+   "source_column": "anomaly_pk",
+   "target_table": "power_consumption_log",
+   "target_key": "power_log_pk",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "end_effector_attachment_log.attachment_event_key -> simulation_runs.run_pk",
+   "source_table": "end_effector_attachment_log",
+   "source_column": "attachment_event_key",
+   "target_table": "simulation_runs",
+   "target_key": "run_pk",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "joint_condition.jcondid -> joint_performance.jperfid",
+   "source_table": "joint_condition",
+   "source_column": "jcondid",
+   "target_table": "joint_performance",
+   "target_key": "jperfid",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "joint_performance.jperfid -> joint_condition.jcondid",
+   "source_table": "joint_performance",
+   "source_column": "jperfid",
+   "target_table": "joint_condition",
+   "target_key": "jcondid",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "maintenance_and_fault.upkeepactuation -> actuation_data.actreg",
+   "source_table": "maintenance_and_fault",
+   "source_column": "upkeepactuation",
+   "target_table": "actuation_data",
+   "target_key": "actreg",
+   "source_rows": 513,
+   "source_distinct": 513,
+   "target_rows": 1000,
+   "score": 2.99,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "AC_0633AF",
+    "AC_08J79T",
+    "AC_08LJ8E",
+    "AC_09V1CL",
+    "AC_0BDE6A"
+   ],
+   "target_samples": [
+    "AC_002O6Q",
+    "AC_04IZTG",
+    "AC_05R43X",
+    "AC_0633AF",
+    "AC_077EX0"
+   ]
+  },
+  {
+   "id": "maintenance_parts_usage.usage_record -> quality_inspections.inspection_pk",
+   "source_table": "maintenance_parts_usage",
+   "source_column": "usage_record",
+   "target_table": "quality_inspections",
+   "target_key": "inspection_pk",
+   "source_rows": 45,
+   "source_distinct": 45,
+   "target_rows": 62,
+   "score": 2.65,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "mechanical_status.mechoperref -> operation.operreg",
+   "source_table": "mechanical_status",
+   "source_column": "mechoperref",
+   "target_table": "operation",
+   "target_key": "operreg",
+   "source_rows": 728,
+   "source_distinct": 728,
+   "target_rows": 1000,
+   "score": 3.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "OP_00BDNN",
+    "OP_027MBH",
+    "OP_02HWTR",
+    "OP_04NYLT",
+    "OP_059QDP"
+   ],
+   "target_samples": [
+    "OP_00BDNN",
+    "OP_027MBH",
+    "OP_02HVAF",
+    "OP_02HWTR",
+    "OP_04NYLT"
+   ]
+  },
+  {
+   "id": "performance_and_safety.effectivenessactuation -> actuation_data.actreg",
+   "source_table": "performance_and_safety",
+   "source_column": "effectivenessactuation",
+   "target_table": "actuation_data",
+   "target_key": "actreg",
+   "source_rows": 479,
+   "source_distinct": 479,
+   "target_rows": 1000,
+   "score": 2.96,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "AC_002O6Q",
+    "AC_05R43X",
+    "AC_0633AF",
+    "AC_077EX0",
+    "AC_08HQQO"
+   ],
+   "target_samples": [
+    "AC_002O6Q",
+    "AC_04IZTG",
+    "AC_05R43X",
+    "AC_0633AF",
+    "AC_077EX0"
+   ]
+  },
+  {
+   "id": "power_consumption_log.power_log_pk -> anomaly_detection_log.anomaly_pk",
+   "source_table": "power_consumption_log",
+   "source_column": "power_log_pk",
+   "target_table": "anomaly_detection_log",
+   "target_key": "anomaly_pk",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "product_materials.prod_mat_link -> anomaly_detection_log.anomaly_pk",
+   "source_table": "product_materials",
+   "source_column": "prod_mat_link",
+   "target_table": "anomaly_detection_log",
+   "target_key": "anomaly_pk",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "production_log.production_log_pk -> joint_condition.jcondid",
+   "source_table": "production_log",
+   "source_column": "production_log_pk",
+   "target_table": "joint_condition",
+   "target_key": "jcondid",
+   "source_rows": 130,
+   "source_distinct": 130,
+   "target_rows": 1000,
+   "score": 0.89,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "quality_inspections.inspection_pk -> end_effector_attachment_log.attachment_event_key",
+   "source_table": "quality_inspections",
+   "source_column": "inspection_pk",
+   "target_table": "end_effector_attachment_log",
+   "target_key": "attachment_event_key",
+   "source_rows": 62,
+   "source_distinct": 62,
+   "target_rows": 80,
+   "score": 2.8,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "robot_details.botdetreg -> robot_record.botcode",
+   "source_table": "robot_details",
+   "source_column": "botdetreg",
+   "target_table": "robot_record",
+   "target_key": "botcode",
+   "source_rows": 951,
+   "source_distinct": 951,
+   "target_rows": 951,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "robot_record.botcode -> robot_details.botdetreg",
+   "source_table": "robot_record",
+   "source_column": "botcode",
+   "target_table": "robot_details",
+   "target_key": "botdetreg",
+   "source_rows": 951,
+   "source_distinct": 951,
+   "target_rows": 951,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ],
+   "target_samples": [
+    "RB1013",
+    "RB1014",
+    "RB1015",
+    "RB1033",
+    "RB1035"
+   ]
+  },
+  {
+   "id": "simulation_runs.run_pk -> end_effector_attachment_log.attachment_event_key",
+   "source_table": "simulation_runs",
+   "source_column": "run_pk",
+   "target_table": "end_effector_attachment_log",
+   "target_key": "attachment_event_key",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "system_controller.systemoverseeractuation -> actuation_data.actreg",
+   "source_table": "system_controller",
+   "source_column": "systemoverseeractuation",
+   "target_table": "actuation_data",
+   "target_key": "actreg",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "AC_002O6Q",
+    "AC_04IZTG",
+    "AC_05R43X",
+    "AC_0633AF",
+    "AC_077EX0"
+   ],
+   "target_samples": [
+    "AC_002O6Q",
+    "AC_04IZTG",
+    "AC_05R43X",
+    "AC_0633AF",
+    "AC_077EX0"
+   ]
+  },
+  {
+   "id": "technician_certifications.tech_cert_record -> end_effector_attachment_log.attachment_event_key",
+   "source_table": "technician_certifications",
+   "source_column": "tech_cert_record",
+   "target_table": "end_effector_attachment_log",
+   "target_key": "attachment_event_key",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

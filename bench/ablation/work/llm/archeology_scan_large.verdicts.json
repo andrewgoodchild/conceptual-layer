@@ -1,0 +1,645 @@
+{
+ "database": "archeology_scan_large",
+ "verdicts": [
+  {
+   "id": "ArtifactConditionAssessments.artifact_ref -> artifacts.ArtifactTag",
+   "verdict": "yes",
+   "reason": "artifact_ref names the artifacts table; 62 of 68 four-digit ArtifactTag values covered, spread across the block"
+  },
+  {
+   "id": "ArtifactConditionAssessments.photo_documentation_count -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "photo count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ArtifactConditionAssessments.assessment_duration_minutes -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "duration in minutes; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ArtifactConditionAssessments.next_assessment_recommended_days -> registration.logregistry",
+   "verdict": "no",
+   "reason": "day count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ArtifactPhotography.artifact_ref -> artifacts.ArtifactTag",
+   "verdict": "yes",
+   "reason": "artifact_ref names the artifacts table; 66 of 68 ArtifactTag values covered"
+  },
+  {
+   "id": "ArtifactPhotography.image_resolution_megapixels -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "megapixel figure with decimals; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ArtifactPhotography.focal_length_mm -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "focal length in mm; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ArtifactPhotography.focus_stacking_layers -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "layer count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "CalibrationVerificationTests.calibration_ref -> ScanCalibration.ScanCalibration_id",
+   "verdict": "yes",
+   "reason": "calibration_ref carries SC- prefixed hex ids identical in form to ScanCalibration_id; 2154 distinct values contained, clearly meant"
+  },
+  {
+   "id": "CalibrationVerificationTests.iterations_performed -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "iteration count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "CalibrationVerificationTests.test_duration_minutes -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "duration in minutes; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "CalibrationVerificationTests.next_verification_days -> conservation.cureregistry",
+   "verdict": "no",
+   "reason": "day count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ConservationTreatments.conservation_ref -> conservation.cureregistry",
+   "verdict": "yes",
+   "reason": "conservation_ref names the conservation table and covers 449 of its 455 keys, spread across the whole range"
+  },
+  {
+   "id": "ConservationTreatments.photo_documentation_count -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "photo count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ConservationTreatments.follow_up_required_months -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "months 3/6/12/24; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "EnvironmentAlertEvents.monitoring_ref -> SiteEnvironmentMonitoring.SiteEnvironmentMonitoring_id",
+   "verdict": "yes",
+   "reason": "monitoring_ref carries SEM- hex ids matching the target key form; thousands of distinct values contained"
+  },
+  {
+   "id": "EnvironmentAlertEvents.alert_duration_minutes -> features.traitregistry",
+   "verdict": "no",
+   "reason": "duration in minutes; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "EnvironmentAlertEvents.personnel_notified_count -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "head count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "EnvironmentAlertEvents.response_time_minutes -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "time in minutes; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "EquipmentMaintenance.equipment_ref -> equipment.equipregistry",
+   "verdict": "yes",
+   "reason": "equipment_ref carries SN-prefixed serials matching equipregistry; 927 of 944 covered"
+  },
+  {
+   "id": "EquipmentMaintenance.technician_count -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "head count 1..4; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "EquipmentMaintenance.next_maintenance_interval_days -> conservation.cureregistry",
+   "verdict": "no",
+   "reason": "interval 30/90/180/365 days; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ExcavationFindings.session_ref -> ExcavationSessions.ExcavationSessions_id",
+   "verdict": "yes",
+   "reason": "session_ref carries ES- hex ids matching the target key form; 3072 of 3101 covered"
+  },
+  {
+   "id": "ExcavationFindings.photo_count -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "photo count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ExcavationSessions.site_ref -> sites.zoneregistry",
+   "verdict": "yes",
+   "reason": "site_ref carries SC-prefixed site codes matching zoneregistry; 868 of 900 covered"
+  },
+  {
+   "id": "ExcavationSessions.crew_count -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "head count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ExcavationSessions.sieve_mesh_size_mm -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "mesh size in mm with decimals; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ExcavationSessions.photos_taken_count -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "photo count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ExpenseReceipts.expense_ref -> ProjectExpenses.ProjectExpenses_id",
+   "verdict": "yes",
+   "reason": "expense_ref carries PE- hex ids matching the target key form; 3105 of 3237 covered"
+  },
+  {
+   "id": "ExpenseReceipts.vendor_name_length -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "string length; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ExpenseReceipts.line_item_count -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "item count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "FieldNoteAttachments.note_ref -> FieldNotes.FieldNotes_id",
+   "verdict": "yes",
+   "reason": "note_ref carries FN- hex ids matching FieldNotes_id; 1755 distinct values contained"
+  },
+  {
+   "id": "FieldNoteAttachments.audio_duration_seconds -> qualitycontrol.qualregistry",
+   "verdict": "no",
+   "reason": "duration in seconds; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "FieldNoteAttachments.video_duration_seconds -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "duration in seconds; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "FieldNotes.personnel_ref -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "personnel_ref carries OP-prefixed crew codes matching crewregistry; 804 of 900 covered"
+  },
+  {
+   "id": "LabSampleProcessing.analysis_ref -> sample_analysis.AnalysisIndex",
+   "verdict": "yes",
+   "reason": "analysis_ref names sample_analysis and 14 non-sequential coded values all fall inside its 15 keys; not a coincidence of small integers"
+  },
+  {
+   "id": "LabSampleProcessing.batch_size -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "batch size; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "MaintenancePartsUsage.maintenance_ref -> EquipmentMaintenance.EquipmentMaintenance_id",
+   "verdict": "yes",
+   "reason": "maintenance_ref carries EM- hex ids matching the target key form; 3783 distinct values contained"
+  },
+  {
+   "id": "MaintenancePartsUsage.quantity_used -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "quantity; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "MaintenancePartsUsage.installation_time_minutes -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "time in minutes; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "PhotoProcessingQueue.photography_ref -> ArtifactPhotography.ArtifactPhotography_id",
+   "verdict": "yes",
+   "reason": "photography_ref carries AP- hex ids matching the target key form; 277 of 298 covered"
+  },
+  {
+   "id": "PhotoProcessingQueue.processing_priority -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "priority level; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "PhotoProcessingQueue.compression_quality_percent -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "percentage; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ProjectExpenses.project_ref -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "project_ref carries PR-prefixed project codes matching arcregistry; 872 of 905 covered"
+  },
+  {
+   "id": "ProjectExpenses.processing_days -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "day count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ProjectExpenses.expense_justification_length -> features.traitregistry",
+   "verdict": "no",
+   "reason": "string length; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "SampleContaminationLog.processing_ref -> LabSampleProcessing.LabSampleProcessing_id",
+   "verdict": "yes",
+   "reason": "processing_ref carries LSP- hex ids matching the target key form; 29 of 30 covered"
+  },
+  {
+   "id": "ScanCalibration.scan_ref -> scans.questregistry",
+   "verdict": "yes",
+   "reason": "scan_ref carries ASD-prefixed scan codes matching questregistry; 908 of 1000 covered"
+  },
+  {
+   "id": "ScanCalibration.reference_target_count -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "target count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ScanCalibration.iterations_required -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "iteration count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "ScanCalibration.validity_period_days -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "period 7/14/30/90 days; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "SiteEnvironmentMonitoring.site_ref -> sites.zoneregistry",
+   "verdict": "yes",
+   "reason": "site_ref carries SC-prefixed site codes matching zoneregistry; 887 of 900 covered"
+  },
+  {
+   "id": "TransportConditionReadings.logistics_ref -> TransportLogistics.TransportLogistics_id",
+   "verdict": "yes",
+   "reason": "logistics_ref carries TL- hex ids matching the target key form; 132 of 133 covered"
+  },
+  {
+   "id": "TransportLogistics.shipment_ref -> shipping_log.ShipmentTag",
+   "verdict": "yes",
+   "reason": "shipment_ref names the shipping log; 48 of 49 five-digit ShipmentTag values covered"
+  },
+  {
+   "id": "TransportLogistics.package_count -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "package count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "TransportLogistics.handler_count -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "head count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "TransportLogistics.delay_minutes -> features.traitregistry",
+   "verdict": "no",
+   "reason": "delay in minutes; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "TreatmentChemicalApplications.treatment_ref -> ConservationTreatments.ConservationTreatments_id",
+   "verdict": "yes",
+   "reason": "treatment_ref carries CT- hex ids matching the target key form; 1929 of 1949 covered"
+  },
+  {
+   "id": "TreatmentChemicalApplications.layers_applied -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "layer count; measurement/count column, not an identifier; its small integers merely fall inside the target's 1..N surrogate sequence"
+  },
+  {
+   "id": "artifacts.site_loc_ref -> sites.zoneregistry",
+   "verdict": "yes",
+   "reason": "site_loc_ref holds SC-prefixed site codes; low spread only because the 68 artifacts use the first site codes, the name and code form are conclusive"
+  },
+  {
+   "id": "artifacts.discovered_by_personnel_fk -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "named as a personnel FK and carries OP-prefixed crew codes"
+  },
+  {
+   "id": "artifacts.inspector_personnel_ref -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "named as a personnel ref and carries OP-prefixed crew codes"
+  },
+  {
+   "id": "conservation.arcref -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "arcref echoes the arcregistry key name and carries PR-prefixed project codes; 433 distinct contained"
+  },
+  {
+   "id": "conservation.zoneref -> sites.zoneregistry",
+   "verdict": "yes",
+   "reason": "zoneref echoes the zoneregistry key name and carries SC-prefixed site codes; 429 distinct contained"
+  },
+  {
+   "id": "data_access_logs.user_tag -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "user_tag holds OP-prefixed crew codes; the user of an access log is a personnel member, 149 distinct contained"
+  },
+  {
+   "id": "data_access_logs.ProjectContextCode -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "ProjectContextCode holds PR-prefixed project codes; 149 distinct contained"
+  },
+  {
+   "id": "environment.zoneref -> sites.zoneregistry",
+   "verdict": "yes",
+   "reason": "zoneref echoes zoneregistry and carries SC site codes; 825 of 900 covered"
+  },
+  {
+   "id": "environment.equipref -> equipment.equipregistry",
+   "verdict": "yes",
+   "reason": "equipref echoes equipregistry and carries SN serials; 861 of 944 covered"
+  },
+  {
+   "id": "features.zoneref -> sites.zoneregistry",
+   "verdict": "yes",
+   "reason": "zoneref echoes zoneregistry and carries SC site codes; 504 distinct contained"
+  },
+  {
+   "id": "features.equipref -> equipment.equipregistry",
+   "verdict": "yes",
+   "reason": "equipref echoes equipregistry and carries SN serials; 520 distinct contained"
+  },
+  {
+   "id": "geological_surveys.location_ref -> sites.zoneregistry",
+   "verdict": "yes",
+   "reason": "location_ref holds SC-prefixed site codes; low spread only because 50 surveys use the first site codes, the code form is conclusive"
+  },
+  {
+   "id": "geological_surveys.SURVEYED_BY_CREW_REF -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "named as a crew ref and carries OP-prefixed crew codes"
+  },
+  {
+   "id": "geological_surveys.EQUIPMENT_USED_FK -> equipment.equipregistry",
+   "verdict": "yes",
+   "reason": "named as an equipment FK and carries SN serials; low spread only because the 50 rows use the first serials"
+  },
+  {
+   "id": "geological_surveys.data_analyst_ref -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "analyst ref carrying OP-prefixed crew codes; a person role pointing at personnel"
+  },
+  {
+   "id": "geological_surveys.report_author_ref -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "author ref carrying OP-prefixed crew codes; a person role pointing at personnel"
+  },
+  {
+   "id": "mesh.zoneref -> sites.zoneregistry",
+   "verdict": "yes",
+   "reason": "zoneref echoes zoneregistry and carries SC site codes; 767 of 900 covered"
+  },
+  {
+   "id": "mesh.equipref -> equipment.equipregistry",
+   "verdict": "yes",
+   "reason": "equipref echoes equipregistry and carries SN serials; 796 of 944 covered"
+  },
+  {
+   "id": "permits.project_assignment -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "project_assignment holds PR-prefixed project codes; a permit is assigned to a project"
+  },
+  {
+   "id": "permits.ApplicantTag -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "ApplicantTag holds OP-prefixed crew codes; the applicant is a personnel member"
+  },
+  {
+   "id": "personnel_certifications.personnel_ref -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "personnel_ref carries OP-prefixed crew codes into the personnel table"
+  },
+  {
+   "id": "personnel_certifications.VERIFIED_BY -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "VERIFIED_BY carries OP-prefixed crew codes; the verifier is a personnel member"
+  },
+  {
+   "id": "personnel_certifications.RelatedSkillCode -> skills.SkillCode",
+   "verdict": "yes",
+   "reason": "RelatedSkillCode names SkillCode and uses the same 30x numbering block; 20 of 30 covered"
+  },
+  {
+   "id": "personnel_skills.personnel_fk -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "named as a personnel FK and carries OP-prefixed crew codes"
+  },
+  {
+   "id": "personnel_skills.skill_ref -> skills.SkillCode",
+   "verdict": "yes",
+   "reason": "skill_ref names the skills table and uses its 30x numbering block; 24 of 30 covered"
+  },
+  {
+   "id": "personnel_skills.VerifiedBySupervisorRef -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "supervisor ref carrying OP-prefixed crew codes; a person role pointing at personnel"
+  },
+  {
+   "id": "pointcloud.crewref -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "crewref echoes crewregistry and carries OP codes; 646 of 900 covered"
+  },
+  {
+   "id": "pointcloud.arcref -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "arcref echoes arcregistry and carries PR codes; 658 of 905 covered"
+  },
+  {
+   "id": "processing.equipref -> equipment.equipregistry",
+   "verdict": "yes",
+   "reason": "equipref echoes equipregistry and carries SN serials; 778 of 944 covered"
+  },
+  {
+   "id": "processing.zoneref -> sites.zoneregistry",
+   "verdict": "yes",
+   "reason": "zoneref echoes zoneregistry and carries SC site codes; 754 of 900 covered"
+  },
+  {
+   "id": "project_budgets.ProjectRef -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "ProjectRef holds PR-prefixed project codes; a budget belongs to a project"
+  },
+  {
+   "id": "project_budgets.Approver_Crew_Tag -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "approver crew tag carrying OP-prefixed crew codes"
+  },
+  {
+   "id": "project_institution_partnership.project_fk -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "named as a project FK and carries PR-prefixed project codes"
+  },
+  {
+   "id": "project_institution_partnership.institution_code -> research_institutions.InstitutionCode",
+   "verdict": "yes",
+   "reason": "institution_code names InstitutionCode and uses its 20x numbering block; 16 of 20 covered"
+  },
+  {
+   "id": "project_milestones.project_id_link -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "project_id_link holds PR-prefixed project codes; a milestone belongs to a project"
+  },
+  {
+   "id": "project_milestones.OwnerRef -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "OwnerRef carries OP-prefixed crew codes; the owner is a personnel member"
+  },
+  {
+   "id": "project_milestones.ApprovedByRef -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "ApprovedByRef carries OP-prefixed crew codes; the approver is a personnel member"
+  },
+  {
+   "id": "project_stakeholders.project_association -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "project_association holds PR-prefixed project codes"
+  },
+  {
+   "id": "project_stakeholders.site_association -> sites.zoneregistry",
+   "verdict": "yes",
+   "reason": "site_association holds SC-prefixed site codes; low spread only because the 48 rows use the first site codes"
+  },
+  {
+   "id": "project_stakeholders.AddedByUserTag -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "AddedByUserTag carries OP-prefixed crew codes; the adding user is a personnel member"
+  },
+  {
+   "id": "qualitycontrol.arcref -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "arcref echoes arcregistry and carries PR codes; 618 of 905 covered"
+  },
+  {
+   "id": "qualitycontrol.crewref -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "crewref echoes crewregistry and carries OP codes; 624 of 900 covered"
+  },
+  {
+   "id": "registration.crewref -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "crewref echoes crewregistry and carries OP codes; 677 of 900 covered"
+  },
+  {
+   "id": "registration.arcref -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "arcref echoes arcregistry and carries PR codes; 678 of 905 covered"
+  },
+  {
+   "id": "sample_analysis.artifact_fk -> artifacts.ArtifactTag",
+   "verdict": "yes",
+   "reason": "named as an artifact FK and carries the four-digit 80xx ArtifactTag block"
+  },
+  {
+   "id": "sample_analysis.AnalystRef -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "AnalystRef carries OP-prefixed crew codes; the analyst is a personnel member"
+  },
+  {
+   "id": "scans.arcref -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "arcref echoes arcregistry and carries PR codes; all 905 projects covered"
+  },
+  {
+   "id": "scans.crewref -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "crewref echoes crewregistry and carries OP codes; all 900 crew covered"
+  },
+  {
+   "id": "scans.zoneref -> sites.zoneregistry",
+   "verdict": "yes",
+   "reason": "zoneref echoes zoneregistry and carries SC codes; all 900 sites covered"
+  },
+  {
+   "id": "shipping_log.related_project -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "related_project holds PR-prefixed project codes"
+  },
+  {
+   "id": "shipping_log.PackedByCrewRef -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "packer crew ref carrying OP-prefixed crew codes"
+  },
+  {
+   "id": "shipping_log.RECEIVED_BY_CREW_REF -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "receiver crew ref carrying OP-prefixed crew codes"
+  },
+  {
+   "id": "software_licenses.AssignedProjectCode -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "AssignedProjectCode holds PR-prefixed project codes"
+  },
+  {
+   "id": "software_licenses.AssignedUserTag -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "AssignedUserTag holds OP-prefixed crew codes; the assigned user is a personnel member"
+  },
+  {
+   "id": "spatial.arcref -> projects.arcregistry",
+   "verdict": "yes",
+   "reason": "arcref echoes arcregistry and carries PR codes; 330 distinct contained"
+  },
+  {
+   "id": "spatial.crewref -> personnel.crewregistry",
+   "verdict": "yes",
+   "reason": "crewref echoes crewregistry and carries OP codes; 331 distinct contained"
+  },
+  {
+   "id": "conservation.cureregistry -> features.traitregistry",
+   "verdict": "no",
+   "reason": "source's own primary key is a 1..N surrogate sequence that nests in the target's longer 1..N sequence; unrelated entities, the classic false positive"
+  },
+  {
+   "id": "equipment_manufacturers.ManufacturerTag -> spatial.domainregistry",
+   "verdict": "no",
+   "reason": "own key with its own 101.. numbering block that merely lands inside a 1..342 sequence; manufacturers have nothing to do with spatial domains"
+  },
+  {
+   "id": "features.traitregistry -> qualitycontrol.qualregistry",
+   "verdict": "no",
+   "reason": "source's own primary key is a 1..N surrogate sequence that nests in the target's longer 1..N sequence; unrelated entities, the classic false positive"
+  },
+  {
+   "id": "geological_surveys.SurveyTag -> environment.airregistry",
+   "verdict": "no",
+   "reason": "own key with its own 501.. numbering block that merely lands inside a 1..908 sequence; unrelated entities"
+  },
+  {
+   "id": "mesh.facetregistry -> environment.airregistry",
+   "verdict": "no",
+   "reason": "source's own primary key is a 1..N surrogate sequence that nests in the target's longer 1..N sequence; unrelated entities, the classic false positive"
+  },
+  {
+   "id": "pointcloud.cloudregistry -> registration.logregistry",
+   "verdict": "no",
+   "reason": "source's own primary key is a 1..N surrogate sequence that nests in the target's longer 1..N sequence; unrelated entities, the classic false positive"
+  },
+  {
+   "id": "processing.flowregistry -> mesh.facetregistry",
+   "verdict": "no",
+   "reason": "source's own primary key is a 1..N surrogate sequence that nests in the target's longer 1..N sequence; unrelated entities, the classic false positive"
+  },
+  {
+   "id": "qualitycontrol.qualregistry -> pointcloud.cloudregistry",
+   "verdict": "no",
+   "reason": "source's own primary key is a 1..N surrogate sequence that nests in the target's longer 1..N sequence; unrelated entities, the classic false positive"
+  },
+  {
+   "id": "registration.logregistry -> processing.flowregistry",
+   "verdict": "no",
+   "reason": "source's own primary key is a 1..N surrogate sequence that nests in the target's longer 1..N sequence; unrelated entities, the classic false positive"
+  },
+  {
+   "id": "research_institutions.InstitutionCode -> conservation.cureregistry",
+   "verdict": "no",
+   "reason": "own key with its own 201.. numbering block that merely lands inside a 1..455 sequence; unrelated entities"
+  },
+  {
+   "id": "sample_analysis.AnalysisIndex -> personnel.crewregistry",
+   "verdict": "no",
+   "reason": "own key of sample_analysis named as an analysis index, and the table has a separate AnalystRef for its person; the OP-coded key values look like a generator quirk, not a designed pointer at personnel"
+  },
+  {
+   "id": "skills.SkillCode -> qualitycontrol.qualregistry",
+   "verdict": "no",
+   "reason": "own key with its own 301.. numbering block that merely lands inside a 1..667 sequence; unrelated entities"
+  },
+  {
+   "id": "spatial.domainregistry -> conservation.cureregistry",
+   "verdict": "no",
+   "reason": "source's own primary key is a 1..N surrogate sequence that nests in the target's longer 1..N sequence; unrelated entities, the classic false positive"
+  }
+ ]
+}

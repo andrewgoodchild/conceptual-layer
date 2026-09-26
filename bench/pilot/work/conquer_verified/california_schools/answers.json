@@ -1,0 +1,44 @@
+[
+ {
+  "question_id": 37,
+  "answer": "LIST st, ci, z, sta FROM School has SchoolStreet st AND ALSO has SchoolCity ci AND ALSO has SchoolZip z AND ALSO has SchoolState sta AND ALSO has SatscoreNumGE1500 g AND ALSO has SatscoreNumTstTakr t WHERE t > 0 ORDERED WITH g / t ASCENDING THE FIRST 1",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "Uses the evidence formula (NumGE1500/NumTstTakr) with real division, filters out zero test-takers to avoid divide-by-zero, projects exactly Street/City/Zip/State as asked, and orders ascending with THE FIRST 1 for 'lowest'. Checked for ties at the minimum: several schools tie at rate 0 (0/44, 0/19, ...), an ambiguity inherent to the question/data, not a query defect -- the question gives no tie-break criterion so none should be added."
+ },
+ {
+  "question_id": 46,
+  "answer": "LIST n FROM School [has SchoolDOC: '31'] has SchoolSchool n AND ALSO has FrpmEnrollmentK12 e ORDERED WITH e DESCENDING THE FIRST 1",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "DOC='31' matches the evidence's State Special Schools definition, FrpmEnrollmentK12 matches 'grades 1 through 12 means K-12', and DESCENDING THE FIRST 1 finds the highest. Checked top 5 by enrollment and confirmed a clear, untied winner (410.0 vs next 355.0), so the single-row result is unambiguous. Only the name is projected, matching the question."
+ },
+ {
+  "question_id": 82,
+  "answer": "LIST g FROM School has SchoolLongitude lon AND ALSO has SchoolGSoffered g ORDERED WITH abs(lon) DESCENDING THE FIRST 1",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "Evidence explicitly redefines 'highest longitude' as the maximum absolute value, which the query implements with abs(lon) DESCENDING. Checked the top 5 by abs(longitude) and found a clear, untied winner (-124.28481). Only SchoolGSoffered (grade span) is projected, matching 'what is the grade span offered'."
+ },
+ {
+  "question_id": 28,
+  "answer": "LIST n, d FROM School [has SchoolFundingType: 'Locally funded'] has SchoolSchool n AND ALSO has SchoolDOCType d AND ALSO has FrpmEnrollmentK12 e12 AND ALSO has FrpmEnrollmentAges517 e517 WHERE (e12 - e517) > (THE AVERAGE e12b IN School [has SchoolFundingType: 'Locally funded'] [has FrpmEnrollmentAges517] has FrpmEnrollmentK12 e12b) - (THE AVERAGE e517b IN School [has SchoolFundingType: 'Locally funded'] [has FrpmEnrollmentK12] has FrpmEnrollmentAges517 e517b)",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "The draft computes AVG(K12)-AVG(Ages517) as two subqueries, each filtered so its population is exactly 'locally funded schools with both K12 and Ages517 present' -- the same population in both, so the subtraction equals AVG(K12-Ages517) over that population, matching the evidence formula. Verified by re-running with the primer's more direct pattern (THE AVERAGE diff IN (... AND ALSO (k - a) AS diff)): identical 57 rows, same top 20, confirming the two formulations are equivalent and correct. Projects only name and DOC type as asked, filtered to locally funded schools."
+ },
+ {
+  "question_id": 24,
+  "answer": "LIST n FROM School has SchoolSchool n AND ALSO has FrpmPercentEligibleFreeK12 p AND ALSO has SatscoreNumGE1500 g WHERE p > 0.1 AND g > 0",
+  "attempts": 3,
+  "verdict": "accepted",
+  "reason": "Verified FrpmPercentEligibleFreeK12 is stored as a fraction (0 to 1, e.g. min ~0.0018, max 1.0), so p > 0.1 correctly means 'more than 0.1' as the evidence's Free Meal Count/Enrollment ratio would compute, and there was no need to hand-compute the ratio from raw counts since the stored column already is that ratio. g > 0 captures 'schools that have test takers scoring >= 1500' via SatscoreNumGE1500. Only the school name is projected, matching 'give the names'."
+ },
+ {
+  "question_id": 79,
+  "answer": "LIST c, ct FROM School s [has SchoolVirtual: 'F'] has SchoolCounty c AND ALSO THE COUNT OF s GROUPED BY c AS ct WHERE (c = 'San Diego' OR c = 'Santa Barbara') ORDERED WITH ct DESCENDING THE FIRST 1",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "Follows the evidence literally (Virtual = 'F') even though that reads oppositely to 'does not offer physical building' in plain English -- the evidence is the authority per the task rules. Checked both counties without the limit: San Diego=8, Santa Barbara=1, a clear win with no tie, and 'indicate the amount' is satisfied by projecting both county and count."
+ }
+]

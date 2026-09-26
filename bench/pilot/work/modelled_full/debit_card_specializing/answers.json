@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "SELECT T2.Description FROM transactions_1k T1 INNER JOIN products T2 ON T1.ProductID = T2.ProductID INNER JOIN gasstations T3 ON T1.GasStationID = T3.GasStationID WHERE T3.Country = 'CZE';",
+  "attempts": 1
+ },
+ {
+  "question_id": 1505,
+  "answer": "SELECT COUNT(DISTINCT T1.CustomerID) FROM customers T1 INNER JOIN yearmonth T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Currency = 'EUR' AND T2.Consumption > 1000;",
+  "attempts": 2
+ },
+ {
+  "question_id": 1481,
+  "answer": "WITH cte AS (SELECT c.CustomerID, c.Segment, SUM(y.Consumption) AS total_consumption FROM customers c JOIN yearmonth y ON c.CustomerID = y.CustomerID WHERE c.Currency = 'CZK' AND y.Date BETWEEN '201301' AND '201312' GROUP BY c.CustomerID, c.Segment), seg_min AS (SELECT Segment, MIN(total_consumption) AS min_consumption FROM cte GROUP BY Segment), seg_avg AS (SELECT s.Segment, SUM(c.total_consumption) * 1.0 / COUNT(c.CustomerID) AS annual_avg FROM cte c JOIN seg_min s ON c.Segment = s.Segment AND c.total_consumption = s.min_consumption GROUP BY s.Segment) SELECT (SELECT annual_avg FROM seg_avg WHERE Segment = 'SME') - (SELECT annual_avg FROM seg_avg WHERE Segment = 'LAM') AS diff_sme_lam, (SELECT annual_avg FROM seg_avg WHERE Segment = 'LAM') - (SELECT annual_avg FROM seg_avg WHERE Segment = 'KAM') AS diff_lam_kam, (SELECT annual_avg FROM seg_avg WHERE Segment = 'KAM') - (SELECT annual_avg FROM seg_avg WHERE Segment = 'SME') AS diff_kam_sme;",
+  "attempts": 3
+ },
+ {
+  "question_id": 1486,
+  "answer": "SELECT (SELECT COUNT(*) FROM customers WHERE Segment = 'SME' AND Currency = 'CZK') - (SELECT COUNT(*) FROM customers WHERE Segment = 'SME' AND Currency = 'EUR') AS diff;",
+  "attempts": 1
+ },
+ {
+  "question_id": 1525,
+  "answer": "SELECT CAST(COUNT(DISTINCT CASE WHEN T1.Currency = 'EUR' THEN T1.CustomerID END) AS REAL) * 100 / COUNT(DISTINCT T1.CustomerID) FROM customers T1 INNER JOIN transactions_1k T2 ON T1.CustomerID = T2.CustomerID WHERE T2.Date = '2012-08-25';",
+  "attempts": 2
+ },
+ {
+  "question_id": 1501,
+  "answer": "SELECT T3.Country FROM yearmonth T1 INNER JOIN transactions_1k T2 ON T1.CustomerID = T2.CustomerID INNER JOIN gasstations T3 ON T2.GasStationID = T3.GasStationID WHERE T1.Date = '201306';",
+  "attempts": 3
+ }
+]

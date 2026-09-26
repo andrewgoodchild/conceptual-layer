@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "gaming_1",
+  "answer": "SELECT d.makername, d.modnum, ROUND(t.pollratehz / 100.0 * (1 - (t.inplagms + t.resptimems) / 30.0) * 10, 2) AS irs, i.joyprec, i.driftres, i.trigres, i.hapstr, CASE WHEN t.pollratehz / 100.0 * (1 - (t.inplagms + t.resptimems) / 30.0) * 10 > 8.0 AND i.joyprec > 9.0 AND i.driftres > 9.5 AND i.trigres >= 5 AND i.hapstr > 8 THEN 'Yes' ELSE 'No' END AS meets_professional_standards FROM deviceidentity d JOIN testsessions t ON d.devsessionref = t.sessionregistry JOIN interactionandcontrol i ON i.interactdevref = d.devregistry WHERE t.devscope = 'Controller' ORDER BY CASE WHEN t.pollratehz / 100.0 * (1 - (t.inplagms + t.resptimems) / 30.0) * 10 > 8.0 AND i.joyprec > 9.0 AND i.driftres > 9.5 AND i.trigres >= 5 AND i.hapstr > 8 THEN 0 ELSE 1 END, irs DESC"
+ },
+ {
+  "question_id": "gaming_10",
+  "answer": "WITH mice AS ( SELECT d.makername, d.modnum, d.dpires, t.pollratehz, d.dpires / 1000.0 * (1 - d.mcresptime / 10.0) * 10 AS spi, m.ergorate / 10.0 * (1 + m.wristflag / 5.0) * (1 - ABS(m.palmangle - 15) / 45.0) * 10 AS ci FROM deviceidentity d JOIN testsessions t ON d.devsessionref = t.sessionregistry JOIN mechanical m ON m.mechdevref = d.devregistry WHERE t.devscope = 'Mouse' ) SELECT makername, modnum, dpires, pollratehz, ROUND(spi, 2) AS spi, ROUND(ci, 2) AS ci, CASE WHEN spi > 7.5 AND dpires >= 16000 AND pollratehz >= 1000 AND ci > 8.0 THEN 'Yes' ELSE 'No' END AS premium_gaming_mouse FROM mice ORDER BY spi DESC, ci DESC"
+ },
+ {
+  "question_id": "gaming_6",
+  "answer": "WITH w AS ( SELECT d.devregistry, (d.wlrangem / 10.0) * (1 - d.wllatvar / 5.0) * (1 + d.wlchanhop / 2.0) * ((t.wlsignal + 100) / 100.0) * SQRT((t.battlifeh * t.battcapmah / (d.pwractmw * 10.0)) / 5.0) * (1 - d.wllatvar / 3.0) * 2 AS wpe FROM deviceidentity d JOIN testsessions t ON d.devsessionref = t.sessionregistry WHERE d.conntype <> 'Wired' ) SELECT devregistry, ROUND(wpe, 2) AS wpe FROM w WHERE wpe > 8.5 ORDER BY wpe DESC"
+ },
+ {
+  "question_id": "gaming_9",
+  "answer": "SELECT d.devregistry, d.makername, d.modnum, t.pollratehz, t.inplagms, t.resptimems, ROUND(t.pollratehz / 100.0 * (1 - (t.inplagms + t.resptimems) / 30.0) * 10, 2) AS irs FROM deviceidentity d JOIN testsessions t ON d.devsessionref = t.sessionregistry WHERE t.devscope IN ('Keyboard', 'Mouse') AND t.pollratehz / 100.0 * (1 - (t.inplagms + t.resptimems) / 30.0) * 10 > 8.0 ORDER BY irs DESC"
+ },
+ {
+  "question_id": "gaming_3",
+  "answer": "WITH dev AS ( SELECT d.makername, d.modnum, t.devscope, r.rgbbright, r.rgbcoloracc, r.rgbzones, r.rgbmodes, r.rgbcolors, r.rgbbright / 100.0 * (r.rgbcoloracc / 10.0) * (0.5 + r.rgbzones / 20.0) AS riq FROM rgb r JOIN mechanical m ON r.rgbmechref = m.mechregistry JOIN deviceidentity d ON m.mechdevref = d.devregistry JOIN testsessions t ON d.devsessionref = t.sessionregistry ) SELECT makername, modnum, devscope, rgbbright, rgbcoloracc, rgbzones, rgbmodes, rgbcolors, ROUND(riq, 2) AS riq, CASE WHEN riq > 8.0 THEN 'Premium RGB Implementation' WHEN riq >= 6.0 THEN 'High-Quality RGB' WHEN riq >= 3.0 THEN 'Standard RGB' ELSE 'Basic RGB' END AS rgb_quality_classification FROM dev ORDER BY riq DESC"
+ },
+ {
+  "question_id": "gaming_5",
+  "answer": "SELECT a.audregistry, d.makername, d.modnum, a.thdpct, a.spksensedb, a.audlatms, ROUND((1 - a.thdpct / 2.0) * (a.spksensedb / 100.0) * (1 - a.audlatms / 100.0) * 10, 2) AS aqi FROM audioandmedia a JOIN deviceidentity d ON a.auddevref = d.devregistry WHERE (1 - a.thdpct / 2.0) * (a.spksensedb / 100.0) * (1 - a.audlatms / 100.0) * 10 > 8.0 ORDER BY aqi DESC"
+ },
+ {
+  "question_id": "gaming_7",
+  "answer": "WITH p AS ( SELECT physregistry, bendforce, CAST(SUBSTR(dustres, 4) AS INTEGER) AS dust_level, CAST(SUBSTR(waterres, 4) AS INTEGER) AS water_level, (drophtm / 2.0 + bendforce / 100.0 + twistdeg / 90.0) * usbconndur / 10000.0 * 10 AS ds FROM physicaldurability ) SELECT physregistry, ROUND(ds, 2) AS ds, dust_level, water_level, bendforce, ROUND(ds * (1 + (dust_level + water_level) / 6.0) * (1 - (100 - bendforce) / 200.0), 2) AS per FROM p WHERE ds * (1 + (dust_level + water_level) / 6.0) * (1 - (100 - bendforce) / 200.0) > 9.0 ORDER BY per DESC"
+ },
+ {
+  "question_id": "gaming_4",
+  "answer": "SELECT d.devregistry, d.makername, d.modnum, ROUND(t.battlifeh * t.battcapmah / (d.pwractmw * 10.0), 2) AS ber FROM deviceidentity d JOIN testsessions t ON d.devsessionref = t.sessionregistry WHERE t.battlifeh * t.battcapmah / (d.pwractmw * 10.0) > 7.5 ORDER BY ber DESC"
+ },
+ {
+  "question_id": "gaming_2",
+  "answer": "WITH b AS ( SELECT d.makername, d.modnum, t.battlifeh, t.battcapmah, d.pwractmw, t.battlifeh * t.battcapmah / (d.pwractmw * 10.0) AS ber FROM deviceidentity d JOIN testsessions t ON d.devsessionref = t.sessionregistry WHERE d.conntype IN ('Wireless 2.4GHz', 'Bluetooth') ) SELECT makername, modnum, battlifeh, battcapmah, pwractmw, ROUND(ber, 2) AS ber, CASE WHEN ber > 7.5 THEN 'Excellent Efficiency' WHEN ber >= 5.0 THEN 'Good Efficiency' WHEN ber >= 2.5 THEN 'Average Efficiency' ELSE 'Poor Efficiency' END AS efficiency_classification, ROUND(PERCENT_RANK() OVER (PARTITION BY makername ORDER BY ber) * 100, 2) AS efficiency_percentile FROM b ORDER BY ber DESC"
+ },
+ {
+  "question_id": "gaming_8",
+  "answer": "WITH m AS ( SELECT d.devregistry, d.profcount, d.dpires / 1000.0 * (1 - d.mcresptime / 10.0) * 10 AS spi, t.pollratehz / 100.0 * (1 - (t.inplagms + t.resptimems) / 30.0) * 10 AS irs, LOG10(mc.swtchdur) / 7.0 * mc.swtchcons * (1 - mc.keychatter / 2.0) AS spr, ((i.joyprec + i.dpadacc) / 20.0) * (1 - t.inplagms / 10.0) * 10 AS rai FROM deviceidentity d JOIN testsessions t ON d.devsessionref = t.sessionregistry JOIN mechanical mc ON mc.mechdevref = d.devregistry JOIN interactionandcontrol i ON i.interactdevref = d.devregistry ), c AS ( SELECT devregistry, profcount, spi, irs, irs * 0.4 + spi * 0.3 + spr * 0.2 + rai * 0.1 AS cgpi FROM m ) SELECT devregistry, ROUND(cgpi, 2) AS cgpi, profcount, ROUND(spi, 2) AS spi, ROUND(irs, 2) AS irs, ROUND(cgpi / 10.0 * (1 + profcount / 5.0) * ((spi + irs) / 15.0), 2) AS par FROM c WHERE cgpi / 10.0 * (1 + profcount / 5.0) * ((spi + irs) / 15.0) > 8.5 ORDER BY par DESC"
+ }
+]

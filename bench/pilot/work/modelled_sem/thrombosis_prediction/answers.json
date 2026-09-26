@@ -1,0 +1,12 @@
+[
+ {"question_id": 1256, "answer": "SELECT COUNT(DISTINCT p.ID) FROM Patient p JOIN Laboratory l ON l.ID = p.ID WHERE l.CRP = '+' AND p.Description IS NULL", "attempts": 1},
+ {"question_id": 1189, "answer": "SELECT COUNT(DISTINCT ID) FROM Examination WHERE Thrombosis = 2 AND [ANA Pattern] = 'S' AND [aCL IgM] > 1.2 * (SELECT AVG([aCL IgM]) FROM Examination)", "attempts": 1},
+ {"question_id": 1267, "answer": "SELECT COUNT(DISTINCT l.ID) FROM Laboratory l JOIN Examination e ON e.ID = l.ID WHERE l.SM IN ('negative','0') AND e.Thrombosis = 0", "attempts": 2},
+ {"question_id": 1157, "answer": "SELECT DISTINCT p.ID, p.SEX, p.Diagnosis FROM Examination e JOIN Patient p ON p.ID = e.ID WHERE e.Thrombosis = 2", "attempts": 1},
+ {"question_id": 1162, "answer": "SELECT COUNT(*) FROM Patient WHERE SEX = 'F' AND Admission = '-' AND strftime('%Y', [First Date]) = '1997'", "attempts": 1},
+ {"question_id": 1164, "answer": "SELECT COUNT(DISTINCT e.ID) FROM Examination e JOIN Patient p ON p.ID = e.ID WHERE e.Thrombosis = 1 AND strftime('%Y', e.[Examination Date]) = '1997' AND p.SEX = 'F'", "attempts": 1},
+ {"question_id": 1179, "answer": "SELECT e.[aCL IgM] FROM Examination e JOIN Patient p ON p.ID = e.ID WHERE p.Diagnosis = 'SLE' AND p.Description = '1994-02-19' AND e.[Examination Date] = '1993-11-12'", "attempts": 3},
+ {"question_id": 1192, "answer": "SELECT DISTINCT p.ID FROM Patient p JOIN Laboratory l ON l.ID = p.ID WHERE p.Admission = '-' AND l.Date BETWEEN '1991-10-01' AND '1991-10-31' AND l.[T-BIL] < 2.0", "attempts": 1},
+ {"question_id": 1232, "answer": "SELECT DISTINCT p.ID, p.SEX, (strftime('%Y','now') - strftime('%Y', p.Birthday)) AS Age FROM Patient p JOIN Laboratory l ON l.ID = p.ID WHERE l.GLU >= 180 AND l.[T-CHO] < 250", "attempts": 1},
+ {"question_id": 1187, "answer": "SELECT DISTINCT ID FROM Laboratory WHERE Date BETWEEN '1987-07-06' AND '1996-01-31' AND GPT > 30 AND ALB < 4 ORDER BY ID", "attempts": 1}
+]

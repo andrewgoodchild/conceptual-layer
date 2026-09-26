@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "solar_3",
+  "answer": "LIST t, a FROM Panel has PanelPanetype t AND ALSO has PanelPowratew pr AND ALSO has PanelTempcoef tc AND ALSO has Plant is of Environment has celltemperature Temperature ct AND ALSO (pr * tc * (ct - 25)) AS v AND ALSO THE AVERAGE v GROUPED BY t AS a"
+ },
+ {
+  "question_id": "solar_1",
+  "answer": "LIST y, a, c FROM Panel p has Plant has PlantInitialDate d AND ALSO castInteger(days_between(today(), d) / 365.25) AS y AND ALSO has PanelPowratew pr AND ALSO is of Performance has PerformanceMeaspoww mp AND ALSO (mp / pr * 100) AS ppr AND ALSO THE AVERAGE ppr GROUPED BY y AS a AND ALSO THE DISTINCT COUNT OF p GROUPED BY y AS c ORDERED WITH y ASCENDING"
+ },
+ {
+  "question_id": "solar_2",
+  "answer": "LIST pn, cap, tot, rl, mce, rlr, mroi, pri FROM Maintenance has Plant pl AND ALSO pl has PlantGrowalias pn AND ALSO pl has PlantGencapmw cap AND ALSO pl OPTIONALLY is of Alert OPTIONALLY has AlertStatus st AND ALSO has MaintenanceMaintcostusd mc AND ALSO has MaintenanceCleancostusd cc AND ALSO has MaintenanceReplacecostusd rc AND ALSO has MaintenanceRevlossusd rl AND ALSO (rl / (mc + cc + rc)) AS mroiv AND ALSO round(mc + cc + rc, 2) AS tot AND ALSO round((mc + cc + rc) / cap, 2) AS mce AND ALSO round(rl / cap, 2) AS rlr AND ALSO round(mroiv, 2) AS mroi AND ALSO if(st = 'Critical', if(mroiv > 2.0, 'URGENT', 'HIGH'), if(mroiv > 2.0, 'MEDIUM', 'LOW')) AS pri AND ALSO if(st = 'Critical', if(mroiv > 2.0, 1, 2), if(mroiv > 2.0, 3, 4)) AS rk ORDERED WITH rk ASCENDING, mroi DESCENDING"
+ },
+ {
+  "question_id": "solar_7",
+  "answer": "LIST m, fi, fc, y, ffdr FROM Panel has PanelPanemark m AND ALSO is of Electrical el AND ALSO el has ElectricalFfactorinit fi AND ALSO el has ElectricalFfactorcurr fc AND ALSO has Plant has PlantInitialDate d AND ALSO castInteger(days_between(today(), d) / 365.25) AS y AND ALSO round((fi - fc) / nullif(y, 0) * 100, 2) AS ffdr"
+ },
+ {
+  "question_id": "solar_6",
+  "answer": "LIST m, pr, mp, dl, sl, il, tsl FROM Panel has PanelPanemark m AND ALSO has PanelPowratew pr AND ALSO is of Performance pf AND ALSO pf has PerformanceMeaspoww mp AND ALSO pf has PerformanceEfficiencyProfile ep AND ALSO jsonPath(ep, '$.degradation.cumdegpct') AS cd AND ALSO has Plant pl AND ALSO pl is of Environment has soillosspct Percentage sp AND ALSO pl is of Inverter has InverterPowerMetrics ipm AND ALSO jsonPath(ipm, '$.inverteffpct') AS ie AND ALSO (pr * cd / 100) AS dlv AND ALSO (mp * sp / 100) AS slv AND ALSO (mp * (1 - ie / 100)) AS ilv AND ALSO round(dlv, 2) AS dl AND ALSO round(slv, 2) AS sl AND ALSO round(ilv, 2) AS il AND ALSO round(dlv + slv + ilv, 2) AS tsl"
+ },
+ {
+  "question_id": "solar_9",
+  "answer": "LIST pn, m, d, y, ie, ce, ad, pelr, ndi, cls FROM Panel has PanelPanemark m AND ALSO has Percentage ie AND ALSO has Plant pl AND ALSO pl has PlantGrowalias pn AND ALSO pl has PlantInitialDate d AND ALSO castInteger(days_between(today(), d) / 365.25) AS y AND ALSO is of Performance has PerformanceEfficiencyProfile ep AND ALSO jsonPath(ep, '$.current_efficiency.curreffpct') AS ce AND ALSO jsonPath(ep, '$.degradation.anndegrate') AS ad AND ALSO ((ce - ie) / nullif(y, 0) * 100) AS pelrv AND ALSO round(pelrv, 2) AS pelr AND ALSO (pelrv / nullif(ad, 0)) AS ndiv AND ALSO round(ndiv, 2) AS ndi AND ALSO if(ndiv > 1.5, 'High Degradation', if(ndiv >= 1.0, 'Moderate Degradation', 'Normal Degradation')) AS cls"
+ },
+ {
+  "question_id": "solar_8",
+  "answer": "LIST m, tc, ct, ce, poa, wce FROM Panel has PanelPanemark m AND ALSO has PanelTempcoef tc AND ALSO has Plant is of Environment e AND ALSO e has celltemperature Temperature ct AND ALSO e has EnvironmentIrradianceConditions ic AND ALSO jsonPath(ic, '$.irradiance_types[3]') AS poa AND ALSO is of Performance has PerformanceEfficiencyProfile ep AND ALSO jsonPath(ep, '$.current_efficiency.curreffpct') AS ce AND ALSO round(ce * (1 + tc * (25 - ct) / 100) * (1000 / poa), 2) AS wce"
+ },
+ {
+  "question_id": "solar_10",
+  "answer": "LIST r, q, h, f, giq FROM Inverter has InverterInvertregistry r AND ALSO has InverterPwrqualidx q AND ALSO has InverterPowerMetrics pm AND ALSO jsonPath(pm, '$.harmdistpct') AS h AND ALSO jsonPath(pm, '$.invertpowfac') AS f AND ALSO (q * (1 - h / 100) * f) AS giq"
+ },
+ {
+  "question_id": "solar_5",
+  "answer": "LIST a, t, sp, dd, asif FROM Environment has Plant has PlantGrowregistry a AND ALSO has EnvironmentEnvmoment t AND ALSO has soillosspct Percentage sp AND ALSO has EnvironmentDustdengm2 dd AND ALSO has EnvironmentLastcleandt lc AND ALSO (sp / dd) AS sif AND ALSO THE AVERAGE sif WITHIN a AS asif WHERE sp > 5 OR dd > 0.15 OR days_between(today(), lc) > 30"
+ },
+ {
+  "question_id": "solar_4",
+  "answer": "LIST pn, mce, rlr, mroi FROM Maintenance has Plant pl AND ALSO pl has PlantGrowalias pn AND ALSO pl has PlantGencapmw cap AND ALSO has MaintenanceMaintcostusd mc AND ALSO has MaintenanceCleancostusd cc AND ALSO has MaintenanceReplacecostusd rc AND ALSO has MaintenanceRevlossusd rl AND ALSO ((mc + cc + rc) / cap) AS mce AND ALSO (rl / cap) AS rlr AND ALSO (rlr / mce) AS mroi"
+ }
+]

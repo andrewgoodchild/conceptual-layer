@@ -1,0 +1,5 @@
+Writer's report (sqldesc arm, fake_account_large), as returned.
+
+- Hardest: fa_15 (CIO flag) inputs absent from the data, approximated (all "No"); NIC network-influence per account absent; TEI quartiles with 106 NULL proxy_hits excluded; VPN ratio '0.30%' read as a 0-1 ratio; fa_7 no security-detection table (threat_level/InvestState guessed); fa_8 bot_likelihood NULL for 112; fa_2 one snapshot per account.
+- **What helped:** where each score sits inside the JSON columns (`risk_profile->'risk_scores'`, `behavioral_anomaly_scores->'automation_spam'`, `session_telemetry->'ip_reputation'`), the join columns (including the `account_clusters` bridge) and **the value lists ('SocialGroup', 'Critical', 'Active')**.
+- **What it did not tell:** that `vpn_usage_pct` is a string with a '%' suffix (no caution for it); which columns hold the NULLs; where "detection"/"severity" live. **Size: the full description ~300 KB, and even a targeted `./schema` call returned 80 KB**, so the writer grepped the output and queried `information_schema`.

@@ -1,0 +1,67 @@
+[
+ {
+  "question_id": 930,
+  "answer": "LIST n FROM Result [has Driver has DriverForename: 'Lewis'] [has Driver has DriverSurname: 'Hamilton'] has ResultRank r AND ALSO has Race has RaceName n ORDERED WITH r ASCENDING THE FIRST 1",
+  "attempts": 3
+ },
+ {
+  "question_id": 1011,
+  "answer": "LIST f, s FROM LapTime has Driver has DriverForename f AND ALSO has Driver has DriverSurname s AND ALSO has LapTimeTime t ORDERED WITH t ASCENDING THE FIRST 20",
+  "attempts": 3
+ },
+ {
+  "question_id": 909,
+  "answer": "THE COUNT OF Race [has RaceName: 'European Grand Prix'] [has Circuit has CircuitCountry: 'Germany'] * 100 / THE COUNT OF Race [has RaceName: 'European Grand Prix']",
+  "attempts": 3
+ },
+ {
+  "question_id": 892,
+  "answer": "LIST f, s, p FROM DriverStanding has Driver has DriverForename f AND ALSO has Driver has DriverSurname s AND ALSO has DriverStandingPoints p ORDERED WITH p DESCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 854,
+  "answer": "LIST lat, lng FROM DISTINCT Race [has RaceName: 'Australian Grand Prix'] has Circuit has CircuitLat lat AND ALSO has Circuit has CircuitLng lng",
+  "attempts": 2
+ },
+ {
+  "question_id": 898,
+  "answer": "LIST f, s, year(today()) - year(d) FROM Driver [has DriverNationality: 'Japanese'] has DriverForename f AND ALSO has DriverSurname s AND ALSO has DriverDob d ORDERED WITH d DESCENDING THE FIRST 1",
+  "attempts": 3
+ },
+ {
+  "question_id": 877,
+  "answer": "LIST f, s FROM Result [has Race: 872] has ResultTime AND ALSO has Driver has DriverForename f AND ALSO has Driver has DriverSurname s AND ALSO has Driver has DriverDob d ORDERED WITH d DESCENDING THE FIRST 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 906,
+  "answer": "LIST n, p FROM Result [has Driver has DriverForename: 'Lewis'] [has Driver has DriverSurname: 'Hamilton'] has Race has RaceName n AND ALSO has Race has Season has SeasonYear y AND ALSO has ResultPoints p ORDERED WITH y ASCENDING THE FIRST 1",
+  "attempts": 4
+ },
+ {
+  "question_id": 988,
+  "answer": "LIST f, s, avg FROM PitStop has Driver [has DriverNationality: 'German'] has DriverDob d AND ALSO has Driver has DriverForename f AND ALSO has Driver has DriverSurname s AND ALSO THE AVERAGE dur IN PitStop has PitStopDuration dur GROUPED BY f AS avg WHERE year(d) >= 1980 AND year(d) <= 1985 ORDERED WITH avg ASCENDING THE FIRST 3",
+  "attempts": 3
+ },
+ {
+  "question_id": 881,
+  "answer": "THE COUNT OF Result [has Race has RaceDate: '1983-07-16'] [has ResultTime] * 100 / THE COUNT OF Result [has Race has RaceDate: '1983-07-16']",
+  "attempts": 3
+ },
+ {
+  "question_id": 977,
+  "answer": "THE COUNT OF Result [has Race has RaceId rid] [has ResultTime] [has Status: 2] WHERE rid > 50 AND rid < 100",
+  "attempts": 2
+ },
+ {
+  "question_id": 915,
+  "answer": "LIST nat FROM Driver has DriverNationality nat AND ALSO has DriverDob d ORDERED WITH d ASCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 868,
+  "answer": "LIST lat, lng FROM DISTINCT Race [has RaceName: 'Malaysian Grand Prix'] has Circuit has CircuitLat lat AND ALSO has Circuit has CircuitLng lng",
+  "attempts": 1
+ }
+]

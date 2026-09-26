@@ -1,0 +1,12 @@
+[
+ {"question_id": 1256, "answer": "THE DISTINCT COUNT OF p IN Patient p [is of Laboratory has LaboratoryCRP c WHERE c <> '-' AND NOT starts_with(c, '<')] BUT NOT has PatientDescription", "attempts": 3},
+ {"question_id": 1189, "answer": "THE DISTINCT COUNT OF p IN Examination has Patient p AND ALSO has ExaminationThrombosis: '2' AND ALSO has ExaminationANAPattern: 'S' AND ALSO has ExaminationACLIgM m WHERE m > THE AVERAGE Examination has ExaminationACLIgM * 1.2", "attempts": 1},
+ {"question_id": 1267, "answer": "THE DISTINCT COUNT OF p IN Patient p [is of Laboratory has LaboratorySM v WHERE v = '0' OR v = 'negative'] AND ALSO is of Examination has ExaminationThrombosis: '0'", "attempts": 3},
+ {"question_id": 1157, "answer": "LIST id, sex, diag FROM Patient has PatientID id AND ALSO has PatientSEX sex AND ALSO has PatientDiagnosis diag AND ALSO is of Examination has ExaminationThrombosis: '3'", "attempts": 1},
+ {"question_id": 1162, "answer": "THE COUNT OF Patient [has PatientSEX: 'F'] [has PatientFirstDate d WHERE year(d) = 1997] [has PatientAdmission: '-']", "attempts": 1},
+ {"question_id": 1164, "answer": "THE COUNT OF Examination [has ExaminationDate d WHERE year(d) = 1997] [has ExaminationThrombosis: '2'] [has Patient has PatientSEX: 'F']", "attempts": 2},
+ {"question_id": 1179, "answer": "LIST g FROM Patient [has PatientDiagnosis: 'SLE'] [has PatientDescription: '1994-02-19'] is of Examination [has ExaminationDate: '1993-11-12'] has ExaminationACLIgG g", "attempts": 3},
+ {"question_id": 1192, "answer": "LIST id FROM DISTINCT Patient has PatientID id AND ALSO has PatientAdmission: '-' AND ALSO is of Laboratory [has LaboratoryDate d WHERE year(d) = 1991 AND month(d) = 10] has LaboratoryTBIL t WHERE t >= 0.2 AND t <= 1.2", "attempts": 2},
+ {"question_id": 1232, "answer": "LIST id, sex, age FROM DISTINCT Patient has PatientID id AND ALSO has PatientSEX sex AND ALSO has PatientBirthday b AND ALSO (year(today()) - year(b)) AS age AND ALSO is of Laboratory [has LaboratoryGLU g WHERE g < 70 OR g > 109] has LaboratoryTCHO t WHERE t >= 150 AND t <= 219", "attempts": 3},
+ {"question_id": 1187, "answer": "LIST id FROM DISTINCT Patient has PatientID id AND ALSO is of Laboratory [has LaboratoryDate d WHERE d >= '1987-07-06' AND d <= '1996-01-31'] [has LaboratoryGPT g WHERE g > 30] has LaboratoryALB a WHERE a < 4 ORDERED WITH id ASCENDING", "attempts": 1}
+]

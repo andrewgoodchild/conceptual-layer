@@ -1,0 +1,635 @@
+{
+ "database": "disaster_relief_large",
+ "verdicts": [
+  {
+   "id": "BeneficiaryAssistanceRecord.beneficiaryId -> BeneficiaryCore.id",
+   "verdict": "yes",
+   "reason": "beneficiaryId names BeneficiaryCore exactly, many records per beneficiary"
+  },
+  {
+   "id": "BeneficiaryAssistanceRecord.disasterEventId -> BeneficiaryCore.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryCore; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "BeneficiaryCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "BeneficiaryHouseholds.beneregistryRef -> beneficiariesandassessments.beneregistry",
+   "verdict": "yes",
+   "reason": "beneregistryRef holds BENE_ registry keys of the named target"
+  },
+  {
+   "id": "BeneficiaryHouseholds.FAMILY_SIZE -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "FAMILY_SIZE is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "BeneficiaryHouseholds.VERSION -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "VERSION is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "CommunicationLogs.DIST_REF -> disasterevents.distregistry",
+   "verdict": "yes",
+   "reason": "DIST_REF holds DIST_ disaster-event registry keys"
+  },
+  {
+   "id": "CommunityInfrastructureAssessments.Dist_Ref -> disasterevents.distregistry",
+   "verdict": "yes",
+   "reason": "Dist_Ref holds DIST_ disaster-event registry keys"
+  },
+  {
+   "id": "CommunityInfrastructureAssessments.Assessor_Count -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "Assessor_Count is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "CommunityInfrastructureAssessments.VERSION -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "VERSION is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "DataAnalyticsReports.opsRef -> operations.opsregistry",
+   "verdict": "yes",
+   "reason": "opsRef holds OPS_ operation registry keys, one report per operation"
+  },
+  {
+   "id": "DataAnalyticsReports.VersionInt -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "VersionInt is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "DataAnalyticsReports.RefreshIntervalDays -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "RefreshIntervalDays is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "DisasterResponseTeam.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "DiseaseContainmentMeasure.diseaseOutbreakId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "diseaseOutbreakId names DiseaseOutbreakCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "DiseaseContainmentMeasure.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "DiseaseOutbreakCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.envHealthRef -> environmentandhealth.envhealthregistry",
+   "verdict": "yes",
+   "reason": "envHealthRef holds ENV_ registry keys of the named target"
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.SUSPECTED_CASES -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "SUSPECTED_CASES is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.DEATHS -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "DEATHS is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.MEDICAL_Staff_Deployed -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "MEDICAL_Staff_Deployed is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.ContactTracingTeams -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "ContactTracingTeams is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.quarantineFacilities -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "quarantineFacilities is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.VersionNo -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "VersionNo is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "DistributionHubCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "EarlyWarningSystems.dist_ref -> disasterevents.distregistry",
+   "verdict": "yes",
+   "reason": "dist_ref holds DIST_ disaster-event registry keys"
+  },
+  {
+   "id": "EarlyWarningSystems.maintenance_cycle_DAYS -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "maintenance_cycle_DAYS is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "EmergencyCommunicationLog.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "Household_Member_Map.householdID -> BeneficiaryHouseholds.HOUSEHOLD_ID",
+   "verdict": "yes",
+   "reason": "map table side carrying HH###### household ids under the target's key name"
+  },
+  {
+   "id": "Household_Member_Map.MEMBER_ID -> MemberProfiles.Member_Id",
+   "verdict": "yes",
+   "reason": "map table side carrying MBR#### member ids, covering every member"
+  },
+  {
+   "id": "InfrastructureAssessmentCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "InfrastructureRepairLog.infrastructureAssessmentId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "infrastructureAssessmentId names InfrastructureAssessmentCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "InfrastructureRepairLog.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "LogisticsContracts.HUB_REF -> distributionhubs.hubregistry",
+   "verdict": "yes",
+   "reason": "HUB_REF holds HUB_ hub registry keys, every hub referenced"
+  },
+  {
+   "id": "LogisticsContracts.VersionNo -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "VersionNo is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "MediaCoverage.Dist_ref -> disasterevents.distregistry",
+   "verdict": "yes",
+   "reason": "Dist_ref holds DIST_ disaster-event registry keys"
+  },
+  {
+   "id": "MediaCoverage.Social_Shares -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "Social_Shares is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "MemberProfiles.HOUSEHOLD_ref -> BeneficiaryHouseholds.HOUSEHOLD_ID",
+   "verdict": "yes",
+   "reason": "HOUSEHOLD_ref holds HH###### household ids under the target's key name"
+  },
+  {
+   "id": "MemberProfiles.Version_N0 -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "Version_N0 is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "OperationCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "OperationLogistics.operationId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "operationId names OperationCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "OperationLogistics.distributionHubId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "distributionHubId names DistributionHubCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "OperationRiskAssessments.OPS_ref -> operations.opsregistry",
+   "verdict": "yes",
+   "reason": "OPS_ref holds OPS_ operation registry keys, one assessment per operation"
+  },
+  {
+   "id": "OperationRiskAssessments.VersionINT -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "VersionINT is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "ShelterCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "ShelterFacilities.distRef -> disasterevents.distregistry",
+   "verdict": "yes",
+   "reason": "distRef holds DIST_ disaster-event registry keys"
+  },
+  {
+   "id": "ShelterFacilities.Capacity_Persons -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "Capacity_Persons is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "ShelterFacilities.versionNo -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "versionNo is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "ShelterOccupancyRecord.shelterId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "shelterId names ShelterCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "ShelterOccupancyRecord.beneficiaryId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "beneficiaryId names BeneficiaryCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "SkillCatalogue.AVG_RETENTION_MONTHS -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "AVG_RETENTION_MONTHS is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "SkillCatalogue.IS_ACTIVE -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "IS_ACTIVE is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "SkillCatalogue.VERSION_NO -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "VERSION_NO is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "StakeholderEngagement.CoordEvalRef -> coordinationandevaluation.coordevalregistry",
+   "verdict": "yes",
+   "reason": "CoordEvalRef holds COORD_ registry keys of the named target"
+  },
+  {
+   "id": "StakeholderEngagement.VersionNO -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "VersionNO is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "SupplyAllocation.item_Id -> SupplyItemCatalogue.itemID",
+   "verdict": "yes",
+   "reason": "item_Id holds ITM#### catalogue ids; a 52-row catalogue referenced by allocations is ordinary"
+  },
+  {
+   "id": "SupplyAllocation.HubRef -> distributionhubs.hubregistry",
+   "verdict": "yes",
+   "reason": "HubRef holds HUB_ hub registry keys"
+  },
+  {
+   "id": "SupplyAllocation.packagingUnits -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "packagingUnits is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "SupplyAllocation.VERSION -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "VERSION is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "SupplyItemCatalogue.Shelf_Life_Days -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "Shelf_Life_Days is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "SupplyItemCatalogue.Lead_Time_Days -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "Lead_Time_Days is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "SupplyItemCatalogue.reorder_point -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "reorder_point is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "SupplyItemCatalogue.SAFETY_STOCK -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "SAFETY_STOCK is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "SupplyItemCatalogue.IS_ACTIVE -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "IS_ACTIVE is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "SupplyItemCatalogue.VERSION -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "VERSION is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "TrainingAttendance.trainingSessionId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "trainingSessionId names TrainingSessionCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "TrainingAttendance.volunteerId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "volunteerId names VolunteerCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "TrainingSessionCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "TrainingSessions.TrainerId -> VolunteerProfiles.VOLUNTEERID",
+   "verdict": "yes",
+   "reason": "TrainerId holds VLT###### volunteer ids - the trainer is a volunteer"
+  },
+  {
+   "id": "TrainingSessions.CAPACITY -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "CAPACITY is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "TrainingSessions.VERSION -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "VERSION is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "VehicleMaintenanceLogs.TRANSPORT_REF -> transportation.transportregistry",
+   "verdict": "yes",
+   "reason": "TRANSPORT_REF holds TRANS_ registry keys, one log per transport record"
+  },
+  {
+   "id": "VehicleMaintenanceLogs.Version_No -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "Version_No is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "VolunteerCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "VolunteerDeployment.volunteerId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "volunteerId names VolunteerCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "VolunteerDeployment.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "disasterEventId names DisasterEventCore, not BeneficiaryAssistanceRecord; the overlap is just two unrelated 1..10000 id sequences"
+  },
+  {
+   "id": "VolunteerProfiles.HR_ref -> humanresources.hrregistry",
+   "verdict": "yes",
+   "reason": "HR_ref holds HR_ registry keys, a 1:1 profile extension of the HR record"
+  },
+  {
+   "id": "Volunteer_Skill_Map.VolunteerID -> VolunteerProfiles.VOLUNTEERID",
+   "verdict": "yes",
+   "reason": "map table side carrying VLT###### volunteer ids, every volunteer covered"
+  },
+  {
+   "id": "Volunteer_Skill_Map.skillID -> SkillCatalogue.skillID",
+   "verdict": "yes",
+   "reason": "map table side carrying SKL#### skill ids under the target's key name"
+  },
+  {
+   "id": "Volunteer_Skill_Map.TRAINING_REF -> TrainingSessions.SESSION_ID",
+   "verdict": "yes",
+   "reason": "TRAINING_REF holds TS###### training session ids"
+  },
+  {
+   "id": "beneficiariesandassessments.bene_dist_ref -> disasterevents.distregistry",
+   "verdict": "yes",
+   "reason": "bene_dist_ref holds DIST_ disaster-event registry keys"
+  },
+  {
+   "id": "beneficiariesandassessments.beneopsref -> operations.opsregistry",
+   "verdict": "yes",
+   "reason": "beneopsref holds OPS_ operation registry keys, every operation covered"
+  },
+  {
+   "id": "coordinationandevaluation.coord_dist_ref -> disasterevents.distregistry",
+   "verdict": "yes",
+   "reason": "coord_dist_ref holds DIST_ disaster-event registry keys"
+  },
+  {
+   "id": "coordinationandevaluation.coordopsref -> operations.opsregistry",
+   "verdict": "yes",
+   "reason": "coordopsref holds OPS_ operation registry keys"
+  },
+  {
+   "id": "coordinationandevaluation.dataqualityvalue -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "dataqualityvalue is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "distributionhubs.hub_cap_tons -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "hub_cap_tons is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "distributionhubs.storeavailm3 -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "storeavailm3 is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "distributionhubs.coldstorecapm3 -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "coldstorecapm3 is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "environmentandhealth.env_dist_ref -> disasterevents.distregistry",
+   "verdict": "yes",
+   "reason": "env_dist_ref holds DIST_ disaster-event registry keys"
+  },
+  {
+   "id": "financials.findistref -> disasterevents.distregistry",
+   "verdict": "yes",
+   "reason": "findistref holds DIST_ disaster-event registry keys"
+  },
+  {
+   "id": "financials.fin_ops_ref -> operations.opsregistry",
+   "verdict": "yes",
+   "reason": "fin_ops_ref holds OPS_ operation registry keys"
+  },
+  {
+   "id": "humanresources.hrdistref -> disasterevents.distregistry",
+   "verdict": "yes",
+   "reason": "hrdistref holds DIST_ disaster-event registry keys"
+  },
+  {
+   "id": "humanresources.hr_ops_ref -> operations.opsregistry",
+   "verdict": "yes",
+   "reason": "hr_ops_ref holds OPS_ operation registry keys"
+  },
+  {
+   "id": "operation_hub_map.opsregistry -> operations.opsregistry",
+   "verdict": "yes",
+   "reason": "junction table side carrying the operations key under its own name"
+  },
+  {
+   "id": "operation_hub_map.hubregistry -> distributionhubs.hubregistry",
+   "verdict": "yes",
+   "reason": "junction table side carrying the hubs key under its own name"
+  },
+  {
+   "id": "operations.estdurationdays -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "estdurationdays is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "skill_Session_Map.skilref -> SkillCatalogue.skillID",
+   "verdict": "yes",
+   "reason": "map table side carrying SKL#### skill ids, every skill covered"
+  },
+  {
+   "id": "skill_Session_Map.SessionID -> TrainingSessions.SESSION_ID",
+   "verdict": "yes",
+   "reason": "map table side carrying TS###### session ids, every session covered"
+  },
+  {
+   "id": "skill_Session_Map.SLOT_NUMBER -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "SLOT_NUMBER is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "supplies.supply_dist_ref -> disasterevents.distregistry",
+   "verdict": "yes",
+   "reason": "supply_dist_ref holds DIST_ disaster-event registry keys"
+  },
+  {
+   "id": "supplies.supplyhubref -> distributionhubs.hubregistry",
+   "verdict": "yes",
+   "reason": "supplyhubref holds HUB_ hub registry keys"
+  },
+  {
+   "id": "supplies.shelter_units -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "shelter_units is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "supplies.powergenunits -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "powergenunits is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "transportation.transportdistref -> disasterevents.distregistry",
+   "verdict": "yes",
+   "reason": "transportdistref holds DIST_ disaster-event registry keys"
+  },
+  {
+   "id": "transportation.transport_hub_ref -> distributionhubs.hubregistry",
+   "verdict": "yes",
+   "reason": "transport_hub_ref holds HUB_ hub registry keys, every hub covered"
+  },
+  {
+   "id": "transportation.transportsupref -> supplies.supplyregistry",
+   "verdict": "yes",
+   "reason": "transportsupref holds SUP_ supply registry keys, every supply record covered"
+  },
+  {
+   "id": "transportation.vehiclecount -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "vehiclecount is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "transportation.trucks_available -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "trucks_available is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "transportation.distribution_points -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "distribution_points is a count/measure/flag, not an identifier; small integers fall inside a 1..10000 id range by chance"
+  },
+  {
+   "id": "BeneficiaryAssistanceRecord.id -> BeneficiaryCore.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "BeneficiaryCore.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "DisasterEventCore.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "DisasterResponseTeam.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "DiseaseContainmentMeasure.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "DiseaseOutbreakCore.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "DistributionHubCore.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "EmergencyCommunicationLog.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "InfrastructureAssessmentCore.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "InfrastructureRepairLog.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "OperationCore.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "OperationLogistics.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "ShelterCore.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "ShelterOccupancyRecord.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "TrainingSessionCore.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "VolunteerCore.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  },
+  {
+   "id": "VolunteerDeployment.id -> BeneficiaryAssistanceRecord.id",
+   "verdict": "no",
+   "reason": "the table's own surrogate id nesting inside another table's identical 1..10000 sequence - coincidence"
+  }
+ ]
+}

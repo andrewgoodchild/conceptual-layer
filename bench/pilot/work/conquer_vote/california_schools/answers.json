@@ -1,0 +1,50 @@
+[
+ {
+  "question_id": 37,
+  "answer": "LIST st, ci, z, sta FROM School has SchoolStreet st AND ALSO has SchoolCity ci AND ALSO has SchoolZip z AND ALSO has SchoolState sta AND ALSO has SatscoreNumGE1500 g AND ALSO has SatscoreNumTstTakr t WHERE t > 0 ORDERED WITH g / t ASCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 46,
+  "answer": "LIST n FROM School [has SchoolDOC: '31'] has SchoolSchool n AND ALSO has FrpmEnrollmentK12 e ORDERED WITH e DESCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 82,
+  "answer": "LIST g FROM School has SchoolLongitude lon AND ALSO has SchoolGSoffered g ORDERED WITH abs(lon) DESCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 28,
+  "answer": "LIST n, d FROM Frpm [has FrpmCharterFundingType: 'Locally funded'] has FrpmSchoolName n AND ALSO has SchoolDOCType d AND ALSO has FrpmEnrollmentK12 k AND ALSO has FrpmEnrollmentAges517 a AND ALSO (k - a) AS diff WHERE diff > THE AVERAGE diff2 IN (Frpm [has FrpmCharterFundingType: 'Locally funded'] has FrpmEnrollmentK12 k2 AND ALSO has FrpmEnrollmentAges517 a2 AND ALSO (k2 - a2) AS diff2)",
+  "attempts": 0,
+  "chosen": "conquer_run2",
+  "agreement": 2,
+  "candidates": 3
+ },
+ {
+  "question_id": 24,
+  "answer": "LIST n FROM School has FrpmSchoolName n AND ALSO has FrpmFreeMealCountK12 f AND ALSO has FrpmEnrollmentK12 k AND ALSO has SatscoreNumGE1500 g WHERE f / k > 0.1 AND g > 0",
+  "attempts": 0,
+  "chosen": "conquer_run2",
+  "agreement": 2,
+  "candidates": 3
+ },
+ {
+  "question_id": 79,
+  "answer": "LIST c, ct FROM School s [has SchoolVirtual: 'F'] has SchoolCounty c AND ALSO THE COUNT OF s GROUPED BY c AS ct WHERE (c = 'San Diego' OR c = 'Santa Barbara') ORDERED WITH ct DESCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ }
+]

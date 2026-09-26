@@ -1,0 +1,59 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST l FROM ForeignData [has ForeignDataMultiverseid: 149934] has ForeignDataLanguage l",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": "LIST i, a FROM Card [has CardPower: '*'] has CardId i AND ALSO has CardArtist a AND ALSO is of Legality [has LegalityFormat: 'commander'] has LegalityStatus: 'Legal'",
+  "attempts": 3
+ },
+ {
+  "question_id": 473,
+  "answer": null,
+  "note": "Unanswerable in this model: there is no fact type linking Card to Set. Card only has a bare CardSetCode value (CardHasSetCode: Card has CardSetCode), which is a different value type from Set's own SetCode reference scheme, and no reading (forward 'has' or inverse 'is of') connects Card to Set -- confirmed by trying both directions with ./try, which reports Set's only 'is of' partner is SetTranslation. Without that link, 'the set of cards with Adarkar Valkyrie' cannot be reached from Card, so SetIsForeignOnly cannot be projected for it.",
+  "attempts": 3
+ },
+ {
+  "question_id": 424,
+  "answer": "LIST (THE COUNT OF Card [has CardLayout: 'normal'] - THE COUNT OF Card [has CardLayout: 'normal'] [has CardText t]) * 100 / THE COUNT OF Card [has CardLayout: 'normal']",
+  "attempts": 4
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST n FROM Card [has CardRarity: 'mythic'] has CardName n AND ALSO is of Legality [has LegalityFormat: 'gladiator'] has LegalityStatus: 'Banned'",
+  "attempts": 1
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes t] WHERE t <> 'Angel'",
+  "attempts": 2
+ },
+ {
+  "question_id": 352,
+  "answer": "LIST THE DISTINCT COUNT OF c IN Card c is of ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF Card",
+  "attempts": 2
+ },
+ {
+  "question_id": 518,
+  "answer": "LIST f, n FROM Legality [has LegalityFormat: 'legacy'] [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO has Card has CardName n",
+  "attempts": 3
+ },
+ {
+  "question_id": 416,
+  "answer": "LIST (THE DISTINCT COUNT OF c IN Card c is of ForeignData [has ForeignDataLanguage: 'French'] - THE DISTINCT COUNT OF c IN Card c [has CardPower p] is of ForeignData [has ForeignDataLanguage: 'French']) * 100 / (THE COUNT OF Card - THE COUNT OF Card [has CardPower p])",
+  "attempts": 3
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST n, a, promo, c FROM Card e has CardName n AND ALSO has CardArtist a AND ALSO OPTIONALLY has CardIsPromo promo AND ALSO is of Ruling r AND ALSO THE COUNT OF r GROUPED BY e AS c ORDERED WITH c DESCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 462,
+  "answer": null,
+  "note": "Unanswerable in this model for the same reason as question 473: no fact type connects Card to Set (CardSetCode is a plain value type on Card, not linked to Set's SetCode reference scheme, and neither 'has' nor 'is of' bridges the two entity types). Without reaching Set from Card, there is no way to then reach SetTranslation and its Italian SetTranslationTranslation for the set containing 'Ancestor's Chosen'.",
+  "attempts": 1
+ }
+]

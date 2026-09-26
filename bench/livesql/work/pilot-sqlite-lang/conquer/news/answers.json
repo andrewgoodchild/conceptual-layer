@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "news_3",
+  "answer": "LIST k, st, sbra, cie, rtse FROM Session has SessionSeshkey k AND ALSO has SessionSeshstart st AND ALSO has SessionBncrate b AND ALSO has SessionCtrval c AND ALSO (b * (1 - c / 100)) AS sbra AND ALSO is of Interaction has InteractionSequenceValue sv AND ALSO THE AVERAGE sv GROUPED BY k AS cie AND ALSO (cie / nullif(sbra, 0)) AS rtse"
+ },
+ {
+  "question_id": "news_10",
+  "answer": "LIST uk, sc, sv, es, euim FROM Session has User has UserKey uk AND ALSO has SessionSeshclicks sc AND ALSO has SessionSeshviews sv AND ALSO has SessionEngscore es AND ALSO ((sc + sv) * (es / 100)) AS euim ORDERED WITH euim DESCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "news_1",
+  "answer": "LIST d, uer, davg FROM Session has SessionSeshstart st AND ALSO substr(st, 1, 10) AS d AND ALSO has SessionSeshviews v AND ALSO has SessionEngscore e AND ALSO has SessionSeshdur du AND ALSO (v * e / du) AS uer AND ALSO THE AVERAGE uer WITHIN d AS davg WHERE uer > davg ORDERED WITH d ASCENDING"
+ },
+ {
+  "question_id": "news_9",
+  "answer": "LIST p, nrec, nclk, rctr FROM Recommendation r has RecommendationPositionValue p AND ALSO is of Interaction has InteractionEvttype et AND ALSO if(et = 'click', 1, 0) AS ic AND ALSO THE DISTINCT COUNT OF r GROUPED BY p AS nrec AND ALSO THE SUM OF ic GROUPED BY p AS nclk AND ALSO (nclk / nullif(nrec, 0)) AS rctr ORDERED WITH p ASCENDING"
+ },
+ {
+  "question_id": "news_4",
+  "answer": "LIST sst, g, o, ag, n, ausv, auds, asat, ints FROM User u has UserSubStatus sst AND ALSO has UserGendlbl g AND ALSO has UserOcculbl o AND ALSO has UserAgeValue a AND ALSO has UserSubdays sd AND ALSO has UserSatisfactionScore ss AND ALSO has UserInterests i AND ALSO if(a < 25, 'Under 25', if(a < 35, '25-34', if(a < 45, '35-44', if(a < 55, '45-54', '55+')))) AS ag AND ALSO (sd * if(sst = 'Premium', 2.0, if(sst = 'Enterprise', 3.0, if(sst = 'Basic', 1.0, 0.5)))) AS usv AND ALSO (a * if(g = 'M', 1.0, if(g = 'F', 1.0, 0.8)) * if(o = 'Professional', 1.5, if(o = 'Retired', 1.2, if(o = 'Student', 0.7, 1.0)))) AS uds AND ALSO THE COUNT OF u GROUPED BY sst, g, o, ag AS n AND ALSO THE AVERAGE usv GROUPED BY sst, g, o, ag AS rusv AND ALSO THE AVERAGE uds GROUPED BY sst, g, o, ag AS ruds AND ALSO THE AVERAGE ss GROUPED BY sst, g, o, ag AS rss AND ALSO round(rusv, 2) AS ausv AND ALSO round(ruds, 2) AS auds AND ALSO round(rss, 2) AS asat AND ALSO THE LIST OF i SEPARATED BY ', ' GROUPED BY sst, g, o, ag AS ints WHERE n > 10 ORDERED WITH ausv DESCENDING, auds DESCENDING THE FIRST 15"
+ },
+ {
+  "question_id": "news_7",
+  "answer": "LIST m, g, n, pct FROM DISTINCT User u has UserRegmoment r AND ALSO substr(r, 1, 7) AS m AND ALSO has UserTestGroup g AND ALSO THE COUNT OF u WITHIN m, g AS n AND ALSO THE COUNT OF u WITHIN m AS tot AND ALSO (n * 100.0 / tot) AS pct ORDERED WITH m ASCENDING, g ASCENDING"
+ },
+ {
+  "question_id": "news_2",
+  "answer": "LIST cl, arr FROM Article has ArticleArtkey ak AND ALSO has ArticleCategoryLabel cl AND ALSO has ArticleQualscore q AND ALSO has ArticleFreshscore f AND ALSO has ArticleSentscore s AND ALSO has ArticleContrscore c AND ALSO ((q + f + s - c) / 3) AS aqi AND ALSO has readsecurity Duration rs AND ALSO has ArticleWordlen wl AND ALSO has ArticleDifflevel dl AND ALSO (rs * log10(wl) / if(dl = 'Basic', 1, if(dl = 'Intermediate', 1.5, if(dl = 'Advanced', 2, 1.2)))) AS ars AND ALSO jsonObject('artkey', ak, 'catlabel', cl, 'aqi', aqi, 'ars', ars) AS o AND ALSO THE LIST OF o GROUPED BY cl AS arr"
+ },
+ {
+  "question_id": "news_5",
+  "answer": "LIST tr, rt, ls, ps, delta, rnk, st FROM Systemperformance [has SystemperformanceResptime > 100] has SystemperformanceRectrace tr AND ALSO has SystemperformanceResptime rt AND ALSO has SystemperformanceLoadScore ls AND ALSO has SystemperformancePerformanceScore ps AND ALSO (ps - ls) AS delta AND ALSO 1 AS one AND ALSO THE RANK OF rt WITHIN one AS rnk AND ALSO if(rt > 200, 'Critical', if(rt > 150, 'Warning', 'Normal')) AS st"
+ },
+ {
+  "question_id": "news_6",
+  "answer": "DEFINE Seg ::= LIST k, lbl FROM Session has SessionSeshkey k AND ALSO has SessionBncrate b AND ALSO has SessionCtrval c AND ALSO (b * (1 - c / 100)) AS sbra AND ALSO 1 AS one AND ALSO THE PERCENT RANK OF sbra ASCENDING WITHIN one AS bp AND ALSO THE PERCENT RANK OF c WITHIN one AS cp AND ALSO if(bp < 0.25, if(cp < 0.25, 'High Bounce, Low CTR', if(cp >= 0.75, 'High Bounce, High CTR', 'Average Performance')), if(bp >= 0.75, if(cp < 0.25, 'Low Bounce, Low CTR', if(cp >= 0.75, 'Low Bounce, High CTR', 'Average Performance')), 'Average Performance')) AS lbl\nLIST tl, sl, pseg, n, arb, aab, actr, aes, adur, apv FROM Session has SessionSeshkey k AND ALSO k has Seg SegLbl pseg AND ALSO has User u AND ALSO u has UserTypeLabel tl AND ALSO u has UserSeglabel sl AND ALSO has SessionBncrate b AND ALSO has SessionCtrval c AND ALSO (b * (1 - c / 100)) AS sbra AND ALSO has SessionEngscore e AND ALSO has SessionSeshdur du AND ALSO has SessionSeshviews v AND ALSO THE COUNT OF k GROUPED BY tl, sl, pseg AS n AND ALSO THE AVERAGE b GROUPED BY tl, sl, pseg AS rb AND ALSO THE AVERAGE sbra GROUPED BY tl, sl, pseg AS rab AND ALSO THE AVERAGE c GROUPED BY tl, sl, pseg AS rc AND ALSO THE AVERAGE e GROUPED BY tl, sl, pseg AS re AND ALSO THE AVERAGE du GROUPED BY tl, sl, pseg AS rdu AND ALSO THE AVERAGE v GROUPED BY tl, sl, pseg AS rv AND ALSO round(rb, 2) AS arb AND ALSO round(rab, 2) AS aab AND ALSO round(rc, 2) AS actr AND ALSO round(re, 2) AS aes AND ALSO round(rdu, 2) AS adur AND ALSO round(rv, 2) AS apv WHERE n > 10 ORDERED WITH aab ASCENDING, actr ASCENDING"
+ },
+ {
+  "question_id": "news_8",
+  "answer": "LIST cl, aars, aer, corr, lo, md, hi FROM Article a has ArticleCategoryLabel cl AND ALSO has readsecurity Duration rs AND ALSO has ArticleWordlen wl AND ALSO has ArticleDifflevel dl AND ALSO has ArticleEngagementRate er AND ALSO (rs * log10(wl) / if(dl = 'Basic', 1, if(dl = 'Intermediate', 1.5, if(dl = 'Advanced', 2, 1.2)))) AS ars AND ALSO (ars * er) AS xy AND ALSO (ars * ars) AS xx AND ALSO (er * er) AS yy AND ALSO THE COUNT OF a GROUPED BY cl AS n AND ALSO THE AVERAGE ars GROUPED BY cl AS aars AND ALSO THE AVERAGE er GROUPED BY cl AS aer AND ALSO THE SUM OF ars GROUPED BY cl AS sx AND ALSO THE SUM OF er GROUPED BY cl AS sy AND ALSO THE SUM OF xy GROUPED BY cl AS sxy AND ALSO THE SUM OF xx GROUPED BY cl AS sxx AND ALSO THE SUM OF yy GROUPED BY cl AS syy AND ALSO ((n * sxy - sx * sy) / nullif(sqrt((n * sxx - sx * sx) * (n * syy - sy * sy)), 0)) AS corr AND ALSO if(ars < 50, 1, 0) AS islo AND ALSO if(ars < 50, 0, if(ars > 100, 0, 1)) AS ismd AND ALSO if(ars > 100, 1, 0) AS ishi AND ALSO THE SUM OF islo GROUPED BY cl AS lo AND ALSO THE SUM OF ismd GROUPED BY cl AS md AND ALSO THE SUM OF ishi GROUPED BY cl AS hi"
+ }
+]

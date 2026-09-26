@@ -1,0 +1,32 @@
+[
+  {
+    "question_id": 1506,
+    "answer": "SELECT DISTINCT p.Description FROM transactions_1k t JOIN gasstations g ON t.GasStationID = g.GasStationID JOIN products p ON t.ProductID = p.ProductID WHERE g.Country = 'CZE'",
+    "attempts": 1
+  },
+  {
+    "question_id": 1505,
+    "answer": "SELECT COUNT(DISTINCT y.CustomerID) FROM yearmonth y JOIN customers c ON c.CustomerID = y.CustomerID WHERE c.Currency = 'EUR' AND y.Consumption > 1000",
+    "attempts": 2
+  },
+  {
+    "question_id": 1481,
+    "answer": "WITH t AS (SELECT c.Segment AS seg, y.CustomerID AS cid, SUM(y.Consumption) AS tot FROM yearmonth y JOIN customers c ON c.CustomerID = y.CustomerID WHERE c.Currency = 'CZK' AND y.Date BETWEEN '201301' AND '201312' GROUP BY c.Segment, y.CustomerID), a AS (SELECT seg, SUM(tot) / COUNT(*) AS avgc FROM t WHERE tot = (SELECT MIN(tot) FROM t t2 WHERE t2.seg = t.seg) GROUP BY seg) SELECT (SELECT avgc FROM a WHERE seg = 'SME') - (SELECT avgc FROM a WHERE seg = 'LAM') AS SME_LAM, (SELECT avgc FROM a WHERE seg = 'LAM') - (SELECT avgc FROM a WHERE seg = 'KAM') AS LAM_KAM, (SELECT avgc FROM a WHERE seg = 'KAM') - (SELECT avgc FROM a WHERE seg = 'SME') AS KAM_SME",
+    "attempts": 3
+  },
+  {
+    "question_id": 1486,
+    "answer": "SELECT SUM(CASE WHEN Currency = 'CZK' THEN 1 ELSE 0 END) - SUM(CASE WHEN Currency = 'EUR' THEN 1 ELSE 0 END) FROM customers WHERE Segment = 'SME'",
+    "attempts": 1
+  },
+  {
+    "question_id": 1525,
+    "answer": "SELECT CAST(SUM(CASE WHEN c.Currency = 'EUR' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) FROM transactions_1k t JOIN customers c ON c.CustomerID = t.CustomerID WHERE t.Date = '2012-08-25'",
+    "attempts": 1
+  },
+  {
+    "question_id": 1501,
+    "answer": "SELECT DISTINCT g.Country FROM transactions_1k t JOIN gasstations g ON t.GasStationID = g.GasStationID JOIN yearmonth y ON y.CustomerID = t.CustomerID WHERE y.Date = '201306'",
+    "attempts": 1
+  }
+]

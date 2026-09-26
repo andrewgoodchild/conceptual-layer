@@ -1,0 +1,44 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "LIST d FROM Transactions1k [has Gasstation has GasstationCountry: 'CZE'] has Product has ProductDescription d",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates resolve to the identical joins (Transactions1k with Gasstation country CZE, stepping to Product has ProductDescription) and return the same 933 non-distinct rows, one per matching transaction -- matching 'the product descriptions of the transactions' (transaction grain, no dedup asked for). Candidates 1 and 3 are textually identical; candidate 2 writes the filter without brackets but resolves to the same fact types and the same 933 rows."
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE DISTINCT COUNT OF Customer [has CustomerCurrency: 'EUR'] [is of Yearmonth has YearmonthConsumption c] WHERE c > 1000",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree on 391: the distinct count of EUR-currency customers who have at least one Yearmonth consumption record over 1000, matching 'how many of them have a monthly consumption of over 1000'. Candidates 1 and 3 are textually identical; candidate 2's explicit 'c IN ...' binding resolves to the same join and produces the same count."
+ },
+ {
+  "question_id": 1481,
+  "answer": "LIST (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))) - (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'LAM'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))), (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'LAM'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))) - (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'KAM'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))), (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'KAM'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))) - (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013')))",
+  "attempts": 2,
+  "chosen": 3,
+  "reason": "Candidates 1 and 2 judged the combination of a per-customer grouped SUM, a MIN over that group, and three cross-segment differences in one query to be inexpressible and returned null (with detailed notes on the compiler errors they hit). Candidate 3 is the only working query: for each segment it takes the minimum of each customer's 2013 CZK annual consumption total (Customer grouped SUM of YearmonthConsumption, THE MINIMUM of that), the interpretation of 'the customer(s) with the least consumption' as the smallest per-customer annual total, then computes SME-LAM, LAM-KAM, KAM-SME in the order the question asks. It ran successfully and the three results (-14009.34, 6046.62, 7962.72) telescope to exactly zero, a strong internal-consistency check that the arithmetic and per-segment scoping are correct."
+ },
+ {
+  "question_id": 1486,
+  "answer": "THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] - THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR']",
+  "attempts": 3,
+  "chosen": 2,
+  "reason": "All three candidates produce the identical difference 23505 (count of SME customers paying CZK minus count of SME customers paying EUR), directly answering 'how many more'. Candidate 1 differs only by an unnecessary leading LIST; candidates 2 and 3 are textually identical and match the primer's canonical standalone aggregate-difference form (pattern #10)."
+ },
+ {
+  "question_id": 1525,
+  "answer": "THE DISTINCT COUNT OF c IN Transactions1k [has Transactions1kDate: '2012-08-25'] has Customer c [has CustomerCurrency: 'EUR'] * 100.0 / THE DISTINCT COUNT OF c IN Transactions1k [has Transactions1kDate: '2012-08-25'] has Customer c",
+  "attempts": 3,
+  "chosen": 2,
+  "reason": "The question asks for a percentage 'of the customers', which calls for counting distinct customers, not raw transaction rows. Candidate 2 computes DISTINCT COUNT of customers with EUR currency who transacted on 2012-08-25 divided by DISTINCT COUNT of all customers who transacted that day (2.70%); its SQL confirms COUNT(DISTINCT CustomerID) on both sides. Candidates 1 and 3 instead count Transactions1k rows (1.65%), which overcounts any customer with more than one transaction that day. Chose the customer-grain reading as the more faithful match to the question's wording, even though it is the minority answer among the three candidates."
+ },
+ {
+  "question_id": 1501,
+  "answer": "LIST c FROM DISTINCT Transactions1k has Gasstation has GasstationCountry c AND ALSO has Customer is of Yearmonth has YearmonthDate: '201306'",
+  "attempts": 4,
+  "chosen": 2,
+  "reason": "Candidate 3's literal filter on Transactions1kDate returns 0 rows -- Transactions1k dates only span 2012-08-23 to 2012-08-26 in this database -- so it cannot be right; the evidence's explicit reference to the yearmonth table's YYYYMM date format confirms the intended filter is Yearmonth.Date = '201306' for the transacting customer, ruling candidate 3 out. Between the remaining two, candidate 1 walks Yearmonth->Customer->Transactions1k->Gasstation with no DISTINCT, yielding 978 rows that are almost all repeats of the same two country codes (one row per qualifying transaction). Candidate 2 requests DISTINCT and its SQL confirms SELECT DISTINCT on the projected country column, yielding exactly the two countries that occur (CZE, SVK) -- the more natural reading of 'list the countries of the gas stations' as an enumeration of qualifying values rather than one row per transaction."
+ }
+]

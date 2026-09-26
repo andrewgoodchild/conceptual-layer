@@ -1,0 +1,355 @@
+{
+ "database": "organ_transplant_large",
+ "verdicts": [
+  {
+   "id": "BiobankEnvironmentLogs.bank_ref -> organ_banks.organ_bank_registry",
+   "verdict": "yes",
+   "reason": "bank_ref holds OB- organ bank codes; biobank logs point at organ banks"
+  },
+  {
+   "id": "ClinicalTrialParticipation.patient_ref -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "patient_ref holds R-prefixed recipient ids; 608 of 787 recipients with multiple trial rows each"
+  },
+  {
+   "id": "ComplianceAuditLog.hospital_ref -> hospitals.hospital_registry",
+   "verdict": "yes",
+   "reason": "hospital_ref holds HOSP- codes; 5 of 7 hospitals covered"
+  },
+  {
+   "id": "DonorFamilyServices.donor_ref -> demographics.contrib_registry",
+   "verdict": "yes",
+   "reason": "donor_ref holds D-prefixed donor ids of the donor master table demographics; 400 of 659 covered"
+  },
+  {
+   "id": "EthicsCommitteeReviews.admin_case_ref -> administrative_and_review.adm_rev_registry",
+   "verdict": "yes",
+   "reason": "admin_case_ref holds TM ids that key administrative_and_review; 368 of 641 admin cases reviewed"
+  },
+  {
+   "id": "FacilityMaintenanceLog.hospital_ref -> hospitals.hospital_registry",
+   "verdict": "yes",
+   "reason": "hospital_ref holds HOSP- codes; 6 of 7 hospitals covered"
+  },
+  {
+   "id": "GenomicSequencingRun.sample_ref -> tissue_samples.sample_registry",
+   "verdict": "yes",
+   "reason": "sample_ref holds SAMPLE- codes of tissue_samples"
+  },
+  {
+   "id": "InsuranceClaimDetails.insurance_plan_ref -> insurance_plans.insurance_registry",
+   "verdict": "yes",
+   "reason": "insurance_plan_ref holds INS- codes of insurance_plans"
+  },
+  {
+   "id": "InsuranceClaimDetails.patient_ref_link -> insurance_plans.insurance_registry",
+   "verdict": "yes",
+   "reason": "misnamed column, but its values are INS- insurance plan codes drawn independently of insurance_plan_ref; prefixed codes cannot be coincidence, so the column does point at insurance_plans"
+  },
+  {
+   "id": "InterHospitalTransfer.origin_hospital -> hospitals.hospital_registry",
+   "verdict": "yes",
+   "reason": "origin_hospital holds HOSP- codes; 5 of 7 hospitals"
+  },
+  {
+   "id": "InterHospitalTransfer.destination_hospital -> hospitals.hospital_registry",
+   "verdict": "yes",
+   "reason": "destination_hospital holds HOSP- codes; 5 of 7 hospitals"
+  },
+  {
+   "id": "InterHospitalTransfer.patient_ref -> hospitals.hospital_registry",
+   "verdict": "yes",
+   "reason": "misnamed column, but its values are HOSP- hospital codes, not patient ids; prefixed codes are the target's identifiers, not coincidence"
+  },
+  {
+   "id": "LogisticsTelemetry.transport_ref -> transportation.transport_registry",
+   "verdict": "yes",
+   "reason": "transport_ref holds TRANS- codes of transportation"
+  },
+  {
+   "id": "PatientEducationModule.patient_ref -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "patient_ref holds R-prefixed recipient ids; 621 of 787 covered"
+  },
+  {
+   "id": "PatientNutritionLog.patient_ref -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "patient_ref holds R-prefixed recipient ids; 629 of 787 covered"
+  },
+  {
+   "id": "PatientWearableTelemetry.patient_ref -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "patient_ref holds R-prefixed recipient ids; 628 of 787 covered"
+  },
+  {
+   "id": "PharmacyInventoryBatch.medication_ref -> medications.medication_registry",
+   "verdict": "yes",
+   "reason": "medication_ref holds MED- codes of medications"
+  },
+  {
+   "id": "PharmacyInventoryBatch.hospital_ref -> medications.medication_registry",
+   "verdict": "yes",
+   "reason": "misnamed column, but its values are MED- medication codes drawn independently of medication_ref; prefixed codes are the target's identifiers, not coincidence"
+  },
+  {
+   "id": "PostOpICUMonitoring.match_ref -> transplant_matching.match_rec_registry",
+   "verdict": "yes",
+   "reason": "match_ref holds TM ids of transplant_matching; 695 of 947 matches with multiple ICU rows each"
+  },
+  {
+   "id": "PsychosocialAssessment.patient_ref -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "patient_ref holds R-prefixed recipient ids; 324 of 787 covered"
+  },
+  {
+   "id": "RehabDailyProgress.program_ref -> rehabilitation_programs.rehab_registry",
+   "verdict": "yes",
+   "reason": "program_ref holds RH codes of rehabilitation_programs"
+  },
+  {
+   "id": "SimulationTrainingSession.team_ref -> medical_teams.team_registry",
+   "verdict": "yes",
+   "reason": "team_ref holds TEAM- codes of medical_teams"
+  },
+  {
+   "id": "SurgeonFatigueAnalysis.surgeon_ref -> surgeons.surgeon_registry",
+   "verdict": "yes",
+   "reason": "surgeon_ref holds SURG- codes; 8 of 11 surgeons"
+  },
+  {
+   "id": "TelehealthSessionLog.patient_ref -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "patient_ref holds R-prefixed recipient ids; 583 of 787 covered"
+  },
+  {
+   "id": "administrative_and_review.adm_don_ref -> demographics.contrib_registry",
+   "verdict": "yes",
+   "reason": "adm_don_ref holds D-prefixed donor ids; 497 of 659 donors"
+  },
+  {
+   "id": "administrative_and_review.adm_rec_ref -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "adm_rec_ref holds R-prefixed recipient ids; 546 of 787 recipients"
+  },
+  {
+   "id": "allocation_details.donor_ref_reg -> demographics.contrib_registry",
+   "verdict": "yes",
+   "reason": "donor_ref_reg holds D-prefixed donor ids; 439 of 659 donors"
+  },
+  {
+   "id": "allocation_details.recip_ref_reg -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "recip_ref_reg holds R-prefixed recipient ids; 489 of 787 recipients"
+  },
+  {
+   "id": "compatibility_metrics.donor_ref_reg -> demographics.contrib_registry",
+   "verdict": "yes",
+   "reason": "donor_ref_reg holds D-prefixed donor ids; 596 of 659 donors"
+  },
+  {
+   "id": "compatibility_metrics.recip_ref_reg -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "recip_ref_reg holds R-prefixed recipient ids; 706 of 787 recipients"
+  },
+  {
+   "id": "consent_forms.patient_ref -> recipients_immunology.immu_recip_registry",
+   "verdict": "no",
+   "reason": "values are recipient ids, but the patient master is recipients_demographics; recipients_immunology is a 645-row subset that merely happens to contain these 3 values"
+  },
+  {
+   "id": "consent_forms.donor_ref -> demographics.contrib_registry",
+   "verdict": "yes",
+   "reason": "donor_ref holds D-prefixed donor ids of the donor master table"
+  },
+  {
+   "id": "data_source_and_quality.q_don_ref -> demographics.contrib_registry",
+   "verdict": "yes",
+   "reason": "q_don_ref holds D-prefixed donor ids; 599 of 659 donors"
+  },
+  {
+   "id": "data_source_and_quality.q_rec_ref -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "q_rec_ref holds R-prefixed recipient ids; 702 of 787 recipients"
+  },
+  {
+   "id": "emergency_contacts.patient_ref -> recipients_immunology.immu_recip_registry",
+   "verdict": "no",
+   "reason": "values are recipient ids, but the patient master is recipients_demographics; the immunology extension is a subset that happens to contain these 4 values"
+  },
+  {
+   "id": "equipment.hospital_ref -> hospitals.hospital_registry",
+   "verdict": "yes",
+   "reason": "hospital_ref holds HOSP- codes; equipment belongs to hospitals"
+  },
+  {
+   "id": "genetic_markers.patient_ref -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "patient_ref holds R-prefixed recipient ids of the recipient master table"
+  },
+  {
+   "id": "genetic_markers.donor_ref -> hla_info.immu_don_registry",
+   "verdict": "no",
+   "reason": "values are donor ids, but the donor master is demographics; hla_info is a 534-row extension that happens to contain these 4 values"
+  },
+  {
+   "id": "imaging_studies.patient_ref -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "patient_ref holds R-prefixed recipient ids of the recipient master table"
+  },
+  {
+   "id": "imaging_studies.equipment_used -> equipment.equipment_registry",
+   "verdict": "yes",
+   "reason": "equipment_used holds EQ- codes of equipment"
+  },
+  {
+   "id": "logistics.don_ref_reg -> demographics.contrib_registry",
+   "verdict": "yes",
+   "reason": "don_ref_reg holds D-prefixed donor ids; 418 of 659 donors"
+  },
+  {
+   "id": "logistics.rec_ref_reg -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "rec_ref_reg holds R-prefixed recipient ids; 458 of 787 recipients"
+  },
+  {
+   "id": "medical_teams.hospital_ref -> hospitals.hospital_registry",
+   "verdict": "yes",
+   "reason": "hospital_ref holds HOSP- codes; 6 of 7 hospitals, one team each"
+  },
+  {
+   "id": "organ_banks.hospital_ref -> hospitals.hospital_registry",
+   "verdict": "yes",
+   "reason": "hospital_ref holds HOSP- codes; organ banks sit at hospitals"
+  },
+  {
+   "id": "recipient_medication_history.recipient_ref -> clinical.clin_recip_registry",
+   "verdict": "no",
+   "reason": "values are recipient ids, but the patient master is recipients_demographics; clinical is a 607-row extension that happens to contain these 4 values"
+  },
+  {
+   "id": "recipient_medication_history.medication_ref -> medications.medication_registry",
+   "verdict": "yes",
+   "reason": "medication_ref covers all 5 MED- medication codes"
+  },
+  {
+   "id": "recipient_support_group_membership.recipient_ref -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "recipient_ref holds R-prefixed recipient ids of the recipient master table"
+  },
+  {
+   "id": "recipient_support_group_membership.group_ref -> support_groups.group_registry",
+   "verdict": "yes",
+   "reason": "group_ref covers all 7 SG support group codes"
+  },
+  {
+   "id": "risk_evaluation.donor_ref_reg -> demographics.contrib_registry",
+   "verdict": "yes",
+   "reason": "donor_ref_reg holds D-prefixed donor ids; 597 of 659 donors"
+  },
+  {
+   "id": "risk_evaluation.recip_ref_reg -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "recip_ref_reg holds R-prefixed recipient ids; 699 of 787 recipients"
+  },
+  {
+   "id": "surgeon_hospital_affiliations.surgeon_ref -> surgeons.surgeon_registry",
+   "verdict": "yes",
+   "reason": "surgeon_ref holds SURG- codes in a surgeon-hospital link table; only 4 of 11 surgeons but the codes are unmistakable"
+  },
+  {
+   "id": "surgeon_hospital_affiliations.hospital_ref -> hospitals.hospital_registry",
+   "verdict": "yes",
+   "reason": "hospital_ref holds HOSP- codes in a surgeon-hospital link table"
+  },
+  {
+   "id": "team_training_participation.team_ref -> medical_teams.team_registry",
+   "verdict": "yes",
+   "reason": "team_ref holds TEAM- codes in a team-training link table"
+  },
+  {
+   "id": "team_training_participation.training_ref -> training_programs.training_registry",
+   "verdict": "yes",
+   "reason": "training_ref holds TRAIN- codes in a team-training link table"
+  },
+  {
+   "id": "tissue_samples.donor_ref -> hla_info.immu_don_registry",
+   "verdict": "no",
+   "reason": "values are donor ids, but the donor master is demographics; hla_info is a 534-row extension that happens to contain these 3 values"
+  },
+  {
+   "id": "transplant_matching.donor_ref_reg -> demographics.contrib_registry",
+   "verdict": "yes",
+   "reason": "donor_ref_reg holds D-prefixed donor ids; 637 of 659 donors"
+  },
+  {
+   "id": "transplant_matching.recip_ref_reg -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "recip_ref_reg holds R-prefixed recipient ids; 755 of 787 recipients"
+  },
+  {
+   "id": "transportation.origin_hospital -> hospitals.hospital_registry",
+   "verdict": "yes",
+   "reason": "origin_hospital holds HOSP- codes"
+  },
+  {
+   "id": "transportation.destination_hospital -> hospitals.hospital_registry",
+   "verdict": "yes",
+   "reason": "destination_hospital holds HOSP- codes"
+  },
+  {
+   "id": "administrative_and_review.adm_rev_registry -> transplant_matching.match_rec_registry",
+   "verdict": "yes",
+   "reason": "own key holds the same TM match ids as transplant_matching; one-to-one administrative review per match, 641 of 947"
+  },
+  {
+   "id": "allocation_details.allc_match_registry -> transplant_matching.match_rec_registry",
+   "verdict": "yes",
+   "reason": "own key allc_match_registry holds TM match ids; one-to-one allocation detail per match"
+  },
+  {
+   "id": "clinical.clin_recip_registry -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "own key holds the same R recipient ids as recipients_demographics; one-to-one clinical extension of the recipient"
+  },
+  {
+   "id": "compatibility_metrics.match_comp_registry -> transplant_matching.match_rec_registry",
+   "verdict": "yes",
+   "reason": "own key match_comp_registry holds TM match ids; one-to-one compatibility metrics per match"
+  },
+  {
+   "id": "data_source_and_quality.q_match_registry -> transplant_matching.match_rec_registry",
+   "verdict": "yes",
+   "reason": "own key q_match_registry holds TM match ids; one-to-one quality record per match"
+  },
+  {
+   "id": "function_and_recovery.recov_don_registry -> demographics.contrib_registry",
+   "verdict": "yes",
+   "reason": "own key holds the same D donor ids as demographics; one-to-one recovery extension of the donor"
+  },
+  {
+   "id": "hla_info.immu_don_registry -> demographics.contrib_registry",
+   "verdict": "yes",
+   "reason": "own key holds the same D donor ids as demographics; one-to-one HLA extension of the donor"
+  },
+  {
+   "id": "logistics.log_match_registry -> transplant_matching.match_rec_registry",
+   "verdict": "yes",
+   "reason": "own key log_match_registry holds TM match ids; one-to-one logistics per match"
+  },
+  {
+   "id": "medical_history.contrib_med_registry -> demographics.contrib_registry",
+   "verdict": "yes",
+   "reason": "own key holds the same D donor ids as demographics; one-to-one medical history of the donor"
+  },
+  {
+   "id": "recipients_immunology.immu_recip_registry -> recipients_demographics.recip_registry",
+   "verdict": "yes",
+   "reason": "own key holds the same R recipient ids as recipients_demographics; one-to-one immunology extension of the recipient"
+  },
+  {
+   "id": "risk_evaluation.risk_eval_registry -> transplant_matching.match_rec_registry",
+   "verdict": "yes",
+   "reason": "own key risk_eval_registry holds TM match ids; one-to-one risk evaluation per match"
+  }
+ ]
+}

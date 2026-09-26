@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 604,
+  "answer": "LIST au, aa FROM THE AVERAGE v IN (User u1 has UserUpVotes v WHERE (THE COUNT OF Post [has owner User: !u1]) > 10) AS au AND ALSO THE AVERAGE w IN (User u2 has UserAge w WHERE (THE COUNT OF Post [has owner User: !u2]) > 10) AS aa",
+  "attempts": 2
+ },
+ {
+  "question_id": 584,
+  "answer": "LIST c FROM DISTINCT User [is of PostHistory has Post has PostTitle: 'Why square the difference instead of taking the absolute value in standard deviation?'] is of Comment has CommentText c",
+  "attempts": 3
+ },
+ {
+  "question_id": 537,
+  "answer": "THE COUNT OF Post [has owner User has UserDisplayName: 'csgillespie']",
+  "attempts": 1
+ },
+ {
+  "question_id": 704,
+  "answer": "LIST pid, wid FROM Tag [has TagName: 'sample'] AND ALSO OPTIONALLY has Post has PostId pid AND ALSO OPTIONALLY has TagWikiPostId wid",
+  "attempts": 2
+ },
+ {
+  "question_id": 665,
+  "answer": "(THE COUNT OF PostLink [has PostLinkCreationDate d AND ALSO has Post has PostAnswerCount a] WHERE year(d) = 2010 AND a <= 2) / 12",
+  "attempts": 2
+ },
+ {
+  "question_id": 672,
+  "answer": "THE COUNT OF User u [has UserLocation: 'United Kingdom'] WHERE (THE SUM OF f IN Post [has owner User: !u] has PostFavoriteCount f) >= 4",
+  "attempts": 4
+ },
+ {
+  "question_id": 701,
+  "answer": "(THE COUNT OF Post [has owner User has UserReputation r AND ALSO has PostScore s] WHERE r = (THE MAXIMUM User has UserReputation) AND s > 50) * 100 / (THE COUNT OF Post [has owner User has UserReputation r] WHERE r = (THE MAXIMUM User has UserReputation))",
+  "attempts": 1
+ },
+ {
+  "question_id": 567,
+  "answer": "THE COUNT OF Post [has owner User has UserDisplayName: 'Tiago Pasqualini']",
+  "attempts": 1
+ },
+ {
+  "question_id": 539,
+  "answer": "LIST d FROM Post [has PostTitle: 'Eliciting priors from experts'] has owner User has UserDisplayName d",
+  "attempts": 1
+ },
+ {
+  "question_id": 563,
+  "answer": "LIST f FROM Comment [has User: '3025' AND ALSO has CommentCreationDate: '2014-04-23 20:29:39.0'] has Post OPTIONALLY has PostFavoriteCount f",
+  "attempts": 2
+ }
+]

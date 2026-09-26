@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "robot_2",
+  "answer": "LIST r, jdi, mjt, toh, slope FROM JointCondition has JointConditionJ1tempval t1 AND ALSO has JointConditionJ2tempval t2 AND ALSO has JointConditionJ3tempval t3 AND ALSO has JointConditionJ4tempval t4 AND ALSO has JointConditionJ5tempval t5 AND ALSO has JointConditionJ6tempval t6 AND ALSO has JointConditionJ1vibval v1 AND ALSO has JointConditionJ2vibval v2 AND ALSO has JointConditionJ3vibval v3 AND ALSO has JointConditionJ4vibval v4 AND ALSO has JointConditionJ5vibval v5 AND ALSO has JointConditionJ6vibval v6 AND ALSO greatest(greatest(greatest(greatest(greatest(t1,t2),t3),t4),t5),t6) AS mjt AND ALSO ((t1/mjt + v1 + t2/mjt + v2 + t3/mjt + v3 + t4/mjt + v4 + t5/mjt + v5 + t6/mjt + v6)/6) AS jdi AND ALSO has JointConditionJcdetref has RobotRecordRecreg r AND ALSO has JointConditionJcdetref is operbotdetref of Operation has OperationTotopshrval toh AND ALSO 1 AS k AND ALSO THE COUNT OF toh WITHIN k AS n AND ALSO THE SUM OF toh WITHIN k AS sx AND ALSO THE SUM OF jdi WITHIN k AS sy AND ALSO THE SUM OF (toh*jdi) WITHIN k AS sxy AND ALSO THE SUM OF (toh*toh) WITHIN k AS sxx AND ALSO ((n*sxy - sx*sy)/(n*sxx - sx*sx)) AS slope WHERE jdi > 1.5 AND mjt > 65 AND toh > 5000 ORDERED WITH jdi DESCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "robot_10",
+  "answer": "DEFINE Oce ::= LIST rr, ov FROM Operation has operbotdetref RobotRecord rr AND ALSO has OperationProgcyclecount tp AND ALSO has OperationCycletimesecval ctm AND ALSO (tp/ctm) AS ov DEFINE Ser ::= LIST ms, mx, rc FROM RobotRecord rr has RobotRecordModelseriesval ms AND ALSO has Oce OceOv ov AND ALSO THE MAXIMUM ov GROUPED BY ms AS mx AND ALSO THE DISTINCT COUNT OF rr GROUPED BY ms AS rc DEFINE Nprg ::= LIST rr, npv FROM Operation has operbotdetref RobotRecord rr AND ALSO has OperationCurrprogval p AND ALSO THE DISTINCT COUNT OF p GROUPED BY rr AS npv LIST ms, nrob, avgoce, avgnp, avgtpc, em, nlow FROM Operation has OperationProgcyclecount tp AND ALSO has OperationCurrprogval pg AND ALSO has operbotdetref RobotRecord rr AND ALSO rr has RobotRecordModelseriesval ms AND ALSO rr has Oce OceOv ov AND ALSO rr has Nprg NprgNpv npv AND ALSO ms has Ser SerMx mx AND ALSO ms has rc SerRc nrob AND ALSO THE AVERAGE ov GROUPED BY ms AS aoce AND ALSO round(aoce, 2) AS avgoce AND ALSO THE AVERAGE npv GROUPED BY ms AS anp AND ALSO round(anp, 2) AS avgnp AND ALSO THE AVERAGE tp GROUPED BY ms AS avgtpc AND ALSO THE MAXIMUM (if(ov = mx, pg, '')) GROUPED BY ms AS bestp AND ALSO THE SUM OF (if(ov < 100 AND tp > 500000, 1, 0)) GROUPED BY ms AS nlow AND ALSO concat('{\"most_efficient_program\": \"', bestp, '\", \"avg_program_efficiency\": ', aoce, '}') AS em WHERE nrob >= 5 ORDERED WITH avgoce DESCENDING THE FIRST 50"
+ },
+ {
+  "question_id": "robot_3",
+  "answer": "DEFINE Sis ::= LIST rec, sv FROM RobotRecord rec is actrecref of ActuationData has ActuationDataSafetyMetrics m AND ALSO (castInteger(jsonPath(m,'$.overloads')) + castInteger(jsonPath(m,'$.collisions')) + castInteger(jsonPath(m,'$.emergency_stops')) + castInteger(jsonPath(m,'$.speed_violations'))) AS sv LIST bt, avgsis, maxsis FROM RobotRecord has RobotRecordBottypeval bt AND ALSO has Sis SisSv s WHERE s > 20 AND ALSO THE AVERAGE s GROUPED BY bt AS avgsis AND ALSO THE MAXIMUM s GROUPED BY bt AS maxsis ORDERED WITH avgsis DESCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "robot_8",
+  "answer": "DEFINE Eer ::= LIST rr, ev, pr FROM ActuationData has actrecref RobotRecord rr AND ALSO has ActuationDataEnergyusekwhval e AND ALSO has actoperref Operation op AND ALSO op has OperationTotopshrval toh AND ALSO op has OperationApptypeval ap AND ALSO (e/toh) AS ev AND ALSO THE RANK OF ev WITHIN ap AS rk AND ALSO THE COUNT OF ev WITHIN ap AS n AND ALSO ((rk-1)/(n-1)) AS pr LIST ap, avgeer, worst FROM Operation has OperationApptypeval ap AND ALSO has OperationTotopshrval toh AND ALSO has operbotdetref RobotRecord rr AND ALSO rr has Eer EerEv ev AND ALSO rr has pr EerPr pr WHERE ev > 0.01 AND toh > 1000 AND ALSO THE AVERAGE ev GROUPED BY ap AS avgeer AND ALSO THE MAXIMUM pr GROUPED BY ap AS worst ORDERED WITH avgeer DESCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "robot_9",
+  "answer": "DEFINE Aprk ::= LIST rr, pr FROM ActuationData has actrecref RobotRecord rr AND ALSO has ActuationDataPositionErrorMmValue av AND ALSO rr has RobotRecordCtrltypeval ct AND ALSO THE RANK OF av WITHIN ct AS rk AND ALSO THE COUNT OF av WITHIN ct AS n AND ALSO ((rk-1)/(n-1)) AS pr DEFINE Ray ::= LIST rec, ry FROM RobotRecord rec has RobotRecordInstdateval i AND ALSO has RobotRecordRects t AND ALSO (days_between(t,i)/365.25) AS ry LIST ct, avgape, maxrk, avgrfps, nrob FROM ActuationData has actrecref RobotRecord rr AND ALSO has ActuationDataPositionErrorMmValue av AND ALSO has ActuationDataFaultpredscore f AND ALSO rr has RobotRecordCtrltypeval ct AND ALSO rr has Aprk AprkPr pr AND ALSO rr has Ray RayRy ry WHERE av >= 0.1 AND f > 0.5 AND ry > 1 AND ALSO THE AVERAGE av GROUPED BY ct AS avgape AND ALSO THE MAXIMUM pr GROUPED BY ct AS maxrk AND ALSO THE AVERAGE f GROUPED BY ct AS avgrfps AND ALSO THE DISTINCT COUNT OF rr GROUPED BY ct AS nrob ORDERED WITH maxrk DESCENDING THE FIRST 50"
+ },
+ {
+  "question_id": "robot_7",
+  "answer": "DEFINE NProg ::= LIST rec, n FROM RobotRecord rec is operbotdetref of Operation has OperationCurrprogval p AND ALSO THE DISTINCT COUNT OF p GROUPED BY rec AS n LIST r, ms, oce, tpc, act, np, mrct, cat, rk FROM Operation has OperationProgcyclecount tpc AND ALSO has OperationCycletimesecval act AND ALSO has operbotdetref RobotRecord rr AND ALSO rr has RobotRecordRecreg r AND ALSO rr has RobotRecordModelseriesval ms AND ALSO rr has NProg NProgN np AND ALSO (tpc/act) AS oce AND ALSO act AS mrct AND ALSO if(oce < 100 AND tpc > 500000, 'Low Efficiency', if(oce < 150 OR tpc > 300000, 'Medium Efficiency', 'High Efficiency')) AS cat AND ALSO THE RANK OF oce WITHIN ms AS rk WHERE tpc > 100000 ORDERED WITH oce DESCENDING, tpc DESCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "robot_6",
+  "answer": "LIST r, awp, twr, tpc, act, st FROM RobotRecord has RobotRecordRecreg r AND ALSO is actrecref of ActuationData has ActuationDataToolwearpct awp AND ALSO is operbotdetref of Operation op AND ALSO op has OperationProgcyclecount tpc AND ALSO op has OperationCycletimesecval act AND ALSO (awp/tpc) AS twr AND ALSO if(twr > 0.001 AND tpc > 10000, 'URGENT', if(twr > 0.0005 OR awp > 75, 'WARNING', 'NORMAL')) AS st ORDERED WITH twr DESCENDING, tpc DESCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "robot_4",
+  "answer": "DEFINE NOps ::= LIST rec, n FROM RobotRecord rec is operbotdetref of Operation has OperationOperreg oid AND ALSO THE COUNT OF oid GROUPED BY rec AS n LIST r, csi, no, st FROM RobotRecord has RobotRecordRecreg r AND ALSO is actrecref of ActuationData has ActuationDataControllerMetrics cm AND ALSO (castNumber(jsonPath(cm,'$.load_value')) + castNumber(jsonPath(cm,'$.thermal_level'))) AS csi AND ALSO has NOps NOpsN no AND ALSO if(csi > 100 AND no > 2, 'HIGH RISK', 'NORMAL') AS st ORDERED WITH csi DESCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "robot_5",
+  "answer": "DEFINE NOps ::= LIST rec, n FROM RobotRecord rec is operbotdetref of Operation has OperationOperreg oid AND ALSO THE COUNT OF oid GROUPED BY rec AS n LIST r, wfps, mrul, toh, no, lvl FROM RobotRecord has RobotRecordRecreg r AND ALSO is actrecref of ActuationData a AND ALSO a has ActuationDataFaultpredscore f AND ALSO a has ActuationDataUpkeepduedays dd AND ALSO a has ActuationDataRulhours mrul AND ALSO (1/(1+dd)) AS w AND ALSO ((f*w)/w) AS wfps AND ALSO is operbotdetref of Operation has OperationTotopshrval toh AND ALSO has NOps NOpsN no AND ALSO if(wfps > 0.6 AND mrul < 500, 'CRITICAL', if(wfps > 0.4 OR mrul < 500, 'WARNING', 'NORMAL')) AS lvl WHERE toh > 1000 ORDERED WITH wfps DESCENDING, mrul ASCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "robot_1",
+  "answer": "LIST r, sis, f FROM RobotRecord has RobotRecordRecreg r AND ALSO is actrecref of ActuationData a AND ALSO a has ActuationDataSafetyMetrics m AND ALSO a has ActuationDataFaultpredscore f AND ALSO (castInteger(jsonPath(m,'$.overloads')) + castInteger(jsonPath(m,'$.collisions')) + castInteger(jsonPath(m,'$.emergency_stops')) + castInteger(jsonPath(m,'$.speed_violations'))) AS sis WHERE sis > 20 AND f > 0.5 ORDERED WITH sis DESCENDING THE FIRST 100"
+ }
+]

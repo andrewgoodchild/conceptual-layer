@@ -1,0 +1,37 @@
+[
+ {
+  "instance_id": "local038",
+  "query": "LIST f FROM Actor has Film m [has Category has CategoryName: 'Children'] [has Language has LanguageName: 'English'] [has FilmRating: 'G' OR OTHERWISE has FilmRating: 'PG'] [has FilmReleaseYear y WHERE y >= 2000 AND y <= 2010] [has FilmLength l WHERE l <= 120] AND ALSO Actor has ActorFirstName fn AND ALSO Actor has ActorLastName ln AND ALSO concat(concat(fn, ' '), ln) AS f AND ALSO THE COUNT OF m GROUPED BY f AS c ORDERED WITH c DESCENDING THE FIRST 1",
+  "note": "five filters over four joins, top 1 by count"
+ },
+ {
+  "instance_id": "local039",
+  "query": "LIST n, h FROM Rental has Inventory has Film has Category has CategoryName n AND ALSO Rental has Customer has Address has City has CityCity c AND ALSO Rental has RentalDate d AND ALSO Rental has RentalReturnDate r AND ALSO days_between(r, d) * 24 AS hrs AND ALSO THE SUM OF hrs GROUPED BY n AS h WHERE starts_with(lower(c), 'a') OR contains(c, '-') ORDERED WITH h DESCENDING THE FIRST 1",
+  "note": "a computed measure summed per group, top 1"
+ },
+ {
+  "instance_id": "local131",
+  "query": "LIST i, n, a, b, c FROM MusicalStyle has MusicalStyleStyleID i AND ALSO MusicalStyle has MusicalStyleStyleName n AND ALSO MusicalStyle OPTIONALLY is of MusicalPreference OPTIONALLY has MusicalPreferencePreferenceSeq s AND ALSO IF s = 1 THEN 1 ELSE 0 AS one AND ALSO IF s = 2 THEN 1 ELSE 0 AS two AND ALSO IF s = 3 THEN 1 ELSE 0 AS three AND ALSO THE SUM OF one GROUPED BY i, n AS a AND ALSO THE SUM OF two GROUPED BY i, n AS b AND ALSO THE SUM OF three GROUPED BY i, n AS c",
+  "note": "three conditional counts pivoted per row, zeros kept"
+ },
+ {
+  "instance_id": "local210",
+  "query": "DEFINE FebFinished ::= LIST h, orders FROM Order [has OrderStatus: 'FINISHED'] [has OrderCreatedMonth: 2] has Store has Hub h AND ALSO THE COUNT OF Order GROUPED BY h AS orders DEFINE MarFinished ::= LIST h, orders FROM Order [has OrderStatus: 'FINISHED'] [has OrderCreatedMonth: 3] has Store has Hub h AND ALSO THE COUNT OF Order GROUPED BY h AS orders LIST i, n, f, m, p FROM Hub has HubId i AND ALSO Hub has HubName n AND ALSO has FebFinished FebFinishedOrders f AND ALSO has MarFinished MarFinishedOrders m AND ALSO round((m - f) * 100 / f, 2) AS p WHERE p > 20 ORDERED WITH p DESCENDING",
+  "note": "two grouped counts compared: a CTE joined to a CTE"
+ },
+ {
+  "instance_id": "local163",
+  "query": "DEFINE RankAverage ::= LIST r, a FROM UniversityFaculty has UniversityFacultyFacRank r AND ALSO UniversityFaculty has UniversityFacultyFacSalary s AND ALSO THE AVERAGE s GROUPED BY r AS a DEFINE ClosestGap ::= LIST r, m FROM UniversityFaculty has UniversityFacultyFacRank r AND ALSO UniversityFaculty has UniversityFacultyFacSalary s AND ALSO r has RankAverage RankAverageA a AND ALSO abs(s - a) AS d AND ALSO THE MINIMUM d GROUPED BY r AS m LIST r, fn, ln, s FROM UniversityFaculty has UniversityFacultyFacRank r AND ALSO UniversityFaculty has UniversityFacultyFacFirstName fn AND ALSO UniversityFaculty has UniversityFacultyFacLastName ln AND ALSO UniversityFaculty has UniversityFacultyFacSalary s AND ALSO r has RankAverage RankAverageA a AND ALSO r has ClosestGap ClosestGapM m WHERE abs(s - a) = m",
+  "note": "an average per group and the closest to it: two chained definitions"
+ },
+ {
+  "instance_id": "local309",
+  "query": "DEFINE TopDriver ::= LIST s, f FROM Result has Race has Season s AND ALSO Result has Driver d AND ALSO d has DriverForename fn AND ALSO d has DriverSurname sn AND ALSO Result has ResultPoints p AND ALSO concat(concat(fn, ' '), sn) AS f AND ALSO THE SUM OF p GROUPED BY s, f AS t ORDERED WITH t DESCENDING THE FIRST 1 PER s DEFINE TopConstructor ::= LIST s, cn FROM Result has Race has Season s AND ALSO Result has Constructor has name ConstructorsExt has ConstructorsExtName cn AND ALSO Result has ResultPoints p AND ALSO THE SUM OF p GROUPED BY s, cn AS t ORDERED WITH t DESCENDING THE FIRST 1 PER s LIST y, d, c FROM Season has SeasonYear y AND ALSO has TopDriver TopDriverF d AND ALSO has TopConstructor ConstructorsExtName c ORDERED WITH y ASCENDING",
+  "note": "top 1 per year, for a driver and a constructor, in one row"
+ },
+ {
+  "instance_id": "local199",
+  "query": "LIST st, y, mo, c FROM Rental r has Staff has Store has StoreId st AND ALSO r has RentalDate d AND ALSO year(d) AS y AND ALSO month(d) AS mo AND ALSO THE COUNT OF r GROUPED BY st, y, mo AS c AND ALSO THE MAXIMUM c WITHIN st AS mx WHERE c = mx",
+  "note": "the busiest month per store: a grouped count, then WITHIN over it"
+ }
+]

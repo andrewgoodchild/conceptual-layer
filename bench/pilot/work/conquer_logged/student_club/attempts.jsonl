@@ -1,0 +1,13 @@
+{"at": 1789256872.721767, "query": "LIST n, t, s, d FROM Event has EventName n AND ALSO has EventType t AND ALSO has EventStatus s AND ALSO has EventDate d"}
+{"at": 1789256879.4551702, "query": "LIST n FROM Event [has EventType: 'Game'] [has EventStatus: 'Closed'] has EventName n AND ALSO has EventDate d WHERE d >= '2019-03-15' AND d <= '2020-03-20'"}
+{"at": 1789256889.442894, "query": "THE MAXIMUM Budget has BudgetSpent"}
+{"at": 1789256889.5345101, "query": "LIST c FROM Budget has BudgetCategory c AND ALSO has BudgetSpent s AND ALSO has Event [has EventLocation: 'MU 215'] [has EventType: 'Guest Speaker'] WHERE s = 0"}
+{"at": 1789256899.068558, "query": "THE SUM OF Budget [has BudgetCategory: 'Food'] has BudgetSpent"}
+{"at": 1789256899.190162, "query": "THE SUM OF Expense [has ExpenseDescription: 'Pizza'] has ExpenseCost"}
+{"at": 1789256916.5523999, "query": "LIST d, c, a, cat FROM Expense has ExpenseDescription d AND ALSO has ExpenseCost c AND ALSO has ExpenseApproved a AND ALSO has Budget [has Event has EventName: 'October Meeting'] has BudgetCategory cat"}
+{"at": 1789256923.3510778, "query": "LIST cat, t FROM Expense [has Budget has Event has EventName: 'October Meeting'] has Budget has BudgetCategory cat AND ALSO THE SUM OF x IN Expense has ExpenseCost x GROUPED BY cat AS t"}
+{"at": 1789256938.069132, "query": "LIST f, l FROM Member [has Major has MajorDepartment: 'School of Applied Sciences, Technology and Education'] has MemberFirstName f AND ALSO has MemberLastName l"}
+{"at": 1789256938.162648, "query": "LIST f, l, a FROM Income [has IncomeDateReceived: '2019-09-09'] has Member has MemberFirstName f AND ALSO has Member has MemberLastName l AND ALSO has IncomeAmount a"}
+{"at": 1789256938.291904, "query": "LIST m FROM Member [has MemberFirstName: 'Angela'] [has MemberLastName: 'Sanders'] has Major has MajorName m"}
+{"at": 1789256944.436996, "query": "LIST c, a FROM Budget [has Event has EventName: 'April Speaker'] has BudgetCategory c AND ALSO has BudgetAmount a ORDERED WITH a ASCENDING"}
+{"at": 1789256958.6164548, "query": "LIST c, t FROM Budget [has Event has EventName: 'April Speaker'] has BudgetCategory c AND ALSO THE SUM OF x IN Budget has BudgetAmount x GROUPED BY c AS t ORDERED WITH t ASCENDING"}

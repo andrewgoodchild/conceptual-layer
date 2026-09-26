@@ -1,0 +1,5 @@
+Writer's report (sqldesc arm, cybermarket_pattern_large), as returned.
+
+- Hardest: anonymity labels absent (AnonLevel 1-10, split by guess); ratio buckets with no boundaries (equal thirds); Suspicious Buyer thresholds guessed (consistency < 30, ratio > 0.15); "include metrics related to X" unspecified; PLR computed from the formula since stored `liq_rate` does not match; THR from the stored text rate; MRS NULL for 387 of 954 markets.
+- **What the description got right:** the value domains (e.g. `Level3` as the spelling of a Tier-3 escalation), the JSON field paths, the unit cautions (`RepScore` '$65.20 ', `Threat_handle_rate` '0.12 Threats/hour'), and join keys (`transactions.EventCode` = `connection_security.TxnPointer` = `alerts.EventTag`).
+- **What it missed:** no unit caution for `buyer_risk_profile->>'risk_dollar_ratio'` ('0.0644 RiskScore/USD', found when a cast failed); did not say AnonLevel is numeric with no labels; products 999 rows vs transaction_products 1000 unexplained. The full description is ~360 KB, so only narrow calls were usable.

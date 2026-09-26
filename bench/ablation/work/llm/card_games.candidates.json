@@ -1,0 +1,370 @@
+{
+ "database": "card_games",
+ "tables": [
+  "cards",
+  "foreign_data",
+  "legalities",
+  "rulings",
+  "set_translations",
+  "sets"
+ ],
+ "candidates": [
+  {
+   "id": "cards.edhrecRank -> rulings.id",
+   "source_table": "cards",
+   "source_column": "edhrecRank",
+   "target_table": "rulings",
+   "target_key": "id",
+   "source_rows": 56822,
+   "source_distinct": 20660,
+   "target_rows": 87769,
+   "score": 2.74,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15650",
+    "12702",
+    "11081",
+    "12901",
+    "3988"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "cards.setCode -> sets.code",
+   "source_table": "cards",
+   "source_column": "setCode",
+   "target_table": "sets",
+   "target_key": "code",
+   "source_rows": 56822,
+   "source_distinct": 536,
+   "target_rows": 551,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "10E",
+    "2ED",
+    "2XM",
+    "3ED",
+    "4BB"
+   ],
+   "target_samples": [
+    "10E",
+    "2ED",
+    "2XM",
+    "3ED",
+    "4BB"
+   ]
+  },
+  {
+   "id": "rulings.uuid -> cards.uuid",
+   "source_table": "rulings",
+   "source_column": "uuid",
+   "target_table": "cards",
+   "target_key": "uuid",
+   "source_rows": 87769,
+   "source_distinct": 26141,
+   "target_rows": 56822,
+   "score": 2.96,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6d268c95-c176-5766-9a46-c14f739aba1c",
+    "56f4935b-f6c5-59b9-88bf-9bcce20247ce",
+    "7fef665c-36a1-5f7a-9299-cf8938708710",
+    "f39b4446-0ca6-5446-8507-4b1ba37bb3e7",
+    "c19bcfc2-fc10-5040-8239-1c193098df47"
+   ],
+   "target_samples": [
+    "5f8287b1-5bb6-5f4c-ad17-316a40d5bb0c",
+    "57aaebc1-850c-503d-9f6e-bb8d00d8bf7c",
+    "8ac972b5-9f6e-5cc8-91c3-b9a40a98232e",
+    "a69b404f-144a-5317-b10e-7d9dce135b24",
+    "6d268c95-c176-5766-9a46-c14f739aba1c"
+   ]
+  },
+  {
+   "id": "set_translations.setCode -> sets.code",
+   "source_table": "set_translations",
+   "source_column": "setCode",
+   "target_table": "sets",
+   "target_key": "code",
+   "source_rows": 1210,
+   "source_distinct": 121,
+   "target_rows": 551,
+   "score": 3.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10E",
+    "4ED",
+    "5DN",
+    "5ED",
+    "6ED"
+   ],
+   "target_samples": [
+    "10E",
+    "2ED",
+    "2XM",
+    "3ED",
+    "4BB"
+   ]
+  },
+  {
+   "id": "sets.mcmId -> cards.id",
+   "source_table": "sets",
+   "source_column": "mcmId",
+   "target_table": "cards",
+   "target_key": "id",
+   "source_rows": 551,
+   "source_distinct": 201,
+   "target_rows": 56822,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "74",
+    "3204",
+    "10",
+    "47",
+    "23"
+   ],
+   "target_samples": [
+    "41138",
+    "1349",
+    "23810",
+    "6241",
+    "29566"
+   ]
+  },
+  {
+   "id": "sets.mcmIdExtras -> cards.id",
+   "source_table": "sets",
+   "source_column": "mcmIdExtras",
+   "target_table": "cards",
+   "target_key": "id",
+   "source_rows": 551,
+   "source_distinct": 10,
+   "target_rows": 56822,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3209",
+    "3459",
+    "2587",
+    "2371",
+    "3113"
+   ],
+   "target_samples": [
+    "41138",
+    "1349",
+    "23810",
+    "6241",
+    "29566"
+   ]
+  },
+  {
+   "id": "sets.tcgplayerGroupId -> rulings.id",
+   "source_table": "sets",
+   "source_column": "tcgplayerGroupId",
+   "target_table": "rulings",
+   "target_key": "id",
+   "source_rows": 551,
+   "source_distinct": 238,
+   "target_rows": 87769,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "115",
+    "2655",
+    "97",
+    "46"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "cards.id -> rulings.id",
+   "source_table": "cards",
+   "source_column": "id",
+   "target_table": "rulings",
+   "target_key": "id",
+   "source_rows": 56822,
+   "source_distinct": 56822,
+   "target_rows": 87769,
+   "score": 2.15,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "41138",
+    "1349",
+    "23810",
+    "6241",
+    "29566"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "foreign_data.id -> legalities.id",
+   "source_table": "foreign_data",
+   "source_column": "id",
+   "target_table": "legalities",
+   "target_key": "id",
+   "source_rows": 229186,
+   "source_distinct": 229186,
+   "target_rows": 427907,
+   "score": 2.04,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "rulings.id -> foreign_data.id",
+   "source_table": "rulings",
+   "source_column": "id",
+   "target_table": "foreign_data",
+   "target_key": "id",
+   "source_rows": 87769,
+   "source_distinct": 87769,
+   "target_rows": 229186,
+   "score": 1.88,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "set_translations.id -> cards.id",
+   "source_table": "set_translations",
+   "source_column": "id",
+   "target_table": "cards",
+   "target_key": "id",
+   "source_rows": 1210,
+   "source_distinct": 1210,
+   "target_rows": 56822,
+   "score": 1.52,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "41138",
+    "1349",
+    "23810",
+    "6241",
+    "29566"
+   ]
+  },
+  {
+   "id": "sets.id -> set_translations.id",
+   "source_table": "sets",
+   "source_column": "id",
+   "target_table": "set_translations",
+   "target_key": "id",
+   "source_rows": 551,
+   "source_distinct": 551,
+   "target_rows": 1210,
+   "score": 1.86,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

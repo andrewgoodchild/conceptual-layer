@@ -1,0 +1,12 @@
+[
+ {"question_id": 604, "answer": "SELECT CAST(SUM(u.UpVotes) AS REAL) / COUNT(u.Id), CAST(SUM(u.Age) AS REAL) / COUNT(u.Id) FROM users u WHERE u.Id IN (SELECT OwnerUserId FROM posts GROUP BY OwnerUserId HAVING COUNT(Id) > 10)", "attempts": 1},
+ {"question_id": 584, "answer": "SELECT c.Text FROM comments c WHERE c.UserId IN (SELECT DISTINCT UserId FROM postHistory WHERE PostId = (SELECT Id FROM posts WHERE Title = 'Why square the difference instead of taking the absolute value in standard deviation?'))", "attempts": 2},
+ {"question_id": 537, "answer": "SELECT COUNT(*) FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName = 'csgillespie'", "attempts": 1},
+ {"question_id": 704, "answer": "SELECT ExcerptPostId, WikiPostId FROM tags WHERE TagName = 'sample'", "attempts": 1},
+ {"question_id": 665, "answer": "SELECT CAST(COUNT(pl.Id) AS REAL) / 12 FROM postLinks pl JOIN posts p ON pl.PostId = p.Id WHERE strftime('%Y', pl.CreationDate) = '2010' AND p.AnswerCount <= 2", "attempts": 1},
+ {"question_id": 672, "answer": "SELECT COUNT(*) FROM (SELECT u.Id FROM users u JOIN posts p ON p.OwnerUserId = u.Id WHERE u.Location = 'United Kingdom' GROUP BY u.Id HAVING SUM(p.FavoriteCount) >= 4)", "attempts": 2},
+ {"question_id": 701, "answer": "SELECT CAST(SUM(CASE WHEN Score > 50 THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) FROM posts WHERE OwnerUserId = (SELECT Id FROM users ORDER BY Reputation DESC LIMIT 1)", "attempts": 1},
+ {"question_id": 567, "answer": "SELECT COUNT(*) FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE u.DisplayName = 'Tiago Pasqualini'", "attempts": 1},
+ {"question_id": 539, "answer": "SELECT u.DisplayName FROM posts p JOIN users u ON p.OwnerUserId = u.Id WHERE p.Title = 'Eliciting priors from experts'", "attempts": 1},
+ {"question_id": 563, "answer": "SELECT p.FavoriteCount FROM posts p JOIN comments c ON c.PostId = p.Id WHERE c.UserId = 3025 AND c.CreationDate = '2014-04-23 20:29:39.0'", "attempts": 1}
+]

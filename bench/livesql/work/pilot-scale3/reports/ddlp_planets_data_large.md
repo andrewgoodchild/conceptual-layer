@@ -1,0 +1,1 @@
+Blocked by the permission system ("PII Data Handling") on its second and third `./schema` calls; it declined to reconstruct the schema through `./try` and wrote no answers. It had seen questions.json, knowledge.md and the first 2 kB of the full schema. (Report summarised by the orchestrator; the writer's own words are in the session transcript.)

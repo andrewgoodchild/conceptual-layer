@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "disaster_9",
+  "answer": "SELECT o.opsregistry, o.emerglevel, ROUND(json_extract(h.staffingprofile, '$.personnel.total') / (f.personnelcostsusd / 10000.0) * (json_extract(h.staffingprofile, '$.readiness.availability_percent') / 100.0), 2) AS per FROM operations o JOIN humanresources h ON h.hropsref = o.opsregistry JOIN financials f ON f.finopsref = o.opsregistry WHERE o.emerglevel IN ('Red', 'Black')"
+ },
+ {
+  "question_id": "disaster_1",
+  "answer": "SELECT hubregistry, (hubutilpct / 100.0) * (storecapm3 / (storeavailm3 + 1)) AS rur, CASE WHEN (hubutilpct / 100.0) * (storecapm3 / (storeavailm3 + 1)) > 5 THEN 'High Utilization' WHEN (hubutilpct / 100.0) * (storecapm3 / (storeavailm3 + 1)) >= 2 THEN 'Moderate Utilization' ELSE 'Low Utilization' END AS resource_utilization_classification FROM distributionhubs ORDER BY rur DESC"
+ },
+ {
+  "question_id": "disaster_4",
+  "answer": "SELECT o.opsregistry, h.storecapm3, h.storeavailm3, ROUND(h.storeavailm3 * 100.0 / h.storecapm3, 2) AS available_storage_percentage, o.supplyflowstate FROM operations o JOIN distributionhubs h ON h.hubregistry = o.opshubref WHERE h.storeavailm3 < 0.1 * h.storecapm3 AND o.supplyflowstate IN ('Strained', 'Disrupted') ORDER BY available_storage_percentage ASC"
+ },
+ {
+  "question_id": "disaster_5",
+  "answer": "SELECT envhealthregistry, envdistref, ROUND(waterqualityindex * 0.4 + sanitationcoverage * 0.3 + vaccinationcoverage * 0.3, 2) AS phrs, CASE WHEN diseaserisk = 'High' AND waterqualityindex < 50 AND (waterqualityindex * 0.4 + sanitationcoverage * 0.3 + vaccinationcoverage * 0.3) < 40 THEN 'Public Health Emergency' ELSE 'Standard Health Status' END AS health_status FROM environmentandhealth ORDER BY phrs ASC"
+ },
+ {
+  "question_id": "disaster_3",
+  "answer": "SELECT e.envhealthregistry, d.distregistry, d.affectedarea, d.haztype, ROUND(e.carbontons * (1 - e.renewenergypct / 100.0) + (100 - e.recyclepct) * 0.5, 2) AS eif, CASE WHEN e.carbontons * (1 - e.renewenergypct / 100.0) + (100 - e.recyclepct) * 0.5 < 50 THEN 'Sustainable' WHEN e.carbontons * (1 - e.renewenergypct / 100.0) + (100 - e.recyclepct) * 0.5 < 100 THEN 'Moderate Impact' ELSE 'High Impact' END AS environmental_impact_classification FROM environmentandhealth e JOIN disasterevents d ON d.distregistry = e.envdistref ORDER BY eif ASC"
+ },
+ {
+  "question_id": "disaster_8",
+  "answer": "SELECT financeregistry, finopsref, findistref, ROUND(donorcommitmentsusd / budgetallotusd * (1 - fundsutilpct / 100.0) - resourcegapsusd / budgetallotusd, 2) AS fsr, CASE WHEN fundsutilpct > 80 AND fundingstate = 'Critical' AND (donorcommitmentsusd / budgetallotusd * (1 - fundsutilpct / 100.0) - resourcegapsusd / budgetallotusd) < 0.2 THEN 'Financial Crisis Risk' ELSE 'Financially Stable' END AS financial_status FROM financials ORDER BY fsr ASC"
+ },
+ {
+  "question_id": "disaster_10",
+  "answer": "WITH rde_calc AS (SELECT b.beneregistry, b.distequityidx, t.distributionpoints, b.distequityidx * (1 + t.distributionpoints / 20.0) * (1 - (100 - t.deliverysuccessrate) / 100.0) * CASE c.coordeffectlvl WHEN 'High' THEN 1.2 WHEN 'Medium' THEN 1.0 WHEN 'Low' THEN 0.8 ELSE 0 END AS rde, json_extract(d.impactmetrics, '$.population.affected') AS affected_population FROM beneficiariesandassessments b JOIN transportation t ON t.transportdistref = b.benedistref JOIN coordinationandevaluation c ON c.coorddistref = b.benedistref JOIN disasterevents d ON d.distregistry = b.benedistref) SELECT beneregistry, ROUND(rde, 2) AS rde, CASE WHEN rde < 0.4 AND distequityidx < 0.5 AND distributionpoints < 5 THEN 'Resource Distribution Inequity' ELSE 'Normal Distribution' END AS distribution_status, affected_population FROM rde_calc ORDER BY rde ASC"
+ },
+ {
+  "question_id": "disaster_7",
+  "answer": "WITH base AS (SELECT b.beneregistry, b.benedistref, b.localcapacitygrowth, b.commengagelvl, b.vulnerabilityreview, b.benefeedbackscore, b.distequityidx, c.stakeholdersatisf, CASE b.commengagelvl WHEN 'Low' THEN 1 WHEN 'Medium' THEN 2 WHEN 'High' THEN 3 ELSE 0 END AS commengage_numeric FROM beneficiariesandassessments b JOIN coordinationandevaluation c ON c.coorddistref = b.benedistref), bsi_calc AS (SELECT *, benefeedbackscore * 10 + commengage_numeric * 20 + distequityidx * 50 AS bsi FROM base), cee_calc AS (SELECT *, (bsi / 100.0) * commengage_numeric * ((stakeholdersatisf + 1) / 5.0) AS cee FROM bsi_calc) SELECT beneregistry, benedistref, ROUND(cee, 2) AS cee, CASE WHEN localcapacitygrowth = 'Active' AND commengagelvl = 'High' AND bsi > 70 THEN 'Community Resilience Builder' WHEN cee > 2.5 AND vulnerabilityreview = 'Complete' THEN 'Community Resilience Opportunity' ELSE 'Standard Operation' END AS community_resilience_classification FROM cee_calc ORDER BY community_resilience_classification ASC, cee DESC"
+ },
+ {
+  "question_id": "disaster_2",
+  "answer": "WITH oei_calc AS (SELECT op.opsregistry, t.deliverysuccessrate, h.invaccpct, (t.deliverysuccessrate / 100.0) * (1 - t.avgdeliveryhours / 24.0) * (1 + t.distributionpoints / 10.0) AS oei FROM operations op JOIN transportation t ON t.transportdistref = op.opsdistref JOIN distributionhubs h ON h.hubregistry = op.opshubref) SELECT opsregistry, ROUND(oei, 2) AS oei, CASE WHEN deliverysuccessrate > 90 AND invaccpct > 95 AND oei > 3 THEN 'Yes' ELSE 'No' END AS operational_excellence FROM oei_calc ORDER BY oei DESC"
+ },
+ {
+  "question_id": "disaster_6",
+  "answer": "WITH lpm_calc AS (SELECT t.transportregistry, t.lastmilestatus, t.vehiclebreakrate, (t.totaldeliverytons / h.hubcaptons) * t.deliverysuccessrate * (1 - t.vehiclebreakrate / 100.0) * 100 AS lpm FROM transportation t JOIN distributionhubs h ON h.hubregistry = t.transporthubref) SELECT transportregistry, ROUND(lpm, 2) AS lpm, CASE WHEN lpm < 30 AND lastmilestatus = 'Suspended' AND vehiclebreakrate > 15 THEN 'Logistics Breakdown' ELSE 'Normal Operation' END AS logistics_status FROM lpm_calc ORDER BY lpm ASC"
+ }
+]

@@ -1,0 +1,42 @@
+[
+ {
+  "instance_id": "sports_events_1",
+  "answer": "THE AVERAGE a IN (SprintResult [has SprintResultFinalPosition: 1] has Race has RaceDateSet d AND ALSO has Driver has DriverBirthDate bd AND ALSO (substr(d,1,4) - substr(bd,1,4) - if(substr(d,6,2) * 100 + substr(d,9,2) < substr(bd,6,2) * 100 + substr(bd,9,2), 1, 0)) AS a)",
+  "note": "Returns 26.1667. Only 6 of the 18 sprint winners have a birth date in this database, so the average is over those 6. Age is taken at the race date (RaceDateSet); the sprint session date exists but is NULL for two of the six. days_between cannot be used because race dates are 2021/09/12 while birth dates are ISO and neither replace nor a working concat is available, so the floor((date - birth)/365.25) age is computed by substr arithmetic - it agrees with the exact formula on all six rows (checked by hand)."
+ },
+ {
+  "instance_id": "sports_events_10",
+  "answer": "round(100 * (THE SUM OF w IN (Qualifying q has Race has RaceRakId rid AND ALSO OPTIONALLY has QualifyingQ1R q1 AND ALSO OPTIONALLY has QualifyingQ2R q2 AND ALSO OPTIONALLY has QualifyingQ3R q3 AND ALSO (if(length(q3) > 0, q3, if(length(q2) > 0, q2, q1))) AS bt AND ALSO (substr(bt, 1, instr(bt, ':') - 1) * 60 + substr(bt, instr(bt, ':') + 1)) AS b WHERE length(bt) > 0 AND ALSO THE MINIMUM b WITHIN rid AS pole AND ALSO THE COUNT OF q WITHIN rid AS nd AND ALSO (if(b - pole < 0.2, 1, 0) / nd) AS w)) / (THE DISTINCT COUNT OF rid2 IN (Qualifying has Race has RaceRakId rid2 AND ALSO OPTIONALLY has QualifyingQ1R a1 AND ALSO OPTIONALLY has QualifyingQ2R a2 AND ALSO OPTIONALLY has QualifyingQ3R a3 AND ALSO (if(length(a3) > 0, a3, if(length(a2) > 0, a2, a1))) AS bt2 WHERE length(bt2) > 0)), 2)",
+  "note": "Returns 34.97. Per session the pole time is the fastest best-time in that session (only 86 of 486 sessions still have a row with qualifying position 1, so a position-based pole would have thrown most sessions away); a driver's best time is q3 if present, else q2, else q1, converted from m:ss.mmm to seconds by substr/instr. The direct form - flag each driver against the session minimum, take the percentage per session, then average the percentages - will not compile: the session minimum is a window function and the compiler puts it in the same SELECT as the GROUP BY, which SQLite rejects. So the unweighted average of per-session percentages is computed as sum over rows of (flag / drivers in that session) divided by the number of sessions, which is algebraically the same thing. 485 sessions have at least one usable time."
+ },
+ {
+  "instance_id": "sports_events_12",
+  "answer": "round(THE AVERAGE v IN (SprintResult has SprintResultFinalPosition p AND ALSO has SprintResultPoints pts WHERE p <= 8 AND ALSO ((9 - p) + pts) AS v), 2)",
+  "note": "Returns 8.38. Same SPI reading as sports_events_9 (stored sprint points); 'top 8 finishers' read as finishing position 1-8. If the knowledge's 8-7-6-...-1 table were applied instead of the stored points, the three 2021 sprints would score differently and the answer would rise slightly."
+ },
+ {
+  "instance_id": "sports_events_2",
+  "answer": "LIST n, e FROM Circuit has CircuitName n AND ALSO has CircuitCoordinatesElevationM e WHERE e > 800 ORDERED WITH e DESCENDING",
+  "note": ""
+ },
+ {
+  "instance_id": "sports_events_4",
+  "answer": "THE COUNT OF SprintResult [has SprintResultFinalPosition: 2] [has Race r] [has SprintResultTimingDurationMs m2] WHERE (m2 - THE MAXIMUM SprintResult [has Race: !r] [has SprintResultFinalPosition: 1] has SprintResultTimingDurationMs) / 1000 > 5",
+  "note": "Returns 4. Read as: sprint sessions where the second-placed car's total time is more than 5 seconds behind the winner's. All 18 sprints have both a 1st and a 2nd place with a duration, so the correlated MAXIMUM is just the winner's time."
+ },
+ {
+  "instance_id": "sports_events_5",
+  "answer": "LIST yr, rid, nm, cum * fin / st FROM Constructor [has ConstructorNamelabel: 'McLaren'] has ConstructorNamelabel nm AND ALSO is of ConstructorResult has Race [has RaceYr yr] has RaceRakId rid AND ALSO is of ConstructorResult t [has ConstructorResultScoreval sv2] [has Race [has RaceYr y2] has RaceRakId r2] OPTIONALLY has ConstructorResultStMark sm2 WHERE r2 <= rid AND y2 = yr AND ALSO (if(sm2 = 'D', 0, 1)) AS f AND ALSO THE SUM OF sv2 GROUPED BY yr, rid, nm AS cum AND ALSO THE SUM OF f GROUPED BY yr, rid, nm AS fin AND ALSO THE COUNT OF t GROUPED BY yr, rid, nm AS st ORDERED WITH yr ASCENDING, rid ASCENDING",
+  "note": "CPS = cumulative season points x (reliability rate / 100), both accumulated within the season up to and including each race (self-join on same year and raceId <= current). 'Finished' = status mark not specially marked, i.e. not 'D' (the only non-null mark in the whole table, and it is McLaren 2007 race 39, which duly gives CPS 0). 150 rows. Ordering within a season is by raceId, which matches round order in this data."
+ },
+ {
+  "instance_id": "sports_events_6",
+  "answer": "LIST rid, (ap / n) / (substr(rdate,1,4) - substr(bd,1,4) - if(substr(rdate,6,2) * 100 + substr(rdate,9,2) < substr(bd,6,2) * 100 + substr(bd,9,2), 1, 0)) FROM Driver [has DriverReference: 'hamilton'] has DriverBirthDate bd AND ALSO is of DriverStanding [has DriverStandingAccPt ap] has Race [has RaceDateSet rdate] has RaceRakId rid AND ALSO is of DriverStanding t has Race has RaceRakId r2 WHERE r2 <= rid AND ALSO THE COUNT OF t GROUPED BY rid, ap, rdate, bd AS n ORDERED WITH rid ASCENDING",
+  "note": "The model has no race-results type at all (only sprint results, standings, qualifying, lap times), so points had to come from DriverStanding.AccPt, which is season-cumulative. I read DPV per race as (cumulative points at that race / number of races participated in up to and including it) / age at that race; the running race count is a self-join of DriverStanding on raceId <= current (raceId order matches date order for him). Age uses the Driver Age formula, but the race date is stored as 2008/08/03 while birth dates are ISO, and the compiler has no replace/concat that SQLite accepts, so days_between is unusable; I rebuilt the year/month/day comparison with substr, which gives the same floor((d1-d0)/365.25) value on every row here. 14 rows survive (points are NULL on 5 of his 19 standings rows)."
+ },
+ {
+  "instance_id": "sports_events_9",
+  "answer": "LIST en, dr, spi FROM SprintResult has SprintResultFinalPosition p AND ALSO has SprintResultPoints pts AND ALSO has Race OPTIONALLY has RaceEventName en AND ALSO has Driver OPTIONALLY has DriverReference dr AND ALSO ((9 - p) + pts) AS spi ORDERED WITH spi DESCENDING",
+  "note": "SPI = (9 - position) + points, using the stored sprint points column (it matches the 8-7-6-...-1 system except for the three 2021 sprints, which used 3-2-1). 'Completed' read as having a finishing position (345 of 360 rows; 340 have status code 1, the 5 extra are classified finishers with another status). Event name and driver reference are heavily NULLed in this database, so they are projected with OPTIONALLY to keep the rows a SQL inner join on the foreign keys would keep; without that only 263 rows survive. 'Reference code' taken as DriverReference (driverRef, e.g. max_verstappen) rather than the three-letter DriverCode."
+ }
+]

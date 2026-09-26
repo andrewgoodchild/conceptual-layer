@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 1435,
+  "answer": "SELECT event_name FROM event WHERE type = 'Game' AND status = 'Closed' AND event_date BETWEEN '2019-03-15' AND '2020-03-20';",
+  "attempts": 1
+ },
+ {
+  "question_id": 1378,
+  "answer": "SELECT MAX(spent) FROM budget;",
+  "attempts": 1
+ },
+ {
+  "question_id": 1427,
+  "answer": "SELECT DISTINCT b.category FROM budget b JOIN event e ON b.link_to_event = e.event_id WHERE e.location = 'MU 215' AND e.type = 'Guest Speaker' AND b.spent = 0;",
+  "attempts": 1
+ },
+ {
+  "question_id": 1380,
+  "answer": "SELECT SUM(spent) FROM budget WHERE category = 'Food';",
+  "attempts": 1
+ },
+ {
+  "question_id": 1404,
+  "answer": "SELECT ex.expense_description AS expense_type, SUM(ex.cost) AS total_cost FROM expense ex JOIN budget b ON ex.link_to_budget = b.budget_id JOIN event e ON b.link_to_event = e.event_id WHERE e.event_name = 'October Meeting' GROUP BY ex.expense_description;",
+  "attempts": 1
+ },
+ {
+  "question_id": 1361,
+  "answer": "SELECT SUM(cost) FROM expense WHERE expense_description = 'Pizza';",
+  "attempts": 1
+ },
+ {
+  "question_id": 1375,
+  "answer": "SELECT m.first_name, m.last_name FROM member m JOIN major mj ON m.link_to_major = mj.major_id WHERE mj.department = 'School of Applied Sciences, Technology and Education';",
+  "attempts": 1
+ },
+ {
+  "question_id": 1405,
+  "answer": "SELECT b.category, SUM(b.amount) AS amount_budgeted FROM budget b JOIN event e ON b.link_to_event = e.event_id WHERE e.event_name = 'April Speaker' GROUP BY b.category ORDER BY amount_budgeted ASC;",
+  "attempts": 1
+ },
+ {
+  "question_id": 1464,
+  "answer": "SELECT m.first_name, m.last_name, i.amount FROM income i JOIN member m ON i.link_to_member = m.member_id WHERE i.date_received = '2019-09-09';",
+  "attempts": 1
+ },
+ {
+  "question_id": 1312,
+  "answer": "SELECT mj.major_name FROM member m JOIN major mj ON m.link_to_major = mj.major_id WHERE m.first_name = 'Angela' AND m.last_name = 'Sanders';",
+  "attempts": 1
+ }
+]

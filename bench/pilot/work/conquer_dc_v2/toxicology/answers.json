@@ -1,0 +1,43 @@
+[
+ {
+  "question_id": 201,
+  "answer": "THE COUNT OF Atom [has Molecule is of Bond has BondType: '='] [has AtomElement: 'c'] / THE COUNT OF Atom [has Molecule is of Bond has BondType: '=']",
+  "attempts": 5
+ },
+ {
+  "question_id": 239,
+  "answer": "THE COUNT OF Connected [has ConnectedAtom has AtomId a1] [has ConnectedAtomid2 has AtomId a2] WHERE like(a1, 'TR%_19') OR like(a2, 'TR%_19')",
+  "attempts": 3
+ },
+ {
+  "question_id": 243,
+  "answer": "LIST i FROM DISTINCT Bond has BondId i AND ALSO is of Connected has ConnectedAtom has AtomElement e1 AND ALSO is of Connected has ConnectedAtomid2 has AtomElement e2 WHERE (e1 = 'p' AND e2 = 'n') OR (e1 = 'n' AND e2 = 'p')",
+  "attempts": 2
+ },
+ {
+  "question_id": 234,
+  "answer": "THE COUNT OF Connected [has Bond has Molecule: 'TR009'] [has ConnectedAtom has AtomId a1] [has ConnectedAtomid2 has AtomId a2] WHERE a1 = 'TR009_12' OR a2 = 'TR009_12'",
+  "attempts": 6
+ },
+ {
+  "question_id": 215,
+  "answer": "THE DISTINCT COUNT OF a IN Atom a [has Molecule is of Bond has BondType: '-'] [has AtomElement e] WHERE e = 'i' OR e = 's'",
+  "attempts": 1
+ },
+ {
+  "question_id": 230,
+  "answer": "LIST e, l FROM Atom [has Molecule: 'TR060'] has AtomElement e AND ALSO has Molecule has MoleculeLabel l",
+  "attempts": 1
+ },
+ {
+  "question_id": 206,
+  "answer": "LIST e1, e2 FROM DISTINCT Connected [has Bond: 'TR004_8_9'] has ConnectedAtom has AtomElement e1 AND ALSO has ConnectedAtomid2 has AtomElement e2",
+  "attempts": 2
+ },
+ {
+  "question_id": 212,
+  "answer": "LIST e, c FROM Atom a [has Molecule has MoleculeLabel: '-'] has AtomElement e AND ALSO THE COUNT OF a GROUPED BY e AS c ORDERED WITH c ASCENDING THE FIRST 1",
+  "attempts": 2,
+  "note": "Least-count is a 3-way tie (ca, k, pb each count 1) among elements in non-carcinogenic molecules; THE FIRST 1 breaks the tie arbitrarily (database's choice), so the specific element returned is not uniquely determined by the data."
+ }
+]

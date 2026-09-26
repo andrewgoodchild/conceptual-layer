@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "vaccine_3",
+  "answer": "LIST v, sh, round(rcp,3), round(mcri,3), dd, dl, mtd, mce, mtsi, mcp FROM Transportinfo has TransportinfoVehiclereg v AND ALSO has Shipment has ShipmentRegistry sh AND ALSO has distdonekm Length dd AND ALSO has distleftkm Length dl AND ALSO has Container ct AND ALSO ct has Percentage2 cp AND ALSO ct is of Sensordata sd AND ALSO sd has SensordataTempdevcount td AND ALSO sd has SensordataCritevents ce AND ALSO sd has SensordataTempstabidx tsi AND ALSO (dd / (dd + dl) * 100) AS rcp AND ALSO ((1 - td / 100) * (1 - ce / 10) * tsi) AS tss AND ALSO ((1 - tss) * (1 - cp / 100)) AS cri AND ALSO THE MAXIMUM cri WITHIN v AS mcri AND ALSO THE MAXIMUM td WITHIN v AS mtd AND ALSO THE MAXIMUM ce WITHIN v AS mce AND ALSO THE MAXIMUM tsi WITHIN v AS mtsi AND ALSO THE MAXIMUM cp WITHIN v AS mcp WHERE rcp < 50 AND cri > 0.4 ORDERED WITH mcri DESCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "vaccine_9",
+  "answer": "LIST e, round(mcs,2), castInteger(dov), st FROM Regulatoryandmaintenance has RegulatoryandmaintenanceRegmaintregistry e AND ALSO has RegulatoryandmaintenanceComplianceScore cs AND ALSO has RegulatoryandmaintenanceIncidents i AND ALSO has RegulatoryandmaintenanceMaintdatenext mn AND ALSO has RegulatoryandmaintenanceCalibdatenext cn AND ALSO (cs * (1 - i / 10)) AS mcs AND ALSO greatest(greatest(days_between(today(), mn), days_between(today(), cn)), 0) AS dov AND ALSO 'Overdue' AS st WHERE mcs < 0.7 AND (days_between(today(), mn) > 0 OR days_between(today(), cn) > 0) ORDERED WITH dov DESCENDING THE FIRST 5"
+ },
+ {
+  "question_id": "vaccine_8",
+  "answer": "LIST c, round(ser,2), round(tss,2), rk FROM Container has ContainerContainregistry c AND ALSO has ContainerVolliters vl AND ALSO is of Vaccinedetail has VaccinedetailVialtally vt AND ALSO is of Sensordata sd AND ALSO sd has SensordataTempdevcount td AND ALSO sd has SensordataCritevents ce AND ALSO sd has SensordataTempstabidx tsi AND ALSO (vt * 10 / vl) AS ser AND ALSO ((1 - td / 100) * (1 - ce / 10) * tsi) AS tss AND ALSO 1 AS k AND ALSO THE RANK OF ser WITHIN k AS rk WHERE ser > 0.8 AND tss > 0.9 ORDERED WITH rk ASCENDING THE FIRST 5"
+ },
+ {
+  "question_id": "vaccine_10",
+  "answer": "DEFINE Stab ::= LIST sd, h, t FROM Sensordata sd has SensordataHandleevents he AND ALSO sd has SensordataCritevents ce AND ALSO sd has SensordataTempdevcount td AND ALSO sd has SensordataTempstabidx tsi AND ALSO ((1 - he / 100) * (1 - ce / 10)) AS h AND ALSO ((1 - td / 100) * (1 - ce / 10) * tsi) AS t LIST tm, round(a,3), nv, n FROM Transportinfo has TransportinfoTransmode tm AND ALSO has TransportinfoVehiclereg v AND ALSO is of Sensordata sd AND ALSO sd has h StabH hq AND ALSO sd has t StabT ts AND ALSO sd has SensordataAlertTime at AND ALSO THE AVERAGE hq GROUPED BY tm AS a AND ALSO THE DISTINCT COUNT OF v GROUPED BY tm AS nv AND ALSO THE COUNT OF sd GROUPED BY tm AS n WHERE hq > 0.9 AND ts > 0.8 AND days_between(today(), at) <= 90 ORDERED WITH a DESCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "vaccine_2",
+  "answer": "LIST c, round(mts,3), round(cri,3), rk, sds, js FROM Container has ContainerContainregistry c AND ALSO OPTIONALLY has Percentage2 cp AND ALSO OPTIONALLY is of Sensordata sd AND ALSO sd OPTIONALLY has SensordataSensorTrack str AND ALSO sd OPTIONALLY has SensordataTempdevcount td AND ALSO sd OPTIONALLY has SensordataCritevents ce AND ALSO sd OPTIONALLY has SensordataTempstabidx tsi AND ALSO sd OPTIONALLY has SensordataTempnowc tn AND ALSO sd OPTIONALLY has Temperature stc AND ALSO sd OPTIONALLY has SensordataTemptolc tt AND ALSO ((1 - td / 100) * (1 - ce / 10) * tsi) AS ts AND ALSO (abs(tn - stc) / tt * td) AS tbs AND ALSO ((1 - ts) * (1 - cp / 100)) AS cri AND ALSO THE MAXIMUM ts WITHIN c AS mts AND ALSO THE MAXIMUM td WITHIN c AS mtd AND ALSO THE MAXIMUM ce WITHIN c AS mce AND ALSO THE MAXIMUM tsi WITHIN c AS mtsi AND ALSO THE MAXIMUM tbs WITHIN c AS mtbs AND ALSO 1 AS k AND ALSO THE RANK OF cri WITHIN k AS rk AND ALSO if(coalesce(str, '') = '', 'No Sensor Data', 'Sensor Data Available') AS sds AND ALSO concat('{\"TempDevCount\":', mtd, ',\"CritEvents\":', mce, ',\"TempStabIdx\":', mtsi, ',\"CoolRemainPct\":', cp, ',\"TempBreachSeverity\":', mtbs, '}') AS js WHERE cri > 0.6 OR ts < 0.4 ORDERED WITH rk ASCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "vaccine_1",
+  "answer": "DEFINE Rec ::= LIST sd, ts, tb FROM Sensordata sd has SensordataTempdevcount td AND ALSO sd has SensordataCritevents ce AND ALSO sd has SensordataTempstabidx tsi AND ALSO sd has SensordataTempnowc tn AND ALSO sd has Temperature stc AND ALSO sd has SensordataTemptolc tt AND ALSO sd has SensordataAlertTime at AND ALSO ((1 - td / 100) * (1 - ce / 10) * tsi) AS ts AND ALSO (abs(tn - stc) / tt * td) AS tb WHERE days_between(today(), at) <= 365 LIST c, round(a,2), round(m,2), st FROM Container has ContainerContainregistry c AND ALSO OPTIONALLY has Percentage2 cp AND ALSO OPTIONALLY is of Sensordata sd AND ALSO sd OPTIONALLY has ts RecTs t1 AND ALSO sd OPTIONALLY has tb RecTb t2 AND ALSO THE AVERAGE t1 WITHIN c AS a AND ALSO THE MAXIMUM t2 WITHIN c AS m AND ALSO if((1 - t1) * (1 - cp / 100) > 0.6 OR t1 < 0.4, 'Critical', if(a < 0.4 OR m > 1.5, 'Unstable', if(a >= 0.4 AND m <= 1.5, 'Moderate', if(a >= 0.7 AND m <= 1.0, 'Stable', 'Unknown')))) AS st THE FIRST 100"
+ },
+ {
+  "question_id": "vaccine_4",
+  "answer": "LIST sr, rf, inc, l FROM Shipment has ShipmentRegistry sr AND ALSO OPTIONALLY has ShipmentIntegritymark im AND ALSO OPTIONALLY has ShipmentSealflag sf AND ALSO OPTIONALLY has ShipmentTampersign ts AND ALSO is of Regulatoryandmaintenance rm AND ALSO rm has RegulatoryandmaintenanceRiskFlag rf AND ALSO rm has RegulatoryandmaintenanceIncidents inc AND ALSO rm has RegulatoryandmaintenanceRegmaintregistry mid AND ALSO THE LIST OF mid WITHIN sr AS l WHERE im = 'Compromised' OR sf = 'Broken' OR ts = 'Confirmed' ORDERED WITH inc DESCENDING THE FIRST 50"
+ },
+ {
+  "question_id": "vaccine_5",
+  "answer": "DEFINE Rdg ::= LIST sd, h, t FROM Sensordata sd has SensordataHandleevents he AND ALSO sd has SensordataCritevents ce AND ALSO sd has SensordataTempdevcount td AND ALSO sd has SensordataTempstabidx tsi AND ALSO ((1 - he / 100) * (1 - ce / 10)) AS h AND ALSO ((1 - td / 100) * (1 - ce / 10) * tsi) AS t LIST v, sh, round(hq,3), round(ts,3) FROM Transportinfo has TransportinfoVehiclereg v AND ALSO has Shipment has ShipmentRegistry sh AND ALSO is of Sensordata sd AND ALSO sd has h RdgH hq AND ALSO sd has t RdgT ts AND ALSO sd has SensordataAlertTime at AND ALSO THE MAXIMUM at WITHIN v AS mat WHERE at = mat AND hq > 0.9 AND ts > 0.8 ORDERED WITH ts DESCENDING"
+ },
+ {
+  "question_id": "vaccine_6",
+  "answer": "LIST c, tbs, td, l FROM Sensordata has Container has ContainerContainregistry c AND ALSO has SensordataTempnowc tn AND ALSO has Temperature st AND ALSO has SensordataTemptolc tt AND ALSO has SensordataTempdevcount td AND ALSO has SensordataAlertKind ak AND ALSO (abs(tn - st) / tt * td) AS tbs AND ALSO THE LIST OF ak WITHIN c AS l WHERE tbs > 2.0 AND td > 5 ORDERED WITH tbs DESCENDING THE FIRST 5"
+ },
+ {
+  "question_id": "vaccine_7",
+  "answer": "LIST c, p, round(cdr,2), rk FROM Container has ContainerContainregistry c AND ALSO has Percentage2 p AND ALSO has ContainerRefilllatest r AND ALSO ((100 - p) / days_between(today(), r)) AS cdr AND ALSO 1 AS k AND ALSO THE RANK OF cdr WITHIN k AS rk WHERE cdr > 1 AND p < 30 ORDERED WITH rk ASCENDING THE FIRST 5"
+ }
+]

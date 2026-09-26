@@ -1,0 +1,45 @@
+[
+ {
+  "question_id": "planets_data_11",
+  "answer": "WITH p AS (SELECT s.stellarref, s.hostplname, o.period, LAG(o.period) OVER (PARTITION BY s.stellarref ORDER BY o.period) AS prev, ROW_NUMBER() OVER (PARTITION BY s.stellarref ORDER BY o.period) AS rn FROM stars s JOIN planets pl ON pl.hostlink = s.stellarref JOIN orbital_characteristics o ON o.bodylink = pl.planetref WHERE s.compcount > 1 AND o.period IS NOT NULL AND o.period > 0), r AS (SELECT stellarref, hostplname, period / prev AS ratio FROM p WHERE prev IS NOT NULL) SELECT r.hostplname, ROUND(EXP(AVG(LN(r.ratio)))::numeric, 3) AS geometric_mean_period_ratio FROM r GROUP BY r.stellarref, r.hostplname HAVING MAX(r.ratio) < 3 AND (SELECT p.period FROM p WHERE p.stellarref = r.stellarref AND p.rn = 1) < 10 ORDER BY geometric_mean_period_ratio DESC"
+ },
+ {
+  "question_id": "planets_data_4",
+  "answer": "WITH o AS (SELECT DISTINCT ON (s.stellarref) s.stellarref, s.hostplname, (s.stellarprops->'physical'->>'Mass_Value')::float8 AS recorded_mass, oc.semimajor::float8 AS a, oc.period::float8 AS p FROM stars s JOIN planets pl ON pl.hostlink = s.stellarref JOIN orbital_characteristics oc ON oc.bodylink = pl.planetref WHERE s.compcount > 1 AND oc.semimajor IS NOT NULL AND oc.period > 0 ORDER BY s.stellarref, oc.semimajor DESC) SELECT hostplname, recorded_mass, POWER(a, 3) / POWER(p / 365.25, 2) AS calculated_mass FROM o ORDER BY ABS(recorded_mass - POWER(a, 3) / POWER(p / 365.25, 2))"
+ },
+ {
+  "question_id": "planets_data_6",
+  "answer": "SELECT s.hostplname || ' ' || pl.completter AS planet_full_name, s.hostplname, oc.eccentricity, ROUND(((pp.massjup::float8 * 1.898E27) / ((s.stellarprops->'physical'->>'Mass_Value')::float8 * 1.98847E30))::numeric, 5) AS mass_ratio FROM planets pl JOIN stars s ON s.stellarref = pl.hostlink JOIN orbital_characteristics oc ON oc.bodylink = pl.planetref JOIN physical_properties pp ON pp.objectlink = pl.planetref JOIN data_quality_tracking d ON d.targetlink = pl.planetref WHERE oc.eccentricity > 0.25 AND d.masssource ILIKE '%msini%' AND pp.massjup IS NOT NULL AND (s.stellarprops->'physical'->>'Mass_Value')::float8 > 0 ORDER BY mass_ratio"
+ },
+ {
+  "question_id": "planets_data_15",
+  "answer": "WITH sp AS (SELECT s.stellarref, (s.stellarprops->'physical'->>'Radius_Value')::float8 AS r, (s.stellarprops->'physical'->>'Temp_Value')::float8 AS t, pp.densvalue, pp.massjup FROM stars s JOIN planets pl ON pl.hostlink = s.stellarref JOIN physical_properties pp ON pp.objectlink = pl.planetref WHERE (pp.densvalue IS NOT NULL OR pp.massjup IS NOT NULL) AND (s.stellarprops->'physical'->>'Radius_Value')::float8 IS NOT NULL AND (s.stellarprops->'physical'->>'Temp_Value')::float8 IS NOT NULL), q AS (SELECT stellarref, MAX(r) AS r, MAX(t) AS t FROM sp GROUP BY stellarref HAVING COUNT(*) FILTER (WHERE densvalue > 3) > 0 AND COUNT(*) FILTER (WHERE massjup > 0.1) = 0) SELECT ROUND(AVG(r * r * POWER(t / 5778.0, 4))::numeric, 4) AS avg_luminosity FROM q"
+ },
+ {
+  "question_id": "planets_data_7",
+  "answer": "SELECT ROUND(AVG((s.stellarprops->'physical'->>'Temp_Value')::float8 * SQRT((s.stellarprops->'physical'->>'Radius_Value')::float8 * 6.957E8 / (2 * oc.semimajor::float8 * 1.496E11)))::numeric, 0) AS avg_equilibrium_temp_k FROM planets pl JOIN stars s ON s.stellarref = pl.hostlink JOIN physical_properties pp ON pp.objectlink = pl.planetref JOIN orbital_characteristics oc ON oc.bodylink = pl.planetref WHERE pp.massjup > 0.1 AND (s.stellarprops->'physical'->>'Temp_Value')::float8 > 0 AND (s.stellarprops->'physical'->>'Radius_Value')::float8 > 0 AND oc.semimajor > 0 AND EXISTS (SELECT 1 FROM planet_instrument_observations pio JOIN instruments_surveys i ON i.instrumentref = pio.facilitylink WHERE pio.subjectlink = pl.planetref AND i.facilityname ILIKE 'k2')"
+ },
+ {
+  "question_id": "planets_data_17",
+  "answer": "SELECT (s.stellarprops->'physical'->>'Temp_Value')::float8 AS effective_temperature, ROUND((POWER((s.stellarprops->'physical'->>'Radius_Value')::float8, 2) * POWER((s.stellarprops->'physical'->>'Temp_Value')::float8 / 5778.0, 4))::numeric, 3) AS luminosity FROM stars s WHERE s.hostplname ILIKE '55 cnc'"
+ },
+ {
+  "question_id": "planets_data_18",
+  "answer": "SELECT pl.completter, s.hostplname, ROUND(((s.stellarprops->'physical'->>'Temp_Value')::float8 * SQRT((s.stellarprops->'physical'->>'Radius_Value')::float8 * 6.957E8 / (2 * oc.semimajor::float8 * 1.496E11)))::numeric, 0) AS equilibrium_temp_k FROM planets pl JOIN stars s ON s.stellarref = pl.hostlink JOIN orbital_characteristics oc ON oc.bodylink = pl.planetref LEFT JOIN physical_properties pp ON pp.objectlink = pl.planetref WHERE (s.stellarprops->'physical'->>'Temp_Value')::float8 > 0 AND (s.stellarprops->'physical'->>'Radius_Value')::float8 > 0 AND oc.semimajor > 0 AND NOT COALESCE(pp.massjup > 0.1 AND oc.period < 10, false) ORDER BY equilibrium_temp_k DESC LIMIT 1"
+ },
+ {
+  "question_id": "planets_data_2",
+  "answer": "SELECT s.hostplname, oc.period, oc.inclination, SQRT(6.674E-11 * (s.stellarprops->'physical'->>'Mass_Value')::float8 * 1.989E30 / (oc.semimajor::float8 * 1.496E11)) / 1000.0 AS orbital_velocity_km_s FROM planets pl JOIN stars s ON s.stellarref = pl.hostlink JOIN orbital_characteristics oc ON oc.bodylink = pl.planetref JOIN physical_properties pp ON pp.objectlink = pl.planetref WHERE pp.massjup > 0.1 AND oc.period < 10 AND oc.inclination > 90 AND (s.stellarprops->'physical'->>'Mass_Value')::float8 IS NOT NULL AND oc.semimajor IS NOT NULL ORDER BY orbital_velocity_km_s DESC",
+  "note": "Returns no rows: no planet in the data has inclination > 90 together with mass > 0.1 MJ and period < 10 d."
+ },
+ {
+  "question_id": "planets_data_10",
+  "answer": "SELECT ROUND(AVG(s.stellardist * 3.26156)::numeric, 2) AS avg_distance_ly FROM stars s WHERE s.stellarref IN (SELECT pl.hostlink FROM planets pl JOIN physical_properties pp ON pp.objectlink = pl.planetref JOIN data_quality_tracking d ON d.targetlink = pl.planetref WHERE pp.massjup > 0.1 AND pp.densvalue < 0.5 AND (d.limitflags->'stellar_limits'->>'Dist_Lim')::int IS DISTINCT FROM 1) AND (s.stellarprops->'photometry'->>'Mag_Blend')::int IS DISTINCT FROM 1 AND s.stellardist IS NOT NULL",
+  "note": "Averaged over distinct host stars; null limit/blend flags treated as not upper-limit/not blended."
+ },
+ {
+  "question_id": "planets_data_1",
+  "answer": "SELECT ROUND(AVG((pp.massjup * 317.83) / POWER(pp.radjup * 11.209, 2))::numeric, 2) AS avg_surface_gravity FROM planets pl JOIN physical_properties pp ON pp.objectlink = pl.planetref WHERE pp.massjup * 317.83 > 1 AND pp.massjup * 317.83 <= 10 AND pp.densvalue > 3 AND pp.radjup > 0 AND LOWER(pl.discmethod) IN ('transit', 'tr', 'transit method', 'photometry', 'photometric')",
+  "note": "Read 'larger than Earth but no more than ten times its mass' as 1 < mass(Earth units) <= 10; reading it as radius > 1 R_E gives 2.03 instead of 2.54."
+ }
+]

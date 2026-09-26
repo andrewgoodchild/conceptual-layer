@@ -1,0 +1,34 @@
+[
+ {
+  "question_id": "solar_panel_17",
+  "answer": "THE AVERAGE v IN (OperationalMetric has OperationalMetricMtbfh mtbf AND ALSO has OperationalMetricMttrh mttr AND ALSO has OperationalMetricMaintcost mc AND ALSO has PlantRecordSnapts ts AND ALSO has Plant has PlantGoliveon g AND ALSO (days_between(ts, g) * 24) AS th AND ALSO (mc / (th / mtbf)) AS v WHERE mtbf > 0 AND th > 0 AND mttr / (mtbf + mttr) > 0.05)"
+ },
+ {
+  "question_id": "solar_panel_15",
+  "answer": "THE SUM OF v IN (Plant has modhook PanelModel has PanelModelDegyrrate d AND ALSO (d * 400000 * 50 * 15) AS v WHERE d * 20 > 14)"
+ },
+ {
+  "question_id": "solar_panel_16",
+  "answer": "LIST pk, a FROM ElectricalPerformance has ElectricalPerformanceIvCurveVmpInitialV vi AND ALSO has ElectricalPerformanceIvCurveVmpNowV vn AND ALSO has Plant has modhook PanelModel has PanelModelPnlkind k WHERE vi > 0 AND ALSO lower(k) AS pk AND ALSO ((vi - vn) / vi) AS v AND ALSO THE AVERAGE v GROUPED BY pk AS a ORDERED WITH a DESCENDING"
+ },
+ {
+  "question_id": "solar_panel_13",
+  "answer": "LIST l, wc FROM Plant has PlantSitelabel l AND ALSO has PlantWarrclaims wc AND ALSO has PlantWarrstate ws WHERE wc > 2 AND lower(ws) = 'claimed' ORDERED WITH wc DESCENDING"
+ },
+ {
+  "question_id": "solar_panel_11",
+  "answer": "round(THE AVERAGE m IN (OperationalMetric has OperationalMetricMttrh m AND ALSO has ElectricalPerformanceEfficiencyCumulativeDegPct cd AND ALSO has PlantRecordSnapts ts AND ALSO has Plant has PlantGoliveon g AND ALSO (days_between(ts, g) / 365.25) AS age WHERE age <> 0 AND cd / age > 0.5), 2)"
+ },
+ {
+  "question_id": "solar_panel_1",
+  "answer": "LIST round(mttr / (mtbf + mttr), 4) FROM OperationalMetric has Plant has PlantSitelabel l AND ALSO has OperationalMetricMttrh mttr AND ALSO OPTIONALLY has OperationalMetricMtbfh mtbf WHERE lower(l) = 'solar plant west davidport'"
+ },
+ {
+  "question_id": "solar_panel_8",
+  "answer": "round(THE AVERAGE v IN (OperationalMetric has Plant has modhook PanelModel has PanelModelPnlkind pk AND ALSO has OperationalMetricMaintcost mc AND ALSO has OperationalMetricMtbfh mtbf WHERE lower(pk) = 'hjt' AND mtbf > 0 AND ALSO (mc / (17520 / mtbf)) AS v), 0)"
+ },
+ {
+  "question_id": "solar_panel_7",
+  "answer": "round(THE AVERAGE d IN (MechanicalCondition has MechanicalConditionModuleSurfaceBusbarCorrosion bc AND ALSO has ElectricalPerformanceIvCurveFillFactorInitial ffi AND ALSO has ElectricalPerformanceIvCurveFillFactorNow ffn AND ALSO (ffi - ffn) AS d WHERE lower(bc) = 'severe'), 3)"
+ }
+]

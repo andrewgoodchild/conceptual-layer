@@ -1,0 +1,62 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST n FROM ForeignData [has ForeignDataMultiverseid: '149934'] has ForeignDataLanguage n",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": "LIST id, a FROM Legality [has LegalityFormat: 'commander'] [has LegalityStatus: 'Legal'] has Card has CardId id AND ALSO has Card has CardArtist a AND ALSO has Card has CardUuid u WHERE THE COUNT OF Card [has CardUuid: !u] [has CardPower <> '*'] = 0",
+  "attempts": 6,
+  "note": "Starting from Card and walking backward with 'Card is of Legality' compiles to a broken join (it compares cards.id to legalities.uuid, which never match, and the path is also extremely slow). The forward reading 'Legality has Card' joins correctly, so the query starts at Legality instead. 'Unknown power' (power = '*' OR power IS NULL) can't be written with a plain WHERE (no IS NULL support) or with BUT NOT nested under a different head, so it is expressed as a correlated count-equals-zero subquery on Card, keyed by CardUuid."
+ },
+ {
+  "question_id": 473,
+  "answer": "LIST f FROM Set has SetCode c AND ALSO has SetIsForeignOnly f WHERE c = 'C14' OR c = 'C18' OR c = 'CSP' OR c = 'MMA' OR c = 'PLIST'",
+  "attempts": 3,
+  "note": "The schema has no fact type linking Card to Set -- Card only has the plain value CardSetCode, and Set only has SetCode; there is no reading between them, so no path can walk from Card to Set. Worked around by first finding Adarkar Valkyrie's set codes with a separate Card query (it is printed in 5 sets: C14, C18, CSP, MMA, PLIST), then querying Set directly by those literal codes. All five sets have SetIsForeignOnly = 0, so the answer is No."
+ },
+ {
+  "question_id": 424,
+  "answer": "THE COUNT OF Card [has CardIsTextless: 1] [has CardLayout: 'normal'] * 100 / THE COUNT OF Card",
+  "attempts": 1
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST n FROM Legality [has LegalityFormat: 'gladiator'] [has LegalityStatus: 'Banned'] has Card [has CardRarity: 'mythic'] has CardName n",
+  "attempts": 1
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes <> 'Angel']",
+  "attempts": 1
+ },
+ {
+  "question_id": 352,
+  "answer": "THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF ForeignData",
+  "attempts": 1
+ },
+ {
+  "question_id": 518,
+  "answer": "LIST f, n FROM Legality [has LegalityFormat: 'legacy'] [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO has Card has CardName n",
+  "attempts": 3,
+  "note": "The format with the most bans was found with a separate grouped-aggregate query (LIST f, c FROM Legality l [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO THE COUNT OF l GROUPED BY f AS c ORDERED WITH c DESCENDING THE FIRST 1), which returned 'legacy' with 546 banned cards. The language has no way to nest that grouped top-1 result as a filter inside another query, so the discovered format name is embedded as a literal in the final listing query."
+ },
+ {
+  "question_id": 416,
+  "answer": "(THE DISTINCT COUNT OF u IN ForeignData [has ForeignDataLanguage: 'French'] has Card has CardUuid u - THE DISTINCT COUNT OF u IN ForeignData [has ForeignDataLanguage: 'French'] has Card [has CardPower <> '*'] has CardUuid u) * 100 / (THE COUNT OF Card - THE COUNT OF Card [has CardPower <> '*'])",
+  "attempts": 6,
+  "note": "Both the null-power test and the French-existence test are needed together, but BUT NOT cannot be followed by a WHERE clause, and a correlated 'count of Card where uuid=!u and power<>* = 0' subquery combined with a second correlated ForeignData subquery timed out (both self-joining the ~57k-row Card table per outer row). Rewrote to avoid any IS-NULL test and any Card-self-join: (cards with French data) minus (cards with French data AND real power) gives the French cards with unknown power; likewise (all cards) minus (cards with real power) gives all cards with unknown power. Both subtractions only need one forward join (ForeignData->Card), so they run fast."
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST n, a, p FROM Ruling r has Card has CardUuid u AND ALSO has Card has CardName n AND ALSO has Card has CardArtist a AND ALSO has Card has CardIsPromo p AND ALSO THE COUNT OF r GROUPED BY u AS c ORDERED WITH c DESCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 462,
+  "answer": "LIST t FROM SetTranslation [has SetTranslationLanguage: 'Italian'] has SetTranslationTranslation t AND ALSO has Set has SetCode c WHERE c = '10E' OR c = 'JUD' OR c = 'UMA'",
+  "attempts": 3,
+  "note": "Same gap as question 473: no fact type connects Card to Set. Ancestor's Chosen is printed under set codes 10E, JUD and UMA (found with a separate Card query), so those literal codes are used to filter SetTranslation directly via its Set has SetCode reading."
+ }
+]

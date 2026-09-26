@@ -1,0 +1,34 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "LIST d FROM Transactions1k has Gasstation has GasstationCountry: 'CZE' AND ALSO has Product has ProductDescription d",
+  "attempts": 1
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE DISTINCT COUNT OF c IN Customer c [has CustomerCurrency: 'EUR'] is of Yearmonth has YearmonthConsumption m WHERE m > 1000",
+  "attempts": 1
+ },
+ {
+  "question_id": 1481,
+  "answer": null,
+  "attempts": 6,
+  "note": "Could not express as a single ConQuer query. The question needs, per segment (SME/LAM/KAM), the minimum of a per-customer aggregate (SUM of YearmonthConsumption for 2013, CZK customers, grouped by customer) -- a second-order aggregate (MIN over the results of a GROUPED BY SUM) -- and then three pairwise arithmetic differences of those three segment values. ConQuer's GROUPED BY ... AS t (primer #8/#19) produces a LIST-shaped result (one row per group); you can rank/select from it with ORDERED WITH ... THE FIRST 1, and I confirmed that works per segment (e.g. LIST t FROM Customer c [has CustomerSegment:'SME'] [has CustomerCurrency:'CZK'] is of Yearmonth [has YearmonthDate dt] has YearmonthConsumption m AND ALSO THE SUM OF m GROUPED BY c AS t WHERE dt>='201301' AND dt<='201312' ORDERED WITH t ASCENDING THE FIRST 1 -> SME min total = -14007.1, LAM min total = 2.24, KAM min total = -6044.38). But two things block combining these into one query: (1) a LIST/ORDERED/THE FIRST n query cannot be used as an operand of arithmetic -- 'LIST ... THE FIRST 1 - THE COUNT OF ...' gives 'parse error: unconsumed input'; only whole-query aggregate expressions (THE COUNT/SUM/MIN OF ...) compose that way (primer #10). (2) THE MINIMUM t IN <path> does not accept a GROUPED BY ... AS t sub-clause -- 'THE MINIMUM t IN ... GROUPED BY c AS t' gives \"parse error: 't' IN names an attribute the path does not bind\", i.e. there is no documented way to take the minimum of a grouped aggregate itself. So I can get each segment's minimum-customer total in its own query, but not fold three of those plus two subtractions into one query as the task requires. Recording as unanswerable rather than inventing a combined query I know does not compute the right thing."
+ },
+ {
+  "question_id": 1486,
+  "answer": "THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] - THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR']",
+  "attempts": 1
+ },
+ {
+  "question_id": 1525,
+  "answer": "THE DISTINCT COUNT OF c IN Transactions1k [has Transactions1kDate: '2012-08-25'] has Customer c [has CustomerCurrency: 'EUR'] * 100.0 / THE DISTINCT COUNT OF c IN Transactions1k [has Transactions1kDate: '2012-08-25'] has Customer c",
+  "attempts": 3
+ },
+ {
+  "question_id": 1501,
+  "answer": "LIST c FROM DISTINCT Transactions1k has Gasstation has GasstationCountry c AND ALSO has Customer is of Yearmonth has YearmonthDate: '201306'",
+  "attempts": 3,
+  "note": "Transactions1k.Date only spans 2012-08-23 to 2012-08-26 in this database (verified with THE MINIMUM/THE MAXIMUM), so no transaction itself falls in June 2013 -- filtering on Transactions1kDate directly returns 0 rows. The evidence hint's reference to the 'yearmonth table' date format (YYYYMM, first 4 chars = year, next 2 = month) indicates the intended condition is on Yearmonth.Date = '201306' for the transacting customer instead, which is what this query does (Gasstation of a Transactions1k whose Customer has a Yearmonth record dated 201306)."
+ }
+]

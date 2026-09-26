@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "alien_10",
+  "answer": "LIST r, cl, ssmr, rep, lbl FROM Signal has SignalRegistry r AND ALSO has SignalClass cl AND ALSO has SignalFreqdrifthzs fd AND ALSO has frequency FrequencyInMHz fm AND ALSO has sigdursec DurationInS sd AND ALSO has SignalDoppshifthz dp AND ALSO has SignalEntropyval ev AND ALSO has SignalModindex mi AND ALSO has SignalFreqstab fs AND ALSO has SignalPhasestab ps AND ALSO has SignalSigintegrity si AND ALSO ((1 - abs(fd) / (fm * 1000)) * (sd / (1 + dp / 1000))) AS ssm AND ALSO round(ssm, 3) AS ssmr AND ALSO concat('Frequency: ', fs, ', Phase: ', ps, ', Integrity: ', si) AS rep AND ALSO if(ssm > 0.8 AND ev >= 0.4 AND ev <= 0.8 AND mi > 0.5, 'Coherent Information Pattern Detected', if(ssm > 0.6 AND ev >= 0.3 AND ev <= 0.9, 'Potential Information Pattern', 'No Clear Pattern')) AS lbl"
+ },
+ {
+  "question_id": "alien_6",
+  "answer": "LIST st, c, arpi, accs, hp, hc, bt FROM Signal s has SignalTechsigprob tp AND ALSO has SignalBiosigprob bp AND ALSO has SignalSigunique su AND ALSO has SignalAnomscore an AND ALSO has SignalFalseposprob fp AND ALSO has SignalDecodeconf dc AND ALSO has SignalSnrratio sn AND ALSO has SignalNoisefloordbm nf AND ALSO ((tp * 4 + bp / 100 + su * 2 + an / 2) * (1 - fp)) AS rpi AND ALSO (sn - 0.1 * abs(nf)) AS snqi AND ALSO ((1 - fp) * dc * if(snqi > 0, snqi / 10 + 0.5, 0.1)) AS ccs AND ALSO if(rpi > 3, 1, 0) AS i1 AND ALSO if(ccs > 0.8, 1, 0) AS i2 AND ALSO if(rpi > 3 AND ccs > 0.8, 1, 0) AS i3 AND ALSO has Telescope has Observatory has ObservatoryObservationStation st AND ALSO THE COUNT OF s GROUPED BY st AS c AND ALSO THE AVERAGE rpi GROUPED BY st AS arpi AND ALSO THE AVERAGE ccs GROUPED BY st AS accs AND ALSO THE SUM OF i1 GROUPED BY st AS hp AND ALSO THE SUM OF i2 GROUPED BY st AS hc AND ALSO THE SUM OF i3 GROUPED BY st AS bt ORDERED WITH bt DESCENDING"
+ },
+ {
+  "question_id": "alien_8",
+  "answer": "LIST r, cf, fd, bfr, cls FROM Signal has SignalRegistry r AND ALSO has centerfreqmhz FrequencyInMHz cf AND ALSO has SignalFreqdrifthzs fd AND ALSO has SignalBwhz bw AND ALSO has SignalModtype mt AND ALSO (bw / (cf * 1000000)) AS bfr AND ALSO if(bfr < 0.0001 AND fd < 0.1 AND mt <> 'Unknown', 'Strong NTM', if(bfr < 0.0005 AND fd < 0.5 AND mt <> 'Unknown', 'Moderate NTM', 'Not NTM')) AS cls"
+ },
+ {
+  "question_id": "alien_9",
+  "answer": "LIST st, tid, oqf, p, n, ocl FROM Telescope has TelescopeTelescopeRegistry tid AND ALSO has TelescopeEquipmentStatus es AND ALSO has TelescopeCalibrstatus cs AND ALSO has TelescopeCoolsysstatus cl AND ALSO has TelescopePointaccarc pa AND ALSO has Observatory ob AND ALSO ob has ObservatoryObservationStation st AND ALSO ob has ObservatoryAtmostransparency at AND ALSO ob has ObservatoryHumidityrate hr AND ALSO ob has ObservatoryWindSpeed ws AND ALSO ob has Angle ld AND ALSO (at * (1 - hr / 100) * (1 - 0.02 * ws)) AS aoi AND ALSO ((1 - ld / 180) * (1 - at)) AS lif AND ALSO (aoi * (1 - lif) * if(pa < 2, 1, 2 / pa)) AS oqf AND ALSO concat(if(es <> 'Operational', concat('Equipment: ', es, ', '), ''), if(cs <> 'Current', concat('Calibration: ', cs, ', '), ''), if(cl <> 'Normal', concat('Cooling: ', cl, ', '), '')) AS raw AND ALSO if(length(raw) > 0, substr(raw, 1, length(raw) - 2), '') AS p AND ALSO (if(es <> 'Operational', 1, 0) + if(cs <> 'Current', 1, 0) + if(cl <> 'Normal', 1, 0)) AS n AND ALSO if(aoi > 0.8 AND es = 'Operational' AND cs = 'Current', 'High', if(aoi >= 0.5 AND aoi <= 0.8, 'Medium', 'Low')) AS ocl ORDERED WITH oqf DESCENDING"
+ },
+ {
+  "question_id": "alien_5",
+  "answer": "LIST mt, c, amcs, asnr, j FROM Signal s has SignalRegistry r AND ALSO has SignalModtype mt AND ALSO has SignalModindex mi AND ALSO has SignalFreqdrifthzs fd AND ALSO has frequency FrequencyInMHz fm AND ALSO has sigdursec DurationInS sd AND ALSO has SignalDoppshifthz dp AND ALSO has SignalSnrratio sn AND ALSO ((1 - abs(fd) / (fm * 1000)) * (sd / (1 + dp / 1000))) AS ssm AND ALSO (mi * (1 + ssm) * if(mt = 'AM', 2, if(mt = 'FM', 1.5, 1))) AS mcs AND ALSO jsonObject(r, jsonObject('mcs', mcs, 'snr', sn)) AS o AND ALSO THE COUNT OF s GROUPED BY mt AS c AND ALSO THE AVERAGE mcs GROUPED BY mt AS amcs AND ALSO THE AVERAGE sn GROUPED BY mt AS asnr AND ALSO THE LIST OF o GROUPED BY mt AS j WHERE c >= 5"
+ },
+ {
+  "question_id": "alien_2",
+  "answer": "LIST cat, c, ab, sd FROM Signal s has SignalTechsigprob tp AND ALSO has SignalNatsrcprob np AND ALSO has SignalSigunique su AND ALSO has SignalAnomscore an AND ALSO has SignalBwhz bw AND ALSO has centerfreqmhz FrequencyInMHz cf AND ALSO (tp * (1 - np) * su * (0.5 + an / 10)) AS tols AND ALSO if(tols < 0.25, 'Low', if(tols < 0.75, 'Medium', 'High')) AS cat AND ALSO (bw / (cf * 1000000)) AS bfr AND ALSO THE COUNT OF s GROUPED BY cat AS c AND ALSO THE AVERAGE bfr GROUPED BY cat AS ab AND ALSO THE STANDARD DEVIATION an GROUPED BY cat AS sd"
+ },
+ {
+  "question_id": "alien_3",
+  "answer": "LIST st, ph, al, c FROM Observatory o has ObservatoryObservationStation st AND ALSO has ObservatoryLunarstage ph AND ALSO has Angle ld AND ALSO has ObservatoryAtmostransparency at AND ALSO ((1 - ld / 180) * (1 - at)) AS lif AND ALSO if(lif > 0.5, 1, 0) AS hi AND ALSO THE AVERAGE lif GROUPED BY st, ph AS al AND ALSO THE SUM OF hi GROUPED BY st, ph AS c ORDERED WITH al DESCENDING"
+ },
+ {
+  "question_id": "alien_1",
+  "answer": "DEFINE Mid ::= LIST s, mw, mq FROM Signal s has SignalSnrratio sn AND ALSO has SignalNoisefloordbm nf AND ALSO (sn - 0.1 * abs(nf)) AS mq AND ALSO has Telescope has Observatory has ObservatoryWeathprofile mw AND ALSO THE RANK OF mq WITHIN mw AS rk AND ALSO THE COUNT OF s WITHIN mw AS nn WHERE rk = div(nn + 1, 2) OR rk = div(nn, 2) + 1\nDEFINE Med ::= LIST mw2, medv FROM Signal has Telescope has Observatory has ObservatoryWeathprofile mw2 AND ALSO has mq MidMq b AND ALSO THE AVERAGE b GROUPED BY mw2 AS medv\nLIST w, a, m, c FROM Signal s has SignalSnrratio sn2 AND ALSO has SignalNoisefloordbm nf2 AND ALSO (sn2 - 0.1 * abs(nf2)) AS q AND ALSO has Telescope has Observatory has ObservatoryWeathprofile w AND ALSO if(q > 0, 1, 0) AS ind AND ALSO THE AVERAGE q GROUPED BY w AS a AND ALSO THE SUM OF ind GROUPED BY w AS c AND ALSO w has Med MedMedv m ORDERED WITH a DESCENDING"
+ },
+ {
+  "question_id": "alien_4",
+  "answer": "LIST st, c, atols, abfr, pct FROM Signal s has SignalTechsigprob tp AND ALSO has SignalNatsrcprob np AND ALSO has SignalArtsrcprob ap AND ALSO has SignalInfodense idn AND ALSO has SignalBwhz bw AND ALSO has centerfreqmhz FrequencyInMHz cf AND ALSO has SignalSigunique su AND ALSO has SignalAnomscore an AND ALSO (bw / (cf * 1000000)) AS bfr AND ALSO (tp * (1 - np) * su * (0.5 + an / 10)) AS tols AND ALSO has Telescope has Observatory has ObservatoryObservationStation st WHERE tp > 0.7 AND np < 0.3 AND ap < 50 AND idn > 0.8 AND bfr < 0.001 AND ALSO THE COUNT OF s GROUPED BY st AS c AND ALSO THE AVERAGE tols GROUPED BY st AS atols AND ALSO THE AVERAGE bfr GROUPED BY st AS abfr AND ALSO (c * 100 / THE COUNT OF Signal [has SignalTechsigprob tp2] [has SignalNatsrcprob np2] [has SignalArtsrcprob ap2] [has SignalInfodense id2] [has SignalBwhz bw2] [has centerfreqmhz FrequencyInMHz cf2] WHERE tp2 > 0.7 AND np2 < 0.3 AND ap2 < 50 AND id2 > 0.8 AND bw2 / (cf2 * 1000000) < 0.001) AS pct ORDERED WITH c DESCENDING"
+ },
+ {
+  "question_id": "alien_7",
+  "answer": "LIST oow, c, round(aa0, 3), arr FROM Observatory o has ObservatoryObservationStation st AND ALSO has ObservatoryAtmostransparency at AND ALSO has ObservatoryHumidityrate hr AND ALSO has ObservatoryWindSpeed ws AND ALSO has ObservatoryLunarstage ls AND ALSO has Angle ld AND ALSO has ObservatorySolarstatus ss AND ALSO (at * (1 - hr / 100) * (1 - 0.02 * ws)) AS aoi AND ALSO if(aoi > 0.85 AND (ls = 'New' OR ls = 'First Quarter') AND ld > 45 AND (ss = 'Low' OR ss = 'Moderate'), 'True', 'False') AS oow AND ALSO jsonObject('station', st, 'aoi', aoi, 'lunar_factors', jsonObject('stage', ls, 'distance', ld), 'solar_status', ss) AS obj AND ALSO THE COUNT OF o GROUPED BY oow AS c AND ALSO THE AVERAGE aoi GROUPED BY oow AS aa0 AND ALSO THE LIST OF obj GROUPED BY oow AS arr"
+ }
+]

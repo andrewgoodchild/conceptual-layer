@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "exchange_traded_funds_2",
+  "answer": "SELECT calendaryear, fundperf - categoryperf AS outperformance, LAG(fundperf - categoryperf) OVER (ORDER BY calendaryear) AS prev_outperformance, (fundperf - categoryperf) - LAG(fundperf - categoryperf) OVER (ORDER BY calendaryear) AS yoy_change FROM annual_returns WHERE portfolioref = 'AADR' AND fundperf IS NOT NULL AND categoryperf IS NOT NULL ORDER BY calendaryear"
+ },
+ {
+  "question_id": "exchange_traded_funds_11",
+  "answer": "SELECT f.tickersym, f.parentgroup, r.alpha5y, COUNT(*) OVER () AS total_passive_alpha_generators FROM funds f JOIN risk_metrics r ON r.investmentref = f.tickersym WHERE r.rsquared3y > 90 AND r.alpha5y > 0 ORDER BY r.alpha5y DESC LIMIT 10"
+ },
+ {
+  "question_id": "exchange_traded_funds_8",
+  "answer": "SELECT f.productclass, COUNT(*) AS fund_count, regr_slope(r.alpha3y, f.turnoverratio) AS alpha_turnover_slope, regr_r2(r.alpha3y, f.turnoverratio) AS r_squared FROM funds f JOIN risk_metrics r ON r.investmentref = f.tickersym WHERE r.alpha3y IS NOT NULL AND f.turnoverratio IS NOT NULL AND f.productclass IS NOT NULL GROUP BY f.productclass HAVING COUNT(*) > 25 ORDER BY alpha_turnover_slope DESC LIMIT 100"
+ },
+ {
+  "question_id": "exchange_traded_funds_3",
+  "answer": "WITH c AS (SELECT productclass, AVG(duration) AS cat_avg FROM funds WHERE duration IS NOT NULL GROUP BY productclass) SELECT f.tickersym, f.shortlabel, f.productclass, f.duration, c.cat_avg AS category_avg_duration, c.cat_avg - f.duration AS duration_advantage FROM funds f JOIN c ON c.productclass = f.productclass WHERE f.duration IS NOT NULL AND c.cat_avg - f.duration >= 1.5 ORDER BY duration_advantage DESC"
+ },
+ {
+  "question_id": "exchange_traded_funds_6",
+  "answer": "SELECT f.tickersym, r.beta3y - r.beta10y AS beta_drift, r.rsquared3y - r.rsquared10y AS r_squared_drift, CASE WHEN ABS(r.beta3y - r.beta10y) > 0.15 OR ABS(r.rsquared3y - r.rsquared10y) > 10 THEN 'Style Drift' ELSE 'Consistent Style' END AS style_classification FROM funds f JOIN risk_metrics r ON r.investmentref = f.tickersym WHERE r.beta3y IS NOT NULL AND r.beta10y IS NOT NULL AND r.rsquared3y IS NOT NULL AND r.rsquared10y IS NOT NULL ORDER BY ABS(r.beta3y - r.beta10y) DESC LIMIT 100"
+ },
+ {
+  "question_id": "exchange_traded_funds_10",
+  "answer": "SELECT CASE WHEN f.pe_ratio IS NOT NULL AND f.pb_ratio IS NOT NULL THEN 'Transparent' ELSE 'Opaque' END AS transparency_group, COUNT(*) AS fund_count, percentile_cont(0.5) WITHIN GROUP (ORDER BY p.r1y) AS median_1y_return FROM funds f LEFT JOIN performance p ON p.productref = f.tickersym GROUP BY 1"
+ },
+ {
+  "question_id": "exchange_traded_funds_9",
+  "answer": "SELECT f.tickersym, f.shortlabel, ((p.low52w + p.lowdelta) - p.low52w) / NULLIF(p.high52w - p.low52w, 0) * 100 AS price_position FROM funds f JOIN performance p ON p.productref = f.tickersym WHERE f.turnoverratio < 0.3 AND f.expensenet - f.benchmarkexp < 0 AND ((p.low52w + p.lowdelta) - p.low52w) / NULLIF(p.high52w - p.low52w, 0) * 100 < 25 ORDER BY price_position ASC LIMIT 100"
+ },
+ {
+  "question_id": "exchange_traded_funds_1",
+  "answer": "WITH hq AS (SELECT ba.fundlink, SUM(CASE WHEN br.credit_scoringmark IN ('us_government','aaa','aa') THEN ba.allocationpct ELSE 0 END) AS hq_alloc, SUM(ba.allocationpct) AS total_alloc FROM bond_allocations ba JOIN bond_ratings br ON br.ratekey = ba.ratinglink GROUP BY ba.fundlink), s AS (SELECT f.tickersym, f.shortlabel, f.yieldrate / f.expensenet AS yter, hq.hq_alloc FROM funds f JOIN hq ON hq.fundlink = f.tickersym WHERE f.expensenet > 0 AND f.yieldrate / f.expensenet > 15 AND hq.hq_alloc > 0.6 * hq.total_alloc) SELECT tickersym, shortlabel, RANK() OVER (ORDER BY yter * hq_alloc DESC) AS premier_rank, yter * hq_alloc AS secure_income_efficiency_score FROM s ORDER BY secure_income_efficiency_score DESC"
+ },
+ {
+  "question_id": "exchange_traded_funds_4",
+  "answer": "WITH o AS (SELECT portfolioref, categoryperf, fundperf - categoryperf AS outperf FROM annual_returns WHERE fundperf IS NOT NULL AND categoryperf IS NOT NULL), a AS (SELECT portfolioref, AVG(outperf) FILTER (WHERE categoryperf > 0) AS avg_up, AVG(outperf) FILTER (WHERE categoryperf <= 0) AS avg_down, COUNT(*) FILTER (WHERE categoryperf > 0) AS up_n, COUNT(*) FILTER (WHERE categoryperf <= 0) AS down_n FROM o GROUP BY portfolioref) SELECT portfolioref AS tickersym, avg_up AS avg_upside_outperformance, avg_down AS avg_downside_outperformance, avg_up - avg_down AS capture_differential FROM a WHERE up_n >= 3 AND down_n >= 3 ORDER BY capture_differential DESC"
+ },
+ {
+  "question_id": "exchange_traded_funds_5",
+  "answer": "SELECT tickersym, networth, turnoverratio, (networth::numeric * turnoverratio) / (vol3m::numeric * 252) AS liquidity_pressure_days FROM funds WHERE networth IS NOT NULL AND turnoverratio IS NOT NULL AND vol3m > 0 ORDER BY liquidity_pressure_days DESC LIMIT 100"
+ }
+]

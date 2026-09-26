@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "polar_9",
+  "answer": "LIST c, eer, ospi FROM Equipment has EquipmentCode c AND ALSO has EquipmentPerformanceIndex p AND ALSO has EquipmentReliabilityindex r AND ALSO has EquipmentEnvironmentalimpactindex e AND ALSO has EquipmentSafetyindex s AND ALSO ((p + r) / 2 * (1 - e / 10)) AS eer AND ALSO (s * eer * 0.8) AS ospi WHERE ospi > 0.75"
+ },
+ {
+  "question_id": "polar_7",
+  "answer": "LIST c, ee, ps, esi FROM Powerbattery has Equipment has EquipmentCode c AND ALSO has PowerbatteryEnergyefficiencypercent ee AND ALSO has PowerbatteryPowerSource ps AND ALSO (ee * if(ps = 'Solar' OR ps = 'Wind', 1.5, if(ps = 'Hybrid', 1.2, if(ps = 'Battery', 1.0, if(ps = 'Diesel', 0.7, 0))))) AS esi"
+ },
+ {
+  "question_id": "polar_3",
+  "answer": "LIST c, t, ls, lssr2, cls, js FROM Equipment [has EquipmentType: 'Safety'] has EquipmentCode c AND ALSO has EquipmentType t AND ALSO is of Operationmaintenance o AND ALSO o has OperationmaintenanceOperationalstatus os AND ALSO o has OperationmaintenanceOperationhours oh AND ALSO o has OperationmaintenanceMaintenancecyclehours mch AND ALSO is of Thermalsolarwindandgrid th AND ALSO th has ThermalsolarwindandgridInsulationstatus ins AND ALSO th has ThermalsolarwindandgridHeatlossratekwh hl AND ALSO is of Lightingandsafety l AND ALSO l has LightingandsafetyLifesupportstatus ls AND ALSO l has LightingandsafetyOxygensupplystatus oxy AND ALSO l has LightingandsafetyMedicalequipmentstatus med AND ALSO l has LightingandsafetySafetysystemstatus sss AND ALSO if(os = 'Active', 10 * (1 - oh / mch), if(os = 'Standby', 5 * (1 - oh / mch), 0)) AS ors AND ALSO if(ins = 'Good', 0.9 - hl / 10, if(ins = 'Fair', 0.6 - hl / 10, if(ins = 'Poor', 0.3 - hl / 10, 0))) AS tie AND ALSO (0.7 * ors + 0.3 * tie) AS lssr AND ALSO round(lssr, 2) AS lssr2 AND ALSO if(lssr >= 0.8, 'High Reliability', if(lssr >= 0.6, 'Moderate Reliability', 'Low Reliability')) AS cls AND ALSO concat('{\"oxygen_status\":\"', oxy, '\",\"medical_status\":\"', med, '\",\"safety_system_status\":\"', sss, '\"}') AS js ORDERED WITH lssr2 DESCENDING"
+ },
+ {
+  "question_id": "polar_8",
+  "answer": "LIST rg, a, round(rs, 2), round(lat, 2), round(cri, 2), round(bscsi, 2) FROM Communication has CommunicationCommregistry rg AND ALSO has CommunicationAntennastatus a AND ALSO has CommunicationSignalmetrics sm AND ALSO castNumber(jsonPath(sm, '$.radio_strength_dbm')) AS rs AND ALSO castNumber(jsonPath(sm, '$.latency_ms')) AS lat AND ALSO (if(a = 'Error', 0, if(a = 'Warning', 5, if(a = 'Normal', 10, 0))) * (1 - lat / 1000)) AS cri AND ALSO (cri * (1 + 0.2 * rs / 100) * (1 - 0.01 * (1000 - lat))) AS bscsi"
+ },
+ {
+  "question_id": "polar_2",
+  "answer": "LIST c, t, hs, ins, els, round(ssf, 2), ewrs FROM Equipment has EquipmentCode c AND ALSO has EquipmentType t AND ALSO is of Operationmaintenance is of Weatherandstructure w AND ALSO w has WeatherandstructureStructuralloadpercent slp AND ALSO w has WeatherandstructureSnowloadkgm2 snow AND ALSO w has WeatherandstructureWindSpeed ws AND ALSO OPTIONALLY is of Cabinenvironment OPTIONALLY has CabinenvironmentHeaterstatus hs AND ALSO OPTIONALLY is of Thermalsolarwindandgrid OPTIONALLY has ThermalsolarwindandgridInsulationstatus ins AND ALSO OPTIONALLY is of Lightingandsafety OPTIONALLY has LightingandsafetyEmergencylightstatus els AND ALSO ((100 - slp) / 100 * if(snow > 100 OR ws > 20, 0.5, if(snow > 50 OR ws > 10, 0.8, 1.0))) AS ssf AND ALSO if(ssf > 0.7 AND hs <> 'Off' AND ins <> 'Poor' AND (els = 'On' OR els = 'Testing'), 'Extreme Weather Ready', 'Not Ready') AS ewrs"
+ },
+ {
+  "question_id": "polar_4",
+  "answer": "LIST lt, sn, cnt, rec2, ren, cls FROM Thermalsolarwindandgrid t has Equipment is of Location l AND ALSO l has LocationType lt AND ALSO l has LocationStationName sn AND ALSO has ThermalsolarwindandgridRenewablemetrics rm AND ALSO has ThermalsolarwindandgridFuelcelloutputw fc AND ALSO castNumber(jsonPath(rm, '$.solar.output_w')) AS so AND ALSO castNumber(jsonPath(rm, '$.wind.output_w')) AS wi AND ALSO (so + wi) AS x AND ALSO (fc + so + wi) AS tot AND ALSO THE COUNT OF t GROUPED BY lt, sn AS cnt AND ALSO THE SUM OF x GROUPED BY lt, sn AS ren AND ALSO THE SUM OF tot GROUPED BY lt, sn AS tt AND ALSO round(ren / tt * 100, 2) AS rec2 AND ALSO if(rec2 > 70, 'Energy-Sustainable', if(rec2 > 50, 'Moderately Sustainable', 'Low Sustainability')) AS cls WHERE so > 0 OR wi > 0 ORDERED WITH rec2 DESCENDING"
+ },
+ {
+  "question_id": "polar_1",
+  "answer": "LIST t, c, round(eer, 2), s, er, sr, abs(er - sr) FROM Equipment has EquipmentType t AND ALSO has EquipmentCode c AND ALSO has EquipmentPerformanceIndex p AND ALSO has EquipmentReliabilityindex r AND ALSO has EquipmentEnvironmentalimpactindex e AND ALSO has EquipmentSafetyindex s AND ALSO ((p + r) / 2 * (1 - e / 10)) AS eer AND ALSO THE RANK OF eer WITHIN t AS er AND ALSO THE RANK OF s WITHIN t AS sr ORDERED WITH t ASCENDING, eer DESCENDING"
+ },
+ {
+  "question_id": "polar_10",
+  "answer": "LIST cr, vpc FROM Chassisandvehicle has ChassisandvehicleChassisregistry cr AND ALSO OPTIONALLY has ChassisandvehicleBrakepadwearpercent bpw AND ALSO OPTIONALLY has ChassisandvehicleTrackwearpercent tw AND ALSO OPTIONALLY has ChassisandvehicleVehiclespeedkmh sp AND ALSO OPTIONALLY has Engineandfluid OPTIONALLY has EngineandfluidEngineloadpercent el AND ALSO ((1 - (bpw + tw) / 200) * (sp / 50) * (el / 100)) AS vpc"
+ },
+ {
+  "question_id": "polar_5",
+  "answer": "LIST sn, lt, aq2, aw2, cc, wqcs, wrmsc FROM Waterandwaste w has Equipment is of Location l AND ALSO l has LocationStationName sn AND ALSO l has LocationType lt AND ALSO has WaterandwasteWaterlevelpercent wl AND ALSO has WaterandwasteWaterqualityindex wq AND ALSO has WaterandwasteWastetanklevelpercent wt AND ALSO (wl * (wq / 100) * (1 - wt / 100)) AS wrmi AND ALSO if(wrmi < 0.5, 1, 0) AS cw AND ALSO THE AVERAGE wq GROUPED BY sn, lt AS aq AND ALSO THE AVERAGE wrmi GROUPED BY sn, lt AS aw AND ALSO THE SUM OF cw GROUPED BY sn, lt AS cc AND ALSO round(aq, 2) AS aq2 AND ALSO round(aw, 2) AS aw2 AND ALSO if(aq >= 91, 'High-Quality', if(aq >= 71, 'Good', if(aq >= 51, 'Moderate', if(aq >= 26, 'Poor', 'Unsafe')))) AS wqcs AND ALSO if(aw < 0.5, 'Conservation Needed', if(aw < 0.7, 'Monitoring Advised', 'Sustainable Management')) AS wrmsc ORDERED WITH aw2 DESCENDING, aq2 DESCENDING"
+ },
+ {
+  "question_id": "polar_6",
+  "answer": "LIST rg, oh, mch, os, ors FROM Operationmaintenance has OperationmaintenanceOpmaintregistry rg AND ALSO has OperationmaintenanceOperationhours oh AND ALSO has OperationmaintenanceMaintenancecyclehours mch AND ALSO has OperationmaintenanceOperationalstatus os AND ALSO (if(os = 'Active', 10 * (1 - oh / mch), if(os = 'Standby', 5 * (1 - oh / mch), 0))) AS ors"
+ }
+]

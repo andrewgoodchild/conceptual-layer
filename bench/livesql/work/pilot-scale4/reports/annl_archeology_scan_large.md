@@ -1,0 +1,3 @@
+All ten answers written and run; scan_2, scan_8 and scan_10 carry notes.
+Hardest: scan_10 PRU (join routes chosen; 285 equipment with no data left NULL); scan_8 PER (30 spellings of four products merged by hand); scan_2 (structstate only in conservation; case-sensitive 'Stable' test: 127 at risk against 66); scan_5 DPQ chain.
+What mattered: "It never says how pointcloud, registration and spatial connect to scans" -- testing showed project plus crew is one-to-one, "the most important finding"; the route warnings "warned me about the problem but did not say which route is correct"; the JSON field descriptions "were essential"; warnings about units and mixed-case spellings helped. The knowledge base did not say which table each input comes from.

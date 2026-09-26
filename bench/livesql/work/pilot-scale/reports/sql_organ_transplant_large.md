@@ -1,0 +1,5 @@
+Writer's report (sql arm, organ_transplant_large), as returned.
+
+- Hardest: ot_19 the data does not support a single-locus mismatch (all three differ); ot_2/ot_7 `med_urgency` mixes "2"/"3" with "Status 2"/"Status 3"; Total Ischemia Time columns unnamed; ot_13 WIDTH_BUCKET capped at 5; several choices with little to go on (ABO rules vs `blood_compat` label, EGS computed vs stored, comparison groups, "most recent" by created_ts because match_ts is constant).
+- Material: sample rows showed the jsonb keys and the text-encoded numbers ("1815 miles", "US$5210.53", "104 days"); foreign keys made joins clear. Missing: no flag on dirty data (random-case `blood_compat`, ~140 blanks, bare urgency codes); distance in miles vs km asked; formula terms not mapped to columns.
+- Process note from the writer: a draft in a shared scratch location was overwritten between writing and reuse by a file referencing a nonexistent `encounters` table -- i.e. another writer's scratch file (mental_healths has an `encounters` table). The writer rewrote and re-checked its answer. Writers shared a scratch area; later batches were told to keep scratch files in their own directory.

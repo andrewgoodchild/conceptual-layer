@@ -1,0 +1,176 @@
+# Harder Chinook queries: the shapes analysts actually write -- anti-joins, correlated
+# thresholds, nested existence, relational division over multi-hop paths. Reference SQL
+# written here (these are not from the exercise set), so each is an independent second
+# implementation of the same question.
+
+=== anti-join: customers who have never ordered
+--- conquer
+LIST cid FROM Customer has CustomerId cid BUT NOT is of Invoice
+--- sql
+select c.CustomerId from Customer c
+where not exists (select 1 from Invoice i where i.CustomerId = c.CustomerId)
+
+=== anti-join: tracks never purchased
+--- conquer
+LIST tname FROM Track has TrackName tname BUT NOT is of InvoiceLine
+--- sql
+select t.Name from Track t
+where not exists (select 1 from InvoiceLine il where il.TrackId = t.TrackId)
+
+=== correlated threshold: tracks longer than the average for their genre
+--- conquer
+LIST tname FROM Track [has TrackName tname] [has TrackMilliseconds ms] has Genre g
+    WHERE ms > THE AVERAGE Track [has Genre: !g] has TrackMilliseconds
+--- sql
+select t.Name from Track t
+where t.Milliseconds > (select avg(x.Milliseconds) from Track x where x.GenreId = t.GenreId)
+
+=== nested existence: artists with a track that was never bought
+--- conquer
+LIST arname FROM DISTINCT Artist has ArtistName arname AND ALSO is of Album is of Track t
+    WHERE NOT SOME InvoiceLine has Track: !t
+--- sql
+select distinct ar.Name from Artist ar
+join Album al on al.ArtistId = ar.ArtistId
+join Track t on t.AlbumId = al.AlbumId
+where not exists (select 1 from InvoiceLine il where il.TrackId = t.TrackId)
+
+=== division over a 5-hop path: customers buying every genre customer 1 buys
+--- conquer
+LIST cid FROM Customer has CustomerId cid
+    AND ALSO is of Invoice is of InvoiceLine has Track has Genre
+    THAT INCLUDES ALL Customer: 1 is of Invoice is of InvoiceLine has Track has Genre
+--- sql
+select c.CustomerId from Customer c
+where not exists (
+  select g.GenreId from Customer c1
+    join Invoice i1 on i1.CustomerId = c1.CustomerId
+    join InvoiceLine l1 on l1.InvoiceId = i1.InvoiceId
+    join Track t1 on t1.TrackId = l1.TrackId
+    join Genre g on g.GenreId = t1.GenreId
+  where c1.CustomerId = 1
+  except
+  select g2.GenreId from Invoice i2
+    join InvoiceLine l2 on l2.InvoiceId = i2.InvoiceId
+    join Track t2 on t2.TrackId = l2.TrackId
+    join Genre g2 on g2.GenreId = t2.GenreId
+  where i2.CustomerId = c.CustomerId)
+
+=== two-level chain: employees whose manager has no manager
+--- conquer
+LIST lname FROM Employee has EmployeeLastName lname AND ALSO reports to Employee m
+    WHERE NOT SOME Employee: !m reports to Employee
+--- sql
+select e.LastName from Employee e
+join Employee mgr on mgr.EmployeeId = e.ReportsTo
+where mgr.ReportsTo is null
+
+=== date window plus correlated average, both scoped to 2010
+--- conquer
+LIST inv FROM Invoice has InvoiceId inv AND ALSO has InvoiceDate d
+    AND ALSO has InvoiceTotal t
+    WHERE d >= '2010-01-01' AND d < '2011-01-01'
+      AND t > THE AVERAGE Invoice [has InvoiceDate >= '2010-01-01']
+                                  [has InvoiceDate < '2011-01-01'] has InvoiceTotal
+--- sql
+select i.InvoiceId from Invoice i
+where i.InvoiceDate >= '2010-01-01' and i.InvoiceDate < '2011-01-01'
+  and i.Total > (select avg(x.Total) from Invoice x
+                 where x.InvoiceDate >= '2010-01-01' and x.InvoiceDate < '2011-01-01')
+
+=== two independent correlations in one query
+--- conquer
+LIST tname FROM Track [has TrackName tname] [has TrackUnitPrice p] [has Genre g]
+    has MediaType mt
+    WHERE p >= THE AVERAGE Track [has Genre: !g] has TrackUnitPrice
+      AND p >= THE AVERAGE Track [has MediaType: !mt] has TrackUnitPrice
+--- sql
+select t.Name from Track t
+where t.UnitPrice >= (select avg(a.UnitPrice) from Track a where a.GenreId = t.GenreId)
+  and t.UnitPrice >= (select avg(b.UnitPrice) from Track b where b.MediaTypeId = t.MediaTypeId)
+
+=== exclusion between two paths from the same head
+--- conquer
+LIST tname FROM Track has TrackName tname
+    AND ALSO is of PlaylistTrack BUT NOT is of InvoiceLine
+--- sql
+select t.Name from Track t
+where exists (select 1 from PlaylistTrack pt where pt.TrackId = t.TrackId)
+  and not exists (select 1 from InvoiceLine il where il.TrackId = t.TrackId)
+
+=== empty result: an edge case that must return nothing, not everything
+--- conquer
+LIST cid FROM Customer has CustomerId cid AND ALSO has CustomerCountry: 'Antarctica'
+--- sql
+select CustomerId from Customer where Country = 'Antarctica'
+
+=== subset the other way: customers whose genres are all within customer 1's
+--- conquer
+LIST cid FROM Customer has CustomerId cid
+    AND ALSO is of Invoice is of InvoiceLine has Track has Genre
+    WHICH ARE ALL IN Customer: 1 is of Invoice is of InvoiceLine has Track has Genre
+--- sql
+select c.CustomerId from Customer c
+where not exists (
+  select g2.GenreId from Invoice i2
+    join InvoiceLine l2 on l2.InvoiceId = i2.InvoiceId
+    join Track t2 on t2.TrackId = l2.TrackId
+    join Genre g2 on g2.GenreId = t2.GenreId
+  where i2.CustomerId = c.CustomerId
+  except
+  select g.GenreId from Customer c1
+    join Invoice i1 on i1.CustomerId = c1.CustomerId
+    join InvoiceLine l1 on l1.InvoiceId = i1.InvoiceId
+    join Track t1 on t1.TrackId = l1.TrackId
+    join Genre g on g.GenreId = t1.GenreId
+  where c1.CustomerId = 1)
+
+=== long path with a filter at each end
+--- conquer
+LIST arname FROM Artist has ArtistName arname
+    AND ALSO is of Album is of Track [has Genre has GenreName: 'Jazz']
+        is of InvoiceLine has Invoice has InvoiceBillingCountry: 'Germany'
+--- sql
+select distinct ar.Name from Artist ar
+join Album al on al.ArtistId = ar.ArtistId
+join Track t on t.AlbumId = al.AlbumId
+join Genre g on g.GenreId = t.GenreId
+join InvoiceLine il on il.TrackId = t.TrackId
+join Invoice i on i.InvoiceId = il.InvoiceId
+where g.Name = 'Jazz' and i.BillingCountry = 'Germany'
+
+=== filter vs join: a sub-expression must not multiply
+--- conquer
+LIST tname FROM Track [is of Playlist has PlaylistName: 'Music'] has TrackName tname
+--- sql
+select t.Name from Track t
+where exists (select 1 from PlaylistTrack pt join Playlist p on p.PlaylistId = pt.PlaylistId
+              where pt.TrackId = t.TrackId and p.Name = 'Music')
+
+=== filter vs join: naming the playlist makes it a join, and it does multiply
+--- conquer
+LIST tname, pname FROM Track has TrackName tname
+    AND ALSO is of Playlist has PlaylistName pname WHERE pname = 'Music'
+--- sql
+select t.Name, p.Name from Track t
+join PlaylistTrack pt on pt.TrackId = t.TrackId
+join Playlist p on p.PlaylistId = pt.PlaylistId
+where p.Name = 'Music'
+
+=== fact existence: an optional role that is null is not a fact
+--- conquer
+LIST tname FROM Track has TrackName tname AND ALSO has Album
+--- sql
+select t.Name from Track t where t.AlbumId is not null
+
+=== top-level set comparison: the bag must be its own correlated subquery
+--- conquer
+LIST cid FROM DISTINCT Customer [has CustomerId cid]
+    is of Invoice has InvoiceBillingCountry
+    WHICH ARE ALL IN Customer: 1 is of Invoice has InvoiceBillingCountry
+--- sql
+select distinct c.CustomerId from Customer c
+join Invoice iv on iv.CustomerId = c.CustomerId
+where not exists (select i.BillingCountry from Invoice i where i.CustomerId = c.CustomerId
+                  except
+                  select j.BillingCountry from Invoice j where j.CustomerId = 1)

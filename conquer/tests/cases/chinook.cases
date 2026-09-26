@@ -1,0 +1,135 @@
+# Chinook. The questions are the published exercise set at
+# https://github.com/LucasMcL/15-sql_queries_02-chinook (chinook-queries.sql), numbered as
+# there; the reference SQL is this project's own answer to each, projected to the columns
+# the case asks for. Database: https://github.com/lerocha/chinook-database (Chinook_Sqlite.sqlite).
+# Model: reverse engineered by reverse/reverse.py, no hand editing.
+
+=== 1. Customers who are not in the US
+--- conquer
+LIST id, first, last, country FROM Customer has CustomerId id
+    AND ALSO has CustomerFirstName first
+    AND ALSO has CustomerLastName last
+    AND ALSO has CustomerCountry country WHERE country <> 'USA'
+--- sql
+select CustomerId, FirstName, LastName, Country from Customer where not Country = 'USA'
+
+=== 2. Customers from Brazil
+--- conquer
+LIST id, first, last FROM Customer has CustomerId id
+    AND ALSO has CustomerFirstName first
+    AND ALSO has CustomerLastName last
+    AND ALSO has CustomerCountry: 'Brazil'
+--- sql
+select CustomerId, FirstName, LastName from Customer where Country = 'Brazil'
+
+=== 3. Invoices of customers from Brazil
+--- conquer
+LIST inv, date, bc, first, last FROM Invoice has InvoiceId inv
+    AND ALSO has InvoiceDate date
+    AND ALSO has InvoiceBillingCountry bc
+    AND ALSO has Customer [has CustomerCountry: 'Brazil'] [has CustomerFirstName first]
+        has CustomerLastName last
+--- sql
+select i.InvoiceId, i.InvoiceDate, i.BillingCountry, c.FirstName, c.LastName
+from Customer as c join Invoice as i on c.CustomerId = i.CustomerId
+where c.Country = 'Brazil'
+
+=== 4. Employees who are sales agents
+--- conquer
+LIST id, first, last FROM Employee has EmployeeId id
+    AND ALSO has EmployeeFirstName first
+    AND ALSO has EmployeeLastName last
+    AND ALSO has EmployeeTitle: 'Sales Support Agent'
+--- sql
+select EmployeeId, FirstName, LastName from Employee where Title = 'Sales Support Agent'
+
+=== 5. Unique list of billing countries
+--- conquer
+LIST bc FROM DISTINCT Invoice has InvoiceBillingCountry bc
+--- sql
+select distinct BillingCountry from Invoice
+
+=== 7. Invoices with their sales agent
+--- conquer
+LIST inv, total, first, last FROM Invoice has InvoiceId inv
+    AND ALSO has InvoiceTotal total
+    AND ALSO has Customer has Employee [has EmployeeFirstName first]
+        has EmployeeLastName last
+--- sql
+select i.InvoiceId, i.Total, e.FirstName, e.LastName
+from Customer as c join Invoice as i on c.CustomerId = i.CustomerId
+join Employee as e on e.EmployeeId = c.SupportRepId
+
+=== 10. Count of line items on invoice 37
+--- conquer
+THE COUNT OF InvoiceLine has Invoice: 37
+--- sql
+select count(InvoiceLineId) from InvoiceLine where InvoiceId = 37
+
+=== 12. Track name with each invoice line item
+--- conquer
+LIST il, tname FROM InvoiceLine has InvoiceLineId il AND ALSO has Track has TrackName tname
+--- sql
+select il.InvoiceLineId, t.Name from InvoiceLine as il
+join Track as t on il.TrackId = t.TrackId
+
+=== 13. Purchased track name and artist name with each line item
+--- conquer
+LIST il, tname, arname FROM InvoiceLine has InvoiceLineId il
+    AND ALSO has Track [has TrackName tname] has Album has Artist has ArtistName arname
+--- sql
+select il.InvoiceLineId, t.Name, ar.Name from InvoiceLine as il
+join Track as t on il.TrackId = t.TrackId
+join Album as al on al.AlbumId = t.AlbumId
+join Artist as ar on ar.ArtistId = al.ArtistId
+
+=== 16. Tracks with album, genre and media type, no ids
+--- conquer
+LIST tname, alname, gname, mname FROM Track [has TrackName tname]
+    [has Album has AlbumTitle alname] [has Genre has GenreName gname]
+    has MediaType has MediaTypeName mname
+--- sql
+select t.Name, a.Title, g.Name, m.Name from Track as t
+join Album as a on a.AlbumId = t.AlbumId
+join Genre as g on g.GenreId = t.GenreId
+join MediaType as m on m.MediaTypeId = t.MediaTypeId
+
+=== extra. Tracks on the playlist named 'Music', by artist
+--- conquer
+LIST tname, arname FROM Track [has TrackName tname]
+    [is of Playlist has PlaylistName: 'Music'] has Album has Artist has ArtistName arname
+--- sql
+-- EXISTS, not a join: Chinook has TWO playlists named 'Music', and a ConQuer sub-expression
+-- [ ... ] is Ds(Fr(...)) -- a filter on the head, which cannot multiply the result. Joining
+-- here would return each track twice. This is the one case in the suite where the obvious
+-- SQL and the ConQuer reading genuinely differ.
+select t.Name, ar.Name from Track as t
+join Album as al on al.AlbumId = t.AlbumId
+join Artist as ar on ar.ArtistId = al.ArtistId
+where exists (select 1 from PlaylistTrack as pt
+              join Playlist as p on p.PlaylistId = pt.PlaylistId
+              where pt.TrackId = t.TrackId and p.Name = 'Music')
+
+=== extra. Average invoice total, whole shop
+--- conquer
+THE AVERAGE Invoice has InvoiceTotal
+--- sql
+select avg(Total) from Invoice
+
+=== extra. Invoices above the average for their own billing country
+--- conquer
+LIST inv, total FROM Invoice has InvoiceId inv AND ALSO has InvoiceTotal total
+    AND ALSO has InvoiceBillingCountry bc
+    WHERE total > THE AVERAGE Invoice [has InvoiceBillingCountry: !bc] has InvoiceTotal
+--- sql
+select i.InvoiceId, i.Total from Invoice as i
+where i.Total > (select avg(j.Total) from Invoice as j where j.BillingCountry = i.BillingCountry)
+
+=== extra. Customers whose invoices are all billed to their own country
+--- conquer
+LIST id FROM Customer has CustomerId id AND ALSO has CustomerCountry country
+    AND ALSO is of Invoice has InvoiceBillingCountry WHICH ARE ALL IN CustomerCountry: !country
+--- sql
+select c.CustomerId from Customer as c
+where not exists (select i.BillingCountry from Invoice as i where i.CustomerId = c.CustomerId
+                  except select c.Country)

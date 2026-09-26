@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "virtual_5",
+  "answer": "LIST n, mv, e, ratio, k, rph, cpc FROM Engagement has EngagementEngrate e AND ALSO has EngagementContpref cp AND ALSO has Membershipandspending m AND ALSO m has MembershipandspendingSpendusd sp AND ALSO m has MembershipandspendingMembdays md AND ALSO m has MembershipandspendingMembkind k AND ALSO m has Fan has FanNicklabel n AND ALSO m is of Preferencesandsetting has PreferencesandsettingSesscount sc AND ALSO OPTIONALLY has Interaction i AND ALSO i OPTIONALLY has InteractionGifttot gt AND ALSO i OPTIONALLY has InteractionEngagementMetrics em AND ALSO castNumber(jsonPath(em, '$.chat_activity.chatmsg')) AS cm AND ALSO castNumber(jsonPath(em, '$.session.watchhrs')) AS wh AND ALSO sp * (1 + md / 365 * 0.5) * (1 + gt / 10 * 0.2) AS mv AND ALSO cm / sc AS ratio AND ALSO sp / wh AS rph AND ALSO if(cp = 'Music', 'Content Consumer (Music)', if(cp = 'Dance', 'Content Consumer (Dance)', if(cp = 'Gaming', 'Content Consumer (Gaming)', 'General Content Consumer'))) AS cpc WHERE mv > 100 AND e < 0.3 AND ratio < 0.5 ORDERED WITH mv DESCENDING"
+ },
+ {
+  "question_id": "virtual_4",
+  "answer": "LIST u, n, q, v, fc, cls FROM Socialcommunity has SocialcommunityCommunityEngagement ce AND ALSO has Engagement has Interaction has Fan f AND ALSO f has FanUserRegistry u AND ALSO f has FanNicklabel n AND ALSO castNumber(jsonPath(ce, '$.content_creation.contqualrate')) AS q AND ALSO castNumber(jsonPath(ce, '$.content_creation.ugcval')) AS v AND ALSO castNumber(jsonPath(ce, '$.network.follcount')) AS fc AND ALSO if(q > 8.5 AND fc > 1000 AND v > 20, 'High-Value Content Creator', if(q > 7.0 AND v > 20, 'Content Creator', 'Regular Fan')) AS cls ORDERED WITH q DESCENDING, fc DESCENDING"
+ },
+ {
+  "question_id": "virtual_1",
+  "answer": "LIST u, n, g, k FROM Fan has FanUserRegistry u AND ALSO has FanNicklabel n AND ALSO is of Interaction i AND ALSO i has InteractionGiftvalusd gv AND ALSO i has InteractionGifttot gt AND ALSO is of Membershipandspending m AND ALSO m has MembershipandspendingMembkind k AND ALSO m has MembershipandspendingSpendusd sp AND ALSO round(gv * gt / 100, 2) AS g WHERE (k = 'Free' OR k = 'Basic') AND gv * gt / 100 > 50 AND sp < 100 ORDERED WITH g DESCENDING"
+ },
+ {
+  "question_id": "virtual_3",
+  "answer": "LIST cat, c, ap, asp FROM Membershipandspending m has Fan f AND ALSO f has FanTierstep t AND ALSO f has FanStatusTag st AND ALSO f has FanPtsval pv AND ALSO OPTIONALLY has MembershipandspendingSpendusd sp AND ALSO if(t < 1, 'Undefined', if(t <= 3, 'Entry-level', if(t <= 7, 'Mid-level', if(t <= 10, 'High-level', 'Core')))) AS cat AND ALSO THE COUNT OF m GROUPED BY cat AS c AND ALSO THE AVERAGE pv GROUPED BY cat AS ap0 AND ALSO round(ap0, 2) AS ap AND ALSO THE AVERAGE sp GROUPED BY cat AS asp0 AND ALSO round(asp0, 2) AS asp WHERE st = 'Active' OR st = 'VIP'"
+ },
+ {
+  "question_id": "virtual_2",
+  "answer": "LIST u, n, t FROM Fan has FanUserRegistry u AND ALSO has FanNicklabel n AND ALSO is of Membershipandspending has MembershipandspendingSpendusd sp AND ALSO OPTIONALLY is of Interaction OPTIONALLY has InteractionGiftvalusd gv AND ALSO (sp + coalesce(gv, 0)) AS t WHERE coalesce(gv, 0) > 500 OR sp > 1000 ORDERED WITH t DESCENDING"
+ },
+ {
+  "question_id": "virtual_7",
+  "answer": "LIST u, n, fv, seg FROM Preferencesandsetting p has PreferencesandsettingIntconsist ic AND ALSO has PreferencesandsettingLastLogDate ll AND ALSO has Socialcommunity has Engagement e AND ALSO e has EngagementEngrate er AND ALSO e has EngagementSocintscore ss AND ALSO e has EngagementActdayswk ad AND ALSO e has EngagementAvgsesscount av AND ALSO e has Membershipandspending m AND ALSO m has MembershipandspendingSpendusd sp AND ALSO m has MembershipandspendingMembdays md AND ALSO m has Fan f AND ALSO f has FanUserRegistry u AND ALSO f has FanNicklabel n AND ALSO e has Interaction i AND ALSO i has InteractionGifttot gt AND ALSO e is of Retentionandinfluence has RetentionandinfluenceChurnflag cf AND ALSO (er * 0.4 + (ss / 100) * 0.3 + (ad / 7) * 0.2 + (av / 10) * 0.1) AS fei AND ALSO (sp * (1 + md / 365 * 0.5) * (1 + gt / 10 * 0.2)) AS mv AND ALSO ((1 - ic) * 2 + (days_between(today(), ll) / 30) * 0.5 + (if(cf = 'None', 0, if(cf = 'Low', 1, if(cf = 'Medium', 2, 3))) / 3) * 2) AS rrf AND ALSO (mv * (1 - rrf / 10) * (1 + fei) * 24) AS flv AND ALSO 1 AS one AND ALSO THE RANK OF flv WITHIN one AS r AND ALSO THE COUNT OF flv WITHIN one AS nn AND ALSO round(flv, 2) AS fv AND ALSO if((nn - r) > 0.9 * (nn - 1), 'Top Tier', if((nn - r) > 0.75 * (nn - 1), 'High Value', if((nn - r) > 0.5 * (nn - 1), 'Medium Value', 'Low Value'))) AS seg ORDERED WITH fv DESCENDING"
+ },
+ {
+  "question_id": "virtual_8",
+  "answer": "LIST n, cci, gr, af, md FROM Socialcommunity has SocialcommunityCommunityEngagement ce AND ALSO has SocialcommunityCollabCount cc AND ALSO has Engagement e AND ALSO e has EngagementEngrate er AND ALSO e has EngagementSocintscore ss AND ALSO e has EngagementActdayswk ad AND ALSO e has EngagementAvgsesscount av AND ALSO e has EngagementActfreq af AND ALSO e has Membershipandspending has MembershipandspendingMembdays md AND ALSO e has Interaction has Fan has FanNicklabel n AND ALSO e is of Retentionandinfluence has RetentionandinfluenceViralcont vc AND ALSO castNumber(jsonPath(ce, '$.content_creation.contqualrate')) AS q AND ALSO castNumber(jsonPath(ce, '$.content_creation.ugcval')) AS ug AND ALSO castNumber(jsonPath(ce, '$.network.follcount')) AS fc AND ALSO jsonPath(ce, '$.group_involvement.grprole') AS gr AND ALSO (q * (ug / 10) * (1 + fc / 100 * 0.5)) AS ccis AND ALSO ((fc / 100) * (er * 2) * (vc + 1) * 0.5) AS sim AND ALSO (er * 0.4 + (ss / 100) * 0.3 + (ad / 7) * 0.2 + (av / 10) * 0.1) AS fei AND ALSO (ccis * 0.4 + sim * 0.3 + cc * 0.1 + fei * 0.2) AS cci0 AND ALSO round(cci0, 2) AS cci WHERE cci0 > 7 AND af = 'Daily' AND md > 180 AND (gr = 'Moderator' OR gr = 'Leader') ORDERED WITH cci DESCENDING"
+ },
+ {
+  "question_id": "virtual_10",
+  "answer": "LIST n, ts, fei, mv, lbl FROM Fan has FanNicklabel n AND ALSO has FanTierstep ts AND ALSO has FanStatusTag st AND ALSO is of Interaction i AND ALSO i has InteractionGifttot gt AND ALSO i is of Engagement e AND ALSO e has EngagementEngrate er AND ALSO e has EngagementSocintscore ss AND ALSO e has EngagementActdayswk ad AND ALSO e has EngagementAvgsesscount av AND ALSO e has Membershipandspending m AND ALSO m has MembershipandspendingSpendusd sp AND ALSO m has MembershipandspendingMembdays md AND ALSO (er * 0.4 + (ss / 100) * 0.3 + (ad / 7) * 0.2 + (av / 10) * 0.1) AS fei0 AND ALSO round(fei0, 2) AS fei AND ALSO (sp * (1 + md / 365 * 0.5) * (1 + gt / 10 * 0.2)) AS mv0 AND ALSO round(mv0, 2) AS mv AND ALSO if(ts >= 8 AND fei0 > 0.7 AND mv0 > 200, 'Superfan', 'Regular Fan') AS lbl WHERE st = 'Active' OR st = 'VIP' ORDERED WITH fei DESCENDING, mv DESCENDING"
+ },
+ {
+  "question_id": "virtual_6",
+  "answer": "LIST cf, c, ad, aer, aic, arrf FROM Preferencesandsetting p has PreferencesandsettingLastLogDate ll AND ALSO has PreferencesandsettingIntconsist ic AND ALSO has Socialcommunity has Engagement e AND ALSO e has EngagementEngrate er AND ALSO e is of Retentionandinfluence has RetentionandinfluenceChurnflag cf AND ALSO days_between(today(), ll) AS dd AND ALSO ((1 - ic) * 2 + (dd / 30) * 0.5 + (if(cf = 'None', 0, if(cf = 'Low', 1, if(cf = 'Medium', 2, 3))) / 3) * 2) AS rrf AND ALSO THE COUNT OF p GROUPED BY cf AS c AND ALSO THE AVERAGE dd GROUPED BY cf AS ad0 AND ALSO round(ad0, 2) AS ad AND ALSO THE AVERAGE er GROUPED BY cf AS aer0 AND ALSO round(aer0, 2) AS aer AND ALSO THE AVERAGE ic GROUPED BY cf AS aic0 AND ALSO round(aic0, 2) AS aic AND ALSO THE AVERAGE rrf GROUPED BY cf AS arrf0 AND ALSO round(arrf0, 2) AS arrf"
+ },
+ {
+  "question_id": "virtual_9",
+  "answer": "LIST u, n, cnt, names, aer FROM Fan f has FanUserRegistry u AND ALSO has FanNicklabel n AND ALSO is of Interaction i AND ALSO i has Virtualidol vi AND ALSO vi has VirtualidolNameTag nm AND ALSO i is of Engagement has EngagementEngrate er AND ALSO THE DISTINCT COUNT OF vi GROUPED BY f AS cnt AND ALSO THE DISTINCT LIST OF nm GROUPED BY f AS names AND ALSO THE AVERAGE er GROUPED BY f AS aer0 AND ALSO round(aer0, 2) AS aer WHERE er > 0.4 AND cnt >= 2 ORDERED WITH cnt DESCENDING, aer DESCENDING"
+ }
+]

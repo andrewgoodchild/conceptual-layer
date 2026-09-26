@@ -1,0 +1,52 @@
+[
+  {
+    "question_id": 1256,
+    "answer": "SELECT COUNT(DISTINCT L.ID) FROM Laboratory L JOIN Patient P ON P.ID = L.ID WHERE L.CRP = '+' AND P.Description IS NULL;",
+    "attempts": 2
+  },
+  {
+    "question_id": 1189,
+    "answer": "SELECT COUNT(*) FROM Examination WHERE Thrombosis = 2 AND `ANA Pattern` = 'S' AND `aCL IgM` > 1.2 * (SELECT AVG(`aCL IgM`) FROM Examination);",
+    "attempts": 3
+  },
+  {
+    "question_id": 1267,
+    "answer": "SELECT COUNT(DISTINCT L.ID) FROM Laboratory L JOIN Examination E ON E.ID = L.ID WHERE L.SM IN ('negative', '0') AND E.Thrombosis = 0;",
+    "attempts": 2
+  },
+  {
+    "question_id": 1157,
+    "answer": "SELECT DISTINCT P.ID, P.SEX, P.Diagnosis FROM Patient P JOIN Examination E ON E.ID = P.ID WHERE E.Thrombosis = 2;",
+    "attempts": 2
+  },
+  {
+    "question_id": 1162,
+    "answer": "SELECT COUNT(*) FROM Patient WHERE SEX = 'F' AND strftime('%Y', Description) = '1997' AND Admission = '-';",
+    "attempts": 1
+  },
+  {
+    "question_id": 1164,
+    "answer": "SELECT COUNT(DISTINCT E.ID) FROM Examination E JOIN Patient P ON P.ID = E.ID WHERE E.Thrombosis = 1 AND strftime('%Y', E.`Examination Date`) = '1997' AND P.SEX = 'F';",
+    "attempts": 2
+  },
+  {
+    "question_id": 1179,
+    "answer": "SELECT E.`aCL IgM` FROM Patient P JOIN Examination E ON E.ID = P.ID WHERE P.Diagnosis = 'SLE' AND P.Description = '1994-02-19' AND E.`Examination Date` = '1993-11-12';",
+    "attempts": 2
+  },
+  {
+    "question_id": 1192,
+    "answer": "SELECT DISTINCT P.ID FROM Patient P JOIN Laboratory L ON L.ID = P.ID WHERE P.Admission = '-' AND L.Date LIKE '1991-10%' AND L.`T-BIL` < 2.0 ORDER BY P.ID;",
+    "attempts": 1
+  },
+  {
+    "question_id": 1232,
+    "answer": "SELECT DISTINCT P.ID, P.SEX, (CAST(strftime('%Y','now') AS INTEGER) - CAST(strftime('%Y', P.Birthday) AS INTEGER)) AS age FROM Patient P JOIN Laboratory L ON L.ID = P.ID WHERE L.GLU >= 180 AND L.`T-CHO` < 250 ORDER BY P.ID;",
+    "attempts": 1
+  },
+  {
+    "question_id": 1187,
+    "answer": "SELECT DISTINCT ID FROM Laboratory WHERE Date BETWEEN '1987-07-06' AND '1996-01-31' AND GPT > 30 AND ALB < 4 ORDER BY ID;",
+    "attempts": 1
+  }
+]

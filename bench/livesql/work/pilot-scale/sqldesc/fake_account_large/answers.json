@@ -1,0 +1,47 @@
+[
+ {
+  "question_id": "fake_account_15",
+  "answer": "WITH m AS (SELECT ac.clu_ref, ac.acct_bridge, 0.4*n.\"ConnQual\" + 0.3*c.\"NetInfl\" + 0.3*n.\"IntDiv\" AS nic FROM account_clusters ac JOIN cluster_analysis c ON c.\"CLSTR_PIN\" = ac.clu_ref LEFT JOIN network_metrics n ON n.acct_node = ac.acct_bridge) SELECT c.\"CLSTR_PIN\" AS cluster_id, COUNT(DISTINCT m.acct_bridge) AS member_count, AVG(m.nic) AS avg_nic, MAX(c.\"CoordScore\") AS max_coordination_score, CASE WHEN MAX(c.\"CoordScore\") > 0.8 AND AVG(m.nic) > 0.7 THEN 'Yes' ELSE 'No' END AS coordinated_influence_operation FROM cluster_analysis c LEFT JOIN m ON m.clu_ref = c.\"CLSTR_PIN\" WHERE c.\"CluRole\" = 'SocialGroup' GROUP BY c.\"CLSTR_PIN\" ORDER BY c.\"CLSTR_PIN\"",
+  "note": "Coordinated Influence Operation (NSI, CAE, Content Manipulation Ring) is not computable from stored data; approximated as max coordination score > 0.8 and average NIC > 0.7. NIC uses cluster NetInfl as network influence score."
+ },
+ {
+  "question_id": "fake_account_2",
+  "answer": "SELECT a.acct_ref AS account_id, ROUND(MAX((s.session_telemetry->'session_stats'->>'session_count')::numeric) / a.\"AGE_D\", 3) AS aaf FROM accounts a JOIN security_sessions s ON s.acct_gate = a.acct_ref WHERE a.\"AGE_D\" IS NOT NULL AND a.\"AGE_D\" > 0 GROUP BY a.acct_ref, a.\"AGE_D\" ORDER BY MAX((s.session_telemetry->'session_stats'->>'session_count')::numeric) / a.\"AGE_D\" DESC NULLS LAST LIMIT 10"
+ },
+ {
+  "question_id": "fake_account_6",
+  "answer": "SELECT r.acct_risk AS account_id, ROUND(0.4*(r.risk_profile->'risk_scores'->>'risk_value')::numeric + 0.3*(1-(r.risk_profile->'risk_scores'->>'trust_score')::numeric) + 0.3*(r.risk_profile->'risk_scores'->>'impact_score')::numeric, 3) AS srs FROM risk_and_moderation r WHERE r.risk_profile->'risk_scores'->>'risk_value' IS NOT NULL AND r.risk_profile->'risk_scores'->>'trust_score' IS NOT NULL AND r.risk_profile->'risk_scores'->>'impact_score' IS NOT NULL ORDER BY 0.4*(r.risk_profile->'risk_scores'->>'risk_value')::numeric + 0.3*(1-(r.risk_profile->'risk_scores'->>'trust_score')::numeric) + 0.3*(r.risk_profile->'risk_scores'->>'impact_score')::numeric DESC LIMIT 20"
+ },
+ {
+  "question_id": "fake_account_8",
+  "answer": "SELECT b.acct_beh AS account_id, ROUND(0.4*(b.behavioral_anomaly_scores->'automation_spam'->>'bot_likelihood')::numeric + 0.3*(b.behavioral_anomaly_scores->'automation_spam'->>'automated_behavior')::numeric + 0.3*(1 - i.\"ConvNat\"::numeric), 3) AS bbi FROM behavioral_scores b JOIN interaction_metrics i ON i.acct_dm = b.acct_beh WHERE (0.4*(b.behavioral_anomaly_scores->'automation_spam'->>'bot_likelihood')::numeric + 0.3*(b.behavioral_anomaly_scores->'automation_spam'->>'automated_behavior')::numeric + 0.3*(1 - i.\"ConvNat\"::numeric)) IS NOT NULL ORDER BY 0.4*(b.behavioral_anomaly_scores->'automation_spam'->>'bot_likelihood')::numeric + 0.3*(b.behavioral_anomaly_scores->'automation_spam'->>'automated_behavior')::numeric + 0.3*(1 - i.\"ConvNat\"::numeric) DESC LIMIT 1"
+ },
+ {
+  "question_id": "fake_account_1",
+  "answer": "SELECT n.acct_node AS account_id, ROUND(SQRT(POWER(n.\"FollGrow\", 2) + POWER(n.\"FingGrow\", 2))::numeric, 3) AS ngv FROM network_metrics n ORDER BY SQRT(POWER(n.\"FollGrow\", 2) + POWER(n.\"FingGrow\", 2)) DESC NULLS LAST"
+ },
+ {
+  "question_id": "fake_account_9",
+  "answer": "SELECT s.acct_gate AS account_id, (s.session_telemetry->'ip_reputation'->>'country_count')::int AS login_country_count FROM security_sessions s WHERE (0.4*replace(s.session_telemetry->>'vpn_usage_pct','%','')::numeric + 0.3*(s.session_telemetry->'ip_reputation'->>'proxy_hits')::numeric/10 + 0.3*(s.session_telemetry->'ip_reputation'->>'country_count')::numeric/20) > 0.8 AND (s.session_telemetry->'ip_reputation'->>'country_count')::int >= 3 ORDER BY login_country_count DESC, account_id",
+  "note": "VPN ratio read from vpn_usage_pct with '%' stripped (values 0-1)."
+ },
+ {
+  "question_id": "fake_account_3",
+  "answer": "SELECT s.acct_gate AS account_id, ROUND(0.4*replace(s.session_telemetry->>'vpn_usage_pct','%','')::numeric + 0.3*(s.session_telemetry->'ip_reputation'->>'proxy_hits')::numeric/10 + 0.3*(s.session_telemetry->'ip_reputation'->>'country_count')::numeric/20, 3) AS tei FROM security_sessions s ORDER BY 0.4*replace(s.session_telemetry->>'vpn_usage_pct','%','')::numeric + 0.3*(s.session_telemetry->'ip_reputation'->>'proxy_hits')::numeric/10 + 0.3*(s.session_telemetry->'ip_reputation'->>'country_count')::numeric/20 DESC NULLS LAST"
+ },
+ {
+  "question_id": "fake_account_4",
+  "answer": "WITH t AS (SELECT s.acct_gate AS account_id, 0.4*replace(s.session_telemetry->>'vpn_usage_pct','%','')::numeric + 0.3*(s.session_telemetry->'ip_reputation'->>'proxy_hits')::numeric/10 + 0.3*(s.session_telemetry->'ip_reputation'->>'country_count')::numeric/20 AS tei FROM security_sessions s) SELECT account_id, NTILE(4) OVER (ORDER BY tei) AS tei_quartile FROM t WHERE tei IS NOT NULL",
+  "note": "Accounts with missing proxy count (TEI NULL) excluded."
+ },
+ {
+  "question_id": "fake_account_5",
+  "answer": "WITH t AS (SELECT s.acct_gate AS account_id, 0.4*replace(s.session_telemetry->>'vpn_usage_pct','%','')::numeric + 0.3*(s.session_telemetry->'ip_reputation'->>'proxy_hits')::numeric/10 + 0.3*(s.session_telemetry->'ip_reputation'->>'country_count')::numeric/20 AS tei FROM security_sessions s), q AS (SELECT account_id, NTILE(4) OVER (ORDER BY tei) AS qt FROM t WHERE tei IS NOT NULL) SELECT CASE qt WHEN 1 THEN 'Low Risk' WHEN 2 THEN 'Moderate Risk' WHEN 3 THEN 'High Risk' ELSE 'Very High Risk' END AS tei_risk_category, COUNT(*) AS account_count FROM q GROUP BY qt ORDER BY qt",
+  "note": "Accounts with NULL TEI excluded."
+ },
+ {
+  "question_id": "fake_account_7",
+  "answer": "SELECT r.acct_risk AS account_id, ROUND(0.4*(r.risk_profile->'risk_scores'->>'risk_value')::numeric + 0.3*(1-(r.risk_profile->'risk_scores'->>'trust_score')::numeric) + 0.3*(r.risk_profile->'risk_scores'->>'impact_score')::numeric, 3) AS srs, r.risk_profile->'risk_scores'->>'threat_level' AS severity FROM risk_and_moderation r WHERE (0.4*(r.risk_profile->'risk_scores'->>'risk_value')::numeric + 0.3*(1-(r.risk_profile->'risk_scores'->>'trust_score')::numeric) + 0.3*(r.risk_profile->'risk_scores'->>'impact_score')::numeric) > 0.7 AND r.risk_profile->'risk_scores'->>'threat_level' = 'Critical' AND EXISTS (SELECT 1 FROM monitoring m WHERE m.acct_mon = r.acct_risk AND m.\"InvestState\" = 'Active') ORDER BY 0.4*(r.risk_profile->'risk_scores'->>'risk_value')::numeric + 0.3*(1-(r.risk_profile->'risk_scores'->>'trust_score')::numeric) + 0.3*(r.risk_profile->'risk_scores'->>'impact_score')::numeric DESC",
+  "note": "Ongoing detection read as monitoring.InvestState = 'Active'; severity is risk_scores.threat_level."
+ }
+]

@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 1115,
+  "answer": "SELECT (ld.overall_rating - jb.overall_rating) * 100.0 / ld.overall_rating AS pct FROM (SELECT pa.overall_rating FROM Player_Attributes pa JOIN Player p ON p.player_api_id = pa.player_api_id WHERE p.player_name = 'Landon Donovan' AND pa.date LIKE '2013-07-12%') ld, (SELECT pa.overall_rating FROM Player_Attributes pa JOIN Player p ON p.player_api_id = pa.player_api_id WHERE p.player_name = 'Jordan Bowery' AND pa.date LIKE '2013-07-12%') jb",
+  "attempts": 1
+ },
+ {
+  "question_id": 1134,
+  "answer": "SELECT (SELECT jumping FROM Player_Attributes WHERE id = 6) - (SELECT jumping FROM Player_Attributes WHERE id = 23) AS diff",
+  "attempts": 1
+ },
+ {
+  "question_id": 1135,
+  "answer": "SELECT player_api_id FROM Player_Attributes WHERE preferred_foot = 'right' ORDER BY potential ASC LIMIT 4",
+  "attempts": 2
+ },
+ {
+  "question_id": 1124,
+  "answer": "SELECT DISTINCT p.player_name FROM Player p JOIN Player_Attributes pa ON p.player_api_id = pa.player_api_id WHERE pa.attacking_work_rate = 'high'",
+  "attempts": 1
+ },
+ {
+  "question_id": 1107,
+  "answer": "SELECT pa.date FROM Player_Attributes pa JOIN Player p ON p.player_api_id = pa.player_api_id WHERE p.player_name = 'Kevin Constant' ORDER BY pa.crossing DESC, pa.date ASC LIMIT 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 1094,
+  "answer": "SELECT ((SELECT pa.overall_rating FROM Player_Attributes pa JOIN Player p ON p.player_api_id = pa.player_api_id WHERE p.player_name = 'Ariel Borysiuk' LIMIT 1) - (SELECT pa.overall_rating FROM Player_Attributes pa JOIN Player p ON p.player_api_id = pa.player_api_id WHERE p.player_name = 'Paulin Puel' LIMIT 1)) * 100.0 / (SELECT pa.overall_rating FROM Player_Attributes pa JOIN Player p ON p.player_api_id = pa.player_api_id WHERE p.player_name = 'Paulin Puel' LIMIT 1) AS pct",
+  "attempts": 2
+ },
+ {
+  "question_id": 1110,
+  "answer": "SELECT ta.buildUpPlayPassingClass FROM Team_Attributes ta JOIN Team t ON t.team_api_id = ta.team_api_id WHERE t.team_long_name = 'FC Lorient' AND ta.date LIKE '2010-02-22%'",
+  "attempts": 1
+ },
+ {
+  "question_id": 1130,
+  "answer": "SELECT DISTINCT t.team_short_name FROM Team t JOIN Team_Attributes ta ON t.team_api_id = ta.team_api_id WHERE ta.chanceCreationPassingClass = 'Safe'",
+  "attempts": 1
+ },
+ {
+  "question_id": 1116,
+  "answer": "SELECT player_name FROM Player WHERE height = (SELECT MAX(height) FROM Player)",
+  "attempts": 1
+ },
+ {
+  "question_id": 1044,
+  "answer": "SELECT player_name FROM Player WHERE substr(birthday,1,4) = '1970' AND substr(birthday,6,2) = '10'",
+  "attempts": 1
+ }
+]

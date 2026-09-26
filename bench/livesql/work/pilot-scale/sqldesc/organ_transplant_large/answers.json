@@ -1,0 +1,50 @@
+[
+ {
+  "question_id": "organ_transplant_19",
+  "answer": "WITH m AS (\n  SELECT CASE\n           WHEN h.hla_a_val <> (ri.hlaprofile->>'Hla_A_Val')::real THEN 'A-locus'\n           WHEN h.hla_b_val <> (ri.hlaprofile->>'Hla_B_Val')::real THEN 'B-locus'\n           WHEN h.hla_dr_val <> (ri.hlaprofile->>'Hla_Dr_Val')::real THEN 'DR-locus'\n         END AS mismatch_locus\n  FROM transplant_matching tm\n  JOIN compatibility_metrics cm ON cm.match_comp_registry = tm.match_rec_registry\n  JOIN hla_info h ON h.immu_don_registry = tm.donor_ref_reg\n  JOIN recipients_immunology ri ON ri.immu_recip_registry = tm.recip_ref_reg\n  WHERE tm.match_status = 'Completed' AND cm.hla_mis_count = 1\n)\nSELECT mismatch_locus, COUNT(*) AS mismatch_count\nFROM m WHERE mismatch_locus IS NOT NULL\nGROUP BY mismatch_locus ORDER BY mismatch_locus",
+  "note": "hla_mis_count=1 used; the stored donor/recipient A, B, DR values differ at every locus for these rows, so the first-differing-locus rule puts all in A-locus. Recomputing the mismatch score from the loci would return no rows."
+ },
+ {
+  "question_id": "organ_transplant_6",
+  "answer": "WITH b AS (\n  SELECT tm.match_rec_registry, ar.tx_cen_code,\n         (re.riskmetrics->>'Infect_Risk')::numeric AS infect_risk,\n         (mh.viralstatinfo->>'Cmv_State' = 'Positive' AND ri.cmv_state = 'Negative') AS cmv_mismatch\n  FROM transplant_matching tm\n  JOIN administrative_and_review ar ON ar.adm_rev_registry = tm.match_rec_registry\n  JOIN risk_evaluation re ON re.risk_eval_registry = tm.match_rec_registry\n  JOIN medical_history mh ON mh.contrib_med_registry = tm.donor_ref_reg\n  JOIN recipients_immunology ri ON ri.immu_recip_registry = tm.recip_ref_reg\n  WHERE tm.match_status IN ('Completed', 'In Progress')\n)\nSELECT b.match_rec_registry, b.tx_cen_code, b.infect_risk,\n       (SELECT ROUND(AVG(o.infect_risk), 4) FROM b o\n         WHERE o.tx_cen_code = b.tx_cen_code AND NOT o.cmv_mismatch) AS avg_center_infect_risk_no_mismatch\nFROM b\nWHERE b.cmv_mismatch\nORDER BY b.tx_cen_code"
+ },
+ {
+  "question_id": "organ_transplant_7",
+  "answer": "WITH p AS (\n  SELECT tm.recip_ref_reg, tm.org_spec, ri.life_support,\n         0.7*CASE c.med_urgency WHEN 'Status 1A' THEN 5 WHEN 'Status 1B' THEN 4 WHEN 'Status 2' THEN 3 WHEN 'Status 3' THEN 2 ELSE 1 END + 0.3*(split_part(c.wait_time,' ',1)::numeric/365.0) AS urgency_score\n  FROM transplant_matching tm\n  JOIN clinical c ON c.clin_recip_registry = tm.recip_ref_reg\n  JOIN recipients_immunology ri ON ri.immu_recip_registry = tm.recip_ref_reg\n  WHERE tm.match_status = 'Pending'\n), baseline AS (\n  SELECT org_spec, AVG(urgency_score) AS avg_score FROM p WHERE life_support IS NULL GROUP BY org_spec\n)\nSELECT p.recip_ref_reg, p.life_support, ROUND(p.urgency_score, 4) AS urgency_score,\n       ROUND(bl.avg_score, 4) AS avg_urgency_no_life_support\nFROM p LEFT JOIN baseline bl ON bl.org_spec = p.org_spec\nWHERE p.life_support IN ('ECMO', 'VAD')\nORDER BY p.org_spec, p.urgency_score",
+  "note": "Medical urgency values '2' and '3' (without 'Status ') are mapped to 1 per the literal definition."
+ },
+ {
+  "question_id": "organ_transplant_13",
+  "answer": "WITH x AS (\n  SELECT tm.dss_val, 1/(1+exp(-(-0.5 + 1.5*(0.6*CASE WHEN lower(cm.blood_compat)='compatible' THEN 1 ELSE 0 END + 0.4*(1-cm.hla_mis_count/6.0)) - 0.02*split_part(d.age_count,' ',1)::numeric))) AS egs\n  FROM transplant_matching tm\n  LEFT JOIN compatibility_metrics cm ON cm.match_comp_registry = tm.match_rec_registry\n  LEFT JOIN demographics d ON d.contrib_registry = tm.donor_ref_reg\n  WHERE tm.match_status = 'Completed' AND tm.dss_val IS NOT NULL\n), r AS (SELECT MIN(dss_val) AS mn, MAX(dss_val) AS mx FROM x)\nSELECT LEAST(WIDTH_BUCKET(x.dss_val, r.mn, r.mx, 5), 5) AS dss_bucket,\n       COUNT(*) AS transplant_count,\n       ROUND(AVG(x.egs), 4) AS avg_egs_score\nFROM x CROSS JOIN r\nGROUP BY 1 ORDER BY 1",
+  "note": "EGS computed from the knowledge formula (not risk_evaluation.egs_val); max DSS folded into bucket 5."
+ },
+ {
+  "question_id": "organ_transplant_17",
+  "answer": "WITH x AS (\n  SELECT l.trans_method,\n         (split_part(fr.org_isch_time,' ',1)::numeric + split_part(cm.exp_isch_time,' ',1)::numeric)\n         / (split_part(cm.distance,' ',1)::numeric * 1.60934) AS ratio\n  FROM transplant_matching tm\n  JOIN logistics l ON l.log_match_registry = tm.match_rec_registry\n  JOIN compatibility_metrics cm ON cm.match_comp_registry = tm.match_rec_registry\n  JOIN function_and_recovery fr ON fr.recov_don_registry = tm.donor_ref_reg\n  WHERE tm.match_status = 'Completed'\n    AND split_part(cm.distance,' ',1)::numeric * 1.60934 >= 10\n)\nSELECT trans_method, ROUND(AVG(ratio), 4) AS avg_efficiency_ratio,\n       ROUND(MIN(ratio), 4) AS min_efficiency_ratio, ROUND(MAX(ratio), 4) AS max_efficiency_ratio\nFROM x GROUP BY trans_method ORDER BY AVG(ratio)",
+  "note": "Distance stored in miles, converted to km (x1.60934). Total ischemia = donor org_isch_time + match exp_isch_time."
+ },
+ {
+  "question_id": "organ_transplant_1",
+  "answer": "SELECT ri.immu_recip_registry, ri.pra_score, ri.dsa_state,\n       CASE WHEN ri.pra_score >= 80 AND ri.dsa_state = 'Positive' THEN 'High Risk' ELSE 'Standard Risk' END AS amr_risk_level,\n       (SELECT MAX(tm.created_ts::timestamp) FROM transplant_matching tm\n         WHERE tm.recip_ref_reg = ri.immu_recip_registry) AS last_match_ts\nFROM recipients_immunology ri\nWHERE ri.cross_result = 'Positive'\nORDER BY ri.pra_score DESC",
+  "note": "match_ts is identical for every row, so created_ts is used for the most recent matching attempt."
+ },
+ {
+  "question_id": "organ_transplant_2",
+  "answer": "SELECT tm.recip_ref_reg, ad.allc_region, c.med_urgency, cm.hla_mis_count,\n       RANK() OVER (PARTITION BY ad.allc_region ORDER BY CASE c.med_urgency WHEN 'Status 1A' THEN 5 WHEN 'Status 1B' THEN 4 WHEN 'Status 2' THEN 3 WHEN 'Status 3' THEN 2 ELSE 1 END DESC, cm.hla_mis_count ASC) AS region_rank\nFROM transplant_matching tm\nJOIN allocation_details ad ON ad.allc_match_registry = tm.match_rec_registry\nJOIN clinical c ON c.clin_recip_registry = tm.recip_ref_reg\nJOIN compatibility_metrics cm ON cm.match_comp_registry = tm.match_rec_registry\nWHERE tm.match_status = 'Pending' AND tm.org_spec = 'Pancreas'\nORDER BY ad.allc_region, region_rank"
+ },
+ {
+  "question_id": "organ_transplant_3",
+  "answer": "WITH x AS (\n  SELECT tm.match_rec_registry, tm.donor_ref_reg, tm.recip_ref_reg,\n         replace(cm.cost_est, 'US$', '')::numeric / (5 * re.qol_val::numeric) AS cer\n  FROM transplant_matching tm\n  JOIN compatibility_metrics cm ON cm.match_comp_registry = tm.match_rec_registry\n  JOIN risk_evaluation re ON re.risk_eval_registry = tm.match_rec_registry\n  WHERE tm.match_status = 'Completed' AND tm.org_spec = 'Lung'\n    AND re.qol_val > 0 AND cm.cost_est IS NOT NULL\n), n AS (SELECT x.*, NTILE(20) OVER (ORDER BY cer) AS bucket FROM x)\nSELECT match_rec_registry, donor_ref_reg, recip_ref_reg, ROUND(cer, 2) AS cer\nFROM n WHERE bucket IN (1, 20)\nORDER BY cer",
+  "note": "Net cost taken as compatibility_metrics.cost_est."
+ },
+ {
+  "question_id": "organ_transplant_4",
+  "answer": "WITH p AS (\n  SELECT d.physicalstats->>'Ethnicity' AS donor_eth, rd.ethn_grp AS recip_eth,\n         rtrim(split_part(d.blood_class,' ',1),'+-') AS dabo, rtrim(rd.blood_class,'+-') AS rabo,\n         1 - abs((d.physicalstats->>'Bmi_Value')::numeric / NULLIF(rd.bmi_val::numeric,0) - 1) AS size_score\n  FROM compatibility_metrics cm\n  JOIN demographics d ON d.contrib_registry = cm.donor_ref_reg\n  JOIN recipients_demographics rd ON rd.recip_registry = cm.recip_ref_reg\n  WHERE cm.hla_mis_count = 0\n), o AS (\n  SELECT * FROM p\n  WHERE (dabo = 'O' OR rabo = 'AB' OR dabo = rabo)\n    AND size_score BETWEEN 0.9 AND 1.1\n)\nSELECT donor_eth AS donor_ethnicity,\n  COUNT(*) FILTER (WHERE recip_eth='African') AS \"African\",\n  COUNT(*) FILTER (WHERE recip_eth='Asian') AS \"Asian\",\n  COUNT(*) FILTER (WHERE recip_eth='Caucasian') AS \"Caucasian\",\n  COUNT(*) FILTER (WHERE recip_eth='Hispanic') AS \"Hispanic\",\n  COUNT(*) FILTER (WHERE recip_eth='Other') AS \"Other\"\nFROM o GROUP BY donor_eth ORDER BY donor_eth",
+  "note": "ABO compatibility computed from donor/recipient blood types by the knowledge rules (the blood_compat column contradicts the types); size score computed from BMIs."
+ },
+ {
+  "question_id": "organ_transplant_8",
+  "answer": "WITH x AS (\n  SELECT l.trans_method,\n         split_part(fr.org_isch_time,' ',1)::numeric + split_part(cm.exp_isch_time,' ',1)::numeric AS total_ischemia,\n         1/(1+exp(-(-0.5 + 1.5*(0.6*CASE WHEN lower(cm.blood_compat)='compatible' THEN 1 ELSE 0 END + 0.4*(1-cm.hla_mis_count/6.0)) - 0.02*split_part(d.age_count,' ',1)::numeric))) AS egs\n  FROM transplant_matching tm\n  JOIN logistics l ON l.log_match_registry = tm.match_rec_registry\n  JOIN compatibility_metrics cm ON cm.match_comp_registry = tm.match_rec_registry\n  JOIN function_and_recovery fr ON fr.recov_don_registry = tm.donor_ref_reg\n  JOIN demographics d ON d.contrib_registry = tm.donor_ref_reg\n  WHERE tm.match_status = 'Completed'\n)\nSELECT trans_method, ROUND(AVG(total_ischemia), 2) AS avg_total_ischemia_min,\n       ROUND(AVG(egs), 4) AS avg_egs_score\nFROM x GROUP BY trans_method ORDER BY AVG(egs) DESC",
+  "note": "EGS computed from the knowledge formula; risk_evaluation.egs_val is uncorrelated with it."
+ }
+]

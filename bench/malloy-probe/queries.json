@@ -1,0 +1,30 @@
+[
+ [
+  "fanned SUM (join prunable)",
+  "run: dept_with_emps -> { aggregate: total_budget }"
+ ],
+ [
+  "fanned AVG (join prunable)",
+  "run: dept_with_emps -> { aggregate: avg_budget }"
+ ],
+ [
+  "fanned SUM, join NOT prunable",
+  "run: dept_with_emps -> { aggregate: total_budget, heads is emps.count() }"
+ ],
+ [
+  "GROUPED fanned SUM -- the case ConQuer refuses",
+  "run: dept_with_emps -> { group_by: dept_code; aggregate: total_budget, heads is emps.count() }"
+ ],
+ [
+  "fanned SUM through an objectified fact type",
+  "run: emp_with_assignments -> { aggregate: total_salary }"
+ ],
+ [
+  "COUNT of the ONE side when fanned",
+  "run: emp_with_assignments -> { aggregate: emp_count }"
+ ],
+ [
+  "COUNT of the MANY side",
+  "run: emp_with_assignments -> { aggregate: rows is asg.count() }"
+ ]
+]

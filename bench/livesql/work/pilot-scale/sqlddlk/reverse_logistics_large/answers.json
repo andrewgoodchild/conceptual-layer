@@ -1,0 +1,43 @@
+[
+ {
+  "question_id": "reverse_logistics_9",
+  "answer": "SELECT r.casenum, r.return_channel, ROUND((r.return_details->'shipping'->>'fee')::numeric / AVG((r.return_details->'shipping'->>'fee')::numeric) OVER (PARTITION BY r.return_channel), 2) AS rcci FROM returns r ORDER BY CASE WHEN r.logtime ~ '^\\d{4}$' THEN to_date(r.logtime, 'YYYY') ELSE regexp_replace(r.logtime, '(\\d+)(st|nd|rd|th),', '\\1,')::date END DESC LIMIT 100"
+ },
+ {
+  "question_id": "reverse_logistics_19",
+  "answer": "SELECT f.cost_breakdown->'disposal'->>'disposal_method' AS disposal_method, COUNT(*) AS non_compliant_count, ROUND(AVG((f.cost_breakdown->'sustainability'->>'carbon_footprint')::numeric), 2) AS avg_carbon_footprint FROM returns r JOIN financial_management f ON f.casetag = r.casenum JOIN products p ON p.itemcode = r.itemlink WHERE p.product_traceability->'compliance'->>'regulatory_compliance' = 'Non-compliant' GROUP BY 1 ORDER BY non_compliant_count DESC"
+ },
+ {
+  "question_id": "reverse_logistics_17",
+  "answer": "SELECT f.cost_breakdown->'refund'->>'method' AS refund_method, SUM((f.cost_breakdown->'valuation'->>'recovery_value')::numeric) AS recovery_value, SUM(((r.return_details->'shipping'->>'fee')::numeric + (f.cost_breakdown->'fees'->>'restocking_fee')::numeric + (f.cost_breakdown->'fees'->>'relabeling_cost')::numeric + (f.cost_breakdown->'disposal'->>'disposal_cost')::numeric + (f.cost_breakdown->'repair_costs'->>'repair_estimate')::numeric)) AS total_return_cost, SUM((f.cost_breakdown->'valuation'->>'recovery_value')::numeric) - SUM(((r.return_details->'shipping'->>'fee')::numeric + (f.cost_breakdown->'fees'->>'restocking_fee')::numeric + (f.cost_breakdown->'fees'->>'relabeling_cost')::numeric + (f.cost_breakdown->'disposal'->>'disposal_cost')::numeric + (f.cost_breakdown->'repair_costs'->>'repair_estimate')::numeric)) AS rpi FROM returns r JOIN financial_management f ON f.casetag = r.casenum GROUP BY 1"
+ },
+ {
+  "question_id": "reverse_logistics_7",
+  "answer": "SELECT casenum, fraud_flags, weight, fraud_flags * weight AS ffs FROM (SELECT r.casenum, (r.return_details->'fraud'->>'fraud_flags')::int AS fraud_flags, CASE r.return_details->'fraud'->>'risk_level' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 2 WHEN 'High' THEN 3 END AS weight FROM returns r) t ORDER BY ffs DESC NULLS LAST",
+  "note": "645 returns have no risk level; their weight/FFS are NULL and sorted last."
+ },
+ {
+  "question_id": "reverse_logistics_13",
+  "answer": "SELECT r.return_channel, ROUND(AVG((f.cost_breakdown->'valuation'->>'recovery_value')::numeric), 2) AS avg_recovery_value FROM returns r JOIN financial_management f ON f.casetag = r.casenum GROUP BY r.return_channel"
+ },
+ {
+  "question_id": "reverse_logistics_1",
+  "answer": "SELECT r.casenum, ROUND(((r.return_details->'shipping'->>'fee')::numeric + (f.cost_breakdown->'fees'->>'restocking_fee')::numeric + (f.cost_breakdown->'fees'->>'relabeling_cost')::numeric + (f.cost_breakdown->'disposal'->>'disposal_cost')::numeric + (f.cost_breakdown->'repair_costs'->>'repair_estimate')::numeric), 2) AS trc FROM returns r JOIN financial_management f ON f.casetag = r.casenum ORDER BY trc DESC"
+ },
+ {
+  "question_id": "reverse_logistics_2",
+  "answer": "SELECT ROUND(SUM((f.cost_breakdown->'valuation'->>'recovery_value')::numeric) - SUM(((r.return_details->'shipping'->>'fee')::numeric + (f.cost_breakdown->'fees'->>'restocking_fee')::numeric + (f.cost_breakdown->'fees'->>'relabeling_cost')::numeric + (f.cost_breakdown->'disposal'->>'disposal_cost')::numeric + (f.cost_breakdown->'repair_costs'->>'repair_estimate')::numeric)), 2) AS net_impact, ROUND(SUM((f.cost_breakdown->'valuation'->>'recovery_value')::numeric), 2) AS total_recovery_value, ROUND(SUM(((r.return_details->'shipping'->>'fee')::numeric + (f.cost_breakdown->'fees'->>'restocking_fee')::numeric + (f.cost_breakdown->'fees'->>'relabeling_cost')::numeric + (f.cost_breakdown->'disposal'->>'disposal_cost')::numeric + (f.cost_breakdown->'repair_costs'->>'repair_estimate')::numeric)), 2) AS total_return_cost FROM returns r JOIN financial_management f ON f.casetag = r.casenum"
+ },
+ {
+  "question_id": "reverse_logistics_3",
+  "answer": "SELECT ROUND(SUM((f.cost_breakdown->'valuation'->>'recovery_value')::numeric) / NULLIF(SUM(r.dayslapsed), 0), 2) AS avg_rrd, ROUND(SUM((f.cost_breakdown->'valuation'->>'recovery_value')::numeric), 2) AS total_recovery_value, SUM(r.dayslapsed) AS total_days_lapsed FROM returns r JOIN financial_management f ON f.casetag = r.casenum"
+ },
+ {
+  "question_id": "reverse_logistics_4",
+  "answer": "SELECT ROUND(AVG(((r.return_details->'shipping'->>'fee')::numeric + (f.cost_breakdown->'fees'->>'restocking_fee')::numeric + (f.cost_breakdown->'fees'->>'relabeling_cost')::numeric + (f.cost_breakdown->'disposal'->>'disposal_cost')::numeric + (f.cost_breakdown->'repair_costs'->>'repair_estimate')::numeric) + 0.5 * (f.cost_breakdown->'sustainability'->>'carbon_footprint')::numeric - (f.cost_breakdown->'valuation'->>'recovery_value')::numeric), 2) AS avg_sal FROM returns r JOIN financial_management f ON f.casetag = r.casenum"
+ },
+ {
+  "question_id": "reverse_logistics_5",
+  "answer": "SELECT loccode, ROUND(proctime::numeric, 1) AS processing_time, ROUND(AVG(proctime::numeric) OVER (PARTITION BY loccode), 1) AS apt FROM return_processing ORDER BY apt DESC"
+ }
+]

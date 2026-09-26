@@ -1,0 +1,44 @@
+[
+ {
+  "question_id": "sports_events_8",
+  "answer": "SELECT r.yr AS race_year, r.event_schedule->>'event_name' AS race_name, (d.driver_identity->'name'->>'first_name') || ' ' || (d.driver_identity->'name'->>'surname') AS driver_name, ds.px AS podium_position, FLOOR((to_date(r.event_schedule->>'date_set','YYYY/MM/DD') - (d.driver_identity->>'birth_date')::date) / 365.25) AS age_at_race FROM driver_standings ds JOIN races r ON r.rak_id = ds.rlink JOIN drivers d ON d.drv_main = ds.drive_link WHERE ds.px BETWEEN 1 AND 3 AND FLOOR((to_date(r.event_schedule->>'date_set','YYYY/MM/DD') - (d.driver_identity->>'birth_date')::date) / 365.25) >= 35 ORDER BY age_at_race DESC, race_year DESC",
+  "note": "No main-race results table exists; podium taken from driver_standings position (px 1-3)."
+ },
+ {
+  "question_id": "sports_events_13",
+  "answer": "SELECT ROUND(MAX(rate), 2) AS max_reliability_rate FROM (SELECT unitnode, COUNT(*) FILTER (WHERE st_mark IS NULL) * 100.0 / COUNT(*) AS rate FROM constructor_results GROUP BY unitnode HAVING COUNT(*) >= 5) x"
+ },
+ {
+  "question_id": "sports_events_3",
+  "answer": "WITH s AS (SELECT c.cstr_key, c.namelabel, COUNT(*) AS races_started, COUNT(*) FILTER (WHERE cr.st_mark IS NULL) AS races_finished FROM constructor_results cr JOIN constructors c ON c.cstr_key = cr.unitnode GROUP BY c.cstr_key, c.namelabel HAVING COUNT(*) > 10) SELECT namelabel AS constructor_name, races_started, races_finished, ROUND(races_finished * 100.0 / races_started, 2) AS reliability_rate, RANK() OVER (ORDER BY races_finished * 100.0 / races_started DESC) AS reliability_rank FROM s ORDER BY reliability_rate DESC"
+ },
+ {
+  "question_id": "sports_events_7",
+  "answer": "WITH rc AS (SELECT wheel_unit, rc_index, STDDEV_POP(msec_val / 1000.0) AS ltc FROM lap_times WHERE msec_val IS NOT NULL GROUP BY wheel_unit, rc_index) SELECT jsonb_build_object('surname', d.driver_identity->'name'->>'surname', 'first_name', d.driver_identity->'name'->>'first_name') AS driver_name, AVG(rc.ltc) AS avg_consistency_score, COUNT(*) AS races_analyzed FROM rc JOIN drivers d ON d.drv_main = rc.wheel_unit GROUP BY d.drv_main, d.driver_identity HAVING COUNT(*) > 5 ORDER BY avg_consistency_score ASC"
+ },
+ {
+  "question_id": "sports_events_6",
+  "answer": "WITH h AS (SELECT ds.rlink, ds.acc_pt, to_date(r.event_schedule->>'date_set','YYYY/MM/DD') AS rd, (d.driver_identity->>'birth_date')::date AS bd, ROW_NUMBER() OVER (ORDER BY r.yr, r.rnum) AS races_participated FROM driver_standings ds JOIN races r ON r.rak_id = ds.rlink JOIN drivers d ON d.drv_main = ds.drive_link WHERE d.driver_identity->'name'->>'first_name' = 'Lewis' AND d.driver_identity->'name'->>'surname' = 'Hamilton') SELECT rlink AS race_id, (acc_pt / races_participated) / FLOOR((rd - bd) / 365.25) AS dpv FROM h ORDER BY rd",
+  "note": "PPR = cumulative standings points / running count of Hamilton's standings rows; age at race date. Interpretation uncertain."
+ },
+ {
+  "question_id": "sports_events_11",
+  "answer": "SELECT ROUND(AVG(0.35 * 0.25), 4) AS hat_trick_probability FROM qualifying WHERE px_pos = 1"
+ },
+ {
+  "question_id": "sports_events_15",
+  "answer": "SELECT MIN(msec_val) / 1000.0 AS fastest_lap_seconds FROM lap_times WHERE msec_val > 0"
+ },
+ {
+  "question_id": "sports_events_20",
+  "answer": "SELECT COUNT(*) AS single_stop_race_count FROM (SELECT matchidx, COUNT(*)::numeric / COUNT(DISTINCT wunit) AS avg_stops_per_car FROM pit_stops GROUP BY matchidx) x WHERE avg_stops_per_car < 1.5"
+ },
+ {
+  "question_id": "sports_events_4",
+  "answer": "SELECT COUNT(*) AS dominant_victory_count FROM sprint_results w JOIN sprint_results s2 ON s2.matchref = w.matchref AND (s2.sprint_performance->>'final_position')::int = 2 WHERE (w.sprint_performance->>'final_position')::int = 1 AND ((s2.sprint_performance->'timing'->>'duration_ms')::numeric - (w.sprint_performance->'timing'->>'duration_ms')::numeric) / 1000 > 5"
+ },
+ {
+  "question_id": "sports_events_1",
+  "answer": "SELECT AVG(FLOOR((to_date(r.event_schedule->>'date_set','YYYY/MM/DD') - (d.driver_identity->>'birth_date')::date) / 365.25)) AS avg_sprint_winner_age FROM sprint_results s JOIN races r ON r.rak_id = s.matchref JOIN drivers d ON d.drv_main = s.unitdrive WHERE (s.sprint_performance->>'final_position')::int = 1"
+ }
+]

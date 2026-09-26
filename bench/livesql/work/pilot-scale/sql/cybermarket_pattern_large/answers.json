@@ -1,0 +1,49 @@
+[
+ {
+  "question_id": "cybermarket_pattern_20",
+  "answer": "SELECT COUNT(*) AS variable_spend_buyers FROM buyers WHERE buyer_risk_profile->>'spend_pattern' = 'Variable'"
+ },
+ {
+  "question_id": "cybermarket_pattern_7",
+  "answer": "SELECT p.\"ProdCat\" AS product_category, COUNT(DISTINCT (p.\"ProdCat\", p.\"Subcategory\", p.\"ListingAge\", p.\"SellerPointer\")) AS active_listings, COUNT(*) FILTER (WHERE c.communication_details->>'lang_pattern_type' = 'Consistent') AS consistent_lang_txns, COUNT(*) FILTER (WHERE c.communication_details->>'lang_pattern_type' = 'Suspicious') AS suspicious_lang_txns, COUNT(*) FILTER (WHERE c.communication_details->>'lang_pattern_type' = 'Variable') AS variable_lang_txns, COUNT(DISTINCT b.\"AcqCode\") FILTER (WHERE (b.buyer_risk_profile->>'behavior_consistency_scr')::numeric < 50 AND split_part(b.buyer_risk_profile->>'risk_dollar_ratio', ' ', 1)::numeric > 0.1) AS suspicious_buyers FROM products p LEFT JOIN transaction_products tp ON tp.\"ProdCat\" = p.\"ProdCat\" AND tp.\"Subcategory\" = p.\"Subcategory\" AND tp.\"ListingAge\" = p.\"ListingAge\" AND tp.\"SellerPointer\" = p.\"SellerPointer\" LEFT JOIN transactions t ON t.\"EventCode\" = tp.\"EventLink\" LEFT JOIN communications c ON c.\"EventLink\" = t.\"EventCode\" LEFT JOIN buyers b ON b.\"AcqCode\" = t.\"AcqLink\" WHERE (p.product_availability->>'qty_avail')::numeric > 0 GROUP BY p.\"ProdCat\" ORDER BY active_listings DESC",
+  "note": "'Active listing' taken as qty_avail > 0 (all listings qualify); Suspicious Buyer thresholds not defined in knowledge: used behavior_consistency_scr < 50 and risk_dollar_ratio > 0.1; 'metrics related to' interpreted as counts."
+ },
+ {
+  "question_id": "cybermarket_pattern_1",
+  "answer": "SELECT \"PlatCode\", \"PlatName\", ROUND(((0.4 * (platform_compliance->>'vuln_inst_count')::numeric + 0.3 * (platform_compliance->>'sec_event_count')::numeric + 0.3 * NULLIF(regexp_replace(\"RepScore\", '[^0-9.]', '', 'g'), '')::numeric) / 100), 4) AS mrs FROM markets ORDER BY mrs DESC NULLS LAST",
+  "note": "RepScore stored as text like '$98.60 '; parsed. 387 markets have NULL RepScore so MRS is NULL; placed last."
+ },
+ {
+  "question_id": "cybermarket_pattern_5",
+  "answer": "SELECT \"EventLink\" AS thread_id, ROUND((communication_details->>'keyword_match_count')::numeric / NULLIF((communication_details->>'msg_count_total')::numeric, 0), 3) AS ssd FROM communications ORDER BY ssd DESC NULLS LAST"
+ },
+ {
+  "question_id": "cybermarket_pattern_3",
+  "answer": "WITH ap AS (SELECT \"SellerPointer\", AVG((product_availability->>'price_amt')::numeric) AS avg_price FROM products GROUP BY 1), rc AS (SELECT \"VendorLink\", COUNT(*) FILTER (WHERE \"RouteComplex\"='Simple') AS simple_routes, COUNT(*) FILTER (WHERE \"RouteComplex\"='Medium') AS medium_routes, COUNT(*) FILTER (WHERE \"RouteComplex\"='Complex') AS complex_routes FROM transactions GROUP BY 1) SELECT v.\"SellerKey\", v.\"CompletedTxns\" * ap.avg_price / NULLIF(v.\"DaysActive\", 0) AS plr, COALESCE(rc.simple_routes,0) AS simple_routes, COALESCE(rc.medium_routes,0) AS medium_routes, COALESCE(rc.complex_routes,0) AS complex_routes FROM vendors v LEFT JOIN ap ON ap.\"SellerPointer\" = v.\"SellerKey\" LEFT JOIN rc ON rc.\"VendorLink\" = v.\"SellerKey\" ORDER BY plr DESC NULLS LAST",
+  "note": "successful_txns=CompletedTxns, average_price=avg product price_amt for vendor, days_active=DaysActive; route complexity given as per-vendor transaction counts."
+ },
+ {
+  "question_id": "cybermarket_pattern_2",
+  "answer": "WITH b AS (SELECT \"AcqCode\", NTILE(3) OVER (ORDER BY split_part(buyer_risk_profile->>'risk_dollar_ratio',' ',1)::numeric) AS tile FROM buyers WHERE buyer_risk_profile->>'risk_dollar_ratio' IS NOT NULL), tx AS (SELECT b.tile, t.\"EventCode\", t.\"CrossBorder\", CASE WHEN cs.\"AnonLevel\"::numeric >= 7 THEN 'High' WHEN cs.\"AnonLevel\"::numeric >= 4 THEN 'Medium' WHEN cs.\"AnonLevel\" IS NOT NULL THEN 'Low' END AS anon FROM b LEFT JOIN transactions t ON t.\"AcqLink\" = b.\"AcqCode\" LEFT JOIN connection_security cs ON cs.\"TxnPointer\" = t.\"EventCode\") SELECT CASE b.tile WHEN 1 THEN 'Low' WHEN 2 THEN 'Medium' ELSE 'High' END AS brdr_bucket, COUNT(DISTINCT b.\"AcqCode\") AS buyer_count, (SELECT ROUND(AVG((x.\"CrossBorder\" = 1)::int)::numeric, 4) FROM tx x WHERE x.tile = b.tile AND x.\"EventCode\" IS NOT NULL) AS cross_border_share, (SELECT COUNT(*) FROM tx x WHERE x.tile = b.tile AND x.anon = 'High') AS high_anonymity_sessions, (SELECT COUNT(*) FROM tx x WHERE x.tile = b.tile AND x.anon = 'Medium') AS medium_anonymity_sessions, (SELECT COUNT(*) FROM tx x WHERE x.tile = b.tile AND x.anon = 'Low') AS low_anonymity_sessions FROM b GROUP BY b.tile ORDER BY b.tile",
+  "note": "Buckets = terciles (NTILE 3) of stored risk_dollar_ratio; session anonymity derived from numeric AnonLevel (1-10): >=7 High, >=4 Medium, else Low."
+ },
+ {
+  "question_id": "cybermarket_pattern_4",
+  "answer": "SELECT cs.\"TxnPointer\" AS session_id, split_part(cs.\"Threat_handle_rate\", ' ', 1)::numeric AS threat_handling_rate, b.\"AuthLevel\" AS buyer_auth_level FROM connection_security cs JOIN transactions t ON t.\"EventCode\" = cs.\"TxnPointer\" LEFT JOIN buyers b ON b.\"AcqCode\" = t.\"AcqLink\" ORDER BY threat_handling_rate DESC NULLS LAST",
+  "note": "THR taken from stored Threat_handle_rate text; buyer auth level via transaction's buyer."
+ },
+ {
+  "question_id": "cybermarket_pattern_6",
+  "answer": "SELECT m.\"PlatCode\", m.\"PlatName\", m.\"OperStatus\", COUNT(a.\"EventTag\") FILTER (WHERE a.alert_case_management->>'escalation_tier_stat' = 'Level3') AS tier3_escalation_cases, COUNT(a.\"EventTag\") FILTER (WHERE a.alert_case_management->>'severity_level_stat' = 'Critical') AS critical_alerts, COUNT(a.\"EventTag\") FILTER (WHERE a.alert_case_management->>'severity_level_stat' = 'High') AS high_alerts, COUNT(a.\"EventTag\") FILTER (WHERE a.alert_case_management->>'severity_level_stat' = 'Medium') AS medium_alerts, COUNT(a.\"EventTag\") FILTER (WHERE a.alert_case_management->>'severity_level_stat' = 'Low') AS low_alerts FROM markets m LEFT JOIN transactions t ON t.\"PlatformKey\" = m.\"PlatCode\" LEFT JOIN alerts a ON a.\"EventTag\" = t.\"EventCode\" WHERE (m.platform_compliance->>'vuln_inst_count')::numeric < 10 AND (m.platform_compliance->>'protection_meas_count')::numeric > 15 GROUP BY m.\"PlatCode\", m.\"PlatName\", m.\"OperStatus\"",
+  "note": "Tier-3 = escalation_tier_stat 'Level3'; alerts linked to platform through transactions."
+ },
+ {
+  "question_id": "cybermarket_pattern_8",
+  "answer": "SELECT \"RouteComplex\" AS route_complexity, COUNT(*) AS transaction_count FROM transactions GROUP BY \"RouteComplex\" ORDER BY transaction_count DESC"
+ },
+ {
+  "question_id": "cybermarket_pattern_9",
+  "answer": "SELECT anonymity_level, ROUND(AVG(\"OpSecMetric\")::numeric, 2) AS avg_opsec_score FROM (SELECT \"OpSecMetric\", CASE WHEN \"AnonLevel\"::numeric >= 7 THEN 'High' WHEN \"AnonLevel\"::numeric >= 4 THEN 'Medium' ELSE 'Low' END AS anonymity_level FROM connection_security WHERE \"AnonLevel\" IS NOT NULL) s GROUP BY anonymity_level ORDER BY CASE anonymity_level WHEN 'High' THEN 1 WHEN 'Medium' THEN 2 ELSE 3 END",
+  "note": "AnonLevel is numeric 1-10; mapped to High (>=7) / Medium (>=4) / Low."
+ }
+]

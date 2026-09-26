@@ -1,0 +1,34 @@
+[
+ {
+  "question_id": "sports_events_6",
+  "answer": "WITH h AS (\n  SELECT ds.rlink AS race_id,\n         ds.acc_pt,\n         ROW_NUMBER() OVER (ORDER BY to_date(r.event_schedule->>'date_set','YYYY/MM/DD'), r.rak_id) AS races_done,\n         (d.driver_identity->>'birth_date')::date AS dob\n  FROM driver_standings ds\n  JOIN races r ON r.rak_id = ds.rlink\n  JOIN drivers d ON d.drv_main = ds.drive_link\n  WHERE d.driver_identity->'name'->>'first_name' = 'Lewis'\n    AND d.driver_identity->'name'->>'surname' = 'Hamilton'\n)\nSELECT race_id,\n       (acc_pt::numeric / races_done) / FLOOR((CURRENT_DATE - dob) / 365.25) AS dpv\nFROM h\nORDER BY races_done"
+ },
+ {
+  "question_id": "sports_events_5",
+  "answer": "WITH mcl AS (\n  SELECT r.yr AS year,\n         cr.matchref AS race_id,\n         c.namelabel AS constructor_name,\n         cr.scoreval,\n         cr.st_mark,\n         r.rnum\n  FROM constructor_results cr\n  JOIN races r ON r.rak_id = cr.matchref\n  JOIN constructors c ON c.cstr_key = cr.unitnode\n  WHERE c.namelabel = 'McLaren'\n)\nSELECT year,\n       race_id,\n       constructor_name,\n       SUM(COALESCE(scoreval,0)) OVER w\n         * (COUNT(*) FILTER (WHERE st_mark IS NULL) OVER w)::numeric\n         / (COUNT(*) OVER w) AS cumulative_cps\nFROM mcl\nWINDOW w AS (PARTITION BY year ORDER BY rnum ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)\nORDER BY year, rnum"
+ },
+ {
+  "question_id": "sports_events_2",
+  "answer": "SELECT location_metadata->>'name' AS circuit_name,\n       (location_metadata->'coordinates'->>'elevation_m')::numeric AS elevation\nFROM circuits\nWHERE (location_metadata->'coordinates'->>'elevation_m')::numeric > 800\nORDER BY elevation DESC"
+ },
+ {
+  "question_id": "sports_events_9",
+  "answer": "SELECT r.event_schedule->>'event_name' AS event_name,\n       d.driver_identity->>'reference' AS driver_ref,\n       (9 - (s.sprint_performance->>'final_position')::int)\n         + CASE (s.sprint_performance->>'final_position')::int\n             WHEN 1 THEN 8 WHEN 2 THEN 7 WHEN 3 THEN 6 WHEN 4 THEN 5\n             WHEN 5 THEN 4 WHEN 6 THEN 3 WHEN 7 THEN 2 WHEN 8 THEN 1\n             ELSE 0 END AS sprint_performance_index\nFROM sprint_results s\nJOIN races r ON r.rak_id = s.matchref\nJOIN drivers d ON d.drv_main = s.unitdrive\nWHERE s.sprint_performance->>'status_code' = '1'\nORDER BY sprint_performance_index DESC"
+ },
+ {
+  "question_id": "sports_events_1",
+  "answer": "SELECT AVG(FLOOR((to_date(r.event_schedule->>'date_set','YYYY/MM/DD') - (d.driver_identity->>'birth_date')::date) / 365.25)) AS avg_sprint_winner_age\nFROM sprint_results s\nJOIN races r ON r.rak_id = s.matchref\nJOIN drivers d ON d.drv_main = s.unitdrive\nWHERE (s.sprint_performance->>'final_position')::int = 1"
+ },
+ {
+  "question_id": "sports_events_12",
+  "answer": "SELECT ROUND(AVG((9 - (s.sprint_performance->>'final_position')::int)\n         + CASE (s.sprint_performance->>'final_position')::int\n             WHEN 1 THEN 8 WHEN 2 THEN 7 WHEN 3 THEN 6 WHEN 4 THEN 5\n             WHEN 5 THEN 4 WHEN 6 THEN 3 WHEN 7 THEN 2 WHEN 8 THEN 1\n             ELSE 0 END), 2) AS avg_spi_top8\nFROM sprint_results s\nWHERE (s.sprint_performance->>'final_position')::int <= 8"
+ },
+ {
+  "question_id": "sports_events_10",
+  "answer": "WITH t AS (\n  SELECT rbind,\n         LEAST(\n           CASE WHEN q1_r IS NOT NULL THEN split_part(q1_r,':',1)::numeric*60 + split_part(q1_r,':',2)::numeric END,\n           CASE WHEN q2_r IS NOT NULL THEN split_part(q2_r,':',1)::numeric*60 + split_part(q2_r,':',2)::numeric END,\n           CASE WHEN q3_r IS NOT NULL THEN split_part(q3_r,':',1)::numeric*60 + split_part(q3_r,':',2)::numeric END\n         ) AS best_sec\n  FROM qualifying\n),\np AS (SELECT rbind, MIN(best_sec) AS pole_sec FROM t GROUP BY rbind),\nsess AS (\n  SELECT t.rbind,\n         100.0 * COUNT(CASE WHEN t.best_sec - p.pole_sec < 0.2 THEN 1 END) / COUNT(*) AS pct_specialists\n  FROM t JOIN p ON p.rbind = t.rbind\n  GROUP BY t.rbind\n)\nSELECT ROUND(AVG(pct_specialists), 2) AS avg_pct_qualifying_specialists\nFROM sess"
+ },
+ {
+  "question_id": "sports_events_4",
+  "answer": "SELECT COUNT(*) AS dominant_victory_count\nFROM (\n  SELECT s.matchref,\n         MIN(CASE WHEN (s.sprint_performance->>'final_position')::int = 1 THEN (s.sprint_performance->'timing'->>'duration_ms')::numeric END) AS winner_ms,\n         MIN(CASE WHEN (s.sprint_performance->>'final_position')::int = 2 THEN (s.sprint_performance->'timing'->>'duration_ms')::numeric END) AS second_ms\n  FROM sprint_results s\n  WHERE (s.sprint_performance->>'final_position')::int IN (1,2)\n  GROUP BY s.matchref\n) g\nWHERE (second_ms - winner_ms) / 1000.0 > 5"
+ }
+]

@@ -1,0 +1,12 @@
+[
+ {"question_id": 739, "answer": "SELECT s.superhero_name FROM superhero s JOIN hero_power hp ON s.id = hp.hero_id JOIN superpower sp ON hp.power_id = sp.id WHERE sp.power_name = 'Death Touch'", "attempts": 1},
+ {"question_id": 785, "answer": "SELECT s.superhero_name FROM superhero s JOIN alignment a ON s.alignment_id = a.id WHERE a.alignment = 'Neutral'", "attempts": 1},
+ {"question_id": 794, "answer": "SELECT s.superhero_name FROM superhero s JOIN hero_attribute ha ON s.id = ha.hero_id JOIN attribute a ON ha.attribute_id = a.id WHERE a.attribute_name = 'Speed' ORDER BY ha.attribute_value DESC LIMIT 1", "attempts": 1},
+ {"question_id": 796, "answer": "SELECT a.attribute_name, ha.attribute_value FROM superhero s JOIN hero_attribute ha ON s.id = ha.hero_id JOIN attribute a ON ha.attribute_id = a.id WHERE s.superhero_name = '3-D Man'", "attempts": 1},
+ {"question_id": 788, "answer": "SELECT CAST(SUM(CASE WHEN p.publisher_name = 'Marvel Comics' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) FROM superhero s JOIN gender g ON s.gender_id = g.id LEFT JOIN publisher p ON s.publisher_id = p.id WHERE g.gender = 'Female'", "attempts": 1},
+ {"question_id": 737, "answer": "SELECT r.race FROM superhero s JOIN race r ON s.race_id = r.id WHERE s.superhero_name = 'Copycat'", "attempts": 1},
+ {"question_id": 824, "answer": "SELECT s.superhero_name FROM superhero s JOIN hero_power hp ON s.id = hp.hero_id JOIN superpower sp ON hp.power_id = sp.id WHERE sp.power_name = 'Wind Control' ORDER BY s.superhero_name", "attempts": 1},
+ {"question_id": 765, "answer": "SELECT COUNT(*) FROM hero_power hp JOIN superpower sp ON hp.power_id = sp.id WHERE sp.power_name = 'Stealth'", "attempts": 1},
+ {"question_id": 775, "answer": "SELECT CAST(SUM(CASE WHEN c.colour = 'Blue' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) FROM superhero s JOIN gender g ON s.gender_id = g.id LEFT JOIN colour c ON s.skin_colour_id = c.id WHERE g.gender = 'Female'", "attempts": 2},
+ {"question_id": 753, "answer": "SELECT s.superhero_name FROM superhero s JOIN colour c ON s.eye_colour_id = c.id WHERE s.height_cm BETWEEN 170 AND 190 AND c.colour = 'No Colour'", "attempts": 1}
+]

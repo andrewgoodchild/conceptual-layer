@@ -1,0 +1,622 @@
+[
+ {
+  "id": 0,
+  "kind": "measure",
+  "expression": "((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0)",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"",
+  "check": "SELECT a.\"ARTregID\", ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) AS v FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"",
+  "note": "Per artifact. Historical Significance Rating = ArtifactRatings.\"HIST_sign\" (1-10); Research Value = rating_profile->>'research_score' (1-10); Cultural Score = rating_profile->>'cultural_score' (stored 4-100, not a 1-10 scale, so it dominates the sum). Conservation status = ArtifactsCore.conserve_status mapped Excellent=1, Good=3, Fair=5, Poor=7, Critical=10 (so Critical gives CPI 0); 150 artifacts have NULL status -> NULL CPI. ArtifactRatings has only 10 rows (10 artifacts), so anything using ratings computes for at most those 10 artifacts.",
+  "knowledge": "Conservation Priority Index (CPI)",
+  "checked": "ran, 10 rows, 10% of them null, from 0.0 to 24.97"
+ },
+ {
+  "id": 1,
+  "kind": "value",
+  "expression": "CASE x WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END",
+  "from": "",
+  "check": "SELECT DISTINCT v.val, CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END FROM \"SensitivityData\" sd, jsonb_each_text(sd.env_handling_sensitivity->'environment') v(key,val)",
+  "note": "Apply to any sensitivity rating text x, e.g. sd.env_handling_sensitivity->'environment'->>'light' / 'temperature' / 'humidity' / 'vibration' / 'pollutants' (SensitivityData). Ratings are exactly 'Low','Medium','High'; JSON nulls map to NULL.",
+  "knowledge": "Sensitivity Weight Values",
+  "checked": "ran, 4 rows, 25% of them null, from 1.0 to 10.0"
+ },
+ {
+  "id": 2,
+  "kind": "measure",
+  "expression": "(SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val))",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\"",
+  "check": "SELECT a.\"ARTregID\", (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) AS v FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\"",
+  "note": "Per artifact: average of the weights (Low=1, Medium=5, High=10) of the non-null keys of SensitivityData.env_handling_sensitivity->'environment' (light, temperature, humidity, vibration, pollutants); nulls are skipped. Handling/transport/context/pest sensitivities are not included. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Environmental Risk Factor (ERF)",
+  "checked": "ran, 3 rows, from 5.4 to 6.67"
+ },
+ {
+  "id": 3,
+  "kind": "measure",
+  "expression": "(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)))",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\"",
+  "check": "SELECT a.\"ARTregID\", (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val))) AS v FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\"",
+  "note": "Per artifact: CPI [0] x ERF [2]. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Artifact Vulnerability Score (AVS)",
+  "checked": "ran, 3 rows, from 18.9 to 162.28"
+ },
+ {
+  "id": 4,
+  "kind": "measure",
+  "expression": "(36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000)",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\"",
+  "check": "SELECT a.\"ARTregID\", (36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000) AS v FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\"",
+  "note": "Per artifact, in months (Base Duration 36). Weights from environment->>'light','temperature','humidity'. A NULL rating (e.g. ART54317 temperature, ART48028 light) gives NULL DSD. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Display Safety Duration (DSD)",
+  "checked": "ran, 3 rows, 67% of them null, from 0.0 to 0.0"
+ },
+ {
+  "id": 5,
+  "kind": "measure",
+  "expression": "(10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3))",
+  "from": "\"EnvironmentalReadingsCore\" e JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link",
+  "check": "SELECT e.monitor_code, s.\"caseID\", (10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)) AS v FROM \"EnvironmentalReadingsCore\" e JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link",
+  "note": "Per environmental reading (EnvironmentalReadingsCore row) of a showcase; a showcase can have up to 3 readings - average per s.\"caseID\" if one value per showcase is wanted. 24h Temperature Variation = e.\"tempVar24\" (0-2 C, NULL on ~150 rows); 24h Humidity Variation = e.\"RHvar\" (0-5 %); Leak Rate = Showcases.case_environment_profile->'physical_state'->>'leak_rate_per_day' (0-0.5).",
+  "knowledge": "Showcase Environmental Stability Rating (SESR)",
+  "checked": "ran, 999 rows, 15% of them null, from 8.92 to 9.97"
+ },
+ {
+  "id": 6,
+  "kind": "measure",
+  "expression": "(10 - abs((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) - (10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3))))",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link",
+  "check": "SELECT a.\"ARTregID\", (10 - abs((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) - (10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)))) AS v FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link",
+  "note": "Per artifact vs the showcase its condition assessment/monitor reading points to. Artifact-to-environment path: ArtifactsCore -> ConditionAssessments (art_exam) -> LightAndRadiationReadings (rad_id = light_link) -> EnvironmentalReadingsCore (monitor_code = env_link); UsageRecords.env_link and ConservationAndMaintenance.monitor_link hang off the same monitor_code, Showcases via e.case_link, halls via Showcases.hall_ref. About one row per artifact. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Artifact Exhibition Compatibility (AEC)",
+  "checked": "ran, 3 rows, from 5.94 to 7.29"
+ },
+ {
+  "id": 7,
+  "kind": "measure",
+  "expression": "(a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0)",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) AS v FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "note": "Per artifact. Age = ArtifactsCore.\"ageYears\"; Relative Humidity = e.\"RH\" (%); Temperature = e.\"TEMPc\" (C, NULL on ~150 readings). Artifact-to-environment path: ArtifactsCore -> ConditionAssessments (art_exam) -> LightAndRadiationReadings (rad_id = light_link) -> EnvironmentalReadingsCore (monitor_code = env_link); UsageRecords.env_link and ConservationAndMaintenance.monitor_link hang off the same monitor_code, Showcases via e.case_link, halls via Showcases.hall_ref. About one row per artifact. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Material Deterioration Rate (MDR)",
+  "checked": "ran, 3 rows, from 2.05 to 33.89"
+ },
+ {
+  "id": 8,
+  "kind": "measure",
+  "expression": "(l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0)",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) AS v FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "note": "Per artifact. Light Level = LightAndRadiationReadings.lux (50-200, NULL on 150 rows); Visible Light Exposure = l.\"visLxh\" (lux-hours, 12k-84k); light weight from environment->>'light'. Values are in the thousands (ART54254: about 9582), so the threshold in [15] (LER > 7) is always met when LER is non-null; only ART54254 has both lux and a light rating. Artifact-to-environment path: ArtifactsCore -> ConditionAssessments (art_exam) -> LightAndRadiationReadings (rad_id = light_link) -> EnvironmentalReadingsCore (monitor_code = env_link); UsageRecords.env_link and ConservationAndMaintenance.monitor_link hang off the same monitor_code, Showcases via e.case_link, halls via Showcases.hall_ref. About one row per artifact. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Light Exposure Risk (LER)",
+  "checked": "ran, 3 rows, 67% of them null, from 9582.44 to 9582.44"
+ },
+ {
+  "id": 9,
+  "kind": "measure",
+  "expression": "AVG(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * CASE cm.budget_alloc WHEN 'Adequate' THEN 1.0 WHEN 'Review Required' THEN 0.5 WHEN 'Insufficient' THEN 0.0 END)",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code",
+  "check": "SELECT AVG(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * CASE cm.budget_alloc WHEN 'Adequate' THEN 1.0 WHEN 'Review Required' THEN 0.5 WHEN 'Insufficient' THEN 0.0 END) AS cbe, count(*) FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code",
+  "note": "Aggregate over artifacts (one number for the set). No column holds a budget amount, so the 'allocated budget ratio' cannot be computed as a proportion of a total. Proxy used: ConservationAndMaintenance.budget_alloc mapped Adequate=1.0, Review Required=0.5, Insufficient=0.0. Over the 10 rated artifacts the result is about 4.16. ArtifactRatings has only 10 rows (10 artifacts), so anything using ratings computes for at most those 10 artifacts.",
+  "knowledge": "Conservation Budget Efficiency (CBE)",
+  "checked": "ran, 1 row, from 10.0 to 10.0"
+ },
+ {
+  "id": 10,
+  "kind": "measure",
+  "expression": "((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0)",
+  "from": "\"ExhibitionHalls\" h",
+  "check": "SELECT h.\"Hall_ID\", ((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0) AS v FROM \"ExhibitionHalls\" h",
+  "note": "Per exhibition hall. Daily Visitor Count = security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors'; flow = ->>'visitor_flow' (Low=1, Medium=3, High=5; one hall has NULL flow -> NULL VIR); dwell = ->>'avg_dwell_minutes'. Range about 2.4-60.",
+  "knowledge": "Visitor Impact Risk (VIR)",
+  "checked": "ran, 20 rows, 5% of them null, from 2.45 to 59.8"
+ },
+ {
+  "id": 11,
+  "kind": "condition",
+  "expression": "(r.\"HIST_sign\" >= (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY \"HIST_sign\") FROM \"ArtifactRatings\") AND (r.rating_profile->>'cultural_score')::numeric >= (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY (rating_profile->>'cultural_score')::numeric) FROM \"ArtifactRatings\"))",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"",
+  "check": "SELECT a.\"ARTregID\" FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" WHERE (r.\"HIST_sign\" >= (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY \"HIST_sign\") FROM \"ArtifactRatings\") AND (r.rating_profile->>'cultural_score')::numeric >= (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY (rating_profile->>'cultural_score')::numeric) FROM \"ArtifactRatings\"))",
+  "note": "Insurance value (ArtifactSecurityAccess.\"insUSD\") has no artifact key - that table has 3 rows keyed by loan_stat - so the insurance branch cannot be tied to an artifact; none of its 3 values exceeds 1,000,000 anyway, so the branch would be false. Only the 'top 10%' branch is realised: HIST_sign and cultural_score both >= their 90th percentile (percentile_cont) over ArtifactRatings. No rated artifact is in the top 10% on both (the highest HIST_sign and the highest cultural_score belong to different artifacts), so the set is empty here. ArtifactRatings has only 10 rows (10 artifacts), so anything using ratings computes for at most those 10 artifacts.",
+  "knowledge": "High-Value Artifact",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 12,
+  "kind": "condition",
+  "expression": "(a.conserve_status = 'Critical' AND cm.prio_tag = 'Urgent')",
+  "from": "\"ArtifactsCore\" a JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code",
+  "check": "SELECT a.\"ARTregID\" FROM \"ArtifactsCore\" a JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code WHERE (a.conserve_status = 'Critical' AND cm.prio_tag = 'Urgent')",
+  "note": "Treatment priority = ConservationAndMaintenance.prio_tag ('Urgent'), reached through the artifact's monitor. Artifact-to-environment path: ArtifactsCore -> ConditionAssessments (art_exam) -> LightAndRadiationReadings (rad_id = light_link) -> EnvironmentalReadingsCore (monitor_code = env_link); UsageRecords.env_link and ConservationAndMaintenance.monitor_link hang off the same monitor_code, Showcases via e.case_link, halls via Showcases.hall_ref. About one row per artifact.",
+  "knowledge": "Conservation Emergency",
+  "checked": "ran, 37 rows"
+ },
+ {
+  "id": 13,
+  "kind": "condition",
+  "expression": "(e.\"tempVar24\" > 1 OR e.\"RHvar\" > 3)",
+  "from": "\"EnvironmentalReadingsCore\" e",
+  "check": "SELECT e.monitor_code, e.\"tempVar24\", e.\"RHvar\" FROM \"EnvironmentalReadingsCore\" e WHERE (e.\"tempVar24\" > 1 OR e.\"RHvar\" > 3)",
+  "note": "Per environmental reading. tempVar24 in C, RHvar in % points (integer 0-5). Note [27]/[28] give looser thresholds (2 C, 5 %).",
+  "knowledge": "Environmental Instability Event",
+  "checked": "ran, 566 rows, from 0.0 to 5.0"
+ },
+ {
+  "id": 14,
+  "kind": "condition",
+  "expression": "((a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) > 5 AND (SELECT count(*) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val) WHERE v.val = 'High') >= 2)",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link WHERE ((a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) > 5 AND (SELECT count(*) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val) WHERE v.val = 'High') >= 2)",
+  "note": "'High' sensitivities counted among the keys of env_handling_sensitivity->'environment'. Only ART54254 qualifies (MDR about 33.9, High for humidity and vibration). SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Accelerated Deterioration Scenario",
+  "checked": "ran, 1 row, from 33.89 to 33.89"
+ },
+ {
+  "id": 15,
+  "kind": "condition",
+  "expression": "(u.\"displayMonths\" > 0.75 * (36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000) OR (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) > 7)",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"UsageRecords\" u ON u.env_link = e.monitor_code",
+  "check": "SELECT a.\"ARTregID\", u.\"displayMonths\", (36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000), (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"UsageRecords\" u ON u.env_link = e.monitor_code",
+  "note": "Current display duration = UsageRecords.\"displayMonths\" (months, 1-12). LER is in the tens of thousands, so the LER branch is true whenever lux and the light rating are present. Artifact-to-environment path: ArtifactsCore -> ConditionAssessments (art_exam) -> LightAndRadiationReadings (rad_id = light_link) -> EnvironmentalReadingsCore (monitor_code = env_link); UsageRecords.env_link and ConservationAndMaintenance.monitor_link hang off the same monitor_code, Showcases via e.case_link, halls via Showcases.hall_ref. About one row per artifact. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Exhibition Rotation Candidate",
+  "checked": "ran, 3 rows, 67% of them null, from 9582.44 to 9582.44"
+ },
+ {
+  "id": 16,
+  "kind": "condition",
+  "expression": "((10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)) < 4 OR COALESCE(((s.case_environment_profile->'physical_state'->>'seal_state' = 'Poor')::int + (s.case_environment_profile->'maintenance'->>'maint_status' = 'Overdue')::int + (s.case_environment_profile->'maintenance'->>'filter_status' = 'Replace Now')::int + (s.case_environment_profile->'maintenance'->>'silica_status' = 'Replace Now')::int), 0) >= 3)",
+  "from": "\"EnvironmentalReadingsCore\" e JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link",
+  "check": "SELECT e.monitor_code, s.\"caseID\", (10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)), ((s.case_environment_profile->'physical_state'->>'seal_state' = 'Poor')::int + (s.case_environment_profile->'maintenance'->>'maint_status' = 'Overdue')::int + (s.case_environment_profile->'maintenance'->>'filter_status' = 'Replace Now')::int + (s.case_environment_profile->'maintenance'->>'silica_status' = 'Replace Now')::int) FROM \"EnvironmentalReadingsCore\" e JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link WHERE ((10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)) < 4 OR COALESCE(((s.case_environment_profile->'physical_state'->>'seal_state' = 'Poor')::int + (s.case_environment_profile->'maintenance'->>'maint_status' = 'Overdue')::int + (s.case_environment_profile->'maintenance'->>'filter_status' = 'Replace Now')::int + (s.case_environment_profile->'maintenance'->>'silica_status' = 'Replace Now')::int), 0) >= 3)",
+  "note": "Per showcase reading. Critical maintenance indicators in Showcases.case_environment_profile: physical_state->>'seal_state'='Poor', maintenance->>'maint_status'='Overdue', maintenance->>'filter_status'='Replace Now', maintenance->>'silica_status'='Replace Now'; at least three of these four. SESR ranges about 8.9-10, so failure comes only from the indicator branch.",
+  "knowledge": "Showcase Failure Risk",
+  "checked": "ran, 56 rows, from 3.0 to 4.0"
+ },
+ {
+  "id": 17,
+  "kind": "condition",
+  "expression": "(AVG(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * CASE cm.budget_alloc WHEN 'Adequate' THEN 1.0 WHEN 'Review Required' THEN 0.5 WHEN 'Insufficient' THEN 0.0 END) < 0.5 AND EXISTS (SELECT 1 FROM \"ArtifactsCore\" a2 JOIN \"ConditionAssessments\" ca2 ON ca2.art_exam = a2.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l2 ON l2.rad_id = ca2.light_link JOIN \"ConservationAndMaintenance\" cm2 ON cm2.monitor_link = l2.env_link WHERE a2.conserve_status = 'Critical' AND cm2.budget_alloc = 'Insufficient'))",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code",
+  "check": "SELECT (AVG(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * CASE cm.budget_alloc WHEN 'Adequate' THEN 1.0 WHEN 'Review Required' THEN 0.5 WHEN 'Insufficient' THEN 0.0 END) < 0.5 AND EXISTS (SELECT 1 FROM \"ArtifactsCore\" a2 JOIN \"ConditionAssessments\" ca2 ON ca2.art_exam = a2.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l2 ON l2.rad_id = ca2.light_link JOIN \"ConservationAndMaintenance\" cm2 ON cm2.monitor_link = l2.env_link WHERE a2.conserve_status = 'Critical' AND cm2.budget_alloc = 'Insufficient')) FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code",
+  "note": "A single yes/no over the whole set: CBE is an aggregate, so evaluate it in a SELECT without GROUP BY or in HAVING. Budget allocation status = ConservationAndMaintenance.budget_alloc ('Insufficient'). CBE uses the budget_alloc proxy described in [9]; with it CBE is about 4.16, so the crisis is false even though Critical/Insufficient artifacts exist.",
+  "knowledge": "Conservation Budget Crisis",
+  "checked": "ran, 1 row, values False"
+ },
+ {
+  "id": 18,
+  "kind": "condition",
+  "expression": "(a.\"DYNASTY\" IN ('Ming', 'Han', 'Tang') AND (r.rating_profile->>'research_score')::numeric > 8)",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"",
+  "check": "SELECT a.\"ARTregID\", a.\"DYNASTY\" FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" WHERE (a.\"DYNASTY\" IN ('Ming', 'Han', 'Tang') AND (r.rating_profile->>'research_score')::numeric > 8)",
+  "note": "Dynasty = ArtifactsCore.\"DYNASTY\" (values Han, Ming, Qing, Song, Tang, Yuan); list taken from the definition's examples. Research value = rating_profile->>'research_score'. ArtifactRatings has only 10 rows (10 artifacts), so anything using ratings computes for at most those 10 artifacts.",
+  "knowledge": "Dynasty Value Artifact",
+  "checked": "ran, 5 rows, values 'Han', 'Ming', 'Tang'"
+ },
+ {
+  "id": 19,
+  "kind": "condition",
+  "expression": "(((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0) > 5 AND EXISTS (SELECT 1 FROM \"Showcases\" s2 JOIN \"ConditionAssessments\" ca2 ON ca2.case_exam = s2.\"caseID\" WHERE s2.hall_ref = h.\"Hall_ID\"))",
+  "from": "\"ExhibitionHalls\" h",
+  "check": "SELECT h.\"Hall_ID\", ((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0) FROM \"ExhibitionHalls\" h WHERE (((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0) > 5 AND EXISTS (SELECT 1 FROM \"Showcases\" s2 JOIN \"ConditionAssessments\" ca2 ON ca2.case_exam = s2.\"caseID\" WHERE s2.hall_ref = h.\"Hall_ID\"))",
+  "note": "Per hall. No per-artifact security level exists: ArtifactSecurityAccess.\"SEC_LEVEL\" has no artifact key and its only value is 'Level 3', which is therefore also the lowest. The security-level branch reduces to 'the hall holds at least one artifact' (artifact in a showcase whose hall_ref is the hall).",
+  "knowledge": "Visitor Crowd Risk",
+  "checked": "ran, 16 rows, from 9.41 to 59.8"
+ },
+ {
+  "id": 20,
+  "kind": "condition",
+  "expression": "(a.\"MatKind\" IN ('Wood', 'Textile', 'Paper') AND sd.\"ENVsense\" = 'High')",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\"",
+  "check": "SELECT a.\"ARTregID\", a.\"MatKind\", sd.\"ENVsense\" FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" WHERE (a.\"MatKind\" IN ('Wood', 'Textile', 'Paper') AND sd.\"ENVsense\" = 'High')",
+  "note": "Material = ArtifactsCore.\"MatKind\"; overall environmental sensitivity = SensitivityData.\"ENVsense\". SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Organic Material Vulnerability",
+  "checked": "ran, 1 row, values 'High'"
+ },
+ {
+  "id": 21,
+  "kind": "value",
+  "expression": "a.conserve_status IN ('Excellent', 'Good', 'Fair', 'Poor', 'Critical')",
+  "from": "\"ArtifactsCore\" a",
+  "check": "SELECT conserve_status, count(*) FROM \"ArtifactsCore\" a GROUP BY 1",
+  "note": "ArtifactsCore.conserve_status holds exactly these five values (150 NULL). Excellent = recently conserved, Good = stable minor issues, Fair = noticeable issues, Poor = active deterioration, Critical = severe, immediate intervention.",
+  "knowledge": "Conservation Status Categories",
+  "checked": "ran, 6 rows, from 150.0 to 184.0"
+ },
+ {
+  "id": 22,
+  "kind": "value",
+  "expression": "CASE WHEN r.\"HIST_sign\" BETWEEN 1 AND 3 THEN 'Minor' WHEN r.\"HIST_sign\" BETWEEN 4 AND 7 THEN 'Moderate' WHEN r.\"HIST_sign\" BETWEEN 8 AND 10 THEN 'Exceptional' END",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"",
+  "check": "SELECT r.\"HIST_sign\", CASE WHEN r.\"HIST_sign\" BETWEEN 1 AND 3 THEN 'Minor' WHEN r.\"HIST_sign\" BETWEEN 4 AND 7 THEN 'Moderate' WHEN r.\"HIST_sign\" BETWEEN 8 AND 10 THEN 'Exceptional' END FROM \"ArtifactRatings\" r",
+  "note": "Historical significance = ArtifactRatings.\"HIST_sign\" (integer 1-10, the table's primary key). ArtifactRatings has only 10 rows (10 artifacts), so anything using ratings computes for at most those 10 artifacts.",
+  "knowledge": "Historical Significance Ratings",
+  "checked": "ran, 10 rows, values 'Exceptional', 'Minor', 'Moderate'"
+ },
+ {
+  "id": 23,
+  "kind": "value",
+  "expression": "sd.env_handling_sensitivity->'environment'->>'light' IN ('Low', 'Medium', 'High')",
+  "from": "\"SensitivityData\" sd",
+  "check": "SELECT sd.\"ART_link\", sd.env_handling_sensitivity->'environment'->>'light' FROM \"SensitivityData\" sd",
+  "note": "Light sensitivity is the JSON field env_handling_sensitivity->'environment'->>'light'. Low = up to 300 lux, Medium = 150-200 lux, High = 50 lux or less. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Light Sensitivity Levels",
+  "checked": "ran, 3 rows, 33% of them null, values 'High', 'Low'"
+ },
+ {
+  "id": 24,
+  "kind": "value",
+  "expression": "sd.env_handling_sensitivity->'environment'->>'humidity' IN ('Low', 'Medium', 'High')",
+  "from": "\"SensitivityData\" sd",
+  "check": "SELECT sd.\"ART_link\", sd.env_handling_sensitivity->'environment'->>'humidity' FROM \"SensitivityData\" sd",
+  "note": "Humidity sensitivity is env_handling_sensitivity->'environment'->>'humidity'. Low = wide range tolerated, Medium = controlled range, High = very stable narrow range. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Humidity Sensitivity Levels",
+  "checked": "ran, 3 rows, values 'High', 'Medium'"
+ },
+ {
+  "id": 25,
+  "kind": "value",
+  "expression": "h.security_visitor_overview->'security'->>'cctv_coverage' IN ('Full', 'Partial', 'Limited')",
+  "from": "\"ExhibitionHalls\" h",
+  "check": "SELECT h.security_visitor_overview->'security'->>'cctv_coverage', count(*) FROM \"ExhibitionHalls\" h GROUP BY 1",
+  "note": "Per hall, JSON field security_visitor_overview->'security'->>'cctv_coverage'. Full = 100%, Partial = 60-90%, Limited = <60%.",
+  "knowledge": "CCTV Coverage Levels",
+  "checked": "ran, 4 rows, from 2.0 to 7.0"
+ },
+ {
+  "id": 26,
+  "kind": "value",
+  "expression": "(s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric < 0.1",
+  "from": "\"Showcases\" s",
+  "check": "SELECT s.\"caseID\", (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric FROM \"Showcases\" s",
+  "note": "Air changes per day are best held by case_environment_profile->'physical_state'->>'leak_rate_per_day' (0-0.5); the condition shown is 'museum-grade' (< 0.1), up to 5.0 = poor. The field named airtightness_factor holds 90-100 (a percentage-like score), not air changes per day, so it does not match this definition.",
+  "knowledge": "Showcase Airtightness Levels",
+  "checked": "ran, 953 rows, from 0.0 to 0.5"
+ },
+ {
+  "id": 27,
+  "kind": "value",
+  "expression": "e.\"TEMPc\" BETWEEN 18 AND 22",
+  "from": "\"EnvironmentalReadingsCore\" e",
+  "check": "SELECT e.\"TEMPc\", count(*) FROM \"EnvironmentalReadingsCore\" e GROUP BY 1",
+  "note": "Temperature = EnvironmentalReadingsCore.\"TEMPc\" (C; every non-null reading is 18-22, 150 NULL); 24h fluctuation = e.\"tempVar24\" (> 2 stresses materials; data max 2). Outside 10-30 would mean control failure (none occur).",
+  "knowledge": "Temperature Reading Implications",
+  "checked": "ran, 6 rows, from 103.0 to 222.0"
+ },
+ {
+  "id": 28,
+  "kind": "value",
+  "expression": "e.\"RH\" BETWEEN 45 AND 55",
+  "from": "\"EnvironmentalReadingsCore\" e",
+  "check": "SELECT e.\"RH\", count(*) FROM \"EnvironmentalReadingsCore\" e GROUP BY 1",
+  "note": "Relative humidity = EnvironmentalReadingsCore.\"RH\" (%, all readings 45-55); 24h fluctuation = e.\"RHvar\" (> 5 risky; data max 5). Below 30 or above 65 = significant risk (none occur).",
+  "knowledge": "Relative Humidity Implications",
+  "checked": "ran, 11 rows, from 48.0 to 111.0"
+ },
+ {
+  "id": 29,
+  "kind": "value",
+  "expression": "l.lux <= CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'High' THEN 50 WHEN 'Medium' THEN 200 WHEN 'Low' THEN 300 END",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", l.lux, sd.env_handling_sensitivity->'environment'->>'light' FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "note": "Light intensity = LightAndRadiationReadings.lux (50-200). Recommended max: High sensitivity 50, Medium 150-200 (200 used), Low up to 300. Artifact-to-environment path: ArtifactsCore -> ConditionAssessments (art_exam) -> LightAndRadiationReadings (rad_id = light_link) -> EnvironmentalReadingsCore (monitor_code = env_link); UsageRecords.env_link and ConservationAndMaintenance.monitor_link hang off the same monitor_code, Showcases via e.case_link, halls via Showcases.hall_ref. About one row per artifact.",
+  "knowledge": "Light Intensity Implications",
+  "checked": "ran, 3 rows, 33% of them null, values 'High', 'Low'"
+ },
+ {
+  "id": 30,
+  "kind": "value",
+  "expression": "(aq.air_quality_metrics->'particulates'->>'pm25_ug_m3')::numeric < 5",
+  "from": "\"AirQualityReadings\" aq",
+  "check": "SELECT aq.env_link, (aq.air_quality_metrics->'particulates'->>'pm25_ug_m3')::numeric FROM \"AirQualityReadings\" aq",
+  "note": "PM2.5 = AirQualityReadings.air_quality_metrics->'particulates'->>'pm25_ug_m3' (ug/m3). Condition shown = clean (< 5); > 15 potential risk, > 30 hazardous.",
+  "knowledge": "Fine Particulate Matter Implications",
+  "checked": "ran, 1,000 rows, from 0.1 to 35.0"
+ },
+ {
+  "id": 31,
+  "kind": "measure",
+  "expression": "((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) + (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * 2)",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", ((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) + (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * 2) AS v FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "note": "Per artifact: ERF [2] + LER [8] + 2*MDR [7]. Dominated by LER (thousands). SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Total Environmental Threat Level (TETL)",
+  "checked": "ran, 3 rows, 67% of them null, from 9655.62 to 9655.62"
+ },
+ {
+  "id": 32,
+  "kind": "measure",
+  "expression": "((10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)) - (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * 0.5)",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link",
+  "check": "SELECT a.\"ARTregID\", ((10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)) - (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * 0.5) AS v FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link",
+  "note": "Per artifact against its showcase reading: SESR [5] - 0.5*ERF [2]. Artifact-to-environment path: ArtifactsCore -> ConditionAssessments (art_exam) -> LightAndRadiationReadings (rad_id = light_link) -> EnvironmentalReadingsCore (monitor_code = env_link); UsageRecords.env_link and ConservationAndMaintenance.monitor_link hang off the same monitor_code, Showcases via e.case_link, halls via Showcases.hall_ref. About one row per artifact. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Showcase Protection Adequacy (SPA)",
+  "checked": "ran, 3 rows, from 6.05 to 6.76"
+ },
+ {
+  "id": 33,
+  "kind": "measure",
+  "expression": "(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * ((current_date - cm.\"lastClean\") - cm.\"cleanDays\") / 100.0)",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code",
+  "check": "SELECT a.\"ARTregID\", (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * ((current_date - cm.\"lastClean\") - cm.\"cleanDays\") / 100.0) AS v FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code",
+  "note": "Per artifact. Last cleaning date = ConservationAndMaintenance.\"lastClean\"; cleaning interval = cm.\"cleanDays\" (days, NULL on 150 rows). Days since cleaning measured to current_date, so the value grows with the run date. Artifact-to-environment path: ArtifactsCore -> ConditionAssessments (art_exam) -> LightAndRadiationReadings (rad_id = light_link) -> EnvironmentalReadingsCore (monitor_code = env_link); UsageRecords.env_link and ConservationAndMaintenance.monitor_link hang off the same monitor_code, Showcases via e.case_link, halls via Showcases.hall_ref. About one row per artifact.",
+  "knowledge": "Conservation Backlog Risk (CBR)",
+  "checked": "ran, 10 rows, 30% of them null, from 0.0 to 135.57"
+ },
+ {
+  "id": 34,
+  "kind": "measure",
+  "expression": "(((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0) / NULLIF((((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val))) * 0.1, 0))",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link JOIN \"ExhibitionHalls\" h ON h.\"Hall_ID\" = s.hall_ref",
+  "check": "SELECT a.\"ARTregID\", h.\"Hall_ID\", (((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0) / NULLIF((((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val))) * 0.1, 0)) AS v FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link JOIN \"ExhibitionHalls\" h ON h.\"Hall_ID\" = s.hall_ref",
+  "note": "Per artifact in its hall: VIR [10] of the hall (via Showcases.hall_ref) / (0.1*AVS [3]). NULL when AVS = 0 (e.g. Critical status gives CPI 0). SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Visitor Capacity Safety Factor (VCSF)",
+  "checked": "ran, 3 rows, from 0.77 to 5.78"
+ },
+ {
+  "id": 35,
+  "kind": "measure",
+  "expression": "(((10 - (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)))) + (10 - abs((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) - (10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)))) + (10 - ((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0))) / 3)",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link JOIN \"ExhibitionHalls\" h ON h.\"Hall_ID\" = s.hall_ref",
+  "check": "SELECT a.\"ARTregID\", (((10 - (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)))) + (10 - abs((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) - (10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)))) + (10 - ((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0))) / 3) AS v FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link JOIN \"ExhibitionHalls\" h ON h.\"Hall_ID\" = s.hall_ref",
+  "note": "Per artifact: mean of (10 - AVS [3]), AEC [6], (10 - VIR [10] of its hall). SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Exhibition Safety Quotient (ESQ)",
+  "checked": "ran, 3 rows, from -58.14 to -1.3"
+ },
+ {
+  "id": 36,
+  "kind": "measure",
+  "expression": "(AVG(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * CASE cm.budget_alloc WHEN 'Adequate' THEN 1.0 WHEN 'Review Required' THEN 0.5 WHEN 'Insufficient' THEN 0.0 END) OVER () * (1 - (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * ((current_date - cm.\"lastClean\") - cm.\"cleanDays\") / 100.0) / 10))",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code",
+  "check": "SELECT a.\"ARTregID\", (AVG(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * CASE cm.budget_alloc WHEN 'Adequate' THEN 1.0 WHEN 'Review Required' THEN 0.5 WHEN 'Insufficient' THEN 0.0 END) OVER () * (1 - (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * ((current_date - cm.\"lastClean\") - cm.\"cleanDays\") / 100.0) / 10)) AS v FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code",
+  "note": "Per artifact: CBE [9] (window AVG over all rows of the FROM, i.e. the set-level CBE with the budget_alloc proxy) x (1 - CBR [33]/10). Depends on current_date through CBR.",
+  "knowledge": "Conservation Resource Allocation Efficiency (CRAE)",
+  "checked": "ran, 10 rows, 30% of them null, from -52.2 to 4.16"
+ },
+ {
+  "id": 37,
+  "kind": "measure",
+  "expression": "((a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * (1 + ((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) + (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * 2) / 20))",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", ((a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * (1 + ((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) + (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * 2) / 20)) AS v FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "note": "Per artifact: MDR [7] x (1 + TETL [31]/20). SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Material Aging Projection (MAP)",
+  "checked": "ran, 3 rows, 67% of them null, from 16394.28 to 16394.28"
+ },
+ {
+  "id": 38,
+  "kind": "measure",
+  "expression": "(((36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000) - u.\"displayMonths\") * ((l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + 1) * (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) + 1) / 100)",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"UsageRecords\" u ON u.env_link = e.monitor_code",
+  "check": "SELECT a.\"ARTregID\", (((36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000) - u.\"displayMonths\") * ((l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + 1) * (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) + 1) / 100) AS v FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"UsageRecords\" u ON u.env_link = e.monitor_code",
+  "note": "Per artifact. Months on Display = UsageRecords.\"displayMonths\". DSD [4], LER [8], CPI [0]. Artifact-to-environment path: ArtifactsCore -> ConditionAssessments (art_exam) -> LightAndRadiationReadings (rad_id = light_link) -> EnvironmentalReadingsCore (monitor_code = env_link); UsageRecords.env_link and ConservationAndMaintenance.monitor_link hang off the same monitor_code, Showcases via e.case_link, halls via Showcases.hall_ref. About one row per artifact. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Exhibition Rotation Priority Score (ERPS)",
+  "checked": "ran, 3 rows, 67% of them null, from -2156.27 to -2156.27"
+ },
+ {
+  "id": 39,
+  "kind": "measure",
+  "expression": "(10 - (abs(e.\"TEMPc\" - 20) + abs(e.\"RH\" - 50) / 5.0 + (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) / 2))",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", (10 - (abs(e.\"TEMPc\" - 20) + abs(e.\"RH\" - 50) / 5.0 + (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) / 2)) AS v FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "note": "Per artifact. The definition gives no ideal values; used the midpoints of [27] and [28]: 20 C and 50 % RH. Temperature = e.\"TEMPc\", humidity = e.\"RH\". Artifact-to-environment path: ArtifactsCore -> ConditionAssessments (art_exam) -> LightAndRadiationReadings (rad_id = light_link) -> EnvironmentalReadingsCore (monitor_code = env_link); UsageRecords.env_link and ConservationAndMaintenance.monitor_link hang off the same monitor_code, Showcases via e.case_link, halls via Showcases.hall_ref. About one row per artifact. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Environmental Compliance Index (ECI)",
+  "checked": "ran, 3 rows, from 4.07 to 5.55"
+ },
+ {
+  "id": 40,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Insurance Value exists only as ArtifactSecurityAccess.\"insUSD\", a 3-row table keyed by loan_stat with no artifact or hall key, so it cannot be combined with an artifact's hall VIR. (No other table holds a per-artifact insurance value: ArtifactProfile/InsurancePolicyDetail use unrelated artifact ids and hold random strings.)",
+  "knowledge": "Security Risk Exposure (SRE)",
+  "checked": "not derived"
+ },
+ {
+  "id": 41,
+  "kind": "condition",
+  "expression": "((a.conserve_status = 'Critical' AND cm.prio_tag = 'Urgent') AND (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val))) > 8)",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code",
+  "check": "SELECT a.\"ARTregID\" FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code WHERE (a.conserve_status = 'Critical' AND cm.prio_tag = 'Urgent') AND (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val))) > 8",
+  "note": "Conservation Emergency [12] AND AVS [3] > 8. Contradiction in the definitions: 'Critical' maps to 10 in CPI, so CPI = 0 and AVS = 0 for every Critical artifact; this can never be true. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Critical Conservation Alert",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 42,
+  "kind": "condition",
+  "expression": "(((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) + (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * 2) > 15 AND ((a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) > 5 AND (SELECT count(*) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val) WHERE v.val = 'High') >= 2))",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\" FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link WHERE ((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) + (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * 2) > 15 AND ((a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) > 5 AND (SELECT count(*) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val) WHERE v.val = 'High') >= 2)",
+  "note": "TETL [31] > 15 AND Accelerated Deterioration Scenario [14]. Only ART54254 qualifies. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "High Deterioration Risk Artifact",
+  "checked": "ran, 1 row, values 'ART54254'"
+ },
+ {
+  "id": 43,
+  "kind": "condition",
+  "expression": "((u.\"displayMonths\" > 0.75 * (36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000) OR (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) > 7) AND (((36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000) - u.\"displayMonths\") * ((l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + 1) * (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) + 1) / 100) < 0)",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"UsageRecords\" u ON u.env_link = e.monitor_code",
+  "check": "SELECT a.\"ARTregID\", (((36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000) - u.\"displayMonths\") * ((l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + 1) * (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) + 1) / 100) FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"UsageRecords\" u ON u.env_link = e.monitor_code WHERE (u.\"displayMonths\" > 0.75 * (36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000) OR (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) > 7) AND (((36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000) - u.\"displayMonths\") * ((l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + 1) * (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) + 1) / 100) < 0",
+  "note": "Rotation Candidate [15] AND ERPS [38] < 0. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Exhibition Rotation Urgency",
+  "checked": "ran, 1 row, from -2156.27 to -2156.27"
+ },
+ {
+  "id": 44,
+  "kind": "condition",
+  "expression": "(((10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)) - (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * 0.5) < 0 AND (r.\"HIST_sign\" >= (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY \"HIST_sign\") FROM \"ArtifactRatings\") AND (r.rating_profile->>'cultural_score')::numeric >= (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY (rating_profile->>'cultural_score')::numeric) FROM \"ArtifactRatings\")))",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link",
+  "check": "SELECT a.\"ARTregID\", ((10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)) - (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * 0.5) FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link WHERE ((10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)) - (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * 0.5) < 0 AND (r.\"HIST_sign\" >= (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY \"HIST_sign\") FROM \"ArtifactRatings\") AND (r.rating_profile->>'cultural_score')::numeric >= (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY (rating_profile->>'cultural_score')::numeric) FROM \"ArtifactRatings\"))",
+  "note": "SPA [32] < 0 AND High-Value Artifact [11] (percentile branch only; see [11]). SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Showcase Compatibility Issue",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 45,
+  "kind": "condition",
+  "expression": "((AVG(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * CASE cm.budget_alloc WHEN 'Adequate' THEN 1.0 WHEN 'Review Required' THEN 0.5 WHEN 'Insufficient' THEN 0.0 END) OVER () * (1 - (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * ((current_date - cm.\"lastClean\") - cm.\"cleanDays\") / 100.0) / 10)) < 0.3 AND (AVG(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * CASE cm.budget_alloc WHEN 'Adequate' THEN 1.0 WHEN 'Review Required' THEN 0.5 WHEN 'Insufficient' THEN 0.0 END) OVER () < 0.5 AND EXISTS (SELECT 1 FROM \"ArtifactsCore\" a2 JOIN \"ConditionAssessments\" ca2 ON ca2.art_exam = a2.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l2 ON l2.rad_id = ca2.light_link JOIN \"ConservationAndMaintenance\" cm2 ON cm2.monitor_link = l2.env_link WHERE a2.conserve_status = 'Critical' AND cm2.budget_alloc = 'Insufficient')))",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code",
+  "check": "SELECT a.\"ARTregID\", (AVG(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * CASE cm.budget_alloc WHEN 'Adequate' THEN 1.0 WHEN 'Review Required' THEN 0.5 WHEN 'Insufficient' THEN 0.0 END) OVER () * (1 - (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * ((current_date - cm.\"lastClean\") - cm.\"cleanDays\") / 100.0) / 10)), ((AVG(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * CASE cm.budget_alloc WHEN 'Adequate' THEN 1.0 WHEN 'Review Required' THEN 0.5 WHEN 'Insufficient' THEN 0.0 END) OVER () * (1 - (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * ((current_date - cm.\"lastClean\") - cm.\"cleanDays\") / 100.0) / 10)) < 0.3 AND (AVG(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * CASE cm.budget_alloc WHEN 'Adequate' THEN 1.0 WHEN 'Review Required' THEN 0.5 WHEN 'Insufficient' THEN 0.0 END) OVER () < 0.5 AND EXISTS (SELECT 1 FROM \"ArtifactsCore\" a2 JOIN \"ConditionAssessments\" ca2 ON ca2.art_exam = a2.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l2 ON l2.rad_id = ca2.light_link JOIN \"ConservationAndMaintenance\" cm2 ON cm2.monitor_link = l2.env_link WHERE a2.conserve_status = 'Critical' AND cm2.budget_alloc = 'Insufficient'))) AS flag FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = e.monitor_code",
+  "note": "Per artifact: CRAE [36] < 0.3 AND the set-level Conservation Budget Crisis [17] (CBE written as a window AVG OVER (), so evaluate it in the SELECT list or a subquery, not directly in WHERE). False for all rows here because CBE is about 4.16. Uses the budget_alloc proxy of [9].",
+  "knowledge": "Conservation Resource Crisis",
+  "checked": "ran, 10 rows, values False"
+ },
+ {
+  "id": 46,
+  "kind": "condition",
+  "expression": "((a.\"DYNASTY\" IN ('Ming', 'Han', 'Tang') AND (r.rating_profile->>'research_score')::numeric > 8) AND ((a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * (1 + ((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) + (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * 2) / 20)) > 3)",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", ((a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * (1 + ((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) + (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * 2) / 20)) FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link WHERE (a.\"DYNASTY\" IN ('Ming', 'Han', 'Tang') AND (r.rating_profile->>'research_score')::numeric > 8)",
+  "note": "Dynasty Value Artifact [18] AND MAP [37] > 3. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Dynasty Artifact at Risk",
+  "checked": "ran, 2 rows, 100% of them null, values "
+ },
+ {
+  "id": 47,
+  "kind": "condition",
+  "expression": "((10 - (abs(e.\"TEMPc\" - 20) + abs(e.\"RH\" - 50) / 5.0 + (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) / 2)) < 4 AND (e.\"tempVar24\" > 1 OR e.\"RHvar\" > 3))",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", (10 - (abs(e.\"TEMPc\" - 20) + abs(e.\"RH\" - 50) / 5.0 + (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) / 2)), (e.\"tempVar24\" > 1 OR e.\"RHvar\" > 3) FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "note": "ECI [39] < 4 AND Environmental Instability Event [13] on the artifact's reading. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Environmental Control Failure",
+  "checked": "ran, 3 rows, values False, True"
+ },
+ {
+  "id": 48,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Needs Security Risk Exposure [40], which cannot be computed (insurance value has no artifact key). The High-Value part is available as [11].",
+  "knowledge": "High Security Priority Artifact",
+  "checked": "not derived"
+ },
+ {
+  "id": 49,
+  "kind": "condition",
+  "expression": "((((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0) / NULLIF((((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val))) * 0.1, 0)) > 2 AND (((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0) > 5 AND EXISTS (SELECT 1 FROM \"Showcases\" s2 JOIN \"ConditionAssessments\" ca2 ON ca2.case_exam = s2.\"caseID\" WHERE s2.hall_ref = h.\"Hall_ID\")))",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link JOIN \"ExhibitionHalls\" h ON h.\"Hall_ID\" = s.hall_ref",
+  "check": "SELECT a.\"ARTregID\", h.\"Hall_ID\", (((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0) / NULLIF((((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val))) * 0.1, 0)), ((h.security_visitor_overview->'visitor_statistics'->>'avg_daily_visitors')::numeric * CASE h.security_visitor_overview->'visitor_statistics'->>'visitor_flow' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 3 WHEN 'High' THEN 5 END * (h.security_visitor_overview->'visitor_statistics'->>'avg_dwell_minutes')::numeric / 1000.0) FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link JOIN \"ExhibitionHalls\" h ON h.\"Hall_ID\" = s.hall_ref",
+  "note": "Per artifact in its hall: VCSF [34] > 2 AND Visitor Crowd Risk [19] for the hall (with [19]'s security-level reduction). SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Visitor Traffic Safety Concern",
+  "checked": "ran, 3 rows, from 4.93 to 38.99"
+ },
+ {
+  "id": 50,
+  "kind": "condition",
+  "expression": "((a.\"MatKind\" IN ('Wood', 'Textile', 'Paper') AND sd.\"ENVsense\" = 'High') AND ((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) + (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * 2) > 12)",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", ((SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) + (l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) * 2) FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link WHERE (a.\"MatKind\" IN ('Wood', 'Textile', 'Paper') AND sd.\"ENVsense\" = 'High')",
+  "note": "Organic Material Vulnerability [20] AND TETL [31] > 12. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Organic Material Emergency",
+  "checked": "ran, 1 row, from 9655.62 to 9655.62"
+ },
+ {
+  "id": 51,
+  "kind": "value",
+  "expression": "CASE WHEN (r.\"HIST_sign\" >= (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY \"HIST_sign\") FROM \"ArtifactRatings\") AND (r.rating_profile->>'cultural_score')::numeric >= (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY (rating_profile->>'cultural_score')::numeric) FROM \"ArtifactRatings\")) THEN 'Cultural/Historical High-Value' ELSE 'Other' END",
+  "from": "\"ArtifactsCore\" a LEFT JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"",
+  "check": "SELECT a.\"ARTregID\", CASE WHEN (r.\"HIST_sign\" >= (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY \"HIST_sign\") FROM \"ArtifactRatings\") AND (r.rating_profile->>'cultural_score')::numeric >= (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY (rating_profile->>'cultural_score')::numeric) FROM \"ArtifactRatings\")) THEN 'Cultural/Historical High-Value' ELSE 'Other' END FROM \"ArtifactsCore\" a LEFT JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"",
+  "note": "'Monetary High-Value' (insurance > 1,000,000) cannot occur: insurance value has no artifact key and no stored value exceeds 1,000,000 (see [11]). Unrated artifacts fall in 'Other'. ArtifactRatings has only 10 rows (10 artifacts), so anything using ratings computes for at most those 10 artifacts.",
+  "knowledge": "High-Value Category",
+  "checked": "ran, 995 rows, values 'Other'"
+ },
+ {
+  "id": 52,
+  "kind": "value",
+  "expression": "CASE WHEN (((36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000) - u.\"displayMonths\") * ((l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + 1) * (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) + 1) / 100) < 0 THEN 'Immediate Rotation' ELSE 'Monitor' END",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"UsageRecords\" u ON u.env_link = e.monitor_code",
+  "check": "SELECT a.\"ARTregID\", (((36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000) - u.\"displayMonths\") * ((l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + 1) * (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) + 1) / 100), CASE WHEN (((36.0 * (10 - CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'temperature' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) * (10 - CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) / 1000) - u.\"displayMonths\") * ((l.lux * CASE sd.env_handling_sensitivity->'environment'->>'light' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END * l.\"visLxh\" / 1000.0) + 1) * (((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) + 1) / 100) < 0 THEN 'Immediate Rotation' ELSE 'Monitor' END FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link JOIN \"UsageRecords\" u ON u.env_link = e.monitor_code",
+  "note": "From ERPS [38]; NULL ERPS falls to 'Monitor'. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "ERPS Decision Threshold",
+  "checked": "ran, 3 rows, values 'Immediate Rotation', 'Monitor'"
+ },
+ {
+  "id": 53,
+  "kind": "condition",
+  "expression": "((sd.env_handling_sensitivity->'environment'->>'light' = 'High' AND l.lux > 50) OR (sd.env_handling_sensitivity->'environment'->>'light' = 'Medium' AND l.lux > 200))",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", sd.env_handling_sensitivity->'environment'->>'light', l.lux FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "note": "True when the artifact's light level (LightAndRadiationReadings.lux) exceeds its threshold: High light sensitivity > 50 lux, Medium > 200 lux; Low has no limit here. Artifact-to-environment path: ArtifactsCore -> ConditionAssessments (art_exam) -> LightAndRadiationReadings (rad_id = light_link) -> EnvironmentalReadingsCore (monitor_code = env_link); UsageRecords.env_link and ConservationAndMaintenance.monitor_link hang off the same monitor_code, Showcases via e.case_link, halls via Showcases.hall_ref. About one row per artifact. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Light Exposure Thresholds",
+  "checked": "ran, 3 rows, 67% of them null, from 138.0 to 138.0"
+ },
+ {
+  "id": 54,
+  "kind": "measure",
+  "expression": "date_trunc('year', e.\"readTS\")",
+  "from": "\"EnvironmentalReadingsCore\" e",
+  "check": "SELECT date_trunc('year', e.\"readTS\") AS yr, count(*) FROM \"EnvironmentalReadingsCore\" e GROUP BY 1 ORDER BY 1",
+  "note": "A grouping key, not a quantity: group environmental readings by year of EnvironmentalReadingsCore.\"readTS\" (readings span 2024-02 to 2025-02). Other interval sizes: change the date_trunc unit.",
+  "knowledge": "Conservation Environment Chronology (CEC)",
+  "checked": "ran, 2 rows, from 153.0 to 846.0"
+ },
+ {
+  "id": 55,
+  "kind": "condition",
+  "expression": "sa.\"insUSD\" > 1000000",
+  "from": "\"ArtifactSecurityAccess\" sa",
+  "check": "SELECT sa.loan_stat, sa.\"insUSD\" FROM \"ArtifactSecurityAccess\" sa",
+  "note": "Insurance value = ArtifactSecurityAccess.\"insUSD\" (USD). That table has 3 rows keyed by loan_stat and no artifact key, so the test cannot be tied to an artifact; no row exceeds 1,000,000.",
+  "knowledge": "Artifact Rarity & Valuation (ARV)",
+  "checked": "ran, 3 rows, from 36135.0 to 968368.0"
+ },
+ {
+  "id": 56,
+  "kind": "value",
+  "expression": "CASE WHEN ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) > 7 THEN 'High Priority' WHEN ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) > 4 THEN 'Medium Priority' WHEN ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) <= 4 THEN 'Low Priority' END",
+  "from": "\"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"",
+  "check": "SELECT a.\"ARTregID\", ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0), CASE WHEN ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) > 7 THEN 'High Priority' WHEN ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) > 4 THEN 'Medium Priority' WHEN ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) <= 4 THEN 'Low Priority' END FROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"",
+  "note": "From CPI [0]. Boundary: exactly 4 is Low (<= 4), exactly 7 is Medium. NULL CPI gives NULL. ArtifactRatings has only 10 rows (10 artifacts), so anything using ratings computes for at most those 10 artifacts.",
+  "knowledge": "Conservation Priority Level",
+  "checked": "ran, 10 rows, 10% of them null, values 'High Priority', 'Low Priority', 'Medium Priority'"
+ },
+ {
+  "id": 57,
+  "kind": "value",
+  "expression": "CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'High' THEN 55 WHEN 'Medium' THEN 60 END",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\"",
+  "check": "SELECT a.\"ARTregID\", sd.env_handling_sensitivity->'environment'->>'humidity', CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'High' THEN 55 WHEN 'Medium' THEN 60 END FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\"",
+  "note": "Maximum RH (%) by humidity sensitivity env_handling_sensitivity->'environment'->>'humidity': High 55, Medium 60; Low has no threshold (NULL). SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Humidity Exposure Thresholds",
+  "checked": "ran, 3 rows, from 55.0 to 60.0"
+ },
+ {
+  "id": 58,
+  "kind": "value",
+  "expression": "CASE WHEN e.\"RH\" > CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'High' THEN 55 WHEN 'Medium' THEN 60 END THEN 'Over Exposure' ELSE 'Within Limits' END",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", e.\"RH\", CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'High' THEN 55 WHEN 'Medium' THEN 60 END, CASE WHEN e.\"RH\" > CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'High' THEN 55 WHEN 'Medium' THEN 60 END THEN 'Over Exposure' ELSE 'Within Limits' END FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "note": "Current RH = EnvironmentalReadingsCore.\"RH\" on the artifact's reading; threshold from [57]. Low sensitivity (no threshold) gives 'Within Limits'. RH never exceeds 55 in this data. Artifact-to-environment path: ArtifactsCore -> ConditionAssessments (art_exam) -> LightAndRadiationReadings (rad_id = light_link) -> EnvironmentalReadingsCore (monitor_code = env_link); UsageRecords.env_link and ConservationAndMaintenance.monitor_link hang off the same monitor_code, Showcases via e.case_link, halls via Showcases.hall_ref. About one row per artifact. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Exposure Status",
+  "checked": "ran, 3 rows, values 'Within Limits'"
+ },
+ {
+  "id": 59,
+  "kind": "condition",
+  "expression": "((10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)) < 5)",
+  "from": "\"EnvironmentalReadingsCore\" e JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link",
+  "check": "SELECT e.monitor_code, (10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)) FROM \"EnvironmentalReadingsCore\" e JOIN \"Showcases\" s ON s.\"caseID\" = e.case_link WHERE (10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)) < 5",
+  "note": "SESR [5] < 5 per showcase reading. SESR is about 8.9-10 in this data, so none qualify.",
+  "knowledge": "Secondary Stability Threshold",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 60,
+  "kind": "value",
+  "expression": "CASE WHEN (10 - (abs(e.\"TEMPc\" - 20) + abs(e.\"RH\" - 50) / 5.0 + (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) / 2)) > 7 THEN 'Excellent' WHEN (10 - (abs(e.\"TEMPc\" - 20) + abs(e.\"RH\" - 50) / 5.0 + (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) / 2)) >= 4 THEN 'Good' ELSE 'Poor' END",
+  "from": "\"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "check": "SELECT a.\"ARTregID\", (10 - (abs(e.\"TEMPc\" - 20) + abs(e.\"RH\" - 50) / 5.0 + (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) / 2)), CASE WHEN (10 - (abs(e.\"TEMPc\" - 20) + abs(e.\"RH\" - 50) / 5.0 + (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) / 2)) > 7 THEN 'Excellent' WHEN (10 - (abs(e.\"TEMPc\" - 20) + abs(e.\"RH\" - 50) / 5.0 + (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) / 2)) >= 4 THEN 'Good' ELSE 'Poor' END FROM \"ArtifactsCore\" a JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\" JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\" JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link",
+  "note": "From ECI [39]. The definition overlaps at 4 ('Good' 4-7 inclusive vs 'Poor' <= 4); 4 is treated as 'Good'. NULL ECI would fall to 'Poor' - guard with IS NOT NULL if needed. SensitivityData has only 3 rows (ART54317, ART54254, ART48028), so anything using sensitivity weights computes for at most those 3 artifacts.",
+  "knowledge": "Compliance Level",
+  "checked": "ran, 3 rows, values 'Good'"
+ },
+ {
+  "id": 61,
+  "kind": "measure",
+  "expression": "(current_date - cm.\"nextClean\")",
+  "from": "\"ConservationAndMaintenance\" cm",
+  "check": "SELECT cm.maint_id, cm.\"nextClean\", current_date - cm.\"nextClean\" FROM \"ConservationAndMaintenance\" cm",
+  "note": "Days (integer) per maintenance record; scheduled next cleaning date = ConservationAndMaintenance.\"nextClean\" (NULL on 150 rows; dates 2025-02 to 2025-05, so every value is positive relative to today).",
+  "knowledge": "Overdue Days",
+  "checked": "ran, 1,000 rows, 15% of them null, from 495.0 to 584.0"
+ }
+]

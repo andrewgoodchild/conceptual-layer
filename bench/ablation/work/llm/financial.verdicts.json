@@ -1,0 +1,13 @@
+{"database": "financial",
+ "verdicts": [
+  {"id": "account.district_id -> district.district_id", "verdict": "yes", "reason": "district_id names the district key; 4500 accounts spread over all 77 districts is the ordinary lookup shape."},
+  {"id": "card.disp_id -> disp.disp_id", "verdict": "yes", "reason": "disp_id names the disposition key; a card is issued to a disposition, and 892 distinct values for 892 cards is one card per disposition."},
+  {"id": "client.district_id -> district.district_id", "verdict": "yes", "reason": "district_id names the district key; 5369 clients spread over all 77 districts, the ordinary lookup shape."},
+  {"id": "disp.client_id -> client.client_id", "verdict": "yes", "reason": "client_id names the client key; every one of the 5369 clients has exactly one disposition row, full coverage."},
+  {"id": "disp.account_id -> account.account_id", "verdict": "yes", "reason": "account_id names the account key; 5369 dispositions over all 4500 accounts (owners plus disponents) is the designed shape."},
+  {"id": "district.A9 -> account.account_id", "verdict": "no", "reason": "A9 is an anonymised district statistic with 11 small values, not an identifier; it nests in 1..4500 by size alone."},
+  {"id": "loan.account_id -> account.account_id", "verdict": "yes", "reason": "account_id names the account key and a loan is taken on an account; 682 distinct values for 682 loans is one loan per account, and the sample values are plain account ids."},
+  {"id": "loan.duration -> district.district_id", "verdict": "no", "reason": "duration is loan length in months (12, 24, 36, 48, 60), not a district; coincidental overlap of small integers."},
+  {"id": "order.account_id -> account.account_id", "verdict": "yes", "reason": "account_id names the account key; 6471 standing orders over 3758 accounts is the expected many-to-one shape."},
+  {"id": "trans.account_id -> account.account_id", "verdict": "yes", "reason": "account_id names the account key; a million transactions covering all 4500 accounts is the designed reference."}
+ ]}

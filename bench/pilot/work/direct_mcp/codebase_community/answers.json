@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 604,
+  "answer": "SELECT AVG(UpVotes), AVG(Age) FROM users WHERE Id IN (SELECT OwnerUserId FROM posts GROUP BY OwnerUserId HAVING COUNT(Id) > 10)"
+ },
+ {
+  "question_id": 584,
+  "answer": "SELECT c.Text FROM comments c WHERE c.UserId IN (SELECT ph.UserId FROM postHistory ph INNER JOIN posts p ON ph.PostId = p.Id WHERE p.Title = 'Why square the difference instead of taking the absolute value in standard deviation?')"
+ },
+ {
+  "question_id": 537,
+  "answer": "SELECT COUNT(*) FROM posts WHERE OwnerUserId = (SELECT Id FROM users WHERE DisplayName = 'csgillespie')"
+ },
+ {
+  "question_id": 704,
+  "answer": "SELECT ExcerptPostId, WikiPostId FROM tags WHERE TagName = 'sample'"
+ },
+ {
+  "question_id": 665,
+  "answer": "SELECT CAST(COUNT(pl.Id) AS REAL) / 12 FROM postLinks pl INNER JOIN posts p ON pl.PostId = p.Id WHERE STRFTIME('%Y', pl.CreationDate) = '2010' AND p.AnswerCount <= 2"
+ },
+ {
+  "question_id": 672,
+  "answer": "SELECT COUNT(DISTINCT u.Id) FROM users u INNER JOIN posts p ON p.OwnerUserId = u.Id WHERE u.Location = 'United Kingdom' AND p.FavoriteCount >= 4"
+ },
+ {
+  "question_id": 701,
+  "answer": "SELECT CAST(SUM(CASE WHEN Score > 50 THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(Id) FROM posts WHERE OwnerUserId = (SELECT Id FROM users ORDER BY Reputation DESC LIMIT 1)"
+ },
+ {
+  "question_id": 567,
+  "answer": "SELECT COUNT(*) FROM posts WHERE OwnerUserId = (SELECT Id FROM users WHERE DisplayName = 'Tiago Pasqualini')"
+ },
+ {
+  "question_id": 539,
+  "answer": "SELECT u.DisplayName FROM posts p INNER JOIN users u ON p.OwnerUserId = u.Id WHERE p.Title = 'Eliciting priors from experts'"
+ },
+ {
+  "question_id": 563,
+  "answer": "SELECT p.FavoriteCount FROM comments c INNER JOIN posts p ON c.PostId = p.Id WHERE c.UserId = 3025 AND c.CreationDate = '2014-04-23 20:29:39.0'"
+ }
+]

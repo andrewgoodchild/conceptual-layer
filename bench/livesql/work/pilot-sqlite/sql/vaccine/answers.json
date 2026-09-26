@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "vaccine_3",
+  "answer": "SELECT v.vehiclereg AS VehicleID,\n       v.shiptransit AS ShipmentID,\n       ROUND(v.distdonekm / (v.distdonekm + v.distleftkm) * 100, 3) AS RouteCompletionPct,\n       ROUND(MAX((1 - (1 - s.tempdevcount / 100.0) * (1 - s.critevents / 10.0) * s.tempstabidx) * (1 - c.coolremainpct / 100.0)), 3) AS MaxContainerRiskIndex,\n       v.distdonekm AS DistDoneKm,\n       v.distleftkm AS DistLeftKm,\n       MAX(s.tempdevcount) AS MaxTempDevCount,\n       MAX(s.critevents) AS MaxCritEvents,\n       MAX(s.tempstabidx) AS MaxTempStabIdx,\n       MAX(c.coolremainpct) AS MaxCoolRemainPct\nFROM transportinfo v\nJOIN container c ON c.containregistry = v.containtransit\nJOIN sensordata s ON s.containlink = c.containregistry\nGROUP BY v.vehiclereg, v.shiptransit, v.distdonekm, v.distleftkm\nHAVING v.distdonekm / (v.distdonekm + v.distleftkm) * 100 < 50\n   AND MAX((1 - (1 - s.tempdevcount / 100.0) * (1 - s.critevents / 10.0) * s.tempstabidx) * (1 - c.coolremainpct / 100.0)) > 0.4\nORDER BY MaxContainerRiskIndex DESC\nLIMIT 10"
+ },
+ {
+  "question_id": "vaccine_9",
+  "answer": "SELECT r.regmaintregistry AS EquipmentID,\n       ROUND(r.compscore * (1 - r.incidents / 10.0), 2) AS MaintenanceComplianceScore,\n       CAST(MAX(julianday(DATE('now')) - julianday(r.maintdatenext),\n                julianday(DATE('now')) - julianday(r.calibdatenext),\n                0) AS INTEGER) AS DaysOverdue,\n       'Overdue' AS MaintenanceStatus\nFROM regulatoryandmaintenance r\nWHERE r.compscore IS NOT NULL\n  AND r.compscore * (1 - r.incidents / 10.0) < 0.7\n  AND (DATE('now') > r.maintdatenext OR DATE('now') > r.calibdatenext)\nORDER BY DaysOverdue DESC\nLIMIT 5"
+ },
+ {
+  "question_id": "vaccine_8",
+  "answer": "WITH metrics AS (\n  SELECT c.containregistry AS ContainerID,\n         vd.vialtally * 10.0 / c.volliters AS SER,\n         (1 - s.tempdevcount / 100.0) * (1 - s.critevents / 10.0) * s.tempstabidx AS TSS\n  FROM container c\n  JOIN vaccinedetails vd ON vd.containvac = c.containregistry\n  JOIN sensordata s ON s.containlink = c.containregistry\n),\nefficient AS (\n  SELECT * FROM metrics WHERE SER > 0.8 AND TSS > 0.9\n)\nSELECT ContainerID,\n       ROUND(SER, 2) AS StorageEfficiencyRatio,\n       ROUND(TSS, 2) AS TemperatureStabilityScore,\n       RANK() OVER (ORDER BY SER DESC) AS EfficiencyRank\nFROM efficient\nORDER BY EfficiencyRank\nLIMIT 5"
+ },
+ {
+  "question_id": "vaccine_10",
+  "answer": "WITH st AS (\n  SELECT v.transmode AS TransportMode,\n         v.vehiclereg AS VehicleID,\n         (1 - s.handleevents / 100.0) * (1 - s.critevents / 10.0) AS HQI,\n         (1 - s.tempdevcount / 100.0) * (1 - s.critevents / 10.0) * s.tempstabidx AS TSS\n  FROM transportinfo v\n  JOIN sensordata s ON s.vehsenseref = v.vehiclereg\n  WHERE s.alerttime >= DATETIME('now', '-3 months')\n)\nSELECT TransportMode,\n       ROUND(AVG(HQI), 3) AS AvgHandlingQualityIndex,\n       COUNT(DISTINCT VehicleID) AS VehiclesInvolved,\n       COUNT(*) AS StableTransportCount\nFROM st\nWHERE HQI > 0.9 AND TSS > 0.8\nGROUP BY TransportMode\nHAVING AVG(HQI) > 0\nORDER BY AvgHandlingQualityIndex DESC\nLIMIT 10"
+ },
+ {
+  "question_id": "vaccine_2",
+  "answer": "WITH agg AS (\n  SELECT c.containregistry AS ContainerID,\n         c.coolremainpct AS CoolRemainPct,\n         COUNT(s.sensortrack) AS SensorRows,\n         MAX((1 - s.tempdevcount / 100.0) * (1 - s.critevents / 10.0) * s.tempstabidx) AS MaxTSS,\n         MAX(s.tempdevcount) AS MaxTempDevCount,\n         MAX(s.critevents) AS MaxCritEvents,\n         MAX(s.tempstabidx) AS MaxTempStabIdx,\n         MAX(ABS(s.tempnowc - s.storetempc) / s.temptolc * s.tempdevcount) AS MaxTBS\n  FROM container c\n  LEFT JOIN sensordata s ON s.containlink = c.containregistry\n  GROUP BY c.containregistry, c.coolremainpct\n)\nSELECT ContainerID,\n       ROUND(MaxTSS, 3) AS MaxTemperatureStabilityScore,\n       ROUND((1 - MaxTSS) * (1 - CoolRemainPct / 100.0), 3) AS ContainerRiskIndex,\n       RANK() OVER (ORDER BY (1 - MaxTSS) * (1 - CoolRemainPct / 100.0) DESC) AS RiskRank,\n       CASE WHEN SensorRows = 0 THEN 'No Sensor Data' ELSE 'Sensor Data Available' END AS SensorDataStatus,\n       json_object('TempDevCount', MaxTempDevCount,\n                   'CritEvents', MaxCritEvents,\n                   'TempStabIdx', MaxTempStabIdx,\n                   'CoolRemainPct', CoolRemainPct,\n                   'TempBreachSeverity', MaxTBS) AS DiagnosticSummary\nFROM agg\nORDER BY RiskRank\nLIMIT 10"
+ },
+ {
+  "question_id": "vaccine_1",
+  "answer": "WITH latest AS (\n  SELECT s.containlink AS cid,\n         (1 - s.tempdevcount / 100.0) * (1 - s.critevents / 10.0) * s.tempstabidx AS tss,\n         ROW_NUMBER() OVER (PARTITION BY s.containlink ORDER BY s.alerttime DESC, s.sensortrack DESC) AS rn\n  FROM sensordata s\n),\nwin AS (\n  SELECT s.containlink AS cid,\n         AVG((1 - s.tempdevcount / 100.0) * (1 - s.critevents / 10.0) * s.tempstabidx) AS avgtss,\n         MAX(ABS(s.tempnowc - s.storetempc) / s.temptolc * s.tempdevcount) AS maxtbs\n  FROM sensordata s\n  WHERE s.alerttime >= DATETIME('now', '-1 year')\n  GROUP BY s.containlink\n)\nSELECT c.containregistry AS ContainerID,\n       ROUND(w.avgtss, 2) AS AvgTemperatureStabilityScore,\n       ROUND(w.maxtbs, 2) AS MaxTemperatureBreachSeverity,\n       CASE\n         WHEN (1 - l.tss) * (1 - c.coolremainpct / 100.0) > 0.6 OR l.tss < 0.4 THEN 'Critical'\n         WHEN w.avgtss < 0.4 OR w.maxtbs > 1.5 THEN 'Unstable'\n         WHEN w.avgtss >= 0.7 AND w.maxtbs <= 1.0 THEN 'Stable'\n         WHEN w.avgtss >= 0.4 AND w.maxtbs <= 1.5 THEN 'Moderate'\n       END AS ContainerHealthStatus\nFROM container c\nLEFT JOIN latest l ON l.cid = c.containregistry AND l.rn = 1\nLEFT JOIN win w ON w.cid = c.containregistry\nLIMIT 100"
+ },
+ {
+  "question_id": "vaccine_4",
+  "answer": "SELECT sh.shipmentregistry AS ShipmentID,\n       r.riskflag AS RiskStatus,\n       SUM(r.incidents) AS IncidentCount,\n       json_group_array(r.regmaintregistry) AS MaintenanceRecordIDs\nFROM shipments sh\nJOIN regulatoryandmaintenance r ON r.shipgov = sh.shipmentregistry\nWHERE sh.integritymark = 'Compromised'\n   OR sh.sealflag = 'Broken'\n   OR sh.tampersign = 'Confirmed'\nGROUP BY sh.shipmentregistry, r.riskflag\nORDER BY IncidentCount DESC\nLIMIT 50"
+ },
+ {
+  "question_id": "vaccine_5",
+  "answer": "WITH latest AS (\n  SELECT s.vehsenseref AS VehicleID,\n         (1 - s.handleevents / 100.0) * (1 - s.critevents / 10.0) AS HQI,\n         (1 - s.tempdevcount / 100.0) * (1 - s.critevents / 10.0) * s.tempstabidx AS TSS,\n         ROW_NUMBER() OVER (PARTITION BY s.vehsenseref ORDER BY s.alerttime DESC, s.sensortrack DESC) AS rn\n  FROM sensordata s\n)\nSELECT v.vehiclereg AS VehicleID,\n       v.shiptransit AS ShipmentID,\n       ROUND(l.HQI, 3) AS HandlingQualityIndex,\n       ROUND(l.TSS, 3) AS TemperatureStabilityScore\nFROM transportinfo v\nJOIN latest l ON l.VehicleID = v.vehiclereg AND l.rn = 1\nWHERE l.HQI > 0.9 AND l.TSS > 0.8\nORDER BY l.TSS DESC"
+ },
+ {
+  "question_id": "vaccine_6",
+  "answer": "WITH m AS (\n  SELECT s.containlink AS ContainerID,\n         ABS(s.tempnowc - s.storetempc) / s.temptolc * s.tempdevcount AS TBS,\n         s.tempdevcount AS TempDevCount,\n         s.alertkind AS AlertKind\n  FROM sensordata s\n  WHERE ABS(s.tempnowc - s.storetempc) / s.temptolc * s.tempdevcount > 2.0\n    AND s.tempdevcount > 5\n)\nSELECT ContainerID,\n       MAX(TBS) AS TemperatureBreachSeverity,\n       MAX(TempDevCount) AS TemperatureDeviations,\n       json_group_array(AlertKind) AS AlertTypes\nFROM m\nGROUP BY ContainerID\nORDER BY TemperatureBreachSeverity DESC\nLIMIT 5"
+ },
+ {
+  "question_id": "vaccine_7",
+  "answer": "WITH m AS (\n  SELECT c.containregistry AS ContainerID,\n         c.coolremainpct AS CoolRemainPct,\n         (100 - c.coolremainpct) / (julianday(DATE('now')) - julianday(c.refilllatest)) AS CDR\n  FROM container c\n  WHERE c.refilllatest IS NOT NULL\n    AND julianday(DATE('now')) > julianday(c.refilllatest)\n)\nSELECT ContainerID,\n       CoolRemainPct AS CoolantRemainingPct,\n       ROUND(CDR, 2) AS CoolantDepletionRate,\n       RANK() OVER (ORDER BY CDR DESC) AS DepletionRank\nFROM m\nWHERE CDR > 1 AND CoolRemainPct < 30\nORDER BY DepletionRank\nLIMIT 5"
+ }
+]

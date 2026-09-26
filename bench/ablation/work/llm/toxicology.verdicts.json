@@ -1,0 +1,8 @@
+{"database": "toxicology",
+ "verdicts": [
+  {"id": "atom.molecule_id -> molecule.molecule_id", "verdict": "yes", "reason": "Identical column name, TR-coded molecule identifiers on both sides, and every one of the 343 molecules is covered by many atoms: atoms belong to molecules."},
+  {"id": "bond.molecule_id -> molecule.molecule_id", "verdict": "yes", "reason": "Identical column name, TR-coded molecule identifiers, full coverage of all 343 molecules by 9156 bonds: bonds belong to molecules."},
+  {"id": "connected.atom_id -> atom.atom_id", "verdict": "yes", "reason": "Identical column name, compound TRxxx_n atom identifiers, near-full coverage of 9111 atoms: a connection's first endpoint is an atom."},
+  {"id": "connected.atom_id2 -> atom.atom_id", "verdict": "yes", "reason": "atom_id2 is the second atom endpoint of a connection; same TRxxx_n identifier space and near-full coverage, a second reference to the same target."},
+  {"id": "connected.bond_id -> bond.bond_id", "verdict": "yes", "reason": "Identical column name, TRxxx_a_b bond identifiers, all 9156 bonds covered with two connected rows each: a connection is the bond it belongs to."}
+ ]}

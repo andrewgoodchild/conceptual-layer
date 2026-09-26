@@ -1,0 +1,58 @@
+[
+ {
+  "question_id": 201,
+  "answer": "THE COUNT OF Atom [has AtomElement: 'c' AND ALSO has Molecule is of Bond has BondType: '='] * 100 / THE COUNT OF Atom [has Molecule is of Bond has BondType: '=']",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "Compiles to COUNT(atom_id) WHERE EXISTS(...) on both sides (checked with --sql-only), so it counts each atom once, not once per matching bond. Numerator restricts to carbon atoms whose molecule has a '=' bond, denominator to all atoms whose molecule has a '=' bond -- matches evidence's SUM(element='c')/COUNT(atom_id) scoped to double-bond molecules. Result 38.81%."
+ },
+ {
+  "question_id": 239,
+  "answer": "THE COUNT OF Connected [has ConnectedAtom has AtomId a] WHERE like(a, 'TR%_19')",
+  "attempts": 5,
+  "verdict": "accepted",
+  "reason": "Counts Connected rows whose (first) atom matches 'TR%_19'. Verified the connected table stores each connection symmetrically: filtering on ConnectedAtom alone, on ConnectedAtomid2 alone, and counting via the joined Bond's BondId all return the identical 377, so the one-sided filter the draft uses already captures every connection touching such atoms without an explicit OR across both roles."
+ },
+ {
+  "question_id": 243,
+  "answer": "LIST bid FROM DISTINCT Connected has Bond has BondId bid AND ALSO has ConnectedAtom has AtomElement: 'p' AND ALSO has ConnectedAtomid2 has AtomElement: 'n'",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "Requires phosphorus on ConnectedAtom and nitrogen on ConnectedAtomid2 in the same row. Verified the connected table is symmetric: swapping the filter to n-then-p returns the identical 6 bond ids, so the asymmetric filter finds every phosphorus/nitrogen bond regardless of which direction the underlying row happens to store."
+ },
+ {
+  "question_id": 234,
+  "answer": "THE COUNT OF Bond [is of Connected has ConnectedAtom has AtomId: 'TR009_12']",
+  "attempts": 4,
+  "verdict": "accepted",
+  "reason": "Compiles to COUNT(bond_id) WHERE EXISTS(...) (checked with --sql-only), so it already counts distinct bonds. Verified filtering on ConnectedAtomid2 instead gives the same 3, and THE DISTINCT COUNT OF also gives 3, confirming the symmetric connected table makes the single-sided atom filter complete. atom_id 'TR009_12' already encodes molecule TR009 so no separate molecule filter is needed."
+ },
+ {
+  "question_id": 215,
+  "answer": "THE COUNT OF DISTINCT Atom [has AtomElement e AND ALSO has Molecule is of Bond has BondType: '-'] WHERE e = 'i' OR e = 's'",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "Compiles to COUNT(atom_id) with an EXISTS-based molecule/bond check (checked with --sql-only), so each atom is counted once already; DISTINCT matches the evidence's explicit instruction to count distinct atoms. Result 97."
+ },
+ {
+  "question_id": 230,
+  "answer": "LIST e, lbl FROM Molecule: 'TR060' is of Atom has AtomElement e AND ALSO has MoleculeLabel lbl",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "The head of the FROM is Molecule: 'TR060'; the normalised query confirms AND ALSO has MoleculeLabel returns to that head (not to Atom), giving one row per atom's element paired with the molecule's own (constant) label -- 103 rows, all label '-', matching 'elements ... and label of molecule TR060'."
+ },
+ {
+  "question_id": 206,
+  "answer": "LIST e FROM Connected [has Bond has BondId: 'TR004_8_9'] has ConnectedAtom has AtomElement e",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "Only projects the ConnectedAtom (first) role's element, but the connected table is symmetric for this dataset: substituting ConnectedAtomid2 for ConnectedAtom returns the identical two rows, so the bond's two Connected rows already surface both atoms' elements without needing the second role written explicitly."
+ },
+ {
+  "question_id": 212,
+  "answer": "LIST e FROM Atom a [has Molecule has MoleculeLabel: '-'] has AtomElement e AND ALSO THE COUNT OF a GROUPED BY e AS c ORDERED WITH c ASCENDING THE FIRST 1",
+  "attempts": 3,
+  "verdict": "accepted",
+  "reason": "Grouped count of atoms per element among non-carcinogenic (label='-') molecules, ascending, first 1 -- matches evidence's MIN(COUNT(element)). Listing the full ranking shows a genuine 3-way tie at count=1 (ca, k, pb), so 'the least numerous element' is inherently ambiguous in the data; the compiler's own warning notes a tie's winner is 'the database's choice, not the query's'. This is not a fixable defect in the query -- any single-answer phrasing hits the same tie -- so left as is (returns 'ca')."
+ }
+]

@@ -1,0 +1,525 @@
+{
+ "database": "mental_healths_large",
+ "verdicts": [
+  {
+   "id": "AmbulanceMaintenanceLogs.ambulance_ref -> AmbulanceTransport.AmbulanceTransport_id",
+   "verdict": "yes",
+   "reason": "ambulance_ref holds AT-hex ids in exactly AmbulanceTransport_id's format; no separate ambulances table exists, so the maintenance log is a child of the transport record"
+  },
+  {
+   "id": "AmbulanceMaintenanceLogs.passed_safety_inspection -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "boolean inspection flag (single value 1); numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "AmbulanceTransport.emer_ref -> emergencyevents.emer_key",
+   "verdict": "yes",
+   "reason": "emer_ref holds EMER-00n codes covering all four emergencyevents keys"
+  },
+  {
+   "id": "AmbulanceTransport.crew_size -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "crew_size is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "ClaimsAppealRecords.claim_processing_ref -> InsuranceClaimsProcessing.InsuranceClaimsProcessing_id",
+   "verdict": "yes",
+   "reason": "claim_processing_ref holds ICP-hex ids covering all 13 InsuranceClaimsProcessing keys"
+  },
+  {
+   "id": "ClaimsAppealRecords.appeal_filed_days_from_denial -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "days-from-denial is a duration; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "ClaimsAppealRecords.supporting_docs_count -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "supporting_docs_count is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "ClaimsAppealRecords.processing_time_days -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "processing_time_days is a duration; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "ClinicalPathwayAdherence.encounter_ref -> encounters.enc_key",
+   "verdict": "yes",
+   "reason": "encounter_ref holds MHnnnnnn encounter ids covering 345 of 351 encounters"
+  },
+  {
+   "id": "ClinicalPathwayAdherence.total_steps -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "total_steps is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "ClinicalPathwayAdherence.steps_completed -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "steps_completed is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "DeviceAlertHistory.telemetry_ref -> DeviceTelemetry.DeviceTelemetry_id",
+   "verdict": "yes",
+   "reason": "telemetry_ref holds DT-hex ids covering all 29 DeviceTelemetry keys"
+  },
+  {
+   "id": "DeviceAlertHistory.repeat_alert_count -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "repeat_alert_count is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "DeviceAlertHistory.priority_score -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "priority_score is a score; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "DeviceTelemetry.device_ref -> medicaldevices.dev_key",
+   "verdict": "yes",
+   "reason": "device_ref holds DEV-00n codes covering all six medicaldevices keys"
+  },
+  {
+   "id": "DeviceTelemetry.data_packet_size_kb -> treatmentbasics.tx_key",
+   "verdict": "no",
+   "reason": "data_packet_size_kb is a measurement; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "DietaryLogs.pat_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_ref holds Pnnnnnn patient ids covering 885 of 893 patients"
+  },
+  {
+   "id": "DietaryLogs.hunger_level_pre -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "hunger_level_pre is a 1-9 rating; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "DietaryLogs.satiety_level_post -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "satiety_level_post is a 1-9 rating; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "FacilityOccupancyLog.fac_ref -> facilities.fac_key",
+   "verdict": "yes",
+   "reason": "fac_ref holds Fnnn facility ids covering 499 of 541 facilities"
+  },
+  {
+   "id": "FacilityOccupancyLog.bed_capacity_total -> treatmentbasics.tx_key",
+   "verdict": "no",
+   "reason": "bed_capacity_total is a capacity count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "FacilityOccupancyLog.beds_occupied -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "beds_occupied is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "FacilityOccupancyLog.staff_on_duty_count -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "staff_on_duty_count is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "FacilityStaffingLogs.occupancy_ref -> FacilityOccupancyLog.FacilityOccupancyLog_id",
+   "verdict": "yes",
+   "reason": "occupancy_ref holds FOL-hex ids covering 1453 of 1526 FacilityOccupancyLog keys"
+  },
+  {
+   "id": "FacilityStaffingLogs.rn_count_scheduled -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "rn_count_scheduled is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "FacilityStaffingLogs.rn_count_actual -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "rn_count_actual is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "FacilityStaffingLogs.physician_count -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "physician_count is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "FacilityStaffingLogs.support_staff_count -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "support_staff_count is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "FeedbackActionItems.survey_ref -> PatientFeedbackSurveys.PatientFeedbackSurveys_id",
+   "verdict": "yes",
+   "reason": "survey_ref holds PFS-hex ids covering 905 of 1034 PatientFeedbackSurveys keys"
+  },
+  {
+   "id": "FeedbackActionItems.days_to_resolution -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "days_to_resolution is a duration; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "GenomicSequencing.lab_ref -> labresults.lab_key",
+   "verdict": "yes",
+   "reason": "lab_ref holds LAB-00n codes drawn from labresults keys"
+  },
+  {
+   "id": "GenomicVariantAnalysis.sequencing_ref -> GenomicSequencing.GenomicSequencing_id",
+   "verdict": "yes",
+   "reason": "sequencing_ref holds GS-hex ids covering all 12 GenomicSequencing keys"
+  },
+  {
+   "id": "GenomicVariantAnalysis.evidence_citations_count -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "evidence_citations_count is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "InsuranceClaimsProcessing.bill_ref -> billingrecords.bill_key",
+   "verdict": "yes",
+   "reason": "bill_ref holds BILL-00n codes covering all three billingrecords keys"
+  },
+  {
+   "id": "NutritionConsultations.dietary_ref -> DietaryLogs.DietaryLogs_id",
+   "verdict": "yes",
+   "reason": "dietary_ref holds DL-hex ids covering 4085 of 4350 DietaryLogs keys"
+  },
+  {
+   "id": "NutritionConsultations.duration_minutes -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "duration_minutes is a duration; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "NutritionConsultations.protein_goal_grams -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "protein_goal_grams is a quantity; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "NutritionConsultations.carb_goal_grams -> treatmentbasics.tx_key",
+   "verdict": "no",
+   "reason": "carb_goal_grams is a quantity; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "NutritionConsultations.fat_goal_grams -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "fat_goal_grams is a quantity; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "NutritionConsultations.patient_satisfaction_score -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "patient_satisfaction_score is a 1-9 rating; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "PatientFeedbackSurveys.enc_ref -> encounters.enc_key",
+   "verdict": "yes",
+   "reason": "enc_ref holds MHnnnnnn encounter ids covering 331 of 351 encounters"
+  },
+  {
+   "id": "PatientFeedbackSurveys.wait_time_rating -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "wait_time_rating is a 1-5 rating; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "PatientFeedbackSurveys.doctor_listen_rating -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "doctor_listen_rating is a rating; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "PatientFeedbackSurveys.explanation_rating -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "explanation_rating is a 1-5 rating; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "PatientFeedbackSurveys.staff_courtesy_rating -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "staff_courtesy_rating is a 1-5 rating; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "PatientFeedbackSurveys.cleanliness_rating -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "cleanliness_rating is a 1-5 rating; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "PatientFeedbackSurveys.billing_clarity_rating -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "billing_clarity_rating is a 1-5 rating; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "PharmacyInventoryTracking.fulfillment_ref -> PrescriptionFulfillment.PrescriptionFulfillment_id",
+   "verdict": "yes",
+   "reason": "fulfillment_ref holds PF-hex ids covering 35 of 36 PrescriptionFulfillment keys"
+  },
+  {
+   "id": "PharmacyInventoryTracking.storage_temp_celsius -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "storage_temp_celsius is a temperature; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "PharmacyInventoryTracking.supplier_lead_days -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "supplier_lead_days is a duration; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "PostSurgicalRecovery.surgery_ref -> SurgicalProcedures.SurgicalProcedures_id",
+   "verdict": "yes",
+   "reason": "surgery_ref holds SP-hex ids covering 1568 of 1679 SurgicalProcedures keys"
+  },
+  {
+   "id": "PostSurgicalRecovery.pacu_duration_min -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "pacu_duration_min is a duration; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "PrescriptionFulfillment.pm_ref -> patientmedications.pm_key",
+   "verdict": "yes",
+   "reason": "pm_ref holds PM-00n codes covering all nine patientmedications keys"
+  },
+  {
+   "id": "PrescriptionFulfillment.quantity_dispensed -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "quantity_dispensed is a quantity (7/14/30/60/90); numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "PrescriptionFulfillment.days_supply -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "days_supply is a duration (7/14/30/90); numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "PrescriptionFulfillment.signature_captured -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "signature_captured is a boolean flag; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "SurgicalProcedures.enc_ref -> encounters.enc_key",
+   "verdict": "yes",
+   "reason": "enc_ref holds MHnnnnnn encounter ids covering 348 of 351 encounters"
+  },
+  {
+   "id": "SurgicalProcedures.instrument_count_correct -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "instrument_count_correct is a boolean flag; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "SurgicalProcedures.postop_pain_score -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "postop_pain_score is a 1-9 rating; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "TelehealthQualityMetrics.telehealth_ref -> TelehealthSessions.TelehealthSessions_id",
+   "verdict": "yes",
+   "reason": "telehealth_ref holds TS-hex ids covering all 11 TelehealthSessions keys"
+  },
+  {
+   "id": "TelehealthSessions.appt_ref -> appointments.appt_key",
+   "verdict": "yes",
+   "reason": "appt_ref holds APPT-00n codes covering all three appointments keys"
+  },
+  {
+   "id": "TelehealthSessions.chat_messages_count -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "chat_messages_count is a count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "TelehealthSessions.patient_rating -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "patient_rating is a 1-5 rating; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "TelehealthSessions.reconnect_success -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "reconnect_success is a boolean flag; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "TelehealthSessions.encryption_verified -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "encryption_verified is a boolean flag; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "appointments.pat_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_ref holds Pnnnnnn patient ids (the same ids seen in other patient-child tables); small seed table"
+  },
+  {
+   "id": "appointments.clin_ref -> clinicians.clin_key",
+   "verdict": "yes",
+   "reason": "clin_ref holds Cnnnn clinician ids; small seed table"
+  },
+  {
+   "id": "assessmentbasics.a_dur_min -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "a_dur_min is a duration; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "assessmentbasics.pat_owner_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_owner_ref holds Pnnnnnn patient ids covering 845 of 893 patients"
+  },
+  {
+   "id": "assessmentsocialanddiagnosis.qol_scr -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "qol_scr is a quality-of-life score; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "billingrecords.pat_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_ref holds Pnnnnnn patient ids; small seed table"
+  },
+  {
+   "id": "billingrecords.ins_ref -> insuranceplans.ins_key",
+   "verdict": "yes",
+   "reason": "ins_ref holds INS-00n codes drawn from insuranceplans keys"
+  },
+  {
+   "id": "careplans.pat_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_ref holds Pnnnnnn patient ids; small seed table"
+  },
+  {
+   "id": "careplans.clin_ref -> clinicians.clin_key",
+   "verdict": "yes",
+   "reason": "clin_ref holds Cnnnn clinician ids; small seed table"
+  },
+  {
+   "id": "clinicians.fac_connect -> facilities.fac_key",
+   "verdict": "yes",
+   "reason": "fac_connect holds Fnnn facility ids covering 465 of 541 facilities; a clinician's home facility"
+  },
+  {
+   "id": "clinicianteams.clin_ref -> clinicians.clin_key",
+   "verdict": "yes",
+   "reason": "clin_ref holds Cnnnn clinician ids; team-membership link table"
+  },
+  {
+   "id": "clinicianteams.team_ref -> medicalteams.team_key",
+   "verdict": "yes",
+   "reason": "team_ref holds TEAM-00n codes covering 6 of 7 medicalteams keys; team-membership link table"
+  },
+  {
+   "id": "clinicianteams.case_load_patients_month -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "case_load_patients_month is a count (decimal-valued); numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "emergencyevents.pat_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_ref holds Pnnnnnn patient ids; small seed table"
+  },
+  {
+   "id": "encounters.ab_ref -> assessmentbasics.ab_key",
+   "verdict": "yes",
+   "reason": "ab_ref holds Annnnnn assessment ids, 342 distinct, matching assessmentbasics.ab_key format"
+  },
+  {
+   "id": "encounters.pat_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_ref holds Pnnnnnn patient ids, 335 distinct"
+  },
+  {
+   "id": "encounters.clin_id -> clinicians.clin_key",
+   "verdict": "yes",
+   "reason": "clin_id holds Cnnnn clinician ids, 310 distinct"
+  },
+  {
+   "id": "encounters.fac_id -> facilities.fac_key",
+   "verdict": "yes",
+   "reason": "fac_id holds Fnnn facility ids, 273 distinct"
+  },
+  {
+   "id": "facilitysuppliers.fac_ref -> facilities.fac_key",
+   "verdict": "yes",
+   "reason": "fac_ref holds Fnnn facility ids; facility-supplier link table"
+  },
+  {
+   "id": "facilitysuppliers.sup_ref -> suppliers.sup_key",
+   "verdict": "yes",
+   "reason": "sup_ref holds SUP-00n codes drawn from suppliers keys; facility-supplier link table"
+  },
+  {
+   "id": "imagingstudies.pat_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_ref holds Pnnnnnn patient ids; small seed table"
+  },
+  {
+   "id": "labresults.pat_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_ref holds Pnnnnnn patient ids; small seed table"
+  },
+  {
+   "id": "medicalrecords.pat_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_ref holds Pnnnnnn patient ids; small seed table"
+  },
+  {
+   "id": "patientcaregivers.pat_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_ref holds Pnnnnnn patient ids; patient-caregiver link table"
+  },
+  {
+   "id": "patientcaregivers.care_ref -> caregivers.care_key",
+   "verdict": "yes",
+   "reason": "care_ref holds CARE-00n codes drawn from caregivers keys; patient-caregiver link table"
+  },
+  {
+   "id": "patientclinicaltrials.pat_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_ref holds Pnnnnnn patient ids; patient-trial link table"
+  },
+  {
+   "id": "patientclinicaltrials.trial_ref -> clinicaltrials.trial_key",
+   "verdict": "yes",
+   "reason": "trial_ref holds TRIAL-00n codes covering all six clinicaltrials keys; patient-trial link table"
+  },
+  {
+   "id": "patientmedications.pat_ref -> patients.pat_key",
+   "verdict": "yes",
+   "reason": "pat_ref holds Pnnnnnn patient ids; patient-medication link table"
+  },
+  {
+   "id": "patientmedications.med_ref -> medications.med_key",
+   "verdict": "yes",
+   "reason": "med_ref holds MED-00n codes covering all seven medications keys"
+  },
+  {
+   "id": "patients.pat_age -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "pat_age is an age; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "patients.clin_lead_ref -> clinicians.clin_key",
+   "verdict": "yes",
+   "reason": "clin_lead_ref holds Cnnnn clinician ids covering 687 of 753 clinicians; a patient's lead clinician"
+  },
+  {
+   "id": "rehabprograms.sess_dur_minutes_session -> treatmentoutcomes.tx_out_key",
+   "verdict": "no",
+   "reason": "sess_dur_minutes_session is a duration; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "rehabprograms.cost_sess_usd_session -> treatmentbasics.tx_key",
+   "verdict": "no",
+   "reason": "cost_sess_usd_session is a money amount; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "treatmentbasics.enc_ref -> encounters.enc_key",
+   "verdict": "yes",
+   "reason": "enc_ref holds MHnnnnnn encounter ids covering 259 of 351 encounters"
+  },
+  {
+   "id": "treatmentoutcomes.tx_ref -> treatmentbasics.tx_key",
+   "verdict": "yes",
+   "reason": "tx_ref is named for tx_key, is unique per outcome, and its values skip (1,2,3,4,6) as real references do rather than running as the table's own sequence"
+  },
+  {
+   "id": "assessmentsocialanddiagnosis.asd_key -> assessmentbasics.ab_key",
+   "verdict": "yes",
+   "reason": "own key asd_key holds the same Annnnnn ids as assessmentbasics.ab_key: the assessment entity split across basics / social-and-diagnosis tables (one-to-one)"
+  },
+  {
+   "id": "assessmentsymptomsandrisk.asr_key -> assessmentbasics.ab_key",
+   "verdict": "yes",
+   "reason": "own key asr_key holds the same Annnnnn ids as assessmentbasics.ab_key: the assessment entity split across basics / symptoms-and-risk tables (one-to-one)"
+  },
+  {
+   "id": "careplans.care_key -> caregivers.care_key",
+   "verdict": "no",
+   "reason": "careplans' own key CARE-001..005 nests in caregivers' CARE-001..008 only because both abbreviate to 'care'; a care plan is not a caregiver and careplans already carries pat_ref/clin_ref as its real links"
+  },
+  {
+   "id": "treatmentoutcomes.tx_out_key -> treatmentbasics.tx_key",
+   "verdict": "no",
+   "reason": "tx_out_key is treatmentoutcomes' own 1..316 surrogate nesting inside treatmentbasics' 1..453; the real link is the sibling tx_ref column, so this is the shorter-sequence false positive"
+  }
+ ]
+}

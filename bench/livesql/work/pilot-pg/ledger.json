@@ -1,0 +1,170 @@
+[
+ {
+  "arm": "sql",
+  "db": "labor_certification_applications_large",
+  "subagent_tokens": 125784,
+  "tool_uses": 38,
+  "duration_ms": 300202
+ },
+ {
+  "arm": "sql",
+  "db": "planets_data_large",
+  "subagent_tokens": 89887,
+  "tool_uses": 48,
+  "duration_ms": 365070
+ },
+ {
+  "arm": "sql",
+  "db": "exchange_traded_funds_large",
+  "subagent_tokens": 106138,
+  "tool_uses": 32,
+  "duration_ms": 416870
+ },
+ {
+  "arm": "sql",
+  "db": "solar_panel_large",
+  "subagent_tokens": 94798,
+  "tool_uses": 49,
+  "duration_ms": 445653
+ },
+ {
+  "arm": "sql",
+  "db": "sports_events_large",
+  "subagent_tokens": 105596,
+  "tool_uses": 47,
+  "duration_ms": 445700
+ },
+ {
+  "arm": "sql",
+  "db": "museum_artifact_large",
+  "subagent_tokens": 117663,
+  "tool_uses": 36,
+  "duration_ms": 473152
+ },
+ {
+  "arm": "conquer",
+  "db": "solar_panel_large",
+  "subagent_tokens": 122368,
+  "tool_uses": 53,
+  "duration_ms": 623442
+ },
+ {
+  "arm": "conquer",
+  "db": "planets_data_large",
+  "subagent_tokens": 140209,
+  "tool_uses": 51,
+  "duration_ms": 696936
+ },
+ {
+  "arm": "conquer",
+  "db": "museum_artifact_large",
+  "subagent_tokens": 166057,
+  "tool_uses": 51,
+  "duration_ms": 701540
+ },
+ {
+  "arm": "conquer",
+  "db": "exchange_traded_funds_large",
+  "subagent_tokens": 173495,
+  "tool_uses": 61,
+  "duration_ms": 747167
+ },
+ {
+  "arm": "conquer",
+  "db": "sports_events_large",
+  "subagent_tokens": 176401,
+  "tool_uses": 62,
+  "duration_ms": 856307
+ },
+ {
+  "arm": "conquer",
+  "db": "labor_certification_applications_large",
+  "subagent_tokens": 167641,
+  "tool_uses": 69,
+  "duration_ms": 913645
+ },
+ {
+  "arm": "sqlnar",
+  "db": "labor_certification_applications_large",
+  "subagent_tokens": 94876,
+  "tool_uses": 36,
+  "duration_ms": 418948
+ },
+ {
+  "arm": "sqlnar",
+  "db": "planets_data_large",
+  "subagent_tokens": 104733,
+  "tool_uses": 43,
+  "duration_ms": 508602
+ },
+ {
+  "arm": "sqlnar",
+  "db": "solar_panel_large",
+  "subagent_tokens": 126514,
+  "tool_uses": 35,
+  "duration_ms": 577147
+ },
+ {
+  "arm": "sqlnar",
+  "db": "sports_events_large",
+  "subagent_tokens": 129249,
+  "tool_uses": 57,
+  "duration_ms": 611275
+ },
+ {
+  "arm": "sqlnar",
+  "db": "exchange_traded_funds_large",
+  "subagent_tokens": 147631,
+  "tool_uses": 52,
+  "duration_ms": 614334
+ },
+ {
+  "arm": "sqlnar",
+  "db": "museum_artifact_large",
+  "subagent_tokens": 127442,
+  "tool_uses": 42,
+  "duration_ms": 736612
+ },
+ {
+  "arm": "sqlnarp",
+  "db": "planets_data_large",
+  "subagent_tokens": 72843,
+  "tool_uses": 20,
+  "duration_ms": 187141
+ },
+ {
+  "arm": "sqlnarp",
+  "db": "museum_artifact_large",
+  "subagent_tokens": 82402,
+  "tool_uses": 20,
+  "duration_ms": 206076
+ },
+ {
+  "arm": "sqlnarp",
+  "db": "sports_events_large",
+  "subagent_tokens": 102085,
+  "tool_uses": 26,
+  "duration_ms": 257870
+ },
+ {
+  "arm": "sqlnarp",
+  "db": "solar_panel_large",
+  "subagent_tokens": 89120,
+  "tool_uses": 25,
+  "duration_ms": 281818
+ },
+ {
+  "arm": "sqlnarp",
+  "db": "labor_certification_applications_large",
+  "subagent_tokens": 79106,
+  "tool_uses": 21,
+  "duration_ms": 190117
+ },
+ {
+  "arm": "sqlnarp",
+  "db": "exchange_traded_funds_large",
+  "subagent_tokens": 100314,
+  "tool_uses": 26,
+  "duration_ms": 233722
+ }
+]

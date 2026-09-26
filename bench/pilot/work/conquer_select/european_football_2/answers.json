@@ -1,0 +1,72 @@
+[
+ {
+  "question_id": 1115,
+  "answer": "(THE MAXIMUM r IN PlayerAttribute [has api Player has PlayerName: 'Landon Donovan'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r - THE MAXIMUM r IN PlayerAttribute [has api Player has PlayerName: 'Jordan Bowery'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r) * 100 / THE MAXIMUM r IN PlayerAttribute [has api Player has PlayerName: 'Landon Donovan'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates return the identical value 25.31645569620253, matching the evidence formula (SUBTRACT(Donovan,Bowery)/Donovan*100) computed on the 2013-07-12 attribute rows. Chose candidate 1 as the most direct encoding: it filters both player and date as denotations on the same path rather than a WHERE-bound LIKE or a separate subquery, and the compiler resolved the exact-timestamp denotation successfully, so no ambiguity from LIKE matching multiple rows."
+ },
+ {
+  "question_id": 1134,
+  "answer": "THE MAXIMUM j IN PlayerAttribute [has PlayerAttributeId: 6] has PlayerAttributeJumping j - THE MAXIMUM j IN PlayerAttribute [has PlayerAttributeId: 23] has PlayerAttributeJumping j",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "Evidence 'jumping AND id = 6' names the id column on the same fact/table as jumping, i.e. PlayerAttribute's own id (PlayerAttributeId), not Player's id reached via the api role. Candidates 1 and 2 both take that reading and agree exactly (result 1). Candidate 3 instead reinterprets 'id' as Player.id (via 'has api Player has PlayerId'), giving a different, unsupported answer (-8). Chose candidate 1 as the simpler of the two agreeing queries."
+ },
+ {
+  "question_id": 1135,
+  "answer": "LIST a FROM PlayerAttribute [has PlayerAttributePreferredFoot: 'right'] has api Player has PlayerApiId a AND ALSO has PlayerAttributePotential p ORDERED WITH p ASCENDING THE FIRST 4",
+  "attempts": 3,
+  "chosen": 2,
+  "reason": "Evidence 'lowest potential players refers to MIN(potential)' is BIRD's standard shorthand for ORDER BY potential ASC (as elsewhere in this set), not a per-player aggregate. Candidate 2's --sql-only compiles to the direct, minimal translation: SELECT player_api_id FROM Player_Attributes JOIN Player ... WHERE preferred_foot='right' ORDER BY potential ASC LIMIT 4 -- exactly the expected gold shape. Candidate 1 instead groups by player and orders by each player's own minimum potential, a materially different (and over-engineered) query not implied by the evidence. Candidate 3 projects PlayerAttributeId (the attribute row's own primary key) instead of the player's id (PlayerApiId), which does not answer 'players' IDs' at all."
+ },
+ {
+  "question_id": 1124,
+  "answer": "LIST n FROM DISTINCT PlayerAttribute [has PlayerAttributeAttackingWorkRate: 'high'] has api Player has PlayerName n",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates are semantically equivalent paths (forward from PlayerAttribute vs backward from Player) and all return 3339 distinct rows, agreeing exactly. Chose candidate 1 as the most direct phrasing of the evidence filter (attacking_work_rate = 'high')."
+ },
+ {
+  "question_id": 1107,
+  "answer": "LIST d FROM PlayerAttribute [has api Player has PlayerName: 'Kevin Constant'] has PlayerAttributeCrossing c AND ALSO has PlayerAttributeDate d WHERE c = THE MAXIMUM c2 IN PlayerAttribute [has api Player has PlayerName: 'Kevin Constant'] has PlayerAttributeCrossing c2 ORDERED WITH d ASCENDING THE FIRST 1",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates use the same logic (filter to Kevin Constant, match rows whose crossing equals the player's max crossing via an uncorrelated subquery, order ascending by date, take the first) and agree exactly on the answer 2013-02-15 00:00:00, giving the earliest date on which he had his highest crossing score. Chose candidate 1 as the cleanest form."
+ },
+ {
+  "question_id": 1094,
+  "answer": "((THE MAXIMUM r1 IN PlayerAttribute [has api Player has PlayerName: 'Ariel Borysiuk'] [has PlayerAttributeId a1] has PlayerAttributeOverallRating r1 WHERE a1 = (THE MINIMUM m1 IN PlayerAttribute [has api Player has PlayerName: 'Ariel Borysiuk'] has PlayerAttributeId m1)) - (THE MAXIMUM r2 IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] [has PlayerAttributeId a2] has PlayerAttributeOverallRating r2 WHERE a2 = (THE MINIMUM m2 IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] has PlayerAttributeId m2))) * 100 / (THE MAXIMUM r3 IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] [has PlayerAttributeId a3] has PlayerAttributeOverallRating r3 WHERE a3 = (THE MINIMUM m3 IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] has PlayerAttributeId m3))",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "Candidate 1 (earliest row by PlayerAttributeId) and candidate 2 (row with the latest PlayerAttributeDate) use different tie-breaking rules for which of a player's several attribute snapshots to use, yet both -- and candidate 3, which mirrors candidate 1's logic -- return the identical value 15.254237288135593, so the choice of row does not affect the result here. Chose candidate 1 (using MIN(PlayerAttributeId), i.e. the first recorded row) as it most literally matches evidence's unqualified 'overall_rating WHERE player_name = ...' without assuming 'most recent' is intended."
+ },
+ {
+  "question_id": 1110,
+  "answer": "LIST c FROM TeamAttribute [has api Team has TeamLongName: 'FC Lorient'] [has TeamAttributeDate d] has TeamAttributeBuildUpPlayPassingClass c WHERE like(d, '2010-02-22%')",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates are equivalent translations of the same filters and all return the single value 'Long'. Chose candidate 1 as the most compact form."
+ },
+ {
+  "question_id": 1130,
+  "answer": "LIST s FROM DISTINCT TeamAttribute [has TeamAttributeChanceCreationPassingClass: 'Safe'] has api Team has TeamShortName s",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates are semantically equivalent (forward and backward paths through the same fact type) and all return the same 43 distinct short names. Chose candidate 1 as the most direct phrasing."
+ },
+ {
+  "question_id": 1116,
+  "answer": "LIST n FROM DISTINCT Player [has PlayerHeight h] has PlayerName n WHERE h = THE MAXIMUM Player has PlayerHeight",
+  "attempts": 2,
+  "chosen": 1,
+  "reason": "Candidates 1 and 2 (DISTINCT vs. not) both return the single row 'Kristof van Hout' -- there is only one player at the maximum height, so DISTINCT makes no difference here. Candidate 3 is the same logic with a bound subquery variable and would give the same result. Chose candidate 1, whose explicit DISTINCT correctly guards against duplicate rows in the general case implied by 'most tallest players' (plural) even though only one player ties for tallest in this data."
+ },
+ {
+  "question_id": 1044,
+  "answer": "LIST n FROM Player has PlayerName n AND ALSO has PlayerBirthday b WHERE year(b) = 1970 AND month(b) = 10",
+  "attempts": 1,
+  "chosen": 1,
+  "reason": "All three candidates are byte-for-byte identical queries, so running one run stands for all three. Returns exactly the 4 players born in October 1970 (Chris Swailes, Dean Kiely, Edwin van der Sar, Sander Boschker), matching evidence's year/month filter on the birthday."
+ }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "question_id": 137,
+    "answer": "SELECT COUNT(DISTINCT a.account_id) FROM account a JOIN loan l ON l.account_id = a.account_id WHERE a.district_id = 1 AND l.status IN ('C','D');",
+    "attempts": 2
+  },
+  {
+    "question_id": 173,
+    "answer": "SELECT a.frequency AS statement_release_frequency, t.k_symbol AS debit_purpose, COUNT(*) AS times, SUM(t.amount) AS total FROM account a JOIN trans t ON t.account_id = a.account_id WHERE a.account_id = 3 AND t.amount = 3539 GROUP BY a.frequency, t.k_symbol;",
+    "attempts": 3
+  },
+  {
+    "question_id": 92,
+    "answer": "SELECT COUNT(DISTINCT d.district_id) FROM client c JOIN district d ON c.district_id = d.district_id WHERE c.gender = 'F' AND d.A11 > 6000 AND d.A11 < 10000;",
+    "attempts": 2
+  },
+  {
+    "question_id": 189,
+    "answer": "SELECT dp.account_id FROM client c JOIN district d ON c.district_id = d.district_id JOIN disp dp ON dp.client_id = c.client_id WHERE c.gender = 'F' ORDER BY c.birth_date ASC, d.A11 ASC LIMIT 1;",
+    "attempts": 2
+  },
+  {
+    "question_id": 128,
+    "answer": "SELECT d.A2, COUNT(c.client_id) AS num_female_account_holders FROM client c JOIN district d ON c.district_id = d.district_id WHERE c.gender = 'F' GROUP BY d.A2 ORDER BY num_female_account_holders DESC LIMIT 9;",
+    "attempts": 1
+  },
+  {
+    "question_id": 89,
+    "answer": "SELECT COUNT(DISTINCT a.account_id) FROM account a JOIN district d ON a.district_id = d.district_id WHERE a.frequency = 'POPLATEK PO OBRATU' AND d.A3 = 'east Bohemia';",
+    "attempts": 1
+  }
+]

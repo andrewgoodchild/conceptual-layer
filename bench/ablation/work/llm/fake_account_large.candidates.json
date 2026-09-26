@@ -1,0 +1,1718 @@
+{
+ "database": "fake_account_large",
+ "tables": [
+  "account_audit_logs",
+  "account_clusters",
+  "account_integrations",
+  "account_subscriptions",
+  "account_tags",
+  "accounts",
+  "ad_bid_auctions",
+  "ad_campaign_performance",
+  "ad_campaigns",
+  "ad_conversion_attribution",
+  "ai_inference_traces",
+  "api_quota_adjustments",
+  "api_usage_metering",
+  "behavioral_scores",
+  "cdn_edge_metrics",
+  "cdn_traffic_spikes",
+  "cluster_analysis",
+  "cluster_temporal_metrics",
+  "commerce_transactions",
+  "content_activity",
+  "content_language_distribution",
+  "content_topics",
+  "customer_support_tickets",
+  "device_fingerprint_details",
+  "feedback_items",
+  "feedback_responses",
+  "gamification_level_rewards",
+  "influencer_brand_deals",
+  "influencer_post_compliance",
+  "interaction_metrics",
+  "interaction_topic_metrics",
+  "media_asset_details",
+  "model_feedback_loops",
+  "moderation_appeals_process",
+  "moderation_case_files",
+  "monitoring",
+  "network_metrics",
+  "partner_integrations",
+  "platforms",
+  "profile_demographics",
+  "profiles",
+  "risk_and_moderation",
+  "risk_event_history",
+  "security_sessions",
+  "sentiment_analysis_stats",
+  "stream_buffer_events",
+  "stream_quality_logs",
+  "subscription_packages",
+  "tags",
+  "ticket_message_metrics",
+  "topics",
+  "transaction_dispute_evidence",
+  "user_gamification_stats"
+ ],
+ "candidates": [
+  {
+   "id": "account_audit_logs.acct_ref -> accounts.acct_ref",
+   "source_table": "account_audit_logs",
+   "source_column": "acct_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC7210284",
+    "ACC2686094",
+    "ACC7106934",
+    "ACC3607412",
+    "ACC5303962"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "account_clusters.acct_bridge -> accounts.acct_ref",
+   "source_table": "account_clusters",
+   "source_column": "acct_bridge",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 1354,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "account_clusters.clu_ref -> cluster_analysis.CLSTR_PIN",
+   "source_table": "account_clusters",
+   "source_column": "clu_ref",
+   "target_table": "cluster_analysis",
+   "target_key": "CLSTR_PIN",
+   "source_rows": 1354,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CL0029",
+    "CL0007",
+    "CL0190",
+    "CL0063",
+    "CL0058"
+   ],
+   "target_samples": [
+    "CL0001",
+    "CL0002",
+    "CL0003",
+    "CL0004",
+    "CL0005"
+   ]
+  },
+  {
+   "id": "account_integrations.acct_ref -> accounts.acct_ref",
+   "source_table": "account_integrations",
+   "source_column": "acct_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 2276,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "account_integrations.partner_code_ref -> partner_integrations.Partner_CODE",
+   "source_table": "account_integrations",
+   "source_column": "partner_code_ref",
+   "target_table": "partner_integrations",
+   "target_key": "Partner_CODE",
+   "source_rows": 2276,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PRT2267198",
+    "PRT5867294",
+    "PRT8305299",
+    "PRT9558314",
+    "PRT5876977"
+   ],
+   "target_samples": [
+    "PRT0752558",
+    "PRT0790493",
+    "PRT0967827",
+    "PRT1141796",
+    "PRT1196504"
+   ]
+  },
+  {
+   "id": "account_subscriptions.acct_ref -> accounts.acct_ref",
+   "source_table": "account_subscriptions",
+   "source_column": "acct_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 1333,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "account_subscriptions.pack_code_ref -> subscription_packages.Pack_CODE",
+   "source_table": "account_subscriptions",
+   "source_column": "pack_code_ref",
+   "target_table": "subscription_packages",
+   "target_key": "Pack_CODE",
+   "source_rows": 1333,
+   "source_distinct": 25,
+   "target_rows": 25,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PACK5245832",
+    "PACK7980225",
+    "PACK8657750",
+    "PACK1249414",
+    "PACK7972220"
+   ],
+   "target_samples": [
+    "PACK0016911",
+    "PACK0468358",
+    "PACK0607725",
+    "PACK0683935",
+    "PACK1076701"
+   ]
+  },
+  {
+   "id": "account_tags.acct_ref -> accounts.acct_ref",
+   "source_table": "account_tags",
+   "source_column": "acct_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 4653,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "account_tags.tag_code_ref -> tags.Tag_CODE",
+   "source_table": "account_tags",
+   "source_column": "tag_code_ref",
+   "target_table": "tags",
+   "target_key": "Tag_CODE",
+   "source_rows": 4653,
+   "source_distinct": 120,
+   "target_rows": 120,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TAG2354469",
+    "TAG3275893",
+    "TAG6750308",
+    "TAG8018990",
+    "TAG0687708"
+   ],
+   "target_samples": [
+    "TAG0158729",
+    "TAG0185086",
+    "TAG0248125",
+    "TAG0285430",
+    "TAG0342511"
+   ]
+  },
+  {
+   "id": "accounts.plt_key -> platforms.PLT_CODE",
+   "source_table": "accounts",
+   "source_column": "plt_key",
+   "target_table": "platforms",
+   "target_key": "PLT_CODE",
+   "source_rows": 670,
+   "source_distinct": 471,
+   "target_rows": 471,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PL331",
+    "PL784",
+    "PL235",
+    "PL867",
+    "PL697"
+   ],
+   "target_samples": [
+    "PL100",
+    "PL102",
+    "PL103",
+    "PL104",
+    "PL105"
+   ]
+  },
+  {
+   "id": "ad_bid_auctions.campaign_ref -> ad_campaigns.Camp_CODE",
+   "source_table": "ad_bid_auctions",
+   "source_column": "campaign_ref",
+   "target_table": "ad_campaigns",
+   "target_key": "Camp_CODE",
+   "source_rows": 239,
+   "source_distinct": 58,
+   "target_rows": 60,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CAMP22424879",
+    "CAMP53257346",
+    "CAMP46391342",
+    "CAMP58760850",
+    "CAMP35721088"
+   ],
+   "target_samples": [
+    "CAMP04503365",
+    "CAMP06814683",
+    "CAMP11478711",
+    "CAMP13919715",
+    "CAMP14191116"
+   ]
+  },
+  {
+   "id": "ad_campaign_performance.camp_code_ref -> ad_campaigns.Camp_CODE",
+   "source_table": "ad_campaign_performance",
+   "source_column": "camp_code_ref",
+   "target_table": "ad_campaigns",
+   "target_key": "Camp_CODE",
+   "source_rows": 1289,
+   "source_distinct": 60,
+   "target_rows": 60,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CAMP17498017",
+    "CAMP57989695",
+    "CAMP60204965",
+    "CAMP13919715",
+    "CAMP51584783"
+   ],
+   "target_samples": [
+    "CAMP04503365",
+    "CAMP06814683",
+    "CAMP11478711",
+    "CAMP13919715",
+    "CAMP14191116"
+   ]
+  },
+  {
+   "id": "ad_campaign_performance.acct_ref -> accounts.acct_ref",
+   "source_table": "ad_campaign_performance",
+   "source_column": "acct_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 1289,
+   "source_distinct": 236,
+   "target_rows": 670,
+   "score": 3.79,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ACC9178219",
+    "ACC1578001",
+    "ACC8175839",
+    "ACC8201746",
+    "ACC3290381"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "ad_conversion_attribution.auction_ref -> ad_bid_auctions.Auction_CODE",
+   "source_table": "ad_conversion_attribution",
+   "source_column": "auction_ref",
+   "target_table": "ad_bid_auctions",
+   "target_key": "Auction_CODE",
+   "source_rows": 488,
+   "source_distinct": 208,
+   "target_rows": 239,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ADB-83D37AF386D1",
+    "ADB-49949081FBB8",
+    "ADB-D664B37E441E",
+    "ADB-02899C5B90F6",
+    "ADB-173E21A7CE51"
+   ],
+   "target_samples": [
+    "ADB-0049DD51970C",
+    "ADB-027D5EE27EF5",
+    "ADB-02899C5B90F6",
+    "ADB-02CC861FA03F",
+    "ADB-02CEB8E435B0"
+   ]
+  },
+  {
+   "id": "ai_inference_traces.risk_event_ref -> risk_event_history.Event_CODE",
+   "source_table": "ai_inference_traces",
+   "source_column": "risk_event_ref",
+   "target_table": "risk_event_history",
+   "target_key": "Event_CODE",
+   "source_rows": 2082,
+   "source_distinct": 634,
+   "target_rows": 670,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EVT14694373",
+    "EVT23673898",
+    "EVT57522790",
+    "EVT05764637",
+    "EVT36172534"
+   ],
+   "target_samples": [
+    "EVT00004701",
+    "EVT00113684",
+    "EVT00564204",
+    "EVT01079470",
+    "EVT01134517"
+   ]
+  },
+  {
+   "id": "api_quota_adjustments.meter_ref -> api_usage_metering.Meter_CODE",
+   "source_table": "api_quota_adjustments",
+   "source_column": "meter_ref",
+   "target_table": "api_usage_metering",
+   "target_key": "Meter_CODE",
+   "source_rows": 294,
+   "source_distinct": 120,
+   "target_rows": 138,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "API-5BBF13596D39",
+    "API-598E30F96B92",
+    "API-22544DE89B34",
+    "API-11967BD0211D",
+    "API-1B1904BB30A5"
+   ],
+   "target_samples": [
+    "API-02F5EB9B52AC",
+    "API-0891880F8ADD",
+    "API-095AAFEE96F1",
+    "API-0AF6E2ED971A",
+    "API-0D371EF88DB6"
+   ]
+  },
+  {
+   "id": "api_usage_metering.partner_ref -> partner_integrations.Partner_CODE",
+   "source_table": "api_usage_metering",
+   "source_column": "partner_ref",
+   "target_table": "partner_integrations",
+   "target_key": "Partner_CODE",
+   "source_rows": 138,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PRT9678282",
+    "PRT0752558",
+    "PRT5867294",
+    "PRT8797041",
+    "PRT4980796"
+   ],
+   "target_samples": [
+    "PRT0752558",
+    "PRT0790493",
+    "PRT0967827",
+    "PRT1141796",
+    "PRT1196504"
+   ]
+  },
+  {
+   "id": "cdn_edge_metrics.media_asset_ref -> media_asset_details.Media_CODE",
+   "source_table": "cdn_edge_metrics",
+   "source_column": "media_asset_ref",
+   "target_table": "media_asset_details",
+   "target_key": "Media_CODE",
+   "source_rows": 1448,
+   "source_distinct": 586,
+   "target_rows": 670,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MD2890115326",
+    "MD0449441810",
+    "MD5267271756",
+    "MD6016493594",
+    "MD6845256780"
+   ],
+   "target_samples": [
+    "MD0004987762",
+    "MD0009302321",
+    "MD0033504238",
+    "MD0036489616",
+    "MD0041692079"
+   ]
+  },
+  {
+   "id": "cdn_traffic_spikes.edge_metric_ref -> cdn_edge_metrics.EdgeMetric_CODE",
+   "source_table": "cdn_traffic_spikes",
+   "source_column": "edge_metric_ref",
+   "target_table": "cdn_edge_metrics",
+   "target_key": "EdgeMetric_CODE",
+   "source_rows": 6027,
+   "source_distinct": 1425,
+   "target_rows": 1448,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CDN-C82EB43A5A9B",
+    "CDN-45B469486B8C",
+    "CDN-DAB922EB1F32",
+    "CDN-7F839741623B",
+    "CDN-230F68CF46EB"
+   ],
+   "target_samples": [
+    "CDN-0005808F7D9A",
+    "CDN-005E23FF573C",
+    "CDN-006B7E4DECB5",
+    "CDN-00A312EA0E9D",
+    "CDN-00A79FA70641"
+   ]
+  },
+  {
+   "id": "commerce_transactions.payer_acct_ref -> accounts.acct_ref",
+   "source_table": "commerce_transactions",
+   "source_column": "payer_acct_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 2533,
+   "source_distinct": 655,
+   "target_rows": 670,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC8059611",
+    "ACC6981015",
+    "ACC6582690",
+    "ACC2655602",
+    "ACC8208758"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "content_topics.acct_slot_ref -> accounts.acct_ref",
+   "source_table": "content_topics",
+   "source_column": "acct_slot_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 4735,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "content_topics.topic_code_ref -> topics.Topic_CODE",
+   "source_table": "content_topics",
+   "source_column": "topic_code_ref",
+   "target_table": "topics",
+   "target_key": "Topic_CODE",
+   "source_rows": 4735,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TPC0872090",
+    "TPC1674941",
+    "TPC2139121",
+    "TPC4294479",
+    "TPC5570667"
+   ],
+   "target_samples": [
+    "TPC0022251",
+    "TPC0151497",
+    "TPC0156256",
+    "TPC0160274",
+    "TPC0578227"
+   ]
+  },
+  {
+   "id": "customer_support_tickets.feedback_source_ref -> feedback_items.Feedback_CODE",
+   "source_table": "customer_support_tickets",
+   "source_column": "feedback_source_ref",
+   "target_table": "feedback_items",
+   "target_key": "Feedback_CODE",
+   "source_rows": 2156,
+   "source_distinct": 645,
+   "target_rows": 670,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FB63066271",
+    "FB44921240",
+    "FB03991616",
+    "FB40944576",
+    "FB14314207"
+   ],
+   "target_samples": [
+    "FB00197262",
+    "FB00494854",
+    "FB00699813",
+    "FB01209689",
+    "FB01242860"
+   ]
+  },
+  {
+   "id": "feedback_items.acct_ref -> accounts.acct_ref",
+   "source_table": "feedback_items",
+   "source_column": "acct_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC7210284",
+    "ACC2686094",
+    "ACC7106934",
+    "ACC3607412",
+    "ACC5303962"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "feedback_responses.feedback_code_ref -> feedback_items.Feedback_CODE",
+   "source_table": "feedback_responses",
+   "source_column": "feedback_code_ref",
+   "target_table": "feedback_items",
+   "target_key": "Feedback_CODE",
+   "source_rows": 1361,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FB43230777",
+    "FB03921561",
+    "FB29789103",
+    "FB19598940",
+    "FB86674442"
+   ],
+   "target_samples": [
+    "FB00197262",
+    "FB00494854",
+    "FB00699813",
+    "FB01209689",
+    "FB01242860"
+   ]
+  },
+  {
+   "id": "gamification_level_rewards.gamification_ref -> user_gamification_stats.Gamification_CODE",
+   "source_table": "gamification_level_rewards",
+   "source_column": "gamification_ref",
+   "target_table": "user_gamification_stats",
+   "target_key": "Gamification_CODE",
+   "source_rows": 8761,
+   "source_distinct": 2358,
+   "target_rows": 2411,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "USE-5E9E684C23B8",
+    "USE-1400CB1633C2",
+    "USE-B260A5404637",
+    "USE-D9C9D3C8FEA8",
+    "USE-45072187702F"
+   ],
+   "target_samples": [
+    "USE-0006EDD5E460",
+    "USE-0038314CAF6B",
+    "USE-003F0DF6EC34",
+    "USE-006DDDD87014",
+    "USE-00847540850F"
+   ]
+  },
+  {
+   "id": "influencer_brand_deals.influencer_acct_ref -> accounts.acct_ref",
+   "source_table": "influencer_brand_deals",
+   "source_column": "influencer_acct_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 2758,
+   "source_distinct": 658,
+   "target_rows": 670,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC4033630",
+    "ACC3262523",
+    "ACC1634351",
+    "ACC9111265",
+    "ACC4312113"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "influencer_post_compliance.deal_ref -> influencer_brand_deals.Deal_CODE",
+   "source_table": "influencer_post_compliance",
+   "source_column": "deal_ref",
+   "target_table": "influencer_brand_deals",
+   "target_key": "Deal_CODE",
+   "source_rows": 12841,
+   "source_distinct": 2719,
+   "target_rows": 2758,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "INF-1740B3A93B09",
+    "INF-91797EC92928",
+    "INF-98422666F5EA",
+    "INF-C4B1B8AB2E0C",
+    "INF-41D5299EA976"
+   ],
+   "target_samples": [
+    "INF-00478A24A074",
+    "INF-00521AC54A0E",
+    "INF-0053BE113CDF",
+    "INF-005B163408EB",
+    "INF-006145B8DCBE"
+   ]
+  },
+  {
+   "id": "media_asset_details.acct_ref -> accounts.acct_ref",
+   "source_table": "media_asset_details",
+   "source_column": "acct_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC7210284",
+    "ACC2686094",
+    "ACC7106934",
+    "ACC3607412",
+    "ACC5303962"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "model_feedback_loops.inference_trace_ref -> ai_inference_traces.Trace_CODE",
+   "source_table": "model_feedback_loops",
+   "source_column": "inference_trace_ref",
+   "target_table": "ai_inference_traces",
+   "target_key": "Trace_CODE",
+   "source_rows": 5228,
+   "source_distinct": 1910,
+   "target_rows": 2082,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AII-6C32E98B4128",
+    "AII-C5E3EB4DFD78",
+    "AII-6A8506840E2A",
+    "AII-3694A6FEC95A",
+    "AII-BBA18AD3B341"
+   ],
+   "target_samples": [
+    "AII-001BD611861B",
+    "AII-004DBF235ECC",
+    "AII-00662D6A9DEC",
+    "AII-00B42580D3B5",
+    "AII-00D656DBEC4A"
+   ]
+  },
+  {
+   "id": "moderation_appeals_process.case_file_ref -> moderation_case_files.CaseFile_CODE",
+   "source_table": "moderation_appeals_process",
+   "source_column": "case_file_ref",
+   "target_table": "moderation_case_files",
+   "target_key": "CaseFile_CODE",
+   "source_rows": 6802,
+   "source_distinct": 2055,
+   "target_rows": 2154,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MOD-D479643E9B77",
+    "MOD-5743E4B947AF",
+    "MOD-6CC3B193372C",
+    "MOD-EA1494E254E4",
+    "MOD-92818A4AC8AB"
+   ],
+   "target_samples": [
+    "MOD-0076ED513DCD",
+    "MOD-009122C3D55F",
+    "MOD-00EBF0712C76",
+    "MOD-00FF184920BB",
+    "MOD-0104A38128E0"
+   ]
+  },
+  {
+   "id": "moderation_case_files.audit_log_ref -> account_audit_logs.Audit_CODE",
+   "source_table": "moderation_case_files",
+   "source_column": "audit_log_ref",
+   "target_table": "account_audit_logs",
+   "target_key": "Audit_CODE",
+   "source_rows": 2154,
+   "source_distinct": 648,
+   "target_rows": 670,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AUD80597077",
+    "AUD62548103",
+    "AUD61636258",
+    "AUD32187653",
+    "AUD98834534"
+   ],
+   "target_samples": [
+    "AUD00302036",
+    "AUD00315496",
+    "AUD00345309",
+    "AUD00468820",
+    "AUD00577394"
+   ]
+  },
+  {
+   "id": "monitoring.acct_mon -> accounts.acct_ref",
+   "source_table": "monitoring",
+   "source_column": "acct_mon",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC7210284",
+    "ACC2686094",
+    "ACC7106934",
+    "ACC3607412",
+    "ACC5303962"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "risk_event_history.acct_risk_ref -> accounts.acct_ref",
+   "source_table": "risk_event_history",
+   "source_column": "acct_risk_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC7210284",
+    "ACC6194642",
+    "ACC2686094",
+    "ACC7106934",
+    "ACC3607412"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "stream_buffer_events.stream_log_ref -> stream_quality_logs.StreamLog_CODE",
+   "source_table": "stream_buffer_events",
+   "source_column": "stream_log_ref",
+   "target_table": "stream_quality_logs",
+   "target_key": "StreamLog_CODE",
+   "source_rows": 6276,
+   "source_distinct": 1620,
+   "target_rows": 1661,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "STR-18A052252CEE",
+    "STR-DC598A3752E3",
+    "STR-CF6A509F71A0",
+    "STR-D45AA7C20986",
+    "STR-78EDC33A8E50"
+   ],
+   "target_samples": [
+    "STR-001B8B8A0892",
+    "STR-004651CF4B18",
+    "STR-006909E586B2",
+    "STR-0080E4BD2FBC",
+    "STR-00FF868A567D"
+   ]
+  },
+  {
+   "id": "stream_quality_logs.media_ref_code -> media_asset_details.Media_CODE",
+   "source_table": "stream_quality_logs",
+   "source_column": "media_ref_code",
+   "target_table": "media_asset_details",
+   "target_key": "Media_CODE",
+   "source_rows": 1661,
+   "source_distinct": 609,
+   "target_rows": 670,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MD2285279490",
+    "MD9902126434",
+    "MD7675982173",
+    "MD8489749090",
+    "MD1222779314"
+   ],
+   "target_samples": [
+    "MD0004987762",
+    "MD0009302321",
+    "MD0033504238",
+    "MD0036489616",
+    "MD0041692079"
+   ]
+  },
+  {
+   "id": "ticket_message_metrics.ticket_ref -> customer_support_tickets.Ticket_CODE",
+   "source_table": "ticket_message_metrics",
+   "source_column": "ticket_ref",
+   "target_table": "customer_support_tickets",
+   "target_key": "Ticket_CODE",
+   "source_rows": 9362,
+   "source_distinct": 2127,
+   "target_rows": 2156,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CUS-88A78B733249",
+    "CUS-FB33F819DD11",
+    "CUS-FD3B7577EE0F",
+    "CUS-E501F49514D1",
+    "CUS-5C7C822BC0DF"
+   ],
+   "target_samples": [
+    "CUS-00097E416548",
+    "CUS-001C57BFA3CF",
+    "CUS-004A737D4B83",
+    "CUS-0065D5944F98",
+    "CUS-007D743790D7"
+   ]
+  },
+  {
+   "id": "transaction_dispute_evidence.transaction_ref -> commerce_transactions.Transaction_CODE",
+   "source_table": "transaction_dispute_evidence",
+   "source_column": "transaction_ref",
+   "target_table": "commerce_transactions",
+   "target_key": "Transaction_CODE",
+   "source_rows": 8392,
+   "source_distinct": 2439,
+   "target_rows": 2533,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "COM-6E3D94BB6020",
+    "COM-6705801177B9",
+    "COM-FE8A6ED87B05",
+    "COM-0776A71AC710",
+    "COM-563E8C2CD0F0"
+   ],
+   "target_samples": [
+    "COM-000AD990D7F0",
+    "COM-0022ADE9EC08",
+    "COM-004FE43719AC",
+    "COM-005066125A96",
+    "COM-0083051F0A55"
+   ]
+  },
+  {
+   "id": "user_gamification_stats.profile_ref -> accounts.acct_ref",
+   "source_table": "user_gamification_stats",
+   "source_column": "profile_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 2411,
+   "source_distinct": 653,
+   "target_rows": 670,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC5076255",
+    "ACC8757920",
+    "ACC1985249",
+    "ACC7231569",
+    "ACC2645478"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "accounts.acct_ref -> behavioral_scores.acct_beh",
+   "source_table": "accounts",
+   "source_column": "acct_ref",
+   "target_table": "behavioral_scores",
+   "target_key": "acct_beh",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "behavioral_scores.acct_beh -> accounts.acct_ref",
+   "source_table": "behavioral_scores",
+   "source_column": "acct_beh",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "cluster_analysis.CLSTR_PIN -> cluster_temporal_metrics.CLSTR_PIN_ref",
+   "source_table": "cluster_analysis",
+   "source_column": "CLSTR_PIN",
+   "target_table": "cluster_temporal_metrics",
+   "target_key": "CLSTR_PIN_ref",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "CL0001",
+    "CL0002",
+    "CL0003",
+    "CL0004",
+    "CL0005"
+   ],
+   "target_samples": [
+    "CL0001",
+    "CL0002",
+    "CL0003",
+    "CL0004",
+    "CL0005"
+   ]
+  },
+  {
+   "id": "cluster_temporal_metrics.CLSTR_PIN_ref -> cluster_analysis.CLSTR_PIN",
+   "source_table": "cluster_temporal_metrics",
+   "source_column": "CLSTR_PIN_ref",
+   "target_table": "cluster_analysis",
+   "target_key": "CLSTR_PIN",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "CL0001",
+    "CL0002",
+    "CL0003",
+    "CL0004",
+    "CL0005"
+   ],
+   "target_samples": [
+    "CL0001",
+    "CL0002",
+    "CL0003",
+    "CL0004",
+    "CL0005"
+   ]
+  },
+  {
+   "id": "content_activity.acct_slot -> accounts.acct_ref",
+   "source_table": "content_activity",
+   "source_column": "acct_slot",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "content_language_distribution.acct_slot_ref -> accounts.acct_ref",
+   "source_table": "content_language_distribution",
+   "source_column": "acct_slot_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "device_fingerprint_details.acct_gate -> accounts.acct_ref",
+   "source_table": "device_fingerprint_details",
+   "source_column": "acct_gate",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "interaction_metrics.acct_dm -> accounts.acct_ref",
+   "source_table": "interaction_metrics",
+   "source_column": "acct_dm",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "interaction_topic_metrics.acct_dm_ref -> accounts.acct_ref",
+   "source_table": "interaction_topic_metrics",
+   "source_column": "acct_dm_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "network_metrics.acct_node -> accounts.acct_ref",
+   "source_table": "network_metrics",
+   "source_column": "acct_node",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "profile_demographics.acct_anchor -> accounts.acct_ref",
+   "source_table": "profile_demographics",
+   "source_column": "acct_anchor",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "profiles.acct_anchor -> accounts.acct_ref",
+   "source_table": "profiles",
+   "source_column": "acct_anchor",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "risk_and_moderation.acct_risk -> accounts.acct_ref",
+   "source_table": "risk_and_moderation",
+   "source_column": "acct_risk",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "security_sessions.acct_gate -> accounts.acct_ref",
+   "source_table": "security_sessions",
+   "source_column": "acct_gate",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  },
+  {
+   "id": "sentiment_analysis_stats.acct_slot_ref -> accounts.acct_ref",
+   "source_table": "sentiment_analysis_stats",
+   "source_column": "acct_slot_ref",
+   "target_table": "accounts",
+   "target_key": "acct_ref",
+   "source_rows": 670,
+   "source_distinct": 670,
+   "target_rows": 670,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ],
+   "target_samples": [
+    "ACC1000188",
+    "ACC1007302",
+    "ACC1012377",
+    "ACC1030157",
+    "ACC1037146"
+   ]
+  }
+ ]
+}

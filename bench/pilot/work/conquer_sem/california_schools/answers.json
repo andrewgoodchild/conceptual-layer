@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 37,
+  "answer": "LIST st, ci, z, se FROM Satscore s has ExcellenceRate r AND ALSO has SchoolStreet st AND ALSO has SchoolCity ci AND ALSO has SchoolZip z AND ALSO has SchoolState se ORDERED WITH r ASCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 46,
+  "answer": "LIST n FROM Frpm f [has SchoolDOC: '31'] has FrpmSchoolName n AND ALSO has FrpmEnrollmentK12 e ORDERED WITH e DESCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 82,
+  "answer": "LIST g FROM School has SchoolGSoffered g AND ALSO has SchoolLongitude lo ORDERED WITH lo DESCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 28,
+  "answer": "LIST n, t FROM Frpm f [has FrpmCharterFundingType: 'Locally funded'] has FrpmSchoolName n AND ALSO has EnrollmentDifference d AND ALSO has SchoolDOCType t WHERE d > THE AVERAGE Frpm [has FrpmCharterFundingType: 'Locally funded'] has EnrollmentDifference",
+  "attempts": 1
+ },
+ {
+  "question_id": 24,
+  "answer": "LIST n FROM Frpm f has FrpmSchoolName n AND ALSO has FrpmPercentEligibleFreeK12 p AND ALSO has SatscoreNumGE1500 g WHERE p > 0.1 AND g > 0",
+  "attempts": 2
+ },
+ {
+  "question_id": 79,
+  "answer": "LIST c, n FROM ExclusivelyVirtualSchool s has SchoolCounty c AND ALSO THE COUNT OF s GROUPED BY c AS n WHERE c = 'San Diego' OR c = 'Santa Barbara' ORDERED WITH n DESCENDING THE FIRST 1",
+  "attempts": 1
+ }
+]

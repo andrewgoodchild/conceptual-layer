@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "SELECT T3.Description FROM transactions_1k T1 JOIN gasstations T2 ON T1.GasStationID = T2.GasStationID JOIN products T3 ON T1.ProductID = T3.ProductID WHERE T2.Country = 'CZE';",
+  "attempts": 1
+ },
+ {
+  "question_id": 1505,
+  "answer": "SELECT COUNT(DISTINCT T1.CustomerID) FROM customers T1 JOIN yearmonth T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Currency = 'EUR' AND T2.Consumption > 1000;",
+  "attempts": 2
+ },
+ {
+  "question_id": 1481,
+  "answer": "WITH cte AS (SELECT T2.CustomerID, T2.Segment, SUM(T1.Consumption) AS total FROM yearmonth T1 JOIN customers T2 ON T1.CustomerID = T2.CustomerID WHERE T2.Currency = 'CZK' AND T1.Date BETWEEN '201301' AND '201312' GROUP BY T2.CustomerID, T2.Segment), mins AS (SELECT Segment, MIN(total) AS min_total FROM cte GROUP BY Segment), avgs AS (SELECT c.Segment, SUM(c.total) * 1.0 / COUNT(c.CustomerID) AS annual_avg FROM cte c JOIN mins m ON c.Segment = m.Segment AND c.total = m.min_total GROUP BY c.Segment) SELECT (SELECT annual_avg FROM avgs WHERE Segment = 'SME') - (SELECT annual_avg FROM avgs WHERE Segment = 'LAM') AS SME_minus_LAM, (SELECT annual_avg FROM avgs WHERE Segment = 'LAM') - (SELECT annual_avg FROM avgs WHERE Segment = 'KAM') AS LAM_minus_KAM, (SELECT annual_avg FROM avgs WHERE Segment = 'KAM') - (SELECT annual_avg FROM avgs WHERE Segment = 'SME') AS KAM_minus_SME;",
+  "attempts": 3
+ },
+ {
+  "question_id": 1486,
+  "answer": "SELECT (SELECT COUNT(*) FROM customers WHERE Segment = 'SME' AND Currency = 'CZK') - (SELECT COUNT(*) FROM customers WHERE Segment = 'SME' AND Currency = 'EUR') AS diff;",
+  "attempts": 1
+ },
+ {
+  "question_id": 1525,
+  "answer": "SELECT CAST(COUNT(DISTINCT CASE WHEN T2.Currency = 'EUR' THEN T1.CustomerID END) AS REAL) * 100 / COUNT(DISTINCT T1.CustomerID) AS pct FROM transactions_1k T1 JOIN customers T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Date = '2012-08-25';",
+  "attempts": 1
+ },
+ {
+  "question_id": 1501,
+  "answer": "SELECT T3.Country FROM yearmonth T1 INNER JOIN transactions_1k T2 ON T1.CustomerID = T2.CustomerID INNER JOIN gasstations T3 ON T2.GasStationID = T3.GasStationID WHERE T1.Date = '201306';",
+  "attempts": 2
+ }
+]

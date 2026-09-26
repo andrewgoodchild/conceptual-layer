@@ -1,0 +1,125 @@
+conceptual-layer (formerly conquer-core)
+Copyright 2026 conceptual-layer contributors
+
+This product includes software developed by the conceptual-layer contributors,
+licensed under the Apache License, Version 2.0 (see LICENSE).
+
+It also includes, or depends on, material under other terms. Each is listed
+below with what it is, where it came from, and what may be done with it.
+
+
+## The ConQuer-92 report — cited, with its keyword table reproduced
+
+    H. A. Proper, "ConQuer-92 — The revised report on the conceptual query
+    language LISA-D", Asymetrix Report 94-5, University of Queensland, 1994.
+    arXiv:2105.11926  https://arxiv.org/abs/2105.11926
+
+Its author distributes the report under CC BY 4.0. The report itself is not in
+the repository. What is: the keyword table of its appendix B, reproduced in
+`conquer/parser.py`; short quotations in the documentation, each attributed;
+and `model/examples/presidents.ccm.json`, which encodes the report's running
+example in this project's model format so the compiler can be checked against
+the source. The changes this project made to the language are described in
+`conquer/conquer-2026.md`, and the grammar as implemented is
+`conquer/conquer-2026-grammar.ebnf`.
+
+
+## NORMA's ORM 2 metamodel — zlib/libpng licence, fetched
+
+    model/reference/orm-metamodel/ORM2Core.xsd
+    model/reference/orm-metamodel/ORM2Root.xsd
+    model/reference/orm-metamodel/ORMCoreMetaModel.orm
+    model/reference/orm-metamodel/OrmMetaModel.orm
+
+These belong to the NORMA project (Neumont ORM Architect for Visual Studio),
+distributed under the zlib/libpng licence. `run-tests.sh` validates this
+project's generated `.orm` output against `ORM2Core.xsd`. None of the four is
+included in this repository — `model/reference/fetch.sh` downloads them, and
+`model/reference/orm-metamodel.md` records the URLs and the licence.
+
+
+## Benchmarks — fetched, not included; what derives from them, included
+
+    bench/bird/          BIRD mini-dev          CC BY-SA 4.0   (fetched by bench/fetch.sh)
+    bench/livesql/data/  LiveSQLBench Large-v1  CC BY-SA 4.0   (fetched by bench/livesql/fetch.sh;
+                                                               the gold is requested, never committed)
+    bench/spider2/       Spider 2.0             MIT            (cloned by hand; see
+                                                               bench/spider2-trial/README.md)
+
+    BIRD          https://bird-bench.github.io/
+    LiveSQLBench  https://huggingface.co/datasets/birdsql/livesqlbench-large-v1
+                  (its dataset card states CC BY-SA 4.0; its metadata, CC BY 4.0)
+    Spider 2.0    https://github.com/xlang-ai/Spider2
+
+No benchmark's questions, evidence, databases, gold SQL or answer keys are
+included, and nor are the files the runs copied them into: the pilot's sample
+of BIRD (`bench/pilot/questions.json`, rebuilt by `bench/pilot/sample.py`), the
+evidence each modeller was given (`bench/pilot/work/semantic/*/definitions.json`,
+rebuilt by `bench/pilot/semantic/definitions.py`), the DDL, schema listings and
+FORML of BIRD's databases (`bench/pilot/material/<db>.*`, rebuilt by
+`bench/pilot/material.py` and `bench/ablation/models.py`), the Spider trial's
+working copies (rebuilt by `bench/spider2-trial/build.py`), and the
+seventy-question hand run (`bench/archive/hand-run/california.json`,
+`toxicology.json` and their results).
+
+Included, and derived from the benchmarks under their terms above:
+
+  - Conceptual models of BIRD's databases, which restate their schemas — tables,
+    columns, types and keys — in this project's model format
+    (`bench/pilot/work/semantic/*/*.ccm.json`), with the definitions modeller
+    agents wrote for them (`semantic.json`).
+  - LiveSQLBench's declared foreign keys, as the answer key the reference
+    inference is scored against, and a few sample values per column from BIRD
+    and LiveSQLBench databases, as shown to a language model
+    (`bench/ablation/work/`).
+  - Short quotations of questions, evidence and knowledge-base entries in the
+    write-ups, each identified by benchmark and question.
+
+And this project's own record of what it did with them: the queries each
+writer produced (`bench/*/work/*/*/answers*.json`), every query tried
+(`attempts.jsonl`), and the scored results (`bench/pilot/results.json`,
+`results-history/`, `bench/ablation/work/`). For LiveSQLBench, whose gold is
+not public, the write-ups describe where an answer and the gold differed
+without reproducing the gold.
+
+
+## Sample databases and exercise questions — fetched, not included
+
+    examples/db/chinook.sqlite   https://github.com/lerocha/chinook-database
+    examples/db/northwind.db     https://github.com/jpwhite3/northwind-SQLite3 (MIT)
+
+`examples/fetch.sh` downloads both, each under its repository's terms. The
+Chinook cases in `conquer/tests/cases/chinook.cases` are numbered after, and
+paraphrase, a published exercise set
+(https://github.com/LucasMcL/15-sql_queries_02-chinook); the reference SQL
+beside each ConQuer query was written here. The harder Chinook cases and the
+Northwind cases, and their reference SQL, were written here.
+
+
+## Method sources — cited, and quoted briefly
+
+The reverse engineering follows published method rather than inventing one.
+None of these works is reproduced here; `reverse/README.md` and
+`reverse/relational-to-orm-reverse-engineering.md` cite them where each rule is
+implemented, with short attributed quotations.
+
+    L. J. Bird, "Data Reverse Engineering: from a Relational Database System to
+      a 3-Dimensional Conceptual Schema", PhD thesis, University of Queensland,
+      1997 — the rule numbering and Step 9's population analysis. The DREC
+      schema of her Appendix F.2, transcribed as a test fixture
+      (reverse/tests/scenarios/08-bird-drec-case-study.sql), is kept locally
+      and not distributed; the scenario test skips it when absent.
+    T. Halpin, K. Evans, P. Hallock, B. MacLean, "Database Modeling with
+      Microsoft Visio for Enterprise Architects", 2003, ch. 8 — the reverse
+      engineering chapter the rules are read against.
+    L. Jiang, F. Naumann, "Holistic primary key and foreign key detection",
+      Journal of Intelligent Information Systems 54:439-461, 2020.
+    A. Rostin et al., "A Machine Learning Approach to Foreign Key Discovery",
+      WebDB 2009.
+    M. Zhang et al., "On Multi-Column Foreign Key Discovery", VLDB 2010 — the
+      randomness test implemented as `_spread`.
+
+The constraint verbalisation follows T. Halpin and M. Curland, "ORM 2
+Constraint Verbalization", Technical Report ORM2-02, Neumont University, 2006;
+the expected sentences in `model/tests/test_forml.py` are short examples
+quoted from it, with the section each comes from.

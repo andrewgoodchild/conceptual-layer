@@ -1,0 +1,69 @@
+{
+ "database": "california_schools",
+ "tables": [
+  "frpm",
+  "satscores",
+  "schools"
+ ],
+ "candidates": [
+  {
+   "id": "frpm.CDSCode -> schools.CDSCode",
+   "source_table": "frpm",
+   "source_column": "CDSCode",
+   "target_table": "schools",
+   "target_key": "CDSCode",
+   "source_rows": 9986,
+   "source_distinct": 9986,
+   "target_rows": 17686,
+   "score": 3.03,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "01100170109835",
+    "01100170112607",
+    "01100170118489",
+    "01100170123968",
+    "01100170124172"
+   ],
+   "target_samples": [
+    "01100170000000",
+    "01100170109835",
+    "01100170112607",
+    "01100170118489",
+    "01100170123968"
+   ]
+  },
+  {
+   "id": "satscores.cds -> schools.CDSCode",
+   "source_table": "satscores",
+   "source_column": "cds",
+   "target_table": "schools",
+   "target_key": "CDSCode",
+   "source_rows": 2269,
+   "source_distinct": 2269,
+   "target_rows": 17686,
+   "score": 2.61,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "01100170000000",
+    "01100170109835",
+    "01100170112607",
+    "01100170118489",
+    "01611190000000"
+   ],
+   "target_samples": [
+    "01100170000000",
+    "01100170109835",
+    "01100170112607",
+    "01100170118489",
+    "01100170123968"
+   ]
+  }
+ ]
+}

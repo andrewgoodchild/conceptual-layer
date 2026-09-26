@@ -1,0 +1,21 @@
+{"database": "superhero",
+ "verdicts": [
+  {"id": "hero_attribute.hero_id -> superhero.id", "verdict": "yes", "reason": "hero_id in a hero_attribute junction table pointing at superhero; 623 of 750 heroes covered."},
+  {"id": "hero_attribute.attribute_id -> attribute.id", "verdict": "yes", "reason": "attribute_id pointing at the 6-row attribute lookup with all 6 values used; textbook junction reference."},
+  {"id": "hero_attribute.attribute_value -> superpower.id", "verdict": "no", "reason": "attribute_value is a numeric score (80, 75, 95, 85, 100, multiples of 5), not a superpower id; overlap with 1..167 is coincidence."},
+  {"id": "hero_power.hero_id -> superhero.id", "verdict": "yes", "reason": "hero_id in the hero_power junction table pointing at superhero; 652 of 750 heroes covered."},
+  {"id": "hero_power.power_id -> superpower.id", "verdict": "yes", "reason": "power_id pointing at superpower with all 167 powers used; textbook junction reference."},
+  {"id": "superhero.gender_id -> gender.id", "verdict": "yes", "reason": "gender_id pointing at the 3-row gender lookup, all 3 values used; name and cardinality match."},
+  {"id": "superhero.eye_colour_id -> colour.id", "verdict": "yes", "reason": "eye_colour_id pointing at the shared colour lookup; one of three colour roles on superhero."},
+  {"id": "superhero.hair_colour_id -> colour.id", "verdict": "yes", "reason": "hair_colour_id pointing at the shared colour lookup; 26 of 35 colours used as hair colours."},
+  {"id": "superhero.skin_colour_id -> colour.id", "verdict": "yes", "reason": "skin_colour_id pointing at the shared colour lookup; fewer distinct skin colours (16) is expected."},
+  {"id": "superhero.race_id -> race.id", "verdict": "yes", "reason": "race_id pointing at race with all 61 races used; name and full coverage match."},
+  {"id": "superhero.publisher_id -> publisher.id", "verdict": "yes", "reason": "publisher_id pointing at publisher with all 25 publishers used; name and full coverage match."},
+  {"id": "superhero.alignment_id -> gender.id", "verdict": "no", "reason": "alignment_id names the alignment table, which exists in this schema; its 3 values fit the 3-row gender lookup only by coincidence."},
+  {"id": "alignment.id -> attribute.id", "verdict": "no", "reason": "Own key of a 4-row lookup nesting in a 6-row lookup; alignment and attribute are unrelated, not a split entity."},
+  {"id": "attribute.id -> publisher.id", "verdict": "no", "reason": "Own key of a 6-row lookup nesting in a 25-row lookup; unrelated entities, small-integer overlap."},
+  {"id": "colour.id -> race.id", "verdict": "no", "reason": "Own key of colour nesting in the longer race sequence; colours are not races."},
+  {"id": "gender.id -> alignment.id", "verdict": "no", "reason": "Own key of a 3-row lookup nesting in a 4-row lookup; unrelated small lookups."},
+  {"id": "publisher.id -> colour.id", "verdict": "no", "reason": "Own key of publisher nesting in the longer colour sequence; publishers are not colours."},
+  {"id": "race.id -> superpower.id", "verdict": "no", "reason": "Own key of race nesting in the longer superpower sequence; unrelated entities."}
+ ]}

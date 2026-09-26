@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 1256,
+  "answer": "SELECT COUNT(DISTINCT P.ID) FROM Patient P JOIN Laboratory L ON P.ID = L.ID WHERE L.CRP IS NOT NULL AND L.CRP <> '' AND L.CRP <> '-' AND P.Description IS NULL",
+  "attempts": 2
+ },
+ {
+  "question_id": 1189,
+  "answer": "SELECT COUNT(DISTINCT ID) FROM Examination WHERE Thrombosis = 2 AND \"ANA Pattern\" = 'S' AND \"aCL IgM\" > (SELECT AVG(\"aCL IgM\") FROM Examination) * 1.2",
+  "attempts": 1
+ },
+ {
+  "question_id": 1267,
+  "answer": "SELECT COUNT(DISTINCT L.ID) FROM Laboratory L JOIN Examination E ON L.ID = E.ID WHERE (L.SM = '0' OR L.SM = 'negative') AND E.Thrombosis = 0",
+  "attempts": 2
+ },
+ {
+  "question_id": 1157,
+  "answer": "SELECT DISTINCT P.ID, P.SEX, P.Diagnosis FROM Patient P JOIN Examination E ON P.ID = E.ID WHERE E.Thrombosis = 3",
+  "attempts": 1
+ },
+ {
+  "question_id": 1162,
+  "answer": "SELECT COUNT(*) FROM Patient WHERE SEX = 'F' AND strftime('%Y', \"First Date\") = '1997' AND Admission = '-'",
+  "attempts": 1
+ },
+ {
+  "question_id": 1164,
+  "answer": "SELECT COUNT(DISTINCT E.ID) FROM Examination E JOIN Patient P ON E.ID = P.ID WHERE strftime('%Y', E.\"Examination Date\") = '1997' AND P.SEX = 'F' AND E.Thrombosis = (SELECT MAX(Thrombosis) FROM Examination WHERE strftime('%Y', \"Examination Date\") = '1997')",
+  "attempts": 2
+ },
+ {
+  "question_id": 1179,
+  "answer": "SELECT E.\"aCL IgG\" FROM Examination E JOIN Patient P ON E.ID = P.ID WHERE P.Diagnosis = 'SLE' AND P.Description = '1994-02-19' AND E.\"Examination Date\" = '1993-11-12'",
+  "attempts": 2
+ },
+ {
+  "question_id": 1192,
+  "answer": "SELECT DISTINCT P.ID FROM Patient P JOIN Laboratory L ON P.ID = L.ID WHERE P.Admission = '-' AND L.Date BETWEEN '1991-10-01' AND '1991-10-31' AND L.\"T-BIL\" BETWEEN 0.2 AND 1.2",
+  "attempts": 2
+ },
+ {
+  "question_id": 1232,
+  "answer": "SELECT DISTINCT P.ID, P.SEX, (strftime('%Y', L.Date) - strftime('%Y', P.Birthday)) AS age FROM Patient P JOIN Laboratory L ON P.ID = L.ID WHERE L.GLU NOT BETWEEN 70 AND 109 AND L.\"T-CHO\" BETWEEN 130 AND 220",
+  "attempts": 2
+ },
+ {
+  "question_id": 1187,
+  "answer": "SELECT DISTINCT ID FROM Laboratory WHERE Date BETWEEN '1987-07-06' AND '1996-01-31' AND GPT > 30 AND ALB < 4 ORDER BY ID",
+  "attempts": 1
+ }
+]

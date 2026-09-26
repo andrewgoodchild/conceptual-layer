@@ -1,0 +1,82 @@
+[
+ {
+  "question_id": 739,
+  "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has Superpower has SuperpowerPowerName: 'Death Touch'",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 785,
+  "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has Alignment has AlignmentAlignment: 'Neutral'",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 794,
+  "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has HeroAttribute [has Attribute has AttributeName: 'Speed'] has HeroAttributeAttributeValue v ORDERED WITH v DESCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 796,
+  "answer": "LIST an, v FROM HeroAttribute [is of Superhero has SuperheroName: '3-D Man'] has Attribute has AttributeName an AND ALSO has HeroAttributeAttributeValue v",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 788,
+  "answer": "THE COUNT OF Superhero [has Publisher has PublisherName: 'Marvel Comics'] [has Gender has GenderGender: 'Female'] * 100 / THE COUNT OF Superhero [has Publisher has PublisherName: 'Marvel Comics']",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 737,
+  "answer": "LIST r FROM Superhero [has SuperheroName: 'Copycat'] has Race has RaceRace r",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 824,
+  "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has Superpower has SuperpowerPowerName: 'Wind Control' ORDERED WITH n ASCENDING",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 765,
+  "answer": "THE COUNT OF Superhero [has Superpower has SuperpowerPowerName: 'Stealth']",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 775,
+  "answer": "THE COUNT OF Superhero [has Gender has GenderGender: 'Female'] [has skin Colour has ColourColour: 'Blue'] * 100 / THE COUNT OF Superhero [has Gender has GenderGender: 'Female']",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 753,
+  "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has SuperheroHeightCm h AND ALSO has eye Colour has ColourColour: 'No Colour' WHERE h >= 170 AND h <= 190",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ }
+]

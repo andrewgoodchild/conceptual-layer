@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 604,
+  "answer": "LIST (THE AVERAGE uv IN User u has UserUpVotes uv WHERE THE COUNT OF Post [has owner User: !u] > 10), (THE AVERAGE a IN User u has UserAge a WHERE THE COUNT OF Post [has owner User: !u] > 10)",
+  "attempts": 3
+ },
+ {
+  "question_id": 584,
+  "answer": "LIST t FROM DISTINCT PostHistory [has Post [has PostTitle: 'Why square the difference instead of taking the absolute value in standard deviation?']] has User is of Comment has CommentText t",
+  "attempts": 4
+ },
+ {
+  "question_id": 537,
+  "answer": "THE COUNT OF Post [has owner User [has UserDisplayName: 'csgillespie']]",
+  "attempts": 2
+ },
+ {
+  "question_id": 704,
+  "answer": "LIST pid, wpid FROM Tag [has TagName: 'sample'] has Post has PostId pid AND ALSO has TagWikiPostId wpid",
+  "attempts": 1
+ },
+ {
+  "question_id": 665,
+  "answer": "(THE COUNT OF PostLink [has Post has PostAnswerCount ac] [has PostLinkCreationDate d] WHERE ac <= 2 AND year(d) = 2010) / 12",
+  "attempts": 2
+ },
+ {
+  "question_id": 672,
+  "answer": "THE COUNT OF User u [has UserLocation: 'United Kingdom'] WHERE THE SUM OF fc IN Post [has owner User: !u] has PostFavoriteCount fc >= 4",
+  "attempts": 4
+ },
+ {
+  "question_id": 701,
+  "answer": "(THE COUNT OF Post [has owner User has UserReputation rep] [has PostScore ps] WHERE rep = THE MAXIMUM User has UserReputation AND ps > 50) * 100 / (THE COUNT OF Post [has owner User has UserReputation rep2] WHERE rep2 = THE MAXIMUM User has UserReputation)",
+  "attempts": 3
+ },
+ {
+  "question_id": 567,
+  "answer": "THE COUNT OF Post [has owner User [has UserDisplayName: 'Tiago Pasqualini']]",
+  "attempts": 1
+ },
+ {
+  "question_id": 539,
+  "answer": "LIST t FROM Post [has PostTitle: 'Eliciting priors from experts'] has owner User has UserDisplayName t",
+  "attempts": 1
+ },
+ {
+  "question_id": 563,
+  "answer": "LIST fc FROM Comment [has User: 3025] [has CommentCreationDate: '2014-04-23 20:29:39.0'] has Post has PostFavoriteCount fc",
+  "attempts": 2
+ }
+]

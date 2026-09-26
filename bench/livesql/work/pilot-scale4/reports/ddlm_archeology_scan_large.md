@@ -1,0 +1,3 @@
+All ten answers written and run; scan_2 and scan_8 carry notes. PARTLY HAMPERED: one exploratory query (testing the pointcloud/registration/spatial link to scans) refused by the permission classifier ('PII Data Handling'); the link was inferred instead.
+Hardest: linking tables (no site or scan column on pointcloud, registration, spatial); scan_5 DPQ levels; scan_2 which sites; scan_8 30 spellings; ordering and nulls.
+What mattered: schema comments helpful for JSON key names and allowed values; joins never stated; size stored as text; knowledge-base wording mismatches (Cloud_Dense, sentence-valued structstate, 'Target-based'). Definitions left open which level to average at.

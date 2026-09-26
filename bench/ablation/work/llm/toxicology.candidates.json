@@ -1,0 +1,166 @@
+{
+ "database": "toxicology",
+ "tables": [
+  "atom",
+  "bond",
+  "connected",
+  "molecule"
+ ],
+ "candidates": [
+  {
+   "id": "atom.molecule_id -> molecule.molecule_id",
+   "source_table": "atom",
+   "source_column": "molecule_id",
+   "target_table": "molecule",
+   "target_key": "molecule_id",
+   "source_rows": 9111,
+   "source_distinct": 343,
+   "target_rows": 343,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TR000",
+    "TR001",
+    "TR002",
+    "TR004",
+    "TR006"
+   ],
+   "target_samples": [
+    "TR000",
+    "TR001",
+    "TR002",
+    "TR004",
+    "TR006"
+   ]
+  },
+  {
+   "id": "bond.molecule_id -> molecule.molecule_id",
+   "source_table": "bond",
+   "source_column": "molecule_id",
+   "target_table": "molecule",
+   "target_key": "molecule_id",
+   "source_rows": 9156,
+   "source_distinct": 343,
+   "target_rows": 343,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TR000",
+    "TR001",
+    "TR002",
+    "TR004",
+    "TR006"
+   ],
+   "target_samples": [
+    "TR000",
+    "TR001",
+    "TR002",
+    "TR004",
+    "TR006"
+   ]
+  },
+  {
+   "id": "connected.atom_id -> atom.atom_id",
+   "source_table": "connected",
+   "source_column": "atom_id",
+   "target_table": "atom",
+   "target_key": "atom_id",
+   "source_rows": 18312,
+   "source_distinct": 9073,
+   "target_rows": 9111,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TR000_1",
+    "TR000_2",
+    "TR000_3",
+    "TR000_4",
+    "TR000_5"
+   ],
+   "target_samples": [
+    "TR000_1",
+    "TR000_2",
+    "TR000_3",
+    "TR000_4",
+    "TR000_5"
+   ]
+  },
+  {
+   "id": "connected.atom_id2 -> atom.atom_id",
+   "source_table": "connected",
+   "source_column": "atom_id2",
+   "target_table": "atom",
+   "target_key": "atom_id",
+   "source_rows": 18312,
+   "source_distinct": 9073,
+   "target_rows": 9111,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TR000_2",
+    "TR000_1",
+    "TR000_3",
+    "TR000_4",
+    "TR000_5"
+   ],
+   "target_samples": [
+    "TR000_1",
+    "TR000_2",
+    "TR000_3",
+    "TR000_4",
+    "TR000_5"
+   ]
+  },
+  {
+   "id": "connected.bond_id -> bond.bond_id",
+   "source_table": "connected",
+   "source_column": "bond_id",
+   "target_table": "bond",
+   "target_key": "bond_id",
+   "source_rows": 18312,
+   "source_distinct": 9156,
+   "target_rows": 9156,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TR000_1_2",
+    "TR000_2_3",
+    "TR000_2_4",
+    "TR000_2_5",
+    "TR001_10_11"
+   ],
+   "target_samples": [
+    "TR000_1_2",
+    "TR000_2_3",
+    "TR000_2_4",
+    "TR000_2_5",
+    "TR001_10_11"
+   ]
+  }
+ ]
+}

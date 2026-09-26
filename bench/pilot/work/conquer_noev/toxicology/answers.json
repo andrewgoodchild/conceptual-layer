@@ -1,0 +1,10 @@
+[
+ {"question_id": 201, "answer": "THE COUNT OF Atom [has AtomElement: 'c'] [has Molecule is of Bond has BondType: '='] * 100 / THE COUNT OF Atom [has Molecule is of Bond has BondType: '=']", "attempts": 4},
+ {"question_id": 239, "answer": null, "note": "'the atom 19' cannot be resolved to a single AtomId in this model: every AtomId is a molecule-scoped string like 'TR009_12', and 219 distinct atoms across different molecules end in '_19' (checked with ends_with(v,'_19')). Without a molecule to scope it (unlike Q234, which names molecule TR009 explicitly), the reference is genuinely ambiguous and I won't guess a molecule.", "attempts": 2},
+ {"question_id": 243, "answer": "LIST b FROM Connected has ConnectedAtom has AtomElement e1 AND ALSO has ConnectedAtomid2 has AtomElement e2 AND ALSO has Bond has BondId b WHERE e1 = 'p' AND e2 = 'n'", "attempts": 1},
+ {"question_id": 234, "answer": "THE DISTINCT COUNT OF Bond [has Molecule: 'TR009'] [is of Connected [has ConnectedAtom [has AtomId: 'TR009_12']]]", "attempts": 4},
+ {"question_id": 215, "answer": "THE COUNT OF Atom [has AtomElement e WHERE e = 'i' OR e = 's'] [has Molecule is of Bond has BondType: '-']", "attempts": 1},
+ {"question_id": 230, "answer": "LIST e, l FROM DISTINCT Atom [has Molecule: 'TR060'] has AtomElement e AND ALSO has Molecule has MoleculeLabel l", "attempts": 1},
+ {"question_id": 206, "answer": "LIST e FROM Connected [has Bond: 'TR004_8_9'] has ConnectedAtom has AtomElement e", "attempts": 1},
+ {"question_id": 212, "answer": "LIST e FROM Atom a [has Molecule has MoleculeLabel: '-'] has AtomElement e AND ALSO THE COUNT OF a GROUPED BY e AS c ORDERED WITH c ASCENDING THE FIRST 1", "note": "MoleculeLabel '-' is taken as non-carcinogenic (standard Predictive Toxicology Challenge convention: '+' = carcinogen, '-' = non-carcinogen). There is a 3-way tie at the minimum count (ca, k, pb all have count 1 among non-carcinogenic-molecule atoms); THE FIRST 1 returns whichever the database orders first, which is an inherent data ambiguity rather than a query defect.", "attempts": 2}
+]

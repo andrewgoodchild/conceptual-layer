@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 1115,
+  "answer": "(THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Landon Donovan'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r - THE SUM OF s IN PlayerAttribute [has api Player has PlayerName: 'Jordan Bowery'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating s) * 100 / THE SUM OF t IN PlayerAttribute [has api Player has PlayerName: 'Landon Donovan'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating t",
+  "note": null
+ },
+ {
+  "question_id": 1134,
+  "answer": "THE MAXIMUM j IN PlayerAttribute [has PlayerAttributeId: '6'] has PlayerAttributeJumping j - THE MAXIMUM k IN PlayerAttribute [has PlayerAttributeId: '23'] has PlayerAttributeJumping k",
+  "note": null
+ },
+ {
+  "question_id": 1135,
+  "answer": "LIST i FROM PlayerAttribute [has PlayerAttributePreferredFoot: 'right'] has PlayerAttributeId i AND ALSO has PlayerAttributePotential p ORDERED WITH p ASCENDING THE FIRST 4",
+  "note": null
+ },
+ {
+  "question_id": 1124,
+  "answer": "LIST n FROM DISTINCT PlayerAttribute [has PlayerAttributeAttackingWorkRate: 'high'] has api Player has PlayerName n",
+  "note": null
+ },
+ {
+  "question_id": 1107,
+  "answer": "LIST d FROM PlayerAttribute [has api Player has PlayerName: 'Kevin Constant'] has PlayerAttributeDate d AND ALSO has PlayerAttributeCrossing c ORDERED WITH c DESCENDING, d ASCENDING THE FIRST 1",
+  "note": null
+ },
+ {
+  "question_id": 1094,
+  "answer": "(THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Ariel Borysiuk'] has PlayerAttributeOverallRating r - THE SUM OF s IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] has PlayerAttributeOverallRating s) * 100 / THE SUM OF t IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] has PlayerAttributeOverallRating t",
+  "note": null
+ },
+ {
+  "question_id": 1110,
+  "answer": "LIST c FROM TeamAttribute [has api Team has TeamLongName: 'FC Lorient'] [has TeamAttributeDate: '2010-02-22 00:00:00'] has TeamAttributeBuildUpPlayPassingClass c",
+  "note": null
+ },
+ {
+  "question_id": 1130,
+  "answer": "LIST s FROM DISTINCT Team has TeamShortName s AND ALSO is api of TeamAttribute [has TeamAttributeChanceCreationPassingClass: 'Safe']",
+  "note": null
+ },
+ {
+  "question_id": 1116,
+  "answer": "LIST n FROM Player has PlayerName n AND ALSO has PlayerHeight h WHERE h = THE MAXIMUM Player has PlayerHeight",
+  "note": null
+ },
+ {
+  "question_id": 1044,
+  "answer": "LIST n FROM Player has PlayerName n AND ALSO has PlayerBirthday b WHERE substr(b, 1, 7) = '1970-10'",
+  "note": null
+ }
+]

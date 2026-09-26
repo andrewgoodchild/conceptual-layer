@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "LIST d FROM DISTINCT Transactions1k [has Gasstation has GasstationCountry: 'CZE'] has Product has ProductDescription d",
+  "attempts": 3
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE DISTINCT COUNT OF Customer [has CustomerCurrency: 'EUR'] [is of Yearmonth has YearmonthConsumption c] WHERE c > 1000",
+  "attempts": 3
+ },
+ {
+  "question_id": 1481,
+  "answer": "LIST THE MINIMUM t1 IN (Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'SME'] has CustomerID i1 AND ALSO is of Yearmonth [has YearmonthDate d1] has YearmonthConsumption v1 AND ALSO THE SUM OF v1 GROUPED BY i1 AS t1 WHERE d1 >= 201301 AND d1 <= 201312) - THE MINIMUM t2 IN (Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'LAM'] has CustomerID i2 AND ALSO is of Yearmonth [has YearmonthDate d2] has YearmonthConsumption v2 AND ALSO THE SUM OF v2 GROUPED BY i2 AS t2 WHERE d2 >= 201301 AND d2 <= 201312), THE MINIMUM t2 IN (Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'LAM'] has CustomerID i2 AND ALSO is of Yearmonth [has YearmonthDate d2] has YearmonthConsumption v2 AND ALSO THE SUM OF v2 GROUPED BY i2 AS t2 WHERE d2 >= 201301 AND d2 <= 201312) - THE MINIMUM t3 IN (Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'KAM'] has CustomerID i3 AND ALSO is of Yearmonth [has YearmonthDate d3] has YearmonthConsumption v3 AND ALSO THE SUM OF v3 GROUPED BY i3 AS t3 WHERE d3 >= 201301 AND d3 <= 201312), THE MINIMUM t3 IN (Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'KAM'] has CustomerID i3 AND ALSO is of Yearmonth [has YearmonthDate d3] has YearmonthConsumption v3 AND ALSO THE SUM OF v3 GROUPED BY i3 AS t3 WHERE d3 >= 201301 AND d3 <= 201312) - THE MINIMUM t1 IN (Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'SME'] has CustomerID i1 AND ALSO is of Yearmonth [has YearmonthDate d1] has YearmonthConsumption v1 AND ALSO THE SUM OF v1 GROUPED BY i1 AS t1 WHERE d1 >= 201301 AND d1 <= 201312)",
+  "attempts": 8
+ },
+ {
+  "question_id": 1486,
+  "answer": "THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] - THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR']",
+  "attempts": 2
+ },
+ {
+  "question_id": 1525,
+  "answer": "THE DISTINCT COUNT OF Customer [has CustomerCurrency: 'EUR'] [is of Transactions1k has Transactions1kDate: '2012-08-25'] * 100 / THE DISTINCT COUNT OF Customer [is of Transactions1k has Transactions1kDate: '2012-08-25']",
+  "attempts": 3
+ },
+ {
+  "question_id": 1501,
+  "answer": "LIST c FROM DISTINCT Transactions1k [has Customer is of Yearmonth has YearmonthDate: '201306'] has Gasstation has GasstationCountry c",
+  "attempts": 3
+ }
+]

@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "crypto_6",
+  "answer": "WITH snapshot AS (\n  SELECT json_extract(m.quote_depth_snapshot,'$.metadata.mktcombo') AS market_pair,\n         (json_extract(m.quote_depth_snapshot,'$.quotes.askquote')\n          - json_extract(m.quote_depth_snapshot,'$.quotes.bidquote'))\n          / json_extract(m.quote_depth_snapshot,'$.quotes.midquote') * 100 AS spread_percentage,\n         json_extract(a.market_sentiment_indicators,'$.momentum.mktfeel')  AS market_sentiment,\n         json_extract(a.market_sentiment_indicators,'$.momentum.buyforce') AS buy_force\n  FROM marketdata m\n  JOIN analyticsindicators a ON a.mdataref = m.marketdatanode\n)\nSELECT market_pair,\n       spread_percentage,\n       market_sentiment,\n       buy_force,\n       AVG(spread_percentage) OVER (PARTITION BY market_sentiment) AS avg_spread_percentage_for_sentiment,\n       PERCENT_RANK() OVER (ORDER BY spread_percentage) AS spread_percentile_rank\nFROM snapshot"
+ },
+ {
+  "question_id": "crypto_9",
+  "answer": "SELECT json_extract(a.market_sentiment_indicators,'$.oscillators.rsi14spot') AS rsi14spot,\n       json_extract(a.market_sentiment_indicators,'$.oscillators.macdtrail') AS macdtrail,\n       json_extract(a.market_sentiment_indicators,'$.oscillators.bbandspan') AS bbandspan,\n       json_extract(a.market_sentiment_indicators,'$.momentum.techmeter')    AS techmeter,\n       (ABS(json_extract(a.market_sentiment_indicators,'$.oscillators.rsi14spot') - 50)\n        + ABS(json_extract(a.market_sentiment_indicators,'$.oscillators.macdtrail'))\n        + json_extract(a.market_sentiment_indicators,'$.oscillators.bbandspan') * 0.01) / 3\n       * CASE json_extract(a.market_sentiment_indicators,'$.momentum.techmeter')\n           WHEN 'Buy' THEN 1 WHEN 'Sell' THEN -1 ELSE 0 END AS technical_signal_strength\nFROM analyticsindicators a"
+ },
+ {
+  "question_id": "crypto_2",
+  "answer": "WITH latest_exec AS (\n  SELECT e.ordersmark, e.remaincount\n  FROM orderexecutions e\n  WHERE e.orderexecmark = (SELECT MAX(e2.orderexecmark)\n                           FROM orderexecutions e2\n                           WHERE e2.ordersmark = e.ordersmark)\n)\nSELECT o.recordvault AS order_id,\n       o.dealcount   AS order_quantity,\n       l.remaincount AS remaining_quantity,\n       (o.dealcount - l.remaincount) / o.dealcount * 100 AS order_fill_rate\nFROM orders o\nJOIN latest_exec l ON l.ordersmark = o.recordvault"
+ },
+ {
+  "question_id": "crypto_7",
+  "answer": "WITH base AS (\n  SELECT\n    json_extract(m.quote_depth_snapshot,'$.metadata.mktcombo')              AS market_pair,\n    json_extract(m.quote_depth_snapshot,'$.quotes.midquote')                AS mid_price,\n    json_extract(a.market_sentiment_indicators,'$.flow.smartforce')         AS smartforce,\n    json_extract(a.market_sentiment_indicators,'$.flow.retailflow')         AS retailflow,\n    json_extract(a.market_sentiment_indicators,'$.flow.instflow')           AS instflow,\n    json_extract(a.market_sentiment_indicators,'$.big_players.whalemotion') AS whale_activity,\n    s.priceshiftday                                                         AS price_change_24h,\n    json_extract(m.quote_depth_snapshot,'$.quotes.midquote') * (1 + s.priceshiftday) AS next_price_4h\n  FROM analyticsindicators a\n  JOIN marketdata  m ON m.marketdatanode  = a.mdataref\n  JOIN marketstats s ON s.marketstatsmark = a.mstatsref\n)\nSELECT\n  CASE\n    WHEN smartforce > retailflow * 1.2 AND smartforce > instflow   * 1.2 THEN 'Smart Money Dominant'\n    WHEN retailflow > smartforce * 1.2 AND retailflow > instflow   * 1.2 THEN 'Retail Dominant'\n    WHEN instflow   > smartforce * 1.2 AND instflow   > retailflow * 1.2 THEN 'Institutional Dominant'\n    ELSE 'Mixed'\n  END                                         AS flow_dominance,\n  whale_activity,\n  market_pair,\n  NULL                                        AS avg_price_change_1h,\n  NULL                                        AS avg_price_change_4h,\n  AVG(price_change_24h)                       AS avg_price_change_24h,\n  SUM(CASE WHEN (smartforce > retailflow AND smartforce > instflow AND next_price_4h > mid_price)\n             OR (smartforce < retailflow AND smartforce < instflow AND next_price_4h < mid_price)\n           THEN 1 ELSE 0 END) * 1.0 / COUNT(*) AS smart_money_accuracy\nFROM base\nGROUP BY flow_dominance, whale_activity, market_pair\nORDER BY smart_money_accuracy DESC"
+ },
+ {
+  "question_id": "crypto_5",
+  "answer": "SELECT SUM(CASE WHEN realline > 0 THEN realline ELSE 0 END) AS total_positive_realline,\n       SUM(CASE WHEN realline < 0 THEN realline ELSE 0 END) AS total_negative_realline,\n       SUM(CASE WHEN realline > 0 THEN realline ELSE 0 END)\n         / ABS(SUM(CASE WHEN realline < 0 THEN realline ELSE 0 END)) AS profit_factor\nFROM accountbalances"
+ },
+ {
+  "question_id": "crypto_4",
+  "answer": "SELECT r.riskandmarginpivot,\n       o.recordvault AS order_id,\n       ab.accountbalancesnode,\n       json_extract(r.risk_margin_profile,'$.margin_thresholds.inithold') AS inithold,\n       ab.margsum,\n       json_extract(r.risk_margin_profile,'$.margin_thresholds.inithold') / ab.margsum * 100 AS margin_utilization\nFROM riskandmargin r\nJOIN orders o           ON o.recordvault = r.ordervault\nJOIN accountbalances ab ON ab.usertag    = o.userlink"
+ },
+ {
+  "question_id": "crypto_10",
+  "answer": "WITH latest_snapshot AS (\n  SELECT m.quote_depth_snapshot AS snap\n  FROM marketstats s\n  JOIN marketdata m ON m.marketdatanode = s.mdlink\n  WHERE s.marketstatsmark = (SELECT MAX(marketstatsmark) FROM marketstats)\n)\nSELECT o.recordvault AS order_id,\n       o.dealedge    AS trade_side,\n       o.dealcount   AS order_quantity,\n       CASE WHEN o.dealedge = 'Buy'\n            THEN json_extract(ls.snap,'$.depth.askdepth')\n            ELSE json_extract(ls.snap,'$.depth.biddepth') END AS order_book_depth\nFROM orders o\nCROSS JOIN latest_snapshot ls\nWHERE o.dealcount > 0.1 * (CASE WHEN o.dealedge = 'Buy'\n                                THEN json_extract(ls.snap,'$.depth.askunits')\n                                ELSE json_extract(ls.snap,'$.depth.bidunits') END)"
+ },
+ {
+  "question_id": "crypto_1",
+  "answer": "SELECT json_extract(m.quote_depth_snapshot,'$.metadata.exchnote')  AS exchange_code,\n       json_extract(m.quote_depth_snapshot,'$.metadata.timetrack') AS snapshot_timestamp,\n       (json_extract(m.quote_depth_snapshot,'$.quotes.askquote')\n        - json_extract(m.quote_depth_snapshot,'$.quotes.bidquote'))\n        / json_extract(m.quote_depth_snapshot,'$.quotes.midquote') * 100 AS spread_percentage\nFROM marketdata m\nORDER BY json_extract(m.quote_depth_snapshot,'$.metadata.timetrack') DESC\nLIMIT 1"
+ },
+ {
+  "question_id": "crypto_8",
+  "answer": "SELECT r.riskandmarginpivot,\n       json_extract(r.risk_margin_profile,'$.position.possum')  AS possum,\n       json_extract(r.risk_margin_profile,'$.position.posmagn') AS posmagn,\n       ab.walletsum,\n       CAST(json_extract(r.risk_margin_profile,'$.position.posmagn') AS REAL)\n         * json_extract(r.risk_margin_profile,'$.position.possum') / ab.walletsum AS effective_leverage\nFROM riskandmargin r\nJOIN orders o           ON o.recordvault = r.ordervault\nJOIN accountbalances ab ON ab.usertag    = o.userlink"
+ },
+ {
+  "question_id": "crypto_3",
+  "answer": "WITH latest_vol AS (\n  SELECT volmeter FROM marketstats\n  WHERE marketstatsmark = (SELECT MAX(marketstatsmark) FROM marketstats)\n)\nSELECT r.riskandmarginpivot,\n       json_extract(r.risk_margin_profile,'$.position.possum') AS possum,\n       v.volmeter,\n       json_extract(r.risk_margin_profile,'$.position.possum') * v.volmeter * 0.01 AS pvar\nFROM riskandmargin r\nCROSS JOIN latest_vol v\nORDER BY json_extract(r.risk_margin_profile,'$.position.possum') DESC\nLIMIT 5"
+ }
+]

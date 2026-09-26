@@ -1,0 +1,70 @@
+{
+ "database": "thrombosis_prediction",
+ "tables": [
+  "Examination",
+  "Laboratory",
+  "Patient"
+ ],
+ "candidates": [
+  {
+   "id": "Examination.ID -> Patient.ID",
+   "source_table": "Examination",
+   "source_column": "ID",
+   "target_table": "Patient",
+   "target_key": "ID",
+   "source_rows": 106,
+   "source_distinct": 69,
+   "target_rows": 1238,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "14872",
+    "48473",
+    "102490",
+    "108788",
+    "122405"
+   ],
+   "target_samples": [
+    "2110",
+    "11408",
+    "12052",
+    "14872",
+    "27654"
+   ]
+  },
+  {
+   "id": "Laboratory.ID -> Patient.ID",
+   "source_table": "Laboratory",
+   "source_column": "ID",
+   "target_table": "Patient",
+   "target_key": "ID",
+   "source_rows": 13908,
+   "source_distinct": 302,
+   "target_rows": 1238,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "27654",
+    "30609",
+    "43003",
+    "48473",
+    "52199"
+   ],
+   "target_samples": [
+    "2110",
+    "11408",
+    "12052",
+    "14872",
+    "27654"
+   ]
+  }
+ ]
+}

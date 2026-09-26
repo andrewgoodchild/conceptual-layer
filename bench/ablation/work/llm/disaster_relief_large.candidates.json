@@ -1,0 +1,3772 @@
+{
+ "database": "disaster_relief_large",
+ "tables": [
+  "BeneficiaryAssistanceRecord",
+  "BeneficiaryCore",
+  "BeneficiaryHouseholds",
+  "CommunicationLogs",
+  "CommunityInfrastructureAssessments",
+  "DataAnalyticsReports",
+  "DisasterEventCore",
+  "DisasterResponseTeam",
+  "DiseaseContainmentMeasure",
+  "DiseaseOutbreakCore",
+  "DiseaseOutbreakMonitoring",
+  "DistributionHubCore",
+  "EarlyWarningSystems",
+  "EmergencyCommunicationLog",
+  "Household_Member_Map",
+  "InfrastructureAssessmentCore",
+  "InfrastructureRepairLog",
+  "LogisticsContracts",
+  "MediaCoverage",
+  "MemberProfiles",
+  "OperationCore",
+  "OperationLogistics",
+  "OperationRiskAssessments",
+  "ShelterCore",
+  "ShelterFacilities",
+  "ShelterOccupancyRecord",
+  "SkillCatalogue",
+  "StakeholderEngagement",
+  "SupplyAllocation",
+  "SupplyItemCatalogue",
+  "TrainingAttendance",
+  "TrainingSessionCore",
+  "TrainingSessions",
+  "VehicleMaintenanceLogs",
+  "VolunteerCore",
+  "VolunteerDeployment",
+  "VolunteerProfiles",
+  "Volunteer_Skill_Map",
+  "beneficiariesandassessments",
+  "coordinationandevaluation",
+  "disasterevents",
+  "distributionhubs",
+  "environmentandhealth",
+  "financials",
+  "humanresources",
+  "operation_hub_map",
+  "operations",
+  "skill_Session_Map",
+  "supplies",
+  "transportation"
+ ],
+ "candidates": [
+  {
+   "id": "BeneficiaryAssistanceRecord.beneficiaryId -> BeneficiaryCore.id",
+   "source_table": "BeneficiaryAssistanceRecord",
+   "source_column": "beneficiaryId",
+   "target_table": "BeneficiaryCore",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6349,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7105",
+    "1424",
+    "2001",
+    "7536",
+    "6865"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BeneficiaryAssistanceRecord.disasterEventId -> BeneficiaryCore.id",
+   "source_table": "BeneficiaryAssistanceRecord",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryCore",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6320,
+   "target_rows": 10000,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6042",
+    "7941",
+    "261",
+    "9358",
+    "1671"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BeneficiaryCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "BeneficiaryCore",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6292,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3890",
+    "8577",
+    "6210",
+    "2742",
+    "6070"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BeneficiaryHouseholds.beneregistryRef -> beneficiariesandassessments.beneregistry",
+   "source_table": "BeneficiaryHouseholds",
+   "source_column": "beneregistryRef",
+   "target_table": "beneficiariesandassessments",
+   "target_key": "beneregistry",
+   "source_rows": 540,
+   "source_distinct": 540,
+   "target_rows": 800,
+   "score": 4.14,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "BENE_ZVHK",
+    "BENE_UCVM",
+    "BENE_FG6D",
+    "BENE_D2W4",
+    "BENE_QGD2"
+   ],
+   "target_samples": [
+    "BENE_00RL",
+    "BENE_069A",
+    "BENE_0BCP",
+    "BENE_0BF8",
+    "BENE_0CZ4"
+   ]
+  },
+  {
+   "id": "BeneficiaryHouseholds.FAMILY_SIZE -> BeneficiaryAssistanceRecord.id",
+   "source_table": "BeneficiaryHouseholds",
+   "source_column": "FAMILY_SIZE",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 540,
+   "source_distinct": 12,
+   "target_rows": 10000,
+   "score": 1.0,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "6",
+    "9",
+    "5",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BeneficiaryHouseholds.VERSION -> BeneficiaryAssistanceRecord.id",
+   "source_table": "BeneficiaryHouseholds",
+   "source_column": "VERSION",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 540,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CommunicationLogs.DIST_REF -> disasterevents.distregistry",
+   "source_table": "CommunicationLogs",
+   "source_column": "DIST_REF",
+   "target_table": "disasterevents",
+   "target_key": "distregistry",
+   "source_rows": 1000,
+   "source_distinct": 100,
+   "target_rows": 1000,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "DIST_BI3UF",
+    "DIST_G6W29",
+    "DIST_STZJD",
+    "DIST_PJC16",
+    "DIST_VG8BG"
+   ],
+   "target_samples": [
+    "DIST_00R0V",
+    "DIST_018PA",
+    "DIST_01XMQ",
+    "DIST_02K0R",
+    "DIST_03TAV"
+   ]
+  },
+  {
+   "id": "CommunityInfrastructureAssessments.Dist_Ref -> disasterevents.distregistry",
+   "source_table": "CommunityInfrastructureAssessments",
+   "source_column": "Dist_Ref",
+   "target_table": "disasterevents",
+   "target_key": "distregistry",
+   "source_rows": 35,
+   "source_distinct": 35,
+   "target_rows": 1000,
+   "score": 3.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "DIST_BI3UF",
+    "DIST_G6W29",
+    "DIST_STZJD",
+    "DIST_PJC16",
+    "DIST_VG8BG"
+   ],
+   "target_samples": [
+    "DIST_00R0V",
+    "DIST_018PA",
+    "DIST_01XMQ",
+    "DIST_02K0R",
+    "DIST_03TAV"
+   ]
+  },
+  {
+   "id": "CommunityInfrastructureAssessments.Assessor_Count -> BeneficiaryAssistanceRecord.id",
+   "source_table": "CommunityInfrastructureAssessments",
+   "source_column": "Assessor_Count",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 35,
+   "source_distinct": 10,
+   "target_rows": 10000,
+   "score": 1.5,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11",
+    "12",
+    "8",
+    "5",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CommunityInfrastructureAssessments.VERSION -> BeneficiaryAssistanceRecord.id",
+   "source_table": "CommunityInfrastructureAssessments",
+   "source_column": "VERSION",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 35,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataAnalyticsReports.opsRef -> operations.opsregistry",
+   "source_table": "DataAnalyticsReports",
+   "source_column": "opsRef",
+   "target_table": "operations",
+   "target_key": "opsregistry",
+   "source_rows": 231,
+   "source_distinct": 231,
+   "target_rows": 231,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OPS_WKU4V",
+    "OPS_UCBKX",
+    "OPS_4OUKN",
+    "OPS_JP88X",
+    "OPS_1VNAG"
+   ],
+   "target_samples": [
+    "OPS_04606",
+    "OPS_0992P",
+    "OPS_0D8QW",
+    "OPS_0M990",
+    "OPS_0R0RA"
+   ]
+  },
+  {
+   "id": "DataAnalyticsReports.VersionInt -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DataAnalyticsReports",
+   "source_column": "VersionInt",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 231,
+   "source_distinct": 4,
+   "target_rows": 10000,
+   "score": 1.0,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "4",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataAnalyticsReports.RefreshIntervalDays -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DataAnalyticsReports",
+   "source_column": "RefreshIntervalDays",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 231,
+   "source_distinct": 4,
+   "target_rows": 10000,
+   "score": 1.01,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "30",
+    "90",
+    "7",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DisasterResponseTeam.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DisasterResponseTeam",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6341,
+   "target_rows": 10000,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9074",
+    "5508",
+    "9706",
+    "7879",
+    "8160"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DiseaseContainmentMeasure.diseaseOutbreakId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DiseaseContainmentMeasure",
+   "source_column": "diseaseOutbreakId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6361,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2966",
+    "6890",
+    "7323",
+    "5476",
+    "4666"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DiseaseContainmentMeasure.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DiseaseContainmentMeasure",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6316,
+   "target_rows": 10000,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5166",
+    "3278",
+    "8505",
+    "6650",
+    "2805"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DiseaseOutbreakCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DiseaseOutbreakCore",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6282,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4784",
+    "5669",
+    "8978",
+    "6892",
+    "5287"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.envHealthRef -> environmentandhealth.envhealthregistry",
+   "source_table": "DiseaseOutbreakMonitoring",
+   "source_column": "envHealthRef",
+   "target_table": "environmentandhealth",
+   "target_key": "envhealthregistry",
+   "source_rows": 20,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ENV_FUP5",
+    "ENV_RNQP",
+    "ENV_D95Y",
+    "ENV_RWPS",
+    "ENV_B447"
+   ],
+   "target_samples": [
+    "ENV_2G4B",
+    "ENV_33XX",
+    "ENV_B447",
+    "ENV_COS8",
+    "ENV_D95Y"
+   ]
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.SUSPECTED_CASES -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DiseaseOutbreakMonitoring",
+   "source_column": "SUSPECTED_CASES",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 20,
+   "source_distinct": 20,
+   "target_rows": 10000,
+   "score": 2.29,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2644",
+    "2085",
+    "664",
+    "4803",
+    "631"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.DEATHS -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DiseaseOutbreakMonitoring",
+   "source_column": "DEATHS",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 20,
+   "source_distinct": 19,
+   "target_rows": 10000,
+   "score": 1.58,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "144",
+    "215",
+    "12",
+    "87",
+    "21"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.MEDICAL_Staff_Deployed -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DiseaseOutbreakMonitoring",
+   "source_column": "MEDICAL_Staff_Deployed",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 20,
+   "source_distinct": 19,
+   "target_rows": 10000,
+   "score": 1.54,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "169",
+    "160",
+    "117",
+    "166",
+    "21"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.ContactTracingTeams -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DiseaseOutbreakMonitoring",
+   "source_column": "ContactTracingTeams",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 20,
+   "source_distinct": 13,
+   "target_rows": 10000,
+   "score": 1.51,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "11",
+    "5",
+    "8",
+    "18"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.quarantineFacilities -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DiseaseOutbreakMonitoring",
+   "source_column": "quarantineFacilities",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 20,
+   "source_distinct": 10,
+   "target_rows": 10000,
+   "score": 1.5,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "5",
+    "8",
+    "6",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DiseaseOutbreakMonitoring.VersionNo -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DiseaseOutbreakMonitoring",
+   "source_column": "VersionNo",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 20,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DistributionHubCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DistributionHubCore",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6257,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6798",
+    "3089",
+    "6076",
+    "1495",
+    "9991"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EarlyWarningSystems.dist_ref -> disasterevents.distregistry",
+   "source_table": "EarlyWarningSystems",
+   "source_column": "dist_ref",
+   "target_table": "disasterevents",
+   "target_key": "distregistry",
+   "source_rows": 1000,
+   "source_distinct": 100,
+   "target_rows": 1000,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "DIST_BI3UF",
+    "DIST_G6W29",
+    "DIST_STZJD",
+    "DIST_PJC16",
+    "DIST_VG8BG"
+   ],
+   "target_samples": [
+    "DIST_00R0V",
+    "DIST_018PA",
+    "DIST_01XMQ",
+    "DIST_02K0R",
+    "DIST_03TAV"
+   ]
+  },
+  {
+   "id": "EarlyWarningSystems.maintenance_cycle_DAYS -> BeneficiaryAssistanceRecord.id",
+   "source_table": "EarlyWarningSystems",
+   "source_column": "maintenance_cycle_DAYS",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 1000,
+   "source_distinct": 5,
+   "target_rows": 10000,
+   "score": 1.56,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "60",
+    "365",
+    "90",
+    "180",
+    "30"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmergencyCommunicationLog.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "EmergencyCommunicationLog",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6280,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6905",
+    "636",
+    "1434",
+    "5071",
+    "1519"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Household_Member_Map.householdID -> BeneficiaryHouseholds.HOUSEHOLD_ID",
+   "source_table": "Household_Member_Map",
+   "source_column": "householdID",
+   "target_table": "BeneficiaryHouseholds",
+   "target_key": "HOUSEHOLD_ID",
+   "source_rows": 201,
+   "source_distinct": 176,
+   "target_rows": 540,
+   "score": 3.8,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "HH000001",
+    "HH000004",
+    "HH000006",
+    "HH000007",
+    "HH000010"
+   ],
+   "target_samples": [
+    "HH000001",
+    "HH000002",
+    "HH000003",
+    "HH000004",
+    "HH000005"
+   ]
+  },
+  {
+   "id": "Household_Member_Map.MEMBER_ID -> MemberProfiles.Member_Id",
+   "source_table": "Household_Member_Map",
+   "source_column": "MEMBER_ID",
+   "target_table": "MemberProfiles",
+   "target_key": "Member_Id",
+   "source_rows": 201,
+   "source_distinct": 103,
+   "target_rows": 103,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MBR0038",
+    "MBR0013",
+    "MBR0007",
+    "MBR0043",
+    "MBR0039"
+   ],
+   "target_samples": [
+    "MBR0001",
+    "MBR0002",
+    "MBR0003",
+    "MBR0004",
+    "MBR0005"
+   ]
+  },
+  {
+   "id": "InfrastructureAssessmentCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "InfrastructureAssessmentCore",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6282,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5632",
+    "862",
+    "9797",
+    "7828",
+    "2746"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "InfrastructureRepairLog.infrastructureAssessmentId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "InfrastructureRepairLog",
+   "source_column": "infrastructureAssessmentId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6339,
+   "target_rows": 10000,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2299",
+    "6400",
+    "545",
+    "4147",
+    "3413"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "InfrastructureRepairLog.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "InfrastructureRepairLog",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6351,
+   "target_rows": 10000,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5145",
+    "868",
+    "395",
+    "1552",
+    "9153"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "LogisticsContracts.HUB_REF -> distributionhubs.hubregistry",
+   "source_table": "LogisticsContracts",
+   "source_column": "HUB_REF",
+   "target_table": "distributionhubs",
+   "target_key": "hubregistry",
+   "source_rows": 2100,
+   "source_distinct": 405,
+   "target_rows": 405,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HUB_98QR",
+    "HUB_VC24",
+    "HUB_0TQE",
+    "HUB_RQRM",
+    "HUB_IPP6"
+   ],
+   "target_samples": [
+    "HUB_031O",
+    "HUB_03FF",
+    "HUB_03IP",
+    "HUB_04FW",
+    "HUB_06ND"
+   ]
+  },
+  {
+   "id": "LogisticsContracts.VersionNo -> BeneficiaryAssistanceRecord.id",
+   "source_table": "LogisticsContracts",
+   "source_column": "VersionNo",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 2100,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MediaCoverage.Dist_ref -> disasterevents.distregistry",
+   "source_table": "MediaCoverage",
+   "source_column": "Dist_ref",
+   "target_table": "disasterevents",
+   "target_key": "distregistry",
+   "source_rows": 1500,
+   "source_distinct": 100,
+   "target_rows": 1000,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "DIST_BI3UF",
+    "DIST_G6W29",
+    "DIST_STZJD",
+    "DIST_PJC16",
+    "DIST_VG8BG"
+   ],
+   "target_samples": [
+    "DIST_00R0V",
+    "DIST_018PA",
+    "DIST_01XMQ",
+    "DIST_02K0R",
+    "DIST_03TAV"
+   ]
+  },
+  {
+   "id": "MediaCoverage.Social_Shares -> BeneficiaryAssistanceRecord.id",
+   "source_table": "MediaCoverage",
+   "source_column": "Social_Shares",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 1500,
+   "source_distinct": 1401,
+   "target_rows": 10000,
+   "score": 3.61,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9610",
+    "5408",
+    "7921",
+    "1137",
+    "7062"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MemberProfiles.HOUSEHOLD_ref -> BeneficiaryHouseholds.HOUSEHOLD_ID",
+   "source_table": "MemberProfiles",
+   "source_column": "HOUSEHOLD_ref",
+   "target_table": "BeneficiaryHouseholds",
+   "target_key": "HOUSEHOLD_ID",
+   "source_rows": 103,
+   "source_distinct": 91,
+   "target_rows": 540,
+   "score": 3.6,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "HH000455",
+    "HH000005",
+    "HH000364",
+    "HH000351",
+    "HH000511"
+   ],
+   "target_samples": [
+    "HH000001",
+    "HH000002",
+    "HH000003",
+    "HH000004",
+    "HH000005"
+   ]
+  },
+  {
+   "id": "MemberProfiles.Version_N0 -> BeneficiaryAssistanceRecord.id",
+   "source_table": "MemberProfiles",
+   "source_column": "Version_N0",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 103,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "OperationCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "OperationCore",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6322,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3757",
+    "1272",
+    "646",
+    "8331",
+    "9328"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "OperationLogistics.operationId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "OperationLogistics",
+   "source_column": "operationId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6345,
+   "target_rows": 10000,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8552",
+    "8080",
+    "2705",
+    "8481",
+    "8757"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "OperationLogistics.distributionHubId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "OperationLogistics",
+   "source_column": "distributionHubId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6388,
+   "target_rows": 10000,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3406",
+    "4052",
+    "3479",
+    "8217",
+    "3054"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "OperationRiskAssessments.OPS_ref -> operations.opsregistry",
+   "source_table": "OperationRiskAssessments",
+   "source_column": "OPS_ref",
+   "target_table": "operations",
+   "target_key": "opsregistry",
+   "source_rows": 231,
+   "source_distinct": 231,
+   "target_rows": 231,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OPS_WKU4V",
+    "OPS_UCBKX",
+    "OPS_LLYE1",
+    "OPS_4OUKN",
+    "OPS_JP88X"
+   ],
+   "target_samples": [
+    "OPS_04606",
+    "OPS_0992P",
+    "OPS_0D8QW",
+    "OPS_0M990",
+    "OPS_0R0RA"
+   ]
+  },
+  {
+   "id": "OperationRiskAssessments.VersionINT -> BeneficiaryAssistanceRecord.id",
+   "source_table": "OperationRiskAssessments",
+   "source_column": "VersionINT",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 231,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShelterCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "ShelterCore",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6303,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4420",
+    "5168",
+    "1364",
+    "9585",
+    "6614"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShelterFacilities.distRef -> disasterevents.distregistry",
+   "source_table": "ShelterFacilities",
+   "source_column": "distRef",
+   "target_table": "disasterevents",
+   "target_key": "distregistry",
+   "source_rows": 300,
+   "source_distinct": 100,
+   "target_rows": 1000,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "DIST_BI3UF",
+    "DIST_G6W29",
+    "DIST_STZJD",
+    "DIST_PJC16",
+    "DIST_VG8BG"
+   ],
+   "target_samples": [
+    "DIST_00R0V",
+    "DIST_018PA",
+    "DIST_01XMQ",
+    "DIST_02K0R",
+    "DIST_03TAV"
+   ]
+  },
+  {
+   "id": "ShelterFacilities.Capacity_Persons -> BeneficiaryAssistanceRecord.id",
+   "source_table": "ShelterFacilities",
+   "source_column": "Capacity_Persons",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 300,
+   "source_distinct": 255,
+   "target_rows": 10000,
+   "score": 1.74,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "331",
+    "334",
+    "131",
+    "324",
+    "213"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShelterFacilities.versionNo -> BeneficiaryAssistanceRecord.id",
+   "source_table": "ShelterFacilities",
+   "source_column": "versionNo",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 300,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShelterOccupancyRecord.shelterId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "ShelterOccupancyRecord",
+   "source_column": "shelterId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6314,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7674",
+    "4097",
+    "4685",
+    "2447",
+    "4493"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShelterOccupancyRecord.beneficiaryId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "ShelterOccupancyRecord",
+   "source_column": "beneficiaryId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6322,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3373",
+    "590",
+    "256",
+    "1400",
+    "2904"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SkillCatalogue.AVG_RETENTION_MONTHS -> BeneficiaryAssistanceRecord.id",
+   "source_table": "SkillCatalogue",
+   "source_column": "AVG_RETENTION_MONTHS",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 104,
+   "source_distinct": 30,
+   "target_rows": 10000,
+   "score": 1.01,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "29",
+    "14",
+    "6",
+    "32",
+    "27"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SkillCatalogue.IS_ACTIVE -> BeneficiaryAssistanceRecord.id",
+   "source_table": "SkillCatalogue",
+   "source_column": "IS_ACTIVE",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 104,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SkillCatalogue.VERSION_NO -> BeneficiaryAssistanceRecord.id",
+   "source_table": "SkillCatalogue",
+   "source_column": "VERSION_NO",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 104,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "StakeholderEngagement.CoordEvalRef -> coordinationandevaluation.coordevalregistry",
+   "source_table": "StakeholderEngagement",
+   "source_column": "CoordEvalRef",
+   "target_table": "coordinationandevaluation",
+   "target_key": "coordevalregistry",
+   "source_rows": 45,
+   "source_distinct": 45,
+   "target_rows": 967,
+   "score": 3.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "COORD_LOM8",
+    "COORD_EAPL",
+    "COORD_CB54",
+    "COORD_MTZE",
+    "COORD_QUO7"
+   ],
+   "target_samples": [
+    "COORD_00AG",
+    "COORD_00C0",
+    "COORD_00F3",
+    "COORD_02YH",
+    "COORD_03O7"
+   ]
+  },
+  {
+   "id": "StakeholderEngagement.VersionNO -> BeneficiaryAssistanceRecord.id",
+   "source_table": "StakeholderEngagement",
+   "source_column": "VersionNO",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 45,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SupplyAllocation.item_Id -> SupplyItemCatalogue.itemID",
+   "source_table": "SupplyAllocation",
+   "source_column": "item_Id",
+   "target_table": "SupplyItemCatalogue",
+   "target_key": "itemID",
+   "source_rows": 312,
+   "source_distinct": 52,
+   "target_rows": 52,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ITM0001",
+    "ITM0002",
+    "ITM0003",
+    "ITM0014",
+    "ITM0004"
+   ],
+   "target_samples": [
+    "ITM0001",
+    "ITM0002",
+    "ITM0003",
+    "ITM0004",
+    "ITM0005"
+   ]
+  },
+  {
+   "id": "SupplyAllocation.HubRef -> distributionhubs.hubregistry",
+   "source_table": "SupplyAllocation",
+   "source_column": "HubRef",
+   "target_table": "distributionhubs",
+   "target_key": "hubregistry",
+   "source_rows": 312,
+   "source_distinct": 312,
+   "target_rows": 405,
+   "score": 4.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HUB_98QR",
+    "HUB_VC24",
+    "HUB_0TQE",
+    "HUB_RQRM",
+    "HUB_IPP6"
+   ],
+   "target_samples": [
+    "HUB_031O",
+    "HUB_03FF",
+    "HUB_03IP",
+    "HUB_04FW",
+    "HUB_06ND"
+   ]
+  },
+  {
+   "id": "SupplyAllocation.packagingUnits -> BeneficiaryAssistanceRecord.id",
+   "source_table": "SupplyAllocation",
+   "source_column": "packagingUnits",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 312,
+   "source_distinct": 89,
+   "target_rows": 10000,
+   "score": 1.53,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "71",
+    "4",
+    "30",
+    "32",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SupplyAllocation.VERSION -> BeneficiaryAssistanceRecord.id",
+   "source_table": "SupplyAllocation",
+   "source_column": "VERSION",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 312,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SupplyItemCatalogue.Shelf_Life_Days -> BeneficiaryAssistanceRecord.id",
+   "source_table": "SupplyItemCatalogue",
+   "source_column": "Shelf_Life_Days",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 52,
+   "source_distinct": 51,
+   "target_rows": 10000,
+   "score": 1.38,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "330",
+    "861",
+    "791",
+    "383",
+    "1814"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SupplyItemCatalogue.Lead_Time_Days -> BeneficiaryAssistanceRecord.id",
+   "source_table": "SupplyItemCatalogue",
+   "source_column": "Lead_Time_Days",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 52,
+   "source_distinct": 35,
+   "target_rows": 10000,
+   "score": 1.02,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "20",
+    "39",
+    "43",
+    "27",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SupplyItemCatalogue.reorder_point -> BeneficiaryAssistanceRecord.id",
+   "source_table": "SupplyItemCatalogue",
+   "source_column": "reorder_point",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 52,
+   "source_distinct": 49,
+   "target_rows": 10000,
+   "score": 1.11,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "333",
+    "436",
+    "443",
+    "495",
+    "103"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SupplyItemCatalogue.SAFETY_STOCK -> BeneficiaryAssistanceRecord.id",
+   "source_table": "SupplyItemCatalogue",
+   "source_column": "SAFETY_STOCK",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 52,
+   "source_distinct": 49,
+   "target_rows": 10000,
+   "score": 1.22,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "666",
+    "872",
+    "886",
+    "990",
+    "206"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SupplyItemCatalogue.IS_ACTIVE -> BeneficiaryAssistanceRecord.id",
+   "source_table": "SupplyItemCatalogue",
+   "source_column": "IS_ACTIVE",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 52,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SupplyItemCatalogue.VERSION -> BeneficiaryAssistanceRecord.id",
+   "source_table": "SupplyItemCatalogue",
+   "source_column": "VERSION",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 52,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingAttendance.trainingSessionId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "TrainingAttendance",
+   "source_column": "trainingSessionId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 11000,
+   "source_distinct": 6383,
+   "target_rows": 10000,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9441",
+    "6401",
+    "4666",
+    "1356",
+    "2821"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingAttendance.volunteerId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "TrainingAttendance",
+   "source_column": "volunteerId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 11000,
+   "source_distinct": 6313,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5130",
+    "6429",
+    "7798",
+    "1397",
+    "867"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingSessionCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "TrainingSessionCore",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6305,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8591",
+    "4947",
+    "3550",
+    "5102",
+    "3203"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingSessions.TrainerId -> VolunteerProfiles.VOLUNTEERID",
+   "source_table": "TrainingSessions",
+   "source_column": "TrainerId",
+   "target_table": "VolunteerProfiles",
+   "target_key": "VOLUNTEERID",
+   "source_rows": 1800,
+   "source_distinct": 57,
+   "target_rows": 57,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VLT000001",
+    "VLT000002",
+    "VLT000003",
+    "VLT000004",
+    "VLT000005"
+   ],
+   "target_samples": [
+    "VLT000001",
+    "VLT000002",
+    "VLT000003",
+    "VLT000004",
+    "VLT000005"
+   ]
+  },
+  {
+   "id": "TrainingSessions.CAPACITY -> BeneficiaryAssistanceRecord.id",
+   "source_table": "TrainingSessions",
+   "source_column": "CAPACITY",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 1800,
+   "source_distinct": 91,
+   "target_rows": 10000,
+   "score": 1.53,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "13",
+    "87",
+    "97",
+    "35",
+    "82"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingSessions.VERSION -> BeneficiaryAssistanceRecord.id",
+   "source_table": "TrainingSessions",
+   "source_column": "VERSION",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 1800,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VehicleMaintenanceLogs.TRANSPORT_REF -> transportation.transportregistry",
+   "source_table": "VehicleMaintenanceLogs",
+   "source_column": "TRANSPORT_REF",
+   "target_table": "transportation",
+   "target_key": "transportregistry",
+   "source_rows": 987,
+   "source_distinct": 987,
+   "target_rows": 987,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TRANS_PN9GV",
+    "TRANS_38YSA",
+    "TRANS_PK3RF",
+    "TRANS_E4XKN",
+    "TRANS_2547J"
+   ],
+   "target_samples": [
+    "TRANS_00ITO",
+    "TRANS_01FSX",
+    "TRANS_02RSX",
+    "TRANS_04ZP4",
+    "TRANS_05HK8"
+   ]
+  },
+  {
+   "id": "VehicleMaintenanceLogs.Version_No -> BeneficiaryAssistanceRecord.id",
+   "source_table": "VehicleMaintenanceLogs",
+   "source_column": "Version_No",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 987,
+   "source_distinct": 1,
+   "target_rows": 10000,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VolunteerCore.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "VolunteerCore",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6307,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7290",
+    "3537",
+    "4874",
+    "8844",
+    "8650"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VolunteerDeployment.volunteerId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "VolunteerDeployment",
+   "source_column": "volunteerId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6321,
+   "target_rows": 10000,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5397",
+    "156",
+    "1600",
+    "8954",
+    "6851"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VolunteerDeployment.disasterEventId -> BeneficiaryAssistanceRecord.id",
+   "source_table": "VolunteerDeployment",
+   "source_column": "disasterEventId",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 6248,
+   "target_rows": 10000,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8274",
+    "1135",
+    "2578",
+    "5134",
+    "5765"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VolunteerProfiles.HR_ref -> humanresources.hrregistry",
+   "source_table": "VolunteerProfiles",
+   "source_column": "HR_ref",
+   "target_table": "humanresources",
+   "target_key": "hrregistry",
+   "source_rows": 57,
+   "source_distinct": 57,
+   "target_rows": 57,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HR_IMV6",
+    "HR_S52O",
+    "HR_XW6X",
+    "HR_OY39",
+    "HR_72YW"
+   ],
+   "target_samples": [
+    "HR_026E",
+    "HR_1236",
+    "HR_2W85",
+    "HR_3BT5",
+    "HR_56QP"
+   ]
+  },
+  {
+   "id": "Volunteer_Skill_Map.VolunteerID -> VolunteerProfiles.VOLUNTEERID",
+   "source_table": "Volunteer_Skill_Map",
+   "source_column": "VolunteerID",
+   "target_table": "VolunteerProfiles",
+   "target_key": "VOLUNTEERID",
+   "source_rows": 642,
+   "source_distinct": 57,
+   "target_rows": 57,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VLT000001",
+    "VLT000002",
+    "VLT000003",
+    "VLT000004",
+    "VLT000005"
+   ],
+   "target_samples": [
+    "VLT000001",
+    "VLT000002",
+    "VLT000003",
+    "VLT000004",
+    "VLT000005"
+   ]
+  },
+  {
+   "id": "Volunteer_Skill_Map.skillID -> SkillCatalogue.skillID",
+   "source_table": "Volunteer_Skill_Map",
+   "source_column": "skillID",
+   "target_table": "SkillCatalogue",
+   "target_key": "skillID",
+   "source_rows": 642,
+   "source_distinct": 104,
+   "target_rows": 104,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SKL0001",
+    "SKL0009",
+    "SKL0018",
+    "SKL0026",
+    "SKL0036"
+   ],
+   "target_samples": [
+    "SKL0001",
+    "SKL0002",
+    "SKL0003",
+    "SKL0004",
+    "SKL0005"
+   ]
+  },
+  {
+   "id": "Volunteer_Skill_Map.TRAINING_REF -> TrainingSessions.SESSION_ID",
+   "source_table": "Volunteer_Skill_Map",
+   "source_column": "TRAINING_REF",
+   "target_table": "TrainingSessions",
+   "target_key": "SESSION_ID",
+   "source_rows": 642,
+   "source_distinct": 540,
+   "target_rows": 1800,
+   "score": 3.74,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "TS001002",
+    "TS001426",
+    "TS001052",
+    "TS000701",
+    "TS001070"
+   ],
+   "target_samples": [
+    "TS000001",
+    "TS000002",
+    "TS000003",
+    "TS000004",
+    "TS000005"
+   ]
+  },
+  {
+   "id": "beneficiariesandassessments.bene_dist_ref -> disasterevents.distregistry",
+   "source_table": "beneficiariesandassessments",
+   "source_column": "bene_dist_ref",
+   "target_table": "disasterevents",
+   "target_key": "distregistry",
+   "source_rows": 800,
+   "source_distinct": 800,
+   "target_rows": 1000,
+   "score": 4.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "DIST_BI3UF",
+    "DIST_G6W29",
+    "DIST_STZJD",
+    "DIST_PJC16",
+    "DIST_VG8BG"
+   ],
+   "target_samples": [
+    "DIST_00R0V",
+    "DIST_018PA",
+    "DIST_01XMQ",
+    "DIST_02K0R",
+    "DIST_03TAV"
+   ]
+  },
+  {
+   "id": "beneficiariesandassessments.beneopsref -> operations.opsregistry",
+   "source_table": "beneficiariesandassessments",
+   "source_column": "beneopsref",
+   "target_table": "operations",
+   "target_key": "opsregistry",
+   "source_rows": 800,
+   "source_distinct": 231,
+   "target_rows": 231,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OPS_WKU4V",
+    "OPS_UCBKX",
+    "OPS_4OUKN",
+    "OPS_JP88X",
+    "OPS_1VNAG"
+   ],
+   "target_samples": [
+    "OPS_04606",
+    "OPS_0992P",
+    "OPS_0D8QW",
+    "OPS_0M990",
+    "OPS_0R0RA"
+   ]
+  },
+  {
+   "id": "coordinationandevaluation.coord_dist_ref -> disasterevents.distregistry",
+   "source_table": "coordinationandevaluation",
+   "source_column": "coord_dist_ref",
+   "target_table": "disasterevents",
+   "target_key": "distregistry",
+   "source_rows": 967,
+   "source_distinct": 967,
+   "target_rows": 1000,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "DIST_BI3UF",
+    "DIST_G6W29",
+    "DIST_STZJD",
+    "DIST_PJC16",
+    "DIST_VG8BG"
+   ],
+   "target_samples": [
+    "DIST_00R0V",
+    "DIST_018PA",
+    "DIST_01XMQ",
+    "DIST_02K0R",
+    "DIST_03TAV"
+   ]
+  },
+  {
+   "id": "coordinationandevaluation.coordopsref -> operations.opsregistry",
+   "source_table": "coordinationandevaluation",
+   "source_column": "coordopsref",
+   "target_table": "operations",
+   "target_key": "opsregistry",
+   "source_rows": 967,
+   "source_distinct": 231,
+   "target_rows": 231,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OPS_WKU4V",
+    "OPS_UCBKX",
+    "OPS_4OUKN",
+    "OPS_JP88X",
+    "OPS_1VNAG"
+   ],
+   "target_samples": [
+    "OPS_04606",
+    "OPS_0992P",
+    "OPS_0D8QW",
+    "OPS_0M990",
+    "OPS_0R0RA"
+   ]
+  },
+  {
+   "id": "coordinationandevaluation.dataqualityvalue -> BeneficiaryAssistanceRecord.id",
+   "source_table": "coordinationandevaluation",
+   "source_column": "dataqualityvalue",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 967,
+   "source_distinct": 5,
+   "target_rows": 10000,
+   "score": 1.5,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "3",
+    "2",
+    "5",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "distributionhubs.hub_cap_tons -> BeneficiaryAssistanceRecord.id",
+   "source_table": "distributionhubs",
+   "source_column": "hub_cap_tons",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 405,
+   "source_distinct": 400,
+   "target_rows": 10000,
+   "score": 2.98,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5101.0",
+    "1825.0",
+    "7553.0",
+    "9766.0",
+    "3462.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "distributionhubs.storeavailm3 -> BeneficiaryAssistanceRecord.id",
+   "source_table": "distributionhubs",
+   "source_column": "storeavailm3",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 405,
+   "source_distinct": 399,
+   "target_rows": 10000,
+   "score": 2.98,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7279.0",
+    "9050.0",
+    "9396.0",
+    "9488.0",
+    "4041.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "distributionhubs.coldstorecapm3 -> BeneficiaryAssistanceRecord.id",
+   "source_table": "distributionhubs",
+   "source_column": "coldstorecapm3",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 405,
+   "source_distinct": 331,
+   "target_rows": 10000,
+   "score": 1.25,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "249.0",
+    "151.0",
+    "395.0",
+    "247.0",
+    "657.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "environmentandhealth.env_dist_ref -> disasterevents.distregistry",
+   "source_table": "environmentandhealth",
+   "source_column": "env_dist_ref",
+   "target_table": "disasterevents",
+   "target_key": "distregistry",
+   "source_rows": 20,
+   "source_distinct": 20,
+   "target_rows": 1000,
+   "score": 3.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "DIST_BI3UF",
+    "DIST_G6W29",
+    "DIST_STZJD",
+    "DIST_PJC16",
+    "DIST_VG8BG"
+   ],
+   "target_samples": [
+    "DIST_00R0V",
+    "DIST_018PA",
+    "DIST_01XMQ",
+    "DIST_02K0R",
+    "DIST_03TAV"
+   ]
+  },
+  {
+   "id": "financials.findistref -> disasterevents.distregistry",
+   "source_table": "financials",
+   "source_column": "findistref",
+   "target_table": "disasterevents",
+   "target_key": "distregistry",
+   "source_rows": 201,
+   "source_distinct": 201,
+   "target_rows": 1000,
+   "score": 3.63,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "DIST_BI3UF",
+    "DIST_G6W29",
+    "DIST_STZJD",
+    "DIST_PJC16",
+    "DIST_VG8BG"
+   ],
+   "target_samples": [
+    "DIST_00R0V",
+    "DIST_018PA",
+    "DIST_01XMQ",
+    "DIST_02K0R",
+    "DIST_03TAV"
+   ]
+  },
+  {
+   "id": "financials.fin_ops_ref -> operations.opsregistry",
+   "source_table": "financials",
+   "source_column": "fin_ops_ref",
+   "target_table": "operations",
+   "target_key": "opsregistry",
+   "source_rows": 201,
+   "source_distinct": 201,
+   "target_rows": 231,
+   "score": 4.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OPS_WKU4V",
+    "OPS_UCBKX",
+    "OPS_4OUKN",
+    "OPS_JP88X",
+    "OPS_1VNAG"
+   ],
+   "target_samples": [
+    "OPS_04606",
+    "OPS_0992P",
+    "OPS_0D8QW",
+    "OPS_0M990",
+    "OPS_0R0RA"
+   ]
+  },
+  {
+   "id": "humanresources.hrdistref -> disasterevents.distregistry",
+   "source_table": "humanresources",
+   "source_column": "hrdistref",
+   "target_table": "disasterevents",
+   "target_key": "distregistry",
+   "source_rows": 57,
+   "source_distinct": 57,
+   "target_rows": 1000,
+   "score": 3.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "DIST_BI3UF",
+    "DIST_G6W29",
+    "DIST_STZJD",
+    "DIST_PJC16",
+    "DIST_VG8BG"
+   ],
+   "target_samples": [
+    "DIST_00R0V",
+    "DIST_018PA",
+    "DIST_01XMQ",
+    "DIST_02K0R",
+    "DIST_03TAV"
+   ]
+  },
+  {
+   "id": "humanresources.hr_ops_ref -> operations.opsregistry",
+   "source_table": "humanresources",
+   "source_column": "hr_ops_ref",
+   "target_table": "operations",
+   "target_key": "opsregistry",
+   "source_rows": 57,
+   "source_distinct": 57,
+   "target_rows": 231,
+   "score": 3.64,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OPS_WKU4V",
+    "OPS_UCBKX",
+    "OPS_4OUKN",
+    "OPS_JP88X",
+    "OPS_1VNAG"
+   ],
+   "target_samples": [
+    "OPS_04606",
+    "OPS_0992P",
+    "OPS_0D8QW",
+    "OPS_0M990",
+    "OPS_0R0RA"
+   ]
+  },
+  {
+   "id": "operation_hub_map.opsregistry -> operations.opsregistry",
+   "source_table": "operation_hub_map",
+   "source_column": "opsregistry",
+   "target_table": "operations",
+   "target_key": "opsregistry",
+   "source_rows": 800,
+   "source_distinct": 222,
+   "target_rows": 231,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OPS_04606",
+    "OPS_0992P",
+    "OPS_0D8QW",
+    "OPS_0M990",
+    "OPS_0R0RA"
+   ],
+   "target_samples": [
+    "OPS_04606",
+    "OPS_0992P",
+    "OPS_0D8QW",
+    "OPS_0M990",
+    "OPS_0R0RA"
+   ]
+  },
+  {
+   "id": "operation_hub_map.hubregistry -> distributionhubs.hubregistry",
+   "source_table": "operation_hub_map",
+   "source_column": "hubregistry",
+   "target_table": "distributionhubs",
+   "target_key": "hubregistry",
+   "source_rows": 800,
+   "source_distinct": 348,
+   "target_rows": 405,
+   "score": 4.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HUB_8Y8U",
+    "HUB_H15M",
+    "HUB_N7LD",
+    "HUB_MREG",
+    "HUB_Q0GV"
+   ],
+   "target_samples": [
+    "HUB_031O",
+    "HUB_03FF",
+    "HUB_03IP",
+    "HUB_04FW",
+    "HUB_06ND"
+   ]
+  },
+  {
+   "id": "operations.estdurationdays -> BeneficiaryAssistanceRecord.id",
+   "source_table": "operations",
+   "source_column": "estdurationdays",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 231,
+   "source_distinct": 179,
+   "target_rows": 10000,
+   "score": 1.59,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "362",
+    "291",
+    "57",
+    "66"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skill_Session_Map.skilref -> SkillCatalogue.skillID",
+   "source_table": "skill_Session_Map",
+   "source_column": "skilref",
+   "target_table": "SkillCatalogue",
+   "target_key": "skillID",
+   "source_rows": 3560,
+   "source_distinct": 104,
+   "target_rows": 104,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SKL0001",
+    "SKL0002",
+    "SKL0003",
+    "SKL0004",
+    "SKL0005"
+   ],
+   "target_samples": [
+    "SKL0001",
+    "SKL0002",
+    "SKL0003",
+    "SKL0004",
+    "SKL0005"
+   ]
+  },
+  {
+   "id": "skill_Session_Map.SessionID -> TrainingSessions.SESSION_ID",
+   "source_table": "skill_Session_Map",
+   "source_column": "SessionID",
+   "target_table": "TrainingSessions",
+   "target_key": "SESSION_ID",
+   "source_rows": 3560,
+   "source_distinct": 1800,
+   "target_rows": 1800,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TS000104",
+    "TS000160",
+    "TS000250",
+    "TS000254",
+    "TS000279"
+   ],
+   "target_samples": [
+    "TS000001",
+    "TS000002",
+    "TS000003",
+    "TS000004",
+    "TS000005"
+   ]
+  },
+  {
+   "id": "skill_Session_Map.SLOT_NUMBER -> BeneficiaryAssistanceRecord.id",
+   "source_table": "skill_Session_Map",
+   "source_column": "SLOT_NUMBER",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 3560,
+   "source_distinct": 5,
+   "target_rows": 10000,
+   "score": 1.0,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "5",
+    "3",
+    "4",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "supplies.supply_dist_ref -> disasterevents.distregistry",
+   "source_table": "supplies",
+   "source_column": "supply_dist_ref",
+   "target_table": "disasterevents",
+   "target_key": "distregistry",
+   "source_rows": 312,
+   "source_distinct": 312,
+   "target_rows": 1000,
+   "score": 3.78,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "DIST_BI3UF",
+    "DIST_G6W29",
+    "DIST_STZJD",
+    "DIST_PJC16",
+    "DIST_VG8BG"
+   ],
+   "target_samples": [
+    "DIST_00R0V",
+    "DIST_018PA",
+    "DIST_01XMQ",
+    "DIST_02K0R",
+    "DIST_03TAV"
+   ]
+  },
+  {
+   "id": "supplies.supplyhubref -> distributionhubs.hubregistry",
+   "source_table": "supplies",
+   "source_column": "supplyhubref",
+   "target_table": "distributionhubs",
+   "target_key": "hubregistry",
+   "source_rows": 312,
+   "source_distinct": 312,
+   "target_rows": 405,
+   "score": 4.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HUB_98QR",
+    "HUB_VC24",
+    "HUB_0TQE",
+    "HUB_RQRM",
+    "HUB_IPP6"
+   ],
+   "target_samples": [
+    "HUB_031O",
+    "HUB_03FF",
+    "HUB_03IP",
+    "HUB_04FW",
+    "HUB_06ND"
+   ]
+  },
+  {
+   "id": "supplies.shelter_units -> BeneficiaryAssistanceRecord.id",
+   "source_table": "supplies",
+   "source_column": "shelter_units",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 312,
+   "source_distinct": 305,
+   "target_rows": 10000,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7534",
+    "1968",
+    "6390",
+    "4949",
+    "8275"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "supplies.powergenunits -> BeneficiaryAssistanceRecord.id",
+   "source_table": "supplies",
+   "source_column": "powergenunits",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 312,
+   "source_distinct": 264,
+   "target_rows": 10000,
+   "score": 1.73,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "568",
+    "733",
+    "881",
+    "384",
+    "921"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation.transportdistref -> disasterevents.distregistry",
+   "source_table": "transportation",
+   "source_column": "transportdistref",
+   "target_table": "disasterevents",
+   "target_key": "distregistry",
+   "source_rows": 987,
+   "source_distinct": 987,
+   "target_rows": 1000,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "DIST_BI3UF",
+    "DIST_DJGG7",
+    "DIST_G6W29",
+    "DIST_STZJD",
+    "DIST_PJC16"
+   ],
+   "target_samples": [
+    "DIST_00R0V",
+    "DIST_018PA",
+    "DIST_01XMQ",
+    "DIST_02K0R",
+    "DIST_03TAV"
+   ]
+  },
+  {
+   "id": "transportation.transport_hub_ref -> distributionhubs.hubregistry",
+   "source_table": "transportation",
+   "source_column": "transport_hub_ref",
+   "target_table": "distributionhubs",
+   "target_key": "hubregistry",
+   "source_rows": 987,
+   "source_distinct": 405,
+   "target_rows": 405,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HUB_98QR",
+    "HUB_R7WU",
+    "HUB_VC24",
+    "HUB_0TQE",
+    "HUB_RQRM"
+   ],
+   "target_samples": [
+    "HUB_031O",
+    "HUB_03FF",
+    "HUB_03IP",
+    "HUB_04FW",
+    "HUB_06ND"
+   ]
+  },
+  {
+   "id": "transportation.transportsupref -> supplies.supplyregistry",
+   "source_table": "transportation",
+   "source_column": "transportsupref",
+   "target_table": "supplies",
+   "target_key": "supplyregistry",
+   "source_rows": 987,
+   "source_distinct": 312,
+   "target_rows": 312,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SUP_T9G1R",
+    "SUP_7IX64",
+    "SUP_49AM8",
+    "SUP_2COVR",
+    "SUP_T3RHN"
+   ],
+   "target_samples": [
+    "SUP_05XVO",
+    "SUP_0A026",
+    "SUP_0EROV",
+    "SUP_0EX7Z",
+    "SUP_0ORUM"
+   ]
+  },
+  {
+   "id": "transportation.vehiclecount -> BeneficiaryAssistanceRecord.id",
+   "source_table": "transportation",
+   "source_column": "vehiclecount",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 987,
+   "source_distinct": 186,
+   "target_rows": 10000,
+   "score": 1.56,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "141",
+    "20",
+    "67",
+    "147",
+    "37"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation.trucks_available -> BeneficiaryAssistanceRecord.id",
+   "source_table": "transportation",
+   "source_column": "trucks_available",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 987,
+   "source_distinct": 96,
+   "target_rows": 10000,
+   "score": 1.53,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "88",
+    "13",
+    "87",
+    "77",
+    "53"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation.distribution_points -> BeneficiaryAssistanceRecord.id",
+   "source_table": "transportation",
+   "source_column": "distribution_points",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 987,
+   "source_distinct": 46,
+   "target_rows": 10000,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "35",
+    "40",
+    "14",
+    "6",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BeneficiaryAssistanceRecord.id -> BeneficiaryCore.id",
+   "source_table": "BeneficiaryAssistanceRecord",
+   "source_column": "id",
+   "target_table": "BeneficiaryCore",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BeneficiaryCore.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "BeneficiaryCore",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DisasterEventCore.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DisasterEventCore",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DisasterResponseTeam.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DisasterResponseTeam",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DiseaseContainmentMeasure.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DiseaseContainmentMeasure",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DiseaseOutbreakCore.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DiseaseOutbreakCore",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DistributionHubCore.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "DistributionHubCore",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmergencyCommunicationLog.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "EmergencyCommunicationLog",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "InfrastructureAssessmentCore.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "InfrastructureAssessmentCore",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "InfrastructureRepairLog.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "InfrastructureRepairLog",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "OperationCore.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "OperationCore",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "OperationLogistics.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "OperationLogistics",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShelterCore.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "ShelterCore",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShelterOccupancyRecord.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "ShelterOccupancyRecord",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingSessionCore.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "TrainingSessionCore",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VolunteerCore.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "VolunteerCore",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VolunteerDeployment.id -> BeneficiaryAssistanceRecord.id",
+   "source_table": "VolunteerDeployment",
+   "source_column": "id",
+   "target_table": "BeneficiaryAssistanceRecord",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

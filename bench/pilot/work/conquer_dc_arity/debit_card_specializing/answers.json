@@ -1,0 +1,28 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "LIST d FROM DISTINCT Transactions1k [has Gasstation has GasstationCountry: 'CZE'] has Product has ProductDescription d"
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE DISTINCT COUNT OF c IN (Customer [has CustomerCurrency: 'EUR'] has CustomerID c AND ALSO is of Yearmonth has YearmonthConsumption v WHERE v > 1000)"
+ },
+ {
+  "question_id": 1481,
+  "answer": "DEFINE Tot2013 ::= LIST cust, t FROM Yearmonth has Customer cust AND ALSO has YearmonthConsumption v AND ALSO has YearmonthDate d AND ALSO THE SUM OF v GROUPED BY cust AS t WHERE d >= '201301' AND d <= '201312'\nLIST THE MINIMUM t IN Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'SME'] has Tot2013 Tot2013T t - THE MINIMUM t IN Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'LAM'] has Tot2013 Tot2013T t, THE MINIMUM t IN Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'LAM'] has Tot2013 Tot2013T t - THE MINIMUM t IN Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'KAM'] has Tot2013 Tot2013T t, THE MINIMUM t IN Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'KAM'] has Tot2013 Tot2013T t - THE MINIMUM t IN Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'SME'] has Tot2013 Tot2013T t",
+  "note": "Read as: per segment, the CZK customer with the smallest total 2013 consumption; the three columns are SME-LAM, LAM-KAM, KAM-SME of those minima. The evidence's 'total consumption per year / number of customers with the lowest consumption' reduces to that minimum when the minimum is not tied."
+ },
+ {
+  "question_id": 1486,
+  "answer": "LIST THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] - THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR']",
+  "note": "One column: the evidence defines only 'Amount of more SMEs'. The positive result (23505) is itself the 'yes' to 'is it true'."
+ },
+ {
+  "question_id": 1525,
+  "answer": "LIST THE DISTINCT COUNT OF c IN (Transactions1k [has Transactions1kDate: '2012-08-25'] has Customer c AND ALSO c has CustomerCurrency: 'EUR') * 100 / THE DISTINCT COUNT OF c IN (Transactions1k [has Transactions1kDate: '2012-08-25'] has Customer c)"
+ },
+ {
+  "question_id": 1501,
+  "answer": "LIST c FROM DISTINCT Transactions1k [has Customer is of Yearmonth has YearmonthDate: '201306'] has Gasstation has GasstationCountry c"
+ }
+]

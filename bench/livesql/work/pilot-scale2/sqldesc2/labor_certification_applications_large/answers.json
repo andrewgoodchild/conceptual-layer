@@ -1,0 +1,44 @@
+[
+ {
+  "question_id": "labor_certification_applications_2",
+  "answer": "SELECT COUNT(*) FILTER (WHERE UPPER(statustag) = 'CERTIFIED') * 100.0 / COUNT(*) AS h1b_approval_rate FROM cases WHERE visacls = 'H-1B'"
+ },
+ {
+  "question_id": "labor_certification_applications_19",
+  "answer": "SELECT CASE WHEN ca.docketkey IS NOT NULL THEN 'With Attorney' ELSE 'Self-Represented' END AS representation_type, COUNT(*) AS total_applications, COUNT(*) FILTER (WHERE UPPER(c.statustag) = 'CERTIFIED') AS certified_applications, ROUND(COUNT(*) FILTER (WHERE UPPER(c.statustag) = 'CERTIFIED') * 100.0 / COUNT(*), 2) AS approval_rate FROM cases c LEFT JOIN case_attorney ca ON ca.docketkey = c.filekey GROUP BY 1"
+ },
+ {
+  "question_id": "labor_certification_applications_16",
+  "answer": "SELECT a.attorney_profile->'highest_court'->>'state' AS jurisdiction_state, COUNT(*) AS total_cases, COUNT(*) FILTER (WHERE UPPER(c.statustag) = 'CERTIFIED') AS certified_cases, ROUND(COUNT(*) FILTER (WHERE UPPER(c.statustag) = 'CERTIFIED') * 100.0 / COUNT(*), 2) AS success_rate FROM case_attorney ca JOIN attorney a ON a.lawmail = ca.counselmail JOIN cases c ON c.filekey = ca.docketkey WHERE COALESCE(a.attorney_profile->'highest_court'->>'state', '') <> '' GROUP BY 1 HAVING COUNT(*) >= 3 ORDER BY success_rate DESC, total_cases DESC LIMIT 3"
+ },
+ {
+  "question_id": "labor_certification_applications_11",
+  "answer": "WITH d AS ( SELECT to_date(recvday, 'YYYY/MM/DD') AS recv, to_date(beginday, 'DD/MM/YYYY') AS begin_dt FROM cases ), m AS ( SELECT recv, begin_dt, (EXTRACT(YEAR FROM begin_dt) - EXTRACT(YEAR FROM recv)) * 12 + (EXTRACT(MONTH FROM begin_dt) - EXTRACT(MONTH FROM recv)) AS months_before FROM d ), cat AS ( SELECT CASE WHEN begin_dt < recv THEN 'After Start Date' WHEN months_before > 6 THEN 'Early Filing' WHEN months_before BETWEEN 4 AND 6 THEN 'Optimal Window (4-6 Months)' WHEN months_before BETWEEN 1 AND 3 THEN '1-3 Months Before' ELSE 'Same Month' END AS filing_window FROM m ) SELECT filing_window, COUNT(*) AS application_count, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS percentage_of_total FROM cat GROUP BY filing_window ORDER BY application_count DESC"
+ },
+ {
+  "question_id": "labor_certification_applications_8",
+  "answer": "WITH w AS ( SELECT c.filekey, c.headct, replace(replace(pw.wage_details->'offered_wage'->>'from','$',''),',','')::numeric AS offered, replace(replace(pw.wage_details->'prevailing_wage'->>'value','USD ',''),',','')::numeric * CASE pw.wage_details->'prevailing_wage'->>'unit' WHEN 'Hour' THEN 2080 WHEN 'Week' THEN 52 WHEN 'Month' THEN 12 ELSE 1 END AS prevailing FROM cases c JOIN case_worksite cw ON cw.dockkey = c.filekey JOIN prevailing_wage pw ON pw.trackno = cw.wagetrack WHERE c.soccd = '15-1253.00' AND pw.wage_details->'offered_wage'->>'unit' = 'Year' ) SELECT CASE WHEN (offered - prevailing)/prevailing*100 < 0 THEN 'Below-Market' WHEN (offered - prevailing)/prevailing*100 <= 10 THEN 'Market-Competitive' ELSE 'Premium' END AS wage_competitiveness_tier, SUM(headct) AS total_positions FROM w GROUP BY 1 ORDER BY total_positions DESC"
+ },
+ {
+  "question_id": "labor_certification_applications_13",
+  "answer": "WITH s AS ( SELECT wsstate AS state, COUNT(DISTINCT dockkey) AS application_count FROM case_worksite WHERE wsstate IS NOT NULL AND wsstate <> '' GROUP BY wsstate ), h AS ( SELECT state, application_count FROM s WHERE application_count > 1.5 * (SELECT AVG(application_count) FROM s) ) SELECT state AS hotspot_state, COUNT(*) OVER () AS total_hotspot_states FROM h ORDER BY application_count DESC, state",
+  "note": "No population data; hotspot = state with application count > 1.5x the average per-state count (worksite state)."
+ },
+ {
+  "question_id": "labor_certification_applications_15",
+  "answer": "WITH av AS ( SELECT ca.counselmail AS attorney, c.visacls, COUNT(*) AS n FROM case_attorney ca JOIN cases c ON c.filekey = ca.docketkey GROUP BY ca.counselmail, c.visacls ), a AS ( SELECT attorney, SUM(n) AS total_cases, COUNT(*) AS visa_types, MAX(n) AS dominant_cases FROM av GROUP BY attorney HAVING SUM(n) >= 5 ), s AS ( SELECT attorney, 1 - visa_types::numeric / (SELECT COUNT(DISTINCT visacls) FROM cases) AS asi, dominant_cases * 100.0 / total_cases AS dominant_pct, visa_types FROM a ) SELECT CASE WHEN dominant_pct > 80 THEN 'Specialist' WHEN visa_types BETWEEN 2 AND 3 THEN 'Hybrid Practitioner' ELSE 'Generalist' END AS specialization_category, COUNT(*) AS attorney_count, ROUND(AVG(asi), 2) AS avg_asi, ROUND(AVG(dominant_pct), 2) AS avg_dominant_visa_pct FROM s GROUP BY 1 ORDER BY attorney_count DESC"
+ },
+ {
+  "question_id": "labor_certification_applications_14",
+  "answer": "WITH ind AS ( SELECT e.employer_contact_info->>'naics_code' AS naics_code, COUNT(*) AS total_applications FROM cases c JOIN employer e ON e.corphandle = c.homefirm AND e.zipref = c.homezip GROUP BY 1 ), t AS ( SELECT naics_code, total_applications, ROUND(total_applications * 100.0 / SUM(total_applications) OVER (), 2) AS percentage_of_total FROM ind ) SELECT naics_code, total_applications, percentage_of_total FROM t WHERE percentage_of_total > 15 ORDER BY percentage_of_total DESC",
+  "note": "No workforce-size data exists; 'visa-dependent' taken as an industry holding >15% of all applications."
+ },
+ {
+  "question_id": "labor_certification_applications_1",
+  "answer": "SELECT visacls AS visa_type, AVG(to_date(decisionday, 'YYYY-MM-DD') - to_date(recvday, 'YYYY/MM/DD')) AS avg_processing_days FROM cases WHERE UPPER(statustag) = 'CERTIFIED' AND decisionday IS NOT NULL GROUP BY visacls ORDER BY avg_processing_days DESC, visa_type"
+ },
+ {
+  "question_id": "labor_certification_applications_3",
+  "answer": "WITH emp AS ( SELECT c.homefirm, c.homezip, COUNT(*) AS total_apps, COUNT(*) FILTER (WHERE UPPER(c.statustag) = 'CERTIFIED') * 100.0 / COUNT(*) AS success_rate FROM cases c GROUP BY c.homefirm, c.homezip ) SELECT CASE WHEN total_apps < 5 THEN 'Small-scale user' WHEN total_apps <= 25 THEN 'Medium-scale user' ELSE 'Large-scale user' END AS employer_size_category, COUNT(*) AS employer_count, AVG(success_rate) AS avg_success_rate FROM emp GROUP BY 1 ORDER BY avg_success_rate DESC"
+ }
+]

@@ -1,0 +1,3 @@
+All ten answers written and run; _2 returns no rows; four carry notes.
+Hardest: _2 (no retrograde hot Jupiters; constants G, solar mass, AU not given); _10 flags inside JSON (Dist_Lim in data_quality_tracking.limitflags, Mag_Blend in stars.stellarprops; six null blend flags); _11 adjacency by period; _4 period in days, law in years.
+What mattered: all star measurements sit inside stars.stellarprops and the limit flags inside limitflags -- "you only see this from the sample rows, not from the column list"; the knowledge base's conversion factors and the list of discovery-method spellings. One grep of a saved full schema outside the directory was denied by the permission system; the writer used the word filter instead.

@@ -1,0 +1,15 @@
+[
+ {"question_id": 930, "answer": "LIST rn FROM Result [has Driver [has DriverForename: 'Lewis'] has DriverSurname: 'Hamilton'] has Race has RaceName rn AND ALSO OPTIONALLY has ResultRank rk ORDERED WITH rk ASCENDING THE FIRST 1", "note": null},
+ {"question_id": 1011, "answer": "LIST f, s FROM LapTime has Driver has DriverForename f AND ALSO has Driver has DriverSurname s AND ALSO has LapTimeTime t ORDERED WITH t ASCENDING THE FIRST 20", "note": null},
+ {"question_id": 909, "answer": "THE COUNT OF Race [has RaceName: 'European Grand Prix'] [has Circuit has CircuitCountry: 'Germany'] * 100 / THE COUNT OF Race [has RaceName: 'European Grand Prix']", "note": null},
+ {"question_id": 892, "answer": "LIST f, s, p FROM DriverStanding has Driver has DriverForename f AND ALSO has Driver has DriverSurname s AND ALSO has DriverStandingPoints p ORDERED WITH p DESCENDING THE FIRST 1", "note": null},
+ {"question_id": 854, "answer": "LIST la, ln FROM DISTINCT Race [has RaceName: 'Australian Grand Prix'] has Circuit has CircuitLat la AND ALSO has Circuit has CircuitLng ln", "note": null},
+ {"question_id": 898, "answer": "LIST age, f, s FROM Driver [has DriverNationality: 'Japanese'] has DriverDob d AND ALSO has DriverForename f AND ALSO has DriverSurname s AND ALSO (year(today()) - year(d)) AS age ORDERED WITH d DESCENDING THE FIRST 1", "note": null},
+ {"question_id": 877, "answer": "LIST f, s FROM Result [has Race: 872] [has ResultTime t] has Driver has DriverForename f AND ALSO has Driver has DriverSurname s AND ALSO has Driver has DriverDob d ORDERED WITH d DESCENDING THE FIRST 1", "note": null},
+ {"question_id": 906, "answer": "LIST rn, p FROM Result [has Driver [has DriverForename: 'Lewis'] has DriverSurname: 'Hamilton'] has Race has RaceName rn AND ALSO has Race has RaceDate dt AND ALSO has ResultPoints p ORDERED WITH dt ASCENDING THE FIRST 1", "note": null},
+ {"question_id": 988, "answer": "LIST f, s, a FROM Driver [has DriverNationality: 'German'] has DriverForename f AND ALSO has DriverSurname s AND ALSO has DriverDob dob AND ALSO THE AVERAGE du IN Driver is of PitStop has PitStopDuration du GROUPED BY f, s AS a WHERE year(dob) >= 1980 AND year(dob) <= 1985 ORDERED WITH a ASCENDING THE FIRST 3", "note": null},
+ {"question_id": 881, "answer": "THE COUNT OF Result [has Race has RaceDate: '1983-07-16'] [has ResultTime t] / THE COUNT OF Result [has Race has RaceDate: '1983-07-16']", "note": null},
+ {"question_id": 977, "answer": "THE COUNT OF Result [has Race has RaceId r] [has Status: 2] [has ResultTime t] WHERE r > 50 AND r < 100", "note": null},
+ {"question_id": 915, "answer": "LIST n FROM Driver has DriverNationality n AND ALSO has DriverDob d ORDERED WITH d ASCENDING THE FIRST 1", "note": null},
+ {"question_id": 868, "answer": "LIST loc, la, ln FROM DISTINCT Race [has RaceName: 'Malaysian Grand Prix'] has Circuit has CircuitLocation loc AND ALSO has Circuit has CircuitLat la AND ALSO has Circuit has CircuitLng ln", "note": null}
+]

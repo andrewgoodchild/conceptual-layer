@@ -1,0 +1,46 @@
+[
+ {
+  "question_id": "residential_data_6",
+  "answer": "SELECT ROUND(AVG(((t.vehicleinventory->'vehicle_counts'->>'Auto_Count')::numeric + (t.vehicleinventory->'vehicle_counts'->>'Bike_Count')::numeric + (t.vehicleinventory->'vehicle_counts'->>'Motor_Count')::numeric))) AS avg_total_vehicles FROM households h JOIN properties p ON p.houselink = h.housenum JOIN transportation_assets t ON t.housetag = h.housenum WHERE lower(trim(regexp_replace(h.locregion, '\\s+', ' ', 'g'))) = 'taguatinga' AND h.residentcount::numeric / NULLIF((p.dwelling_specs->>'Room_Count')::numeric, 0) > 3",
+  "note": "Crowding score taken as Household Density = residents / bedrooms (Room_Count)."
+ },
+ {
+  "question_id": "residential_data_3",
+  "answer": "SELECT DISTINCT h.housenum FROM households h JOIN service_types s ON s.serviceref = h.serviceplan JOIN transportation_assets t ON t.housetag = h.housenum WHERE lower(trim(s.socsupport)) = 'yes' AND ((t.vehicleinventory->'vehicle_counts'->>'Auto_Count')::numeric + (t.vehicleinventory->'vehicle_counts'->>'Bike_Count')::numeric + (t.vehicleinventory->'vehicle_counts'->>'Motor_Count')::numeric) > 2 AND lower(regexp_replace(trim(t.vehicleinventory->>'Newest_Year'), '\\s+', ' ', 'g')) IN ('2010 to 2013','2010-2013','10-13','2014 or newer','2014+','after 2014') ORDER BY h.housenum"
+ },
+ {
+  "question_id": "residential_data_15",
+  "answer": "WITH b AS (SELECT lower(trim(regexp_replace(h.locregion, '\\s+', ' ', 'g'))) AS reg, trim(regexp_replace(h.locregion, '\\s+', ' ', 'g')) COLLATE \"C\" AS raw, (lower(trim(s.socsupport)) = 'yes' AND h.residentcount::numeric / NULLIF((p.dwelling_specs->>'Room_Count')::numeric, 0) > 4) AS at_risk FROM households h LEFT JOIN service_types s ON s.serviceref = h.serviceplan LEFT JOIN properties p ON p.houselink = h.housenum) SELECT mode() WITHIN GROUP (ORDER BY raw) AS locregion FROM b GROUP BY reg ORDER BY 100.0 * COUNT(*) FILTER (WHERE at_risk) / COUNT(*) DESC LIMIT 1"
+ },
+ {
+  "question_id": "residential_data_12",
+  "answer": "WITH ind AS (SELECT lower(trim(regexp_replace(p.dwelling_specs->>'Dwelling_Class', '\\s+', ' ', 'g'))) AS dwelling_class, ((t.vehicleinventory->'vehicle_counts'->>'Auto_Count')::numeric + (t.vehicleinventory->'vehicle_counts'->>'Bike_Count')::numeric + (t.vehicleinventory->'vehicle_counts'->>'Motor_Count')::numeric) AS total_vehicles, (CASE WHEN lower(trim(regexp_replace(p.dwelling_specs->>'Dwelling_Class', '\\s+', ' ', 'g'))) IN ('brickwork house','condominium') THEN 4 WHEN lower(trim(regexp_replace(p.dwelling_specs->>'Dwelling_Class', '\\s+', ' ', 'g'))) = 'apartment' THEN 3 ELSE 1 END + (CASE WHEN lower(trim(i.wateraccess)) LIKE 'yes%' THEN 4 ELSE 1 END + CASE WHEN lower(i.roadsurface) LIKE '%asphalt%' OR lower(i.roadsurface) LIKE '%concrete%' THEN 4 ELSE 1 END + CASE WHEN lower(regexp_replace(trim(i.parkavail), '\\s+', ' ', 'g')) = 'available' THEN 4 ELSE 1 END) / 3.0) / 2.0 AS prosperity FROM households h JOIN service_types s ON s.serviceref = h.serviceplan JOIN transportation_assets t ON t.housetag = h.housenum JOIN properties p ON p.houselink = h.housenum LEFT JOIN infrastructure i ON i.infraref = p.infralink WHERE lower(trim(s.socsupport)) = 'no' AND lower(regexp_replace(trim(s.domestichelp), '\\s+', ' ', 'g')) = 'no domestic workers' AND ((t.vehicleinventory->'vehicle_counts'->>'Auto_Count')::numeric + (t.vehicleinventory->'vehicle_counts'->>'Bike_Count')::numeric + (t.vehicleinventory->'vehicle_counts'->>'Motor_Count')::numeric) > 1), top AS (SELECT dwelling_class FROM ind GROUP BY dwelling_class ORDER BY AVG(prosperity) DESC LIMIT 1) SELECT SUM(total_vehicles) AS total_vehicles FROM ind WHERE dwelling_class = (SELECT dwelling_class FROM top)",
+  "note": "'Household Prosperity Score' is not defined in knowledge.md; used Living Condition Score (dwelling type score and infrastructure quality score, 50/50) as the proxy. Result is sensitive to this choice."
+ },
+ {
+  "question_id": "residential_data_2",
+  "answer": "WITH b AS (SELECT lower(trim(regexp_replace(h.locregion, '\\s+', ' ', 'g'))) AS reg, trim(regexp_replace(h.locregion, '\\s+', ' ', 'g')) COLLATE \"C\" AS raw, (lower(trim(s.socsupport)) = 'yes' AND ((t.vehicleinventory->'vehicle_counts'->>'Auto_Count')::numeric + (t.vehicleinventory->'vehicle_counts'->>'Bike_Count')::numeric + (t.vehicleinventory->'vehicle_counts'->>'Motor_Count')::numeric) > 2 AND lower(regexp_replace(trim(t.vehicleinventory->>'Newest_Year'), '\\s+', ' ', 'g')) IN ('2010 to 2013','2010-2013','10-13','2014 or newer','2014+','after 2014')) AS high_risk FROM households h LEFT JOIN service_types s ON s.serviceref = h.serviceplan LEFT JOIN transportation_assets t ON t.housetag = h.housenum) SELECT mode() WITHIN GROUP (ORDER BY raw) AS locregion FROM b GROUP BY reg ORDER BY 100.0 * COUNT(*) FILTER (WHERE high_risk) / COUNT(*) DESC LIMIT 1"
+ },
+ {
+  "question_id": "residential_data_19",
+  "answer": "SELECT h.housenum FROM households h JOIN properties p ON p.houselink = h.housenum JOIN infrastructure i ON i.infraref = p.infralink JOIN transportation_assets t ON t.housetag = h.housenum WHERE lower(trim(i.wateraccess)) LIKE 'yes%' AND (lower(i.roadsurface) LIKE '%asphalt%' OR lower(i.roadsurface) LIKE '%concrete%') ORDER BY (t.vehicleinventory->'vehicle_counts'->>'Auto_Count')::numeric DESC, h.housenum LIMIT 1",
+  "note": "Five households tie at 5 autos (1670, 2837, 4706, 5832, 5968); tie broken by lowest housenum."
+ },
+ {
+  "question_id": "residential_data_16",
+  "answer": "SELECT regexp_replace(trim(socioeconomic->>'Income_Bracket'), '\\s+', ' ', 'g') AS income_bracket FROM households WHERE housenum = 3"
+ },
+ {
+  "question_id": "residential_data_17",
+  "answer": "SELECT COUNT(*) FROM households h WHERE lower(trim(regexp_replace(h.locregion, '\\s+', ' ', 'g'))) = 'taguatinga' AND lower(trim(h.socioeconomic->>'Tenure_Type')) IN ('owned','own') AND regexp_replace(trim(h.socioeconomic->>'Income_Bracket'), '\\s+', ' ', 'g') IN ('More than R$ 26,400', 'More than R$ 22,000 and less than R$ 26,400')"
+ },
+ {
+  "question_id": "residential_data_20",
+  "answer": "SELECT mode() WITHIN GROUP (ORDER BY trim(regexp_replace(h.locregion, '\\s+', ' ', 'g')) COLLATE \"C\") AS locregion, COUNT(*) AS supported_households FROM households h JOIN service_types s ON s.serviceref = h.serviceplan WHERE lower(trim(s.socsupport)) = 'yes' GROUP BY lower(trim(regexp_replace(h.locregion, '\\s+', ' ', 'g'))) ORDER BY supported_households DESC"
+ },
+ {
+  "question_id": "residential_data_18",
+  "answer": "SELECT DISTINCT h.housenum FROM households h JOIN properties p ON p.houselink = h.housenum JOIN amenities a ON a.houseid = h.housenum WHERE lower(trim(regexp_replace(h.locregion, '\\s+', ' ', 'g'))) = 'guará' AND lower(trim(regexp_replace(p.dwelling_specs->>'Dwelling_Class', '\\s+', ' ', 'g'))) IN ('apartment','apt') AND lower(regexp_replace(trim(a.cablestatus), '\\s+', ' ', 'g')) IN ('avail','available','yes') ORDER BY h.housenum",
+  "note": "'Specific dwelling type' is unspecified; assumed Apartment (incl. 'Apt' variants). Cable availability per knowledge list (avail/available/yes)."
+ }
+]

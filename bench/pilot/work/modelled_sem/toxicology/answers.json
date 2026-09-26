@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 201,
+  "answer": "SELECT SUM(CASE WHEN a.element='c' THEN 1 ELSE 0 END)*100.0/COUNT(*) FROM atom a WHERE a.molecule_id IN (SELECT molecule_id FROM bond WHERE bond_type='=')",
+  "attempts": 1
+ },
+ {
+  "question_id": 239,
+  "answer": "SELECT COUNT(*) FROM connected WHERE atom_id LIKE 'TR%\\_19' ESCAPE '\\'",
+  "attempts": 1
+ },
+ {
+  "question_id": 243,
+  "answer": "SELECT DISTINCT c.bond_id FROM connected c JOIN atom a1 ON c.atom_id = a1.atom_id JOIN atom a2 ON c.atom_id2 = a2.atom_id WHERE (a1.element='p' AND a2.element='n') OR (a1.element='n' AND a2.element='p')",
+  "attempts": 1
+ },
+ {
+  "question_id": 234,
+  "answer": "SELECT COUNT(DISTINCT bond_id) FROM connected WHERE atom_id='TR009_12' OR atom_id2='TR009_12'",
+  "attempts": 1
+ },
+ {
+  "question_id": 215,
+  "answer": "SELECT COUNT(*) FROM atom WHERE element IN ('i','s') AND molecule_id IN (SELECT molecule_id FROM bond WHERE bond_type='-')",
+  "attempts": 1
+ },
+ {
+  "question_id": 230,
+  "answer": "SELECT DISTINCT a.element, m.label FROM atom a JOIN molecule m ON a.molecule_id = m.molecule_id WHERE m.molecule_id='TR060'",
+  "attempts": 2
+ },
+ {
+  "question_id": 206,
+  "answer": "SELECT a.element FROM atom a WHERE a.atom_id IN (SELECT atom_id FROM connected WHERE bond_id='TR004_8_9' UNION SELECT atom_id2 FROM connected WHERE bond_id='TR004_8_9')",
+  "attempts": 2
+ },
+ {
+  "question_id": 212,
+  "answer": "SELECT element FROM atom WHERE molecule_id IN (SELECT molecule_id FROM molecule WHERE label='-') GROUP BY element ORDER BY COUNT(*) ASC LIMIT 1",
+  "attempts": 1
+ }
+]

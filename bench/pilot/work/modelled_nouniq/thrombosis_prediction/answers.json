@@ -1,0 +1,52 @@
+[
+  {
+    "question_id": 1256,
+    "answer": "SELECT COUNT(DISTINCT p.ID) FROM Patient p JOIN Laboratory l ON p.ID = l.ID WHERE l.CRP = '+' AND p.Description IS NULL",
+    "attempts": 2
+  },
+  {
+    "question_id": 1189,
+    "answer": "SELECT COUNT(DISTINCT ID) FROM Examination WHERE Thrombosis = 2 AND `ANA Pattern` = 'S' AND `aCL IgM` > (SELECT AVG(`aCL IgM`) FROM Examination) * 1.2",
+    "attempts": 3
+  },
+  {
+    "question_id": 1267,
+    "answer": "SELECT COUNT(DISTINCT l.ID) FROM Laboratory l JOIN Examination e ON l.ID = e.ID WHERE l.SM IN ('negative','0') AND e.Thrombosis = 0",
+    "attempts": 3
+  },
+  {
+    "question_id": 1157,
+    "answer": "SELECT DISTINCT p.ID, p.SEX, p.Diagnosis FROM Patient p JOIN Examination e ON p.ID = e.ID WHERE e.Thrombosis = 2",
+    "attempts": 3
+  },
+  {
+    "question_id": 1162,
+    "answer": "SELECT COUNT(*) FROM Patient WHERE SEX = 'F' AND strftime('%Y', Description) = '1997' AND Admission = '-'",
+    "attempts": 2
+  },
+  {
+    "question_id": 1164,
+    "answer": "SELECT COUNT(DISTINCT e.ID) FROM Examination e JOIN Patient p ON e.ID = p.ID WHERE e.Thrombosis = 1 AND strftime('%Y', e.`Examination Date`) = '1997' AND p.SEX = 'F'",
+    "attempts": 2
+  },
+  {
+    "question_id": 1179,
+    "answer": "SELECT e.`aCL IgM` FROM Patient p JOIN Examination e ON p.ID = e.ID WHERE p.Diagnosis = 'SLE' AND p.Description = '1994-02-19' AND e.`Examination Date` = '1993-11-12'",
+    "attempts": 1
+  },
+  {
+    "question_id": 1192,
+    "answer": "SELECT DISTINCT p.ID FROM Patient p JOIN Laboratory l ON p.ID = l.ID WHERE p.Admission = '-' AND l.Date LIKE '1991-10%' AND l.`T-BIL` < 2.0",
+    "attempts": 2
+  },
+  {
+    "question_id": 1232,
+    "answer": "SELECT DISTINCT p.ID, p.SEX, CAST(strftime('%Y','now') AS INTEGER) - CAST(strftime('%Y', p.Birthday) AS INTEGER) AS age FROM Patient p JOIN Laboratory l ON p.ID = l.ID WHERE l.GLU >= 180 AND l.`T-CHO` < 250",
+    "attempts": 2
+  },
+  {
+    "question_id": 1187,
+    "answer": "SELECT DISTINCT ID FROM Laboratory WHERE Date BETWEEN '1987-07-06' AND '1996-01-31' AND GPT > 30 AND ALB < 4 ORDER BY ID",
+    "attempts": 2
+  }
+]

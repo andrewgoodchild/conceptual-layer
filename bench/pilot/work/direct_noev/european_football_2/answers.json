@@ -1,0 +1,12 @@
+[
+ {"question_id": 1115, "answer": "SELECT (d.overall_rating - b.overall_rating) * 100.0 / b.overall_rating FROM Player_Attributes d JOIN Player pd ON d.player_api_id = pd.player_api_id, Player_Attributes b JOIN Player pb ON b.player_api_id = pb.player_api_id WHERE pd.player_name = 'Landon Donovan' AND d.date = '2013-07-12 00:00:00' AND pb.player_name = 'Jordan Bowery' AND b.date = '2013-07-12 00:00:00'", "attempts": 2},
+ {"question_id": 1134, "answer": "SELECT (SELECT jumping FROM Player_Attributes WHERE id = 6) - (SELECT jumping FROM Player_Attributes WHERE id = 23) AS jumping_difference", "attempts": 2},
+ {"question_id": 1135, "answer": "SELECT player_api_id FROM Player_Attributes WHERE preferred_foot = 'right' GROUP BY player_api_id ORDER BY MIN(potential) ASC LIMIT 4", "attempts": 2},
+ {"question_id": 1124, "answer": "SELECT DISTINCT p.player_name FROM Player_Attributes pa JOIN Player p ON pa.player_api_id = p.player_api_id WHERE pa.attacking_work_rate = 'high'", "attempts": 2},
+ {"question_id": 1107, "answer": "SELECT date FROM Player_Attributes WHERE player_api_id = (SELECT player_api_id FROM Player WHERE player_name = 'Kevin Constant') AND crossing = (SELECT MAX(crossing) FROM Player_Attributes WHERE player_api_id = (SELECT player_api_id FROM Player WHERE player_name = 'Kevin Constant')) ORDER BY date ASC LIMIT 1", "attempts": 1},
+ {"question_id": 1094, "answer": "SELECT (b.max_rating - p.max_rating) * 100.0 / p.max_rating FROM (SELECT MAX(overall_rating) AS max_rating FROM Player_Attributes WHERE player_api_id = (SELECT player_api_id FROM Player WHERE player_name = 'Ariel Borysiuk')) b, (SELECT MAX(overall_rating) AS max_rating FROM Player_Attributes WHERE player_api_id = (SELECT player_api_id FROM Player WHERE player_name = 'Paulin Puel')) p", "attempts": 2},
+ {"question_id": 1110, "answer": "SELECT buildUpPlayPassingClass FROM Team_Attributes WHERE team_api_id = (SELECT team_api_id FROM Team WHERE team_long_name = 'FC Lorient') AND date = '2010-02-22 00:00:00'", "attempts": 1},
+ {"question_id": 1130, "answer": "SELECT DISTINCT t.team_short_name FROM Team t JOIN Team_Attributes ta ON t.team_api_id = ta.team_api_id WHERE ta.chanceCreationPassingClass = 'Safe'", "attempts": 2},
+ {"question_id": 1116, "answer": "SELECT player_name FROM Player WHERE height = (SELECT MAX(height) FROM Player)", "attempts": 1},
+ {"question_id": 1044, "answer": "SELECT player_name FROM Player WHERE strftime('%Y', birthday) = '1970' AND strftime('%m', birthday) = '10'", "attempts": 1}
+]

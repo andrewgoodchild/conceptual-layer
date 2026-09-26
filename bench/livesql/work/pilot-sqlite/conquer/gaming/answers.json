@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "gaming_1",
+  "answer": "LIST mk, md, irs, jp, dr, tr, hs, flag FROM Deviceidentity has DeviceidentityMakername mk AND ALSO has DeviceidentityModnum md AND ALSO has Testsession t AND ALSO t has TestsessionDevscope sc AND ALSO t has TestsessionPollratehz pr AND ALSO t has inplagms DurationInMs il AND ALSO t has resptimems DurationInMs rt AND ALSO is of Interactionandcontrol i AND ALSO i has InteractionandcontrolJoyprec jp AND ALSO i has InteractionandcontrolDriftResearch dr AND ALSO i has InteractionandcontrolTrigres tr AND ALSO i has InteractionandcontrolHapstr hs AND ALSO (pr / 100 * (1 - (il + rt) / 30) * 10) AS ir AND ALSO round(ir, 2) AS irs AND ALSO if(ir > 8.0 AND jp > 9.0 AND dr > 9.5 AND tr >= 5 AND hs > 8, 'Yes', 'No') AS flag WHERE sc = 'Controller' ORDERED WITH flag DESCENDING, ir DESCENDING"
+ },
+ {
+  "question_id": "gaming_2",
+  "answer": "LIST mk, md, h, c, p, rb, cls, pct FROM Deviceidentity has DeviceidentityMakername mk AND ALSO has DeviceidentityModnum md AND ALSO has DeviceidentityConntype ct AND ALSO has DeviceidentityPwractmw p AND ALSO has Testsession t AND ALSO t has TestsessionBattlifeh h AND ALSO t has TestsessionBattcapmah c AND ALSO (h * c / (p * 10)) AS b AND ALSO round(b, 2) AS rb AND ALSO if(b > 7.5, 'Excellent Efficiency', if(b >= 5.0, 'Good Efficiency', if(b >= 2.5, 'Average Efficiency', 'Poor Efficiency'))) AS cls AND ALSO (0 - b) AS nb AND ALSO THE RANK OF nb WITHIN mk AS ra AND ALSO THE COUNT OF t WITHIN mk AS n AND ALSO round(if(n > 1, (ra - 1) * 100.0 / (n - 1), 0), 2) AS pct WHERE ct = 'Wireless 2.4GHz' OR ct = 'Bluetooth' ORDERED WITH b DESCENDING"
+ },
+ {
+  "question_id": "gaming_3",
+  "answer": "LIST mk, md, sc, br, ca, zn, mo, co, riq, cls FROM Rgb has RgbBright br AND ALSO has RgbColoracc ca AND ALSO has RgbZones zn AND ALSO has RgbModes mo AND ALSO has RgbColors co AND ALSO has Mechanical m AND ALSO m has Deviceidentity d AND ALSO d has DeviceidentityMakername mk AND ALSO d has DeviceidentityModnum md AND ALSO d has Testsession ts AND ALSO ts has TestsessionDevscope sc AND ALSO (br / 100 * (ca / 10) * (0.5 + zn / 20)) AS r AND ALSO round(r, 2) AS riq AND ALSO if(r > 8.0, 'Premium RGB Implementation', if(r >= 6.0, 'High-Quality RGB', if(r >= 3.0, 'Standard RGB', 'Basic RGB'))) AS cls ORDERED WITH r DESCENDING"
+ },
+ {
+  "question_id": "gaming_4",
+  "answer": "LIST id, mk, md, ber FROM Deviceidentity has DeviceidentityDevregistry id AND ALSO has DeviceidentityMakername mk AND ALSO has DeviceidentityModnum md AND ALSO has DeviceidentityPwractmw p AND ALSO has Testsession t AND ALSO t has TestsessionBattlifeh h AND ALSO t has TestsessionBattcapmah c AND ALSO (h * c / (p * 10)) AS b AND ALSO round(b, 2) AS ber WHERE b > 7.5 ORDERED WITH b DESCENDING"
+ },
+ {
+  "question_id": "gaming_5",
+  "answer": "LIST a, mk, md, t, s, l, aqi FROM Audioandmedia has AudioandmediaAudregistry a AND ALSO has Deviceidentity d AND ALSO d has DeviceidentityMakername mk AND ALSO d has DeviceidentityModnum md AND ALSO has Percentage t AND ALSO has spksensedb Level s AND ALSO has audlatms DurationInMs l AND ALSO ((1 - t / 2) * (s / 100) * (1 - l / 100) * 10) AS q AND ALSO round(q, 2) AS aqi WHERE q > 8.0 ORDERED WITH q DESCENDING"
+ },
+ {
+  "question_id": "gaming_6",
+  "answer": "LIST id, wpe FROM Deviceidentity has DeviceidentityDevregistry id AND ALSO has DeviceidentityConntype ct AND ALSO has DeviceidentityWlrangem wr AND ALSO has DeviceidentityWllatvar wv AND ALSO has DeviceidentityWlchanhop wh AND ALSO has DeviceidentityPwractmw p AND ALSO has Testsession t AND ALSO t has TestsessionWlsignal ws AND ALSO t has TestsessionBattlifeh h AND ALSO t has TestsessionBattcapmah c AND ALSO (wr / 10 * (1 - wv / 5) * (1 + wh / 2) * ((ws + 100) / 100)) AS wpr AND ALSO (h * c / (p * 10)) AS ber AND ALSO (wpr * sqrt(ber / 5) * (1 - wv / 3) * 2) AS rwpe AND ALSO round(rwpe, 2) AS wpe WHERE (ct = 'Wireless 2.4GHz' OR ct = 'Bluetooth') AND rwpe > 8.5 ORDERED WITH rwpe DESCENDING"
+ },
+ {
+  "question_id": "gaming_7",
+  "answer": "LIST id, ds, dsc, wsc, bf, per FROM Physicaldurability has PhysicaldurabilityPhysregistry id AND ALSO has PhysicaldurabilityDrophtm dh AND ALSO has PhysicaldurabilityBendforce bf AND ALSO has PhysicaldurabilityTwistdeg td AND ALSO has PhysicaldurabilityUsbconndur uc AND ALSO has PhysicaldurabilityDustres dr AND ALSO has PhysicaldurabilityWaterres wr AND ALSO castInteger(substr(dr, 4, 1)) AS dsc AND ALSO castInteger(substr(wr, 4, 1)) AS wsc AND ALSO ((dh / 2 + bf / 100 + td / 90) * (uc / 10000) * 10) AS rds AND ALSO (rds * (1 + (dsc + wsc) / 6) * (1 - (100 - bf) / 200)) AS rper AND ALSO round(rds, 2) AS ds AND ALSO round(rper, 2) AS per WHERE rper > 9.0 ORDERED WITH rper DESCENDING"
+ },
+ {
+  "question_id": "gaming_8",
+  "answer": "LIST id, cgpi, pc, spi, irs, par FROM Deviceidentity has DeviceidentityDevregistry id AND ALSO has DeviceidentityDpires dpi AND ALSO has DeviceidentityMcresptime mrt AND ALSO has DeviceidentityProfcount pc AND ALSO has Testsession t AND ALSO t has TestsessionPollratehz pr AND ALSO t has inplagms DurationInMs il AND ALSO t has resptimems DurationInMs rt AND ALSO is of Mechanical m AND ALSO m has MechanicalSwtchdur sd AND ALSO m has MechanicalSwtchcons scs AND ALSO m has MechanicalKeychatter kc AND ALSO is of Interactionandcontrol i AND ALSO i has InteractionandcontrolJoyprec jp AND ALSO i has InteractionandcontrolDpadacc da AND ALSO (dpi / 1000 * (1 - mrt / 10) * 10) AS rspi AND ALSO (pr / 100 * (1 - (il + rt) / 30) * 10) AS rirs AND ALSO (log10(sd) / 7 * scs * (1 - kc / 2)) AS rspr AND ALSO ((jp + da) / 20 * (1 - il / 10) * 10) AS rrai AND ALSO (rirs * 0.4 + rspi * 0.3 + rspr * 0.2 + rrai * 0.1) AS rcgpi AND ALSO (rcgpi / 10 * (1 + pc / 5) * ((rspi + rirs) / 15)) AS rpar AND ALSO round(rcgpi, 2) AS cgpi AND ALSO round(rspi, 2) AS spi AND ALSO round(rirs, 2) AS irs AND ALSO round(rpar, 2) AS par WHERE rpar > 8.5 ORDERED WITH rpar DESCENDING"
+ },
+ {
+  "question_id": "gaming_9",
+  "answer": "LIST id, mk, md, pr, il, rt, irs FROM Deviceidentity has DeviceidentityDevregistry id AND ALSO has DeviceidentityMakername mk AND ALSO has DeviceidentityModnum md AND ALSO has Testsession t AND ALSO t has TestsessionDevscope sc AND ALSO t has TestsessionPollratehz pr AND ALSO t has inplagms DurationInMs il AND ALSO t has resptimems DurationInMs rt AND ALSO (pr / 100 * (1 - (il + rt) / 30) * 10) AS ir AND ALSO round(ir, 2) AS irs WHERE (sc = 'Keyboard' OR sc = 'Mouse') AND ir > 8.0 ORDERED WITH ir DESCENDING"
+ },
+ {
+  "question_id": "gaming_10",
+  "answer": "LIST mk, md, dpi, pr, spi, ci, flag FROM Deviceidentity has DeviceidentityMakername mk AND ALSO has DeviceidentityModnum md AND ALSO has DeviceidentityDpires dpi AND ALSO has DeviceidentityMcresptime mrt AND ALSO has Testsession t AND ALSO t has TestsessionDevscope sc AND ALSO t has TestsessionPollratehz pr AND ALSO is of Mechanical m AND ALSO m has MechanicalErgorate er AND ALSO m has MechanicalWristflag wf AND ALSO m has MechanicalPalmangle pa AND ALSO (dpi / 1000 * (1 - mrt / 10) * 10) AS rspi AND ALSO (er / 10 * (1 + wf / 5) * (1 - abs(pa - 15) / 45) * 10) AS rci AND ALSO round(rspi, 2) AS spi AND ALSO round(rci, 2) AS ci AND ALSO if(rspi > 7.5 AND dpi >= 16000 AND pr >= 1000 AND rci > 8.0, 'Yes', 'No') AS flag WHERE sc = 'Mouse' ORDERED WITH rspi DESCENDING, rci DESCENDING"
+ }
+]

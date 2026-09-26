@@ -1,0 +1,475 @@
+{
+ "database": "reverse_logistics_large",
+ "verdicts": [
+  {
+   "id": "appeal_compliance_checks.target_appeal_ref -> customer_appeals_records.appeal_record_ref",
+   "verdict": "yes",
+   "reason": "Name and role match: a compliance check names the appeal record it checks; opaque hash keys make the containment non-accidental."
+  },
+  {
+   "id": "automated_sorting_machine_events.facility_code_ref -> warehouses.warehouse_code",
+   "verdict": "yes",
+   "reason": "WH- coded facility on a sorting event covering all 25 warehouse codes; plainly the warehouse the machine sits in."
+  },
+  {
+   "id": "automated_sorting_machine_events.sorted_item_ref -> case_management.casetie",
+   "verdict": "yes",
+   "reason": "Opaque RL case ids, 84 of them all inside the 1500-value case key; the sorted item is identified by its return case."
+  },
+  {
+   "id": "carrier_invoice_reconciliations.shipment_tracking_ref -> order_shipment_details.shipment_tracking_id",
+   "verdict": "yes",
+   "reason": "Column name is the target key's name and the values are 15-char random tracking ids; a reconciliation is per shipment."
+  },
+  {
+   "id": "carrier_invoice_reconciliations.carrier_entity_ref -> transportation_carriers.carrier_id",
+   "verdict": "yes",
+   "reason": "Carrier reconciliation naming the carrier entity, 20 of 20 carriers used."
+  },
+  {
+   "id": "carrier_supported_regions.servicing_carrier_id -> transportation_carriers.carrier_id",
+   "verdict": "yes",
+   "reason": "A carrier's supported regions keyed by the servicing carrier; 19 of 20 carriers covered."
+  },
+  {
+   "id": "case_escalation_records.originating_case_link -> case_management.casetie",
+   "verdict": "yes",
+   "reason": "Escalation record naming the case it originated from, in the RL case key space."
+  },
+  {
+   "id": "case_escalation_records.escalated_from_agent_id -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "Agent who escalated is an employee; ids lie in the 1001+ employee range with good spread."
+  },
+  {
+   "id": "case_escalation_records.ESCALATED_TO_TIER -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "Escalation tier is a small ordinal (2,3); overlap with carrier ids 1-20 is coincidence."
+  },
+  {
+   "id": "case_escalation_records.current_assigned_agent_id -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "Currently assigned agent is an employee id from the 1001+ range."
+  },
+  {
+   "id": "case_escalation_records.manager_approval_id -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "Approving manager is an employee; explicit *_id naming into the employee key range."
+  },
+  {
+   "id": "case_escalation_records.resolution_satisfaction_score -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "A 1-5 satisfaction score, not a carrier identifier."
+  },
+  {
+   "id": "case_management.satisfscore -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "A 1-5 satisfaction score, not a carrier identifier."
+  },
+  {
+   "id": "circular_economy_impact_reports.return_case_ref -> case_management.casetie",
+   "verdict": "yes",
+   "reason": "Impact report names the return case it reports on; 1420 of 1500 opaque RL ids used."
+  },
+  {
+   "id": "circular_economy_impact_reports.disposal_guideline_ref -> product_disposal_guidelines.guideline_id",
+   "verdict": "yes",
+   "reason": "Disposal guideline reference covering all 65 guidelines; name matches the target key exactly."
+  },
+  {
+   "id": "customer_appeals_records.disputed_return_ref -> case_management.casetie",
+   "verdict": "yes",
+   "reason": "An appeal disputes a return case; 1380 distinct RL case ids."
+  },
+  {
+   "id": "customer_appeals_records.appealing_customer_ref -> customers.profilenum",
+   "verdict": "yes",
+   "reason": "Appealing customer pointing at the customer profile key, all 206 customers covered."
+  },
+  {
+   "id": "customer_communication_logs.logged_customer_profile -> customers.profilenum",
+   "verdict": "yes",
+   "reason": "Communication log records the customer profile it concerns; CUS ids in the customer key space."
+  },
+  {
+   "id": "customer_communication_logs.employee_handler_id -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "Handling employee, ids in the 1001+ employee range with 34 of 50 used."
+  },
+  {
+   "id": "customer_communication_logs.customer_satisfaction_rating -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "A 1-5 rating; the match to carrier_id 1-20 is small-integer coincidence."
+  },
+  {
+   "id": "disposal_vendors.years_in_business -> suppliers.supplier_id",
+   "verdict": "no",
+   "reason": "Years in business is a measurement, not a supplier pointer, and the source is itself a vendor table."
+  },
+  {
+   "id": "dropoff_location_audits.target_return_point -> omnichannel_return_points.return_point_code",
+   "verdict": "yes",
+   "reason": "Audit of a dropoff point naming the return point it audits; opaque hash codes from the return-point key."
+  },
+  {
+   "id": "dropoff_location_audits.photo_proof_count -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "A photo count, not an identifier of a carrier."
+  },
+  {
+   "id": "employees.access_level -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "Access level is a 1-5 privilege ordinal, unrelated to carriers."
+  },
+  {
+   "id": "environmental_alert_history.triggering_log_ref -> warehouse_climate_sensor_logs.sensor_log_sequence",
+   "verdict": "yes",
+   "reason": "Alert names the sensor log that triggered it; opaque hash keys make containment meaningful."
+  },
+  {
+   "id": "financial_management.casetag -> case_management.casetie",
+   "verdict": "yes",
+   "reason": "Financial record tagged with its return case; 995 distinct RL ids inside the case key."
+  },
+  {
+   "id": "financial_transaction_audits.audited_credit_reference -> financial_management.creditref",
+   "verdict": "yes",
+   "reason": "Audit names the credit memo reference it audited; CM-prefixed ids from financial_management's key."
+  },
+  {
+   "id": "financial_transaction_audits.rollback_possible -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "A boolean flag with the single value 1."
+  },
+  {
+   "id": "financial_transaction_audits.verified_by_auditor_id -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "The verifying auditor is an employee; explicit naming into the employee id range."
+  },
+  {
+   "id": "financial_transaction_audits.audit_priority -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "A constant priority value of 1, not a foreign key."
+  },
+  {
+   "id": "financial_transaction_audits.related_case_id -> case_management.casetie",
+   "verdict": "yes",
+   "reason": "Audit linked to its related return case via the RL case key."
+  },
+  {
+   "id": "fraud_detection_rules.author_employee_id -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "Rule author is an employee; 27 distinct ids in the employee range."
+  },
+  {
+   "id": "freight_audit_discrepancies.invoice_recon_ref -> carrier_invoice_reconciliations.invoice_reconciliation_ref",
+   "verdict": "yes",
+   "reason": "Discrepancy names the invoice reconciliation it belongs to; opaque hash key match."
+  },
+  {
+   "id": "liquidation_auction_lots.storage_location_ref -> warehouses.warehouse_code",
+   "verdict": "yes",
+   "reason": "Auction lot stored at a warehouse; WH- codes from the warehouse key."
+  },
+  {
+   "id": "liquidation_auction_lots.dominant_sku_ref -> products.itemcode",
+   "verdict": "yes",
+   "reason": "Dominant SKU of a lot pointing at the product item code."
+  },
+  {
+   "id": "liquidation_buyer_feedback.auction_lot_ref -> liquidation_auction_lots.auction_lot_reference",
+   "verdict": "yes",
+   "reason": "Buyer feedback on an auction lot, referencing the lot's opaque key."
+  },
+  {
+   "id": "omnichannel_return_points.pickup_carrier_ref -> transportation_carriers.carrier_id",
+   "verdict": "yes",
+   "reason": "Return point's pickup carrier; 13 of 20 carriers used and the name states the relationship."
+  },
+  {
+   "id": "omnichannel_return_points.avg_daily_volume_cnt -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "An average daily volume count; overlap with carrier ids is coincidental."
+  },
+  {
+   "id": "order_shipment_details.linked_order_transaction -> orders.txnnum",
+   "verdict": "yes",
+   "reason": "Shipment detail linked to its order transaction; ORD ids drawn from the orders key."
+  },
+  {
+   "id": "order_shipment_details.delivery_attempts -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "A delivery attempt count of 1-3, not a carrier reference."
+  },
+  {
+   "id": "order_shipment_details.shipment_priority_level -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "A 1-5 priority level, not a carrier reference."
+  },
+  {
+   "id": "orders.buyerlink -> customers.profilenum",
+   "verdict": "yes",
+   "reason": "Order's buyer pointing at the customer profile key, all 206 customers covered."
+  },
+  {
+   "id": "packaging_compliance_certs.packaging_sku_ref -> return_packaging_inventory.material_sku_code",
+   "verdict": "yes",
+   "reason": "Compliance certificate for a packaging SKU; opaque material sku codes from the inventory key."
+  },
+  {
+   "id": "packaging_compliance_certs.audit_frequency_months -> suppliers.supplier_id",
+   "verdict": "no",
+   "reason": "Audit frequency of 12/24/36 months, a duration not a supplier id."
+  },
+  {
+   "id": "product_component_details.associated_product_item -> products.itemcode",
+   "verdict": "yes",
+   "reason": "Component detail tied to its product's item code."
+  },
+  {
+   "id": "product_component_details.SUPPLIER_ID -> suppliers.supplier_id",
+   "verdict": "yes",
+   "reason": "Explicitly named supplier id covering 54 of 60 suppliers."
+  },
+  {
+   "id": "product_component_details.warranty_period_months -> suppliers.supplier_id",
+   "verdict": "no",
+   "reason": "Warranty period of 12/24/36 months, a duration not a supplier id."
+  },
+  {
+   "id": "product_disposal_guidelines.product_to_dispose -> products.itemcode",
+   "verdict": "yes",
+   "reason": "Disposal guideline for a product, pointing at the product item code."
+  },
+  {
+   "id": "product_disposal_guidelines.preferred_disposal_agent -> disposal_vendors.vendor_id",
+   "verdict": "yes",
+   "reason": "Preferred disposal agent naming the disposal vendor key; 23 of 25 vendors used."
+  },
+  {
+   "id": "product_disposal_guidelines.alternate_vendor_id -> disposal_vendors.vendor_id",
+   "verdict": "yes",
+   "reason": "Alternate vendor id into the disposal vendor key; the sibling of the preferred-vendor column."
+  },
+  {
+   "id": "product_supplier_link.product_reference -> products.itemcode",
+   "verdict": "yes",
+   "reason": "Link table's product side pointing at the product item code."
+  },
+  {
+   "id": "product_supplier_link.supplier_providing_product -> suppliers.supplier_id",
+   "verdict": "yes",
+   "reason": "Link table's supplier side covering 46 of 60 suppliers."
+  },
+  {
+   "id": "product_supplier_link.minimum_lead_time_days -> suppliers.supplier_id",
+   "verdict": "no",
+   "reason": "Lead time in days; the 1-60 range merely overlaps supplier ids."
+  },
+  {
+   "id": "product_supplier_link.supply_chain_tier -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "Supply chain tier 1-3, an ordinal not a carrier id."
+  },
+  {
+   "id": "recycled_material_sales.source_impact_report -> circular_economy_impact_reports.impact_report_ref",
+   "verdict": "yes",
+   "reason": "Recycled material sale names the impact report it came from; opaque hash keys, 3910 distinct."
+  },
+  {
+   "id": "refurb_qa_checklists.refurb_job_ref -> refurbishment_job_logs.job_log_reference",
+   "verdict": "yes",
+   "reason": "QA checklist for a refurbishment job; RJB- prefixed job keys, 2734 of 2980 used."
+  },
+  {
+   "id": "refurb_qa_checklists.stress_test_duration_min -> suppliers.supplier_id",
+   "verdict": "no",
+   "reason": "A stress-test duration in minutes, not a supplier reference."
+  },
+  {
+   "id": "refurbishment_job_logs.related_return_case -> case_management.casetie",
+   "verdict": "yes",
+   "reason": "Refurbishment job for a return case; 1301 distinct RL case ids."
+  },
+  {
+   "id": "refurbishment_job_logs.technician_employee_ref -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "Technician is an employee; all 50 employees appear."
+  },
+  {
+   "id": "repair_parts_inventory.supplier_id_for_part -> suppliers.supplier_id",
+   "verdict": "yes",
+   "reason": "Explicitly the supplier of the part; 39 of 60 suppliers used."
+  },
+  {
+   "id": "repair_parts_inventory.lead_time_days -> suppliers.supplier_id",
+   "verdict": "no",
+   "reason": "Lead time in days, a duration that merely falls inside the supplier id range."
+  },
+  {
+   "id": "repair_parts_inventory.shelf_life_months -> suppliers.supplier_id",
+   "verdict": "no",
+   "reason": "Shelf life of 12/24/36/60 months, a duration not a supplier id."
+  },
+  {
+   "id": "return_fraud_flags.flagged_return_case -> case_management.casetie",
+   "verdict": "yes",
+   "reason": "Fraud flag on a return case, in the RL case key space."
+  },
+  {
+   "id": "return_fraud_flags.triggered_fraud_alert_rule -> fraud_detection_rules.RULE_ID",
+   "verdict": "yes",
+   "reason": "Flag names the fraud rule it triggered; RULE-#### ids from the rule key."
+  },
+  {
+   "id": "return_fraud_flags.investigator_employee_id -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "Investigating employee, ids in the 1001+ employee range."
+  },
+  {
+   "id": "return_package_inspections.related_return_case -> case_management.casetie",
+   "verdict": "yes",
+   "reason": "Package inspection tied to its return case via the RL case key."
+  },
+  {
+   "id": "return_package_inspections.inspecting_employee_id -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "Inspecting employee; 36 of 50 employee ids used."
+  },
+  {
+   "id": "return_packaging_inventory.warehouse_loc_ref -> warehouses.warehouse_code",
+   "verdict": "yes",
+   "reason": "Packaging stock held at a warehouse; WH- codes from the warehouse key."
+  },
+  {
+   "id": "return_packaging_inventory.supplier_source_ref -> suppliers.supplier_id",
+   "verdict": "yes",
+   "reason": "Source supplier of the packaging material; 32 of 60 suppliers used."
+  },
+  {
+   "id": "return_packaging_inventory.supplier_lead_time_days -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "A supplier lead time in days, not a carrier identifier."
+  },
+  {
+   "id": "return_processing.quardays -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "Quarantine days, a duration that coincidentally lands inside carrier ids 1-20."
+  },
+  {
+   "id": "returns.srctxn -> orders.txnnum",
+   "verdict": "yes",
+   "reason": "Return's source order transaction; 1488 ORD ids matching the orders key exactly."
+  },
+  {
+   "id": "returns.itemlink -> products.itemcode",
+   "verdict": "yes",
+   "reason": "Returned item pointing at the product item code; all 333 products covered."
+  },
+  {
+   "id": "returns.dayslapsed -> suppliers.supplier_id",
+   "verdict": "no",
+   "reason": "Days elapsed 1-60 coinciding with the 60 supplier ids; a measurement, not a pointer."
+  },
+  {
+   "id": "service_level_agreements.IS_ACTIVE -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "A boolean active flag with the single value 1."
+  },
+  {
+   "id": "service_level_agreements.owner_employee_id -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "SLA owner is an employee; 29 distinct ids in the employee range."
+  },
+  {
+   "id": "service_level_agreements.approved_by -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "Approver is an employee; explicit approval column into the employee key."
+  },
+  {
+   "id": "service_level_agreements.review_cycle_months -> disposal_vendors.vendor_id",
+   "verdict": "no",
+   "reason": "Review cycle of 6/12/24 months, a duration not a vendor id."
+  },
+  {
+   "id": "sorter_jam_incidents.related_sort_event -> automated_sorting_machine_events.sort_event_ref",
+   "verdict": "yes",
+   "reason": "Jam incident names the sorting event it occurred on; opaque hash key match."
+  },
+  {
+   "id": "supplier_recovery_claims.supplier_entity_ref -> suppliers.supplier_id",
+   "verdict": "yes",
+   "reason": "Recovery claim against a supplier; 56 of 60 suppliers used."
+  },
+  {
+   "id": "supplier_recovery_claims.related_return_ref -> case_management.casetie",
+   "verdict": "yes",
+   "reason": "Claim tied to the return case it recovers on, in the RL case key space."
+  },
+  {
+   "id": "vendor_credit_memos.recovery_claim_link -> supplier_recovery_claims.recovery_claim_ref",
+   "verdict": "yes",
+   "reason": "Credit memo linked to the recovery claim it settles; opaque hash key match."
+  },
+  {
+   "id": "warehouse_climate_sensor_logs.monitored_warehouse_ref -> warehouses.warehouse_code",
+   "verdict": "yes",
+   "reason": "Sensor log names the warehouse it monitors; WH- codes from the warehouse key."
+  },
+  {
+   "id": "warehouse_climate_sensor_logs.dust_particle_count -> suppliers.supplier_id",
+   "verdict": "no",
+   "reason": "A dust particle count, a measurement not a supplier id."
+  },
+  {
+   "id": "warehouse_staff_assignments.assigned_staff_member -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "Staff assignment names the assigned employee; 45 distinct ids in the employee range."
+  },
+  {
+   "id": "warehouse_staff_assignments.workplace_location -> warehouses.warehouse_code",
+   "verdict": "yes",
+   "reason": "Assignment's workplace is a warehouse; all 25 warehouse codes used."
+  },
+  {
+   "id": "warehouse_staff_assignments.is_primary_location -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "A boolean flag with the single value 1."
+  },
+  {
+   "id": "warehouse_staff_assignments.emergency_drill_certified -> transportation_carriers.carrier_id",
+   "verdict": "no",
+   "reason": "A boolean certification flag with the single value 1."
+  },
+  {
+   "id": "warehouse_staff_assignments.supervisor_id -> employees.EMPLOYEE_ID",
+   "verdict": "yes",
+   "reason": "Supervisor is an employee; a self-referencing role into the employee key."
+  },
+  {
+   "id": "case_management.casetie -> quality_assessment.inspectref",
+   "verdict": "no",
+   "reason": "Reverse direction of the one-to-one: the quality assessment extends the case, so the reference belongs on quality_assessment, not on the case hub."
+  },
+  {
+   "id": "disposal_vendors.vendor_id -> suppliers.supplier_id",
+   "verdict": "no",
+   "reason": "Two independent surrogate sequences, 25 vendor ids nesting inside 60 supplier ids; only type agreement, no naming or role link."
+  },
+  {
+   "id": "quality_assessment.inspectref -> case_management.casetie",
+   "verdict": "yes",
+   "reason": "One-to-one entity split: every inspection reference is a return case id, so the assessment extends its case."
+  },
+  {
+   "id": "returns.casenum -> case_management.casetie",
+   "verdict": "yes",
+   "reason": "One-to-one entity split: the return's case number is exactly the case key, 1500 for 1500."
+  },
+  {
+   "id": "transportation_carriers.carrier_id -> disposal_vendors.vendor_id",
+   "verdict": "no",
+   "reason": "Two unrelated surrogate sequences, 20 carrier ids nesting inside 25 vendor ids; carriers are not disposal vendors."
+  }
+ ]
+}

@@ -1,0 +1,110 @@
+# Written by someone else: fetched by script or kept locally, never distributed. Only this
+# project's own work is in the repository. The README.md in each */reference/ folder says
+# what each of these is, where it comes from and under what terms; NOTICE records the terms.
+model/reference/orm-metamodel/
+reverse/tests/scenarios/08-bird-drec-case-study.sql
+
+# Sample and benchmark data, all fetched by script ...
+examples/db/
+examples/out/
+bench/bird/
+bench/models/
+# ... and the copies and listings of it the runs read: BIRD's questions and gold
+# (`bench/pilot/sample.py` rebuilds the sample from the download, and
+# `bench/pilot/semantic/definitions.py` the modellers' evidence lists from the sample), the
+# seventy-question hand run whose records carry the questions, and each database's DDL, schema
+# listing and FORML
+# (`bench/pilot/material.py` and `bench/ablation/models.py` regenerate them from the models).
+bench/pilot/questions.json
+bench/pilot/work/semantic/*/definitions.json
+bench/archive/hand-run/california.json
+bench/archive/hand-run/toxicology.json
+bench/archive/hand-run/results-california.json
+bench/archive/hand-run/results-toxicology.json
+bench/pilot/material/*.ddl.sql
+bench/pilot/material/*.schema.txt
+bench/pilot/material/*.schema-sem.txt
+bench/pilot/material/*.schema-refs-*.txt
+bench/pilot/material/*.forml.md
+bench/pilot/material/*.forml-full.md
+bench/pilot/material/*.forml-sem.md
+
+# Built fixtures and scratch output
+reverse/tests/*.sqlite
+reverse/tests/scenarios/*.sqlite
+reverse/tests/.work/
+.work/
+
+.claude/
+__pycache__/
+*.pyc
+.DS_Store
+
+# Spider 2.0, cloned by hand for the probe (2 GB), plus the 435 MB of local databases it
+# does not carry and the models reverse engineered from them. bench/spider2-trial/README.md
+# says how to restore both. The trial's scratch directories are made from the clone by
+# build.py -- the tasks' questions, DDL and knowledge documents, and a `try` script with
+# absolute paths -- so only what was written here, answers.json, is tracked.
+bench/spider2/
+bench/spider2-models/
+bench/spider2-trial/work/*/*/*
+!bench/spider2-trial/work/*/*/answers.json
+
+# The pilot's scratch directories. `build.py` makes them from `questions.json` and
+# `material/`, and they hold absolute paths, so they are rebuilt rather than shipped. What
+# is NOT generated -- what each writer wrote, every query it tried, and the modellers' own
+# work -- is tracked, because those are the evidence behind `bench/findings.md`.
+bench/pilot/work/*/*/try
+bench/pilot/work/*/*/lookup
+bench/pilot/work/*/*/questions.json
+bench/pilot/work/*/*/candidates.json
+bench/pilot/work/*/*/draft.json
+bench/pilot/work/*/*/*.schema.txt
+bench/pilot/work/*/*/*.schema-sem.txt
+bench/pilot/work/*/*/*.schema-refs-*.txt
+bench/pilot/work/*/*/*.ddl.sql
+bench/pilot/work/*/*/*.forml.md
+bench/pilot/work/*/*/*.forml-full.md
+bench/pilot/work/*/*/*.forml-sem.md
+bench/pilot/work/*/*/*.forml-abstract.md
+bench/pilot/work/*/*/*.forml-abstract-card.md
+bench/pilot/work/*/*/*.forml-nouniq.md
+bench/pilot/work/*/*/conquer-primer.md
+*.duckdb
+
+# LiveSQLBench Large-v1: the public release is fetched by bench/livesql/fetch.sh (6.7 MB),
+# and work/ is the models built from it. bench/livesql/README.md says how to restore both,
+# and how to request the gold, which is not public and must never be committed here. What
+# is tracked under work/ is what the writers wrote -- each arm's answers, the sample and
+# the cost ledger -- and not the working directories `pilot.py` makes them from, which
+# copy the benchmark's questions, knowledge base and DDL.
+bench/livesql/data/
+bench/livesql/work/*
+!bench/livesql/work/pilot*/
+bench/livesql/work/pilot*/*/*/*
+!bench/livesql/work/pilot*/*/*/answers*.json
+
+# The MCP server's local configuration carries connection strings, and its model cache is
+# built from whatever databases those name. `mcp/databases.example.json` is the shape.
+mcp/databases.json
+mcp/models/
+
+# The MCP arms' client wrappers and server config carry absolute paths; the answers and the
+# cost ledger are the evidence and are tracked.
+bench/pilot/work/*/*/mcp
+bench/pilot/work/mcp/bird.json
+# which answers are right, against a gold the benchmark keeps private: score_scale.py
+# regenerates it for anyone who has requested the gold
+bench/livesql/work/pilot-scale/verdicts.json
+bench/livesql/work/pilot-scale2/verdicts.json
+bench/livesql/work/pilot-scale3/verdicts.json
+# SCALE4.md's metadata is built from the benchmark's rows, column meanings and questions,
+# none of which the repository distributes; bench/livesql/profile.py and scale4.py rebuild it.
+bench/livesql/work/pilot-scale4/profile/
+bench/livesql/work/pilot-scale4/values/
+bench/livesql/work/pilot-scale4/meanings/
+bench/livesql/work/pilot-scale4/descriptions/
+bench/livesql/work/pilot-scale4/links/
+bench/livesql/work/pilot-scale4/describe/
+bench/livesql/work/pilot-scale4/link/
+bench/livesql/work/pilot-scale4/verdicts.json

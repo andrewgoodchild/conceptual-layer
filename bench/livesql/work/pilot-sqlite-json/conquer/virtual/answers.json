@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "virtual_5",
+  "answer": "LIST n, mv, er, ratio, k, rph, cpc FROM Fan has FanNicklabel n AND ALSO is of Membershipandspending m AND ALSO m has MembershipandspendingSpendusd sp AND ALSO m has MembershipandspendingMembdays md AND ALSO m has MembershipandspendingMembkind k AND ALSO m is of Engagement e AND ALSO e has EngagementEngrate er AND ALSO e has EngagementContpref cp AND ALSO m is of Preferencesandsetting p AND ALSO p has PreferencesandsettingSesscount sc AND ALSO e OPTIONALLY has Interaction i AND ALSO i OPTIONALLY has InteractionGifttot gt AND ALSO i OPTIONALLY has InteractionChatActivityChatmsg cm AND ALSO i OPTIONALLY has InteractionSessionWatchhrs wh AND ALSO (sp * (1 + md / 365 * 0.5) * (1 + gt / 10 * 0.2)) AS mv AND ALSO (cm / sc) AS ratio AND ALSO (sp / wh) AS rph AND ALSO if(cp = 'Music', 'Content Consumer (Music)', if(cp = 'Dance', 'Content Consumer (Dance)', if(cp = 'Gaming', 'Content Consumer (Gaming)', 'General Content Consumer'))) AS cpc WHERE mv > 100 AND er < 0.3 AND ratio < 0.5 ORDERED WITH mv DESCENDING"
+ },
+ {
+  "question_id": "virtual_4",
+  "answer": "LIST u, n, cq, uv, fc, cls FROM Fan has FanUserRegistry u AND ALSO has FanNicklabel n AND ALSO is of Membershipandspending m AND ALSO m is of Engagement e AND ALSO e is of Socialcommunity sc AND ALSO sc has SocialcommunityContentCreationContqualrate cq AND ALSO sc has SocialcommunityContentCreationUgcval uv AND ALSO sc has SocialcommunityNetworkFollcount fc AND ALSO if(cq > 8.5 AND fc > 1000 AND uv > 20, 'High-Value Content Creator', if(cq > 7.0 AND uv > 20, 'Content Creator', 'Regular Fan')) AS cls ORDERED WITH cq DESCENDING, fc DESCENDING"
+ },
+ {
+  "question_id": "virtual_1",
+  "answer": "LIST u, n, giqr, k FROM Fan has FanUserRegistry u AND ALSO has FanNicklabel n AND ALSO is of Membershipandspending m AND ALSO m has MembershipandspendingMembkind k AND ALSO m has MembershipandspendingSpendusd sp AND ALSO m is of Engagement e AND ALSO e has Interaction i AND ALSO i has InteractionGiftvalusd gv AND ALSO i has InteractionGifttot gt AND ALSO (gv * gt / 100) AS giq AND ALSO round(giq, 2) AS giqr WHERE (k = 'Free' OR k = 'Basic') AND giq > 50 AND sp < 100 ORDERED WITH giqr DESCENDING"
+ },
+ {
+  "question_id": "virtual_3",
+  "answer": "LIST cat, c, round(ap, 2), round(asp, 2) FROM Fan f has FanStatusTag st AND ALSO has FanPtsval pv AND ALSO has FanTierstep t AND ALSO f OPTIONALLY is of Membershipandspending m AND ALSO m OPTIONALLY has MembershipandspendingSpendusd sp AND ALSO if(t < 1, 'Undefined', if(t <= 3, 'Entry-level', if(t <= 7, 'Mid-level', if(t <= 10, 'High-level', 'Core')))) AS cat AND ALSO THE COUNT OF m GROUPED BY cat AS c AND ALSO THE AVERAGE pv GROUPED BY cat AS ap AND ALSO THE AVERAGE sp GROUPED BY cat AS asp WHERE st = 'Active' OR st = 'VIP'"
+ },
+ {
+  "question_id": "virtual_2",
+  "answer": "LIST u, n, tot FROM Fan has FanUserRegistry u AND ALSO has FanNicklabel n AND ALSO is of Membershipandspending m AND ALSO m has MembershipandspendingSpendusd sp AND ALSO m is of Engagement e AND ALSO e OPTIONALLY has Interaction i AND ALSO i OPTIONALLY has InteractionGiftvalusd gv AND ALSO (coalesce(sp, 0) + coalesce(gv, 0)) AS tot WHERE gv > 500 OR sp > 1000 ORDERED WITH tot DESCENDING"
+ },
+ {
+  "question_id": "virtual_7",
+  "answer": "LIST u, n, flvr, seg FROM Fan has FanUserRegistry u AND ALSO has FanNicklabel n AND ALSO is of Membershipandspending m AND ALSO m has MembershipandspendingSpendusd sp AND ALSO m has MembershipandspendingMembdays md AND ALSO m is of Engagement e AND ALSO e has EngagementEngrate er AND ALSO e has EngagementSocintscore ss AND ALSO e has EngagementActdayswk aw AND ALSO e has EngagementAvgsesscount ac AND ALSO e has Interaction i AND ALSO i has InteractionGifttot gt AND ALSO e is of Retentionandinfluence r AND ALSO r has RetentionandinfluenceChurnflag cf AND ALSO m is of Preferencesandsetting p AND ALSO p has PreferencesandsettingIntconsist ic AND ALSO p has PreferencesandsettingLastLogDate ll AND ALSO (sp * (1 + md / 365 * 0.5) * (1 + gt / 10 * 0.2)) AS mv AND ALSO ((1 - ic) * 2 + (days_between(today(), ll) / 30) * 0.5 + (if(cf = 'None', 0, if(cf = 'Low', 1, if(cf = 'Medium', 2, 3))) / 3) * 2) AS rrf AND ALSO (er * 0.4 + (ss / 100) * 0.3 + (aw / 7) * 0.2 + (ac / 10) * 0.1) AS fei AND ALSO (mv * (1 - rrf / 10) * (1 + fei) * 24) AS flv AND ALSO round(flv, 2) AS flvr AND ALSO 1 AS gg AND ALSO THE RANK OF flv WITHIN gg AS rk AND ALSO (THE COUNT OF Engagement) AS ntot AND ALSO if(rk <= ntot * 0.1, 'Top Tier', if(rk <= ntot * 0.25, 'High Value', if(rk <= ntot * 0.5, 'Medium Value', 'Low Value'))) AS seg ORDERED WITH flvr DESCENDING"
+ },
+ {
+  "question_id": "virtual_8",
+  "answer": "LIST n, ccir, gr, af, md FROM Fan has FanNicklabel n AND ALSO is of Membershipandspending m AND ALSO m has MembershipandspendingMembdays md AND ALSO m is of Engagement e AND ALSO e has EngagementEngrate er AND ALSO e has EngagementSocintscore ss AND ALSO e has EngagementActdayswk aw AND ALSO e has EngagementAvgsesscount ac AND ALSO e has EngagementActfreq af AND ALSO e is of Socialcommunity sc AND ALSO sc has SocialcommunityContentCreationContqualrate cq AND ALSO sc has SocialcommunityContentCreationUgcval uv AND ALSO sc has SocialcommunityNetworkFollcount fc AND ALSO sc has SocialcommunityCollabCount cc AND ALSO sc has SocialcommunityGroupInvolvementGrprole gr AND ALSO e is of Retentionandinfluence r AND ALSO r has RetentionandinfluenceViralcont vc AND ALSO (cq * (uv / 10) * (1 + (fc / 100) * 0.5)) AS ccis AND ALSO ((fc / 100) * (er * 2) * (vc + 1) * 0.5) AS sim AND ALSO (er * 0.4 + (ss / 100) * 0.3 + (aw / 7) * 0.2 + (ac / 10) * 0.1) AS fei AND ALSO (ccis * 0.4 + sim * 0.3 + cc * 0.1 + fei * 0.2) AS cci AND ALSO round(cci, 2) AS ccir WHERE cci > 7 AND af = 'Daily' AND md > 180 AND (gr = 'Moderator' OR gr = 'Leader') ORDERED WITH ccir DESCENDING"
+ },
+ {
+  "question_id": "virtual_10",
+  "answer": "LIST n, t, feir, mvr, lbl FROM Fan has FanNicklabel n AND ALSO has FanTierstep t AND ALSO has FanStatusTag st AND ALSO is of Membershipandspending m AND ALSO m has MembershipandspendingSpendusd sp AND ALSO m has MembershipandspendingMembdays md AND ALSO m is of Engagement e AND ALSO e has EngagementEngrate er AND ALSO e has EngagementSocintscore ss AND ALSO e has EngagementActdayswk aw AND ALSO e has EngagementAvgsesscount ac AND ALSO e has Interaction i AND ALSO i has InteractionGifttot gt AND ALSO (er * 0.4 + (ss / 100) * 0.3 + (aw / 7) * 0.2 + (ac / 10) * 0.1) AS fei AND ALSO (sp * (1 + md / 365 * 0.5) * (1 + gt / 10 * 0.2)) AS mv AND ALSO round(fei, 2) AS feir AND ALSO round(mv, 2) AS mvr AND ALSO if(t >= 8 AND fei > 0.7 AND mv > 200, 'Superfan', 'Regular Fan') AS lbl WHERE st = 'Active' OR st = 'VIP' ORDERED WITH feir DESCENDING, mvr DESCENDING"
+ },
+ {
+  "question_id": "virtual_6",
+  "answer": "LIST cf, c, round(ad, 2), round(ae, 2), round(ai, 2), round(ar, 2) FROM Preferencesandsetting p has PreferencesandsettingIntconsist ic AND ALSO p has PreferencesandsettingLastLogDate ll AND ALSO p has Socialcommunity has Engagement e AND ALSO e has EngagementEngrate er AND ALSO p [has Socialcommunity has Engagement is of Retentionandinfluence has RetentionandinfluenceChurnflag cf] AND ALSO days_between(today(), ll) AS dsl AND ALSO ((1 - ic) * 2 + (dsl / 30) * 0.5 + (if(cf = 'None', 0, if(cf = 'Low', 1, if(cf = 'Medium', 2, 3))) / 3) * 2) AS rrf AND ALSO THE COUNT OF p GROUPED BY cf AS c AND ALSO THE AVERAGE dsl GROUPED BY cf AS ad AND ALSO THE AVERAGE er GROUPED BY cf AS ae AND ALSO THE AVERAGE ic GROUPED BY cf AS ai AND ALSO THE AVERAGE rrf GROUPED BY cf AS ar"
+ },
+ {
+  "question_id": "virtual_9",
+  "answer": "LIST u, n, c, l, ar FROM Fan has FanUserRegistry u AND ALSO has FanNicklabel n AND ALSO is of Interaction i AND ALSO i has Virtualidol v AND ALSO v has VirtualidolNameTag vn AND ALSO i is of Engagement has EngagementEngrate er AND ALSO THE DISTINCT COUNT OF v GROUPED BY u AS c AND ALSO THE DISTINCT LIST OF vn GROUPED BY u AS l AND ALSO THE AVERAGE er GROUPED BY u AS a AND ALSO round(a, 2) AS ar WHERE er > 0.4 AND c >= 2 ORDERED WITH c DESCENDING, ar DESCENDING"
+ }
+]

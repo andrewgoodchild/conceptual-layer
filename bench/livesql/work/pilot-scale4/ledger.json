@@ -1,0 +1,194 @@
+[
+ {
+  "arm": "annl",
+  "db": "sports_events_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 43789,
+  "tool_uses": 6,
+  "duration_ms": 121818
+ },
+ {
+  "arm": "ddlp4",
+  "db": "solar_panel_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 67977,
+  "tool_uses": 13,
+  "duration_ms": 150507
+ },
+ {
+  "arm": "ddlp4",
+  "db": "sports_events_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 74782,
+  "tool_uses": 16,
+  "duration_ms": 176154
+ },
+ {
+  "arm": "ddlp4",
+  "db": "museum_artifact_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 83612,
+  "tool_uses": 17,
+  "duration_ms": 204136
+ },
+ {
+  "arm": "annl",
+  "db": "solar_panel_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 83762,
+  "tool_uses": 19,
+  "duration_ms": 207409
+ },
+ {
+  "arm": "ddlp4",
+  "db": "planets_data_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 67777,
+  "tool_uses": 23,
+  "duration_ms": 228149
+ },
+ {
+  "arm": "ddlm",
+  "db": "museum_artifact_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 93220,
+  "tool_uses": 21,
+  "duration_ms": 252020
+ },
+ {
+  "arm": "annl",
+  "db": "planets_data_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 89189,
+  "tool_uses": 21,
+  "duration_ms": 256958
+ },
+ {
+  "arm": "ddlm",
+  "db": "solar_panel_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 65138,
+  "tool_uses": 21,
+  "duration_ms": 267271
+ },
+ {
+  "arm": "ddlm",
+  "db": "sports_events_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 81704,
+  "tool_uses": 21,
+  "duration_ms": 268772
+ },
+ {
+  "arm": "annm",
+  "db": "sports_events_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 83162,
+  "tool_uses": 16,
+  "duration_ms": 285362
+ },
+ {
+  "arm": "annl",
+  "db": "archeology_scan_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 97957,
+  "tool_uses": 28,
+  "duration_ms": 301589
+ },
+ {
+  "arm": "ddlm",
+  "db": "planets_data_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 69373,
+  "tool_uses": 24,
+  "duration_ms": 305790
+ },
+ {
+  "arm": "annm",
+  "db": "archeology_scan_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 99168,
+  "tool_uses": 25,
+  "duration_ms": 331145
+ },
+ {
+  "arm": "annm",
+  "db": "museum_artifact_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 94725,
+  "tool_uses": 26,
+  "duration_ms": 371410
+ },
+ {
+  "arm": "annl",
+  "db": "museum_artifact_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 101214,
+  "tool_uses": 19,
+  "duration_ms": 376610
+ },
+ {
+  "arm": "annm",
+  "db": "planets_data_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 69288,
+  "tool_uses": 18,
+  "duration_ms": 407739
+ },
+ {
+  "arm": "ddlm",
+  "db": "robot_fault_prediction_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 72080,
+  "tool_uses": 21,
+  "duration_ms": 168038
+ },
+ {
+  "arm": "annm",
+  "db": "solar_panel_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 71730,
+  "tool_uses": 22,
+  "duration_ms": 432265
+ },
+ {
+  "arm": "ddlp4",
+  "db": "archeology_scan_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 98612,
+  "tool_uses": 26,
+  "duration_ms": 436281
+ },
+ {
+  "arm": "ddlp4",
+  "db": "robot_fault_prediction_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 66504,
+  "tool_uses": 23,
+  "duration_ms": 206922
+ },
+ {
+  "arm": "annm",
+  "db": "robot_fault_prediction_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 82172,
+  "tool_uses": 22,
+  "duration_ms": 219797
+ },
+ {
+  "arm": "annl",
+  "db": "robot_fault_prediction_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 99315,
+  "tool_uses": 19,
+  "duration_ms": 233165
+ },
+ {
+  "arm": "ddlm",
+  "db": "archeology_scan_large",
+  "model": "claude-opus-5-5",
+  "subagent_tokens": 91956,
+  "tool_uses": 26,
+  "duration_ms": 531878
+ }
+]

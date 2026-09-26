@@ -1,0 +1,45 @@
+[
+ {
+  "question_id": "robot_fault_prediction_7",
+  "answer": "WITH s AS (SELECT rd.botdetreg, rd.modelseriesval, (sc.overseerloadvalue + sc.memuseval) / 2 AS stress FROM system_controller sc JOIN actuation_data a ON sc.systemoverseeractuation = a.actreg JOIN robot_details rd ON a.actrecref = rd.botdetreg), m AS (SELECT botdetreg, modelseriesval, stress, AVG(stress) OVER (PARTITION BY modelseriesval) AS model_avg_stress FROM s) SELECT botdetreg AS robot_id, LOWER(modelseriesval) AS model, stress AS controller_stress_score, model_avg_stress FROM m WHERE stress > 1.2 * model_avg_stress ORDER BY stress DESC"
+ },
+ {
+  "question_id": "robot_fault_prediction_5",
+  "answer": "SELECT a.actrecref AS robot_id, mf.faultpredscore AS fault_prediction_score, mf.rulhours / 24.0 AS remaining_useful_life_days FROM maintenance_and_fault mf JOIN actuation_data a ON mf.upkeepactuation = a.actreg WHERE mf.rulhours / 24.0 < 7 AND mf.faultpredscore > 0.7 ORDER BY remaining_useful_life_days ASC, mf.faultpredscore DESC"
+ },
+ {
+  "question_id": "robot_fault_prediction_12",
+  "answer": "SELECT ROUND(AVG((j.value->>'vibration_mmps')::numeric), 2) AS fleet_avg_vibration_mmps FROM joint_condition jc CROSS JOIN LATERAL jsonb_each(jc.joint_health) AS j"
+ },
+ {
+  "question_id": "robot_fault_prediction_4",
+  "answer": "WITH b AS (SELECT rd.botdetreg, rd.modelseriesval, o.apptypeval, a.payloadwval / rd.payloadcapkg AS pur, 60.0 / o.cycletimesecval AS throughput_rate FROM operation o JOIN actuation_data a ON a.actoperref = o.operreg JOIN robot_details rd ON rd.botdetreg = o.operrecref WHERE o.cycletimesecval IS NOT NULL), q AS (SELECT *, NTILE(5) OVER (PARTITION BY apptypeval ORDER BY throughput_rate DESC) AS quintile FROM b) SELECT botdetreg AS robot_id, modelseriesval AS model, pur AS payload_utilization_ratio, throughput_rate FROM q WHERE quintile = 1 AND pur > 0.8 ORDER BY pur DESC, throughput_rate DESC",
+  "note": "Rows with no cycle time excluded before the quintile; robots with no application type form their own partition."
+ },
+ {
+  "question_id": "robot_fault_prediction_1",
+  "answer": "WITH t AS (SELECT jc.jcondoperref, jc.jcdetref, (jc.joint_health->'J1'->>'temperature_C')::numeric AS t1,(jc.joint_health->'J2'->>'temperature_C')::numeric AS t2,(jc.joint_health->'J3'->>'temperature_C')::numeric AS t3,(jc.joint_health->'J4'->>'temperature_C')::numeric AS t4,(jc.joint_health->'J5'->>'temperature_C')::numeric AS t5,(jc.joint_health->'J6'->>'temperature_C')::numeric AS t6 FROM joint_condition jc), p AS (SELECT mf.upkeepoperation, (1000.0 / (mf.rulhours + 1)) + mf.faultpredscore * 10 AS pmu FROM maintenance_and_fault mf) SELECT t.jcdetref AS robot_id, rd.modelseriesval AS model, p.pmu AS maintenance_urgency_score, GREATEST(t1,t2,t3,t4,t5,t6) AS max_joint_temperature FROM t JOIN p ON p.upkeepoperation = t.jcondoperref JOIN robot_details rd ON rd.botdetreg = t.jcdetref WHERE p.pmu > 50 AND ((t1+t2+t3+t4+t5+t6)/6 > 75 OR GREATEST(t1,t2,t3,t4,t5,t6) - LEAST(t1,t2,t3,t4,t5,t6) > 15) ORDER BY p.pmu DESC, max_joint_temperature DESC"
+ },
+ {
+  "question_id": "robot_fault_prediction_3",
+  "answer": "SELECT rd.botdetreg AS robot_id, o.apptypeval AS application_type, a.poserrmmval / rd.reachmmval AS relative_positional_error, ps.calibstateval AS calibration_state FROM actuation_data a JOIN operation o ON o.operreg = a.actoperref JOIN robot_details rd ON rd.botdetreg = a.actrecref JOIN performance_and_safety ps ON ps.effectivenessactuation = a.actreg WHERE o.apptypeval IN ('Assembly','Electronics-Handling','Inspection','Dispensing','Laser Cutting') AND a.poserrmmval / rd.reachmmval > 0.0001 ORDER BY relative_positional_error DESC",
+  "note": "Inner join to performance_and_safety for calibration state (36 rows qualify without it, 17 with); calibration state returned as raw code (Y/N/0)."
+ },
+ {
+  "question_id": "robot_fault_prediction_6",
+  "answer": "WITH h AS (SELECT rd.botdetreg, rd.mfgnameval, (1.0 - ps.conditionindexval) / (CURRENT_DATE - rd.instdateval) AS hdr FROM performance_and_safety ps JOIN robot_details rd ON rd.botdetreg = ps.effectivenessrobot) SELECT LOWER(mfgnameval) AS manufacturer, COUNT(DISTINCT botdetreg) AS degrading_robot_count, AVG(hdr) AS avg_health_degradation_rate FROM h WHERE hdr > 0 GROUP BY LOWER(mfgnameval) HAVING COUNT(DISTINCT botdetreg) > 1",
+  "note": "Counts distinct robots; a few robots have two performance records, each counted in the average."
+ },
+ {
+  "question_id": "robot_fault_prediction_8",
+  "answer": "WITH s AS (SELECT sc.systemoverseeroperation AS op, rd.botdetreg, rd.mfgnameval, rd.modelseriesval, (sc.overseerloadvalue + sc.memuseval) / 2 AS stress, AVG((sc.overseerloadvalue + sc.memuseval) / 2) OVER (PARTITION BY rd.modelseriesval) AS avg_s FROM system_controller sc JOIN actuation_data a ON sc.systemoverseeractuation = a.actreg JOIN robot_details rd ON a.actrecref = rd.botdetreg), w AS (SELECT jc.jcondoperref AS op, 0.6 * (SELECT AVG((v.value->>'vibration_mmps')::numeric) FROM jsonb_each(jc.joint_health) v) + 0.4 * (SELECT AVG((v.value->>'backlash_deg')::numeric) FROM jsonb_each(jc.joint_health) v) AS wear FROM joint_condition jc) SELECT s.botdetreg AS robot_id, s.mfgnameval AS manufacturer, LOWER(s.modelseriesval) AS model, s.stress AS controller_stress_score, w.wear AS mechanical_wear_score FROM s JOIN w ON w.op = s.op WHERE s.stress >= 1.2 * s.avg_s AND w.wear >= 0.5 ORDER BY s.mfgnameval, s.stress DESC"
+ },
+ {
+  "question_id": "robot_fault_prediction_10",
+  "answer": "WITH b AS (SELECT CASE WHEN o.apptypeval IN ('Welding','Grinding','Deburring','Palletizing','Machine Tending') THEN 'High-Wear Applications' ELSE 'Other Applications' END AS application_group, o.totopshrval / NULLIF(ps.emergencystopcount, 0) AS mtbs FROM performance_and_safety ps JOIN actuation_data a ON a.actreg = ps.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref) SELECT application_group, ROUND(100.0 * COUNT(*) FILTER (WHERE mtbs < 500) / COUNT(*), 2) AS high_risk_percentage FROM b GROUP BY application_group"
+ },
+ {
+  "question_id": "robot_fault_prediction_11",
+  "answer": "SELECT rd.botdetreg AS robot_id, rd.mfgnameval AS manufacturer, rd.modelseriesval AS model, ROUND((3600.0 / o.cycletimesecval)::numeric, 2) AS throughput_cycles_per_hour FROM operation o JOIN robot_details rd ON rd.botdetreg = o.operrecref WHERE o.cycletimesecval IS NOT NULL AND 3600.0 / o.cycletimesecval < 180 ORDER BY 3600.0 / o.cycletimesecval ASC, rd.botdetreg LIMIT 5"
+ }
+]

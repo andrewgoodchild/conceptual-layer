@@ -1,0 +1,990 @@
+{
+ "database": "sports_events_large",
+ "verdicts": [
+  {
+   "id": "Broadcast_Media_Map.BROADCAST_REF -> Medical_Incident_Map.MIM_ID",
+   "verdict": "no",
+   "reason": "BROADCAST_REF names a broadcast; Medical_Incident_Map is the wrong 100-row table (TVBroadcast.BROADCAST_ID is the meant target)"
+  },
+  {
+   "id": "Broadcast_Media_Map.media_ref -> media_assets.MediaAssetIndex",
+   "verdict": "yes",
+   "reason": "media_ref in a broadcast/media map covers all 30 media_assets keys; name and cardinality match"
+  },
+  {
+   "id": "Broadcast_Media_Map.airtime_seconds -> EngineTelemetry.ENGINE_TEL_ID",
+   "verdict": "no",
+   "reason": "airtime_seconds is a duration measure, not a telemetry id"
+  },
+  {
+   "id": "Broadcast_Media_Map.REPLAY_COUNT -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "REPLAY_COUNT is a count of 1-5; overlap with a 10-row lookup is coincidence"
+  },
+  {
+   "id": "CFDSimulation.DEV_PROGRAM_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "yes",
+   "reason": "DEV_PROGRAM_REF points at CarDevelopmentProgram.DEV_PROGRAM_ID by name, 70 of 80 keys covered"
+  },
+  {
+   "id": "CFDSimulation.MESH_CELLS_MILLIONS -> regulation_technology_links.RTL_Code",
+   "verdict": "no",
+   "reason": "MESH_CELLS_MILLIONS is a size measure, not a link-table code"
+  },
+  {
+   "id": "CarDevelopmentProgram.CONSTRUCTOR_REF -> constructor_profiles.Constructor_Profile_no",
+   "verdict": "no",
+   "reason": "CONSTRUCTOR_REF is meant for constructors.cstr_key; constructor_profiles is a 1:1 satellite with its own surrogate, not the declared target"
+  },
+  {
+   "id": "CarDevelopmentProgram.STAFF_ASSIGNED -> regulation_technology_links.RTL_Code",
+   "verdict": "no",
+   "reason": "STAFF_ASSIGNED is a headcount, not a regulation-technology link id"
+  },
+  {
+   "id": "CarDevelopmentProgram.wind_tunnel_hours_used -> sponsor_media_campaigns.SMC_serial",
+   "verdict": "no",
+   "reason": "wind_tunnel_hours_used is a quantity of hours, not a campaign serial"
+  },
+  {
+   "id": "CarDevelopmentProgram.spec_upgrades_planned -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "spec_upgrades_planned is a count, not a media asset id"
+  },
+  {
+   "id": "CarTelemetrySnapshot.race_ref -> races.rak_id",
+   "verdict": "yes",
+   "reason": "race_ref in a per-race telemetry snapshot table -> races key; 572 races referenced, values spread over the 1125 range"
+  },
+  {
+   "id": "CarTelemetrySnapshot.DRIVER_REF -> drivers.drv_main",
+   "verdict": "yes",
+   "reason": "DRIVER_REF -> drivers key; 526 distinct drivers spread over the range, name matches"
+  },
+  {
+   "id": "CarTelemetrySnapshot.lap_number -> circuit_aliases.CircuitAlias_Key",
+   "verdict": "no",
+   "reason": "lap_number is a lap counter; containment in a 77-row alias table is coincidental"
+  },
+  {
+   "id": "CarTelemetrySnapshot.gear -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "gear is a gear number 1-8, not a training program id"
+  },
+  {
+   "id": "CostCapTracking.budget_ref -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "budget_ref is meant for TeamBudget.BUDGET_ID (also 80 rows); CarDevelopmentProgram is the wrong same-sized table"
+  },
+  {
+   "id": "Development_Technology_Map.DEV_PROGRAM_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "yes",
+   "reason": "DEV_PROGRAM_REF in the development-technology map -> CarDevelopmentProgram key; name and coverage match"
+  },
+  {
+   "id": "Development_Technology_Map.technology_ref -> innovation_technologies.TECHNOLOGY_Index",
+   "verdict": "yes",
+   "reason": "technology_ref -> innovation_technologies key; 47 of 50 keys covered, name matches"
+  },
+  {
+   "id": "Development_Technology_Map.team_size -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "team_size is a headcount, not a media asset id"
+  },
+  {
+   "id": "DriverMedicalRecord.driver_ref -> driver_biometric_metrics.Bio_No",
+   "verdict": "no",
+   "reason": "driver_ref is meant for drivers.drv_main; driver_biometric_metrics is a 1:1 satellite with its own surrogate, not the declared target"
+  },
+  {
+   "id": "DriverMedicalRecord.G_FORCE_TOLERANCE -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "G_FORCE_TOLERANCE is a measurement, not a training program id"
+  },
+  {
+   "id": "EngineTelemetry.TELEMETRY_REF -> CarTelemetrySnapshot.TELEMETRY_ID",
+   "verdict": "yes",
+   "reason": "TELEMETRY_REF -> CarTelemetrySnapshot.TELEMETRY_ID; engine telemetry hangs off the snapshot, 417 of 800 covered"
+  },
+  {
+   "id": "EquipmentShipment.constructor_ref -> constructors.cstr_key",
+   "verdict": "yes",
+   "reason": "constructor_ref -> constructors key; name matches, 107 distinct constructors spread over the range"
+  },
+  {
+   "id": "EquipmentShipment.CIRCUIT_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "CIRCUIT_REF is meant for circuits; CarDevelopmentProgram is an unrelated 80-row table (sample even includes 80, above the 77 circuits)"
+  },
+  {
+   "id": "EquipmentShipment.CONTAINER_COUNT -> innovation_technologies.TECHNOLOGY_Index",
+   "verdict": "no",
+   "reason": "CONTAINER_COUNT is a count, not a technology id"
+  },
+  {
+   "id": "FanZoneActivity.race_ref -> races.rak_id",
+   "verdict": "yes",
+   "reason": "race_ref -> races key; fan zone activities occur at races, 145 distinct spread over the range"
+  },
+  {
+   "id": "Fan_Race_Attendance.race_ref -> races.rak_id",
+   "verdict": "yes",
+   "reason": "race_ref -> races key; attendance is per race, 179 distinct spread over the range"
+  },
+  {
+   "id": "Fan_Race_Attendance.CIRCUIT_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "CIRCUIT_REF is meant for circuits, not CarDevelopmentProgram"
+  },
+  {
+   "id": "Financial_Sponsor_Map.BUDGET_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "BUDGET_REF is meant for TeamBudget.BUDGET_ID, not the same-sized CarDevelopmentProgram"
+  },
+  {
+   "id": "Financial_Sponsor_Map.sponsor_ref -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "sponsor_ref is meant for sponsor_entities.Sponsor_Record (200 rows); CFDSimulation is the wrong same-sized table"
+  },
+  {
+   "id": "FreightContainer.shipment_ref -> Broadcast_Media_Map.BMM_ID",
+   "verdict": "no",
+   "reason": "shipment_ref is meant for EquipmentShipment.SHIPMENT_ID (150 rows); Broadcast_Media_Map is the wrong same-sized table"
+  },
+  {
+   "id": "Logistics_Circuit_Map.SHIPMENT_REF -> Broadcast_Media_Map.BMM_ID",
+   "verdict": "no",
+   "reason": "SHIPMENT_REF is meant for EquipmentShipment, not Broadcast_Media_Map"
+  },
+  {
+   "id": "Logistics_Circuit_Map.circuit_ref -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "circuit_ref is meant for circuits, not CarDevelopmentProgram"
+  },
+  {
+   "id": "Logistics_Circuit_Map.unloading_time_min -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "unloading_time_min is a duration, not a CFD simulation id"
+  },
+  {
+   "id": "Medical_Incident_Map.MEDICAL_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "MEDICAL_REF is meant for DriverMedicalRecord.MEDICAL_ID (80 rows); CarDevelopmentProgram is the wrong same-sized table"
+  },
+  {
+   "id": "Medical_Incident_Map.incident_ref -> race_incidents.INCIDENT_NUMBER",
+   "verdict": "yes",
+   "reason": "incident_ref -> race_incidents.INCIDENT_NUMBER; 94 distinct values spread over the 1126 range, name matches"
+  },
+  {
+   "id": "Medical_Incident_Map.recovery_days -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "recovery_days is a duration, not a CFD simulation id"
+  },
+  {
+   "id": "MerchandiseSales.race_ref -> races.rak_id",
+   "verdict": "yes",
+   "reason": "race_ref -> races key; merchandise sales per race, 263 distinct spread over the range"
+  },
+  {
+   "id": "MerchandiseSales.CONSTRUCTOR_REF -> constructors.cstr_key",
+   "verdict": "yes",
+   "reason": "CONSTRUCTOR_REF -> constructors key; 163 distinct spread over the 212 range"
+  },
+  {
+   "id": "MerchandiseSales.QUANTITY_SOLD -> regulation_technology_links.RTL_Code",
+   "verdict": "no",
+   "reason": "QUANTITY_SOLD is a quantity, not a link-table code"
+  },
+  {
+   "id": "RevenueStream.constructor_ref -> constructor_profiles.Constructor_Profile_no",
+   "verdict": "no",
+   "reason": "constructor_ref is meant for constructors.cstr_key; constructor_profiles is a 1:1 satellite surrogate, not the declared target"
+  },
+  {
+   "id": "SafetyEquipmentInspection.constructor_ref -> constructors.cstr_key",
+   "verdict": "yes",
+   "reason": "constructor_ref -> constructors key; 130 distinct spread over the range"
+  },
+  {
+   "id": "SafetyEquipmentInspection.REGULATION_REF -> innovation_technologies.TECHNOLOGY_Index",
+   "verdict": "no",
+   "reason": "REGULATION_REF is meant for technical_regulations.Regulation_Key (50 rows); innovation_technologies is the wrong same-sized table"
+  },
+  {
+   "id": "SensorConfiguration.constructor_ref -> constructors.cstr_key",
+   "verdict": "yes",
+   "reason": "constructor_ref -> constructors key; 84 distinct spread over the range"
+  },
+  {
+   "id": "SensorConfiguration.calibration_interval_days -> Medical_Incident_Map.MIM_ID",
+   "verdict": "no",
+   "reason": "calibration_interval_days is a duration, not a medical-incident id"
+  },
+  {
+   "id": "StreamingMetrics.broadcast_ref -> Medical_Incident_Map.MIM_ID",
+   "verdict": "no",
+   "reason": "broadcast_ref is meant for TVBroadcast.BROADCAST_ID (100 rows); Medical_Incident_Map is the wrong same-sized table"
+  },
+  {
+   "id": "TVBroadcast.race_ref -> races.rak_id",
+   "verdict": "yes",
+   "reason": "race_ref -> races key; broadcasts are of races, 95 distinct spread over the range"
+  },
+  {
+   "id": "TVBroadcast.AVG_VIEWERS_MILLIONS -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "AVG_VIEWERS_MILLIONS is a measure, not a development program id"
+  },
+  {
+   "id": "TVBroadcast.TOTAL_AD_SECONDS -> race_incidents.INCIDENT_NUMBER",
+   "verdict": "no",
+   "reason": "TOTAL_AD_SECONDS is a duration, not an incident id"
+  },
+  {
+   "id": "TeamBudget.constructor_ref -> constructor_profiles.Constructor_Profile_no",
+   "verdict": "no",
+   "reason": "constructor_ref is meant for constructors.cstr_key; constructor_profiles is a 1:1 satellite surrogate, not the declared target"
+  },
+  {
+   "id": "TeamTravelItinerary.race_ref -> races.rak_id",
+   "verdict": "yes",
+   "reason": "race_ref -> races key; travel itineraries are per race, 181 distinct spread over the range"
+  },
+  {
+   "id": "TeamTravelItinerary.CONSTRUCTOR_REF -> constructors.cstr_key",
+   "verdict": "yes",
+   "reason": "CONSTRUCTOR_REF -> constructors key; 127 distinct spread over the range"
+  },
+  {
+   "id": "TeamTravelItinerary.TEAM_MEMBERS -> Medical_Incident_Map.MIM_ID",
+   "verdict": "no",
+   "reason": "TEAM_MEMBERS is a headcount, not a medical-incident id"
+  },
+  {
+   "id": "TeamTravelItinerary.nights -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "nights is a duration, not a media asset id"
+  },
+  {
+   "id": "TelemetryAnomalyLog.telemetry_ref -> driver_biometric_metrics.Bio_No",
+   "verdict": "no",
+   "reason": "telemetry_ref is meant for CarTelemetrySnapshot.TELEMETRY_ID; driver_biometric_metrics is unrelated"
+  },
+  {
+   "id": "TicketSales.race_ref -> races.rak_id",
+   "verdict": "yes",
+   "reason": "race_ref -> races key; ticket sales per race, 259 distinct spread over the range"
+  },
+  {
+   "id": "TicketSales.CIRCUIT_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "CIRCUIT_REF is meant for circuits, not CarDevelopmentProgram"
+  },
+  {
+   "id": "TireTelemetry.telemetry_ref -> CarTelemetrySnapshot.TELEMETRY_ID",
+   "verdict": "yes",
+   "reason": "telemetry_ref -> CarTelemetrySnapshot.TELEMETRY_ID; tire telemetry hangs off the snapshot, 428 of 800 covered"
+  },
+  {
+   "id": "TracksideMedicalFacility.circuit_ref -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "circuit_ref is meant for circuits, not CarDevelopmentProgram"
+  },
+  {
+   "id": "TracksideMedicalFacility.CAPACITY_PATIENTS -> innovation_technologies.TECHNOLOGY_Index",
+   "verdict": "no",
+   "reason": "CAPACITY_PATIENTS is a capacity, not a technology id"
+  },
+  {
+   "id": "TracksideMedicalFacility.staff_count -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "staff_count is a headcount, not a media asset id"
+  },
+  {
+   "id": "TracksideMedicalFacility.HOSPITAL_TRANSFER_MIN -> circuit_aliases.CircuitAlias_Key",
+   "verdict": "no",
+   "reason": "HOSPITAL_TRANSFER_MIN is a duration, not a circuit alias id"
+  },
+  {
+   "id": "TracksideMedicalFacility.ambulances_on_site -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "ambulances_on_site is a count 1-5, not a training program id"
+  },
+  {
+   "id": "WindTunnelResult.dev_program_ref -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "yes",
+   "reason": "dev_program_ref -> CarDevelopmentProgram key; wind tunnel results belong to a program, 71 of 80 covered"
+  },
+  {
+   "id": "WindTunnelResult.occupancy_hours -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "occupancy_hours is a quantity of hours, not a media asset id"
+  },
+  {
+   "id": "circuit_aliases.cctkeyREF -> circuits.cctkey",
+   "verdict": "yes",
+   "reason": "cctkeyREF -> circuits.cctkey, 77/77 one-to-one; aliases are a satellite of circuits"
+  },
+  {
+   "id": "circuit_details.cctRef -> circuits.cctkey",
+   "verdict": "yes",
+   "reason": "cctRef -> circuits.cctkey, 77/77 one-to-one; details are a satellite of circuits"
+  },
+  {
+   "id": "circuit_facilities.CCTKEY_ref -> circuits.cctkey",
+   "verdict": "yes",
+   "reason": "CCTKEY_ref -> circuits.cctkey, 77/77 one-to-one; facilities are a satellite of circuits"
+  },
+  {
+   "id": "circuit_facilities.WASTE_SORT_POINTS -> innovation_technologies.TECHNOLOGY_Index",
+   "verdict": "no",
+   "reason": "WASTE_SORT_POINTS is a count, not a technology id"
+  },
+  {
+   "id": "circuit_facilities.EV_CHARGERS -> Medical_Incident_Map.MIM_ID",
+   "verdict": "no",
+   "reason": "EV_CHARGERS is a count, not a medical-incident id"
+  },
+  {
+   "id": "constructor_profiles.CSTR_ref -> constructors.cstr_key",
+   "verdict": "yes",
+   "reason": "CSTR_ref -> constructors.cstr_key, 212/212 one-to-one; profiles are a satellite of constructors"
+  },
+  {
+   "id": "constructor_profiles.Staff_RaceOps -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "Staff_RaceOps is a headcount, not a CFD simulation id"
+  },
+  {
+   "id": "constructor_profiles.staff_RnD -> regulation_technology_links.RTL_Code",
+   "verdict": "no",
+   "reason": "staff_RnD is a headcount, not a link-table code"
+  },
+  {
+   "id": "constructor_profiles.STAFF_MANUFACTURING -> sponsor_media_campaigns.SMC_serial",
+   "verdict": "no",
+   "reason": "STAFF_MANUFACTURING is a headcount, not a campaign serial"
+  },
+  {
+   "id": "constructor_profiles.HospitalityCapacity -> EngineTelemetry.ENGINE_TEL_ID",
+   "verdict": "no",
+   "reason": "HospitalityCapacity is a capacity, not a telemetry id"
+  },
+  {
+   "id": "constructor_results.matchref -> races.rak_id",
+   "verdict": "yes",
+   "reason": "matchref in constructor_results is the race id (raceId); 905 distinct races, consecutive samples"
+  },
+  {
+   "id": "constructor_results.unitnode -> constructors.cstr_key",
+   "verdict": "yes",
+   "reason": "unitnode in constructor_results is the constructor id; 129 distinct constructors"
+  },
+  {
+   "id": "constructor_standings.rref -> races.rak_id",
+   "verdict": "yes",
+   "reason": "rref in constructor_standings is the race id; 856 distinct races"
+  },
+  {
+   "id": "constructor_standings.contunit -> constructors.cstr_key",
+   "verdict": "yes",
+   "reason": "contunit in constructor_standings is the constructor id; 136 distinct constructors"
+  },
+  {
+   "id": "constructor_standings.posno -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "posno is a championship position 1-21, not a media asset id"
+  },
+  {
+   "id": "driver_biometric_metrics.DRV_REF -> drivers.drv_main",
+   "verdict": "yes",
+   "reason": "DRV_REF -> drivers.drv_main, 861/861 one-to-one; biometrics are a satellite of drivers"
+  },
+  {
+   "id": "driver_profiles.drvREF -> drivers.drv_main",
+   "verdict": "yes",
+   "reason": "drvREF -> drivers.drv_main, 861/861 one-to-one; profiles are a satellite of drivers"
+  },
+  {
+   "id": "driver_social_media.drv_ref -> drivers.drv_main",
+   "verdict": "yes",
+   "reason": "drv_ref -> drivers.drv_main, 861/861 one-to-one; social media is a satellite of drivers"
+  },
+  {
+   "id": "driver_social_media.following -> regulation_technology_links.RTL_Code",
+   "verdict": "no",
+   "reason": "following is a follower count, not a link-table code"
+  },
+  {
+   "id": "driver_standings.rlink -> races.rak_id",
+   "verdict": "yes",
+   "reason": "rlink in driver_standings is the race id; 877 distinct races"
+  },
+  {
+   "id": "driver_standings.drive_link -> drivers.drv_main",
+   "verdict": "yes",
+   "reason": "drive_link in driver_standings is the driver id; 537 distinct drivers"
+  },
+  {
+   "id": "driver_standings.px -> Broadcast_Media_Map.BMM_ID",
+   "verdict": "no",
+   "reason": "px is a standings position, not a broadcast-media id"
+  },
+  {
+   "id": "lap_times.rc_index -> races.rak_id",
+   "verdict": "yes",
+   "reason": "rc_index in lap_times is the race id; 507 distinct races"
+  },
+  {
+   "id": "lap_times.wheel_unit -> drivers.drv_main",
+   "verdict": "yes",
+   "reason": "wheel_unit in lap_times is the driver id (who is at the wheel); 128 distinct drivers"
+  },
+  {
+   "id": "lap_times.lapval -> circuit_aliases.CircuitAlias_Key",
+   "verdict": "no",
+   "reason": "lapval is the lap number, not a circuit alias id"
+  },
+  {
+   "id": "lap_times.pp -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "pp is the lap position, not a media asset id"
+  },
+  {
+   "id": "media_assets.Duration_Seconds -> sponsor_media_campaigns.SMC_serial",
+   "verdict": "no",
+   "reason": "Duration_Seconds is a duration, not a campaign serial"
+  },
+  {
+   "id": "media_assets.ClipCount -> staff_directory.StaffIndex",
+   "verdict": "no",
+   "reason": "ClipCount is a count, not a staff id"
+  },
+  {
+   "id": "media_assets.AudioChannels -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "AudioChannels is a channel count, not a training program id"
+  },
+  {
+   "id": "media_assets.AvgViewTime_sec -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "AvgViewTime_sec is a duration, not a CFD simulation id"
+  },
+  {
+   "id": "pit_stops.matchidx -> races.rak_id",
+   "verdict": "yes",
+   "reason": "matchidx in pit_stops is the race id; consecutive race ids from 841 (pit stop data starts in later seasons)"
+  },
+  {
+   "id": "pit_stops.wunit -> drivers.drv_main",
+   "verdict": "yes",
+   "reason": "wunit in pit_stops is the driver id; 71 distinct drivers"
+  },
+  {
+   "id": "pit_stops.pause_no -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "pause_no is the pit stop number 1-6, not a training program id"
+  },
+  {
+   "id": "pit_stops.moment -> circuit_aliases.CircuitAlias_Key",
+   "verdict": "no",
+   "reason": "moment is the lap of the stop, not a circuit alias id"
+  },
+  {
+   "id": "qualifying.rbind -> races.rak_id",
+   "verdict": "yes",
+   "reason": "rbind in qualifying is the race id; 486 distinct races, consecutive samples"
+  },
+  {
+   "id": "qualifying.pilotrec -> drivers.drv_main",
+   "verdict": "yes",
+   "reason": "pilotrec in qualifying is the driver id; 154 distinct drivers"
+  },
+  {
+   "id": "qualifying.corptag -> constructors.cstr_key",
+   "verdict": "yes",
+   "reason": "corptag in qualifying is the constructor id; 46 distinct constructors"
+  },
+  {
+   "id": "qualifying.px_pos -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "px_pos is the qualifying position, not a media asset id"
+  },
+  {
+   "id": "race_incidents.RAK_ref -> races.rak_id",
+   "verdict": "yes",
+   "reason": "RAK_ref -> races.rak_id; incidents happen at races, 723 distinct spread over the range"
+  },
+  {
+   "id": "race_incidents.LAP_NUMBER -> circuit_aliases.CircuitAlias_Key",
+   "verdict": "no",
+   "reason": "LAP_NUMBER is a lap counter, not a circuit alias id"
+  },
+  {
+   "id": "races.rnum -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "rnum is the round number of the season, not a media asset id"
+  },
+  {
+   "id": "races.trkbind -> circuits.cctkey",
+   "verdict": "yes",
+   "reason": "trkbind in races is the circuit id; all 77 circuits covered, name (track binding) matches"
+  },
+  {
+   "id": "regulation_technology_links.REGULATION_REF -> innovation_technologies.TECHNOLOGY_Index",
+   "verdict": "no",
+   "reason": "REGULATION_REF is meant for technical_regulations.Regulation_Key (50 rows); innovation_technologies is the wrong same-sized table"
+  },
+  {
+   "id": "regulation_technology_links.technology_REF -> innovation_technologies.TECHNOLOGY_Index",
+   "verdict": "yes",
+   "reason": "technology_REF -> innovation_technologies key; link table covers all 50 technologies"
+  },
+  {
+   "id": "regulation_technology_links.AuditWindow_Days -> circuit_aliases.CircuitAlias_Key",
+   "verdict": "no",
+   "reason": "AuditWindow_Days is a duration, not a circuit alias id"
+  },
+  {
+   "id": "regulation_technology_links.DataPointsRequired -> constructor_profiles.Constructor_Profile_no",
+   "verdict": "no",
+   "reason": "DataPointsRequired is a count, not a constructor profile id"
+  },
+  {
+   "id": "sponsor_entities.PaymentTerms_DAYS -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "PaymentTerms_DAYS is 30/45/60 day terms, not a development program id"
+  },
+  {
+   "id": "sponsor_entities.ContractTermYears -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "ContractTermYears is a real-valued duration, not a training program id"
+  },
+  {
+   "id": "sponsor_media_campaigns.Sponsor_ref -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "Sponsor_ref is meant for sponsor_entities.Sponsor_Record (200 rows); CFDSimulation is the wrong same-sized table"
+  },
+  {
+   "id": "sponsor_media_campaigns.Media_Asset_ref -> media_assets.MediaAssetIndex",
+   "verdict": "yes",
+   "reason": "Media_Asset_ref -> media_assets key; campaigns use media assets, all 30 covered"
+  },
+  {
+   "id": "sponsor_media_campaigns.FrequencyCap -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "FrequencyCap is a cap value 1-5, not a training program id"
+  },
+  {
+   "id": "sponsor_media_campaigns.InfluencerCount -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "InfluencerCount is a count, not a media asset id"
+  },
+  {
+   "id": "sponsor_technology_agreements.Sponsor_Ref -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "Sponsor_Ref is meant for sponsor_entities.Sponsor_Record, not CFDSimulation"
+  },
+  {
+   "id": "sponsor_technology_agreements.Technology_Ref -> innovation_technologies.TECHNOLOGY_Index",
+   "verdict": "yes",
+   "reason": "Technology_Ref -> innovation_technologies key; agreements cover all 50 technologies"
+  },
+  {
+   "id": "sponsor_technology_agreements.ReportingFreq_Months -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "ReportingFreq_Months is 1/3/6 months, not a training program id"
+  },
+  {
+   "id": "sprint_results.matchref -> races.rak_id",
+   "verdict": "yes",
+   "reason": "matchref in sprint_results is the race id; 18 sprint races, ids 1061+ are recent seasons, 20 results each"
+  },
+  {
+   "id": "sprint_results.unitdrive -> race_incidents.INCIDENT_NUMBER",
+   "verdict": "no",
+   "reason": "unitdrive is the driver id (830, 822, 844 are driver ids) and is meant for drivers; race_incidents is a coincidental 1126-row range"
+  },
+  {
+   "id": "sprint_results.makeref -> constructors.cstr_key",
+   "verdict": "yes",
+   "reason": "makeref in sprint_results is the constructor id; 12 constructors incl. 131, 214 match the constructors range"
+  },
+  {
+   "id": "sprint_results.rno -> Medical_Incident_Map.MIM_ID",
+   "verdict": "no",
+   "reason": "rno is the car number (33, 44, 77, 16, 4), not a medical-incident id"
+  },
+  {
+   "id": "staff_directory.OnTrackDaysYear -> Broadcast_Media_Map.BMM_ID",
+   "verdict": "no",
+   "reason": "OnTrackDaysYear is a day count, not a broadcast-media id"
+  },
+  {
+   "id": "staff_directory.ShoeSize_EU -> circuit_aliases.CircuitAlias_Key",
+   "verdict": "no",
+   "reason": "ShoeSize_EU is a real-valued shoe size, not a circuit alias id"
+  },
+  {
+   "id": "staff_training_enrollments.Staff_ref -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "Staff_ref is meant for staff_directory.StaffIndex (30 rows); media_assets is the wrong same-sized table"
+  },
+  {
+   "id": "staff_training_enrollments.Training_ref -> training_programs.TRAINING_Identifier",
+   "verdict": "yes",
+   "reason": "Training_ref -> training_programs key; enrollments cover all 10 programs"
+  },
+  {
+   "id": "staff_training_enrollments.Attempts -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "Attempts is a count 1-3, not a training program id"
+  },
+  {
+   "id": "staff_training_enrollments.ReminderDaysBefore -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "ReminderDaysBefore is a duration, not a media asset id"
+  },
+  {
+   "id": "staff_training_enrollments.MentorSessions -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "MentorSessions is a count 1-5, not a training program id"
+  },
+  {
+   "id": "strategy_scenarios.RAK_ref -> races.rak_id",
+   "verdict": "yes",
+   "reason": "RAK_ref -> races.rak_id; strategy scenarios are per race, 723 distinct spread over the range"
+  },
+  {
+   "id": "strategy_scenarios.STOP1_LAP -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "STOP1_LAP is a lap number, not a media asset id"
+  },
+  {
+   "id": "strategy_scenarios.stop2_lap -> circuit_aliases.CircuitAlias_Key",
+   "verdict": "no",
+   "reason": "stop2_lap is a lap number, not a circuit alias id"
+  },
+  {
+   "id": "strategy_scenarios.Fuel_Save_Laps -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "Fuel_Save_Laps is a lap count, not a training program id"
+  },
+  {
+   "id": "strategy_scenarios.PushLaps_Count -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "PushLaps_Count is a lap count, not a training program id"
+  },
+  {
+   "id": "strategy_scenarios.Expected_Finish_Pos -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "Expected_Finish_Pos is a position 1-5, not a training program id"
+  },
+  {
+   "id": "strategy_scenarios.Rival_Undercut_Window -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "Rival_Undercut_Window is a lap count 1-3, not a training program id"
+  },
+  {
+   "id": "technical_regulations.REVIEW_CYCLE_MONTHS -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "REVIEW_CYCLE_MONTHS is 6/12/24 months, not a media asset id"
+  },
+  {
+   "id": "technical_regulations.UpdateCount -> training_programs.TRAINING_Identifier",
+   "verdict": "no",
+   "reason": "UpdateCount is a count, not a training program id"
+  },
+  {
+   "id": "training_programs.Capacity -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "Capacity is a seat count, not a media asset id"
+  },
+  {
+   "id": "training_programs.RetakeWindow_Days -> circuit_aliases.CircuitAlias_Key",
+   "verdict": "no",
+   "reason": "RetakeWindow_Days is a duration, not a circuit alias id"
+  },
+  {
+   "id": "training_programs.Feedback_N -> constructor_profiles.Constructor_Profile_no",
+   "verdict": "no",
+   "reason": "Feedback_N is a count, not a constructor profile id"
+  },
+  {
+   "id": "training_programs.Expiry_Months -> innovation_technologies.TECHNOLOGY_Index",
+   "verdict": "no",
+   "reason": "Expiry_Months is a duration, not a technology id"
+  },
+  {
+   "id": "weather_observations.RAK_REF -> races.rak_id",
+   "verdict": "yes",
+   "reason": "RAK_REF -> races.rak_id; weather observations are per race, 720 distinct spread over the range"
+  },
+  {
+   "id": "Broadcast_Media_Map.BMM_ID -> Development_Technology_Map.DTM_ID",
+   "verdict": "no",
+   "reason": "own key BMM_ID of Broadcast_Media_Map vs the unrelated surrogate Development_Technology_Map.DTM_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "CFDSimulation.CFD_ID -> CostCapTracking.COSTCAP_ID",
+   "verdict": "no",
+   "reason": "own key CFD_ID of CFDSimulation vs the unrelated surrogate CostCapTracking.COSTCAP_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "CarDevelopmentProgram.DEV_PROGRAM_ID -> DriverMedicalRecord.MEDICAL_ID",
+   "verdict": "no",
+   "reason": "own key DEV_PROGRAM_ID of CarDevelopmentProgram vs the unrelated surrogate DriverMedicalRecord.MEDICAL_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "CarTelemetrySnapshot.TELEMETRY_ID -> driver_biometric_metrics.Bio_No",
+   "verdict": "no",
+   "reason": "CarTelemetrySnapshot's own key 1..800 nests in the 861-row biometrics surrogate by length alone; a snapshot is not a driver"
+  },
+  {
+   "id": "CostCapTracking.COSTCAP_ID -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "own key COSTCAP_ID of CostCapTracking vs the unrelated surrogate CFDSimulation.CFD_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "Development_Technology_Map.DTM_ID -> Broadcast_Media_Map.BMM_ID",
+   "verdict": "no",
+   "reason": "own key DTM_ID of Development_Technology_Map vs the unrelated surrogate Broadcast_Media_Map.BMM_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "DriverMedicalRecord.MEDICAL_ID -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "own key MEDICAL_ID of DriverMedicalRecord vs the unrelated surrogate CarDevelopmentProgram.DEV_PROGRAM_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "EngineTelemetry.ENGINE_TEL_ID -> TireTelemetry.TIRE_TEL_ID",
+   "verdict": "no",
+   "reason": "EngineTelemetry and TireTelemetry are sibling tables each with its own telemetry_ref to the snapshot; their surrogates coincide only in length"
+  },
+  {
+   "id": "EquipmentShipment.SHIPMENT_ID -> Broadcast_Media_Map.BMM_ID",
+   "verdict": "no",
+   "reason": "own key SHIPMENT_ID of EquipmentShipment vs the unrelated surrogate Broadcast_Media_Map.BMM_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "FanZoneActivity.ACTIVITY_ID -> Broadcast_Media_Map.BMM_ID",
+   "verdict": "no",
+   "reason": "own key ACTIVITY_ID of FanZoneActivity vs the unrelated surrogate Broadcast_Media_Map.BMM_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "Fan_Race_Attendance.ATTENDANCE_ID -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "own key ATTENDANCE_ID of Fan_Race_Attendance vs the unrelated surrogate CFDSimulation.CFD_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "Financial_Sponsor_Map.FSM_ID -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "own key FSM_ID of Financial_Sponsor_Map vs the unrelated surrogate CFDSimulation.CFD_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "FreightContainer.CONTAINER_ID -> MerchandiseSales.MERCH_ID",
+   "verdict": "no",
+   "reason": "own key CONTAINER_ID of FreightContainer vs the unrelated surrogate MerchandiseSales.MERCH_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "Logistics_Circuit_Map.LCM_ID -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "own key LCM_ID of Logistics_Circuit_Map vs the unrelated surrogate CFDSimulation.CFD_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "Medical_Incident_Map.MIM_ID -> SensorConfiguration.SENSOR_CONFIG_ID",
+   "verdict": "no",
+   "reason": "own key MIM_ID of Medical_Incident_Map vs the unrelated surrogate SensorConfiguration.SENSOR_CONFIG_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "MerchandiseSales.MERCH_ID -> FreightContainer.CONTAINER_ID",
+   "verdict": "no",
+   "reason": "own key MERCH_ID of MerchandiseSales vs the unrelated surrogate FreightContainer.CONTAINER_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "RegulatoryComplianceLog.COMPLIANCE_LOG_ID -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "own key COMPLIANCE_LOG_ID of RegulatoryComplianceLog vs the unrelated surrogate CFDSimulation.CFD_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "RevenueStream.REVENUE_ID -> Broadcast_Media_Map.BMM_ID",
+   "verdict": "no",
+   "reason": "own key REVENUE_ID of RevenueStream vs the unrelated surrogate Broadcast_Media_Map.BMM_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "SafetyEquipmentInspection.INSPECTION_ID -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "own key INSPECTION_ID of SafetyEquipmentInspection vs the unrelated surrogate CFDSimulation.CFD_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "SensorConfiguration.SENSOR_CONFIG_ID -> Medical_Incident_Map.MIM_ID",
+   "verdict": "no",
+   "reason": "own key SENSOR_CONFIG_ID of SensorConfiguration vs the unrelated surrogate Medical_Incident_Map.MIM_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "StreamingMetrics.STREAM_ID -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "own key STREAM_ID of StreamingMetrics vs the unrelated surrogate CFDSimulation.CFD_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "TVBroadcast.BROADCAST_ID -> Medical_Incident_Map.MIM_ID",
+   "verdict": "no",
+   "reason": "own key BROADCAST_ID of TVBroadcast vs the unrelated surrogate Medical_Incident_Map.MIM_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "TeamBudget.BUDGET_ID -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "own key BUDGET_ID of TeamBudget vs the unrelated surrogate CarDevelopmentProgram.DEV_PROGRAM_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "TeamTravelItinerary.ITINERARY_ID -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "own key ITINERARY_ID of TeamTravelItinerary vs the unrelated surrogate CFDSimulation.CFD_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "TelemetryAnomalyLog.ANOMALY_ID -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "own key ANOMALY_ID of TelemetryAnomalyLog vs the unrelated surrogate CFDSimulation.CFD_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "TicketSales.TICKET_ID -> FreightContainer.CONTAINER_ID",
+   "verdict": "no",
+   "reason": "own key TICKET_ID of TicketSales vs the unrelated surrogate FreightContainer.CONTAINER_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "TireTelemetry.TIRE_TEL_ID -> EngineTelemetry.ENGINE_TEL_ID",
+   "verdict": "no",
+   "reason": "TireTelemetry and EngineTelemetry are sibling tables each with its own telemetry_ref to the snapshot; their surrogates coincide only in length"
+  },
+  {
+   "id": "TracksideMedicalFacility.FACILITY_ID -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "own key FACILITY_ID of TracksideMedicalFacility vs the unrelated surrogate CarDevelopmentProgram.DEV_PROGRAM_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "WindTunnelResult.WT_RESULT_ID -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "own key WT_RESULT_ID of WindTunnelResult vs the unrelated surrogate CFDSimulation.CFD_ID: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "circuit_aliases.CircuitAlias_Key -> circuit_details.CIRCUIT_DETAIL_CODE",
+   "verdict": "no",
+   "reason": "two circuit satellites each carry their own surrogate 1..77 and link to circuits via cctkeyREF/cctRef, not via each other's key"
+  },
+  {
+   "id": "circuit_details.CIRCUIT_DETAIL_CODE -> circuit_aliases.CircuitAlias_Key",
+   "verdict": "no",
+   "reason": "two circuit satellites each carry their own surrogate 1..77 and link to circuits via cctRef/cctkeyREF, not via each other's key"
+  },
+  {
+   "id": "circuit_facilities.CircuitFacilityCode -> circuit_aliases.CircuitAlias_Key",
+   "verdict": "no",
+   "reason": "two circuit satellites each carry their own surrogate 1..77 and link to circuits via CCTKEY_ref/cctkeyREF, not via each other's key"
+  },
+  {
+   "id": "circuits.cctkey -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "verdict": "no",
+   "reason": "circuits' own key 1..77 nests in the 80-row program surrogate by length alone; circuits are not development programs"
+  },
+  {
+   "id": "constructor_profiles.Constructor_Profile_no -> FreightContainer.CONTAINER_ID",
+   "verdict": "no",
+   "reason": "constructor_profiles' own key nests in the 300-row container surrogate by length alone; no entity split"
+  },
+  {
+   "id": "constructors.cstr_key -> sprint_results.srescode",
+   "verdict": "no",
+   "reason": "constructors' own key nests in the 360-row sprint_results surrogate by length alone; no entity split"
+  },
+  {
+   "id": "driver_biometric_metrics.Bio_No -> driver_profiles.DRIVER_Profile_Code",
+   "verdict": "no",
+   "reason": "two driver satellites each carry their own surrogate 1..861 and link to drivers via DRV_REF/drvREF (which map differently), not via each other's key"
+  },
+  {
+   "id": "driver_profiles.DRIVER_Profile_Code -> driver_biometric_metrics.Bio_No",
+   "verdict": "no",
+   "reason": "two driver satellites each carry their own surrogate 1..861 and link to drivers via drvREF/DRV_REF (which map differently), not via each other's key"
+  },
+  {
+   "id": "driver_social_media.DRIVER_SOCIAL_Code -> driver_biometric_metrics.Bio_No",
+   "verdict": "no",
+   "reason": "two driver satellites each carry their own surrogate 1..861 and link to drivers via drv_ref/DRV_REF, not via each other's key"
+  },
+  {
+   "id": "drivers.drv_main -> race_incidents.INCIDENT_NUMBER",
+   "verdict": "no",
+   "reason": "drivers' own key nests in the 1126-row incident surrogate by length alone; no entity split"
+  },
+  {
+   "id": "innovation_technologies.TECHNOLOGY_Index -> technical_regulations.Regulation_Key",
+   "verdict": "no",
+   "reason": "technologies and regulations are different entities joined by regulation_technology_links; equal 50-row surrogates nesting is coincidence"
+  },
+  {
+   "id": "media_assets.MediaAssetIndex -> staff_directory.StaffIndex",
+   "verdict": "no",
+   "reason": "own key MediaAssetIndex of media_assets vs the unrelated surrogate staff_directory.StaffIndex: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "race_incidents.INCIDENT_NUMBER -> strategy_scenarios.Strategy_Index",
+   "verdict": "no",
+   "reason": "incidents and strategy scenarios are different entities that each reference races via RAK_ref; equal 1126-row surrogates nesting is coincidence"
+  },
+  {
+   "id": "regulation_technology_links.RTL_Code -> sponsor_technology_agreements.STA_tag",
+   "verdict": "no",
+   "reason": "own key RTL_Code of regulation_technology_links vs the unrelated surrogate sponsor_technology_agreements.STA_tag: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "sponsor_entities.Sponsor_Record -> CFDSimulation.CFD_ID",
+   "verdict": "no",
+   "reason": "sponsor_entities' own key vs CFDSimulation's: unrelated 200-row surrogates nesting by length alone"
+  },
+  {
+   "id": "sponsor_media_campaigns.SMC_serial -> regulation_technology_links.RTL_Code",
+   "verdict": "no",
+   "reason": "campaign serial 1..450 nests in the 500-row link-table code by length alone; no entity split"
+  },
+  {
+   "id": "sponsor_technology_agreements.STA_tag -> regulation_technology_links.RTL_Code",
+   "verdict": "no",
+   "reason": "own key STA_tag of sponsor_technology_agreements vs the unrelated surrogate regulation_technology_links.RTL_Code: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "sprint_results.srescode -> sponsor_media_campaigns.SMC_serial",
+   "verdict": "no",
+   "reason": "sprint_results' own key nests in the 450-row campaign surrogate by length alone; no entity split"
+  },
+  {
+   "id": "staff_directory.StaffIndex -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "own key StaffIndex of staff_directory vs the unrelated surrogate media_assets.MediaAssetIndex: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "staff_training_enrollments.ENROLLMENT_Record -> regulation_technology_links.RTL_Code",
+   "verdict": "no",
+   "reason": "own key ENROLLMENT_Record of staff_training_enrollments vs the unrelated surrogate regulation_technology_links.RTL_Code: equal-length 1..N sequences nesting, no entity split"
+  },
+  {
+   "id": "strategy_scenarios.Strategy_Index -> race_incidents.INCIDENT_NUMBER",
+   "verdict": "no",
+   "reason": "strategy scenarios and incidents are different entities that each reference races via RAK_ref; equal 1126-row surrogates nesting is coincidence"
+  },
+  {
+   "id": "technical_regulations.Regulation_Key -> innovation_technologies.TECHNOLOGY_Index",
+   "verdict": "no",
+   "reason": "regulations and technologies are different entities joined by regulation_technology_links; equal 50-row surrogates nesting is coincidence"
+  },
+  {
+   "id": "training_programs.TRAINING_Identifier -> media_assets.MediaAssetIndex",
+   "verdict": "no",
+   "reason": "training program key 1..10 nests in the 30-row media asset index by length alone; no entity split"
+  },
+  {
+   "id": "weather_observations.WeatherObs_Record -> race_incidents.INCIDENT_NUMBER",
+   "verdict": "no",
+   "reason": "weather observations and incidents are different entities that each reference races; equal 1126-row surrogates nesting is coincidence"
+  }
+ ]
+}

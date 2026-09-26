@@ -1,0 +1,47 @@
+[
+ {
+  "question_id": "museum_artifact_18",
+  "answer": "SELECT MAX(((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val))) AS max_avs\nFROM \"ArtifactsCore\" a JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\" JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\""
+ },
+ {
+  "question_id": "museum_artifact_11",
+  "answer": "WITH yearly AS (\n  SELECT EXTRACT(YEAR FROM \"readTS\")::int AS yr, AVG(\"TEMPc\") AS avg_temp\n  FROM \"EnvironmentalReadingsCore\"\n  WHERE EXTRACT(YEAR FROM \"readTS\") BETWEEN 2023 AND 2025\n  GROUP BY 1\n)\nSELECT y.yr AS year, ROUND(y.avg_temp, 2) AS avg_temperature,\n  COUNT(*) FILTER (WHERE ABS(e.\"TEMPc\" - y.avg_temp) > 0 AND ABS(e.\"TEMPc\" - y.avg_temp) <= 4) AS anomaly_count\nFROM yearly y\nJOIN \"EnvironmentalReadingsCore\" e ON EXTRACT(YEAR FROM e.\"readTS\")::int = y.yr\nGROUP BY y.yr, y.avg_temp\nORDER BY y.yr",
+  "note": "Counts readings (not distinct calendar dates) whose |TEMPc - yearly avg| is in (0,4]; only 2024-2025 have data. Distinct-date count would be 287/46."
+ },
+ {
+  "question_id": "museum_artifact_8",
+  "answer": "SELECT a.\"ARTregID\" AS registry_number, a.art_title AS title, a.\"MatKind\" AS material_type,\n  sd.env_handling_sensitivity->'environment'->>'humidity' AS sensitivity_level,\n  CASE WHEN e.\"RH\" > CASE sd.env_handling_sensitivity->'environment'->>'humidity' WHEN 'High' THEN 55 WHEN 'Medium' THEN 60 END THEN 'Over Exposure' ELSE 'Within Limits' END AS exposure_status\nFROM \"ArtifactsCore\" a\nJOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\"\nLEFT JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\"\nLEFT JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link\nLEFT JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link\nWHERE sd.env_handling_sensitivity->'environment'->>'humidity' IN ('Medium', 'High')\nORDER BY a.\"ARTregID\"",
+  "note": "'Secondary, more cautious threshold' not separately defined; used Humidity Exposure Thresholds (High 55, Medium 60)."
+ },
+ {
+  "question_id": "museum_artifact_1",
+  "answer": "SELECT a.\"ARTregID\" AS artifact_id, a.art_title AS title, ra.risk_level, r.\"HIST_sign\" AS historical_significance, (r.rating_profile->>'cultural_score')::int AS cultural_score\nFROM \"ArtifactsCore\" a\nJOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"\nJOIN \"RiskAssessments\" ra ON ra.art_concern = a.\"ARTregID\"\nWHERE ra.risk_level IN ('High', 'Medium') AND r.\"HIST_sign\" > 8 AND (r.rating_profile->>'cultural_score')::int > 20"
+ },
+ {
+  "question_id": "museum_artifact_4",
+  "answer": "SELECT a.\"DYNASTY\" AS dynasty,\n  ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) AS cpi_score,\n  cm.budget_alloc AS budget_allocation, cm.budget_stat AS budget_status\nFROM \"ArtifactsCore\" a\nJOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"\nJOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\"\nJOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link\nJOIN \"ConservationAndMaintenance\" cm ON cm.monitor_link = l.env_link\nWHERE a.\"DYNASTY\" IS NOT NULL",
+  "note": "'Generalized budget status' not defined in knowledge; used ConservationAndMaintenance.budget_stat alongside budget_alloc. Limited to the 10 rated artifacts (CPI needs ratings)."
+ },
+ {
+  "question_id": "museum_artifact_2",
+  "answer": "SELECT a.\"ARTregID\" AS artifact_id, a.art_title AS artifact_name, x.erf AS erf_score,\n  (SELECT jsonb_object_agg(c.key || '.' || v.key, v.val) FROM jsonb_each(sd.env_handling_sensitivity) c(key, obj) CROSS JOIN LATERAL jsonb_each_text(CASE WHEN jsonb_typeof(c.obj) = 'object' THEN c.obj ELSE '{}'::jsonb END) v(key, val) WHERE v.val = 'High') AS high_sensitivities\nFROM \"ArtifactsCore\" a\nJOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\"\nCROSS JOIN LATERAL (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) AS erf FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) x\nWHERE x.erf > 4\nORDER BY x.erf DESC",
+  "note": "JSON summary includes every 'High' rating across all sensitivity groups, keyed group.key."
+ },
+ {
+  "question_id": "museum_artifact_3",
+  "answer": "SELECT a.\"ARTregID\" AS artifact_id, a.art_title AS title, a.\"DYNASTY\" AS dynasty, c.cpi AS cpi_score,\n  CASE WHEN c.cpi > 7 THEN 'High Priority' WHEN c.cpi > 4 THEN 'Medium Priority' WHEN c.cpi <= 4 THEN 'Low Priority' END AS priority_level\nFROM \"ArtifactsCore\" a\nJOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"\nCROSS JOIN LATERAL (SELECT ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric) * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END) / 30.0) AS cpi) c\nWHERE a.\"DYNASTY\" IN ('Ming', 'Qing')\nORDER BY c.cpi DESC NULLS LAST"
+ },
+ {
+  "question_id": "museum_artifact_5",
+  "answer": "SELECT a.\"ARTregID\" AS artifact_id, a.art_title AS artifact_name, e.\"TEMPc\" AS current_temperature, e.\"RH\" AS current_humidity,\n  COALESCE((SELECT count(*) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val) WHERE v.val = 'High'), 0) AS high_sensitivity_count,\n  CASE WHEN (a.\"ageYears\" * (SELECT AVG(CASE v.val WHEN 'Low' THEN 1 WHEN 'Medium' THEN 5 WHEN 'High' THEN 10 END) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val)) * power(e.\"RH\" - 50, 2) * e.\"TEMPc\" / 100000.0) > 5\n        AND (SELECT count(*) FROM jsonb_each_text(sd.env_handling_sensitivity->'environment') AS v(key, val) WHERE v.val = 'High') >= 2 THEN 'Yes' ELSE 'No' END AS accelerated_deterioration\nFROM \"ArtifactsCore\" a\nLEFT JOIN \"SensitivityData\" sd ON sd.\"ART_link\" = a.\"ARTregID\"\nLEFT JOIN \"ConditionAssessments\" ca ON ca.art_exam = a.\"ARTregID\"\nLEFT JOIN \"LightAndRadiationReadings\" l ON l.rad_id = ca.light_link\nLEFT JOIN \"EnvironmentalReadingsCore\" e ON e.monitor_code = l.env_link\nORDER BY a.\"ARTregID\""
+ },
+ {
+  "question_id": "museum_artifact_6",
+  "answer": "SELECT DISTINCT e.case_link AS showcase_id\nFROM \"EnvironmentalReadingsCore\" e\nWHERE e.case_link IS NOT NULL AND (e.\"tempVar24\" > 1 OR e.\"RHvar\" > 3)\nORDER BY e.case_link"
+ },
+ {
+  "question_id": "museum_artifact_7",
+  "answer": "SELECT s.\"caseID\"\nFROM \"Showcases\" s\nLEFT JOIN (SELECT case_link, AVG(e.\"tempVar24\" + e.\"RHvar\" / 5.0) AS v FROM \"EnvironmentalReadingsCore\" e GROUP BY case_link) ev ON ev.case_link = s.\"caseID\"\nWHERE (10 - ((ev.v + (s.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3)) < 5\n   OR ((COALESCE(s.case_environment_profile->'physical_state'->>'seal_state' = 'Poor', false))::int\n     + (COALESCE(s.case_environment_profile->'maintenance'->>'maint_status' = 'Overdue', false))::int\n     + (COALESCE(s.case_environment_profile->'maintenance'->>'filter_status' = 'Replace Now', false))::int\n     + (COALESCE(s.case_environment_profile->'maintenance'->>'silica_status' = 'Replace Now', false))::int) >= 3\nORDER BY s.\"caseID\"",
+  "note": "SESR averaged per showcase; null maintenance indicators count as not critical."
+ }
+]

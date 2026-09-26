@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "insider_8",
+  "answer": "LIST round(THE AVERAGE v IN (Transactionrecord has TransactionrecordModfreq mf AND ALSO has Percentage cp AND ALSO has Trader tdr AND ALSO tdr has TraderTradingPerformance tp AND ALSO is of Sentimentandfundamental sf AND ALSO sf has SentimentandfundamentalCorpeventprx ce AND ALSO sf has SentimentandfundamentalNewsscore ns AND ALSO sf has SentimentandfundamentalSocscore ss AND ALSO (mf/(1-cp)) AS v WHERE jsonPath(tp,'$.risklevel.risklevel') = 'Aggressive' AND abs(ns-ss) > 1.0), 4)"
+ },
+ {
+  "question_id": "insider_6",
+  "answer": "LIST pi, n FROM Enforcementaction has EnforcementactionPenimp pi AND ALSO has EnforcementactionEnforcereg er AND ALSO has Compliancecase cc AND ALSO cc is of Investigationdetail idt AND ALSO idt has InvestigationdetailBehansc bs AND ALSO idt has InvestigationdetailNetansc nsc AND ALSO idt has Sentimentandfundamental sf AND ALSO sf has SentimentandfundamentalInfoleaksc il AND ALSO sf has SentimentandfundamentalCorpeventprx ce AND ALSO sf has SentimentandfundamentalEventannotm ea AND ALSO THE DISTINCT COUNT OF er GROUPED BY pi AS n WHERE il > 50.0 AND (ea = 'Pre-market' OR ea = 'Intraday') AND (0.6*bs + 0.4*nsc) > 70 ORDERED WITH n DESCENDING"
+ },
+ {
+  "question_id": "insider_10",
+  "answer": "LIST l, round(m,3) FROM Transactionrecord has TransactionrecordRiskIndicators r AND ALSO has Percentage cp AND ALSO has TransactionrecordModfreq mf AND ALSO has Trader tdr AND ALSO tdr has TraderVoldaily vd AND ALSO tdr has TraderAcctbal ab AND ALSO tdr has TraderTradingPerformance tp AND ALSO jsonPath(r,'$.layerind') AS l AND ALSO ((0.2*(castNumber(jsonPath(r,'$.spoofprob'))/100) + 0.2*(castNumber(jsonPath(r,'$.frontscore'))/100) + 0.2*((castNumber(jsonPath(r,'$.qstuffindex')) - THE MINIMUM q IN (Transactionrecord has TransactionrecordRiskIndicators rr AND ALSO castNumber(jsonPath(rr,'$.qstuffindex')) AS q)) / (THE MAXIMUM q2 IN (Transactionrecord has TransactionrecordRiskIndicators rr2 AND ALSO castNumber(jsonPath(rr2,'$.qstuffindex')) AS q2) - THE MINIMUM q3 IN (Transactionrecord has TransactionrecordRiskIndicators rr3 AND ALSO castNumber(jsonPath(rr3,'$.qstuffindex')) AS q3))) + 0.2*if(jsonPath(r,'$.washsus')='High',1.0,if(jsonPath(r,'$.washsus')='Medium',0.5,0.1)) + 0.2*if(l='Confirmed',1.0,if(l='Suspected',0.5,0.0))) * ((vd/ab)*castNumber(jsonPath(tp,'$.risklevel.levratio'))*(mf/(1-cp)))) AS assv AND ALSO THE AVERAGE assv GROUPED BY l AS m WHERE l = 'Confirmed' OR l = 'Suspected'"
+ },
+ {
+  "question_id": "insider_9",
+  "answer": "LIST er, trs FROM Enforcementaction has EnforcementactionEnforcereg er AND ALSO has EnforcementactionTraderestr trs AND ALSO has EnforcementactionPenamt pa AND ALSO has EnforcementactionPenimp pim AND ALSO has EnforcementactionActtake att AND ALSO has EnforcementactionBusrestr bus AND ALSO has Compliancecase cc AND ALSO cc has Transactionrecord tx AND ALSO tx has Trader tdr AND ALSO tdr has TraderAcctbal ab AND ALSO tdr has TraderVoldaily vd AND ALSO tdr has TraderFreqscope fs AND ALSO tdr has TraderTradingPerformance tp WHERE (pim = 'Fine' OR pim = 'Ban' OR att = 'Suspension' OR bus = 'Full') AND (pa/ab) > 0.1 AND fs = 'High' AND ((castNumber(jsonPath(tp,'$.risklevel.levratio')) > 5.0 AND jsonPath(tp,'$.risklevel.risklevel') = 'Aggressive') OR (vd/ab) > 0.5)"
+ },
+ {
+  "question_id": "insider_3",
+  "answer": "LIST tk, round(a1,2), round(a2,2) FROM Transactionrecord has Percentage cp AND ALSO has TransactionrecordModfreq mf AND ALSO has Trader tdr AND ALSO tdr has TraderVoldaily vd AND ALSO tdr has TraderAcctbal ab AND ALSO tdr has TraderTradingPerformance tp AND ALSO tdr has TraderAcctdays ad AND ALSO tdr has TraderTradekind tk AND ALSO is of Compliancecase cc AND ALSO cc has CompliancecasePrevviol pv AND ALSO cc has CompliancecaseComplianceRate cr AND ALSO ((vd/ab)*castNumber(jsonPath(tp,'$.risklevel.levratio'))*(mf/(1-cp))) AS ati AND ALSO (1/(1+(pv/greatest(ad/365,1))*if(cr='A',1,if(cr='B',2,if(cr='C',3,4))))) AS chs AND ALSO THE AVERAGE ati GROUPED BY tk AS a1 AND ALSO THE AVERAGE chs GROUPED BY tk AS a2 ORDERED WITH a1 DESCENDING"
+ },
+ {
+  "question_id": "insider_5",
+  "answer": "LIST round(THE AVERAGE u IN (Transactionrecord has TransactionrecordRiskIndicators r AND ALSO has Percentage cp AND ALSO has TransactionrecordModfreq mf AND ALSO has Trader tdr AND ALSO tdr has TraderVoldaily vd AND ALSO tdr has TraderAcctbal ab AND ALSO tdr has TraderTradingPerformance tp AND ALSO is of Advancedbehavior abv AND ALSO abv has AdvancedbehaviorPatsim ps AND ALSO abv has AdvancedbehaviorPeercorr pc AND ALSO (abs(ps-pc)/greatest(ps,0.01)) AS u WHERE ((castNumber(jsonPath(tp,'$.risklevel.levratio')) > 5.0 AND jsonPath(tp,'$.risklevel.risklevel') = 'Aggressive') OR (vd/ab) > 0.5) AND (jsonPath(r,'$.layerind') = 'Confirmed' OR (castNumber(jsonPath(r,'$.spoofprob')) > 0.75 AND (mf/(1-cp)) > 1.0))), 2)"
+ },
+ {
+  "question_id": "insider_2",
+  "answer": "LIST tg, eg, tt, il, round(sdlr,2) FROM Sentimentandfundamental has SentimentandfundamentalInfoleaksc il AND ALSO has SentimentandfundamentalCorpeventprx ce AND ALSO has SentimentandfundamentalEventannotm ea AND ALSO has SentimentandfundamentalNewsscore ns AND ALSO has SentimentandfundamentalSocscore ss AND ALSO has SentimentandfundamentalOptvolrt ov AND ALSO has Transactionrecord tx AND ALSO tx has TransactionrecordTransreg tg AND ALSO tx has TransactionrecordTranstime tt AND ALSO tx has Trader has TraderEg eg AND ALSO ((ov*(1+abs(ns-ss)))*il) AS sdlr WHERE il > 50.0 AND (ea = 'Pre-market' OR ea = 'Intraday') AND sdlr > 1000"
+ },
+ {
+  "question_id": "insider_4",
+  "answer": "LIST cr, round(iii,2) FROM Compliancecase has CompliancecaseComplianceRegistry cr AND ALSO has Advancedbehavior ab AND ALSO ab has AdvancedbehaviorPatsim ps AND ALSO ab has AdvancedbehaviorPeercorr pc AND ALSO is of Investigationdetail idt AND ALSO idt has InvestigationdetailBehansc bs AND ALSO idt has InvestigationdetailNetansc nsc AND ALSO idt has InvestigationdetailTcirclesz tc AND ALSO idt has InvestigationdetailGrpbehsc gb AND ALSO idt has InvestigationdetailCommpat cm AND ALSO (0.6*bs + 0.4*nsc) AS iii WHERE abs(ps-pc) < 0.1 AND pc > 0.7 AND tc > 5 AND gb > 0.6 AND cm = 'Regular' ORDERED WITH iii DESCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "insider_1",
+  "answer": "LIST eg FROM DISTINCT Trader has TraderEg eg AND ALSO has TraderAcctbal ab AND ALSO has TraderVoldaily vd AND ALSO has TraderTradingPerformance tp AND ALSO is of Transactionrecord tx AND ALSO tx is of Compliancecase cc AND ALSO cc has CompliancecaseLastReviewDate lr AND ALSO cc is of Enforcementaction ea AND ALSO ea has EnforcementactionPenimp pim AND ALSO ea has EnforcementactionActtake att AND ALSO ea has EnforcementactionBusrestr bus WHERE ((castNumber(jsonPath(tp,'$.risklevel.levratio')) > 5.0 AND jsonPath(tp,'$.risklevel.risklevel') = 'Aggressive') OR (vd/ab) > 0.5) AND (pim = 'Fine' OR pim = 'Ban' OR att = 'Suspension' OR bus = 'Full') AND days_between(lr, THE MAXIMUM CompliancecaseLastReviewDate) <= 365"
+ },
+ {
+  "question_id": "insider_7",
+  "answer": "LIST pm, round(a,2) FROM Transactionrecord has Trader tdr AND ALSO tdr has TraderTradingPerformance tp AND ALSO is of Advancedbehavior abv AND ALSO abv has AdvancedbehaviorPatsim ps AND ALSO abv has AdvancedbehaviorPeercorr pc AND ALSO castInteger(if(abs(ps-pc) < 0.1 AND pc > 0.7, 1, 0)) AS pm AND ALSO (castNumber(jsonPath(tp,'$.winpct'))/greatest(castNumber(jsonPath(tp,'$.risklevel.levratio')),1)) AS rawr AND ALSO THE AVERAGE rawr GROUPED BY pm AS a"
+ }
+]

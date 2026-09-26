@@ -1,0 +1,12 @@
+[
+ {"question_id": 1256, "answer": "THE DISTINCT COUNT OF Patient [is of Laboratory has LaboratoryCRP: '+'] BUT NOT has PatientDescription", "attempts": 2},
+ {"question_id": 1189, "answer": "THE COUNT OF Examination [has ExaminationThrombosis: '2'] [has ExaminationANAPattern: 'S'] [has ExaminationACLIgM m] WHERE m > (THE AVERAGE Examination has ExaminationACLIgM) * 1.2", "attempts": 2},
+ {"question_id": 1267, "answer": "THE DISTINCT COUNT OF Patient [is of Laboratory has LaboratorySM sm] [is of Examination has ExaminationThrombosis: '0'] WHERE sm = 'negative' OR sm = '0'", "attempts": 2},
+ {"question_id": 1157, "answer": "LIST i, s, dg FROM DISTINCT Patient [is of Examination has ExaminationThrombosis: '2'] has PatientID i AND ALSO OPTIONALLY has PatientSEX s AND ALSO OPTIONALLY has PatientDiagnosis dg", "attempts": 1},
+ {"question_id": 1162, "answer": "THE COUNT OF Patient [has PatientSEX: 'F'] [has PatientDescription de] [has PatientAdmission: '-'] WHERE year(de) = 1997", "attempts": 1},
+ {"question_id": 1164, "answer": "THE COUNT OF Examination [has Patient has PatientSEX: 'F'] [has ExaminationThrombosis: '1'] [has ExaminationDate d] WHERE year(d) = 1997", "attempts": 1},
+ {"question_id": 1179, "answer": "LIST m FROM Examination [has Patient [has PatientDiagnosis: 'SLE'] [has PatientDescription: '1994-02-19']] [has ExaminationDate: '1993-11-12'] has ExaminationACLIgM m", "attempts": 1},
+ {"question_id": 1192, "answer": "LIST i FROM DISTINCT Patient [has PatientAdmission: '-'] has PatientID i AND ALSO is of Laboratory [has LaboratoryTBIL t] [has LaboratoryDate d] WHERE t < 2.0 AND like(d, '1991-10%')", "attempts": 1},
+ {"question_id": 1232, "answer": "LIST i, s, age FROM DISTINCT Patient [is of Laboratory [has LaboratoryGLU g] [has LaboratoryTCHO c] WHERE g >= 180 AND c < 250] has PatientID i AND ALSO OPTIONALLY has PatientSEX s AND ALSO has PatientBirthday b AND ALSO (year(today()) - year(b)) AS age", "attempts": 1},
+ {"question_id": 1187, "answer": "LIST i FROM DISTINCT Patient [is of Laboratory [has LaboratoryDate d] [has LaboratoryGPT g] [has LaboratoryALB a] WHERE d >= '1987-07-06' AND d <= '1996-01-31' AND g > 30 AND a < 4] has PatientID i", "attempts": 1}
+]

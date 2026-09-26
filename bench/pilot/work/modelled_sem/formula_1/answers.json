@@ -1,0 +1,15 @@
+[
+ {"question_id": 930, "answer": "SELECT ra.name FROM results r JOIN races ra ON ra.raceId = r.raceId JOIN drivers d ON d.driverId = r.driverId WHERE d.forename = 'Lewis' AND d.surname = 'Hamilton' AND r.rank > 0 ORDER BY r.rank ASC LIMIT 1", "attempts": 2},
+ {"question_id": 1011, "answer": "SELECT d.forename, d.surname FROM lapTimes lt JOIN drivers d ON d.driverId = lt.driverId ORDER BY lt.milliseconds ASC LIMIT 1", "attempts": 1},
+ {"question_id": 909, "answer": "SELECT SUM(CASE WHEN c.country = 'Germany' THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS pct FROM races ra JOIN circuits c ON c.circuitId = ra.circuitId WHERE ra.name = 'European Grand Prix'", "attempts": 1},
+ {"question_id": 892, "answer": "SELECT d.forename, d.surname, SUM(r.points) AS total_points FROM results r JOIN drivers d ON d.driverId = r.driverId GROUP BY d.driverId ORDER BY total_points DESC LIMIT 1", "attempts": 1},
+ {"question_id": 854, "answer": "SELECT DISTINCT c.lat, c.lng FROM races ra JOIN circuits c ON c.circuitId = ra.circuitId WHERE ra.name = 'Australian Grand Prix'", "attempts": 1},
+ {"question_id": 898, "answer": "SELECT d.forename, d.surname, (CAST(strftime('%Y','now') AS INTEGER) - CAST(strftime('%Y', d.dob) AS INTEGER)) AS age FROM drivers d WHERE d.nationality = 'Japanese' ORDER BY d.dob DESC LIMIT 1", "attempts": 1},
+ {"question_id": 877, "answer": "SELECT d.forename, d.surname FROM results r JOIN drivers d ON d.driverId = r.driverId WHERE r.raceId = 872 AND r.time IS NOT NULL AND r.time <> '' ORDER BY d.dob DESC LIMIT 1", "attempts": 1},
+ {"question_id": 906, "answer": "SELECT ra.name, r.points FROM results r JOIN races ra ON ra.raceId = r.raceId JOIN drivers d ON d.driverId = r.driverId WHERE d.forename = 'Lewis' AND d.surname = 'Hamilton' ORDER BY ra.date ASC LIMIT 1", "attempts": 2},
+ {"question_id": 988, "answer": "SELECT d.forename, d.surname FROM drivers d JOIN pitStops p ON p.driverId = d.driverId WHERE d.nationality = 'German' AND CAST(strftime('%Y', d.dob) AS INTEGER) BETWEEN 1980 AND 1985 GROUP BY d.driverId ORDER BY AVG(p.milliseconds) ASC LIMIT 3", "attempts": 1},
+ {"question_id": 881, "answer": "SELECT SUM(CASE WHEN r.time IS NOT NULL AND r.time <> '' THEN 1 ELSE 0 END) * 100.0 / COUNT(*) AS completion_rate FROM results r JOIN races ra ON ra.raceId = r.raceId WHERE ra.date = '1983-07-16'", "attempts": 1},
+ {"question_id": 977, "answer": "SELECT COUNT(*) FROM results WHERE raceId BETWEEN 50 AND 100 AND statusId = 2 AND time IS NOT NULL AND time <> ''", "attempts": 1},
+ {"question_id": 915, "answer": "SELECT nationality FROM drivers WHERE dob IS NOT NULL AND dob <> '' ORDER BY dob ASC LIMIT 1", "attempts": 2},
+ {"question_id": 868, "answer": "SELECT DISTINCT c.lat, c.lng FROM races ra JOIN circuits c ON c.circuitId = ra.circuitId WHERE ra.name = 'Malaysian Grand Prix'", "attempts": 1}
+]

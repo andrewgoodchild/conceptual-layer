@@ -1,0 +1,4 @@
+Writer's report (sqlddlk arm, residential_data_large), as returned. Scratch only in `drafts/gen.py`; a no-argument `./schema` saved output outside the directory, one read attempt was blocked.
+
+- Hardest: rd_12 undefined "Household Prosperity Score" (Living Condition Score stand-in -> brickwork house, 1,286); rd_18 unnamed dwelling type (Apartment, strict cable values); rd_19 five-way tie, "Urban" defined two ways (no household in zone 1); region spellings vary.
+- Material: DDL essential for the JSON fields (`service_types` via `households.serviceplan`, `socioeconomic`, `dwelling_specs`, `vehicleinventory`). Did not say Room_Count means bedrooms or mark `serviceplan` as a key. **`./schema` with natural-language words matched too broadly (23 of 48 tables), so `information_schema` was quicker.** knowledge.md value lists do not match the stored values.

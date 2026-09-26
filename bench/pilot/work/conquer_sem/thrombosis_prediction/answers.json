@@ -1,0 +1,12 @@
+[
+ {"question_id": 1256, "answer": "THE DISTINCT COUNT OF id IN PatientWithoutDescription has PatientID id AND ALSO is of AbnormalCRPLaboratory", "attempts": 2},
+ {"question_id": 1189, "answer": "THE DISTINCT COUNT OF p IN Examination [has ExaminationThrombosis: 2] [has ExaminationANAPattern: 'S'] has Patient p AND ALSO has AntiCardiolipin v WHERE v > 1.2 * AverageAntiCardiolipinIgM()", "attempts": 1},
+ {"question_id": 1267, "answer": "THE DISTINCT COUNT OF id IN Patient has PatientID id AND ALSO is of NormalAntiSMLaboratory AND ALSO is of NoThrombosis", "attempts": 2},
+ {"question_id": 1157, "answer": "LIST id, sex, d FROM Patient is of SevereThrombosis AND ALSO has PatientID id AND ALSO has PatientSEX sex AND ALSO has Disease d", "attempts": 1},
+ {"question_id": 1162, "answer": "THE COUNT OF Patient [has PatientSEX: 'F'] [has PatientAdmission: '-'] [has PatientFirstDate d] WHERE year(d) = 1997", "attempts": 1},
+ {"question_id": 1164, "answer": "THE DISTINCT COUNT OF id IN Women has PatientID id AND ALSO is of MostSeriousThrombosis has ExaminationDate d WHERE year(d) = 1997", "attempts": 3},
+ {"question_id": 1179, "answer": "LIST v FROM Patient [has PatientDiagnosis: 'SLE'] [has PatientDescription: '1994-02-19'] is of Examination [has ExaminationDate: '1993-11-12'] has AntiCardiolipin v", "attempts": 3},
+ {"question_id": 1192, "answer": "LIST id FROM DISTINCT FollowedUpAtOutpatientClinic has PatientID id AND ALSO is of BilirubinWithinNormalRangeLaboratory has LaboratoryDate d WHERE year(d) = 1991 AND month(d) = 10", "attempts": 2},
+ {"question_id": 1232, "answer": "LIST id, sex, a FROM DISTINCT Laboratory has LaboratoryGLU g AND ALSO has LaboratoryTCHO c AND ALSO has Patient has PatientID id AND ALSO has Patient has PatientSEX sex AND ALSO has Patient has Age a WHERE g >= 180 AND c < 250", "attempts": 2},
+ {"question_id": 1187, "answer": "LIST id FROM DISTINCT Laboratory has LaboratoryDate d AND ALSO has LaboratoryGPT g AND ALSO has LaboratoryALB a AND ALSO has Patient has PatientID id WHERE d >= '1987-07-06' AND d <= '1996-01-31' AND g > 30 AND a < 4 ORDERED WITH id ASCENDING", "attempts": 1}
+]

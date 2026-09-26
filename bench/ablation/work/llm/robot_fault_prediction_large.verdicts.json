@@ -1,0 +1,520 @@
+{
+ "database": "robot_fault_prediction_large",
+ "verdicts": [
+  {
+   "id": "actuation_data.actoperref -> operation.operreg",
+   "verdict": "yes",
+   "reason": "Actuation record names the operation it belongs to; opaque OP_ codes matching the operation key one for one."
+  },
+  {
+   "id": "actuation_data.actrecref -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Actuation record names the robot; RB registrations covering all 951 robots."
+  },
+  {
+   "id": "anomaly_detection_log.actreg -> actuation_data.actreg",
+   "verdict": "yes",
+   "reason": "Same column name on both sides and opaque AC_ actuation codes; an anomaly is logged against an actuation sample."
+  },
+  {
+   "id": "anomaly_detection_log.tech_code -> technicians.tech_code",
+   "verdict": "yes",
+   "reason": "Same column name as the technician key; TCH_ ids, 35 of 50 technicians."
+  },
+  {
+   "id": "anomaly_detection_log.WorkOrderTag -> maintenance_logs.WorkOrderTag",
+   "verdict": "yes",
+   "reason": "Identical column name and WO-25-#### work order tags; the anomaly cites its work order."
+  },
+  {
+   "id": "automated_defect_classification.vision_log_ref -> vision_system_telemetry.vision_log_id",
+   "verdict": "yes",
+   "reason": "Defect classification names the vision log it came from; opaque VIS- keys, 121 of 124 used."
+  },
+  {
+   "id": "battery_thermal_management.grid_event_ref -> grid_load_optimization.grid_event_id",
+   "verdict": "yes",
+   "reason": "Thermal record names the grid event; opaque GRI- keys, 410 of 456 used."
+  },
+  {
+   "id": "calibration_events.end_effector_ref -> end_effectors.end_effector_tag",
+   "verdict": "yes",
+   "reason": "Calibration of an end effector, using the effector tag vocabulary and all 40 effectors."
+  },
+  {
+   "id": "calibration_events.calibration_duration_min -> maintenance_parts_usage.usage_record",
+   "verdict": "no",
+   "reason": "A duration in minutes; its overlap with a 45-row surrogate sequence is coincidence."
+  },
+  {
+   "id": "digital_twin_sync_log.sim_model_ref -> simulation_models.model_code",
+   "verdict": "yes",
+   "reason": "Sync log names the simulation model; SIM-RB####-01 model codes from the model key."
+  },
+  {
+   "id": "digital_twin_sync_log.simulation_frame_rate_fps -> anomaly_detection_log.anomaly_pk",
+   "verdict": "no",
+   "reason": "A frame rate in fps, not a pointer to an anomaly row."
+  },
+  {
+   "id": "effluent_chemical_analysis.waste_event_ref -> waste_recycling_log.waste_event_id",
+   "verdict": "yes",
+   "reason": "Effluent analysis names the waste event it analysed; opaque WAS- keys, 490 of 494."
+  },
+  {
+   "id": "end_effector_attachment_log.Attached_To_Robot -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Attachment log names the robot the effector went on; RB registrations, 76 distinct."
+  },
+  {
+   "id": "end_effector_attachment_log.Effector_Tool_Code -> end_effectors.end_effector_tag",
+   "verdict": "yes",
+   "reason": "Attachment log names the effector tool; all 40 effector tags used."
+  },
+  {
+   "id": "end_effectors.warranty_period_months -> maintenance_parts_usage.usage_record",
+   "verdict": "no",
+   "reason": "A warranty period of 12 or 24 months, a duration not an identifier."
+  },
+  {
+   "id": "end_effectors.MaxOpenAperture_mm -> joint_condition.jcondid",
+   "verdict": "no",
+   "reason": "An aperture measurement in mm; only type agreement with a 1000-row surrogate key."
+  },
+  {
+   "id": "environmental_readings.Source_Sensor_Tag -> environmental_sensors.SENSOR_TAG",
+   "verdict": "yes",
+   "reason": "Reading names its source sensor; sensor tags such as AIRQ-WC104-01 drawn from the sensor key."
+  },
+  {
+   "id": "environmental_sensors.Installed_In_Workcell -> workcells.workcell_code",
+   "verdict": "yes",
+   "reason": "Sensor installed in a workcell; WC-### codes covering all 30 workcells."
+  },
+  {
+   "id": "firmware_deployment_history.target_bot_ref -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Firmware deployment names its target robot; 941 of 951 robot registrations."
+  },
+  {
+   "id": "firmware_deployment_history.installation_duration_sec -> joint_condition.jcondid",
+   "verdict": "no",
+   "reason": "An installation duration in seconds, not a joint condition id."
+  },
+  {
+   "id": "firmware_security_audit.deployment_ref -> firmware_deployment_history.deployment_record_key",
+   "verdict": "yes",
+   "reason": "Security audit names the deployment it audits; opaque FIR- deployment keys."
+  },
+  {
+   "id": "grid_load_optimization.power_log_ref -> anomaly_detection_log.anomaly_pk",
+   "verdict": "no",
+   "reason": "The name points at power_consumption_log.power_log_pk; the match to anomaly_pk is two 1-100 surrogate sequences overlapping."
+  },
+  {
+   "id": "grid_load_optimization.carbon_intensity_g_kwh -> joint_condition.jcondid",
+   "verdict": "no",
+   "reason": "Carbon intensity, a measurement rather than an identifier."
+  },
+  {
+   "id": "human_proximity_events.involved_robot_ref -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Proximity event names the robot involved; 931 of 951 robot registrations."
+  },
+  {
+   "id": "incident_reports.reporting_tech_ref -> technicians.tech_code",
+   "verdict": "yes",
+   "reason": "Reporting technician; TCH_ ids covering all 50 technicians."
+  },
+  {
+   "id": "incident_reports.severity_level -> maintenance_parts_usage.usage_record",
+   "verdict": "no",
+   "reason": "A 1-5 severity level, not a row pointer."
+  },
+  {
+   "id": "joint_condition.jcondoperref -> operation.operreg",
+   "verdict": "yes",
+   "reason": "Joint condition sample names its operation; opaque OP_ codes, 1000 for 1000."
+  },
+  {
+   "id": "joint_condition.jcdetref -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Joint condition sample names its robot; RB registrations covering all 951."
+  },
+  {
+   "id": "joint_lubrication_status.vibration_sample_ref -> vibration_spectral_analysis.spectral_sample_id",
+   "verdict": "yes",
+   "reason": "Lubrication status names the vibration sample it derives from; opaque VIB- keys, 3513 distinct."
+  },
+  {
+   "id": "joint_performance.jperfoperref -> operation.operreg",
+   "verdict": "yes",
+   "reason": "Joint performance sample names its operation; opaque OP_ codes, 1000 for 1000."
+  },
+  {
+   "id": "joint_performance.jperfdetref -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Joint performance sample names its robot; all 951 robot registrations."
+  },
+  {
+   "id": "laser_tracker_verification.calibration_ref -> calibration_events.calibration_id",
+   "verdict": "yes",
+   "reason": "Laser verification names the calibration event it verifies; opaque CAL- keys, 151 of 152."
+  },
+  {
+   "id": "laser_tracker_verification.tracker_warmup_time_min -> production_log.production_log_pk",
+   "verdict": "no",
+   "reason": "A warmup time in minutes, not a production log pointer."
+  },
+  {
+   "id": "liability_claim_assessments.incident_ref -> incident_reports.incident_id",
+   "verdict": "yes",
+   "reason": "Claim assessment names the incident it assesses; opaque INC- keys, 239 of 241."
+  },
+  {
+   "id": "maintenance_and_fault.upkeepoperation -> operation.operreg",
+   "verdict": "yes",
+   "reason": "Maintenance record names the operation it covers; 513 distinct OP_ codes inside the operation key."
+  },
+  {
+   "id": "maintenance_logs.Maintained_Robot_Reg -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Maintenance log names the robot maintained; RB registrations, 100 distinct."
+  },
+  {
+   "id": "maintenance_logs.Related_Operation_Code -> operation.operreg",
+   "verdict": "yes",
+   "reason": "Maintenance log names the related operation; opaque OP_ codes from the operation key."
+  },
+  {
+   "id": "maintenance_logs.Performing_Tech_Num -> technicians.tech_code",
+   "verdict": "yes",
+   "reason": "Performing technician; TCH_ ids, 48 of 50 technicians."
+  },
+  {
+   "id": "maintenance_logs.PRIORITY_LEVEL -> maintenance_parts_usage.usage_record",
+   "verdict": "no",
+   "reason": "A 1-4 priority level, not a row pointer."
+  },
+  {
+   "id": "maintenance_logs.Approving_Supervisor_Tag -> technicians.tech_code",
+   "verdict": "yes",
+   "reason": "Approving supervisor drawn from the technician key; a narrow but genuine role subset of 9 technicians."
+  },
+  {
+   "id": "maintenance_parts_usage.Maintenance_Activity_Link -> maintenance_logs.WorkOrderTag",
+   "verdict": "yes",
+   "reason": "Parts usage linked to its work order; WO-25-#### tags from the maintenance log key."
+  },
+  {
+   "id": "maintenance_parts_usage.Part_SKU_Link -> spare_parts_inventory.part_sku",
+   "verdict": "yes",
+   "reason": "Part consumed, pointing at the spare part SKU vocabulary."
+  },
+  {
+   "id": "maintenance_parts_usage.quantity_used -> quality_inspections.inspection_pk",
+   "verdict": "no",
+   "reason": "A quantity of 1-4, not an inspection pointer."
+  },
+  {
+   "id": "material_storage_environment.shipment_ref -> supplier_shipments.shipment_tracking_id",
+   "verdict": "yes",
+   "reason": "Storage environment record names the shipment; opaque SUP- tracking ids, 147 of 149."
+  },
+  {
+   "id": "material_storage_environment.logger_battery_level_percent -> anomaly_detection_log.anomaly_pk",
+   "verdict": "no",
+   "reason": "A battery percentage, a measurement not an identifier."
+  },
+  {
+   "id": "material_storage_environment.shelf_life_remaining_days -> joint_condition.jcondid",
+   "verdict": "no",
+   "reason": "Shelf life in days; only containment in a large surrogate range."
+  },
+  {
+   "id": "mechanical_status.mechactref -> actuation_data.actreg",
+   "verdict": "yes",
+   "reason": "Mechanical status names its actuation sample; opaque AC_ codes, 728 distinct."
+  },
+  {
+   "id": "mechanical_status.mechdetref -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Mechanical status names its robot; 698 of 951 robot registrations."
+  },
+  {
+   "id": "operation.operrecref -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Operation names the robot that performed it; all 951 robot registrations."
+  },
+  {
+   "id": "operation.axiscountval -> maintenance_parts_usage.usage_record",
+   "verdict": "no",
+   "reason": "An axis count of 4-7, a physical attribute not a reference."
+  },
+  {
+   "id": "operator_biometric_telemetry.proximity_event_ref -> human_proximity_events.proximity_event_id",
+   "verdict": "yes",
+   "reason": "Biometric telemetry names the proximity event; opaque HUM- keys, 3661 distinct."
+  },
+  {
+   "id": "operator_biometric_telemetry.heart_rate_bpm -> production_log.production_log_pk",
+   "verdict": "no",
+   "reason": "A heart rate in bpm, a measurement not a row pointer."
+  },
+  {
+   "id": "performance_and_safety.effectivenessrobot -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Performance record names the robot it scores; 464 distinct robot registrations."
+  },
+  {
+   "id": "performance_and_safety.toolchangecount -> joint_condition.jcondid",
+   "verdict": "no",
+   "reason": "A tool change count; large-integer overlap with a 1000-row surrogate key is coincidence."
+  },
+  {
+   "id": "physics_engine_parameters.sync_event_ref -> digital_twin_sync_log.sync_event_id",
+   "verdict": "yes",
+   "reason": "Physics parameters name the sync event they apply to; opaque DIG- keys, all 126."
+  },
+  {
+   "id": "physics_engine_parameters.solver_iterations_count -> quality_inspections.inspection_pk",
+   "verdict": "no",
+   "reason": "A solver iteration setting of 10/20/50, not an inspection pointer."
+  },
+  {
+   "id": "power_consumption_log.botdetreg -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Identical column name and RB registrations; the power log is per robot."
+  },
+  {
+   "id": "product_materials.Product_SKU_Assoc -> products.product_sku",
+   "verdict": "yes",
+   "reason": "Link table's product side, using the product SKU vocabulary, 49 of 50 products."
+  },
+  {
+   "id": "product_materials.Material_Code_Assoc -> materials.material_code",
+   "verdict": "yes",
+   "reason": "Link table's material side, using the material code vocabulary, 35 of 58 materials."
+  },
+  {
+   "id": "production_log.operreg -> operation.operreg",
+   "verdict": "yes",
+   "reason": "Identical column name and opaque OP_ codes; the production log cites its operation."
+  },
+  {
+   "id": "production_log.order_num -> production_orders.order_num",
+   "verdict": "yes",
+   "reason": "Identical column name and ORD-25-#### order ids; a production log line belongs to an order."
+  },
+  {
+   "id": "production_orders.product_sku -> products.product_sku",
+   "verdict": "yes",
+   "reason": "Order's product, using the product SKU vocabulary, 45 of 50 products."
+  },
+  {
+   "id": "production_orders.workcell_code -> workcells.workcell_code",
+   "verdict": "yes",
+   "reason": "Order executed in a workcell; WC-### codes from the workcell key."
+  },
+  {
+   "id": "production_orders.priority -> maintenance_parts_usage.usage_record",
+   "verdict": "no",
+   "reason": "A 1-3 priority, not a row pointer."
+  },
+  {
+   "id": "quality_inspections.production_log_pk -> production_log.production_log_pk",
+   "verdict": "yes",
+   "reason": "Identical column name as the production log key and a near one-to-one row match; the inspection is of that production log entry."
+  },
+  {
+   "id": "quality_inspections.tech_code -> technicians.tech_code",
+   "verdict": "yes",
+   "reason": "Inspecting technician; TCH_ ids from the technician key."
+  },
+  {
+   "id": "robot_details.payloadcapkg -> joint_condition.jcondid",
+   "verdict": "no",
+   "reason": "A payload capacity in kg with 7 distinct values; a physical attribute, not a reference."
+  },
+  {
+   "id": "simulation_models.botdetreg -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Same column name as the robot key and RB registrations; a simulation model is built for one robot, as its SIM-RB####-01 code confirms."
+  },
+  {
+   "id": "simulation_runs.model_code -> simulation_models.model_code",
+   "verdict": "yes",
+   "reason": "Simulation run names the model it ran; SIM- model codes, 25 of 40 models."
+  },
+  {
+   "id": "spare_parts_inventory.QUANTITY_ON_HAND -> joint_condition.jcondid",
+   "verdict": "no",
+   "reason": "A stock quantity, not a joint condition id."
+  },
+  {
+   "id": "spare_parts_inventory.MAX_STOCK_LEVEL -> joint_condition.jcondid",
+   "verdict": "no",
+   "reason": "A stock level setting, not a joint condition id."
+  },
+  {
+   "id": "spare_parts_inventory.lead_time_days -> production_log.production_log_pk",
+   "verdict": "no",
+   "reason": "A lead time in days, not a production log pointer."
+  },
+  {
+   "id": "spare_parts_inventory.Inventory_Check_By_Tech -> technicians.tech_code",
+   "verdict": "yes",
+   "reason": "Technician who performed the inventory check; TCH_ ids from the technician key."
+  },
+  {
+   "id": "supplier_shipments.material_ref -> materials.material_code",
+   "verdict": "yes",
+   "reason": "Shipment names the material shipped; material codes, 54 of 58 materials."
+  },
+  {
+   "id": "supplier_shipments.quantity_received -> anomaly_detection_log.anomaly_pk",
+   "verdict": "no",
+   "reason": "A received quantity, a measurement not an identifier."
+  },
+  {
+   "id": "system_controller.systemoverseeroperation -> operation.operreg",
+   "verdict": "yes",
+   "reason": "Controller record names its operation; opaque OP_ codes, 1000 for 1000."
+  },
+  {
+   "id": "technician_certifications.Certified_Technician_Tag -> technicians.tech_code",
+   "verdict": "yes",
+   "reason": "Certification held by a technician; all 50 technician codes used."
+  },
+  {
+   "id": "technician_certifications.Certification_Index -> certifications.CERT_INDEX",
+   "verdict": "yes",
+   "reason": "The certification held; CERT_ index values from the certification key."
+  },
+  {
+   "id": "vibration_spectral_analysis.joint_perf_ref -> joint_condition.jcondid",
+   "verdict": "no",
+   "reason": "The name says joint performance, whose key is jperfid; joint_condition shares the same 1-1000 surrogate range, so this target is the wrong one of the two."
+  },
+  {
+   "id": "vision_system_telemetry.workcell_ref -> workcells.workcell_code",
+   "verdict": "yes",
+   "reason": "Vision telemetry names its workcell; WC-### codes, 28 of 30 workcells."
+  },
+  {
+   "id": "waste_recycling_log.production_run_ref -> production_log.production_log_pk",
+   "verdict": "yes",
+   "reason": "Waste log names the production run it came from; 124 of 130 production log ids with good spread."
+  },
+  {
+   "id": "workcells.Cell_Primary_Robot_Code -> robot_details.botdetreg",
+   "verdict": "yes",
+   "reason": "Workcell names its primary robot; one RB registration per cell."
+  },
+  {
+   "id": "workcells.length_m -> maintenance_parts_usage.usage_record",
+   "verdict": "no",
+   "reason": "A cell length in metres, not an identifier."
+  },
+  {
+   "id": "workcells.WIDTH_M -> maintenance_parts_usage.usage_record",
+   "verdict": "no",
+   "reason": "A cell width in metres, not an identifier."
+  },
+  {
+   "id": "workcells.EmergencyStopCount -> maintenance_parts_usage.usage_record",
+   "verdict": "no",
+   "reason": "An emergency stop count, a measurement not a reference."
+  },
+  {
+   "id": "actuation_data.actreg -> system_controller.systemoverseeractuation",
+   "verdict": "no",
+   "reason": "Reverse direction: actuation_data.actreg is the actuation key and system_controller carries the pointer to it, not the other way round."
+  },
+  {
+   "id": "anomaly_detection_log.anomaly_pk -> power_consumption_log.power_log_pk",
+   "verdict": "no",
+   "reason": "Two independent surrogate primary keys that both happen to run 1-100."
+  },
+  {
+   "id": "end_effector_attachment_log.attachment_event_key -> simulation_runs.run_pk",
+   "verdict": "no",
+   "reason": "Two independent surrogate primary keys that both happen to run 1-80."
+  },
+  {
+   "id": "joint_condition.jcondid -> joint_performance.jperfid",
+   "verdict": "no",
+   "reason": "Parallel per-operation sibling tables with independent 1-1000 surrogate keys; neither is a pointer to the other."
+  },
+  {
+   "id": "joint_performance.jperfid -> joint_condition.jcondid",
+   "verdict": "no",
+   "reason": "Parallel per-operation sibling tables with independent 1-1000 surrogate keys; neither is a pointer to the other."
+  },
+  {
+   "id": "maintenance_and_fault.upkeepactuation -> actuation_data.actreg",
+   "verdict": "yes",
+   "reason": "Maintenance record keyed by the actuation sample it concerns; 513 opaque AC_ codes inside the actuation key, the one-to-one shape."
+  },
+  {
+   "id": "maintenance_parts_usage.usage_record -> quality_inspections.inspection_pk",
+   "verdict": "no",
+   "reason": "Two independent surrogate keys, 45 usage records nesting inside 62 inspection ids."
+  },
+  {
+   "id": "mechanical_status.mechoperref -> operation.operreg",
+   "verdict": "yes",
+   "reason": "Mechanical status keyed by its operation; 728 opaque OP_ codes inside the operation key, the one-to-one shape."
+  },
+  {
+   "id": "performance_and_safety.effectivenessactuation -> actuation_data.actreg",
+   "verdict": "yes",
+   "reason": "Performance record keyed by its actuation sample; 479 opaque AC_ codes inside the actuation key."
+  },
+  {
+   "id": "power_consumption_log.power_log_pk -> anomaly_detection_log.anomaly_pk",
+   "verdict": "no",
+   "reason": "Two independent surrogate primary keys that both happen to run 1-100."
+  },
+  {
+   "id": "product_materials.prod_mat_link -> anomaly_detection_log.anomaly_pk",
+   "verdict": "no",
+   "reason": "The link table's own surrogate key nesting in an unrelated 1-100 surrogate key; no naming or role connection."
+  },
+  {
+   "id": "production_log.production_log_pk -> joint_condition.jcondid",
+   "verdict": "no",
+   "reason": "A surrogate key of 130 rows nesting inside a 1000-row surrogate key; type agreement only."
+  },
+  {
+   "id": "quality_inspections.inspection_pk -> end_effector_attachment_log.attachment_event_key",
+   "verdict": "no",
+   "reason": "Two independent surrogate keys, 62 inspections nesting inside 80 attachment events."
+  },
+  {
+   "id": "robot_details.botdetreg -> robot_record.botcode",
+   "verdict": "yes",
+   "reason": "One-to-one entity split: the detail row's registration is exactly the robot record's code, 951 for 951."
+  },
+  {
+   "id": "robot_record.botcode -> robot_details.botdetreg",
+   "verdict": "no",
+   "reason": "Reverse direction of the same one-to-one: robot_record is the master entity and robot_details the extension that points back to it."
+  },
+  {
+   "id": "simulation_runs.run_pk -> end_effector_attachment_log.attachment_event_key",
+   "verdict": "no",
+   "reason": "Two independent surrogate primary keys that both happen to run 1-80."
+  },
+  {
+   "id": "system_controller.systemoverseeractuation -> actuation_data.actreg",
+   "verdict": "yes",
+   "reason": "The controller's actuation pointer into the actuation key; opaque AC_ codes, 1000 for 1000."
+  },
+  {
+   "id": "technician_certifications.tech_cert_record -> end_effector_attachment_log.attachment_event_key",
+   "verdict": "no",
+   "reason": "The certification table's own surrogate key nesting in an unrelated 1-80 surrogate key."
+  }
+ ]
+}

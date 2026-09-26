@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "LIST d FROM DISTINCT Transactions1k [has Gasstation has GasstationCountry: 'CZE'] has Product has ProductDescription d",
+  "attempts": 3
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE COUNT OF Yearmonth [has Customer has CustomerCurrency: 'EUR'] [has YearmonthConsumption c] WHERE c > 1000",
+  "attempts": 5
+ },
+ {
+  "question_id": 1481,
+  "answer": "LIST (THE SUM OF v IN (Yearmonth [has Customer has CustomerCurrency: 'CZK'] has YearmonthDate d AND ALSO has YearmonthConsumption c AND ALSO has Customer has CustomerSegment sg AND ALSO if(sg = 'SME' AND starts_with(d, '2013'), c, 0) AS v) - THE SUM OF v IN (Yearmonth [has Customer has CustomerCurrency: 'CZK'] has YearmonthDate d AND ALSO has YearmonthConsumption c AND ALSO has Customer has CustomerSegment sg AND ALSO if(sg = 'LAM' AND starts_with(d, '2013'), c, 0) AS v)) / THE SUM OF u IN (Yearmonth [has Customer has CustomerCurrency: 'CZK'] has YearmonthDate d AND ALSO if(starts_with(d, '2013'), 1, 0) AS u), (THE SUM OF v IN (Yearmonth [has Customer has CustomerCurrency: 'CZK'] has YearmonthDate d AND ALSO has YearmonthConsumption c AND ALSO has Customer has CustomerSegment sg AND ALSO if(sg = 'LAM' AND starts_with(d, '2013'), c, 0) AS v) - THE SUM OF v IN (Yearmonth [has Customer has CustomerCurrency: 'CZK'] has YearmonthDate d AND ALSO has YearmonthConsumption c AND ALSO has Customer has CustomerSegment sg AND ALSO if(sg = 'KAM' AND starts_with(d, '2013'), c, 0) AS v)) / THE SUM OF u IN (Yearmonth [has Customer has CustomerCurrency: 'CZK'] has YearmonthDate d AND ALSO if(starts_with(d, '2013'), 1, 0) AS u), (THE SUM OF v IN (Yearmonth [has Customer has CustomerCurrency: 'CZK'] has YearmonthDate d AND ALSO has YearmonthConsumption c AND ALSO has Customer has CustomerSegment sg AND ALSO if(sg = 'KAM' AND starts_with(d, '2013'), c, 0) AS v) - THE SUM OF v IN (Yearmonth [has Customer has CustomerCurrency: 'CZK'] has YearmonthDate d AND ALSO has YearmonthConsumption c AND ALSO has Customer has CustomerSegment sg AND ALSO if(sg = 'SME' AND starts_with(d, '2013'), c, 0) AS v)) / THE SUM OF u IN (Yearmonth [has Customer has CustomerCurrency: 'CZK'] has YearmonthDate d AND ALSO if(starts_with(d, '2013'), 1, 0) AS u)",
+  "attempts": 7
+ },
+ {
+  "question_id": 1486,
+  "answer": "THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] - THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR']",
+  "attempts": 3
+ },
+ {
+  "question_id": 1525,
+  "answer": "THE COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25'] [has Customer has CustomerCurrency: 'EUR'] * 100 / THE COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25']",
+  "attempts": 3
+ },
+ {
+  "question_id": 1501,
+  "answer": "LIST c FROM DISTINCT Transactions1k [has Customer is of Yearmonth has YearmonthDate: '201306'] has Gasstation has GasstationCountry c",
+  "attempts": 3
+ }
+]

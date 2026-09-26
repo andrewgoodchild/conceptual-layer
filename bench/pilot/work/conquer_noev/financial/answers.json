@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 137,
+  "answer": "THE COUNT OF Account [has District: 1] [is of Loan has LoanStatus s] WHERE s = 'C' OR s = 'D'",
+  "attempts": 2
+ },
+ {
+  "question_id": 173,
+  "answer": "LIST f, k FROM DISTINCT Account: 3 has AccountFrequency f AND ALSO is of Tran [has TranAmount: 3539] has TranKSymbol k",
+  "attempts": 3
+ },
+ {
+  "question_id": 92,
+  "answer": "THE DISTINCT COUNT OF District [is of Client has ClientGender: 'F'] [has DistrictA11 s] WHERE s > 6000 AND s < 10000",
+  "attempts": 2
+ },
+ {
+  "question_id": 189,
+  "answer": "LIST a FROM Client [has ClientGender: 'F'] has ClientBirthDate b AND ALSO has District has DistrictA11 s AND ALSO is of Disp has Account has AccountId a ORDERED WITH b ASCENDING, s ASCENDING THE FIRST 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 128,
+  "answer": "LIST d, c FROM Client cl [has ClientGender: 'F'] [is of Disp has DispType: 'OWNER'] has District has DistrictId d AND ALSO THE DISTINCT COUNT OF cl GROUPED BY d AS c ORDERED WITH c DESCENDING THE FIRST 9",
+  "attempts": 2
+ },
+ {
+  "question_id": 89,
+  "answer": "THE COUNT OF Account [has AccountFrequency: 'POPLATEK PO OBRATU'] [has District has DistrictA3: 'east Bohemia']",
+  "attempts": 1
+ }
+]

@@ -1,0 +1,67 @@
+[
+ {
+  "question_id": 930,
+  "answer": "SELECT races.name FROM results JOIN drivers ON results.driverId = drivers.driverId JOIN races ON results.raceId = races.raceId WHERE drivers.forename = 'Lewis' AND drivers.surname = 'Hamilton' AND results.rank > 0 ORDER BY results.rank ASC LIMIT 1;",
+  "attempts": 2
+ },
+ {
+  "question_id": 1011,
+  "answer": "SELECT drivers.forename, drivers.surname FROM drivers JOIN lapTimes ON drivers.driverId = lapTimes.driverId WHERE lapTimes.time = (SELECT MIN(time) FROM lapTimes);",
+  "attempts": 1
+ },
+ {
+  "question_id": 909,
+  "answer": "SELECT CAST(COUNT(CASE WHEN circuits.country = 'Germany' THEN 1 END) AS REAL) * 100 / COUNT(*) FROM races JOIN circuits ON races.circuitId = circuits.circuitId WHERE races.name = 'European Grand Prix';",
+  "attempts": 1
+ },
+ {
+  "question_id": 892,
+  "answer": "SELECT drivers.forename, drivers.surname, driverStandings.points FROM driverStandings JOIN drivers ON driverStandings.driverId = drivers.driverId ORDER BY driverStandings.points DESC LIMIT 1;",
+  "attempts": 1
+ },
+ {
+  "question_id": 854,
+  "answer": "SELECT DISTINCT circuits.lat, circuits.lng FROM circuits JOIN races ON races.circuitId = circuits.circuitId WHERE races.name = 'Australian Grand Prix';",
+  "attempts": 1
+ },
+ {
+  "question_id": 898,
+  "answer": "SELECT drivers.forename, drivers.surname, (STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', drivers.dob)) AS age FROM drivers WHERE drivers.nationality = 'Japanese' ORDER BY drivers.dob DESC LIMIT 1;",
+  "attempts": 1
+ },
+ {
+  "question_id": 877,
+  "answer": "SELECT drivers.forename, drivers.surname FROM results JOIN drivers ON results.driverId = drivers.driverId WHERE results.raceId = 872 AND results.time IS NOT NULL AND results.time <> '' ORDER BY drivers.dob DESC LIMIT 1;",
+  "attempts": 1
+ },
+ {
+  "question_id": 906,
+  "answer": "SELECT races.name, results.points FROM results JOIN drivers ON results.driverId = drivers.driverId JOIN races ON results.raceId = races.raceId WHERE drivers.forename = 'Lewis' AND drivers.surname = 'Hamilton' ORDER BY races.date ASC LIMIT 1;",
+  "attempts": 2
+ },
+ {
+  "question_id": 988,
+  "answer": "SELECT drivers.forename, drivers.surname FROM pitStops JOIN drivers ON pitStops.driverId = drivers.driverId WHERE drivers.nationality = 'German' AND STRFTIME('%Y', drivers.dob) BETWEEN '1980' AND '1985' GROUP BY drivers.driverId ORDER BY AVG(pitStops.duration) ASC LIMIT 3;",
+  "attempts": 2
+ },
+ {
+  "question_id": 881,
+  "answer": "SELECT CAST(COUNT(CASE WHEN results.time IS NOT NULL AND results.time <> '' THEN 1 END) AS REAL) * 100 / COUNT(results.driverId) FROM results JOIN races ON results.raceId = races.raceId WHERE races.date = '1983-07-16';",
+  "attempts": 1
+ },
+ {
+  "question_id": 977,
+  "answer": "SELECT COUNT(*) FROM results WHERE raceId > 50 AND raceId < 100 AND statusId = 2 AND time IS NOT NULL AND time <> '';",
+  "attempts": 1
+ },
+ {
+  "question_id": 915,
+  "answer": "SELECT nationality FROM drivers WHERE dob IS NOT NULL AND dob <> '' ORDER BY dob ASC LIMIT 1;",
+  "attempts": 2
+ },
+ {
+  "question_id": 868,
+  "answer": "SELECT DISTINCT circuits.lat, circuits.lng FROM circuits JOIN races ON races.circuitId = circuits.circuitId WHERE races.name = 'Malaysian Grand Prix';",
+  "attempts": 1
+ }
+]

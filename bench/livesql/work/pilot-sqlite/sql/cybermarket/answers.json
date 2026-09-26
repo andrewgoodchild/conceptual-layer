@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "cybermarket_1",
+  "answer": "SELECT r.riskregistry, (r.txchainlen * 10 + r.linkedtxcount * 5 + r.fraudprob * 100 - r.profilecomplete * 0.5 - r.idverifyscore * 0.5) AS tcr, t.txregistry, t.payamtusd\nFROM riskanalysis r\nJOIN transactions t ON r.txref = t.txregistry\nWHERE (r.txchainlen * 10 + r.linkedtxcount * 5 + r.fraudprob * 100 - r.profilecomplete * 0.5 - r.idverifyscore * 0.5) > 150 AND r.wallage < 30 AND r.wallturnrt > 5 AND r.linkedtxcount >= 3\nORDER BY tcr DESC"
+ },
+ {
+  "question_id": "cybermarket_3",
+  "answer": "SELECT m.mktregistry, m.mktdenom, ROUND((m.dlyflow / 1000.0 + m.esccomprate * 0.2 + m.interscore * 0.3 + m.vendcount * 0.1 - m.mktspan / 100.0), 2) AS mrs\nFROM markets m\nORDER BY mrs DESC"
+ },
+ {
+  "question_id": "cybermarket_10",
+  "answer": "SELECT v.vendregistry, ROUND((v.vendrate * 10 + (v.vendsucccount * 1.0 / v.vendtxcount) * 50 + (CASE v.vendchecklvl WHEN 'Basic' THEN 1 WHEN 'Advanced' THEN 2 WHEN 'Premium' THEN 3 ELSE 0 END) * 15 - (v.venddisputecount * 1.0 / v.vendtxcount) * 100), 2) AS vrs\nFROM vendors v\nWHERE v.vendtxcount > 0\nORDER BY vrs DESC"
+ },
+ {
+  "question_id": "cybermarket_7",
+  "answer": "SELECT i.investregistry, ((CASE i.lawinterest WHEN 'Low' THEN 1 WHEN 'Medium' THEN 2 WHEN 'High' THEN 3 ELSE 2 END) * 30 + (CASE i.regrisklvl WHEN 'Low' THEN 1 WHEN 'Medium' THEN 2 WHEN 'High' THEN 3 ELSE 2 END) * 20 + r.fraudprob * 100 - i.compliancescore * 0.5 + i.notescount * 2) AS ips, i.lawinterest, t.txregistry\nFROM investigation i\nJOIN riskanalysis r ON i.riskref = r.riskregistry\nJOIN transactions t ON r.txref = t.txregistry\nJOIN markets m ON t.mktref = m.mktregistry\nWHERE ((CASE i.lawinterest WHEN 'Low' THEN 1 WHEN 'Medium' THEN 2 WHEN 'High' THEN 3 ELSE 2 END) * 30 + (CASE i.regrisklvl WHEN 'Low' THEN 1 WHEN 'Medium' THEN 2 WHEN 'High' THEN 3 ELSE 2 END) * 20 + r.fraudprob * 100 - i.compliancescore * 0.5 + i.notescount * 2) > 200\n  AND i.lawinterest = 'High'\n  AND t.paymethod = 'Crypto_B'\n  AND (t.escrowused = 'No' OR t.escrowhrs < 24)\n  AND t.routecomplexity = 'Complex'\n  AND ((t.payamtusd / 1000.0) * (t.txfinishhrs / 24.0) * (1 + t.escrowhrs / 100.0) * (1 - m.esccomprate / 100.0)) > 75\n  AND m.vendcount > 100\n  AND m.dlyflow > 5000\n  AND EXISTS (SELECT 1 FROM securitymonitoring s\n              JOIN riskanalysis r2 ON s.riskref = r2.riskregistry\n              JOIN transactions t2 ON r2.txref = t2.txregistry\n              WHERE t2.mktref = m.mktregistry AND s.alertsev = 'High')\nORDER BY ips DESC"
+ },
+ {
+  "question_id": "cybermarket_9",
+  "answer": "SELECT v.vendregistry, m.sizecluster, ((v.vendsucccount * 1.0 / v.vendtxcount) * 100 - (v.venddisputecount * 1.0 / v.vendtxcount) * 50 + v.vendrate * 5) AS vti, (COUNT(DISTINCT v.mktref) * 5 + v.vendtxcount / 50.0 + ((v.vendsucccount * 1.0 / v.vendtxcount) * 100 - (v.venddisputecount * 1.0 / v.vendtxcount) * 50 + v.vendrate * 5) * 0.1 - (1 - (CASE m.sizecluster WHEN 'Small' THEN 1 WHEN 'Medium' THEN 2 WHEN 'Large' THEN 3 WHEN 'Mega' THEN 4 ELSE 0 END)) * 10) AS vnc\nFROM vendors v\nLEFT JOIN markets m ON v.mktref = m.mktregistry\nGROUP BY v.vendregistry, m.sizecluster, v.vendtxcount, v.vendsucccount, v.venddisputecount, v.vendrate\nHAVING vnc > 50\nORDER BY vnc DESC"
+ },
+ {
+  "question_id": "cybermarket_6",
+  "answer": "SELECT t.txregistry, t.paymethod, t.payamtusd, t.escrowused, t.escrowhrs, t.routecomplexity, ((t.payamtusd / 1000.0) * (t.txfinishhrs / 24.0) * (1 + t.escrowhrs / 100.0) * (1 - m.esccomprate / 100.0)) AS tas\nFROM transactions t\nJOIN markets m ON t.mktref = m.mktregistry\nWHERE ((t.payamtusd / 1000.0) * (t.txfinishhrs / 24.0) * (1 + t.escrowhrs / 100.0) * (1 - m.esccomprate / 100.0)) > 75\n  AND t.paymethod = 'Crypto_B'\n  AND (t.escrowused = 'No' OR t.escrowhrs < 24)\n  AND t.routecomplexity = 'Complex'\nORDER BY tas DESC"
+ },
+ {
+  "question_id": "cybermarket_5",
+  "answer": "SELECT m.mktregistry, m.mktdenom, m.mktclass,\n       (m.mktspan / 365.0) * (m.esccomprate / 100.0)\n       * (1 - CASE WHEN COALESCE(SUM(v.vendtxcount), 0) = 0 THEN 0\n                   ELSE COALESCE(SUM(v.venddisputecount), 0) * 1.0 / SUM(v.vendtxcount) END) * 100 AS msi,\n       json_extract(m.market_status_reputation, '$.status') AS current_status\nFROM markets m\nLEFT JOIN vendors v ON v.mktref = m.mktregistry\nGROUP BY m.mktregistry, m.mktdenom, m.mktclass, m.mktspan, m.esccomprate, m.market_status_reputation\nORDER BY msi DESC"
+ },
+ {
+  "question_id": "cybermarket_8",
+  "answer": "WITH c AS (\n  SELECT commregistry, vpnflag, langpattern, msgtally,\n         (CASE vpnflag WHEN 'Yes' THEN 1 WHEN 'Suspected' THEN 0.5 WHEN 'No' THEN 0 ELSE 0 END) AS vpn_num,\n         (iptally * 5 + tornodecount * 2\n          + (CASE vpnflag WHEN 'Yes' THEN 1 WHEN 'Suspected' THEN 0.5 WHEN 'No' THEN 0 ELSE 0 END) * 30\n          + brwsrunique / 10.0 + susppatscore * 3 + riskindiccount * 4) AS csr\n  FROM communication\n), d AS (\n  SELECT c.*,\n         ((CASE langpattern WHEN 'Consistent' THEN 1 WHEN 'Variable' THEN 2 WHEN 'Suspicious' THEN 3 ELSE 0 END) * 15\n          + csr * 0.2 + msgtally * 0.5 - (1 - vpn_num) * 20) AS cpr\n  FROM c\n)\nSELECT commregistry, vpnflag, langpattern, msgtally, ROUND(csr, 2) AS csr, ROUND(cpr, 2) AS cpr,\n       CASE WHEN cpr > 70 AND langpattern = 'Suspicious' AND csr > 80\n            THEN 'Deceptive Pattern' ELSE 'Normal Pattern' END AS pattern_classification\nFROM d\nORDER BY cpr DESC"
+ },
+ {
+  "question_id": "cybermarket_2",
+  "answer": "SELECT v.vendregistry, v.vendrate, v.mktref, ((v.vendsucccount * 1.0 / v.vendtxcount) * 100 - (v.venddisputecount * 1.0 / v.vendtxcount) * 50 + v.vendrate * 5) AS vti\nFROM vendors v\nWHERE ((v.vendsucccount * 1.0 / v.vendtxcount) * 100 - (v.venddisputecount * 1.0 / v.vendtxcount) * 50 + v.vendrate * 5) > 80\n  AND v.vendchecklvl IN ('Advanced', 'Premium')\n  AND (v.venddisputecount * 1.0 / v.vendtxcount) < 0.05\n  AND v.vendspan > 90\nORDER BY vti DESC"
+ },
+ {
+  "question_id": "cybermarket_4",
+  "answer": "SELECT commregistry,\n       ((CASE vpnflag WHEN 'Yes' THEN 1 WHEN 'Suspected' THEN 0.5 WHEN 'No' THEN 0 ELSE 0 END) * 30\n        + tornodecount * 2\n        + (CASE encryptmethod WHEN 'Standard' THEN 1 WHEN 'Enhanced' THEN 2 WHEN 'Custom' THEN 3 ELSE 0 END) * 15\n        + connpatscore * 0.2 + brwsrunique / 20.0) AS apl\nFROM communication\nWHERE tornodecount > 20\nORDER BY apl DESC"
+ }
+]

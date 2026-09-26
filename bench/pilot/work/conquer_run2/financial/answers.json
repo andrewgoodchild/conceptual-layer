@@ -1,0 +1,33 @@
+[
+ {
+  "question_id": 137,
+  "answer": "THE DISTINCT COUNT OF Account [has District: 1] is of Loan has LoanStatus s WHERE s = 'C' OR s = 'D'",
+  "attempts": 2
+ },
+ {
+  "question_id": 173,
+  "answer": "LIST c, k FROM Account a [has AccountId: 3] AND ALSO THE DISTINCT COUNT OF t IN a is of Tran t [has TranKSymbol: 'SLUZBY'] GROUPED BY a AS c AND ALSO is of Tran [has TranAmount: 3539] has TranKSymbol k",
+  "attempts": 5,
+  "note": "Compound question: 'how often' = count of account 3's transactions with k_symbol SLUZBY (statement-release requests) = 13; 'aim of debiting 3539' = k_symbol of account 3's transactions whose amount is exactly 3539 (all 13 such transactions share k_symbol POJISTNE, i.e. insurance payment). Verified trans_id 3539 itself belongs to a different account (15) and is unrelated, so '3539' in the question is the transaction amount, not an id. Combined both measures into one query via a shared Account head."
+ },
+ {
+  "question_id": 92,
+  "answer": "THE DISTINCT COUNT OF District [has DistrictA11 a] [is of Client has ClientGender: 'F'] WHERE a > 6000 AND a < 10000",
+  "attempts": 3
+ },
+ {
+  "question_id": 189,
+  "answer": "LIST acc FROM Client [has ClientGender: 'F'] is of Disp has Account has AccountId acc AND ALSO has ClientBirthDate b AND ALSO has District has DistrictA11 a ORDERED WITH b ASCENDING, a ASCENDING THE FIRST 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 128,
+  "answer": "LIST a2 FROM Client cl [has ClientGender: 'F'] has District has DistrictA2 a2 AND ALSO THE DISTINCT COUNT OF cl GROUPED BY a2 AS c ORDERED WITH c DESCENDING THE FIRST 9",
+  "attempts": 3
+ },
+ {
+  "question_id": 89,
+  "answer": "THE COUNT OF Account [has AccountFrequency: 'POPLATEK PO OBRATU'] [has District has DistrictA3: 'east Bohemia']",
+  "attempts": 2
+ }
+]

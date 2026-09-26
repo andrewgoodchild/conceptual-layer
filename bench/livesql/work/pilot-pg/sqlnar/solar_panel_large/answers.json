@@ -1,0 +1,34 @@
+[
+  {
+    "question_id": "solar_panel_17",
+    "answer": "WITH snap AS (\n  SELECT om.maintcost,\n         om.mtbfh,\n         om.mttrh,\n         EXTRACT(EPOCH FROM (pr.snapts - p.goliveon)) / 3600.0 AS total_hours\n  FROM plant_record pr\n  JOIN plants p ON p.sitekey = pr.sitetie\n  JOIN operational_metrics om ON om.snapops = pr.snapkey\n)\nSELECT AVG(maintcost / (total_hours / mtbfh)) AS avg_mean_repair_cost\nFROM snap\nWHERE mtbfh > 0\n  AND total_hours > 0\n  AND mttrh / (mtbfh + mttrh) > 0.05"
+  },
+  {
+    "question_id": "solar_panel_15",
+    "answer": "SELECT SUM(pm.degyrrate * 400000 * 50 * 15) AS total_lifetime_revenue_loss\nFROM plants p\nJOIN panel_models pm ON pm.modkey = p.modhook\nWHERE pm.degyrrate * 20 > 14"
+  },
+  {
+    "question_id": "solar_panel_16",
+    "answer": "SELECT LOWER(pm.pnlkind) AS panel_kind,\n       AVG(((ep.elec_perf_snapshot->'iv_curve'->>'vmp_initial_v')::numeric\n            - (ep.elec_perf_snapshot->'iv_curve'->>'vmp_now_v')::numeric)\n           / (ep.elec_perf_snapshot->'iv_curve'->>'vmp_initial_v')::numeric) AS avg_voltage_degradation_factor\nFROM electrical_performance ep\nJOIN plant_record pr ON pr.snapkey = ep.snaplink\nJOIN plants p ON p.sitekey = pr.sitetie\nJOIN panel_models pm ON pm.modkey = p.modhook\nWHERE ep.elec_perf_snapshot->'iv_curve'->>'vmp_initial_v' IS NOT NULL\n  AND ep.elec_perf_snapshot->'iv_curve'->>'vmp_now_v' IS NOT NULL\n  AND (ep.elec_perf_snapshot->'iv_curve'->>'vmp_initial_v')::numeric > 0\nGROUP BY LOWER(pm.pnlkind)\nORDER BY avg_voltage_degradation_factor DESC"
+  },
+  {
+    "question_id": "solar_panel_13",
+    "answer": "SELECT p.sitelabel, p.warrclaims\nFROM plants p\nWHERE p.warrclaims > 2\n  AND LOWER(p.warrstate) = 'claimed'\nORDER BY p.warrclaims DESC"
+  },
+  {
+    "question_id": "solar_panel_11",
+    "answer": "SELECT ROUND(AVG(om.mttrh)::numeric, 2) AS avg_mean_time_to_repair\nFROM plant_record pr\nJOIN plants p ON p.sitekey = pr.sitetie\nJOIN electrical_performance ep ON ep.snaplink = pr.snapkey\nJOIN operational_metrics om ON om.snapops = pr.snapkey\nWHERE (ep.elec_perf_snapshot->'efficiency'->>'cumulative_deg_pct')::numeric\n      / NULLIF(EXTRACT(YEAR FROM pr.snapts) - EXTRACT(YEAR FROM p.goliveon), 0) > 0.5"
+  },
+  {
+    "question_id": "solar_panel_1",
+    "answer": "SELECT ROUND((om.mttrh / (om.mtbfh + om.mttrh))::numeric, 4) AS system_unavailability\nFROM plants p\nJOIN plant_record pr ON pr.sitetie = p.sitekey\nJOIN operational_metrics om ON om.snapops = pr.snapkey\nWHERE LOWER(p.sitelabel) = 'solar plant west davidport'"
+  },
+  {
+    "question_id": "solar_panel_8",
+    "answer": "SELECT ROUND(AVG(om.maintcost / (17520.0 / om.mtbfh))::numeric, 0) AS mean_repair_cost\nFROM operational_metrics om\nJOIN plant_record pr ON pr.snapkey = om.snapops\nJOIN plants p ON p.sitekey = pr.sitetie\nJOIN panel_models pm ON pm.modkey = p.modhook\nWHERE LOWER(pm.pnlkind) = 'hjt'\n  AND om.mtbfh IS NOT NULL\n  AND om.mtbfh > 0"
+  },
+  {
+    "question_id": "solar_panel_7",
+    "answer": "SELECT ROUND(AVG((ep.elec_perf_snapshot->'iv_curve'->>'fill_factor_initial')::numeric\n                 - (ep.elec_perf_snapshot->'iv_curve'->>'fill_factor_now')::numeric), 3) AS avg_fill_factor_degradation\nFROM electrical_performance ep\nJOIN mechanical_condition mc ON mc.snapmk = ep.snaplink\nWHERE LOWER(mc.mech_health_snapshot->'module_surface'->>'busbar_corrosion') = 'severe'\n  AND ep.elec_perf_snapshot->'iv_curve'->>'fill_factor_initial' IS NOT NULL\n  AND ep.elec_perf_snapshot->'iv_curve'->>'fill_factor_now' IS NOT NULL"
+  }
+]

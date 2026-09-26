@@ -1,0 +1,1822 @@
+{
+ "database": "cybermarket_pattern_large",
+ "tables": [
+  "AlertEscalationHistory",
+  "AlertResponseWorkflow",
+  "BuyerLoyaltyProgram",
+  "BuyerPurchasePatterns",
+  "BuyerSessionAnalytics",
+  "DisputeArbitrationDetails",
+  "MarketCompetitorAnalysis",
+  "MarketTrendAnalysis",
+  "PaymentFraudIndicators",
+  "PaymentProcessingEvents",
+  "PlatformIncidentReports",
+  "PlatformServiceHealth",
+  "RiskModelCalibration",
+  "RiskModelPredictions",
+  "TransactionDisputeDetails",
+  "VendorComplianceAudits",
+  "VendorComplianceDocuments",
+  "VendorInventorySnapshot",
+  "VendorPerformanceMetrics",
+  "VendorShipmentTracking",
+  "alert_case_actions",
+  "alerts",
+  "buyer_device_fingerprints",
+  "buyer_risk_history",
+  "buyers",
+  "communications",
+  "connection_attack_surface",
+  "connection_security",
+  "currency_rate_history",
+  "insurance_claim_evidence",
+  "knowledge_graph_nodes",
+  "market_regulatory_audits",
+  "market_traffic_analytics",
+  "markets",
+  "platform_availability_snapshots",
+  "platform_policy_documents",
+  "product_attribute_metrics",
+  "product_review_feedback",
+  "product_review_tag_map",
+  "products",
+  "risk_analytics",
+  "risk_ml_feature_vectors",
+  "tag_library",
+  "transaction_products",
+  "transaction_settlement_info",
+  "transactions",
+  "vendor_countries",
+  "vendor_financial_history",
+  "vendor_insurance_claims",
+  "vendor_insurance_policies",
+  "vendor_markets",
+  "vendor_payment_methods",
+  "vendor_profile_details",
+  "vendor_regulatory_licenses",
+  "vendor_social_media",
+  "vendors"
+ ],
+ "candidates": [
+  {
+   "id": "AlertEscalationHistory.alert_ref -> alerts.EventTag",
+   "source_table": "AlertEscalationHistory",
+   "source_column": "alert_ref",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 3927,
+   "source_distinct": 980,
+   "target_rows": 1000,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX6937984",
+    "TX5978977",
+    "TX7323094",
+    "TX4025011",
+    "TX9488721"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "AlertResponseWorkflow.escalation_ref -> AlertEscalationHistory.AEH_id",
+   "source_table": "AlertResponseWorkflow",
+   "source_column": "escalation_ref",
+   "target_table": "AlertEscalationHistory",
+   "target_key": "AEH_id",
+   "source_rows": 14131,
+   "source_distinct": 3829,
+   "target_rows": 3927,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AEH-40E6E543F96A",
+    "AEH-98BBD98DAF4A",
+    "AEH-A54C77DE1A1D",
+    "AEH-60119997EBB4",
+    "AEH-13EB473758E2"
+   ],
+   "target_samples": [
+    "AEH-001A362D4921",
+    "AEH-001A8F817B9D",
+    "AEH-001DFD4F7C17",
+    "AEH-0067DE21C092",
+    "AEH-00764CB2B2D9"
+   ]
+  },
+  {
+   "id": "BuyerLoyaltyProgram.session_analytics_ref -> BuyerSessionAnalytics.BSA_id",
+   "source_table": "BuyerLoyaltyProgram",
+   "source_column": "session_analytics_ref",
+   "target_table": "BuyerSessionAnalytics",
+   "target_key": "BSA_id",
+   "source_rows": 13692,
+   "source_distinct": 2799,
+   "target_rows": 2821,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "BSA-B29F41C2E77C",
+    "BSA-F4F270AD497B",
+    "BSA-9A353609EAFD",
+    "BSA-00A5DCBCCABF",
+    "BSA-9A078A3E1F91"
+   ],
+   "target_samples": [
+    "BSA-0049932AA88C",
+    "BSA-0059AAED1D84",
+    "BSA-006C33D3474B",
+    "BSA-007C6DCC7D88",
+    "BSA-0082F94BAD2C"
+   ]
+  },
+  {
+   "id": "BuyerPurchasePatterns.session_ref -> BuyerSessionAnalytics.BSA_id",
+   "source_table": "BuyerPurchasePatterns",
+   "source_column": "session_ref",
+   "target_table": "BuyerSessionAnalytics",
+   "target_key": "BSA_id",
+   "source_rows": 6776,
+   "source_distinct": 2557,
+   "target_rows": 2821,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "BSA-CA3A55F07CE2",
+    "BSA-F22CF113120F",
+    "BSA-24B682EA0510",
+    "BSA-344FC422B247",
+    "BSA-1C1D6C187FAE"
+   ],
+   "target_samples": [
+    "BSA-0049932AA88C",
+    "BSA-0059AAED1D84",
+    "BSA-006C33D3474B",
+    "BSA-007C6DCC7D88",
+    "BSA-0082F94BAD2C"
+   ]
+  },
+  {
+   "id": "BuyerSessionAnalytics.acq_ref -> buyers.AcqCode",
+   "source_table": "BuyerSessionAnalytics",
+   "source_column": "acq_ref",
+   "target_table": "buyers",
+   "target_key": "AcqCode",
+   "source_rows": 2821,
+   "source_distinct": 935,
+   "target_rows": 990,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "B75513",
+    "B73588",
+    "B73924",
+    "B17264",
+    "B11398"
+   ],
+   "target_samples": [
+    "B10035",
+    "B10064",
+    "B10065",
+    "B10214",
+    "B10262"
+   ]
+  },
+  {
+   "id": "DisputeArbitrationDetails.dispute_ref -> TransactionDisputeDetails.TDD_id",
+   "source_table": "DisputeArbitrationDetails",
+   "source_column": "dispute_ref",
+   "target_table": "TransactionDisputeDetails",
+   "target_key": "TDD_id",
+   "source_rows": 13335,
+   "source_distinct": 2759,
+   "target_rows": 2782,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TDD-481435954A63",
+    "TDD-9F5AC9EF737B",
+    "TDD-BF37428308AF",
+    "TDD-1C41DDF4D718",
+    "TDD-6BE99146DBA4"
+   ],
+   "target_samples": [
+    "TDD-000E643E6CFC",
+    "TDD-001025C8DB3C",
+    "TDD-00263B263DD6",
+    "TDD-0060A669BB4B",
+    "TDD-006699B21717"
+   ]
+  },
+  {
+   "id": "MarketCompetitorAnalysis.platform_ref -> markets.PlatCode",
+   "source_table": "MarketCompetitorAnalysis",
+   "source_column": "platform_ref",
+   "target_table": "markets",
+   "target_key": "PlatCode",
+   "source_rows": 3334,
+   "source_distinct": 932,
+   "target_rows": 954,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MK1499",
+    "MK5322",
+    "MK9531",
+    "MK8373",
+    "MK6648"
+   ],
+   "target_samples": [
+    "MK1015",
+    "MK1020",
+    "MK1024",
+    "MK1046",
+    "MK1047"
+   ]
+  },
+  {
+   "id": "MarketTrendAnalysis.competitor_analysis_ref -> MarketCompetitorAnalysis.MCA_id",
+   "source_table": "MarketTrendAnalysis",
+   "source_column": "competitor_analysis_ref",
+   "target_table": "MarketCompetitorAnalysis",
+   "target_key": "MCA_id",
+   "source_rows": 7187,
+   "source_distinct": 2932,
+   "target_rows": 3334,
+   "score": 4.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MCA-814F637E8FFA",
+    "MCA-A608FA91F3D1",
+    "MCA-5A84503D0CC9",
+    "MCA-EEAAFB784C8B",
+    "MCA-F6FC9F1062E0"
+   ],
+   "target_samples": [
+    "MCA-001AD1FE9937",
+    "MCA-001DEA774F49",
+    "MCA-002030FC4001",
+    "MCA-0037F6D7CD5C",
+    "MCA-00662516C989"
+   ]
+  },
+  {
+   "id": "PaymentFraudIndicators.payment_event_ref -> PaymentProcessingEvents.PPE_id",
+   "source_table": "PaymentFraudIndicators",
+   "source_column": "payment_event_ref",
+   "target_table": "PaymentProcessingEvents",
+   "target_key": "PPE_id",
+   "source_rows": 12010,
+   "source_distinct": 2553,
+   "target_rows": 2572,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PPE-EB1AF1DFA3E9",
+    "PPE-2A12DEEB86EC",
+    "PPE-5F07FCBB29D5",
+    "PPE-14CC0CEC0C60",
+    "PPE-AB94DCE6DC5F"
+   ],
+   "target_samples": [
+    "PPE-00091E12376F",
+    "PPE-001FF9034ED3",
+    "PPE-004C6B278AD5",
+    "PPE-007EB6A14D66",
+    "PPE-0088AFCC6C26"
+   ]
+  },
+  {
+   "id": "PaymentProcessingEvents.transaction_ref -> alerts.EventTag",
+   "source_table": "PaymentProcessingEvents",
+   "source_column": "transaction_ref",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 2572,
+   "source_distinct": 931,
+   "target_rows": 1000,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX2835064",
+    "TX5148077",
+    "TX8450542",
+    "TX5055205",
+    "TX7059551"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "PlatformIncidentReports.platform_ref -> markets.PlatCode",
+   "source_table": "PlatformIncidentReports",
+   "source_column": "platform_ref",
+   "target_table": "markets",
+   "target_key": "PlatCode",
+   "source_rows": 4433,
+   "source_distinct": 948,
+   "target_rows": 954,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MK3733",
+    "MK1312",
+    "MK4772",
+    "MK3997",
+    "MK2444"
+   ],
+   "target_samples": [
+    "MK1015",
+    "MK1020",
+    "MK1024",
+    "MK1046",
+    "MK1047"
+   ]
+  },
+  {
+   "id": "PlatformServiceHealth.incident_report_ref -> PlatformIncidentReports.PIR_id",
+   "source_table": "PlatformServiceHealth",
+   "source_column": "incident_report_ref",
+   "target_table": "PlatformIncidentReports",
+   "target_key": "PIR_id",
+   "source_rows": 15121,
+   "source_distinct": 4294,
+   "target_rows": 4433,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PIR-541B5EF793E1",
+    "PIR-A4D80C04D691",
+    "PIR-DB6A85ED640E",
+    "PIR-224332805F21",
+    "PIR-E88EFC73AE40"
+   ],
+   "target_samples": [
+    "PIR-000681ED8B98",
+    "PIR-00256B3644EC",
+    "PIR-0030B1C9B651",
+    "PIR-003F88D7E1DE",
+    "PIR-00517F311B35"
+   ]
+  },
+  {
+   "id": "RiskModelCalibration.prediction_ref -> RiskModelPredictions.RMP_id",
+   "source_table": "RiskModelCalibration",
+   "source_column": "prediction_ref",
+   "target_table": "RiskModelPredictions",
+   "target_key": "RMP_id",
+   "source_rows": 11654,
+   "source_distinct": 2737,
+   "target_rows": 2784,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RMP-EE1C2BE631D5",
+    "RMP-6760A76F023B",
+    "RMP-A99F8E8E8604",
+    "RMP-59703C4E99D2",
+    "RMP-DF86726C6D11"
+   ],
+   "target_samples": [
+    "RMP-000276509978",
+    "RMP-000F1FF2A2F9",
+    "RMP-001F14980FC3",
+    "RMP-003F82FC2D17",
+    "RMP-004AB62A3A82"
+   ]
+  },
+  {
+   "id": "RiskModelPredictions.txn_link_ref -> alerts.EventTag",
+   "source_table": "RiskModelPredictions",
+   "source_column": "txn_link_ref",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 2784,
+   "source_distinct": 941,
+   "target_rows": 1000,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX1561024",
+    "TX1328304",
+    "TX2012328",
+    "TX7646277",
+    "TX1037457"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "TransactionDisputeDetails.event_ref -> alerts.EventTag",
+   "source_table": "TransactionDisputeDetails",
+   "source_column": "event_ref",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 2782,
+   "source_distinct": 951,
+   "target_rows": 1000,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX6145564",
+    "TX8788079",
+    "TX7916116",
+    "TX2832106",
+    "TX4602065"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "VendorComplianceAudits.seller_ref -> vendors.SellerKey",
+   "source_table": "VendorComplianceAudits",
+   "source_column": "seller_ref",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 2751,
+   "source_distinct": 924,
+   "target_rows": 994,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V93696",
+    "V35322",
+    "V12035",
+    "V96977",
+    "V53173"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "VendorComplianceDocuments.compliance_audit_ref -> VendorComplianceAudits.VCA_id",
+   "source_table": "VendorComplianceDocuments",
+   "source_column": "compliance_audit_ref",
+   "target_table": "VendorComplianceAudits",
+   "target_key": "VCA_id",
+   "source_rows": 10788,
+   "source_distinct": 2699,
+   "target_rows": 2751,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VCA-7B15B1D09259",
+    "VCA-C64144F7ED77",
+    "VCA-DFA4AED04176",
+    "VCA-922956929E7A",
+    "VCA-CA13F4B87D3E"
+   ],
+   "target_samples": [
+    "VCA-0019541FFAE6",
+    "VCA-001AB7CF1C00",
+    "VCA-0044460F323C",
+    "VCA-0044BD2896C2",
+    "VCA-004852C49CE2"
+   ]
+  },
+  {
+   "id": "VendorInventorySnapshot.vendor_metrics_ref -> VendorPerformanceMetrics.VPM_id",
+   "source_table": "VendorInventorySnapshot",
+   "source_column": "vendor_metrics_ref",
+   "target_table": "VendorPerformanceMetrics",
+   "target_key": "VPM_id",
+   "source_rows": 9597,
+   "source_distinct": 2600,
+   "target_rows": 2678,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VPM-BD203878372C",
+    "VPM-6F4C419A65CC",
+    "VPM-C0A601C9F5A4",
+    "VPM-9BA42F51E921",
+    "VPM-68210EA5151A"
+   ],
+   "target_samples": [
+    "VPM-0008ED1C542D",
+    "VPM-0029C0049247",
+    "VPM-003B20EF4043",
+    "VPM-0047D4B92223",
+    "VPM-00492398626E"
+   ]
+  },
+  {
+   "id": "VendorPerformanceMetrics.seller_ref -> vendors.SellerKey",
+   "source_table": "VendorPerformanceMetrics",
+   "source_column": "seller_ref",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 2678,
+   "source_distinct": 922,
+   "target_rows": 994,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V57256",
+    "V88742",
+    "V35745",
+    "V88985",
+    "V32117"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "VendorShipmentTracking.vendor_perf_ref -> VendorPerformanceMetrics.VPM_id",
+   "source_table": "VendorShipmentTracking",
+   "source_column": "vendor_perf_ref",
+   "target_table": "VendorPerformanceMetrics",
+   "target_key": "VPM_id",
+   "source_rows": 7623,
+   "source_distinct": 2524,
+   "target_rows": 2678,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VPM-55E7FB2C61C8",
+    "VPM-77BA116ED952",
+    "VPM-D66903BC6482",
+    "VPM-8E0FD3D222B6",
+    "VPM-B0AA2DE85680"
+   ],
+   "target_samples": [
+    "VPM-0008ED1C542D",
+    "VPM-0029C0049247",
+    "VPM-003B20EF4043",
+    "VPM-0047D4B92223",
+    "VPM-00492398626E"
+   ]
+  },
+  {
+   "id": "alert_case_actions.EVENTTAG -> alerts.EventTag",
+   "source_table": "alert_case_actions",
+   "source_column": "EVENTTAG",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX4833222",
+    "TX7875482",
+    "TX9295302",
+    "TX8238885",
+    "TX5245723"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "buyer_device_fingerprints.acqCode -> buyers.AcqCode",
+   "source_table": "buyer_device_fingerprints",
+   "source_column": "acqCode",
+   "target_table": "buyers",
+   "target_key": "AcqCode",
+   "source_rows": 990,
+   "source_distinct": 990,
+   "target_rows": 990,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "B41538",
+    "B57052",
+    "B79369",
+    "B22548",
+    "B86983"
+   ],
+   "target_samples": [
+    "B10035",
+    "B10064",
+    "B10065",
+    "B10214",
+    "B10262"
+   ]
+  },
+  {
+   "id": "buyer_risk_history.ACQCODE -> buyers.AcqCode",
+   "source_table": "buyer_risk_history",
+   "source_column": "ACQCODE",
+   "target_table": "buyers",
+   "target_key": "AcqCode",
+   "source_rows": 990,
+   "source_distinct": 990,
+   "target_rows": 990,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "B20787",
+    "B97775",
+    "B22273",
+    "B15838",
+    "B41538"
+   ],
+   "target_samples": [
+    "B10035",
+    "B10064",
+    "B10065",
+    "B10214",
+    "B10262"
+   ]
+  },
+  {
+   "id": "connection_attack_surface.TXNpointer -> alerts.EventTag",
+   "source_table": "connection_attack_surface",
+   "source_column": "TXNpointer",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX4833222",
+    "TX7875482",
+    "TX9295302",
+    "TX8238885",
+    "TX5245723"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "insurance_claim_evidence.claimRef -> vendor_insurance_claims.claimRef",
+   "source_table": "insurance_claim_evidence",
+   "source_column": "claimRef",
+   "target_table": "vendor_insurance_claims",
+   "target_key": "claimRef",
+   "source_rows": 100,
+   "source_distinct": 70,
+   "target_rows": 100,
+   "score": 4.11,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CLAIM00023",
+    "CLAIM00018",
+    "CLAIM00039",
+    "CLAIM00063",
+    "CLAIM00070"
+   ],
+   "target_samples": [
+    "CLAIM00001",
+    "CLAIM00002",
+    "CLAIM00003",
+    "CLAIM00004",
+    "CLAIM00005"
+   ]
+  },
+  {
+   "id": "market_regulatory_audits.platcode -> markets.PlatCode",
+   "source_table": "market_regulatory_audits",
+   "source_column": "platcode",
+   "target_table": "markets",
+   "target_key": "PlatCode",
+   "source_rows": 954,
+   "source_distinct": 954,
+   "target_rows": 954,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MK7747",
+    "MK9078",
+    "MK5795",
+    "MK9959",
+    "MK8430"
+   ],
+   "target_samples": [
+    "MK1015",
+    "MK1020",
+    "MK1024",
+    "MK1046",
+    "MK1047"
+   ]
+  },
+  {
+   "id": "market_traffic_analytics.PLATCODE -> markets.PlatCode",
+   "source_table": "market_traffic_analytics",
+   "source_column": "PLATCODE",
+   "target_table": "markets",
+   "target_key": "PlatCode",
+   "source_rows": 954,
+   "source_distinct": 954,
+   "target_rows": 954,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MK7747",
+    "MK9078",
+    "MK5795",
+    "MK9959",
+    "MK8430"
+   ],
+   "target_samples": [
+    "MK1015",
+    "MK1020",
+    "MK1024",
+    "MK1046",
+    "MK1047"
+   ]
+  },
+  {
+   "id": "platform_availability_snapshots.platCode -> markets.PlatCode",
+   "source_table": "platform_availability_snapshots",
+   "source_column": "platCode",
+   "target_table": "markets",
+   "target_key": "PlatCode",
+   "source_rows": 954,
+   "source_distinct": 954,
+   "target_rows": 954,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MK7747",
+    "MK9078",
+    "MK5795",
+    "MK9959",
+    "MK8430"
+   ],
+   "target_samples": [
+    "MK1015",
+    "MK1020",
+    "MK1024",
+    "MK1046",
+    "MK1047"
+   ]
+  },
+  {
+   "id": "platform_policy_documents.PLATcode -> markets.PlatCode",
+   "source_table": "platform_policy_documents",
+   "source_column": "PLATcode",
+   "target_table": "markets",
+   "target_key": "PlatCode",
+   "source_rows": 954,
+   "source_distinct": 954,
+   "target_rows": 954,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MK7747",
+    "MK9078",
+    "MK5795",
+    "MK9959",
+    "MK8430"
+   ],
+   "target_samples": [
+    "MK1015",
+    "MK1020",
+    "MK1024",
+    "MK1046",
+    "MK1047"
+   ]
+  },
+  {
+   "id": "product_attribute_metrics.SellerPointer -> vendors.SellerKey",
+   "source_table": "product_attribute_metrics",
+   "source_column": "SellerPointer",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 999,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V63085",
+    "V25559",
+    "V61030",
+    "V46333",
+    "V84279"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "product_review_feedback.seller_pointer -> vendors.SellerKey",
+   "source_table": "product_review_feedback",
+   "source_column": "seller_pointer",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 999,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V63085",
+    "V25559",
+    "V61030",
+    "V46333",
+    "V84279"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "product_review_tag_map.reviewRef -> product_review_feedback.ReviewRef",
+   "source_table": "product_review_tag_map",
+   "source_column": "reviewRef",
+   "target_table": "product_review_feedback",
+   "target_key": "ReviewRef",
+   "source_rows": 497,
+   "source_distinct": 379,
+   "target_rows": 999,
+   "score": 3.82,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "REV-00bd0bd6155f",
+    "REV-0126e6cb124f",
+    "REV-012932fbf82e",
+    "REV-02ef863912a4",
+    "REV-0411be65bb45"
+   ],
+   "target_samples": [
+    "REV-001d50b17db5",
+    "REV-00bd0bd6155f",
+    "REV-0126e6cb124f",
+    "REV-012932fbf82e",
+    "REV-012e8464742e"
+   ]
+  },
+  {
+   "id": "product_review_tag_map.tagKey -> tag_library.tagKey",
+   "source_table": "product_review_tag_map",
+   "source_column": "tagKey",
+   "target_table": "tag_library",
+   "target_key": "tagKey",
+   "source_rows": 497,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TAG00012",
+    "TAG00039",
+    "TAG00015",
+    "TAG00048",
+    "TAG00041"
+   ],
+   "target_samples": [
+    "TAG00001",
+    "TAG00002",
+    "TAG00003",
+    "TAG00004",
+    "TAG00005"
+   ]
+  },
+  {
+   "id": "products.SellerPointer -> vendors.SellerKey",
+   "source_table": "products",
+   "source_column": "SellerPointer",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 999,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V35184",
+    "V90900",
+    "V95748",
+    "V41653",
+    "V44655"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "risk_ml_feature_vectors.txnLINK -> alerts.EventTag",
+   "source_table": "risk_ml_feature_vectors",
+   "source_column": "txnLINK",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX4833222",
+    "TX7875482",
+    "TX9295302",
+    "TX8238885",
+    "TX5245723"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "transaction_products.EventLink -> alerts.EventTag",
+   "source_table": "transaction_products",
+   "source_column": "EventLink",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "transaction_products.SellerPointer -> vendors.SellerKey",
+   "source_table": "transaction_products",
+   "source_column": "SellerPointer",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 1000,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V20431",
+    "V64169",
+    "V19488",
+    "V82090",
+    "V87508"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "transaction_settlement_info.EVENTCODE -> alerts.EventTag",
+   "source_table": "transaction_settlement_info",
+   "source_column": "EVENTCODE",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX4833222",
+    "TX7875482",
+    "TX9295302",
+    "TX8238885",
+    "TX5245723"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "transactions.PlatformKey -> markets.PlatCode",
+   "source_table": "transactions",
+   "source_column": "PlatformKey",
+   "target_table": "markets",
+   "target_key": "PlatCode",
+   "source_rows": 1000,
+   "source_distinct": 954,
+   "target_rows": 954,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MK7747",
+    "MK9078",
+    "MK5795",
+    "MK9274",
+    "MK1373"
+   ],
+   "target_samples": [
+    "MK1015",
+    "MK1020",
+    "MK1024",
+    "MK1046",
+    "MK1047"
+   ]
+  },
+  {
+   "id": "transactions.VendorLink -> vendors.SellerKey",
+   "source_table": "transactions",
+   "source_column": "VendorLink",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 1000,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V63085",
+    "V25559",
+    "V61030",
+    "V35544",
+    "V95471"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "transactions.AcqLink -> buyers.AcqCode",
+   "source_table": "transactions",
+   "source_column": "AcqLink",
+   "target_table": "buyers",
+   "target_key": "AcqCode",
+   "source_rows": 1000,
+   "source_distinct": 990,
+   "target_rows": 990,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "B41538",
+    "B57052",
+    "B79369",
+    "B80843",
+    "B96920"
+   ],
+   "target_samples": [
+    "B10035",
+    "B10064",
+    "B10065",
+    "B10214",
+    "B10262"
+   ]
+  },
+  {
+   "id": "vendor_countries.SellerKey -> vendors.SellerKey",
+   "source_table": "vendor_countries",
+   "source_column": "SellerKey",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 1000,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "vendor_financial_history.Sellerkey -> vendors.SellerKey",
+   "source_table": "vendor_financial_history",
+   "source_column": "Sellerkey",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 994,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V63085",
+    "V25559",
+    "V61030",
+    "V46333",
+    "V84279"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "vendor_insurance_claims.ins_policy_ref -> vendor_insurance_policies.ins_policy_ref",
+   "source_table": "vendor_insurance_claims",
+   "source_column": "ins_policy_ref",
+   "target_table": "vendor_insurance_policies",
+   "target_key": "ins_policy_ref",
+   "source_rows": 100,
+   "source_distinct": 95,
+   "target_rows": 994,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "I73c599431f59",
+    "Ib63b80fc8548",
+    "If9673673376b",
+    "I470c343d1c48",
+    "I080b6a64b5a6"
+   ],
+   "target_samples": [
+    "I0010d98213d9",
+    "I0057cba6580d",
+    "I005afe52a23b",
+    "I00e0729c783d",
+    "I01161a799574"
+   ]
+  },
+  {
+   "id": "vendor_insurance_claims.sellerKEY -> vendors.SellerKey",
+   "source_table": "vendor_insurance_claims",
+   "source_column": "sellerKEY",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 100,
+   "source_distinct": 98,
+   "target_rows": 994,
+   "score": 3.52,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "V68514",
+    "V33519",
+    "V44913",
+    "V19488",
+    "V88444"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "vendor_insurance_policies.sellerKEY -> vendors.SellerKey",
+   "source_table": "vendor_insurance_policies",
+   "source_column": "sellerKEY",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 994,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V63085",
+    "V25559",
+    "V61030",
+    "V46333",
+    "V84279"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "vendor_markets.VendorKey -> vendors.SellerKey",
+   "source_table": "vendor_markets",
+   "source_column": "VendorKey",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 1000,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "vendor_markets.PlatformID -> markets.PlatCode",
+   "source_table": "vendor_markets",
+   "source_column": "PlatformID",
+   "target_table": "markets",
+   "target_key": "PlatCode",
+   "source_rows": 1000,
+   "source_distinct": 954,
+   "target_rows": 954,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MK7747",
+    "MK9078",
+    "MK5795",
+    "MK9959",
+    "MK8430"
+   ],
+   "target_samples": [
+    "MK1015",
+    "MK1020",
+    "MK1024",
+    "MK1046",
+    "MK1047"
+   ]
+  },
+  {
+   "id": "vendor_payment_methods.VendorLink -> vendors.SellerKey",
+   "source_table": "vendor_payment_methods",
+   "source_column": "VendorLink",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 998,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "vendor_profile_details.seller_key -> vendors.SellerKey",
+   "source_table": "vendor_profile_details",
+   "source_column": "seller_key",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 994,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V63085",
+    "V25559",
+    "V61030",
+    "V26754",
+    "V96291"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "vendor_regulatory_licenses.SellerKey -> vendors.SellerKey",
+   "source_table": "vendor_regulatory_licenses",
+   "source_column": "SellerKey",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 994,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V63085",
+    "V25559",
+    "V61030",
+    "V46333",
+    "V84279"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "vendor_social_media.sellerKey -> vendors.SellerKey",
+   "source_table": "vendor_social_media",
+   "source_column": "sellerKey",
+   "target_table": "vendors",
+   "target_key": "SellerKey",
+   "source_rows": 994,
+   "source_distinct": 994,
+   "target_rows": 994,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "V63085",
+    "V25559",
+    "V78370",
+    "V75762",
+    "V44098"
+   ],
+   "target_samples": [
+    "V10033",
+    "V10238",
+    "V10244",
+    "V10300",
+    "V10316"
+   ]
+  },
+  {
+   "id": "alerts.EventTag -> communications.EventLink",
+   "source_table": "alerts",
+   "source_column": "EventTag",
+   "target_table": "communications",
+   "target_key": "EventLink",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "communications.EventLink -> alerts.EventTag",
+   "source_table": "communications",
+   "source_column": "EventLink",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "connection_security.TxnPointer -> alerts.EventTag",
+   "source_table": "connection_security",
+   "source_column": "TxnPointer",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "risk_analytics.TxnLink -> alerts.EventTag",
+   "source_table": "risk_analytics",
+   "source_column": "TxnLink",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  },
+  {
+   "id": "transactions.EventCode -> alerts.EventTag",
+   "source_table": "transactions",
+   "source_column": "EventCode",
+   "target_table": "alerts",
+   "target_key": "EventTag",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ],
+   "target_samples": [
+    "TX1001730",
+    "TX1021644",
+    "TX1028564",
+    "TX1037457",
+    "TX1059108"
+   ]
+  }
+ ]
+}

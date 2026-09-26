@@ -1,0 +1,82 @@
+[
+ {
+  "question_id": 1435,
+  "answer": "LIST n FROM Event [has EventType: 'Game'] [has EventStatus: 'Closed'] has EventName n AND ALSO has EventDate d WHERE d >= '2019-03-15' AND d <= '2020-03-20'",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1378,
+  "answer": "THE MAXIMUM Budget has BudgetSpent",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1427,
+  "answer": "LIST c FROM Budget has BudgetCategory c AND ALSO has BudgetSpent s AND ALSO has Event [has EventLocation: 'MU 215'] [has EventType: 'Guest Speaker'] WHERE s = 0",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1380,
+  "answer": "THE SUM OF s IN Budget [has BudgetCategory: 'Food'] has BudgetSpent s",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1404,
+  "answer": "LIST d, t FROM Expense [has ExpenseApproved: 'true'] has ExpenseDescription d AND ALSO has Budget has Event [has EventName: 'October Meeting'] AND ALSO THE SUM OF c IN Expense has ExpenseCost c GROUPED BY d AS t",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 2,
+  "candidates": 3
+ },
+ {
+  "question_id": 1361,
+  "answer": "THE SUM OF c IN Expense [has ExpenseDescription: 'Pizza'] has ExpenseCost c",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1375,
+  "answer": "LIST f, l FROM Member has MemberFirstName f AND ALSO has MemberLastName l AND ALSO has Major [has MajorDepartment: 'School of Applied Sciences, Technology and Education']",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1405,
+  "answer": "LIST c, t FROM Budget has BudgetCategory c AND ALSO has Event [has EventName: 'April Speaker'] AND ALSO THE SUM OF a IN Budget has BudgetAmount a GROUPED BY c AS t ORDERED WITH t ASCENDING",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1464,
+  "answer": "LIST f, l, a FROM Member has MemberFirstName f AND ALSO has MemberLastName l AND ALSO is of Income [has IncomeDateReceived: '2019-09-09'] has IncomeAmount a",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1312,
+  "answer": "LIST m FROM Member [has MemberFirstName: 'Angela'] [has MemberLastName: 'Sanders'] has Major has MajorName m",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ }
+]

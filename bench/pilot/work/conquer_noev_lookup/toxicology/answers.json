@@ -1,0 +1,43 @@
+[
+ {
+  "question_id": 201,
+  "answer": "THE COUNT OF Atom [has AtomElement: 'c'] AND ALSO has Molecule is of Bond has BondType: '=' * 100 / THE COUNT OF Atom AND ALSO has Molecule is of Bond has BondType: '='",
+  "attempts": 2
+ },
+ {
+  "question_id": 239,
+  "answer": null,
+  "note": "'atom 19' cannot be grounded to a single AtomId. AtomId is compound (moleculeId '_' local number, e.g. 'TR009_9'); no atom has the plain id '19', and 219 distinct atoms end in '_19' (one per molecule that has a 19th atom). The question names no molecule, so the specific atom cannot be determined from the text alone.",
+  "attempts": 1
+ },
+ {
+  "question_id": 243,
+  "answer": "LIST b FROM DISTINCT Bond has BondId b AND ALSO is of Connected has ConnectedAtom has AtomElement: 'p' AND ALSO is of Connected has ConnectedAtom has AtomElement: 'n'",
+  "attempts": 2
+ },
+ {
+  "question_id": 234,
+  "answer": "THE COUNT OF Bond AND ALSO is of Connected has ConnectedAtom has AtomId a WHERE a = 'TR009_12'",
+  "attempts": 2
+ },
+ {
+  "question_id": 215,
+  "answer": "THE COUNT OF Atom [has AtomElement e] AND ALSO has Molecule is of Bond has BondType: '-' WHERE (e = 'i' OR e = 's')",
+  "attempts": 2
+ },
+ {
+  "question_id": 230,
+  "answer": "LIST el, lbl FROM DISTINCT Atom a [has Molecule: 'TR060'] has AtomElement el AND ALSO has Molecule has MoleculeLabel lbl",
+  "attempts": 1
+ },
+ {
+  "question_id": 206,
+  "answer": "LIST el FROM DISTINCT Bond: 'TR004_8_9' is of Connected has ConnectedAtom has AtomElement el",
+  "attempts": 1
+ },
+ {
+  "question_id": 212,
+  "answer": "LIST el FROM Atom a [has Molecule has MoleculeLabel: '-'] has AtomElement el AND ALSO THE COUNT OF a GROUPED BY el AS c ORDERED WITH c ASCENDING THE FIRST 1",
+  "attempts": 1
+ }
+]

@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 37,
+  "answer": "SELECT s.Street, s.City, s.Zip, s.State FROM satscores ss JOIN schools s ON s.CDSCode = ss.cds WHERE ss.NumGE1500 IS NOT NULL AND ss.NumTstTakr IS NOT NULL ORDER BY (ss.NumGE1500 * 1.0 / ss.NumTstTakr) ASC LIMIT 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 46,
+  "answer": "SELECT s.School FROM schools s JOIN satscores ss ON ss.cds = s.CDSCode WHERE s.DOC = '31' ORDER BY ss.enroll12 DESC LIMIT 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 82,
+  "answer": "SELECT GSoffered FROM schools ORDER BY Longitude DESC LIMIT 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 28,
+  "answer": "SELECT f.\"School Name\", s.DOCType FROM frpm f JOIN schools s ON s.CDSCode = f.CDSCode WHERE s.FundingType = 'Locally funded' AND (f.\"Enrollment (K-12)\" - f.\"Enrollment (Ages 5-17)\") > (SELECT AVG(f2.\"Enrollment (K-12)\" - f2.\"Enrollment (Ages 5-17)\") FROM frpm f2 JOIN schools s2 ON s2.CDSCode = f2.CDSCode WHERE s2.FundingType = 'Locally funded')",
+  "attempts": 2
+ },
+ {
+  "question_id": 24,
+  "answer": "SELECT f.\"School Name\" FROM frpm f JOIN satscores ss ON ss.cds = f.CDSCode WHERE (f.\"Free Meal Count (K-12)\" * 1.0 / f.\"Enrollment (K-12)\") > 0.1 AND ss.NumGE1500 > 0",
+  "attempts": 1
+ },
+ {
+  "question_id": 79,
+  "answer": "SELECT County, COUNT(*) AS cnt FROM schools WHERE County IN ('San Diego', 'Santa Barbara') AND Virtual = 'F' GROUP BY County ORDER BY cnt DESC LIMIT 1",
+  "attempts": 2
+ }
+]

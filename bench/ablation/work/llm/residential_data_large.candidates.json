@@ -1,0 +1,8076 @@
+{
+ "database": "residential_data_large",
+ "tables": [
+  "Air_Quality_Health_Correlation",
+  "Bridge_Structural_Monitoring",
+  "Commercial_Energy_Efficiency",
+  "Digital_Classroom_Engagement",
+  "Digital_Payment_Transactional_Flux",
+  "Education_Facility_Resources",
+  "Emergency_Vehicle_Telematics",
+  "Environmental_Microclimate_Sensors",
+  "Healthcare_Equipment_Inventory",
+  "Healthcare_Power_Resilience",
+  "Hospital_Critical_Care_Telemetry",
+  "Household_Skill_Progression",
+  "Household_Telecomm_Metrix",
+  "Industrial_HVAC_Sensor_Array",
+  "Merchant_Settlement_Audit",
+  "Professional_Certification_Audit",
+  "Public_Safety_Patrol_Logs",
+  "Resilient_Infrastructure_Health",
+  "Smart_Home_Bandwidth_Allocation",
+  "Waste_Processing_Plant_Efficiency",
+  "Waste_Stream_Analysis",
+  "amenities",
+  "commercial_establishments",
+  "community_engagement",
+  "crime_statistics",
+  "education_facilities",
+  "energy_consumption",
+  "environmental_data",
+  "financial_services",
+  "healthcare_facilities",
+  "household_demographics",
+  "household_member_skills",
+  "household_service_enrollment",
+  "household_transportation_usage",
+  "households",
+  "infrastructure",
+  "infrastructure_details",
+  "locations",
+  "properties",
+  "property_valuations",
+  "service_categories",
+  "service_types",
+  "skills_inventory",
+  "transportation_assets",
+  "transportation_modes",
+  "transportation_network",
+  "utility_services",
+  "waste_management"
+ ],
+ "candidates": [
+  {
+   "id": "Air_Quality_Health_Correlation.Microclimate_Sensor_FK -> Environmental_Microclimate_Sensors.Microclimate_Sensor_PK",
+   "source_table": "Air_Quality_Health_Correlation",
+   "source_column": "Microclimate_Sensor_FK",
+   "target_table": "Environmental_Microclimate_Sensors",
+   "target_key": "Microclimate_Sensor_PK",
+   "source_rows": 75,
+   "source_distinct": 19,
+   "target_rows": 20,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EMS-377AB0F74A18",
+    "EMS-30203F7D189F",
+    "EMS-AD4CF8263061",
+    "EMS-EF8AAEE17E2A",
+    "EMS-5DB638428FF7"
+   ],
+   "target_samples": [
+    "EMS-08A0733340BA",
+    "EMS-0C11E2D287D7",
+    "EMS-1F2EF16B4368",
+    "EMS-2E50A42F599E",
+    "EMS-30203F7D189F"
+   ]
+  },
+  {
+   "id": "Air_Quality_Health_Correlation.respiratory_hospital_admissions_count -> properties.propref",
+   "source_table": "Air_Quality_Health_Correlation",
+   "source_column": "respiratory_hospital_admissions_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 75,
+   "source_distinct": 54,
+   "target_rows": 1577,
+   "score": 1.16,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "17",
+    "30",
+    "46",
+    "61",
+    "54"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Air_Quality_Health_Correlation.wind_direction_degrees -> properties.propref",
+   "source_table": "Air_Quality_Health_Correlation",
+   "source_column": "wind_direction_degrees",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 75,
+   "source_distinct": 70,
+   "target_rows": 1577,
+   "score": 1.51,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "223",
+    "116",
+    "23",
+    "186",
+    "260"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Bridge_Structural_Monitoring.Structural_Health_FK -> Resilient_Infrastructure_Health.Structural_Health_PK",
+   "source_table": "Bridge_Structural_Monitoring",
+   "source_column": "Structural_Health_FK",
+   "target_table": "Resilient_Infrastructure_Health",
+   "target_key": "Structural_Health_PK",
+   "source_rows": 58,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RIH-5E1BC03A2FBF",
+    "RIH-34C2EDEC5EEF",
+    "RIH-04AACD65021F",
+    "RIH-F25EDE094416",
+    "RIH-F5F9606EFF0F"
+   ],
+   "target_samples": [
+    "RIH-04AACD65021F",
+    "RIH-17054EDE27F3",
+    "RIH-1D0FD1B12ED2",
+    "RIH-1D43EED7E5CA",
+    "RIH-1F4E3044FEA2"
+   ]
+  },
+  {
+   "id": "Commercial_Energy_Efficiency.business_ref -> commercial_establishments.establishment_ID",
+   "source_table": "Commercial_Energy_Efficiency",
+   "source_column": "business_ref",
+   "target_table": "commercial_establishments",
+   "target_key": "establishment_ID",
+   "source_rows": 11,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "1",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "Commercial_Energy_Efficiency.hvac_system_age_years -> properties.propref",
+   "source_table": "Commercial_Energy_Efficiency",
+   "source_column": "hvac_system_age_years",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 11,
+   "source_distinct": 9,
+   "target_rows": 1577,
+   "score": 1.03,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "18",
+    "10",
+    "15",
+    "8",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Commercial_Energy_Efficiency.smart_thermostat_count -> properties.propref",
+   "source_table": "Commercial_Energy_Efficiency",
+   "source_column": "smart_thermostat_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 11,
+   "source_distinct": 10,
+   "target_rows": 1577,
+   "score": 1.03,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "7",
+    "16",
+    "13",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Commercial_Energy_Efficiency.window_glazing_layers -> environmental_data.ENV_id",
+   "source_table": "Commercial_Energy_Efficiency",
+   "source_column": "window_glazing_layers",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 11,
+   "source_distinct": 2,
+   "target_rows": 3,
+   "score": 2.67,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "Commercial_Energy_Efficiency.vfd_motor_count -> properties.propref",
+   "source_table": "Commercial_Energy_Efficiency",
+   "source_column": "vfd_motor_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 11,
+   "source_distinct": 9,
+   "target_rows": 1577,
+   "score": 1.03,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "13",
+    "2",
+    "8",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Digital_Classroom_Engagement.Resource_Inventory_FK -> Education_Facility_Resources.Resource_Inventory_PK",
+   "source_table": "Digital_Classroom_Engagement",
+   "source_column": "Resource_Inventory_FK",
+   "target_table": "Education_Facility_Resources",
+   "target_key": "Resource_Inventory_PK",
+   "source_rows": 128,
+   "source_distinct": 27,
+   "target_rows": 27,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EFR-6E36A0771E21",
+    "EFR-7E6D822E9D0F",
+    "EFR-3593D5F7C7DF",
+    "EFR-CED6F5FF1523",
+    "EFR-0DFBD612AF42"
+   ],
+   "target_samples": [
+    "EFR-0185CA451457",
+    "EFR-0572A80EBCAB",
+    "EFR-0DFBD612AF42",
+    "EFR-13636E4E2694",
+    "EFR-261688DBA849"
+   ]
+  },
+  {
+   "id": "Digital_Classroom_Engagement.student_login_concurrency_peak -> properties.propref",
+   "source_table": "Digital_Classroom_Engagement",
+   "source_column": "student_login_concurrency_peak",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 128,
+   "source_distinct": 100,
+   "target_rows": 1577,
+   "score": 1.67,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "201",
+    "295",
+    "130",
+    "340",
+    "96"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Digital_Classroom_Engagement.it_support_ticket_volume -> properties.propref",
+   "source_table": "Digital_Classroom_Engagement",
+   "source_column": "it_support_ticket_volume",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 128,
+   "source_distinct": 71,
+   "target_rows": 1577,
+   "score": 1.17,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "69",
+    "54",
+    "60",
+    "52",
+    "77"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Digital_Classroom_Engagement.web_filter_blocked_attempts -> properties.propref",
+   "source_table": "Digital_Classroom_Engagement",
+   "source_column": "web_filter_blocked_attempts",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 128,
+   "source_distinct": 76,
+   "target_rows": 1577,
+   "score": 1.17,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "26",
+    "61",
+    "28",
+    "85",
+    "80"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Digital_Classroom_Engagement.facility_wifi_ap_count -> properties.propref",
+   "source_table": "Digital_Classroom_Engagement",
+   "source_column": "facility_wifi_ap_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 128,
+   "source_distinct": 65,
+   "target_rows": 1577,
+   "score": 1.15,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "65",
+    "9",
+    "49",
+    "44",
+    "60"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Digital_Payment_Transactional_Flux.financial_account_link -> financial_services.Financial_ID",
+   "source_table": "Digital_Payment_Transactional_Flux",
+   "source_column": "financial_account_link",
+   "target_table": "financial_services",
+   "target_key": "Financial_ID",
+   "source_rows": 43,
+   "source_distinct": 7,
+   "target_rows": 7,
+   "score": 3.71,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "1",
+    "4",
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Digital_Payment_Transactional_Flux.peak_spending_hour_24h -> properties.propref",
+   "source_table": "Digital_Payment_Transactional_Flux",
+   "source_column": "peak_spending_hour_24h",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 43,
+   "source_distinct": 12,
+   "target_rows": 1577,
+   "score": 1.04,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "13",
+    "17",
+    "16",
+    "18",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Education_Facility_Resources.Facility_Link_Ref -> commercial_establishments.establishment_ID",
+   "source_table": "Education_Facility_Resources",
+   "source_column": "Facility_Link_Ref",
+   "target_table": "commercial_establishments",
+   "target_key": "establishment_ID",
+   "source_rows": 27,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "Education_Facility_Resources.available_desktop_computers -> properties.propref",
+   "source_table": "Education_Facility_Resources",
+   "source_column": "available_desktop_computers",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 27,
+   "source_distinct": 25,
+   "target_rows": 1577,
+   "score": 1.28,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "50",
+    "29",
+    "71",
+    "33",
+    "90"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Education_Facility_Resources.library_book_volume_count -> properties.propref",
+   "source_table": "Education_Facility_Resources",
+   "source_column": "library_book_volume_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 27,
+   "source_distinct": 22,
+   "target_rows": 1577,
+   "score": 1.15,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "17",
+    "92",
+    "71",
+    "47",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Education_Facility_Resources.classroom_interactive_whiteboards -> properties.propref",
+   "source_table": "Education_Facility_Resources",
+   "source_column": "classroom_interactive_whiteboards",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 27,
+   "source_distinct": 20,
+   "target_rows": 1577,
+   "score": 1.07,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "38",
+    "24",
+    "44",
+    "25",
+    "36"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Education_Facility_Resources.cafeteria_seating_capacity -> properties.propref",
+   "source_table": "Education_Facility_Resources",
+   "source_column": "cafeteria_seating_capacity",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 27,
+   "source_distinct": 27,
+   "target_rows": 1577,
+   "score": 1.68,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "235",
+    "207",
+    "287",
+    "268",
+    "124"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Education_Facility_Resources.security_camera_total_count -> properties.propref",
+   "source_table": "Education_Facility_Resources",
+   "source_column": "security_camera_total_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 27,
+   "source_distinct": 26,
+   "target_rows": 1577,
+   "score": 1.17,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "77",
+    "87",
+    "109",
+    "14",
+    "74"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Emergency_Vehicle_Telematics.Patrol_Log_FK -> Public_Safety_Patrol_Logs.Patrol_Log_PK",
+   "source_table": "Emergency_Vehicle_Telematics",
+   "source_column": "Patrol_Log_FK",
+   "target_table": "Public_Safety_Patrol_Logs",
+   "target_key": "Patrol_Log_PK",
+   "source_rows": 75,
+   "source_distinct": 25,
+   "target_rows": 25,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PSPL-D1EE53D9BEE2",
+    "PSPL-ED6CECDA257F",
+    "PSPL-2D4167F6318B",
+    "PSPL-7D598800BBA8",
+    "PSPL-22F11199C243"
+   ],
+   "target_samples": [
+    "PSPL-05AF64118348",
+    "PSPL-1A24A6230FDD",
+    "PSPL-22F11199C243",
+    "PSPL-26B69BA0B138",
+    "PSPL-2D4167F6318B"
+   ]
+  },
+  {
+   "id": "Emergency_Vehicle_Telematics.license_plate_reader_hits -> properties.propref",
+   "source_table": "Emergency_Vehicle_Telematics",
+   "source_column": "license_plate_reader_hits",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 75,
+   "source_distinct": 38,
+   "target_rows": 1577,
+   "score": 1.14,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "80",
+    "84",
+    "50",
+    "56",
+    "81"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Environmental_Microclimate_Sensors.environmental_base_link -> environmental_data.ENV_id",
+   "source_table": "Environmental_Microclimate_Sensors",
+   "source_column": "environmental_base_link",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 20,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "Environmental_Microclimate_Sensors.leaf_wetness_duration_minutes -> properties.propref",
+   "source_table": "Environmental_Microclimate_Sensors",
+   "source_column": "leaf_wetness_duration_minutes",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 20,
+   "source_distinct": 20,
+   "target_rows": 1577,
+   "score": 2.37,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "153",
+    "1435",
+    "229",
+    "1041",
+    "309"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.facility_link -> environmental_data.ENV_id",
+   "source_table": "Healthcare_Equipment_Inventory",
+   "source_column": "facility_link",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 11,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.ventilator_count -> properties.propref",
+   "source_table": "Healthcare_Equipment_Inventory",
+   "source_column": "ventilator_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 11,
+   "source_distinct": 7,
+   "target_rows": 1577,
+   "score": 1.03,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "10",
+    "6",
+    "9",
+    "19"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.emergency_room_wait_minutes -> properties.propref",
+   "source_table": "Healthcare_Equipment_Inventory",
+   "source_column": "emergency_room_wait_minutes",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 11,
+   "source_distinct": 10,
+   "target_rows": 1577,
+   "score": 1.18,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "91",
+    "53",
+    "49",
+    "70",
+    "65"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.ambulance_fleet_count -> properties.propref",
+   "source_table": "Healthcare_Equipment_Inventory",
+   "source_column": "ambulance_fleet_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 11,
+   "source_distinct": 8,
+   "target_rows": 1577,
+   "score": 1.02,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "4",
+    "1",
+    "9",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.staff_radiology_certification_count -> properties.propref",
+   "source_table": "Healthcare_Equipment_Inventory",
+   "source_column": "staff_radiology_certification_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 11,
+   "source_distinct": 8,
+   "target_rows": 1577,
+   "score": 1.02,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "11",
+    "9",
+    "14",
+    "13"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.ultrasound_probe_count -> properties.propref",
+   "source_table": "Healthcare_Equipment_Inventory",
+   "source_column": "ultrasound_probe_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 11,
+   "source_distinct": 8,
+   "target_rows": 1577,
+   "score": 1.02,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9",
+    "5",
+    "8",
+    "2",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.patient_monitoring_screen_count -> properties.propref",
+   "source_table": "Healthcare_Equipment_Inventory",
+   "source_column": "patient_monitoring_screen_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 11,
+   "source_distinct": 9,
+   "target_rows": 1577,
+   "score": 1.08,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "39",
+    "17",
+    "27",
+    "36",
+    "18"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Healthcare_Power_Resilience.Inventory_Tracker_FK -> Healthcare_Equipment_Inventory.Inventory_Tracker_PK",
+   "source_table": "Healthcare_Power_Resilience",
+   "source_column": "Inventory_Tracker_FK",
+   "target_table": "Healthcare_Equipment_Inventory",
+   "target_key": "Inventory_Tracker_PK",
+   "source_rows": 40,
+   "source_distinct": 11,
+   "target_rows": 11,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HEI-B2EF5BE8B79D",
+    "HEI-02CD74AD8A08",
+    "HEI-D05983963AC2",
+    "HEI-17C5E7DE989B",
+    "HEI-3199387DBBAA"
+   ],
+   "target_samples": [
+    "HEI-02CD74AD8A08",
+    "HEI-17C5E7DE989B",
+    "HEI-1FBB1975F909",
+    "HEI-3199387DBBAA",
+    "HEI-6CCC514505D0"
+   ]
+  },
+  {
+   "id": "Healthcare_Power_Resilience.ats_switch_count_monthly -> properties.propref",
+   "source_table": "Healthcare_Power_Resilience",
+   "source_column": "ats_switch_count_monthly",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 40,
+   "source_distinct": 36,
+   "target_rows": 1577,
+   "score": 1.13,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "63",
+    "10",
+    "5",
+    "75"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Healthcare_Power_Resilience.maintenance_staff_on_call_count -> commercial_establishments.establishment_ID",
+   "source_table": "Healthcare_Power_Resilience",
+   "source_column": "maintenance_staff_on_call_count",
+   "target_table": "commercial_establishments",
+   "target_key": "establishment_ID",
+   "source_rows": 40,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "Hospital_Critical_Care_Telemetry.Inventory_Tracker_FK -> Healthcare_Equipment_Inventory.Inventory_Tracker_PK",
+   "source_table": "Hospital_Critical_Care_Telemetry",
+   "source_column": "Inventory_Tracker_FK",
+   "target_table": "Healthcare_Equipment_Inventory",
+   "target_key": "Inventory_Tracker_PK",
+   "source_rows": 30,
+   "source_distinct": 10,
+   "target_rows": 11,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HEI-D05983963AC2",
+    "HEI-B2EF5BE8B79D",
+    "HEI-E7A63AB46D10",
+    "HEI-FC38C370EF4A",
+    "HEI-17C5E7DE989B"
+   ],
+   "target_samples": [
+    "HEI-02CD74AD8A08",
+    "HEI-17C5E7DE989B",
+    "HEI-1FBB1975F909",
+    "HEI-3199387DBBAA",
+    "HEI-6CCC514505D0"
+   ]
+  },
+  {
+   "id": "Hospital_Critical_Care_Telemetry.systolic_blood_pressure_mmhg -> properties.propref",
+   "source_table": "Hospital_Critical_Care_Telemetry",
+   "source_column": "systolic_blood_pressure_mmhg",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 30,
+   "source_distinct": 27,
+   "target_rows": 1577,
+   "score": 1.31,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "93",
+    "130",
+    "78",
+    "103",
+    "127"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Hospital_Critical_Care_Telemetry.diastolic_blood_pressure_mmhg -> properties.propref",
+   "source_table": "Hospital_Critical_Care_Telemetry",
+   "source_column": "diastolic_blood_pressure_mmhg",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 30,
+   "source_distinct": 19,
+   "target_rows": 1577,
+   "score": 1.21,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "80",
+    "73",
+    "66",
+    "89",
+    "60"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Hospital_Critical_Care_Telemetry.heart_rate_bpm -> properties.propref",
+   "source_table": "Hospital_Critical_Care_Telemetry",
+   "source_column": "heart_rate_bpm",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 30,
+   "source_distinct": 25,
+   "target_rows": 1577,
+   "score": 1.2,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "62",
+    "107",
+    "65",
+    "74",
+    "64"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Hospital_Critical_Care_Telemetry.respiratory_rate_bpm -> properties.propref",
+   "source_table": "Hospital_Critical_Care_Telemetry",
+   "source_column": "respiratory_rate_bpm",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 30,
+   "source_distinct": 14,
+   "target_rows": 1577,
+   "score": 1.05,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "13",
+    "26",
+    "14",
+    "15",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Household_Skill_Progression.assignment_link -> household_demographics.DEMO_ID",
+   "source_table": "Household_Skill_Progression",
+   "source_column": "assignment_link",
+   "target_table": "household_demographics",
+   "target_key": "DEMO_ID",
+   "source_rows": 41,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 3.67,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "2",
+    "3",
+    "6",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Household_Skill_Progression.technical_stack_diversity_count -> properties.propref",
+   "source_table": "Household_Skill_Progression",
+   "source_column": "technical_stack_diversity_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 41,
+   "source_distinct": 11,
+   "target_rows": 1577,
+   "score": 1.02,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "1",
+    "5",
+    "11",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Household_Skill_Progression.language_fluency_count -> environmental_data.ENV_id",
+   "source_table": "Household_Skill_Progression",
+   "source_column": "language_fluency_count",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 41,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "Household_Skill_Progression.project_leadership_count -> properties.propref",
+   "source_table": "Household_Skill_Progression",
+   "source_column": "project_leadership_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 41,
+   "source_distinct": 17,
+   "target_rows": 1577,
+   "score": 1.03,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "8",
+    "13",
+    "2",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Household_Skill_Progression.occupational_hazard_exposure_rating -> properties.propref",
+   "source_table": "Household_Skill_Progression",
+   "source_column": "occupational_hazard_exposure_rating",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 41,
+   "source_distinct": 9,
+   "target_rows": 1577,
+   "score": 1.02,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "5",
+    "7",
+    "1",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Household_Telecomm_Metrix.household_target -> amenities.houseid",
+   "source_table": "Household_Telecomm_Metrix",
+   "source_column": "household_target",
+   "target_table": "amenities",
+   "target_key": "houseid",
+   "source_rows": 7660,
+   "source_distinct": 1573,
+   "target_rows": 1581,
+   "score": 3.99,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2874",
+    "5488",
+    "4317",
+    "2142",
+    "4421"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "7",
+    "22",
+    "35"
+   ]
+  },
+  {
+   "id": "Household_Telecomm_Metrix.latency_ping_ms -> properties.propref",
+   "source_table": "Household_Telecomm_Metrix",
+   "source_column": "latency_ping_ms",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7660,
+   "source_distinct": 58,
+   "target_rows": 1577,
+   "score": 1.11,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "25",
+    "20",
+    "14",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Household_Telecomm_Metrix.iot_device_count -> properties.propref",
+   "source_table": "Household_Telecomm_Metrix",
+   "source_column": "iot_device_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7660,
+   "source_distinct": 49,
+   "target_rows": 1577,
+   "score": 1.09,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "4",
+    "7",
+    "24",
+    "27"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Industrial_HVAC_Sensor_Array.Energy_Audit_FK -> Commercial_Energy_Efficiency.Energy_Audit_PK",
+   "source_table": "Industrial_HVAC_Sensor_Array",
+   "source_column": "Energy_Audit_FK",
+   "target_table": "Commercial_Energy_Efficiency",
+   "target_key": "Energy_Audit_PK",
+   "source_rows": 51,
+   "source_distinct": 11,
+   "target_rows": 11,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CEE-049145BF07BC",
+    "CEE-A3A0F0EAA643",
+    "CEE-3075CF4A6E78",
+    "CEE-BE58AAD4C6A2",
+    "CEE-03C13E421AE9"
+   ],
+   "target_samples": [
+    "CEE-03C13E421AE9",
+    "CEE-049145BF07BC",
+    "CEE-232816364683",
+    "CEE-3075CF4A6E78",
+    "CEE-75FA5F257491"
+   ]
+  },
+  {
+   "id": "Industrial_HVAC_Sensor_Array.co2_concentration_ppm -> amenities.amenityref",
+   "source_table": "Industrial_HVAC_Sensor_Array",
+   "source_column": "co2_concentration_ppm",
+   "target_table": "amenities",
+   "target_key": "amenityref",
+   "source_rows": 51,
+   "source_distinct": 46,
+   "target_rows": 1581,
+   "score": 2.22,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "668",
+    "591",
+    "631",
+    "400",
+    "967"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Merchant_Settlement_Audit.Transaction_Flux_FK -> Digital_Payment_Transactional_Flux.Transaction_Flux_PK",
+   "source_table": "Merchant_Settlement_Audit",
+   "source_column": "Transaction_Flux_FK",
+   "target_table": "Digital_Payment_Transactional_Flux",
+   "target_key": "Transaction_Flux_PK",
+   "source_rows": 138,
+   "source_distinct": 40,
+   "target_rows": 43,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "DPTF-5B8F54C8895F",
+    "DPTF-89075071265B",
+    "DPTF-DBCB9D8B6C19",
+    "DPTF-F31A69F321CD",
+    "DPTF-AC6339F03BD5"
+   ],
+   "target_samples": [
+    "DPTF-006E30726DB8",
+    "DPTF-028B1F213998",
+    "DPTF-035E57732C79",
+    "DPTF-0BEF71A6C275",
+    "DPTF-0D6D1F35B096"
+   ]
+  },
+  {
+   "id": "Professional_Certification_Audit.Skill_Growth_FK -> Household_Skill_Progression.Skill_Growth_PK",
+   "source_table": "Professional_Certification_Audit",
+   "source_column": "Skill_Growth_FK",
+   "target_table": "Household_Skill_Progression",
+   "target_key": "Skill_Growth_PK",
+   "source_rows": 184,
+   "source_distinct": 41,
+   "target_rows": 41,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HSP-48B7FB4A66D2",
+    "HSP-18924C4586E6",
+    "HSP-1BD1F1ABEF84",
+    "HSP-395FB677192D",
+    "HSP-3DBD063239AE"
+   ],
+   "target_samples": [
+    "HSP-091147540902",
+    "HSP-0F87070DC94B",
+    "HSP-13DA5B125EF4",
+    "HSP-18924C4586E6",
+    "HSP-19FE4CB3D016"
+   ]
+  },
+  {
+   "id": "Professional_Certification_Audit.exam_duration_minutes -> amenities.amenityref",
+   "source_table": "Professional_Certification_Audit",
+   "source_column": "exam_duration_minutes",
+   "target_table": "amenities",
+   "target_key": "amenityref",
+   "source_rows": 184,
+   "source_distinct": 107,
+   "target_rows": 1581,
+   "score": 1.37,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "108",
+    "125",
+    "123",
+    "163",
+    "175"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Professional_Certification_Audit.question_count_total -> properties.propref",
+   "source_table": "Professional_Certification_Audit",
+   "source_column": "question_count_total",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 184,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.23,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "60",
+    "100",
+    "50",
+    "150"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Professional_Certification_Audit.recertification_cycle_years -> properties.propref",
+   "source_table": "Professional_Certification_Audit",
+   "source_column": "recertification_cycle_years",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 184,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.01,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "10",
+    "2",
+    "5",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Professional_Certification_Audit.exam_center_latency_ms -> properties.propref",
+   "source_table": "Professional_Certification_Audit",
+   "source_column": "exam_center_latency_ms",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 184,
+   "source_distinct": 69,
+   "target_rows": 1577,
+   "score": 1.16,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "58",
+    "28",
+    "10",
+    "22",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Public_Safety_Patrol_Logs.crime_stat_link -> commercial_establishments.establishment_ID",
+   "source_table": "Public_Safety_Patrol_Logs",
+   "source_column": "crime_stat_link",
+   "target_table": "commercial_establishments",
+   "target_key": "establishment_ID",
+   "source_rows": 25,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "4",
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "Public_Safety_Patrol_Logs.average_response_time_seconds -> properties.propref",
+   "source_table": "Public_Safety_Patrol_Logs",
+   "source_column": "average_response_time_seconds",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 25,
+   "source_distinct": 22,
+   "target_rows": 1577,
+   "score": 1.11,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9",
+    "31",
+    "1",
+    "5",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Public_Safety_Patrol_Logs.active_duty_officer_count -> properties.propref",
+   "source_table": "Public_Safety_Patrol_Logs",
+   "source_column": "active_duty_officer_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 25,
+   "source_distinct": 12,
+   "target_rows": 1577,
+   "score": 1.03,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "17",
+    "15",
+    "6",
+    "3",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Public_Safety_Patrol_Logs.dispatch_call_volume -> properties.propref",
+   "source_table": "Public_Safety_Patrol_Logs",
+   "source_column": "dispatch_call_volume",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 25,
+   "source_distinct": 25,
+   "target_rows": 1577,
+   "score": 1.99,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "602",
+    "410",
+    "385",
+    "452",
+    "356"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Public_Safety_Patrol_Logs.non_emergency_assistance_count -> properties.propref",
+   "source_table": "Public_Safety_Patrol_Logs",
+   "source_column": "non_emergency_assistance_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 25,
+   "source_distinct": 24,
+   "target_rows": 1577,
+   "score": 1.24,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "24",
+    "133",
+    "118",
+    "101",
+    "92"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Resilient_Infrastructure_Health.infra_detail_link -> skills_inventory.Skill_ID",
+   "source_table": "Resilient_Infrastructure_Health",
+   "source_column": "infra_detail_link",
+   "target_table": "skills_inventory",
+   "target_key": "Skill_ID",
+   "source_rows": 20,
+   "source_distinct": 3,
+   "target_rows": 5,
+   "score": 3.11,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "3",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Resilient_Infrastructure_Health.street_lighting_lux_level -> properties.propref",
+   "source_table": "Resilient_Infrastructure_Health",
+   "source_column": "street_lighting_lux_level",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 20,
+   "source_distinct": 13,
+   "target_rows": 1577,
+   "score": 1.04,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "16",
+    "15",
+    "4",
+    "17",
+    "13"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Resilient_Infrastructure_Health.load_bearing_limit_tons -> properties.propref",
+   "source_table": "Resilient_Infrastructure_Health",
+   "source_column": "load_bearing_limit_tons",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 20,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.05,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "40",
+    "10",
+    "20",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Smart_Home_Bandwidth_Allocation.Comms_Stats_FK -> Household_Telecomm_Metrix.Comms_Stats_PK",
+   "source_table": "Smart_Home_Bandwidth_Allocation",
+   "source_column": "Comms_Stats_FK",
+   "target_table": "Household_Telecomm_Metrix",
+   "target_key": "Comms_Stats_PK",
+   "source_rows": 29696,
+   "source_distinct": 7486,
+   "target_rows": 7660,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HTM-B944F82126EC",
+    "HTM-7EF4541330FA",
+    "HTM-4A01253B8484",
+    "HTM-7D38C12EFC76",
+    "HTM-8C523C049C8F"
+   ],
+   "target_samples": [
+    "HTM-0027AA1686E9",
+    "HTM-002AE9C1BAA5",
+    "HTM-003FD54AACF7",
+    "HTM-0045B71AC40E",
+    "HTM-0049CF687FD7"
+   ]
+  },
+  {
+   "id": "Smart_Home_Bandwidth_Allocation.active_connected_clients_count -> properties.propref",
+   "source_table": "Smart_Home_Bandwidth_Allocation",
+   "source_column": "active_connected_clients_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 29696,
+   "source_distinct": 49,
+   "target_rows": 1577,
+   "score": 1.09,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "27",
+    "11",
+    "42",
+    "38",
+    "28"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Waste_Processing_Plant_Efficiency.Waste_Composition_FK -> Waste_Stream_Analysis.Waste_Composition_PK",
+   "source_table": "Waste_Processing_Plant_Efficiency",
+   "source_column": "Waste_Composition_FK",
+   "target_table": "Waste_Stream_Analysis",
+   "target_key": "Waste_Composition_PK",
+   "source_rows": 257,
+   "source_distinct": 56,
+   "target_rows": 57,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WSA-4AC91237622D",
+    "WSA-011D1E2DD149",
+    "WSA-E24BE5604F7C",
+    "WSA-7ADFB430A975",
+    "WSA-56DFF9FEC997"
+   ],
+   "target_samples": [
+    "WSA-011D1E2DD149",
+    "WSA-017C0C320FC0",
+    "WSA-0A4BA63020C5",
+    "WSA-147955ABC170",
+    "WSA-18C457523349"
+   ]
+  },
+  {
+   "id": "Waste_Processing_Plant_Efficiency.trommel_screen_mesh_size_mm -> properties.propref",
+   "source_table": "Waste_Processing_Plant_Efficiency",
+   "source_column": "trommel_screen_mesh_size_mm",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 257,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.12,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "25",
+    "10",
+    "50",
+    "100"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Waste_Stream_Analysis.waste_monitor_link -> household_demographics.DEMO_ID",
+   "source_table": "Waste_Stream_Analysis",
+   "source_column": "waste_monitor_link",
+   "target_table": "household_demographics",
+   "target_key": "DEMO_ID",
+   "source_rows": 57,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 3.67,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "5",
+    "1",
+    "4",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Waste_Stream_Analysis.microplastic_particle_count_per_kg -> properties.propref",
+   "source_table": "Waste_Stream_Analysis",
+   "source_column": "microplastic_particle_count_per_kg",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 57,
+   "source_distinct": 49,
+   "target_rows": 1577,
+   "score": 1.16,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "37",
+    "97",
+    "57",
+    "4",
+    "38"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Waste_Stream_Analysis.odor_intensity_index -> properties.propref",
+   "source_table": "Waste_Stream_Analysis",
+   "source_column": "odor_intensity_index",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 57,
+   "source_distinct": 8,
+   "target_rows": 1577,
+   "score": 1.01,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "6",
+    "2",
+    "1",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "amenities.houseid -> households.housenum",
+   "source_table": "amenities",
+   "source_column": "houseid",
+   "target_table": "households",
+   "target_key": "housenum",
+   "source_rows": 1581,
+   "source_distinct": 1581,
+   "target_rows": 1581,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "7",
+    "22",
+    "35"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "7",
+    "22",
+    "35"
+   ]
+  },
+  {
+   "id": "commercial_establishments.Commercial_Sector_Number -> properties.propref",
+   "source_table": "commercial_establishments",
+   "source_column": "Commercial_Sector_Number",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 2.25,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "315",
+    "222",
+    "353"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commercial_establishments.EMPLOYEE_count -> properties.propref",
+   "source_table": "commercial_establishments",
+   "source_column": "EMPLOYEE_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "18",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commercial_establishments.daily_customer_COUNT -> properties.propref",
+   "source_table": "commercial_establishments",
+   "source_column": "daily_customer_COUNT",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "850",
+    "120"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commercial_establishments.Opening_Hours_Per_Day -> properties.propref",
+   "source_table": "commercial_establishments",
+   "source_column": "Opening_Hours_Per_Day",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.03,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12.0",
+    "10.0",
+    "9.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commercial_establishments.DAYS_open_per_week -> household_service_enrollment.Enrollment_ID",
+   "source_table": "commercial_establishments",
+   "source_column": "DAYS_open_per_week",
+   "target_table": "household_service_enrollment",
+   "target_key": "Enrollment_ID",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 6,
+   "score": 2.83,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "commercial_establishments.parking_SPACES -> properties.propref",
+   "source_table": "commercial_establishments",
+   "source_column": "parking_SPACES",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.55,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "45",
+    "12",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commercial_establishments.payment_methods_ACCEPTED -> community_engagement.Engagement_ID",
+   "source_table": "commercial_establishments",
+   "source_column": "payment_methods_ACCEPTED",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 8,
+   "score": 3.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "6",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commercial_establishments.SAFETY_rating -> infrastructure_details.Detail_ID",
+   "source_table": "commercial_establishments",
+   "source_column": "SAFETY_rating",
+   "target_table": "infrastructure_details",
+   "target_key": "Detail_ID",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 3,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "4"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commercial_establishments.hygiene_RATING -> infrastructure_details.Detail_ID",
+   "source_table": "commercial_establishments",
+   "source_column": "hygiene_RATING",
+   "target_table": "infrastructure_details",
+   "target_key": "Detail_ID",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 3,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commercial_establishments.years_in_OPERATION -> properties.propref",
+   "source_table": "commercial_establishments",
+   "source_column": "years_in_OPERATION",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "12",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commercial_establishments.supply_chain_RELIABILITY_score -> properties.propref",
+   "source_table": "commercial_establishments",
+   "source_column": "supply_chain_RELIABILITY_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.69,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "85",
+    "78",
+    "68"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commercial_establishments.Technology_Adoption_Level -> infrastructure_details.Detail_ID",
+   "source_table": "commercial_establishments",
+   "source_column": "Technology_Adoption_Level",
+   "target_table": "infrastructure_details",
+   "target_key": "Detail_ID",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 3,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "community_engagement.Community_Engagement_Household_Participation -> amenities.houseid",
+   "source_table": "community_engagement",
+   "source_column": "Community_Engagement_Household_Participation",
+   "target_table": "amenities",
+   "target_key": "houseid",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 1581,
+   "score": 1.88,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "7",
+    "22",
+    "797",
+    "852"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "7",
+    "22",
+    "35"
+   ]
+  },
+  {
+   "id": "community_engagement.community_organization_MEMBERSHIPS -> environmental_data.ENV_id",
+   "source_table": "community_engagement",
+   "source_column": "community_organization_MEMBERSHIPS",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 8,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "1",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "community_engagement.Local_Business_Patronage_Frequency -> properties.propref",
+   "source_table": "community_engagement",
+   "source_column": "Local_Business_Patronage_Frequency",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 8,
+   "source_distinct": 7,
+   "target_rows": 1577,
+   "score": 1.54,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15",
+    "8",
+    "25",
+    "12",
+    "18"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "community_engagement.CULTURAL_events_attended -> properties.propref",
+   "source_table": "community_engagement",
+   "source_column": "CULTURAL_events_attended",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 8,
+   "source_distinct": 6,
+   "target_rows": 1577,
+   "score": 1.51,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "8",
+    "3",
+    "6",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "community_engagement.POLITICAL_participation_score -> properties.propref",
+   "source_table": "community_engagement",
+   "source_column": "POLITICAL_participation_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 8,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "8",
+    "5",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "community_engagement.Neighbor_Interaction_Frequency -> properties.propref",
+   "source_table": "community_engagement",
+   "source_column": "Neighbor_Interaction_Frequency",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 8,
+   "source_distinct": 7,
+   "target_rows": 1577,
+   "score": 1.53,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "8",
+    "18",
+    "10",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "community_engagement.local_media_ENGAGEMENT_score -> properties.propref",
+   "source_table": "community_engagement",
+   "source_column": "local_media_ENGAGEMENT_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 8,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "5",
+    "6",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "community_engagement.Cultural_Diversity_Acceptance_Score -> properties.propref",
+   "source_table": "community_engagement",
+   "source_column": "Cultural_Diversity_Acceptance_Score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 8,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "9",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "community_engagement.CHARITABLE_donation_frequency_per_year -> properties.propref",
+   "source_table": "community_engagement",
+   "source_column": "CHARITABLE_donation_frequency_per_year",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 8,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.53,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "4",
+    "8",
+    "12",
+    "24"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "community_engagement.Social_Media_Community_Group_Participation -> skills_inventory.Skill_ID",
+   "source_table": "community_engagement",
+   "source_column": "Social_Media_Community_Group_Participation",
+   "target_table": "skills_inventory",
+   "target_key": "Skill_ID",
+   "source_rows": 8,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "2",
+    "4",
+    "5",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "community_engagement.sense_of_BELONGING_score -> properties.propref",
+   "source_table": "community_engagement",
+   "source_column": "sense_of_BELONGING_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 8,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "9",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.Crime_District_Zone -> properties.propref",
+   "source_table": "crime_statistics",
+   "source_column": "Crime_District_Zone",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "315",
+    "222"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.Theft_Incidents -> properties.propref",
+   "source_table": "crime_statistics",
+   "source_column": "Theft_Incidents",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.61,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "45",
+    "52",
+    "38"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.BURGLARY_incidents -> properties.propref",
+   "source_table": "crime_statistics",
+   "source_column": "BURGLARY_incidents",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.53,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "8",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.assault_INCIDENTS -> household_service_enrollment.Enrollment_ID",
+   "source_table": "crime_statistics",
+   "source_column": "assault_INCIDENTS",
+   "target_table": "household_service_enrollment",
+   "target_key": "Enrollment_ID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 6,
+   "score": 3.78,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "7",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "crime_statistics.Vandalism_Incidents -> properties.propref",
+   "source_table": "crime_statistics",
+   "source_column": "Vandalism_Incidents",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "3",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.DRUG_related_incidents -> properties.propref",
+   "source_table": "crime_statistics",
+   "source_column": "DRUG_related_incidents",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.55,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15",
+    "18",
+    "21"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.traffic_VIOLATIONS -> properties.propref",
+   "source_table": "crime_statistics",
+   "source_column": "traffic_VIOLATIONS",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.79,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "125",
+    "98",
+    "142",
+    "89"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.Domestic_Violence_Incidents -> properties.propref",
+   "source_table": "crime_statistics",
+   "source_column": "Domestic_Violence_Incidents",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.54,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "18",
+    "12",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.FRAUD_incidents -> properties.propref",
+   "source_table": "crime_statistics",
+   "source_column": "FRAUD_incidents",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.55,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "22",
+    "18",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.total_INCIDENTS -> properties.propref",
+   "source_table": "crime_statistics",
+   "source_column": "total_INCIDENTS",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 2.05,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "245",
+    "164",
+    "268",
+    "195"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.patrol_frequency_PER_day -> properties.propref",
+   "source_table": "crime_statistics",
+   "source_column": "patrol_frequency_PER_day",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "8",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.COMMUNITY_policing_programs -> skills_inventory.Skill_ID",
+   "source_table": "crime_statistics",
+   "source_column": "COMMUNITY_policing_programs",
+   "target_table": "skills_inventory",
+   "target_key": "Skill_ID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 5,
+   "score": 3.61,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "2",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.security_camera_COUNT -> properties.propref",
+   "source_table": "crime_statistics",
+   "source_column": "security_camera_COUNT",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.87,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "145",
+    "168",
+    "125"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.NEIGHBORHOOD_watch_groups -> skills_inventory.Skill_ID",
+   "source_table": "crime_statistics",
+   "source_column": "NEIGHBORHOOD_watch_groups",
+   "target_table": "skills_inventory",
+   "target_key": "Skill_ID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 5,
+   "score": 3.61,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "5",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.EMERGENCY_call_volume -> properties.propref",
+   "source_table": "crime_statistics",
+   "source_column": "EMERGENCY_call_volume",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.96,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "189",
+    "156",
+    "201"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.DISASTER_preparedness_score -> community_engagement.Engagement_ID",
+   "source_table": "crime_statistics",
+   "source_column": "DISASTER_preparedness_score",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 8,
+   "score": 2.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "8",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.risk_assessment_LEVEL -> household_demographics.DEMO_ID",
+   "source_table": "crime_statistics",
+   "source_column": "risk_assessment_LEVEL",
+   "target_table": "household_demographics",
+   "target_key": "DEMO_ID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 6,
+   "score": 3.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "6",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "education_facilities.Education_Zone_Number -> properties.propref",
+   "source_table": "education_facilities",
+   "source_column": "Education_Zone_Number",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "315",
+    "352"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "education_facilities.current_ENROLLMENT -> properties.propref",
+   "source_table": "education_facilities",
+   "source_column": "current_ENROLLMENT",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 3.02,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "756",
+    "432",
+    "950"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "education_facilities.Teacher_Count -> properties.propref",
+   "source_table": "education_facilities",
+   "source_column": "Teacher_Count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 2.01,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "42",
+    "680",
+    "28",
+    "55"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "education_facilities.Classroom_Count -> properties.propref",
+   "source_table": "education_facilities",
+   "source_column": "Classroom_Count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.67,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "32",
+    "180",
+    "20",
+    "35"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "education_facilities.LABORATORY_count -> properties.propref",
+   "source_table": "education_facilities",
+   "source_column": "LABORATORY_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.53,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "35",
+    "8",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "education_facilities.COMPUTER_count -> properties.propref",
+   "source_table": "education_facilities",
+   "source_column": "COMPUTER_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 2.13,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "120",
+    "450",
+    "180"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "education_facilities.WATER_access_quality -> properties.propref",
+   "source_table": "education_facilities",
+   "source_column": "WATER_access_quality",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "9",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "education_facilities.EXTRACURRICULAR_programs_count -> properties.propref",
+   "source_table": "education_facilities",
+   "source_column": "EXTRACURRICULAR_programs_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.55,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "45",
+    "8",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "education_facilities.security_LEVEL -> properties.propref",
+   "source_table": "education_facilities",
+   "source_column": "security_LEVEL",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "9",
+    "6",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "energy_consumption.Energy_Consumption_Household_Tracker -> properties.propref",
+   "source_table": "energy_consumption",
+   "source_column": "Energy_Consumption_Household_Tracker",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.87,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "7",
+    "22",
+    "547"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "energy_consumption.Energy_Efficiency_Score -> community_engagement.Engagement_ID",
+   "source_table": "energy_consumption",
+   "source_column": "Energy_Efficiency_Score",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 8,
+   "score": 2.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "6",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "energy_consumption.grid_reliability_OUTAGES -> environmental_data.ENV_id",
+   "source_table": "energy_consumption",
+   "source_column": "grid_reliability_OUTAGES",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 3,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "energy_consumption.ENERGY_audit_recommendations_count -> skills_inventory.Skill_ID",
+   "source_table": "energy_consumption",
+   "source_column": "ENERGY_audit_recommendations_count",
+   "target_table": "skills_inventory",
+   "target_key": "Skill_ID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 5,
+   "score": 3.61,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "energy_consumption.insulation_quality_SCORE -> community_engagement.Engagement_ID",
+   "source_table": "energy_consumption",
+   "source_column": "insulation_quality_SCORE",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 8,
+   "score": 2.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "8",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "energy_consumption.Window_Efficiency_Rating -> community_engagement.Engagement_ID",
+   "source_table": "energy_consumption",
+   "source_column": "Window_Efficiency_Rating",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 8,
+   "score": 3.04,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "5",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "energy_consumption.HVAC_efficiency_rating -> properties.propref",
+   "source_table": "energy_consumption",
+   "source_column": "HVAC_efficiency_rating",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "environmental_data.Environmental_Zone_Reference -> properties.propref",
+   "source_table": "environmental_data",
+   "source_column": "Environmental_Zone_Reference",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "315",
+    "222"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "environmental_data.Wind_Direction_Degrees -> properties.propref",
+   "source_table": "environmental_data",
+   "source_column": "Wind_Direction_Degrees",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "180",
+    "225"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "financial_services.Financial_Services_Household_Account -> properties.propref",
+   "source_table": "financial_services",
+   "source_column": "Financial_Services_Household_Account",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 7,
+   "target_rows": 1577,
+   "score": 2.45,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "7",
+    "22",
+    "579",
+    "611"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "financial_services.CREDIT_score_average -> properties.propref",
+   "source_table": "financial_services",
+   "source_column": "CREDIT_score_average",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 6,
+   "target_rows": 1577,
+   "score": 2.62,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "720",
+    "785",
+    "695",
+    "650",
+    "820"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "financial_services.DIGITAL_payment_adoption_score -> properties.propref",
+   "source_table": "financial_services",
+   "source_column": "DIGITAL_payment_adoption_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "9",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "financial_services.financial_literacy_SCORE -> properties.propref",
+   "source_table": "financial_services",
+   "source_column": "financial_literacy_SCORE",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 6,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "5",
+    "8",
+    "4",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "financial_services.INSURANCE_coverage_adequacy_score -> properties.propref",
+   "source_table": "financial_services",
+   "source_column": "INSURANCE_coverage_adequacy_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "6",
+    "9",
+    "5",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "financial_services.fraud_protection_SCORE -> properties.propref",
+   "source_table": "financial_services",
+   "source_column": "fraud_protection_SCORE",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "8",
+    "6",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "financial_services.FINANCIAL_stress_level -> properties.propref",
+   "source_table": "financial_services",
+   "source_column": "FINANCIAL_stress_level",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 6,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "6",
+    "12",
+    "7",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "financial_services.Financial_Goal_Achievement_Score -> community_engagement.Engagement_ID",
+   "source_table": "financial_services",
+   "source_column": "Financial_Goal_Achievement_Score",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 8,
+   "score": 3.69,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8",
+    "6",
+    "3",
+    "5",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "healthcare_facilities.Healthcare_District_Code -> properties.propref",
+   "source_table": "healthcare_facilities",
+   "source_column": "Healthcare_District_Code",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 2.26,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "332",
+    "353",
+    "315"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "healthcare_facilities.Doctor_Count -> properties.propref",
+   "source_table": "healthcare_facilities",
+   "source_column": "Doctor_Count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.55,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "45",
+    "8",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "healthcare_facilities.NURSE_count -> properties.propref",
+   "source_table": "healthcare_facilities",
+   "source_column": "NURSE_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.62,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "120",
+    "25",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "healthcare_facilities.specialist_COUNT -> properties.propref",
+   "source_table": "healthcare_facilities",
+   "source_column": "specialist_COUNT",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "28",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "healthcare_facilities.diagnostic_equipment_COUNT -> properties.propref",
+   "source_table": "healthcare_facilities",
+   "source_column": "diagnostic_equipment_COUNT",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.53,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "25",
+    "8",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "healthcare_facilities.insurance_accepted_COUNT -> properties.propref",
+   "source_table": "healthcare_facilities",
+   "source_column": "insurance_accepted_COUNT",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "healthcare_facilities.technology_LEVEL -> community_engagement.Engagement_ID",
+   "source_table": "healthcare_facilities",
+   "source_column": "technology_LEVEL",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 8,
+   "score": 3.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "6",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "healthcare_facilities.Accreditation_Level -> properties.propref",
+   "source_table": "healthcare_facilities",
+   "source_column": "Accreditation_Level",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_demographics.Demographics_Household_Reference -> properties.houselink",
+   "source_table": "household_demographics",
+   "source_column": "Demographics_Household_Reference",
+   "target_table": "properties",
+   "target_key": "houselink",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 1577,
+   "score": 2.31,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4735",
+    "4734",
+    "4754",
+    "4752",
+    "4750"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "7",
+    "22",
+    "35"
+   ]
+  },
+  {
+   "id": "household_demographics.children_Count -> environmental_data.ENV_id",
+   "source_table": "household_demographics",
+   "source_column": "children_Count",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 6,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "1",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "household_demographics.Working_Adults_Count -> environmental_data.ENV_id",
+   "source_table": "household_demographics",
+   "source_column": "Working_Adults_Count",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 6,
+   "source_distinct": 2,
+   "target_rows": 3,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "household_demographics.employment_rate_PERCENT -> properties.propref",
+   "source_table": "household_demographics",
+   "source_column": "employment_rate_PERCENT",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.19,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "100.0",
+    "75.0",
+    "50.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_demographics.Household_Head_Age -> properties.propref",
+   "source_table": "household_demographics",
+   "source_column": "Household_Head_Age",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.61,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "42",
+    "38",
+    "65",
+    "35"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_demographics.years_in_RESIDENCE -> properties.propref",
+   "source_table": "household_demographics",
+   "source_column": "years_in_RESIDENCE",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.53,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "12",
+    "15",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_demographics.community_involvement_SCORE -> properties.propref",
+   "source_table": "household_demographics",
+   "source_column": "community_involvement_SCORE",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.7,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "78",
+    "85",
+    "67",
+    "82"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_member_skills.Member_Skills_Household_Link -> properties.propref",
+   "source_table": "household_member_skills",
+   "source_column": "Member_Skills_Household_Link",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 1577,
+   "score": 1.57,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "7",
+    "22",
+    "37",
+    "43"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_member_skills.Member_Skills_Ability_Reference -> skills_inventory.Skill_ID",
+   "source_table": "household_member_skills",
+   "source_column": "Member_Skills_Ability_Reference",
+   "target_table": "skills_inventory",
+   "target_key": "Skill_ID",
+   "source_rows": 6,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_member_skills.Member_Position -> environmental_data.ENV_id",
+   "source_table": "household_member_skills",
+   "source_column": "Member_Position",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 6,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "household_member_skills.PROFICIENCY_level -> properties.propref",
+   "source_table": "household_member_skills",
+   "source_column": "PROFICIENCY_level",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "6",
+    "9",
+    "7",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_member_skills.COST_invested_brl -> properties.propref",
+   "source_table": "household_member_skills",
+   "source_column": "COST_invested_brl",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "850.0",
+    "1200.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_member_skills.Skill_Transferability_Score -> properties.propref",
+   "source_table": "household_member_skills",
+   "source_column": "Skill_Transferability_Score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "6",
+    "9",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_member_skills.MARKET_relevance_score -> properties.propref",
+   "source_table": "household_member_skills",
+   "source_column": "MARKET_relevance_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9",
+    "8",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_member_skills.passion_LEVEL -> properties.propref",
+   "source_table": "household_member_skills",
+   "source_column": "passion_LEVEL",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9",
+    "8",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_member_skills.Natural_Aptitude_Score -> community_engagement.Engagement_ID",
+   "source_table": "household_member_skills",
+   "source_column": "Natural_Aptitude_Score",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 6,
+   "source_distinct": 3,
+   "target_rows": 8,
+   "score": 3.04,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "8",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_member_skills.Networking_Connections_Count -> properties.propref",
+   "source_table": "household_member_skills",
+   "source_column": "Networking_Connections_Count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.53,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15",
+    "8",
+    "25",
+    "12",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_member_skills.PORTFOLIO_projects_count -> properties.propref",
+   "source_table": "household_member_skills",
+   "source_column": "PORTFOLIO_projects_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "3",
+    "5",
+    "15",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_member_skills.Teaching_Others_Hours -> properties.propref",
+   "source_table": "household_member_skills",
+   "source_column": "Teaching_Others_Hours",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.66,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "25",
+    "45",
+    "180",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_service_enrollment.Service_Enrollment_Household_Connection -> properties.propref",
+   "source_table": "household_service_enrollment",
+   "source_column": "Service_Enrollment_Household_Connection",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 1577,
+   "score": 1.83,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "7",
+    "22",
+    "244",
+    "245"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_service_enrollment.Service_Enrollment_Category_Link -> environmental_data.ENV_id",
+   "source_table": "household_service_enrollment",
+   "source_column": "Service_Enrollment_Category_Link",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 6,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "household_service_enrollment.priority_LEVEL -> environmental_data.ENV_id",
+   "source_table": "household_service_enrollment",
+   "source_column": "priority_LEVEL",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 6,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "1",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "household_service_enrollment.DURATION_months -> properties.propref",
+   "source_table": "household_service_enrollment",
+   "source_column": "DURATION_months",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_service_enrollment.PROGRESS_milestones_achieved -> properties.propref",
+   "source_table": "household_service_enrollment",
+   "source_column": "PROGRESS_milestones_achieved",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "12",
+    "5",
+    "6",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_service_enrollment.total_MILESTONES -> properties.propref",
+   "source_table": "household_service_enrollment",
+   "source_column": "total_MILESTONES",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "12",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_service_enrollment.fraud_risk_SCORE -> environmental_data.ENV_id",
+   "source_table": "household_service_enrollment",
+   "source_column": "fraud_risk_SCORE",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 6,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "1",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.Transportation_Usage_Household_Ref -> properties.propref",
+   "source_table": "household_transportation_usage",
+   "source_column": "Transportation_Usage_Household_Ref",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 7,
+   "target_rows": 1577,
+   "score": 2.08,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "7",
+    "22",
+    "242",
+    "244"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.Transportation_Usage_Mode_Key -> environmental_data.ENV_id",
+   "source_table": "household_transportation_usage",
+   "source_column": "Transportation_Usage_Mode_Key",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 7,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.Primary_User_Position -> environmental_data.ENV_id",
+   "source_table": "household_transportation_usage",
+   "source_column": "Primary_User_Position",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 7,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.PURPOSE_distribution_shopping_percent -> properties.propref",
+   "source_table": "household_transportation_usage",
+   "source_column": "PURPOSE_distribution_shopping_percent",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.07,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "25.0",
+    "30.0",
+    "20.0",
+    "40.0",
+    "15.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.Purpose_Distribution_Healthcare_Percent -> properties.propref",
+   "source_table": "household_transportation_usage",
+   "source_column": "Purpose_Distribution_Healthcare_Percent",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.02,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10.0",
+    "15.0",
+    "5.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.PURPOSE_distribution_recreation_percent -> properties.propref",
+   "source_table": "household_transportation_usage",
+   "source_column": "PURPOSE_distribution_recreation_percent",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.03,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5.0",
+    "25.0",
+    "10.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.monthly_cost_BRL -> properties.propref",
+   "source_table": "household_transportation_usage",
+   "source_column": "monthly_cost_BRL",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.5,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "580.0",
+    "45.0",
+    "85.0",
+    "220.0",
+    "65.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.Time_Saved_Per_Trip_Minutes -> properties.propref",
+   "source_table": "household_transportation_usage",
+   "source_column": "Time_Saved_Per_Trip_Minutes",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.05,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "25.0",
+    "15.0",
+    "18.0",
+    "22.0",
+    "12.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.WEATHER_impact_score -> properties.propref",
+   "source_table": "household_transportation_usage",
+   "source_column": "WEATHER_impact_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 7,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "8",
+    "6",
+    "5",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.storage_utilization_PERCENT -> properties.propref",
+   "source_table": "household_transportation_usage",
+   "source_column": "storage_utilization_PERCENT",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.16,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "75.0",
+    "60.0",
+    "85.0",
+    "25.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.ENVIRONMENTAL_consciousness_score -> properties.propref",
+   "source_table": "household_transportation_usage",
+   "source_column": "ENVIRONMENTAL_consciousness_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "9",
+    "8",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.social_status_IMPORTANCE -> household_service_enrollment.Enrollment_ID",
+   "source_table": "household_transportation_usage",
+   "source_column": "social_status_IMPORTANCE",
+   "target_table": "household_service_enrollment",
+   "target_key": "Enrollment_ID",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 6,
+   "score": 3.8,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "3",
+    "2",
+    "5",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "households.residentcount -> properties.propref",
+   "source_table": "households",
+   "source_column": "residentcount",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 1581,
+   "source_distinct": 11,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "3",
+    "1",
+    "2",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "households.loczone -> properties.propref",
+   "source_table": "households",
+   "source_column": "loczone",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 1581,
+   "source_distinct": 15,
+   "target_rows": 1577,
+   "score": 2.25,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "315",
+    "222",
+    "352",
+    "353",
+    "332"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "households.serviceplan -> service_types.serviceref",
+   "source_table": "households",
+   "source_column": "serviceplan",
+   "target_table": "service_types",
+   "target_key": "serviceref",
+   "source_rows": 1581,
+   "source_distinct": 31,
+   "target_rows": 31,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "14",
+    "21",
+    "26",
+    "50"
+   ],
+   "target_samples": [
+    "1",
+    "14",
+    "21",
+    "26",
+    "50"
+   ]
+  },
+  {
+   "id": "infrastructure_details.Infrastructure_Specification_Code -> infrastructure.infraref",
+   "source_table": "infrastructure_details",
+   "source_column": "Infrastructure_Specification_Code",
+   "target_table": "infrastructure",
+   "target_key": "infraref",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 75,
+   "score": 2.66,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "222",
+    "231"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "6",
+    "8",
+    "14"
+   ]
+  },
+  {
+   "id": "infrastructure_details.ROAD_LOAD_CAPACITY_kg_per_m2 -> properties.houselink",
+   "source_table": "infrastructure_details",
+   "source_column": "ROAD_LOAD_CAPACITY_kg_per_m2",
+   "target_table": "properties",
+   "target_key": "houselink",
+   "source_rows": 3,
+   "source_distinct": 1,
+   "target_rows": 1577,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2800.0"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "7",
+    "22",
+    "35"
+   ]
+  },
+  {
+   "id": "infrastructure_details.Curb_Height_cm -> properties.propref",
+   "source_table": "infrastructure_details",
+   "source_column": "Curb_Height_cm",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "18"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "infrastructure_details.Parking_Spots_Count -> infrastructure.infraref",
+   "source_table": "infrastructure_details",
+   "source_column": "Parking_Spots_Count",
+   "target_table": "infrastructure",
+   "target_key": "infraref",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 75,
+   "score": 2.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "16"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "6",
+    "8",
+    "14"
+   ]
+  },
+  {
+   "id": "infrastructure_details.CONTRACTOR_ID -> properties.propref",
+   "source_table": "infrastructure_details",
+   "source_column": "CONTRACTOR_ID",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 1,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "103"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "infrastructure_details.inspection_frequency_MONTHS -> community_engagement.Engagement_ID",
+   "source_table": "infrastructure_details",
+   "source_column": "inspection_frequency_MONTHS",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 8,
+   "score": 2.75,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "infrastructure_details.Compliance_Score -> properties.propref",
+   "source_table": "infrastructure_details",
+   "source_column": "Compliance_Score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "85",
+    "92"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "infrastructure_details.utility_pole_COUNT -> properties.propref",
+   "source_table": "infrastructure_details",
+   "source_column": "utility_pole_COUNT",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "locations.zonenum -> properties.propref",
+   "source_table": "locations",
+   "source_column": "zonenum",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 122,
+   "source_distinct": 15,
+   "target_rows": 1577,
+   "score": 2.25,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "315",
+    "222",
+    "352",
+    "353",
+    "332"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "properties.houselink -> amenities.houseid",
+   "source_table": "properties",
+   "source_column": "houselink",
+   "target_table": "amenities",
+   "target_key": "houseid",
+   "source_rows": 1577,
+   "source_distinct": 1577,
+   "target_rows": 1581,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "7",
+    "22",
+    "35"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "7",
+    "22",
+    "35"
+   ]
+  },
+  {
+   "id": "properties.infralink -> infrastructure.infraref",
+   "source_table": "properties",
+   "source_column": "infralink",
+   "target_table": "infrastructure",
+   "target_key": "infraref",
+   "source_rows": 1577,
+   "source_distinct": 75,
+   "target_rows": 75,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "21",
+    "22",
+    "6",
+    "37"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "6",
+    "8",
+    "14"
+   ]
+  },
+  {
+   "id": "property_valuations.Valuation_Property_Key -> properties.propref",
+   "source_table": "property_valuations",
+   "source_column": "Valuation_Property_Key",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 7,
+   "target_rows": 1577,
+   "score": 1.56,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "19",
+    "20",
+    "21",
+    "22",
+    "23"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "property_valuations.STRUCTURAL_condition_score -> properties.propref",
+   "source_table": "property_valuations",
+   "source_column": "STRUCTURAL_condition_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.71,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "85",
+    "92",
+    "78",
+    "88",
+    "70"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "property_valuations.walkability_SCORE -> properties.propref",
+   "source_table": "property_valuations",
+   "source_column": "walkability_SCORE",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.69,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "75",
+    "68",
+    "82",
+    "79"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "property_valuations.School_District_Rating -> properties.propref",
+   "source_table": "property_valuations",
+   "source_column": "School_District_Rating",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "7",
+    "9",
+    "6",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "property_valuations.PUBLIC_transport_access_score -> properties.propref",
+   "source_table": "property_valuations",
+   "source_column": "PUBLIC_transport_access_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 7,
+   "source_distinct": 6,
+   "target_rows": 1577,
+   "score": 1.71,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "82",
+    "85",
+    "75",
+    "92",
+    "88"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.application_process_DURATION_days -> properties.propref",
+   "source_table": "service_categories",
+   "source_column": "application_process_DURATION_days",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.59,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15",
+    "30",
+    "60"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.MAXIMUM_benefit_duration_months -> properties.propref",
+   "source_table": "service_categories",
+   "source_column": "MAXIMUM_benefit_duration_months",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 1,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.renewal_frequency_MONTHS -> properties.propref",
+   "source_table": "service_categories",
+   "source_column": "renewal_frequency_MONTHS",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.Documentation_Requirements_Count -> properties.propref",
+   "source_table": "service_categories",
+   "source_column": "Documentation_Requirements_Count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "15",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.Wait_List_Average_Days -> properties.propref",
+   "source_table": "service_categories",
+   "source_column": "Wait_List_Average_Days",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.57,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "25",
+    "45",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.STAFF_requirement_count -> properties.propref",
+   "source_table": "service_categories",
+   "source_column": "STAFF_requirement_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.55,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "18",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.training_hours_REQUIRED -> properties.propref",
+   "source_table": "service_categories",
+   "source_column": "training_hours_REQUIRED",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "120",
+    "200"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.Compliance_Audits_Per_Year -> commercial_establishments.establishment_ID",
+   "source_table": "service_categories",
+   "source_column": "Compliance_Audits_Per_Year",
+   "target_table": "commercial_establishments",
+   "target_key": "establishment_ID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 4,
+   "score": 3.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "4",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "service_categories.PARTNERSHIP_organizations_count -> properties.propref",
+   "source_table": "service_categories",
+   "source_column": "PARTNERSHIP_organizations_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.54,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "15",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.Data_Collection_Frequency_Days -> properties.propref",
+   "source_table": "service_categories",
+   "source_column": "Data_Collection_Frequency_Days",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "30",
+    "60"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.REPORTING_requirements_count -> properties.propref",
+   "source_table": "service_categories",
+   "source_column": "REPORTING_requirements_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "8",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.quality_metrics_COUNT -> properties.propref",
+   "source_table": "service_categories",
+   "source_column": "quality_metrics_COUNT",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.53,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "8",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.IMPACT_assessment_frequency_months -> properties.propref",
+   "source_table": "service_categories",
+   "source_column": "IMPACT_assessment_frequency_months",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 4,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.MARKET_demand_score -> properties.propref",
+   "source_table": "skills_inventory",
+   "source_column": "MARKET_demand_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9",
+    "8",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.automation_risk_SCORE -> environmental_data.ENV_id",
+   "source_table": "skills_inventory",
+   "source_column": "automation_risk_SCORE",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 5,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "2",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "skills_inventory.Learning_Time_Hours -> properties.propref",
+   "source_table": "skills_inventory",
+   "source_column": "Learning_Time_Hours",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.89,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "120",
+    "240",
+    "80",
+    "180"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.online_courses_AVAILABLE -> properties.propref",
+   "source_table": "skills_inventory",
+   "source_column": "online_courses_AVAILABLE",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.56,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "45",
+    "15",
+    "25",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.JOB_postings_monthly -> properties.propref",
+   "source_table": "skills_inventory",
+   "source_column": "JOB_postings_monthly",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.79,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "125",
+    "89",
+    "156",
+    "95"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.freelance_opportunity_SCORE -> properties.propref",
+   "source_table": "skills_inventory",
+   "source_column": "freelance_opportunity_SCORE",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.51,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "9",
+    "2",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.Career_Growth_Potential -> community_engagement.Engagement_ID",
+   "source_table": "skills_inventory",
+   "source_column": "Career_Growth_Potential",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 5,
+   "source_distinct": 3,
+   "target_rows": 8,
+   "score": 2.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "7",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.TECHNOLOGY_dependence_level -> properties.propref",
+   "source_table": "skills_inventory",
+   "source_column": "TECHNOLOGY_dependence_level",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9",
+    "2",
+    "8",
+    "7",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.physical_demand_LEVEL -> properties.propref",
+   "source_table": "skills_inventory",
+   "source_column": "physical_demand_LEVEL",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.51,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "9",
+    "1",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.Creativity_Requirement_Level -> properties.propref",
+   "source_table": "skills_inventory",
+   "source_column": "Creativity_Requirement_Level",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "4",
+    "8",
+    "3",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.TEAMWORK_requirement_level -> properties.propref",
+   "source_table": "skills_inventory",
+   "source_column": "TEAMWORK_requirement_level",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "6",
+    "8",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.Communication_Intensity_Level -> properties.propref",
+   "source_table": "skills_inventory",
+   "source_column": "Communication_Intensity_Level",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "4",
+    "9",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.industry_stability_SCORE -> properties.propref",
+   "source_table": "skills_inventory",
+   "source_column": "industry_stability_SCORE",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "7",
+    "9",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_assets.housetag -> amenities.houseid",
+   "source_table": "transportation_assets",
+   "source_column": "housetag",
+   "target_table": "amenities",
+   "target_key": "houseid",
+   "source_rows": 1581,
+   "source_distinct": 1581,
+   "target_rows": 1581,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "7",
+    "22",
+    "35"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "7",
+    "22",
+    "35"
+   ]
+  },
+  {
+   "id": "transportation_modes.registration_cost_BRL -> properties.propref",
+   "source_table": "transportation_modes",
+   "source_column": "registration_cost_BRL",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "50.0",
+    "180.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_modes.SAFETY_rating -> community_engagement.Engagement_ID",
+   "source_table": "transportation_modes",
+   "source_column": "SAFETY_rating",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 8,
+   "score": 2.75,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_modes.comfort_LEVEL -> community_engagement.Engagement_ID",
+   "source_table": "transportation_modes",
+   "source_column": "comfort_LEVEL",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 8,
+   "score": 2.75,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_modes.Weather_Dependency -> community_engagement.Engagement_ID",
+   "source_table": "transportation_modes",
+   "source_column": "Weather_Dependency",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 8,
+   "score": 3.71,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "8",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_modes.STORAGE_capacity_kg -> properties.propref",
+   "source_table": "transportation_modes",
+   "source_column": "STORAGE_capacity_kg",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.37,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "400.0",
+    "15.0",
+    "25.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_modes.passenger_CAPACITY -> skills_inventory.Skill_ID",
+   "source_table": "transportation_modes",
+   "source_column": "passenger_CAPACITY",
+   "target_table": "skills_inventory",
+   "target_key": "Skill_ID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 5,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "1",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_modes.age_restriction_MINIMUM -> properties.propref",
+   "source_table": "transportation_modes",
+   "source_column": "age_restriction_MINIMUM",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 1,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "18"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_modes.Physical_Fitness_Required -> financial_services.Financial_ID",
+   "source_table": "transportation_modes",
+   "source_column": "Physical_Fitness_Required",
+   "target_table": "financial_services",
+   "target_key": "Financial_ID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 7,
+   "score": 3.77,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "7",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_modes.LEARNING_curve_difficulty -> community_engagement.Engagement_ID",
+   "source_table": "transportation_modes",
+   "source_column": "LEARNING_curve_difficulty",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 8,
+   "score": 3.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "4",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_modes.social_acceptability_SCORE -> properties.propref",
+   "source_table": "transportation_modes",
+   "source_column": "social_acceptability_SCORE",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9",
+    "7",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_modes.Environmental_Impact_Score -> properties.propref",
+   "source_table": "transportation_modes",
+   "source_column": "Environmental_Impact_Score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_modes.theft_risk_LEVEL -> community_engagement.Engagement_ID",
+   "source_table": "transportation_modes",
+   "source_column": "theft_risk_LEVEL",
+   "target_table": "community_engagement",
+   "target_key": "Engagement_ID",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 8,
+   "score": 2.75,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_network.Transportation_Grid_Sector -> properties.propref",
+   "source_table": "transportation_network",
+   "source_column": "Transportation_Grid_Sector",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 2,
+   "target_rows": 1577,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "315",
+    "222"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_network.Stops_Count -> properties.propref",
+   "source_table": "transportation_network",
+   "source_column": "Stops_Count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.54,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "22",
+    "18",
+    "15",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_network.DAILY_frequency -> properties.propref",
+   "source_table": "transportation_network",
+   "source_column": "DAILY_frequency",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.83,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "120",
+    "180",
+    "96"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_network.peak_hour_FREQUENCY -> properties.propref",
+   "source_table": "transportation_network",
+   "source_column": "peak_hour_FREQUENCY",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "12",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_network.Off_Peak_Frequency -> household_demographics.DEMO_ID",
+   "source_table": "transportation_network",
+   "source_column": "Off_Peak_Frequency",
+   "target_table": "household_demographics",
+   "target_key": "DEMO_ID",
+   "source_rows": 5,
+   "source_distinct": 3,
+   "target_rows": 6,
+   "score": 3.78,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "4",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_network.VEHICLE_count -> properties.propref",
+   "source_table": "transportation_network",
+   "source_column": "VEHICLE_count",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "8",
+    "15",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_network.vehicle_CAPACITY -> properties.propref",
+   "source_table": "transportation_network",
+   "source_column": "vehicle_CAPACITY",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 5,
+   "source_distinct": 3,
+   "target_rows": 1577,
+   "score": 1.87,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "60",
+    "300",
+    "80"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "utility_services.Utility_Coverage_Zone -> service_types.serviceref",
+   "source_table": "utility_services",
+   "source_column": "Utility_Coverage_Zone",
+   "target_table": "service_types",
+   "target_key": "serviceref",
+   "source_rows": 1,
+   "source_distinct": 1,
+   "target_rows": 31,
+   "score": 2.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "315"
+   ],
+   "target_samples": [
+    "1",
+    "14",
+    "21",
+    "26",
+    "50"
+   ]
+  },
+  {
+   "id": "utility_services.Peak_Demand_Units -> properties.propref",
+   "source_table": "utility_services",
+   "source_column": "Peak_Demand_Units",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 1,
+   "source_distinct": 1,
+   "target_rows": 1577,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1000.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "utility_services.OFF_peak_demand_units -> properties.propref",
+   "source_table": "utility_services",
+   "source_column": "OFF_peak_demand_units",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 1,
+   "source_distinct": 1,
+   "target_rows": 1577,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "400.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "utility_services.Maintenance_Frequency_Months -> environmental_data.ENV_id",
+   "source_table": "utility_services",
+   "source_column": "Maintenance_Frequency_Months",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 1,
+   "source_distinct": 1,
+   "target_rows": 3,
+   "score": 2.83,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "utility_services.OUTAGE_frequency_per_year -> environmental_data.ENV_id",
+   "source_table": "utility_services",
+   "source_column": "OUTAGE_frequency_per_year",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 1,
+   "source_distinct": 1,
+   "target_rows": 3,
+   "score": 2.83,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "utility_services.installation_wait_TIME_days -> environmental_data.ENV_id",
+   "source_table": "utility_services",
+   "source_column": "installation_wait_TIME_days",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 1,
+   "source_distinct": 1,
+   "target_rows": 3,
+   "score": 2.83,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "waste_management.Waste_Management_Household_Monitor -> properties.propref",
+   "source_table": "waste_management",
+   "source_column": "Waste_Management_Household_Monitor",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 1577,
+   "score": 2.12,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "7",
+    "22",
+    "432",
+    "433"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "waste_management.waste_reduction_EFFORTS_score -> properties.propref",
+   "source_table": "waste_management",
+   "source_column": "waste_reduction_EFFORTS_score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "8",
+    "6",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "waste_management.COLLECTION_frequency_per_week -> environmental_data.ENV_id",
+   "source_table": "waste_management",
+   "source_column": "COLLECTION_frequency_per_week",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 6,
+   "source_distinct": 2,
+   "target_rows": 3,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "waste_management.Reuse_Initiatives_Count -> skills_inventory.Skill_ID",
+   "source_table": "waste_management",
+   "source_column": "Reuse_Initiatives_Count",
+   "target_table": "skills_inventory",
+   "target_key": "Skill_ID",
+   "source_rows": 6,
+   "source_distinct": 4,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "5",
+    "4",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "waste_management.DONATION_frequency_per_month -> commercial_establishments.establishment_ID",
+   "source_table": "waste_management",
+   "source_column": "DONATION_frequency_per_month",
+   "target_table": "commercial_establishments",
+   "target_key": "establishment_ID",
+   "source_rows": 6,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "1",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "waste_management.Environmental_Awareness_Score -> properties.propref",
+   "source_table": "waste_management",
+   "source_column": "Environmental_Awareness_Score",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 6,
+   "source_distinct": 4,
+   "target_rows": 1577,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "9",
+    "7",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "amenities.amenityref -> transportation_assets.transref",
+   "source_table": "amenities",
+   "source_column": "amenityref",
+   "target_table": "transportation_assets",
+   "target_key": "transref",
+   "source_rows": 1581,
+   "source_distinct": 1581,
+   "target_rows": 1581,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commercial_establishments.establishment_ID -> crime_statistics.Crime_ID",
+   "source_table": "commercial_establishments",
+   "source_column": "establishment_ID",
+   "target_table": "crime_statistics",
+   "target_key": "Crime_ID",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "community_engagement.Engagement_ID -> properties.propref",
+   "source_table": "community_engagement",
+   "source_column": "Engagement_ID",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 1577,
+   "score": 0.51,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "crime_statistics.Crime_ID -> commercial_establishments.establishment_ID",
+   "source_table": "crime_statistics",
+   "source_column": "Crime_ID",
+   "target_table": "commercial_establishments",
+   "target_key": "establishment_ID",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "education_facilities.Facility_ID -> commercial_establishments.establishment_ID",
+   "source_table": "education_facilities",
+   "source_column": "Facility_ID",
+   "target_table": "commercial_establishments",
+   "target_key": "establishment_ID",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "energy_consumption.Consumption_ID -> commercial_establishments.establishment_ID",
+   "source_table": "energy_consumption",
+   "source_column": "Consumption_ID",
+   "target_table": "commercial_establishments",
+   "target_key": "establishment_ID",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "environmental_data.ENV_id -> healthcare_facilities.healthcare_ID",
+   "source_table": "environmental_data",
+   "source_column": "ENV_id",
+   "target_table": "healthcare_facilities",
+   "target_key": "healthcare_ID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "financial_services.Financial_ID -> household_transportation_usage.Usage_ID",
+   "source_table": "financial_services",
+   "source_column": "Financial_ID",
+   "target_table": "household_transportation_usage",
+   "target_key": "Usage_ID",
+   "source_rows": 7,
+   "source_distinct": 7,
+   "target_rows": 7,
+   "score": 3.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "healthcare_facilities.healthcare_ID -> environmental_data.ENV_id",
+   "source_table": "healthcare_facilities",
+   "source_column": "healthcare_ID",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "household_demographics.DEMO_ID -> household_member_skills.Assignment_ID",
+   "source_table": "household_demographics",
+   "source_column": "DEMO_ID",
+   "target_table": "household_member_skills",
+   "target_key": "Assignment_ID",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_member_skills.Assignment_ID -> household_demographics.DEMO_ID",
+   "source_table": "household_member_skills",
+   "source_column": "Assignment_ID",
+   "target_table": "household_demographics",
+   "target_key": "DEMO_ID",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_service_enrollment.Enrollment_ID -> financial_services.Financial_ID",
+   "source_table": "household_service_enrollment",
+   "source_column": "Enrollment_ID",
+   "target_table": "financial_services",
+   "target_key": "Financial_ID",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 7,
+   "score": 3.07,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "household_transportation_usage.Usage_ID -> financial_services.Financial_ID",
+   "source_table": "household_transportation_usage",
+   "source_column": "Usage_ID",
+   "target_table": "financial_services",
+   "target_key": "Financial_ID",
+   "source_rows": 7,
+   "source_distinct": 7,
+   "target_rows": 7,
+   "score": 3.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "households.housenum -> amenities.houseid",
+   "source_table": "households",
+   "source_column": "housenum",
+   "target_table": "amenities",
+   "target_key": "houseid",
+   "source_rows": 1581,
+   "source_distinct": 1581,
+   "target_rows": 1581,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "7",
+    "22",
+    "35"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "7",
+    "22",
+    "35"
+   ]
+  },
+  {
+   "id": "infrastructure.infraref -> properties.propref",
+   "source_table": "infrastructure",
+   "source_column": "infraref",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 75,
+   "source_distinct": 75,
+   "target_rows": 1577,
+   "score": 1.74,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "6",
+    "8",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "infrastructure_details.Detail_ID -> skills_inventory.Skill_ID",
+   "source_table": "infrastructure_details",
+   "source_column": "Detail_ID",
+   "target_table": "skills_inventory",
+   "target_key": "Skill_ID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 5,
+   "score": 2.61,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "property_valuations.valuation_ID -> financial_services.Financial_ID",
+   "source_table": "property_valuations",
+   "source_column": "valuation_ID",
+   "target_table": "financial_services",
+   "target_key": "Financial_ID",
+   "source_rows": 7,
+   "source_distinct": 7,
+   "target_rows": 7,
+   "score": 3.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_categories.Category_ID -> commercial_establishments.establishment_ID",
+   "source_table": "service_categories",
+   "source_column": "Category_ID",
+   "target_table": "commercial_establishments",
+   "target_key": "establishment_ID",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "service_types.serviceref -> properties.propref",
+   "source_table": "service_types",
+   "source_column": "serviceref",
+   "target_table": "properties",
+   "target_key": "propref",
+   "source_rows": 31,
+   "source_distinct": 31,
+   "target_rows": 1577,
+   "score": 1.88,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "14",
+    "21",
+    "26",
+    "50"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills_inventory.Skill_ID -> transportation_network.Transport_ID",
+   "source_table": "skills_inventory",
+   "source_column": "Skill_ID",
+   "target_table": "transportation_network",
+   "target_key": "Transport_ID",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 3.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_assets.transref -> amenities.amenityref",
+   "source_table": "transportation_assets",
+   "source_column": "transref",
+   "target_table": "amenities",
+   "target_key": "amenityref",
+   "source_rows": 1581,
+   "source_distinct": 1581,
+   "target_rows": 1581,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transportation_modes.Mode_ID -> environmental_data.ENV_id",
+   "source_table": "transportation_modes",
+   "source_column": "Mode_ID",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "transportation_network.Transport_ID -> skills_inventory.Skill_ID",
+   "source_table": "transportation_network",
+   "source_column": "Transport_ID",
+   "target_table": "skills_inventory",
+   "target_key": "Skill_ID",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 3.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "utility_services.Utility_ID -> environmental_data.ENV_id",
+   "source_table": "utility_services",
+   "source_column": "Utility_ID",
+   "target_table": "environmental_data",
+   "target_key": "ENV_id",
+   "source_rows": 1,
+   "source_distinct": 1,
+   "target_rows": 3,
+   "score": 1.83,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "waste_management.Waste_ID -> household_demographics.DEMO_ID",
+   "source_table": "waste_management",
+   "source_column": "Waste_ID",
+   "target_table": "household_demographics",
+   "target_key": "DEMO_ID",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+[
+ {"question_id": 739, "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has Superpower has SuperpowerPowerName: 'Death Touch'", "attempts": 2},
+ {"question_id": 785, "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has Alignment has AlignmentAlignment: 'Neutral'", "attempts": 2},
+ {"question_id": 794, "answer": "LIST sn FROM HeroAttribute has HeroAttributeAttributeValue v AND ALSO has Superhero has SuperheroName sn AND ALSO has Attribute has AttributeName: 'Speed' ORDERED WITH v DESCENDING THE FIRST 1", "attempts": 2},
+ {"question_id": 796, "answer": "LIST an, v FROM HeroAttribute has Attribute has AttributeName an AND ALSO has HeroAttributeAttributeValue v AND ALSO has Superhero has SuperheroName: '3-D Man'", "attempts": 1},
+ {"question_id": 788, "answer": "LIST THE COUNT OF Superhero [has Gender has GenderGender: 'Female'] [has Publisher has PublisherName: 'Marvel Comics'] * 100 / THE COUNT OF Superhero [has Gender has GenderGender: 'Female']", "attempts": 1},
+ {"question_id": 737, "answer": "LIST rn FROM Superhero [has SuperheroName: 'Copycat'] has Race has RaceRace rn", "attempts": 2},
+ {"question_id": 824, "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has Superpower has SuperpowerPowerName: 'Wind Control' ORDERED WITH n ASCENDING", "attempts": 1},
+ {"question_id": 765, "answer": "THE COUNT OF Superhero [has Superpower has SuperpowerPowerName: 'Stealth']", "attempts": 1},
+ {"question_id": 775, "answer": "LIST THE COUNT OF Superhero [has Gender has GenderGender: 'Female'] [has eye Colour has ColourColour: 'Blue'] * 100 / THE COUNT OF Superhero [has Gender has GenderGender: 'Female']", "attempts": 1},
+ {"question_id": 753, "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has SuperheroHeightCm h AND ALSO has eye Colour has ColourColour: 'No Colour' WHERE h >= 170 AND h <= 190", "attempts": 3}
+]

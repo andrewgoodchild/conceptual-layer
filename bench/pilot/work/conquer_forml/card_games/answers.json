@@ -1,0 +1,60 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST l FROM ForeignData [has ForeignDataMultiverseid: 149934] has ForeignDataLanguage l",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": "LIST i, a FROM Legality [has LegalityFormat: 'commander'] has LegalityStatus: 'Legal' AND ALSO has Card has CardId i AND ALSO has Card OPTIONALLY has CardArtist a BUT NOT has Card has CardPower <> '*'",
+  "attempts": 9
+ },
+ {
+  "question_id": 473,
+  "answer": null,
+  "attempts": 3,
+  "note": "Unanswerable against this model: the schema has no fact type connecting Card to Set. Card only has the denormalized value CardSetCode (a plain value type), and Set is only reachable from SetTranslation ('SetTranslation has Set'); there is no CardHasSet / SetHasCard reading either direction ('is of' from Card does not reach Set; 'is of' from Set only reaches SetTranslation). So a card's set entity (and hence SetIsForeignOnly) cannot be walked as a role path."
+ },
+ {
+  "question_id": 424,
+  "answer": "LIST THE COUNT OF Card [has CardIsTextless: 1] [has CardLayout: 'normal'] * 100 / THE COUNT OF Card",
+  "attempts": 1
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST n FROM Legality [has LegalityFormat: 'gladiator'] has LegalityStatus: 'Banned' AND ALSO has Card has CardName n AND ALSO has Card has CardRarity: 'mythic'",
+  "attempts": 1
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes s] WHERE s <> 'Angel'",
+  "attempts": 1
+ },
+ {
+  "question_id": 352,
+  "answer": "LIST THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF ForeignData",
+  "attempts": 1
+ },
+ {
+  "question_id": 518,
+  "answer": "LIST f, n FROM Legality [has LegalityFormat: 'legacy'] has LegalityStatus: 'Banned' AND ALSO has Card has CardName n AND ALSO has LegalityFormat f",
+  "attempts": 2,
+  "note": "The top format was found first with: LIST f, c FROM Legality l [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO THE COUNT OF l GROUPED BY f AS c ORDERED WITH c DESCENDING THE FIRST 1 -- this returned 'legacy' with 546 banned cards. That literal is then substituted into the final answer query above, which lists the format alongside every banned card's name (546 rows)."
+ },
+ {
+  "question_id": 416,
+  "answer": "LIST (THE COUNT OF ForeignData [has ForeignDataLanguage: 'French'] - THE COUNT OF ForeignData [has ForeignDataLanguage: 'French'] [has Card has CardPower <> '*']) * 100 / (THE COUNT OF ForeignData - THE COUNT OF ForeignData [has Card has CardPower <> '*'])",
+  "attempts": 6
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST n, a, p FROM Ruling r has Card has CardId i AND ALSO has Card has CardName n AND ALSO has Card OPTIONALLY has CardArtist a AND ALSO has Card has CardIsPromo p AND ALSO THE COUNT OF r GROUPED BY i AS c ORDERED WITH c DESCENDING THE FIRST 1",
+  "attempts": 3
+ },
+ {
+  "question_id": 462,
+  "answer": null,
+  "attempts": 1,
+  "note": "Same gap as question 473: no fact type connects Card to Set in this model, so the set that 'Ancestor's Chosen' belongs to cannot be reached from Card, and therefore neither can that Set's Italian SetTranslation."
+ }
+]

@@ -1,0 +1,82 @@
+[
+ {
+  "question_id": 1115,
+  "answer": "(THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Landon Donovan'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r - THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Jordan Bowery'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r) * 100 / THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Landon Donovan'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1134,
+  "answer": "THE MAXIMUM j IN PlayerAttribute [has PlayerAttributeId: 6] has PlayerAttributeJumping j - THE MAXIMUM j IN PlayerAttribute [has PlayerAttributeId: 23] has PlayerAttributeJumping j",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1135,
+  "answer": "LIST i FROM PlayerAttribute [has PlayerAttributePreferredFoot: 'right'] has PlayerAttributeId i AND ALSO has PlayerAttributePotential p ORDERED WITH p ASCENDING THE FIRST 4",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1124,
+  "answer": "LIST n FROM DISTINCT PlayerAttribute [has PlayerAttributeAttackingWorkRate: 'high'] has api Player has PlayerName n",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1107,
+  "answer": "LIST d FROM PlayerAttribute [has api Player has PlayerName: 'Kevin Constant'] has PlayerAttributeDate d AND ALSO has PlayerAttributeCrossing c WHERE c = THE MAXIMUM x IN PlayerAttribute [has api Player has PlayerName: 'Kevin Constant'] has PlayerAttributeCrossing x ORDERED WITH d ASCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1094,
+  "answer": "(THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Ariel Borysiuk'] has PlayerAttributeOverallRating r - THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] has PlayerAttributeOverallRating r) * 100 / THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] has PlayerAttributeOverallRating r",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 2,
+  "candidates": 3
+ },
+ {
+  "question_id": 1110,
+  "answer": "LIST c FROM TeamAttribute [has api Team has TeamLongName: 'FC Lorient'] [has TeamAttributeDate: '2010-02-22 00:00:00'] has TeamAttributeBuildUpPlayPassingClass c",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1130,
+  "answer": "LIST s FROM DISTINCT TeamAttribute [has TeamAttributeChanceCreationPassingClass: 'Safe'] has api Team has TeamShortName s",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1116,
+  "answer": "LIST n FROM Player has PlayerName n AND ALSO has PlayerHeight h WHERE h = THE MAXIMUM x IN Player has PlayerHeight x",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1044,
+  "answer": "LIST n FROM Player has PlayerName n AND ALSO has PlayerBirthday b WHERE starts_with(b, '1970-10')",
+  "attempts": 0,
+  "chosen": "conquer_dc",
+  "agreement": 3,
+  "candidates": 3
+ }
+]

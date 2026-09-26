@@ -1,0 +1,34 @@
+{
+ "concepts": [
+  {"id": "et.HighlyFavoritedPost", "name": "HighlyFavoritedPost", "kind": "entity",
+   "supertypes": ["et.Post"], "derivation": "dr.HighlyFavoritedPost"},
+
+  {"id": "vt.OwnedPostCount", "name": "OwnedPostCount", "kind": "value", "dataType": {"name": "numeric"}},
+  {"id": "ft.UserHasOwnedPostCount", "name": "UserHasOwnedPostCount", "kind": "fact",
+   "roles": [{"id": "r.UserHasOwnedPostCount.user", "player": "et.User", "name": "User", "ordinal": 0},
+             {"id": "r.UserHasOwnedPostCount.count", "player": "vt.OwnedPostCount", "name": "Count", "ordinal": 1}],
+   "readings": [{"id": "rd.UserHasOwnedPostCount", "text": "{0} has {1}",
+                 "roleSequence": ["r.UserHasOwnedPostCount.user", "r.UserHasOwnedPostCount.count"]}],
+   "derivation": "dr.UserHasOwnedPostCount"},
+
+  {"id": "et.ProlificPostCreator", "name": "ProlificPostCreator", "kind": "entity",
+   "supertypes": ["et.User"], "derivation": "dr.ProlificPostCreator"}
+ ],
+ "derivationRules": [
+  {"id": "dr.HighlyFavoritedPost", "target": {"kind": "subtype", "ref": "et.HighlyFavoritedPost"},
+   "source": "Post [has PostFavoriteCount >= 4]"},
+
+  {"id": "dr.UserHasOwnedPostCount", "target": {"kind": "factType", "ref": "ft.UserHasOwnedPostCount"},
+   "source": "LIST u, c FROM User u is owner of Post p AND ALSO THE COUNT OF p GROUPED BY u AS c"},
+
+  {"id": "dr.ProlificPostCreator", "target": {"kind": "subtype", "ref": "et.ProlificPostCreator"},
+   "source": "User [has OwnedPostCount > 10]"}
+ ],
+ "macros": [
+  {"id": "mc.AverageUpVotes", "name": "AverageUpVotes", "parameters": [], "kind": "scalar",
+   "source": "(THE SUM OF User has UserUpVotes) * 1.0 / (THE COUNT OF User)"},
+
+  {"id": "mc.AverageAge", "name": "AverageAge", "parameters": [], "kind": "scalar",
+   "source": "(THE SUM OF User has UserAge) * 1.0 / (THE COUNT OF User)"}
+ ]
+}

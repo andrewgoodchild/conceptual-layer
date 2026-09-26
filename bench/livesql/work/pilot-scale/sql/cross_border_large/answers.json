@@ -1,0 +1,45 @@
+[
+ {
+  "question_id": "cross_border_12",
+  "answer": "WITH b AS (SELECT df.\"RecordRegistry\" AS flow_id, (rm.risk_management_profile->'assessment'->>'risk_score')::numeric / NULLIF((rm.risk_management_profile->'assessment'->>'control_effectiveness_pct')::numeric, 0) AS res, ((df.flow_overview->'performance'->>'success_pct')::numeric / ((df.flow_overview->'performance'->>'error_count')::numeric + 1)) * (1 - (df.flow_overview->'performance'->>'retry_count')::numeric / ((df.flow_overview->'performance'->>'error_count')::numeric + 1)) AS dfrs FROM \"DataFlow\" df JOIN \"RiskManagement\" rm ON rm.flow_link = df.\"RecordRegistry\") SELECT flow_id, ROUND(res, 2) AS res, ROUND(dfrs, 2) AS dfrs FROM b WHERE res > 0.7 AND dfrs < 0.5",
+  "note": "'High RES and low DFRS' read as Critical Data Flow Risk: RES > 0.7 and DFRS < 0.5."
+ },
+ {
+  "question_id": "cross_border_10",
+  "answer": "WITH a AS (SELECT df.\"RecordRegistry\" AS flow_id, ac.\"critFindNum\"::numeric / (ac.\"FINDTALLY\" + 1) AS afs, (COALESCE(ac.\"AccReqNum\",0) + COALESCE(ac.\"DEL_REQ_NUM\",0) + COALESCE(ac.rect_req_num,0) + COALESCE(ac.\"PORTREQNUM\",0)) AS dsr, DATE '2025-04-01' - ac.\"REMED_DUE\" AS days_overdue FROM \"AuditAndCompliance\" ac JOIN \"DataProfile\" dp ON dp.\"profileTrace\" = ac.profjoin JOIN \"DataFlow\" df ON df.\"RecordRegistry\" = dp.\"Flow_Sign\" WHERE df.flow_overview->'routing'->>'origin_country' <> df.flow_overview->'routing'->>'destination_country') SELECT flow_id, ROUND(afs * dsr * afs, 2) AS audit_compliance_pressure, days_overdue FROM a WHERE afs * dsr * afs > 5 AND days_overdue > 0 AND days_overdue <= 5 ORDER BY days_overdue DESC, afs * dsr * afs DESC LIMIT 10"
+ },
+ {
+  "question_id": "cross_border_9",
+  "answer": "SELECT \"profileTrace\" AS profile_id, (CASE WHEN \"Int_check\" = 'Failed' THEN 1 ELSE 0 END + CASE WHEN \"CSUMVERIFY\" = 'Failed' THEN 1 ELSE 0 END) AS ifc, CONCAT_WS(', ', CASE WHEN \"Int_check\" = 'Failed' THEN 'Integrity Check' END, CASE WHEN \"CSUMVERIFY\" = 'Failed' THEN 'Checksum Verification' END) AS failure_types FROM \"DataProfile\" WHERE \"Int_check\" = 'Failed' OR \"CSUMVERIFY\" = 'Failed' ORDER BY ifc DESC, profile_id LIMIT 10"
+ },
+ {
+  "question_id": "cross_border_1",
+  "answer": "WITH b AS (SELECT df.\"RecordRegistry\" AS flow_id, (rm.risk_management_profile->'assessment'->>'risk_score')::numeric / NULLIF((rm.risk_management_profile->'assessment'->>'control_effectiveness_pct')::numeric, 0) AS res, dp.vol_gb::numeric * CASE dp.\"dataSense\" WHEN 'High' THEN 3 WHEN 'Medium' THEN 2 ELSE 1 END AS dsi FROM \"DataFlow\" df LEFT JOIN \"RiskManagement\" rm ON rm.flow_link = df.\"RecordRegistry\" LEFT JOIN \"DataProfile\" dp ON dp.\"Flow_Sign\" = df.\"RecordRegistry\") SELECT flow_id, ROUND(res, 2) AS risk_exposure_score, ROUND(dsi, 2) AS data_sensitivity_index FROM b WHERE res > 0.7 AND dsi > 100 ORDER BY dsi DESC LIMIT 5"
+ },
+ {
+  "question_id": "cross_border_7",
+  "answer": "SELECT \"AUDIT_TRACE\" AS audit_id, ROUND(((COALESCE(\"AccReqNum\",0) + COALESCE(\"DEL_REQ_NUM\",0) + COALESCE(rect_req_num,0) + COALESCE(\"PORTREQNUM\",0)) * resp_time_day)::numeric, 2) AS dsrp, \"AccReqNum\" AS access_requests, \"DEL_REQ_NUM\" AS deletion_requests, rect_req_num AS rectification_requests, \"PORTREQNUM\" AS portability_requests FROM \"AuditAndCompliance\" WHERE (COALESCE(\"AccReqNum\",0) + COALESCE(\"DEL_REQ_NUM\",0) + COALESCE(rect_req_num,0) + COALESCE(\"PORTREQNUM\",0)) * resp_time_day > 50 ORDER BY dsrp DESC LIMIT 100",
+  "note": "Request breakdown returned as four count columns (access, deletion, rectification, portability) rather than one string."
+ },
+ {
+  "question_id": "cross_border_6",
+  "answer": "WITH a AS (SELECT TO_CHAR(\"REMED_DUE\", 'YYYY-MM') AS month, \"critFindNum\"::numeric / (\"FINDTALLY\" + 1) AS afs FROM \"AuditAndCompliance\" WHERE \"critFindNum\"::numeric / (\"FINDTALLY\" + 1) > 0.5), g AS (SELECT month, AVG(afs) AS avg_afs, RANK() OVER (ORDER BY AVG(afs) DESC) AS severity_rank FROM a GROUP BY month) SELECT month, ROUND(avg_afs, 2) AS avg_afs, severity_rank FROM g WHERE severity_rank <= 3 ORDER BY month",
+  "note": "Month taken from REMED_DUE, the only date on the audit table."
+ },
+ {
+  "question_id": "cross_border_2",
+  "answer": "WITH v AS (SELECT CASE \"vendSecRate\" WHEN 'A' THEN 4 WHEN 'B' THEN 3 WHEN 'C' THEN 2 WHEN 'D' THEN 1 ELSE 0 END * CASE WHEN \"contrState\" = 'Active' THEN 1 ELSE 0.5 END AS vri FROM \"VendorManagement\"), t AS (SELECT CASE WHEN vri < 2 THEN 'High' WHEN vri < 3 THEN 'Medium' ELSE 'Low' END AS tier FROM v) SELECT tier, COUNT(*) AS vendor_count, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS percentage FROM t GROUP BY tier ORDER BY vendor_count DESC"
+ },
+ {
+  "question_id": "cross_border_3",
+  "answer": "WITH b AS (SELECT \"RecordRegistry\" AS flow_id, (flow_overview->'performance'->>'bandwidth_util_pct')::numeric * ((flow_overview->'performance'->>'data_size_mb')::numeric / NULLIF((flow_overview->'performance'->>'duration_min')::numeric, 0)) AS bsi, (flow_overview->'performance'->>'success_pct')::numeric / ((flow_overview->'performance'->>'error_count')::numeric + 1) AS dte FROM \"DataFlow\") SELECT flow_id, ROUND(bsi, 2) AS bsi, ROUND(dte, 2) AS dte FROM b WHERE bsi > 50 AND dte < 1.0 ORDER BY bsi DESC LIMIT 10"
+ },
+ {
+  "question_id": "cross_border_4",
+  "answer": "WITH b AS (SELECT dp.\"profileTrace\" AS profile_id, dp.vol_gb::numeric * CASE dp.\"dataSense\" WHEN 'High' THEN 3 WHEN 'Medium' THEN 2 ELSE 1 END AS dsi, CASE WHEN sp.enc_state = 'Full' AND sp.acl_state = 'Strong' THEN 3 WHEN sp.enc_state = 'Full' OR sp.acl_state = 'Strong' THEN 2 ELSE 1 END AS srs FROM \"DataProfile\" dp JOIN \"SecurityProfile\" sp ON sp.profile_key = dp.\"profileTrace\") SELECT profile_id, ROUND(dsi, 2) AS data_sensitivity_index, srs AS security_robustness_score FROM b WHERE dsi > 100 AND srs < 2 ORDER BY dsi DESC LIMIT 5"
+ },
+ {
+  "question_id": "cross_border_5",
+  "answer": "SELECT c.\"complianceTrace\" AS record_id, c.\"gdprComp\" AS gdpr_status, c.loc_law_comp AS local_law_status, CONCAT(df.flow_overview->'routing'->>'origin_country', ' -> ', df.flow_overview->'routing'->>'destination_country') AS transfer_path FROM \"Compliance\" c JOIN \"RiskManagement\" rm ON rm.\"RISKTRACE\" = c.risk_tie JOIN \"DataFlow\" df ON df.\"RecordRegistry\" = rm.flow_link WHERE (df.flow_overview->'routing'->>'origin_country' IS DISTINCT FROM df.flow_overview->'routing'->>'destination_country') AND (c.\"gdprComp\" = 'Non-compliant' OR c.loc_law_comp = 'Non-compliant') ORDER BY c.\"complianceTrace\" LIMIT 10"
+ }
+]

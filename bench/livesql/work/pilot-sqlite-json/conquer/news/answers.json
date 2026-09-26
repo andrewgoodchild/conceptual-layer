@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "news_3",
+  "answer": "LIST k, st, sbra, cie, rtse FROM Session s has SessionSeshkey k AND ALSO has SessionSeshstart st AND ALSO has SessionBncrate b AND ALSO has SessionCtrval c AND ALSO (b * (1 - c / 100)) AS sbra AND ALSO s is of Interaction has InteractionSequenceValue q AND ALSO THE AVERAGE q GROUPED BY k, st, sbra AS cie AND ALSO (cie / nullif(sbra, 0)) AS rtse"
+ },
+ {
+  "question_id": "news_10",
+  "answer": "LIST uk, cl, vw, es, euim FROM Session has User has UserKey uk AND ALSO has SessionSeshclicks cl AND ALSO has SessionSeshviews vw AND ALSO has SessionEngscore es AND ALSO ((cl + vw) * (es / 100)) AS euim ORDERED WITH euim DESCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "news_1",
+  "answer": "LIST d, uer, davg FROM Session has SessionSeshstart st AND ALSO has SessionSeshviews v AND ALSO has SessionEngscore e AND ALSO has SessionSeshdur du AND ALSO substr(st, 1, 10) AS d AND ALSO ((v * e) / du) AS uer AND ALSO THE AVERAGE uer WITHIN d AS davg WHERE uer > davg ORDERED WITH d ASCENDING"
+ },
+ {
+  "question_id": "news_9",
+  "answer": "LIST p, tr, tc, rctr FROM Recommendation has RecommendationPositionValue p AND ALSO has RecommendationReckey rk AND ALSO OPTIONALLY is of Interaction OPTIONALLY has InteractionInttype it AND ALSO if(it = 'Click', 1, 0) AS isclick AND ALSO THE DISTINCT COUNT OF rk GROUPED BY p AS tr AND ALSO THE SUM OF isclick GROUPED BY p AS tc AND ALSO (tc / nullif(tr, 0)) AS rctr ORDERED WITH p ASCENDING"
+ },
+ {
+  "question_id": "news_4",
+  "answer": "LIST ss, g, o, ag, nu, ausv, auds, asat, ints FROM User u has UserSubStatus ss AND ALSO has UserGendlbl g AND ALSO has UserOcculbl o AND ALSO has UserAgeValue av AND ALSO has UserSubdays sd AND ALSO has UserSatisfactionScore sat AND ALSO has UserInterests iv AND ALSO if(av < 25, 'Under 25', if(av < 35, '25-34', if(av < 45, '35-44', if(av < 55, '45-54', '55+')))) AS ag AND ALSO if(ss = 'Premium', 2.0, if(ss = 'Enterprise', 3.0, if(ss = 'Basic', 1.0, 0.5))) AS sw AND ALSO if(g = 'M' OR g = 'F', 1.0, 0.8) AS gf AND ALSO if(o = 'Professional', 1.5, if(o = 'Retired', 1.2, if(o = 'Student', 0.7, 1.0))) AS occf AND ALSO (sd * sw) AS usv AND ALSO (av * gf * occf) AS uds AND ALSO THE COUNT OF u GROUPED BY ss, g, o, ag AS nu AND ALSO THE AVERAGE usv GROUPED BY ss, g, o, ag AS ausv0 AND ALSO THE AVERAGE uds GROUPED BY ss, g, o, ag AS auds0 AND ALSO THE AVERAGE sat GROUPED BY ss, g, o, ag AS asat0 AND ALSO THE DISTINCT LIST OF iv GROUPED BY ss, g, o, ag AS ints AND ALSO round(ausv0, 2) AS ausv AND ALSO round(auds0, 2) AS auds AND ALSO round(asat0, 2) AS asat WHERE nu > 10 ORDERED WITH ausv DESCENDING, auds DESCENDING THE FIRST 15"
+ },
+ {
+  "question_id": "news_7",
+  "answer": "LIST m, g, cnt, pct FROM DISTINCT User u has UserRegmoment r AND ALSO has UserTestGroup g AND ALSO substr(r, 1, 7) AS m AND ALSO THE COUNT OF u WITHIN m, g AS cnt AND ALSO THE COUNT OF u WITHIN m AS tot AND ALSO (cnt * 100 / tot) AS pct ORDERED WITH m ASCENDING, g ASCENDING"
+ },
+ {
+  "question_id": "news_2",
+  "answer": "LIST cat, arr FROM Article has ArticleCategoryLabel cat AND ALSO has ArticleArtkey ak AND ALSO has ArticleQualscore q AND ALSO has ArticleFreshscore f AND ALSO has ArticleSentscore s AND ALSO has ArticleContrscore cs AND ALSO ((q + f + s - cs) / 3) AS aqi AND ALSO has readsecurity Duration rs AND ALSO has ArticleWordlen w AND ALSO has ArticleDifflevel dl AND ALSO if(dl = 'Basic', 1, if(dl = 'Intermediate', 1.5, if(dl = 'Advanced', 2, 1.2))) AS wt AND ALSO ((rs * log10(w)) / wt) AS ars AND ALSO jsonObject('artkey', ak, 'catlabel', cat, 'aqi', aqi, 'ars', ars) AS o AND ALSO THE LIST OF o GROUPED BY cat AS arr"
+ },
+ {
+  "question_id": "news_5",
+  "answer": "LIST tid, rt, ls, ps, delta, rnk, status FROM Systemperformance has SystemperformanceRectrace tid AND ALSO has SystemperformanceResptime rt AND ALSO has SystemperformanceLoadScore ls AND ALSO has SystemperformancePerformanceScore ps AND ALSO (ps - ls) AS delta AND ALSO 1 AS one AND ALSO THE RANK OF rt WITHIN one AS rnk AND ALSO if(rt > 200, 'Critical', if(rt > 150, 'Warning', 'Normal')) AS status WHERE rt > 100"
+ },
+ {
+  "question_id": "news_6",
+  "answer": "DEFINE SessPerf ::= LIST s, seg FROM Session s has SessionBncrate b AND ALSO has SessionCtrval c AND ALSO (b * (1 - c / 100)) AS sbra AND ALSO 1 AS one AND ALSO THE COUNT OF s WITHIN one AS n AND ALSO (((THE RANK OF (0 - sbra) WITHIN one) - 1) / (n - 1)) AS bp AND ALSO (((THE RANK OF c WITHIN one) - 1) / (n - 1)) AS cp AND ALSO if(bp < 0.25 AND cp < 0.25, 'High Bounce, Low CTR', if(bp < 0.25 AND cp >= 0.75, 'High Bounce, High CTR', if(bp >= 0.75 AND cp < 0.25, 'Low Bounce, Low CTR', if(bp >= 0.75 AND cp >= 0.75, 'Low Bounce, High CTR', 'Average Performance')))) AS seg\nLIST ut, us, sg, cnt, arb, aab, actr, aeng, adur, avws FROM Session s has User u AND ALSO u has UserTypeLabel ut AND ALSO u has UserSeglabel us AND ALSO has SessPerf SessPerfSeg sg AND ALSO has SessionBncrate b AND ALSO has SessionCtrval c AND ALSO has SessionEngscore e AND ALSO has SessionSeshdur d AND ALSO has SessionSeshviews v AND ALSO (b * (1 - c / 100)) AS sbra AND ALSO THE COUNT OF s GROUPED BY ut, us, sg AS cnt AND ALSO THE AVERAGE b GROUPED BY ut, us, sg AS arb0 AND ALSO THE AVERAGE sbra GROUPED BY ut, us, sg AS aab0 AND ALSO THE AVERAGE c GROUPED BY ut, us, sg AS actr0 AND ALSO THE AVERAGE e GROUPED BY ut, us, sg AS aeng0 AND ALSO THE AVERAGE d GROUPED BY ut, us, sg AS adur0 AND ALSO THE AVERAGE v GROUPED BY ut, us, sg AS avws0 AND ALSO round(arb0, 2) AS arb AND ALSO round(aab0, 2) AS aab AND ALSO round(actr0, 2) AS actr AND ALSO round(aeng0, 2) AS aeng AND ALSO round(adur0, 2) AS adur AND ALSO round(avws0, 2) AS avws WHERE cnt > 10 ORDERED WITH aab ASCENDING, actr ASCENDING"
+ },
+ {
+  "question_id": "news_8",
+  "answer": "LIST cat, avgars, avger, corr, lowc, medc, highc FROM Article has ArticleCategoryLabel cat AND ALSO has readsecurity Duration rs AND ALSO has ArticleWordlen w AND ALSO has ArticleDifflevel dl AND ALSO has ArticleEngagementRate er AND ALSO if(dl = 'Basic', 1, if(dl = 'Intermediate', 1.5, if(dl = 'Advanced', 2, 1.2))) AS wt AND ALSO ((rs * log10(w)) / wt) AS ars AND ALSO (ars * er) AS xy AND ALSO (ars * ars) AS xx AND ALSO (er * er) AS yy AND ALSO if(ars < 50, 1, 0) AS lo AND ALSO if(ars >= 50 AND ars <= 100, 1, 0) AS me AND ALSO if(ars > 100, 1, 0) AS hi AND ALSO THE AVERAGE ars GROUPED BY cat AS avgars AND ALSO THE AVERAGE er GROUPED BY cat AS avger AND ALSO THE COUNT OF ars GROUPED BY cat AS n AND ALSO THE SUM OF ars GROUPED BY cat AS sx AND ALSO THE SUM OF er GROUPED BY cat AS sy AND ALSO THE SUM OF xy GROUPED BY cat AS sxy AND ALSO THE SUM OF xx GROUPED BY cat AS sxx AND ALSO THE SUM OF yy GROUPED BY cat AS syy AND ALSO THE SUM OF lo GROUPED BY cat AS lowc AND ALSO THE SUM OF me GROUPED BY cat AS medc AND ALSO THE SUM OF hi GROUPED BY cat AS highc AND ALSO (((n * sxy) - (sx * sy)) / nullif(sqrt((n * sxx) - (sx * sx)) * sqrt((n * syy) - (sy * sy)), 0)) AS corr"
+ }
+]

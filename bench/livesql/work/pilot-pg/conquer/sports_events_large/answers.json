@@ -1,0 +1,34 @@
+[
+ {
+  "question_id": "sports_events_6",
+  "answer": "LIST rid, p / THE COUNT OF DriverStanding [has Driver has DriverReference: 'hamilton'] / round(days_between(today(), bd) / 365.25 - 0.5) FROM DriverStanding [has Driver has DriverReference: 'hamilton'] has Race has RaceRakId rid AND ALSO has Race has RaceDateSet rd AND ALSO OPTIONALLY has DriverStandingAccPt p AND ALSO has Driver has DriverBirthDate bd ORDERED WITH rd ASCENDING"
+ },
+ {
+  "question_id": "sports_events_5",
+  "answer": "LIST y, rid, n, cumpts * fin / starts FROM Constructor [has ConstructorNamelabel: 'McLaren'] has ConstructorNamelabel n AND ALSO is of ConstructorResult a AND ALSO a has Race has RaceRakId rid AND ALSO a has Race has RaceYr y AND ALSO a has Race has RaceDateSet rd AND ALSO is of ConstructorResult b AND ALSO b has Race has RaceYr y2 AND ALSO b has Race has RaceDateSet rd2 AND ALSO b has ConstructorResultScoreval s2 AND ALSO b OPTIONALLY has ConstructorResultStMark st2 AND ALSO if(coalesce(st2, '~') = '~', 1, 0) AS f2 WHERE y2 = y AND rd2 <= rd AND ALSO THE SUM OF s2 GROUPED BY rid, y, n AS cumpts AND ALSO THE SUM OF f2 GROUPED BY rid, y, n AS fin AND ALSO THE COUNT OF b GROUPED BY rid, y, n AS starts ORDERED WITH y ASCENDING, rd ASCENDING"
+ },
+ {
+  "question_id": "sports_events_2",
+  "answer": "LIST n, e FROM Circuit has CircuitName n AND ALSO has CircuitCoordinatesElevationM e WHERE e > 800 ORDERED WITH e DESCENDING"
+ },
+ {
+  "question_id": "sports_events_9",
+  "answer": "LIST en, dr, spi FROM SprintResult has Race has RaceEventName en AND ALSO has Driver has DriverReference dr AND ALSO has SprintResultFinalPosition p AND ALSO has SprintResultPoints pts AND ALSO ((9 - p) + pts) AS spi ORDERED WITH spi DESCENDING"
+ },
+ {
+  "question_id": "sports_events_1",
+  "answer": "THE AVERAGE a IN (SprintResult [has SprintResultFinalPosition: 1] has Race has RaceDateSet rd AND ALSO has Driver has DriverBirthDate bd AND ALSO round(days_between(rd, bd) / 365.25 - 0.5) AS a)"
+ },
+ {
+  "question_id": "sports_events_12",
+  "answer": "LIST round(THE AVERAGE v IN (SprintResult has SprintResultFinalPosition p AND ALSO has SprintResultPoints pts AND ALSO ((9 - p) + pts) AS v WHERE p <= 8), 2)"
+ },
+ {
+  "question_id": "sports_events_10",
+  "answer": "DEFINE Pole ::= LIST rr, pt FROM Qualifying has Race rr AND ALSO OPTIONALLY has QualifyingQ1R q1 AND ALSO OPTIONALLY has QualifyingQ2R q2 AND ALSO OPTIONALLY has QualifyingQ3R q3 AND ALSO coalesce(castNumber(substr(q1,1,instr(q1,':')-1))*60 + castNumber(substr(q1,instr(q1,':')+1)), 1000000) AS a1 AND ALSO coalesce(castNumber(substr(q2,1,instr(q2,':')-1))*60 + castNumber(substr(q2,instr(q2,':')+1)), 1000000) AS a2 AND ALSO coalesce(castNumber(substr(q3,1,instr(q3,':')-1))*60 + castNumber(substr(q3,instr(q3,':')+1)), 1000000) AS a3 AND ALSO if(a1 <= a2, if(a1 <= a3, a1, a3), if(a2 <= a3, a2, a3)) AS best AND ALSO THE MINIMUM best GROUPED BY rr AS pt\nDEFINE Sess ::= LIST rr, pc FROM Qualifying has Race rr AND ALSO rr has Pole PolePt pt AND ALSO OPTIONALLY has QualifyingQ1R q1 AND ALSO OPTIONALLY has QualifyingQ2R q2 AND ALSO OPTIONALLY has QualifyingQ3R q3 AND ALSO coalesce(castNumber(substr(q1,1,instr(q1,':')-1))*60 + castNumber(substr(q1,instr(q1,':')+1)), 1000000) AS a1 AND ALSO coalesce(castNumber(substr(q2,1,instr(q2,':')-1))*60 + castNumber(substr(q2,instr(q2,':')+1)), 1000000) AS a2 AND ALSO coalesce(castNumber(substr(q3,1,instr(q3,':')-1))*60 + castNumber(substr(q3,instr(q3,':')+1)), 1000000) AS a3 AND ALSO if(a1 <= a2, if(a1 <= a3, a1, a3), if(a2 <= a3, a2, a3)) AS best AND ALSO if(best - pt < 0.2, 100, 0) AS sf AND ALSO THE AVERAGE sf GROUPED BY rr AS pc\nLIST round(THE AVERAGE v IN Race has Sess SessPc v, 2)"
+ },
+ {
+  "question_id": "sports_events_4",
+  "answer": "THE COUNT OF SprintResult [has SprintResultFinalPosition: 2] has Race r AND ALSO has SprintResultTimingDurationMs m2 WHERE (m2 - THE MAXIMUM SprintResult [has Race: !r] [has SprintResultFinalPosition: 1] has SprintResultTimingDurationMs) / 1000 > 5"
+ }
+]

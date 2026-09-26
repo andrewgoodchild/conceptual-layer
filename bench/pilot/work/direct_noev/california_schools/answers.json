@@ -1,0 +1,8 @@
+[
+ {"question_id": 37, "answer": "SELECT s.Street, s.City, s.Zip, s.State FROM schools s JOIN satscores sc ON s.CDSCode = sc.cds WHERE sc.NumTstTakr > 0 ORDER BY (COALESCE(sc.NumGE1500,0)*1.0/sc.NumTstTakr) ASC LIMIT 1;", "attempts": 3},
+ {"question_id": 46, "answer": "SELECT f.`School Name` FROM frpm f JOIN schools s ON f.CDSCode = s.CDSCode WHERE s.DOCType = 'State Special Schools' ORDER BY f.`Enrollment (K-12)` DESC LIMIT 1;", "attempts": 1},
+ {"question_id": 82, "answer": "SELECT GSoffered FROM schools ORDER BY Longitude DESC LIMIT 1;", "attempts": 1},
+ {"question_id": 28, "answer": "SELECT f.`School Name`, s.DOCType FROM frpm f JOIN schools s ON f.CDSCode = s.CDSCode WHERE s.FundingType = 'Locally funded' AND (f.`Enrollment (K-12)` - f.`Enrollment (Ages 5-17)`) > (SELECT AVG(f2.`Enrollment (K-12)` - f2.`Enrollment (Ages 5-17)`) FROM frpm f2 JOIN schools s2 ON f2.CDSCode = s2.CDSCode WHERE s2.FundingType = 'Locally funded');", "attempts": 2},
+ {"question_id": 24, "answer": "SELECT f.`School Name` FROM frpm f JOIN satscores sc ON f.CDSCode = sc.cds WHERE f.`Percent (%) Eligible Free (K-12)` > 0.1 AND sc.NumGE1500 > 0;", "attempts": 1},
+ {"question_id": 79, "answer": "SELECT County, COUNT(*) FROM schools WHERE County IN ('San Diego','Santa Barbara') AND Virtual = 'F' GROUP BY County ORDER BY COUNT(*) DESC LIMIT 1;", "attempts": 1}
+]

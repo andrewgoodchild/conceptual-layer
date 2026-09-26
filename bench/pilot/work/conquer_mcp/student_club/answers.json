@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 1435,
+  "answer": "LIST n FROM Event [has EventType: 'Game'] [has EventStatus: 'Closed'] has EventName n AND ALSO has EventDate d WHERE d >= '2019-03-15' AND d <= '2020-03-20'"
+ },
+ {
+  "question_id": 1378,
+  "answer": "LIST THE MAXIMUM s IN Budget has BudgetSpent s"
+ },
+ {
+  "question_id": 1427,
+  "answer": "LIST c FROM Budget [has BudgetSpent: 0] [has Event has EventLocation: 'MU 215'] [has Event has EventType: 'Guest Speaker'] has BudgetCategory c"
+ },
+ {
+  "question_id": 1380,
+  "answer": "LIST THE SUM OF s IN Budget [has BudgetCategory: 'Food'] has BudgetSpent s"
+ },
+ {
+  "question_id": 1404,
+  "answer": "LIST d, t FROM Expense [has Budget has Event has EventName: 'October Meeting'] has ExpenseDescription d AND ALSO has ExpenseCost c AND ALSO THE SUM OF c GROUPED BY d AS t"
+ },
+ {
+  "question_id": 1361,
+  "answer": "LIST THE SUM OF c IN Expense [has ExpenseDescription: 'Pizza'] has ExpenseCost c"
+ },
+ {
+  "question_id": 1375,
+  "answer": "LIST f, l FROM Member [has Major has MajorDepartment: 'School of Applied Sciences, Technology and Education'] has MemberFirstName f AND ALSO has MemberLastName l"
+ },
+ {
+  "question_id": 1405,
+  "answer": "LIST c, t FROM Budget [has Event has EventName: 'April Speaker'] has BudgetCategory c AND ALSO has BudgetAmount a AND ALSO THE SUM OF a GROUPED BY c AS t ORDERED WITH t ASCENDING"
+ },
+ {
+  "question_id": 1464,
+  "answer": "LIST f, l, a FROM Income [has IncomeDateReceived: '2019-09-09'] has IncomeAmount a AND ALSO has Member m AND ALSO m has MemberFirstName f AND ALSO m has MemberLastName l"
+ },
+ {
+  "question_id": 1312,
+  "answer": "LIST mn FROM Member [has MemberFirstName: 'Angela'] [has MemberLastName: 'Sanders'] has Major has MajorName mn"
+ }
+]

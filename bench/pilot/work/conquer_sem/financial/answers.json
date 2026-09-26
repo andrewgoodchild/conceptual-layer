@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 137,
+  "answer": "THE DISTINCT COUNT OF a IN Account a [has District: 1] is of Loan has LoanStatus s WHERE s = 'C' OR s = 'D'",
+  "attempts": 1
+ },
+ {
+  "question_id": 173,
+  "answer": "LIST f, p FROM DISTINCT Account: 3 has AccountFrequency f AND ALSO is of Tran [has TranAmount: 3539] has PaymentPurpose p",
+  "attempts": 2
+ },
+ {
+  "question_id": 92,
+  "answer": "THE COUNT OF District [has AverageSalary s] WHERE s > 6000 AND s < 10000",
+  "attempts": 1
+ },
+ {
+  "question_id": 189,
+  "answer": "LIST acc FROM FemaleClient c has District has AverageSalary s AND ALSO has ClientBirthDate b AND ALSO is of Disp has Account has AccountId acc ORDERED WITH s ASCENDING, b ASCENDING THE FIRST 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 128,
+  "answer": "LIST d, n FROM FemaleClient c [is of Disp has DispType: 'OWNER'] has District has DistrictId d AND ALSO THE COUNT OF c GROUPED BY d AS n ORDERED WITH n DESCENDING THE FIRST 9",
+  "attempts": 1
+ },
+ {
+  "question_id": 89,
+  "answer": "THE COUNT OF IssuanceAfterTransactionAccount [has District has Region: 'east Bohemia']",
+  "attempts": 1
+ }
+]

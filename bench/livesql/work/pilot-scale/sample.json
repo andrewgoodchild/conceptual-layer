@@ -1,0 +1,122 @@
+{
+ "cross_border_large": [
+  "cross_border_12",
+  "cross_border_10",
+  "cross_border_9",
+  "cross_border_1",
+  "cross_border_7",
+  "cross_border_6",
+  "cross_border_2",
+  "cross_border_3",
+  "cross_border_4",
+  "cross_border_5"
+ ],
+ "cybermarket_pattern_large": [
+  "cybermarket_pattern_20",
+  "cybermarket_pattern_7",
+  "cybermarket_pattern_1",
+  "cybermarket_pattern_5",
+  "cybermarket_pattern_3",
+  "cybermarket_pattern_2",
+  "cybermarket_pattern_4",
+  "cybermarket_pattern_6",
+  "cybermarket_pattern_8",
+  "cybermarket_pattern_9"
+ ],
+ "disaster_relief_large": [
+  "disaster_relief_1",
+  "disaster_relief_11",
+  "disaster_relief_2",
+  "disaster_relief_3",
+  "disaster_relief_9",
+  "disaster_relief_6",
+  "disaster_relief_4",
+  "disaster_relief_5",
+  "disaster_relief_7",
+  "disaster_relief_8"
+ ],
+ "fake_account_large": [
+  "fake_account_15",
+  "fake_account_2",
+  "fake_account_6",
+  "fake_account_8",
+  "fake_account_1",
+  "fake_account_9",
+  "fake_account_3",
+  "fake_account_4",
+  "fake_account_5",
+  "fake_account_7"
+ ],
+ "mental_healths_large": [
+  "mental_healths_5",
+  "mental_healths_4",
+  "mental_healths_1",
+  "mental_healths_6",
+  "mental_healths_17",
+  "mental_healths_13",
+  "mental_healths_10",
+  "mental_healths_18",
+  "mental_healths_11",
+  "mental_healths_3"
+ ],
+ "organ_transplant_large": [
+  "organ_transplant_19",
+  "organ_transplant_6",
+  "organ_transplant_7",
+  "organ_transplant_13",
+  "organ_transplant_17",
+  "organ_transplant_1",
+  "organ_transplant_2",
+  "organ_transplant_3",
+  "organ_transplant_4",
+  "organ_transplant_8"
+ ],
+ "polar_equipment_large": [
+  "polar_equipment_3",
+  "polar_equipment_11",
+  "polar_equipment_10",
+  "polar_equipment_6",
+  "polar_equipment_2",
+  "polar_equipment_19",
+  "polar_equipment_4",
+  "polar_equipment_1",
+  "polar_equipment_20",
+  "polar_equipment_5"
+ ],
+ "residential_data_large": [
+  "residential_data_6",
+  "residential_data_3",
+  "residential_data_15",
+  "residential_data_12",
+  "residential_data_2",
+  "residential_data_19",
+  "residential_data_16",
+  "residential_data_17",
+  "residential_data_20",
+  "residential_data_18"
+ ],
+ "reverse_logistics_large": [
+  "reverse_logistics_9",
+  "reverse_logistics_19",
+  "reverse_logistics_17",
+  "reverse_logistics_7",
+  "reverse_logistics_13",
+  "reverse_logistics_1",
+  "reverse_logistics_2",
+  "reverse_logistics_3",
+  "reverse_logistics_4",
+  "reverse_logistics_5"
+ ],
+ "virtual_idol_large": [
+  "virtual_idol_5",
+  "virtual_idol_6",
+  "virtual_idol_2",
+  "virtual_idol_11",
+  "virtual_idol_9",
+  "virtual_idol_1",
+  "virtual_idol_3",
+  "virtual_idol_4",
+  "virtual_idol_7",
+  "virtual_idol_10"
+ ]
+}

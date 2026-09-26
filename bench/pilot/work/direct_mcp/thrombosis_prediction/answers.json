@@ -1,0 +1,42 @@
+[
+  {
+    "question_id": 1256,
+    "answer": "SELECT COUNT(DISTINCT T1.ID) FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T2.CRP = '+' AND T1.Description IS NULL"
+  },
+  {
+    "question_id": 1189,
+    "answer": "SELECT COUNT(*) FROM Examination WHERE Thrombosis = 2 AND \"ANA Pattern\" = 'S' AND \"aCL IgM\" > (SELECT AVG(\"aCL IgM\") FROM Examination) * 1.2"
+  },
+  {
+    "question_id": 1267,
+    "answer": "SELECT COUNT(DISTINCT T1.ID) FROM Laboratory AS T1 INNER JOIN Examination AS T2 ON T1.ID = T2.ID WHERE T1.SM IN ('negative', '0') AND T2.Thrombosis = 0"
+  },
+  {
+    "question_id": 1157,
+    "answer": "SELECT T1.ID, T1.SEX, T1.Diagnosis FROM Patient AS T1 INNER JOIN Examination AS T2 ON T1.ID = T2.ID WHERE T2.Thrombosis = 2"
+  },
+  {
+    "question_id": 1162,
+    "answer": "SELECT COUNT(ID) FROM Patient WHERE SEX = 'F' AND STRFTIME('%Y', Description) = '1997' AND Admission = '-'"
+  },
+  {
+    "question_id": 1164,
+    "answer": "SELECT COUNT(DISTINCT T1.ID) FROM Patient AS T1 INNER JOIN Examination AS T2 ON T1.ID = T2.ID WHERE T2.Thrombosis = 1 AND STRFTIME('%Y', T2.\"Examination Date\") = '1997' AND T1.SEX = 'F'"
+  },
+  {
+    "question_id": 1179,
+    "answer": "SELECT T2.\"aCL IgM\" FROM Patient AS T1 INNER JOIN Examination AS T2 ON T1.ID = T2.ID WHERE T1.Diagnosis = 'SLE' AND T1.Description = '1994-02-19' AND T2.\"Examination Date\" = '1993-11-12'"
+  },
+  {
+    "question_id": 1192,
+    "answer": "SELECT DISTINCT T1.ID FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T1.Admission = '-' AND T2.Date LIKE '1991-10%' AND T2.\"T-BIL\" < 2.0"
+  },
+  {
+    "question_id": 1232,
+    "answer": "SELECT DISTINCT T1.ID, T1.SEX, STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', T1.Birthday) FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T2.GLU >= 180 AND T2.\"T-CHO\" < 250"
+  },
+  {
+    "question_id": 1187,
+    "answer": "SELECT DISTINCT T1.ID FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T2.Date BETWEEN '1987-07-06' AND '1996-01-31' AND T2.GPT > 30 AND T2.ALB < 4"
+  }
+]

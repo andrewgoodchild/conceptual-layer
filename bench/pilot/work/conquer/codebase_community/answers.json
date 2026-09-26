@@ -1,0 +1,12 @@
+[
+ {"question_id": 604, "answer": "LIST THE AVERAGE v IN User u1 has UserUpVotes v WHERE (THE COUNT OF Post [has owner User: !u1]) > 10, THE AVERAGE a IN User u2 has UserAge a WHERE (THE COUNT OF Post [has owner User: !u2]) > 10", "attempts": 2},
+ {"question_id": 584, "answer": "LIST t FROM Comment has User has UserDisplayName n AND ALSO has CommentText t WHERE n = 'c4il' OR n = 'whuber' OR n = 'mbq'", "attempts": 4, "note": "'c4il','whuber','mbq' are the exact set of users found via LIST n FROM DISTINCT PostHistory [has Post [has PostTitle: '<title>']] has User has UserDisplayName n -- the naive correlated form (THE COUNT OF PostHistory [has User: !u] [has Post [...]] > 0) is semantically equivalent but times out (174k comments x 303k postHistory rows, no index) on this dataset, so the editor set was resolved in a fast first query and substituted as literals."},
+ {"question_id": 537, "answer": "THE COUNT OF Post has owner User [has UserDisplayName: 'csgillespie']", "attempts": 1},
+ {"question_id": 704, "answer": "LIST eid, wid FROM Tag [has TagName: 'sample'] has Post has PostId eid AND ALSO has TagWikiPostId wid", "attempts": 1},
+ {"question_id": 665, "answer": "LIST (THE COUNT OF PostLink [has PostLinkCreationDate d] [has Post has PostAnswerCount a] WHERE year(d) = 2010 AND a <= 2) / 12", "attempts": 1},
+ {"question_id": 672, "answer": "THE COUNT OF User u [has UserLocation loc] WHERE loc = 'United Kingdom' AND (THE SUM OF f IN Post [has owner User: !u] has PostFavoriteCount f) >= 4", "attempts": 3},
+ {"question_id": 701, "answer": "LIST (THE COUNT OF Post [has owner User has UserReputation r] [has PostScore s] WHERE r = (THE MAXIMUM User has UserReputation) AND s > 50) * 100.0 / (THE COUNT OF Post [has owner User has UserReputation r] WHERE r = (THE MAXIMUM User has UserReputation))", "attempts": 1},
+ {"question_id": 567, "answer": "THE COUNT OF Post has owner User [has UserDisplayName: 'Tiago Pasqualini']", "attempts": 1},
+ {"question_id": 539, "answer": "LIST n FROM Post [has PostTitle: 'Eliciting priors from experts'] has owner User has UserDisplayName n", "attempts": 1},
+ {"question_id": 563, "answer": "LIST f FROM Comment [has User: '3025'] [has CommentCreationDate: '2014-04-23 20:29:39.0'] has Post has PostFavoriteCount f", "attempts": 1}
+]

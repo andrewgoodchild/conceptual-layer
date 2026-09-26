@@ -1,0 +1,34 @@
+[
+ {
+  "question_id": "planets_data_11",
+  "answer": "DEFINE Ratio ::= LIST p, r FROM Planet p has Star st AND ALSO p is of OrbitalCharacteristic has OrbitalCharacteristicPeriod pd AND ALSO THE PREVIOUS pd BY pd WITHIN st AS pv AND ALSO (pd / pv) AS r\nDEFINE MaxRatio ::= LIST st, mr FROM Planet p has Star st AND ALSO p has Ratio RatioR r AND ALSO THE MAXIMUM r GROUPED BY st AS mr\nLIST hn, gm FROM Planet p has Star st AND ALSO st has StarHostplname hn AND ALSO st has StarCompcount cc AND ALSO st has MaxRatio MaxRatioMr mr AND ALSO p is of OrbitalCharacteristic oc AND ALSO oc has OrbitalCharacteristicPeriod pd AND ALSO THE MAXIMUM pd GROUPED BY st AS mx AND ALSO THE MINIMUM pd GROUPED BY st AS mn AND ALSO THE COUNT OF oc GROUPED BY st AS n AND ALSO round(power(mx / mn, 1 / (n - 1)), 3) AS gm WHERE cc > 1 AND mr < 3 AND mn < 10 ORDERED WITH gm DESCENDING"
+ },
+ {
+  "question_id": "planets_data_4",
+  "answer": "LIST hn, sm, kc FROM Star st [has StarCompcount > 1] has StarHostplname hn AND ALSO OPTIONALLY has StarPhysicalMassValue sm AND ALSO is of Planet is of OrbitalCharacteristic oc AND ALSO oc has OrbitalCharacteristicSemimajor a AND ALSO oc has OrbitalCharacteristicPeriod pd AND ALSO THE MAXIMUM a WITHIN st AS ma AND ALSO power(a, 3) / power(pd / 365.25, 2) AS kc AND ALSO coalesce(abs(sm - kc), 1e30) AS df WHERE pd > 0 AND a = ma ORDERED WITH df ASCENDING"
+ },
+ {
+  "question_id": "planets_data_15",
+  "answer": "LIST round(THE AVERAGE v IN (Star [is of Planet is of PhysicalProperty has PhysicalPropertyDensvalue > 3] has StarPhysicalRadiusValue r AND ALSO has StarPhysicalTempValue t AND ALSO power(r, 2) * power(t / 5778, 4) AS v BUT NOT [is of Planet is of PhysicalProperty has PhysicalPropertyMassjup > 0.1]), 4)"
+ },
+ {
+  "question_id": "planets_data_6",
+  "answer": "LIST concat(hn, ' ', l), hn, e, round(q0, 5) FROM Planet p has PlanetCompletter l AND ALSO has Star st AND ALSO st has StarHostplname hn AND ALSO st has StarPhysicalMassValue sm AND ALSO p is of PhysicalProperty has PhysicalPropertyMassjup mj AND ALSO p is of OrbitalCharacteristic has OrbitalCharacteristicEccentricity e AND ALSO p is of DataQualityTracking has DataQualityTrackingMasssource ms AND ALSO (mj * 1.898e27) / (sm * 1.98847e30) AS q0 WHERE e > 0.25 AND lower(ms) = 'msini' AND sm > 0 ORDERED WITH q0 ASCENDING"
+ },
+ {
+  "question_id": "planets_data_9",
+  "answer": "LIST (mj * 1.898e27) / (sm * 1.98847e30) FROM PhysicalProperty has PhysicalPropertyMassjup mj AND ALSO has PhysicalPropertyRadjup rj AND ALSO has PhysicalPropertyDensvalue dv AND ALSO has Planet has Star has StarPhysicalMassValue sm AND ALSO (mj * 317.83) / power(rj * 11.209, 2) AS g WHERE dv > 3 AND mj * 317.83 >= 1 AND mj * 317.83 <= 10 AND sm > 0 ORDERED WITH g DESCENDING THE FIRST 1"
+ },
+ {
+  "question_id": "planets_data_13",
+  "answer": "LIST round(sqrt(2 * 6.674e-11 * (mj * 317.83 * 5.972e24) / (rj * 11.209 * 6.371e6)) / 1000, 0) FROM PhysicalProperty has PhysicalPropertyMassjup mj AND ALSO has PhysicalPropertyRadjup rj AND ALSO (mj * 317.83) / (rj * 11.209) AS mrr WHERE NOT mj = 0 AND NOT rj = 0 ORDERED WITH mrr DESCENDING THE FIRST 1"
+ },
+ {
+  "question_id": "planets_data_19",
+  "answer": "THE COUNT OF Planet [is of PhysicalProperty has PhysicalPropertyRadjup] [is of DataQualityTracking has DataQualityTrackingPlanetaryLimitsRadLim rl] WHERE rl = 1"
+ },
+ {
+  "question_id": "planets_data_14",
+  "answer": "DEFINE Band ::= LIST st, sb FROM Star st has StarPhotometryPhotoBand b AND ALSO if(lower(b) = 'k-band', 'k-band', if(contains(b, 'kep'), 'kepler-band', 'v-band')) AS sb\nLIST sb, c FROM Star s has Band BandSb sb AND ALSO THE COUNT OF s GROUPED BY sb AS c WHERE NOT sb = 'k-band' ORDERED WITH c DESCENDING"
+ }
+]

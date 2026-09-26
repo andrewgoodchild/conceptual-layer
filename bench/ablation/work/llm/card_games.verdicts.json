@@ -1,0 +1,17 @@
+{
+ "database": "card_games",
+ "verdicts": [
+  {"id": "cards.edhrecRank -> rulings.id", "verdict": "no", "reason": "edhrecRank is a popularity rank, an attribute; small integers landing inside rulings' 1..87769 surrogate sequence is coincidence, not a pointer."},
+  {"id": "cards.setCode -> sets.code", "verdict": "yes", "reason": "Name says set code, samples are identical set codes (10E, 2ED, 2XM), and 536 of 551 sets are referenced by 56822 cards -- the card-belongs-to-set reference."},
+  {"id": "rulings.uuid -> cards.uuid", "verdict": "yes", "reason": "UUIDs cannot overlap by accident; 87769 rulings over 26141 card uuids is many rulings per card, which is what a rulings table is."},
+  {"id": "set_translations.setCode -> sets.code", "verdict": "yes", "reason": "Same name and same set-code vocabulary as sets.code; 1210 translations over 121 sets is the translations-per-set shape."},
+  {"id": "sets.mcmId -> cards.id", "verdict": "no", "reason": "mcmId is an external Cardmarket identifier for the set, not a card; small integers nesting in cards' surrogate sequence."},
+  {"id": "sets.mcmIdExtras -> cards.id", "verdict": "no", "reason": "Same external Cardmarket id as mcmId (extras variant); 10 distinct small integers inside a 56822-row surrogate sequence is coincidence."},
+  {"id": "sets.tcgplayerGroupId -> rulings.id", "verdict": "no", "reason": "tcgplayerGroupId is an external TCGplayer group id; nothing about a set points at a ruling, and the values just fit inside 1..87769."},
+  {"id": "cards.id -> rulings.id", "verdict": "no", "reason": "Two autoincrement sequences nesting because cards (1..56822) is shorter than rulings (1..87769); rulings link to cards by uuid, not id."},
+  {"id": "foreign_data.id -> legalities.id", "verdict": "no", "reason": "Two unrelated surrogate sequences starting at 1, the shorter contained in the longer; classic false positive."},
+  {"id": "rulings.id -> foreign_data.id", "verdict": "no", "reason": "Two unrelated surrogate sequences starting at 1; rulings and foreign_data are both children of cards via uuid, not of each other."},
+  {"id": "set_translations.id -> cards.id", "verdict": "no", "reason": "set_translations' own 1..1210 surrogate key nesting in cards' 1..56822 sequence; a set translation has nothing to do with a card row."},
+  {"id": "sets.id -> set_translations.id", "verdict": "no", "reason": "Surrogate sequence nesting (1..551 inside 1..1210); the real link between these tables is setCode, and the direction here is backwards anyway."}
+ ]
+}

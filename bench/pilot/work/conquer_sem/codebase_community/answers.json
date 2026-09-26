@@ -1,0 +1,12 @@
+[
+ {"question_id": 604, "answer": "LIST THE AVERAGE ProlificPostCreator has UserUpVotes, THE AVERAGE ProlificPostCreator has UserAge", "attempts": 1},
+ {"question_id": 584, "answer": "LIST t FROM Post [has PostTitle: 'Why square the difference instead of taking the absolute value in standard deviation?'] has last editor User is of Comment has CommentText t", "attempts": 1},
+ {"question_id": 537, "answer": "THE COUNT OF Post [has owner User [has UserDisplayName: 'csgillespie']]", "attempts": 1},
+ {"question_id": 704, "answer": "LIST pid, w FROM Tag [has TagName: 'sample'] has Post has PostId pid AND ALSO has TagWikiPostId w", "attempts": 1},
+ {"question_id": 665, "answer": "LIST (THE COUNT OF PostLink [has PostLinkCreationDate d] [has Post has PostAnswerCount a] WHERE year(d) = 2010 AND a <= 2) / 12", "attempts": 2},
+ {"question_id": 672, "answer": "THE DISTINCT COUNT OF User [has UserLocation: 'United Kingdom'] [is owner of HighlyFavoritedPost]", "attempts": 2},
+ {"question_id": 701, "answer": "LIST (THE COUNT OF Post [has owner User: 919] [has PostScore s WHERE s > 50]) * 100 / (THE COUNT OF Post [has owner User: 919])", "attempts": 2},
+ {"question_id": 567, "answer": "THE COUNT OF Post [has owner User [has UserDisplayName: 'Tiago Pasqualini']]", "attempts": 1},
+ {"question_id": 539, "answer": "LIST u FROM Post [has PostTitle: 'Eliciting priors from experts'] has owner User has UserDisplayName u", "attempts": 1},
+ {"question_id": 563, "answer": "LIST f FROM Comment [has User: 3025] [has CommentCreationDate: '2014-04-23 20:29:39.0'] has Post has PostFavoriteCount f", "attempts": 3}
+]

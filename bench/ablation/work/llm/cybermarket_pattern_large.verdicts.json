@@ -1,0 +1,290 @@
+{
+ "database": "cybermarket_pattern_large",
+ "verdicts": [
+  {
+   "id": "AlertEscalationHistory.alert_ref -> alerts.EventTag",
+   "verdict": "yes",
+   "reason": "alert_ref in an alert-escalation table, values are exactly the alerts key"
+  },
+  {
+   "id": "AlertResponseWorkflow.escalation_ref -> AlertEscalationHistory.AEH_id",
+   "verdict": "yes",
+   "reason": "escalation_ref holds AEH- prefixed ids of the escalation table"
+  },
+  {
+   "id": "BuyerLoyaltyProgram.session_analytics_ref -> BuyerSessionAnalytics.BSA_id",
+   "verdict": "yes",
+   "reason": "session_analytics_ref holds BSA- prefixed ids of the named target"
+  },
+  {
+   "id": "BuyerPurchasePatterns.session_ref -> BuyerSessionAnalytics.BSA_id",
+   "verdict": "yes",
+   "reason": "session_ref holds BSA- prefixed session ids"
+  },
+  {
+   "id": "BuyerSessionAnalytics.acq_ref -> buyers.AcqCode",
+   "verdict": "yes",
+   "reason": "acq_ref holds B##### buyer codes, spread over most buyers"
+  },
+  {
+   "id": "DisputeArbitrationDetails.dispute_ref -> TransactionDisputeDetails.TDD_id",
+   "verdict": "yes",
+   "reason": "dispute_ref holds TDD- prefixed dispute ids"
+  },
+  {
+   "id": "MarketCompetitorAnalysis.platform_ref -> markets.PlatCode",
+   "verdict": "yes",
+   "reason": "platform_ref holds MK#### market codes"
+  },
+  {
+   "id": "MarketTrendAnalysis.competitor_analysis_ref -> MarketCompetitorAnalysis.MCA_id",
+   "verdict": "yes",
+   "reason": "competitor_analysis_ref holds MCA- prefixed ids of the named target"
+  },
+  {
+   "id": "PaymentFraudIndicators.payment_event_ref -> PaymentProcessingEvents.PPE_id",
+   "verdict": "yes",
+   "reason": "payment_event_ref holds PPE- prefixed payment-event ids"
+  },
+  {
+   "id": "PaymentProcessingEvents.transaction_ref -> alerts.EventTag",
+   "verdict": "no",
+   "reason": "column says transaction_ref; the TX id space is transactions.EventCode, so alerts is the wrong parent"
+  },
+  {
+   "id": "PlatformIncidentReports.platform_ref -> markets.PlatCode",
+   "verdict": "yes",
+   "reason": "platform_ref holds MK#### market codes covering nearly every market"
+  },
+  {
+   "id": "PlatformServiceHealth.incident_report_ref -> PlatformIncidentReports.PIR_id",
+   "verdict": "yes",
+   "reason": "incident_report_ref holds PIR- prefixed incident ids"
+  },
+  {
+   "id": "RiskModelCalibration.prediction_ref -> RiskModelPredictions.RMP_id",
+   "verdict": "yes",
+   "reason": "prediction_ref holds RMP- prefixed prediction ids"
+  },
+  {
+   "id": "RiskModelPredictions.txn_link_ref -> alerts.EventTag",
+   "verdict": "no",
+   "reason": "txn_link_ref mirrors risk_analytics.TxnLink / the transaction id, not the alerts key"
+  },
+  {
+   "id": "TransactionDisputeDetails.event_ref -> alerts.EventTag",
+   "verdict": "no",
+   "reason": "a Transaction* detail table: its event_ref belongs to transactions.EventCode, alerts merely shares the TX values"
+  },
+  {
+   "id": "VendorComplianceAudits.seller_ref -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "seller_ref holds V##### vendor keys"
+  },
+  {
+   "id": "VendorComplianceDocuments.compliance_audit_ref -> VendorComplianceAudits.VCA_id",
+   "verdict": "yes",
+   "reason": "compliance_audit_ref holds VCA- prefixed audit ids"
+  },
+  {
+   "id": "VendorInventorySnapshot.vendor_metrics_ref -> VendorPerformanceMetrics.VPM_id",
+   "verdict": "yes",
+   "reason": "vendor_metrics_ref holds VPM- prefixed metric ids"
+  },
+  {
+   "id": "VendorPerformanceMetrics.seller_ref -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "seller_ref holds V##### vendor keys"
+  },
+  {
+   "id": "VendorShipmentTracking.vendor_perf_ref -> VendorPerformanceMetrics.VPM_id",
+   "verdict": "yes",
+   "reason": "vendor_perf_ref holds VPM- prefixed performance ids"
+  },
+  {
+   "id": "alert_case_actions.EVENTTAG -> alerts.EventTag",
+   "verdict": "yes",
+   "reason": "case actions on alerts, column is the exact name of the alerts key"
+  },
+  {
+   "id": "buyer_device_fingerprints.acqCode -> buyers.AcqCode",
+   "verdict": "yes",
+   "reason": "acqCode is the buyers key name, one row per buyer"
+  },
+  {
+   "id": "buyer_risk_history.ACQCODE -> buyers.AcqCode",
+   "verdict": "yes",
+   "reason": "ACQCODE is the buyers key name, one row per buyer"
+  },
+  {
+   "id": "connection_attack_surface.TXNpointer -> alerts.EventTag",
+   "verdict": "no",
+   "reason": "TXNpointer is the case-variant of connection_security.TxnPointer / the transaction id, not an alert reference"
+  },
+  {
+   "id": "insurance_claim_evidence.claimRef -> vendor_insurance_claims.claimRef",
+   "verdict": "yes",
+   "reason": "evidence rows carry the CLAIM##### key of the claims table under the same column name"
+  },
+  {
+   "id": "market_regulatory_audits.platcode -> markets.PlatCode",
+   "verdict": "yes",
+   "reason": "platcode is the markets key name, one audit row per market"
+  },
+  {
+   "id": "market_traffic_analytics.PLATCODE -> markets.PlatCode",
+   "verdict": "yes",
+   "reason": "PLATCODE is the markets key name, one row per market"
+  },
+  {
+   "id": "platform_availability_snapshots.platCode -> markets.PlatCode",
+   "verdict": "yes",
+   "reason": "platCode is the markets key name, one snapshot per market"
+  },
+  {
+   "id": "platform_policy_documents.PLATcode -> markets.PlatCode",
+   "verdict": "yes",
+   "reason": "PLATcode is the markets key name, one policy document per market"
+  },
+  {
+   "id": "product_attribute_metrics.SellerPointer -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "SellerPointer holds V##### vendor keys, the seller of the product"
+  },
+  {
+   "id": "product_review_feedback.seller_pointer -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "seller_pointer holds V##### vendor keys"
+  },
+  {
+   "id": "product_review_tag_map.reviewRef -> product_review_feedback.ReviewRef",
+   "verdict": "yes",
+   "reason": "map table carrying the REV- review key under the target's own column name"
+  },
+  {
+   "id": "product_review_tag_map.tagKey -> tag_library.tagKey",
+   "verdict": "yes",
+   "reason": "map table pointing at a 50-row tag lookup by its own key name"
+  },
+  {
+   "id": "products.SellerPointer -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "the product's seller, V##### vendor keys"
+  },
+  {
+   "id": "risk_ml_feature_vectors.txnLINK -> alerts.EventTag",
+   "verdict": "no",
+   "reason": "txnLINK is the case-variant of risk_analytics.TxnLink / the transaction id, not an alert reference"
+  },
+  {
+   "id": "transaction_products.EventLink -> alerts.EventTag",
+   "verdict": "no",
+   "reason": "a transaction line table; its parent is transactions.EventCode, which holds the same TX values as alerts"
+  },
+  {
+   "id": "transaction_products.SellerPointer -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "the selling vendor on a transaction line, V##### vendor keys"
+  },
+  {
+   "id": "transaction_settlement_info.EVENTCODE -> alerts.EventTag",
+   "verdict": "no",
+   "reason": "EVENTCODE is exactly transactions.EventCode; alerts only coincides because both are keyed by the TX id"
+  },
+  {
+   "id": "transactions.PlatformKey -> markets.PlatCode",
+   "verdict": "yes",
+   "reason": "the market a transaction happened on, MK#### codes"
+  },
+  {
+   "id": "transactions.VendorLink -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "the vendor of a transaction, V##### keys"
+  },
+  {
+   "id": "transactions.AcqLink -> buyers.AcqCode",
+   "verdict": "yes",
+   "reason": "the buyer of a transaction, B##### codes"
+  },
+  {
+   "id": "vendor_countries.SellerKey -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "vendor satellite carrying the vendors key under the same name"
+  },
+  {
+   "id": "vendor_financial_history.Sellerkey -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "vendor satellite carrying the vendors key under the same name"
+  },
+  {
+   "id": "vendor_insurance_claims.ins_policy_ref -> vendor_insurance_policies.ins_policy_ref",
+   "verdict": "yes",
+   "reason": "a claim against a policy, same column name and I-prefixed policy ids"
+  },
+  {
+   "id": "vendor_insurance_claims.sellerKEY -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "the vendor a claim belongs to, V##### keys"
+  },
+  {
+   "id": "vendor_insurance_policies.sellerKEY -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "one policy per vendor, V##### keys"
+  },
+  {
+   "id": "vendor_markets.VendorKey -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "junction table side pointing at vendors"
+  },
+  {
+   "id": "vendor_markets.PlatformID -> markets.PlatCode",
+   "verdict": "yes",
+   "reason": "junction table side pointing at markets"
+  },
+  {
+   "id": "vendor_payment_methods.VendorLink -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "payment methods of a vendor, V##### keys"
+  },
+  {
+   "id": "vendor_profile_details.seller_key -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "1:1 vendor profile extension keyed by the vendors key"
+  },
+  {
+   "id": "vendor_regulatory_licenses.SellerKey -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "vendor satellite carrying the vendors key under the same name"
+  },
+  {
+   "id": "vendor_social_media.sellerKey -> vendors.SellerKey",
+   "verdict": "yes",
+   "reason": "vendor satellite carrying the vendors key under the same name"
+  },
+  {
+   "id": "alerts.EventTag -> communications.EventLink",
+   "verdict": "no",
+   "reason": "two 1:1 satellites of the same transaction id; communications is not a parent of alerts"
+  },
+  {
+   "id": "communications.EventLink -> alerts.EventTag",
+   "verdict": "no",
+   "reason": "sibling 1:1 tables keyed by the same transaction id; the parent is transactions, not alerts"
+  },
+  {
+   "id": "connection_security.TxnPointer -> alerts.EventTag",
+   "verdict": "no",
+   "reason": "TxnPointer is a transaction pointer; alerts merely shares the identical TX key set"
+  },
+  {
+   "id": "risk_analytics.TxnLink -> alerts.EventTag",
+   "verdict": "no",
+   "reason": "TxnLink is a transaction pointer; alerts merely shares the identical TX key set"
+  },
+  {
+   "id": "transactions.EventCode -> alerts.EventTag",
+   "verdict": "no",
+   "reason": "transactions is the hub (it carries the vendor/buyer/market refs); this points the parent at its own 1:1 satellite"
+  }
+ ]
+}

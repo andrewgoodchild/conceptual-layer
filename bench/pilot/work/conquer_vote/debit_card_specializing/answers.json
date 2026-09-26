@@ -1,0 +1,50 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "LIST d FROM Transactions1k [has Gasstation has GasstationCountry: 'CZE'] has Product has ProductDescription d",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE DISTINCT COUNT OF Customer [has CustomerCurrency: 'EUR'] [is of Yearmonth has YearmonthConsumption c] WHERE c > 1000",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1481,
+  "answer": "LIST (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))) - (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'LAM'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))), (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'LAM'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))) - (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'KAM'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))), (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'KAM'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))) - (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013')))",
+  "attempts": 0,
+  "chosen": "conquer_run3",
+  "agreement": 1,
+  "candidates": 1
+ },
+ {
+  "question_id": 1486,
+  "answer": "LIST THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] - THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR']",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1525,
+  "answer": "LIST THE COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25'] [has Customer has CustomerCurrency: 'EUR'] * 100 / THE COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25']",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 2,
+  "candidates": 3
+ },
+ {
+  "question_id": 1501,
+  "answer": "LIST c FROM Yearmonth [has YearmonthDate: '201306'] has Customer is of Transactions1k has Gasstation has GasstationCountry c",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 2,
+  "candidates": 3
+ }
+]

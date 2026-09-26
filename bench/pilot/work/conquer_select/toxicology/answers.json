@@ -1,0 +1,58 @@
+[
+ {
+  "question_id": 201,
+  "answer": "THE COUNT OF Atom [has AtomElement: 'c' AND ALSO has Molecule is of Bond has BondType: '='] * 100 / THE COUNT OF Atom [has Molecule is of Bond has BondType: '=']",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "Candidates 1 and 2 (only the bracket placement differs) both normalise to the aggregate binding the filter inside THE COUNT OF and give 38.80961092816197. Candidate 3 leaves 'has Molecule is of Bond has BondType: ...' outside the aggregate's brackets; the compiler echoes it back unnormalised (no 'v1 IN (...)' binding) and it evaluates to a different, higher value (41.196...), a sign the path is not being folded into the count as intended. Evidence's formula (carbon atoms / all atoms, restricted to double-bond molecules) matches the 1/2 reading; picked 1 as the plainer of the two equivalent forms."
+ },
+ {
+  "question_id": 239,
+  "answer": "THE COUNT OF Connected [has ConnectedAtom has AtomId a] WHERE like(a, 'TR%_19')",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "Evidence names only 'atom_id like TR%_19' (not atom_id2); candidate 1 (identical text to candidate 3) implements exactly that filter and returns 377. Candidate 2 additionally ORs in ConnectedAtomid2 and does a distinct count of bond id, but reaches the same 377 -- confirming the Connected rows already exist in both directions in this data, so the simpler, evidence-literal query suffices."
+ },
+ {
+  "question_id": 243,
+  "answer": "LIST bid FROM DISTINCT Connected has ConnectedAtom has AtomElement e1 AND ALSO has ConnectedAtomid2 has AtomElement e2 AND ALSO has Bond has BondId bid WHERE (e1 = 'p' AND e2 = 'n') OR (e1 = 'n' AND e2 = 'p')",
+  "attempts": 3,
+  "chosen": 3,
+  "reason": "All three candidates return the identical 6 bond ids (TR032_2_3, TR032_3_5, TR058_1_3, TR058_1_4, TR058_1_5, TR298_1_5). Candidate 1 hard-codes phosphorus on the first atom role and nitrogen on the second (denotations, not a WHERE), which happens to match this data but is not the order-independent reading the question asks for ('have phosphorus and nitrogen as their atom elements'); candidates 2 and 3 explicitly OR both orderings, the semantically correct mapping. Chose 3 over 2 only for the column name (bid matches what's asked); functionally identical to 2."
+ },
+ {
+  "question_id": 234,
+  "answer": "THE DISTINCT COUNT OF id IN Connected has ConnectedAtom has AtomId a1 AND ALSO has ConnectedAtomid2 has AtomId a2 AND ALSO has Bond has BondId id WHERE a1 = 'TR009_12' OR a2 = 'TR009_12'",
+  "attempts": 3,
+  "chosen": 2,
+  "reason": "All three candidates return 3. Evidence explicitly states 'atom_id = TR009_12 or atom_id2 = TR009_12'; candidates 2 and 3 implement that OR directly (functionally identical to each other, differing only in the bound variable's name), while candidate 1 checks only the ConnectedAtom role. All three agree here because Connected rows are stored in both directions in this dataset, but chose 2 as the query most literally matching the evidence's stated formula."
+ },
+ {
+  "question_id": 215,
+  "answer": "THE DISTINCT COUNT OF a IN Atom has AtomId a AND ALSO has AtomElement e AND ALSO has Molecule [is of Bond has BondType: '-'] WHERE e = 'i' OR e = 's'",
+  "attempts": 3,
+  "chosen": 2,
+  "reason": "All three candidates give 97. Evidence says to 'consider the distinct atoms when counting'; all three correctly count distinct atom identity (candidate 1's 'COUNT OF DISTINCT Atom [...]' is equivalent to the others' 'DISTINCT COUNT OF a IN ...'). Chose candidate 2 as the clearest, most literal mapping: bind AtomId, filter element with OR, then filter molecule by bond type."
+ },
+ {
+  "question_id": 230,
+  "answer": "LIST e, l FROM DISTINCT Atom has AtomElement e AND ALSO has Molecule: 'TR060' has MoleculeLabel l",
+  "attempts": 3,
+  "chosen": 3,
+  "reason": "Candidates 1 and 2 list one row per atom (103 rows, undeduplicated) because they omit DISTINCT; since the molecule's label is constant, the distinct set of (element,label) pairs they contain is the same 5 pairs candidate 3 returns directly (c, h, o, n, cl, each with label '-'), so all three agree on the underlying answer. Chose 3 because 'what are the elements ... and label of molecule TR060' reads as asking for the set of element types present plus the label, which it returns directly rather than as 103 near-duplicate rows."
+ },
+ {
+  "question_id": 206,
+  "answer": "LIST e FROM Connected [has Bond has BondId: 'TR004_8_9'] has ConnectedAtom has AtomElement e",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "A diagnostic run (LIST a, a2 FROM Connected [has Bond: 'TR004_8_9'] ...) showed the Connected fact table stores each bond as two mirrored rows (TR004_8/TR004_9 and TR004_9/TR004_8), so filtering by Bond and projecting only ConnectedAtom's element already yields exactly the bond's two endpoint atoms (2 rows, both 'c') with no OR or DISTINCT needed -- matching evidence's plain 'bond_id = TR004_8_9' hint. Candidate 2 is functionally identical (same normalised query, same 2 rows). Candidate 3 adds DISTINCT, collapsing to 1 row; since both atoms here happen to be carbon the distinct set is the same, but candidate 1/2's form most directly answers 'what elements are in the bond's atoms' (one value per atom)."
+ },
+ {
+  "question_id": 212,
+  "answer": "LIST e FROM Atom a [has Molecule has MoleculeLabel: '-'] has AtomElement e AND ALSO THE COUNT OF a GROUPED BY e AS c ORDERED WITH c ASCENDING THE FIRST 1",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "Candidates 1 and 2 are textually identical; candidate 3 only reorders the AND ALSO clauses. All three return the same single row, element 'ca', matching evidence's MIN(COUNT(element)) via group-by-element/order-ascending/first-1 over atoms restricted to non-carcinogenic (label='-') molecules. Chose candidate 1."
+ }
+]

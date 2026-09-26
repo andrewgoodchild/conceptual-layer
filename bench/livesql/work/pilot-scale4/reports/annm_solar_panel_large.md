@@ -1,0 +1,3 @@
+All ten answers written; four return 0 or NULL by the data; 15, 17, 5 carry notes.
+Hardest: _15 (ADR from snapshot age, dropped 445 pre-go-live snapshots; about 13.95 billion; fragile); _10 filter order; _17 and _5; _12.
+What mattered: "The schema warned that plants reach panel models two ways that disagree" (used the plant's own column); "The descriptions of the JSON fields (units, nulls, value ranges) were essential, and the range notes are what showed that Q12, Q17 and Q5 have no matching rows"; upper-case keys. Knowledge base gaps: which power is gross, which dates define age, percent or fraction.

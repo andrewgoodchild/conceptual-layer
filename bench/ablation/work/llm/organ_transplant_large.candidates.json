@@ -1,0 +1,2145 @@
+{
+ "database": "organ_transplant_large",
+ "tables": [
+  "BiobankEnvironmentLogs",
+  "ClinicalTrialParticipation",
+  "ComplianceAuditLog",
+  "DonorFamilyServices",
+  "EthicsCommitteeReviews",
+  "FacilityMaintenanceLog",
+  "GenomicSequencingRun",
+  "InsuranceClaimDetails",
+  "InterHospitalTransfer",
+  "LogisticsTelemetry",
+  "PatientEducationModule",
+  "PatientNutritionLog",
+  "PatientWearableTelemetry",
+  "PharmacyInventoryBatch",
+  "PostOpICUMonitoring",
+  "PsychosocialAssessment",
+  "RehabDailyProgress",
+  "SimulationTrainingSession",
+  "SurgeonFatigueAnalysis",
+  "TelehealthSessionLog",
+  "administrative_and_review",
+  "allocation_details",
+  "clinical",
+  "compatibility_metrics",
+  "complications",
+  "consent_forms",
+  "data_source_and_quality",
+  "demographics",
+  "emergency_contacts",
+  "equipment",
+  "function_and_recovery",
+  "genetic_markers",
+  "hla_info",
+  "hospitals",
+  "imaging_studies",
+  "insurance_plans",
+  "logistics",
+  "medical_history",
+  "medical_teams",
+  "medications",
+  "organ_banks",
+  "protocols",
+  "quality_metrics",
+  "recipient_medication_history",
+  "recipient_support_group_membership",
+  "recipients_demographics",
+  "recipients_immunology",
+  "rehabilitation_programs",
+  "risk_evaluation",
+  "support_groups",
+  "surgeon_hospital_affiliations",
+  "surgeons",
+  "team_training_participation",
+  "tissue_samples",
+  "training_programs",
+  "transplant_matching",
+  "transportation"
+ ],
+ "candidates": [
+  {
+   "id": "BiobankEnvironmentLogs.bank_ref -> organ_banks.organ_bank_registry",
+   "source_table": "BiobankEnvironmentLogs",
+   "source_column": "bank_ref",
+   "target_table": "organ_banks",
+   "target_key": "organ_bank_registry",
+   "source_rows": 2,
+   "source_distinct": 2,
+   "target_rows": 5,
+   "score": 2.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OB-0003",
+    "OB-0002"
+   ],
+   "target_samples": [
+    "OB-0001",
+    "OB-0002",
+    "OB-0003",
+    "OB-0004",
+    "OB-0005"
+   ]
+  },
+  {
+   "id": "ClinicalTrialParticipation.patient_ref -> recipients_demographics.recip_registry",
+   "source_table": "ClinicalTrialParticipation",
+   "source_column": "patient_ref",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 1249,
+   "source_distinct": 608,
+   "target_rows": 787,
+   "score": 4.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "R296644",
+    "R516983",
+    "R394885",
+    "R751178",
+    "R419460"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "ComplianceAuditLog.hospital_ref -> hospitals.hospital_registry",
+   "source_table": "ComplianceAuditLog",
+   "source_column": "hospital_ref",
+   "target_table": "hospitals",
+   "target_key": "hospital_registry",
+   "source_rows": 9,
+   "source_distinct": 5,
+   "target_rows": 7,
+   "score": 3.93,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HOSP-0003",
+    "HOSP-0005",
+    "HOSP-0007",
+    "HOSP-0004",
+    "HOSP-0001"
+   ],
+   "target_samples": [
+    "HOSP-0001",
+    "HOSP-0002",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0005"
+   ]
+  },
+  {
+   "id": "DonorFamilyServices.donor_ref -> demographics.contrib_registry",
+   "source_table": "DonorFamilyServices",
+   "source_column": "donor_ref",
+   "target_table": "demographics",
+   "target_key": "contrib_registry",
+   "source_rows": 640,
+   "source_distinct": 400,
+   "target_rows": 659,
+   "score": 4.08,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "D398863",
+    "D372141",
+    "D115202",
+    "D239293",
+    "D302869"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ]
+  },
+  {
+   "id": "EthicsCommitteeReviews.admin_case_ref -> administrative_and_review.adm_rev_registry",
+   "source_table": "EthicsCommitteeReviews",
+   "source_column": "admin_case_ref",
+   "target_table": "administrative_and_review",
+   "target_key": "adm_rev_registry",
+   "source_rows": 559,
+   "source_distinct": 368,
+   "target_rows": 641,
+   "score": 4.01,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TM628265",
+    "TM656701",
+    "TM995456",
+    "TM967742",
+    "TM192578"
+   ],
+   "target_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM105599",
+    "TM107654"
+   ]
+  },
+  {
+   "id": "FacilityMaintenanceLog.hospital_ref -> hospitals.hospital_registry",
+   "source_table": "FacilityMaintenanceLog",
+   "source_column": "hospital_ref",
+   "target_table": "hospitals",
+   "target_key": "hospital_registry",
+   "source_rows": 13,
+   "source_distinct": 6,
+   "target_rows": 7,
+   "score": 4.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HOSP-0002",
+    "HOSP-0005",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0006"
+   ],
+   "target_samples": [
+    "HOSP-0001",
+    "HOSP-0002",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0005"
+   ]
+  },
+  {
+   "id": "GenomicSequencingRun.sample_ref -> tissue_samples.sample_registry",
+   "source_table": "GenomicSequencingRun",
+   "source_column": "sample_ref",
+   "target_table": "tissue_samples",
+   "target_key": "sample_registry",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 3,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SAMPLE-0003",
+    "SAMPLE-0002"
+   ],
+   "target_samples": [
+    "SAMPLE-0001",
+    "SAMPLE-0002",
+    "SAMPLE-0003"
+   ]
+  },
+  {
+   "id": "InsuranceClaimDetails.insurance_plan_ref -> insurance_plans.insurance_registry",
+   "source_table": "InsuranceClaimDetails",
+   "source_column": "insurance_plan_ref",
+   "target_table": "insurance_plans",
+   "target_key": "insurance_registry",
+   "source_rows": 2,
+   "source_distinct": 2,
+   "target_rows": 4,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "INS-0001",
+    "INS-0002"
+   ],
+   "target_samples": [
+    "INS-0001",
+    "INS-0002",
+    "INS-0003",
+    "INS-0004"
+   ]
+  },
+  {
+   "id": "InsuranceClaimDetails.patient_ref_link -> insurance_plans.insurance_registry",
+   "source_table": "InsuranceClaimDetails",
+   "source_column": "patient_ref_link",
+   "target_table": "insurance_plans",
+   "target_key": "insurance_registry",
+   "source_rows": 2,
+   "source_distinct": 2,
+   "target_rows": 4,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "INS-0002",
+    "INS-0003"
+   ],
+   "target_samples": [
+    "INS-0001",
+    "INS-0002",
+    "INS-0003",
+    "INS-0004"
+   ]
+  },
+  {
+   "id": "InterHospitalTransfer.origin_hospital -> hospitals.hospital_registry",
+   "source_table": "InterHospitalTransfer",
+   "source_column": "origin_hospital",
+   "target_table": "hospitals",
+   "target_key": "hospital_registry",
+   "source_rows": 8,
+   "source_distinct": 5,
+   "target_rows": 7,
+   "score": 3.81,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HOSP-0002",
+    "HOSP-0001",
+    "HOSP-0007",
+    "HOSP-0005",
+    "HOSP-0004"
+   ],
+   "target_samples": [
+    "HOSP-0001",
+    "HOSP-0002",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0005"
+   ]
+  },
+  {
+   "id": "InterHospitalTransfer.destination_hospital -> hospitals.hospital_registry",
+   "source_table": "InterHospitalTransfer",
+   "source_column": "destination_hospital",
+   "target_table": "hospitals",
+   "target_key": "hospital_registry",
+   "source_rows": 8,
+   "source_distinct": 5,
+   "target_rows": 7,
+   "score": 3.79,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HOSP-0003",
+    "HOSP-0006",
+    "HOSP-0007",
+    "HOSP-0001",
+    "HOSP-0002"
+   ],
+   "target_samples": [
+    "HOSP-0001",
+    "HOSP-0002",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0005"
+   ]
+  },
+  {
+   "id": "InterHospitalTransfer.patient_ref -> hospitals.hospital_registry",
+   "source_table": "InterHospitalTransfer",
+   "source_column": "patient_ref",
+   "target_table": "hospitals",
+   "target_key": "hospital_registry",
+   "source_rows": 8,
+   "source_distinct": 5,
+   "target_rows": 7,
+   "score": 3.86,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HOSP-0006",
+    "HOSP-0004",
+    "HOSP-0005",
+    "HOSP-0003",
+    "HOSP-0002"
+   ],
+   "target_samples": [
+    "HOSP-0001",
+    "HOSP-0002",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0005"
+   ]
+  },
+  {
+   "id": "LogisticsTelemetry.transport_ref -> transportation.transport_registry",
+   "source_table": "LogisticsTelemetry",
+   "source_column": "transport_ref",
+   "target_table": "transportation",
+   "target_key": "transport_registry",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 3,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TRANS-0003",
+    "TRANS-0002"
+   ],
+   "target_samples": [
+    "TRANS-0001",
+    "TRANS-0002",
+    "TRANS-0003"
+   ]
+  },
+  {
+   "id": "PatientEducationModule.patient_ref -> recipients_demographics.recip_registry",
+   "source_table": "PatientEducationModule",
+   "source_column": "patient_ref",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 1241,
+   "source_distinct": 621,
+   "target_rows": 787,
+   "score": 4.27,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "R872047",
+    "R255815",
+    "R861439",
+    "R443946",
+    "R509331"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "PatientNutritionLog.patient_ref -> recipients_demographics.recip_registry",
+   "source_table": "PatientNutritionLog",
+   "source_column": "patient_ref",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 1289,
+   "source_distinct": 629,
+   "target_rows": 787,
+   "score": 4.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "R428874",
+    "R322693",
+    "R400704",
+    "R358562",
+    "R155644"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "PatientWearableTelemetry.patient_ref -> recipients_demographics.recip_registry",
+   "source_table": "PatientWearableTelemetry",
+   "source_column": "patient_ref",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 1228,
+   "source_distinct": 628,
+   "target_rows": 787,
+   "score": 4.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "R714252",
+    "R982437",
+    "R955182",
+    "R638381",
+    "R258042"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "PharmacyInventoryBatch.medication_ref -> medications.medication_registry",
+   "source_table": "PharmacyInventoryBatch",
+   "source_column": "medication_ref",
+   "target_table": "medications",
+   "target_key": "medication_registry",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 5,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MED-0003",
+    "MED-0004",
+    "MED-0001"
+   ],
+   "target_samples": [
+    "MED-0001",
+    "MED-0002",
+    "MED-0003",
+    "MED-0004",
+    "MED-0005"
+   ]
+  },
+  {
+   "id": "PharmacyInventoryBatch.hospital_ref -> medications.medication_registry",
+   "source_table": "PharmacyInventoryBatch",
+   "source_column": "hospital_ref",
+   "target_table": "medications",
+   "target_key": "medication_registry",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 5,
+   "score": 3.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MED-0003",
+    "MED-0005",
+    "MED-0002"
+   ],
+   "target_samples": [
+    "MED-0001",
+    "MED-0002",
+    "MED-0003",
+    "MED-0004",
+    "MED-0005"
+   ]
+  },
+  {
+   "id": "PostOpICUMonitoring.match_ref -> transplant_matching.match_rec_registry",
+   "source_table": "PostOpICUMonitoring",
+   "source_column": "match_ref",
+   "target_table": "transplant_matching",
+   "target_key": "match_rec_registry",
+   "source_rows": 1262,
+   "source_distinct": 695,
+   "target_rows": 947,
+   "score": 4.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TM838007",
+    "TM607097",
+    "TM392423",
+    "TM710410",
+    "TM180620"
+   ],
+   "target_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM105599",
+    "TM107654"
+   ]
+  },
+  {
+   "id": "PsychosocialAssessment.patient_ref -> recipients_demographics.recip_registry",
+   "source_table": "PsychosocialAssessment",
+   "source_column": "patient_ref",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 408,
+   "source_distinct": 324,
+   "target_rows": 787,
+   "score": 3.87,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "R748169",
+    "R355867",
+    "R310629",
+    "R655973",
+    "R887181"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "RehabDailyProgress.program_ref -> rehabilitation_programs.rehab_registry",
+   "source_table": "RehabDailyProgress",
+   "source_column": "program_ref",
+   "target_table": "rehabilitation_programs",
+   "target_key": "rehab_registry",
+   "source_rows": 5,
+   "source_distinct": 2,
+   "target_rows": 7,
+   "score": 2.79,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RH005",
+    "RH002"
+   ],
+   "target_samples": [
+    "RH001",
+    "RH002",
+    "RH003",
+    "RH004",
+    "RH005"
+   ]
+  },
+  {
+   "id": "SimulationTrainingSession.team_ref -> medical_teams.team_registry",
+   "source_table": "SimulationTrainingSession",
+   "source_column": "team_ref",
+   "target_table": "medical_teams",
+   "target_key": "team_registry",
+   "source_rows": 10,
+   "source_distinct": 4,
+   "target_rows": 7,
+   "score": 3.86,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TEAM-0007",
+    "TEAM-0003",
+    "TEAM-0002",
+    "TEAM-0006"
+   ],
+   "target_samples": [
+    "TEAM-0001",
+    "TEAM-0002",
+    "TEAM-0003",
+    "TEAM-0004",
+    "TEAM-0005"
+   ]
+  },
+  {
+   "id": "SurgeonFatigueAnalysis.surgeon_ref -> surgeons.surgeon_registry",
+   "source_table": "SurgeonFatigueAnalysis",
+   "source_column": "surgeon_ref",
+   "target_table": "surgeons",
+   "target_key": "surgeon_registry",
+   "source_rows": 12,
+   "source_distinct": 8,
+   "target_rows": 11,
+   "score": 3.99,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SURG-0004",
+    "SURG-0005",
+    "SURG-0006",
+    "SURG-0011",
+    "SURG-0010"
+   ],
+   "target_samples": [
+    "SURG-0001",
+    "SURG-0002",
+    "SURG-0003",
+    "SURG-0004",
+    "SURG-0005"
+   ]
+  },
+  {
+   "id": "TelehealthSessionLog.patient_ref -> recipients_demographics.recip_registry",
+   "source_table": "TelehealthSessionLog",
+   "source_column": "patient_ref",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 1024,
+   "source_distinct": 583,
+   "target_rows": 787,
+   "score": 4.23,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "R978928",
+    "R204798",
+    "R696645",
+    "R380327",
+    "R483084"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "administrative_and_review.adm_don_ref -> demographics.contrib_registry",
+   "source_table": "administrative_and_review",
+   "source_column": "adm_don_ref",
+   "target_table": "demographics",
+   "target_key": "contrib_registry",
+   "source_rows": 641,
+   "source_distinct": 497,
+   "target_rows": 659,
+   "score": 4.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "D812743",
+    "D120007",
+    "D887241",
+    "D245085",
+    "D860197"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ]
+  },
+  {
+   "id": "administrative_and_review.adm_rec_ref -> recipients_demographics.recip_registry",
+   "source_table": "administrative_and_review",
+   "source_column": "adm_rec_ref",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 641,
+   "source_distinct": 546,
+   "target_rows": 787,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "R947153",
+    "R159571",
+    "R372719",
+    "R914914",
+    "R364932"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "allocation_details.donor_ref_reg -> demographics.contrib_registry",
+   "source_table": "allocation_details",
+   "source_column": "donor_ref_reg",
+   "target_table": "demographics",
+   "target_key": "contrib_registry",
+   "source_rows": 561,
+   "source_distinct": 439,
+   "target_rows": 659,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "D812743",
+    "D120007",
+    "D685621",
+    "D887241",
+    "D245085"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ]
+  },
+  {
+   "id": "allocation_details.recip_ref_reg -> recipients_demographics.recip_registry",
+   "source_table": "allocation_details",
+   "source_column": "recip_ref_reg",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 561,
+   "source_distinct": 489,
+   "target_rows": 787,
+   "score": 4.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "R947153",
+    "R159571",
+    "R372719",
+    "R279115",
+    "R914914"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "compatibility_metrics.donor_ref_reg -> demographics.contrib_registry",
+   "source_table": "compatibility_metrics",
+   "source_column": "donor_ref_reg",
+   "target_table": "demographics",
+   "target_key": "contrib_registry",
+   "source_rows": 870,
+   "source_distinct": 596,
+   "target_rows": 659,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "D812743",
+    "D120007",
+    "D685621",
+    "D887241",
+    "D245085"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ]
+  },
+  {
+   "id": "compatibility_metrics.recip_ref_reg -> recipients_demographics.recip_registry",
+   "source_table": "compatibility_metrics",
+   "source_column": "recip_ref_reg",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 870,
+   "source_distinct": 706,
+   "target_rows": 787,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "R947153",
+    "R159571",
+    "R372719",
+    "R279115",
+    "R914914"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "consent_forms.patient_ref -> recipients_immunology.immu_recip_registry",
+   "source_table": "consent_forms",
+   "source_column": "patient_ref",
+   "target_table": "recipients_immunology",
+   "target_key": "immu_recip_registry",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 645,
+   "score": 3.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "R279115",
+    "R573066",
+    "R954950"
+   ],
+   "target_samples": [
+    "R100765",
+    "R108156",
+    "R113680",
+    "R115467",
+    "R115770"
+   ]
+  },
+  {
+   "id": "consent_forms.donor_ref -> demographics.contrib_registry",
+   "source_table": "consent_forms",
+   "source_column": "donor_ref",
+   "target_table": "demographics",
+   "target_key": "contrib_registry",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 659,
+   "score": 2.37,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "D120007",
+    "D462241",
+    "D243755"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ]
+  },
+  {
+   "id": "data_source_and_quality.q_don_ref -> demographics.contrib_registry",
+   "source_table": "data_source_and_quality",
+   "source_column": "q_don_ref",
+   "target_table": "demographics",
+   "target_key": "contrib_registry",
+   "source_rows": 859,
+   "source_distinct": 599,
+   "target_rows": 659,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "D812743",
+    "D120007",
+    "D685621",
+    "D356837",
+    "D860197"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ]
+  },
+  {
+   "id": "data_source_and_quality.q_rec_ref -> recipients_demographics.recip_registry",
+   "source_table": "data_source_and_quality",
+   "source_column": "q_rec_ref",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 859,
+   "source_distinct": 702,
+   "target_rows": 787,
+   "score": 4.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "R947153",
+    "R159571",
+    "R372719",
+    "R279115",
+    "R751189"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "emergency_contacts.patient_ref -> recipients_immunology.immu_recip_registry",
+   "source_table": "emergency_contacts",
+   "source_column": "patient_ref",
+   "target_table": "recipients_immunology",
+   "target_key": "immu_recip_registry",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 645,
+   "score": 2.55,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "R847653",
+    "R975322",
+    "R573066",
+    "R750468"
+   ],
+   "target_samples": [
+    "R100765",
+    "R108156",
+    "R113680",
+    "R115467",
+    "R115770"
+   ]
+  },
+  {
+   "id": "equipment.hospital_ref -> hospitals.hospital_registry",
+   "source_table": "equipment",
+   "source_column": "hospital_ref",
+   "target_table": "hospitals",
+   "target_key": "hospital_registry",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 7,
+   "score": 3.07,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "HOSP-0001",
+    "HOSP-0003",
+    "HOSP-0005"
+   ],
+   "target_samples": [
+    "HOSP-0001",
+    "HOSP-0002",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0005"
+   ]
+  },
+  {
+   "id": "genetic_markers.patient_ref -> recipients_demographics.recip_registry",
+   "source_table": "genetic_markers",
+   "source_column": "patient_ref",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 787,
+   "score": 3.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "R894454",
+    "R639429",
+    "R296644",
+    "R486835"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "genetic_markers.donor_ref -> hla_info.immu_don_registry",
+   "source_table": "genetic_markers",
+   "source_column": "donor_ref",
+   "target_table": "hla_info",
+   "target_key": "immu_don_registry",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 534,
+   "score": 3.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "D248422",
+    "D995055",
+    "D565186",
+    "D227298"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102948",
+    "D105128",
+    "D106315"
+   ]
+  },
+  {
+   "id": "imaging_studies.patient_ref -> recipients_demographics.recip_registry",
+   "source_table": "imaging_studies",
+   "source_column": "patient_ref",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 787,
+   "score": 3.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "R894454",
+    "R639429",
+    "R450573"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "imaging_studies.equipment_used -> equipment.equipment_registry",
+   "source_table": "imaging_studies",
+   "source_column": "equipment_used",
+   "target_table": "equipment",
+   "target_key": "equipment_registry",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 4,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EQ-0001",
+    "EQ-0003"
+   ],
+   "target_samples": [
+    "EQ-0001",
+    "EQ-0002",
+    "EQ-0003",
+    "EQ-0004"
+   ]
+  },
+  {
+   "id": "logistics.don_ref_reg -> demographics.contrib_registry",
+   "source_table": "logistics",
+   "source_column": "don_ref_reg",
+   "target_table": "demographics",
+   "target_key": "contrib_registry",
+   "source_rows": 518,
+   "source_distinct": 418,
+   "target_rows": 659,
+   "score": 4.11,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "D812743",
+    "D120007",
+    "D685621",
+    "D245085",
+    "D860197"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ]
+  },
+  {
+   "id": "logistics.rec_ref_reg -> recipients_demographics.recip_registry",
+   "source_table": "logistics",
+   "source_column": "rec_ref_reg",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 518,
+   "source_distinct": 458,
+   "target_rows": 787,
+   "score": 3.97,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "R947153",
+    "R159571",
+    "R279115",
+    "R364932",
+    "R464438"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "medical_teams.hospital_ref -> hospitals.hospital_registry",
+   "source_table": "medical_teams",
+   "source_column": "hospital_ref",
+   "target_table": "hospitals",
+   "target_key": "hospital_registry",
+   "source_rows": 7,
+   "source_distinct": 6,
+   "target_rows": 7,
+   "score": 3.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HOSP-0001",
+    "HOSP-0003",
+    "HOSP-0002",
+    "HOSP-0004",
+    "HOSP-0005"
+   ],
+   "target_samples": [
+    "HOSP-0001",
+    "HOSP-0002",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0005"
+   ]
+  },
+  {
+   "id": "organ_banks.hospital_ref -> hospitals.hospital_registry",
+   "source_table": "organ_banks",
+   "source_column": "hospital_ref",
+   "target_table": "hospitals",
+   "target_key": "hospital_registry",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 7,
+   "score": 3.81,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HOSP-0001",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0005",
+    "HOSP-0006"
+   ],
+   "target_samples": [
+    "HOSP-0001",
+    "HOSP-0002",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0005"
+   ]
+  },
+  {
+   "id": "recipient_medication_history.recipient_ref -> clinical.clin_recip_registry",
+   "source_table": "recipient_medication_history",
+   "source_column": "recipient_ref",
+   "target_table": "clinical",
+   "target_key": "clin_recip_registry",
+   "source_rows": 9,
+   "source_distinct": 4,
+   "target_rows": 607,
+   "score": 2.74,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "R172751",
+    "R296644",
+    "R364407",
+    "R750468"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "recipient_medication_history.medication_ref -> medications.medication_registry",
+   "source_table": "recipient_medication_history",
+   "source_column": "medication_ref",
+   "target_table": "medications",
+   "target_key": "medication_registry",
+   "source_rows": 9,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MED-0001",
+    "MED-0002",
+    "MED-0003",
+    "MED-0004",
+    "MED-0005"
+   ],
+   "target_samples": [
+    "MED-0001",
+    "MED-0002",
+    "MED-0003",
+    "MED-0004",
+    "MED-0005"
+   ]
+  },
+  {
+   "id": "recipient_support_group_membership.recipient_ref -> recipients_demographics.recip_registry",
+   "source_table": "recipient_support_group_membership",
+   "source_column": "recipient_ref",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 9,
+   "source_distinct": 5,
+   "target_rows": 787,
+   "score": 2.76,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "R296644",
+    "R450573",
+    "R407504",
+    "R653676",
+    "R417569"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "recipient_support_group_membership.group_ref -> support_groups.group_registry",
+   "source_table": "recipient_support_group_membership",
+   "source_column": "group_ref",
+   "target_table": "support_groups",
+   "target_key": "group_registry",
+   "source_rows": 9,
+   "source_distinct": 7,
+   "target_rows": 7,
+   "score": 4.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SG001",
+    "SG003",
+    "SG002",
+    "SG006",
+    "SG005"
+   ],
+   "target_samples": [
+    "SG001",
+    "SG002",
+    "SG003",
+    "SG004",
+    "SG005"
+   ]
+  },
+  {
+   "id": "risk_evaluation.donor_ref_reg -> demographics.contrib_registry",
+   "source_table": "risk_evaluation",
+   "source_column": "donor_ref_reg",
+   "target_table": "demographics",
+   "target_key": "contrib_registry",
+   "source_rows": 774,
+   "source_distinct": 597,
+   "target_rows": 659,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "D812743",
+    "D120007",
+    "D685621",
+    "D887241",
+    "D245085"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ]
+  },
+  {
+   "id": "risk_evaluation.recip_ref_reg -> recipients_demographics.recip_registry",
+   "source_table": "risk_evaluation",
+   "source_column": "recip_ref_reg",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 774,
+   "source_distinct": 699,
+   "target_rows": 787,
+   "score": 4.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "R947153",
+    "R159571",
+    "R372719",
+    "R279115",
+    "R914914"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "surgeon_hospital_affiliations.surgeon_ref -> surgeons.surgeon_registry",
+   "source_table": "surgeon_hospital_affiliations",
+   "source_column": "surgeon_ref",
+   "target_table": "surgeons",
+   "target_key": "surgeon_registry",
+   "source_rows": 7,
+   "source_distinct": 4,
+   "target_rows": 11,
+   "score": 2.41,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SURG-0001",
+    "SURG-0002",
+    "SURG-0003",
+    "SURG-0004"
+   ],
+   "target_samples": [
+    "SURG-0001",
+    "SURG-0002",
+    "SURG-0003",
+    "SURG-0004",
+    "SURG-0005"
+   ]
+  },
+  {
+   "id": "surgeon_hospital_affiliations.hospital_ref -> hospitals.hospital_registry",
+   "source_table": "surgeon_hospital_affiliations",
+   "source_column": "hospital_ref",
+   "target_table": "hospitals",
+   "target_key": "hospital_registry",
+   "source_rows": 7,
+   "source_distinct": 3,
+   "target_rows": 7,
+   "score": 2.5,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "HOSP-0001",
+    "HOSP-0002",
+    "HOSP-0003"
+   ],
+   "target_samples": [
+    "HOSP-0001",
+    "HOSP-0002",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0005"
+   ]
+  },
+  {
+   "id": "team_training_participation.team_ref -> medical_teams.team_registry",
+   "source_table": "team_training_participation",
+   "source_column": "team_ref",
+   "target_table": "medical_teams",
+   "target_key": "team_registry",
+   "source_rows": 8,
+   "source_distinct": 4,
+   "target_rows": 7,
+   "score": 2.93,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TEAM-0001",
+    "TEAM-0002",
+    "TEAM-0003",
+    "TEAM-0004"
+   ],
+   "target_samples": [
+    "TEAM-0001",
+    "TEAM-0002",
+    "TEAM-0003",
+    "TEAM-0004",
+    "TEAM-0005"
+   ]
+  },
+  {
+   "id": "team_training_participation.training_ref -> training_programs.training_registry",
+   "source_table": "team_training_participation",
+   "source_column": "training_ref",
+   "target_table": "training_programs",
+   "target_key": "training_registry",
+   "source_rows": 8,
+   "source_distinct": 4,
+   "target_rows": 8,
+   "score": 2.75,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TRAIN-0001",
+    "TRAIN-0002",
+    "TRAIN-0003",
+    "TRAIN-0004"
+   ],
+   "target_samples": [
+    "TRAIN-0001",
+    "TRAIN-0002",
+    "TRAIN-0003",
+    "TRAIN-0004",
+    "TRAIN-0005"
+   ]
+  },
+  {
+   "id": "tissue_samples.donor_ref -> hla_info.immu_don_registry",
+   "source_table": "tissue_samples",
+   "source_column": "donor_ref",
+   "target_table": "hla_info",
+   "target_key": "immu_don_registry",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 534,
+   "score": 2.87,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "D812743",
+    "D120007",
+    "D245085"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102948",
+    "D105128",
+    "D106315"
+   ]
+  },
+  {
+   "id": "transplant_matching.donor_ref_reg -> demographics.contrib_registry",
+   "source_table": "transplant_matching",
+   "source_column": "donor_ref_reg",
+   "target_table": "demographics",
+   "target_key": "contrib_registry",
+   "source_rows": 947,
+   "source_distinct": 637,
+   "target_rows": 659,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "D812743",
+    "D120007",
+    "D685621",
+    "D887241",
+    "D245085"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ]
+  },
+  {
+   "id": "transplant_matching.recip_ref_reg -> recipients_demographics.recip_registry",
+   "source_table": "transplant_matching",
+   "source_column": "recip_ref_reg",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 947,
+   "source_distinct": 755,
+   "target_rows": 787,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "R947153",
+    "R159571",
+    "R372719",
+    "R279115",
+    "R914914"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "transportation.origin_hospital -> hospitals.hospital_registry",
+   "source_table": "transportation",
+   "source_column": "origin_hospital",
+   "target_table": "hospitals",
+   "target_key": "hospital_registry",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 7,
+   "score": 3.58,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "HOSP-0001",
+    "HOSP-0005",
+    "HOSP-0007"
+   ],
+   "target_samples": [
+    "HOSP-0001",
+    "HOSP-0002",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0005"
+   ]
+  },
+  {
+   "id": "transportation.destination_hospital -> hospitals.hospital_registry",
+   "source_table": "transportation",
+   "source_column": "destination_hospital",
+   "target_table": "hospitals",
+   "target_key": "hospital_registry",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 7,
+   "score": 3.07,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "HOSP-0003",
+    "HOSP-0002",
+    "HOSP-0004"
+   ],
+   "target_samples": [
+    "HOSP-0001",
+    "HOSP-0002",
+    "HOSP-0003",
+    "HOSP-0004",
+    "HOSP-0005"
+   ]
+  },
+  {
+   "id": "administrative_and_review.adm_rev_registry -> transplant_matching.match_rec_registry",
+   "source_table": "administrative_and_review",
+   "source_column": "adm_rev_registry",
+   "target_table": "transplant_matching",
+   "target_key": "match_rec_registry",
+   "source_rows": 641,
+   "source_distinct": 641,
+   "target_rows": 947,
+   "score": 3.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM105599",
+    "TM107654"
+   ],
+   "target_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM105599",
+    "TM107654"
+   ]
+  },
+  {
+   "id": "allocation_details.allc_match_registry -> transplant_matching.match_rec_registry",
+   "source_table": "allocation_details",
+   "source_column": "allc_match_registry",
+   "target_table": "transplant_matching",
+   "target_key": "match_rec_registry",
+   "source_rows": 561,
+   "source_distinct": 561,
+   "target_rows": 947,
+   "score": 3.07,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM107654",
+    "TM109908"
+   ],
+   "target_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM105599",
+    "TM107654"
+   ]
+  },
+  {
+   "id": "clinical.clin_recip_registry -> recipients_demographics.recip_registry",
+   "source_table": "clinical",
+   "source_column": "clin_recip_registry",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 607,
+   "source_distinct": 607,
+   "target_rows": 787,
+   "score": 3.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "compatibility_metrics.match_comp_registry -> transplant_matching.match_rec_registry",
+   "source_table": "compatibility_metrics",
+   "source_column": "match_comp_registry",
+   "target_table": "transplant_matching",
+   "target_key": "match_rec_registry",
+   "source_rows": 870,
+   "source_distinct": 870,
+   "target_rows": 947,
+   "score": 3.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM105599",
+    "TM109908"
+   ],
+   "target_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM105599",
+    "TM107654"
+   ]
+  },
+  {
+   "id": "data_source_and_quality.q_match_registry -> transplant_matching.match_rec_registry",
+   "source_table": "data_source_and_quality",
+   "source_column": "q_match_registry",
+   "target_table": "transplant_matching",
+   "target_key": "match_rec_registry",
+   "source_rows": 859,
+   "source_distinct": 859,
+   "target_rows": 947,
+   "score": 3.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM105599",
+    "TM107654"
+   ],
+   "target_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM105599",
+    "TM107654"
+   ]
+  },
+  {
+   "id": "function_and_recovery.recov_don_registry -> demographics.contrib_registry",
+   "source_table": "function_and_recovery",
+   "source_column": "recov_don_registry",
+   "target_table": "demographics",
+   "target_key": "contrib_registry",
+   "source_rows": 513,
+   "source_distinct": 513,
+   "target_rows": 659,
+   "score": 3.26,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "D100046",
+    "D102948",
+    "D103887",
+    "D105128",
+    "D106315"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ]
+  },
+  {
+   "id": "hla_info.immu_don_registry -> demographics.contrib_registry",
+   "source_table": "hla_info",
+   "source_column": "immu_don_registry",
+   "target_table": "demographics",
+   "target_key": "contrib_registry",
+   "source_rows": 534,
+   "source_distinct": 534,
+   "target_rows": 659,
+   "score": 3.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "D100046",
+    "D102099",
+    "D102948",
+    "D105128",
+    "D106315"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ]
+  },
+  {
+   "id": "logistics.log_match_registry -> transplant_matching.match_rec_registry",
+   "source_table": "logistics",
+   "source_column": "log_match_registry",
+   "target_table": "transplant_matching",
+   "target_key": "match_rec_registry",
+   "source_rows": 518,
+   "source_distinct": 518,
+   "target_rows": 947,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM105599",
+    "TM107654"
+   ],
+   "target_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM105599",
+    "TM107654"
+   ]
+  },
+  {
+   "id": "medical_history.contrib_med_registry -> demographics.contrib_registry",
+   "source_table": "medical_history",
+   "source_column": "contrib_med_registry",
+   "target_table": "demographics",
+   "target_key": "contrib_registry",
+   "source_rows": 575,
+   "source_distinct": 575,
+   "target_rows": 659,
+   "score": 3.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ],
+   "target_samples": [
+    "D100046",
+    "D102099",
+    "D102815",
+    "D102948",
+    "D103887"
+   ]
+  },
+  {
+   "id": "recipients_immunology.immu_recip_registry -> recipients_demographics.recip_registry",
+   "source_table": "recipients_immunology",
+   "source_column": "immu_recip_registry",
+   "target_table": "recipients_demographics",
+   "target_key": "recip_registry",
+   "source_rows": 645,
+   "source_distinct": 645,
+   "target_rows": 787,
+   "score": 3.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "R100765",
+    "R108156",
+    "R113680",
+    "R115467",
+    "R115770"
+   ],
+   "target_samples": [
+    "R100765",
+    "R102248",
+    "R108156",
+    "R108621",
+    "R113680"
+   ]
+  },
+  {
+   "id": "risk_evaluation.risk_eval_registry -> transplant_matching.match_rec_registry",
+   "source_table": "risk_evaluation",
+   "source_column": "risk_eval_registry",
+   "target_table": "transplant_matching",
+   "target_key": "match_rec_registry",
+   "source_rows": 774,
+   "source_distinct": 774,
+   "target_rows": 947,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "TM100007",
+    "TM103959",
+    "TM105599",
+    "TM107654",
+    "TM110998"
+   ],
+   "target_samples": [
+    "TM100007",
+    "TM102304",
+    "TM103959",
+    "TM105599",
+    "TM107654"
+   ]
+  }
+ ]
+}

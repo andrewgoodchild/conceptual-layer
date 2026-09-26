@@ -1,0 +1,13 @@
+{
+  "company": {
+    "sqlite": "../.work/company.sqlite",
+    "model": "../.work/company.ccm.json"
+  },
+  "chinook": {
+    "sqlite": "../examples/db/chinook.sqlite"
+  },
+  "warehouse": {
+    "dsn": "postgresql://USER:PASSWORD@localhost:5432/warehouse",
+    "model": "models/warehouse.ccm.json"
+  }
+}

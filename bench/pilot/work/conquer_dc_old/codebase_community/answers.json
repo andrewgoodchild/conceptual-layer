@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 604,
+  "answer": "LIST au, aa FROM User u has UserId id AND ALSO (div(id,id)-div(id,id)) AS g WHERE THE COUNT OF Post [has owner User: !u] > 10 AND ALSO THE AVERAGE x IN u OPTIONALLY has UserUpVotes x GROUPED BY g AS au AND ALSO THE AVERAGE y IN u OPTIONALLY has UserAge y GROUPED BY g AS aa",
+  "attempts": 11
+ },
+ {
+  "question_id": 584,
+  "answer": "LIST n FROM Comment has User u AND ALSO has CommentText n WHERE THE COUNT OF PostHistory [has User: !u] has Post [has PostTitle: 'Why square the difference instead of taking the absolute value in standard deviation?'] > 0",
+  "attempts": 6
+ },
+ {
+  "question_id": 537,
+  "answer": "THE COUNT OF Post has owner User has UserDisplayName: 'csgillespie'",
+  "attempts": 2
+ },
+ {
+  "question_id": 704,
+  "answer": "LIST e, w FROM Tag [has TagName: 'sample'] has Post has PostId e AND ALSO has TagWikiPostId w",
+  "attempts": 1
+ },
+ {
+  "question_id": 665,
+  "answer": "(THE COUNT OF PostLink [has PostLinkCreationDate d] has Post [has PostAnswerCount a] WHERE year(d) = 2010 AND a <= 2) / 12",
+  "attempts": 4
+ },
+ {
+  "question_id": 672,
+  "answer": "THE DISTINCT COUNT OF User u [has UserLocation: 'United Kingdom'] WHERE THE COUNT OF Post [has owner User: !u] [has PostFavoriteCount f] WHERE f >= 4 > 0",
+  "attempts": 3
+ },
+ {
+  "question_id": 701,
+  "answer": "(THE COUNT OF Post [has owner User: '919'] [has PostScore s] WHERE s > 50) * 100 / (THE COUNT OF Post has owner User: '919')",
+  "attempts": 4
+ },
+ {
+  "question_id": 567,
+  "answer": "THE COUNT OF Post has owner User has UserDisplayName: 'Tiago Pasqualini'",
+  "attempts": 1
+ },
+ {
+  "question_id": 539,
+  "answer": "LIST n FROM Post [has PostTitle: 'Eliciting priors from experts'] has owner User has UserDisplayName n",
+  "attempts": 2
+ },
+ {
+  "question_id": 563,
+  "answer": "LIST f FROM Comment [has User: '3025'] [has CommentCreationDate: '2014-04-23 20:29:39.0'] has Post has PostFavoriteCount f",
+  "attempts": 1
+ }
+]

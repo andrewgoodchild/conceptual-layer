@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 604,
+  "answer": "LIST THE AVERAGE uv IN (User u has UserUpVotes uv WHERE (THE COUNT OF Post [has owner User: !u]) > 10), THE AVERAGE age IN (User u has UserAge age WHERE (THE COUNT OF Post [has owner User: !u]) > 10)",
+  "attempts": 3
+ },
+ {
+  "question_id": 584,
+  "answer": "LIST ct FROM Comment has CommentText ct AND ALSO has User u AND ALSO (u is of PostHistory has Post has PostTitle: 'Why square the difference instead of taking the absolute value in standard deviation?')",
+  "attempts": 4
+ },
+ {
+  "question_id": 537,
+  "answer": "THE COUNT OF Post [has owner User has UserDisplayName: 'csgillespie']",
+  "attempts": 2
+ },
+ {
+  "question_id": 704,
+  "answer": "LIST eid, w FROM Tag [has TagName: 'sample'] has Post has PostId eid AND ALSO has TagWikiPostId w",
+  "attempts": 2
+ },
+ {
+  "question_id": 665,
+  "answer": "(THE COUNT OF PostLink [has PostLinkCreationDate d] [has Post [has PostAnswerCount ac]] WHERE year(d) = 2010 AND ac <= 2) / 12",
+  "attempts": 3
+ },
+ {
+  "question_id": 672,
+  "answer": "THE COUNT OF u IN (User u [has UserLocation: 'United Kingdom'] AND ALSO is owner of Post has PostFavoriteCount fc AND ALSO THE SUM OF fc GROUPED BY u AS s WHERE s >= 4)",
+  "attempts": 4
+ },
+ {
+  "question_id": 701,
+  "answer": "(THE COUNT OF Post [has owner User: 919] [has PostScore sc] WHERE sc > 50) * 100 / (THE COUNT OF Post [has owner User: 919])",
+  "attempts": 4
+ },
+ {
+  "question_id": 567,
+  "answer": "THE COUNT OF Post [has owner User has UserDisplayName: 'Tiago Pasqualini']",
+  "attempts": 1
+ },
+ {
+  "question_id": 539,
+  "answer": "LIST n FROM Post [has PostTitle: 'Eliciting priors from experts'] has owner User has UserDisplayName n",
+  "attempts": 1
+ },
+ {
+  "question_id": 563,
+  "answer": "LIST fc FROM Comment [has User: 3025] [has CommentCreationDate: '2014-04-23 20:29:39.0'] has Post has PostFavoriteCount fc",
+  "attempts": 1
+ }
+]

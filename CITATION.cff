@@ -1,0 +1,430 @@
+cff-version: 1.2.0
+title: conceptual-layer
+message: >-
+  If you use this software or its measurements, please cite it, and cite the
+  1994 report the language comes from.
+type: software
+authors:
+  - family-names: Goodchild
+    given-names: Andrew
+repository-code: https://github.com/andrewgoodchild/conceptual-layer
+abstract: >-
+  A conceptual layer: a database's schema grounded in its data and described
+  in sentences, ready for an agent to read. It is kept as an ORM model drafted
+  from the catalogue and the rows (keys, references, value domains,
+  identifiers, the schema inside JSON columns, what profiling the rows finds),
+  described to a query writer in its own sentences or in relational terms, and
+  served to agents over the Model Context Protocol; with an optional compiler
+  from ConQuer-92, H. A. Proper's 1994 conceptual query language, to SQL for
+  SQLite and PostgreSQL; and the pre-registered measurements of what each is
+  worth to an LLM writing queries. The model's sentences helped where they
+  carried what the DDL does not -- definitions the business has written down
+  (about +8 points on BIRD, in either language, and as much given to a SQL
+  writer as plain English) and what identifies a thing or sits inside a
+  document. ConQuer gained nothing measurable over SQL, at more tokens. On
+  schemas of about 980 columns, four rounds found nothing -- the layer's
+  descriptions, checked derivations, or the benchmark's own column descriptions
+  -- that beat a DDL narrowed to the question, for agents that can query the
+  data.
+keywords:
+  - text-to-SQL
+  - object-role modeling
+  - conceptual query language
+  - data reverse engineering
+  - data profiling
+license: Apache-2.0
+# The sources the repository implements, tests against, measures on or uses data
+# from, and the few its explanation leans on; each entry's notes say where it is
+# used. docs/08-history.md carries its own citations for the lineage it traces.
+# NOTICE records the terms of the material that is fetched rather than distributed.
+# Entries known only by author, venue and year are cited that way in the work that
+# relies on them; their full titles were not recorded and are not guessed.
+references:
+  # --- The language -----------------------------------------------------------
+  - type: report
+    title: ConQuer-92 — The revised report on the conceptual query language LISA-D
+    authors:
+      - family-names: Proper
+        given-names: H. A.
+    year: 1994
+    institution:
+      name: Asymetrix Research Laboratory, University of Queensland
+    number: Asymetrix Report 94-5
+    url: https://arxiv.org/abs/2105.11926
+    identifiers:
+      - type: other
+        value: "arXiv:2105.11926"
+    license: CC-BY-4.0
+    notes: >-
+      The language the compiler implements: the grammar
+      (conquer/conquer-2026-grammar.ebnf), the path-expression semantics and the
+      verbalisation rules; model/examples/presidents.ccm.json encodes its
+      running example.
+  - type: article
+    title: >-
+      Formal definition of a conceptual language for the description and
+      manipulation of information models
+    authors:
+      - family-names: ter Hofstede
+        given-names: A. H. M.
+      - family-names: Proper
+        given-names: H. A.
+      - family-names: van der Weide
+        given-names: Th. P.
+    journal: Information Systems
+    volume: 18
+    issue: "7"
+    start: 489
+    end: 523
+    year: 1993
+    notes: >-
+      LISA-D, which ConQuer-92 restricts and extends ([HPW93] in
+      conquer/conquer-2026.md).
+  - type: generic
+    title: "Rel: A Programming Language for Relational Data"
+    authors:
+      - family-names: Aref
+        given-names: M.
+      - name: et al.
+    year: 2025
+    url: https://arxiv.org/abs/2504.10323
+    identifiers:
+      - type: other
+        value: "arXiv:2504.10323"
+    notes: >-
+      Its integrity-constraint counterexamples (§3.5) are the model for
+      conquer.py --constraints (conquer/tests/test_constraints.py).
+  - type: conference-paper
+    title: Constellation Query Language
+    authors:
+      - family-names: Heath
+        given-names: C.
+    conference:
+      name: OTM 2009
+    year: 2009
+    notes: >-
+      Its verbaliser (activefacts-cql) is what conquer/normalise.py is compared
+      with.
+
+  # --- The model: Object-Role Modeling ----------------------------------------
+  - type: book
+    title: Information Modeling and Relational Databases
+    authors:
+      - family-names: Halpin
+        given-names: T.
+      - family-names: Morgan
+        given-names: T.
+    edition: 2nd
+    publisher:
+      name: Morgan Kaufmann
+    year: 2008
+    notes: The ORM the model format follows (model/model.md).
+  - type: book
+    title: Conceptual Schema and Relational Database Design
+    authors:
+      - family-names: Halpin
+        given-names: T. A.
+    edition: 2nd
+    publisher:
+      name: Prentice-Hall
+    year: 1995
+    notes: >-
+      Rmap, which the reverse engineer inverts (reverse/derive.py); the figure
+      behind model/tests/test_abstract.py (p. 402).
+  - type: report
+    title: ORM 2 Constraint Verbalization
+    authors:
+      - family-names: Halpin
+        given-names: T.
+      - family-names: Curland
+        given-names: M.
+    institution:
+      name: Neumont University
+    number: ORM2-02
+    year: 2006
+    notes: >-
+      FORML 2; every expected string in model/tests/test_forml.py is quoted
+      from it.
+  - type: conference-paper
+    title: A role calculus for ORM
+    authors:
+      - family-names: Curland
+        given-names: M.
+      - family-names: Halpin
+        given-names: T.
+      - family-names: Stirewalt
+        given-names: K.
+    conference:
+      name: OTM 2009 Workshops
+    collection-title: LNCS
+    volume: 5872
+    start: 692
+    end: 701
+    year: 2009
+    notes: >-
+      The role-path level the compiler lowers through (model/model.md §0).
+  - type: software
+    title: NORMA (Neumont ORM Architect), ORM2Core.xsd
+    authors:
+      - name: Neumont University
+    license: Zlib
+    notes: >-
+      The .orm export is validated against it (model/reference/orm-metamodel.md).
+
+  # --- Reverse engineering and key discovery -----------------------------------
+  - type: thesis
+    title: >-
+      Data Reverse Engineering: from a Relational Database System to a
+      3-Dimensional Conceptual Schema
+    authors:
+      - family-names: Bird
+        given-names: L. J.
+        name-suffix: (née Campbell)
+    thesis-type: PhD
+    institution:
+      name: University of Queensland
+    year: 1997
+    notes: >-
+      The method reverse/ follows rule by rule
+      (reverse/relational-to-orm-reverse-engineering.md): the extraction
+      steps, the population analysis (Step 9), the abstraction levels
+      (model/abstract.py), and the DREC case study (Appendix F.2).
+  - type: article
+    title: Abstractions — making flat conceptual schemas more comprehensible
+    authors:
+      - family-names: Campbell
+        given-names: L. J.
+      - family-names: Halpin
+        given-names: T. A.
+      - family-names: Proper
+        given-names: H. A.
+    journal: Data & Knowledge Engineering
+    volume: 20
+    issue: "1"
+    start: 39
+    end: 85
+    year: 1996
+    notes: The abstraction model/abstract.py implements.
+  - type: conference-paper
+    title: Observed idiosyncrasies of relational database designs
+    authors:
+      - family-names: Blaha
+        given-names: M.
+      - family-names: Premerlani
+        given-names: W.
+    conference:
+      name: WCRE 1995
+    year: 1995
+    notes: The source of reverse/tests/scenarios/01-legacy-erp.sql.
+  - type: generic
+    title: A Machine Learning Approach to Foreign Key Discovery
+    authors:
+      - family-names: Rostin
+        given-names: A.
+      - name: et al.
+    year: 2009
+    notes: >-
+      The heuristic features over inclusion dependencies reverse/population.py
+      draws on.
+  - type: conference-paper
+    title: On Multi-Column Foreign Key Discovery
+    authors:
+      - family-names: Zhang
+        given-names: M.
+      - name: et al.
+    conference:
+      name: VLDB 2010
+    year: 2010
+    notes: >-
+      The value-distribution ("randomness") test reverse/population.py
+      implements.
+  - type: generic
+    title: Feature importances for foreign-key detection
+    authors:
+      - family-names: Motl
+      - family-names: Kordík
+    notes: >-
+      Title not recorded; described by its finding. Global assignment worth as
+      much as any one feature, which reverse/population.py does.
+  - type: article
+    title: Holistic primary key and foreign key detection (HoPF)
+    authors:
+      - family-names: Jiang
+        given-names: L.
+      - family-names: Naumann
+        given-names: F.
+    journal: Journal of Intelligent Information Systems
+    volume: 54
+    start: 439
+    end: 461
+    year: 2020
+    notes: >-
+      The bar the inference is scored against: 88% of primary keys
+      (reverse/tests/test_inference.py).
+  - type: generic
+    title: Scalable Join Inference for Large Context Graphs
+    authors:
+      - name: Not recorded
+    url: https://arxiv.org/abs/2603.04176
+    identifiers:
+      - type: other
+        value: "arXiv:2603.04176"
+    notes: The pipeline bench/ablation/ ablates step by step.
+
+  # --- Semantic layers --------------------------------------------------------
+  # The positioning in README.md, and the fan-out behaviour the compiler is
+  # compared with.
+  - type: software
+    title: Malloy
+    authors:
+      - name: Malloy
+    notes: >-
+      Aggregate locality and join elimination; probed in bench/malloy-probe/.
+  - type: software
+    title: MetricFlow (dbt Semantic Layer)
+    authors:
+      - name: dbt Labs
+    notes: >-
+      Refusing joins into a foreign entity; dbt's claim that model-held
+      definitions replace hints is the one the semantic-layer round tests
+      (bench/pilot/README.md).
+  - type: software
+    title: LookML
+    authors:
+      - name: Looker
+    notes: Named in README.md as the same idea.
+  - type: software
+    title: Cube
+    authors:
+      - name: Cube
+    notes: Named in README.md as the same idea.
+
+  # --- Benchmarks and evaluation ----------------------------------------------
+  - type: conference-paper
+    title: >-
+      Can LLM already serve as a database interface? A BIg bench for
+      large-scale database grounded text-to-SQLs
+    authors:
+      - family-names: Li
+        given-names: J.
+      - name: et al.
+    conference:
+      name: NeurIPS 2023
+    year: 2023
+    url: https://bird-bench.github.io/
+    notes: BIRD. The mini-dev set behind the head-to-head results.
+  - type: data
+    title: LiveSQLBench (Large-v1 and base-lite-sqlite)
+    authors:
+      - name: BIRD team
+    url: https://huggingface.co/datasets/birdsql/livesqlbench-large-v1
+    notes: The SQLite and PostgreSQL tiers (bench/livesql/).
+  - type: conference-paper
+    title: >-
+      Spider 2.0: Evaluating Language Models on Real-World Enterprise
+      Text-to-SQL Workflows
+    authors:
+      - family-names: Lei
+        given-names: F.
+      - name: et al.
+    conference:
+      name: ICLR 2025
+    year: 2025
+    url: https://github.com/xlang-ai/Spider2
+    notes: The offline SQLite slice (bench/spider2-trial/).
+  - type: conference-paper
+    title: Jin et al., CIDR 2026
+    authors:
+      - family-names: Jin
+      - name: et al.
+    conference:
+      name: CIDR 2026
+    year: 2026
+    notes: >-
+      Title not recorded. The 66% annotation-error rate for Spider2.0-Snow
+      that bench/spider2-trial/ reproduces on the offline slice.
+  - type: conference-paper
+    title: Chen et al., SIGMOD 2025
+    authors:
+      - family-names: Chen
+      - name: et al.
+    conference:
+      name: SIGMOD 2025
+    year: 2025
+    notes: >-
+      Title not recorded. Abstention in text-to-SQL: coverage, selective
+      accuracy and silent errors in bench/livesql/score_sqlite.py.
+  - type: article
+    title: Wen et al., TACL 2025
+    authors:
+      - family-names: Wen
+      - name: et al.
+    journal: TACL
+    year: 2025
+    notes: >-
+      Title not recorded. The framing of coverage, selective accuracy and
+      silent errors in bench/livesql/score_sqlite.py.
+
+  # --- What the measurements are set against ---------------------------------
+  # docs/07-what-we-measured.md, "At scale, nothing beat the DDL".
+  - type: conference-paper
+    title: >-
+      A Benchmark to Understand the Role of Knowledge Graphs on Large Language
+      Model's Accuracy for Question Answering on Enterprise SQL Databases
+    authors:
+      - family-names: Sequeda
+        given-names: J.
+      - family-names: Allemang
+        given-names: D.
+      - family-names: Jacob
+        given-names: B.
+    conference:
+      name: GRADES-NDA 2024
+    year: 2024
+    doi: 10.1145/3661304.3661901
+    identifiers:
+      - type: other
+        value: "arXiv:2311.07509"
+    notes: >-
+      An ontology and mappings over an enterprise schema: 16% to 54% for GPT-4
+      zero-shot. The nearest published counterpart to a conceptual layer.
+  - type: generic
+    title: Automatic Metadata Extraction for Text-to-SQL
+    authors:
+      - family-names: Shkapenyuk
+        given-names: V.
+      - name: et al.
+    year: 2025
+    url: https://arxiv.org/abs/2505.19988
+    identifiers:
+      - type: other
+        value: "arXiv:2505.19988"
+    notes: Profiling-derived metadata, at the top of BIRD's leaderboard.
+  - type: generic
+    title: Automatic database description generation for Text-to-SQL
+    authors:
+      - family-names: Gao
+        given-names: Y.
+      - family-names: Luo
+        given-names: Z.
+    year: 2025
+    url: https://arxiv.org/abs/2502.20657
+    identifiers:
+      - type: other
+        value: "arXiv:2502.20657"
+    notes: LLM-generated table and column descriptions, +0.93 points on BIRD.
+
+  # --- Sample data ------------------------------------------------------------
+  - type: data
+    title: Chinook
+    authors:
+      - name: lerocha
+    repository: https://github.com/lerocha/chinook-database
+    notes: >-
+      With the Chinook question numbering of
+      https://github.com/LucasMcL/15-sql_queries_02-chinook.
+  - type: data
+    title: Northwind (SQLite3)
+    authors:
+      - name: jpwhite3
+    repository: https://github.com/jpwhite3/northwind-SQLite3

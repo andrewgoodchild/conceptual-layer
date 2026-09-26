@@ -1,0 +1,90 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST n FROM ForeignData [has ForeignDataMultiverseid: '149934'] has ForeignDataLanguage n",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 346,
+  "answer": "LIST id, a FROM Legality [has LegalityFormat: 'commander'] [has LegalityStatus: 'Legal'] has Card has CardId id AND ALSO has Card has CardArtist a AND ALSO has Card has CardUuid u WHERE THE COUNT OF Card [has CardUuid: !u] [has CardPower <> '*'] = 0",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 1,
+  "candidates": 1
+ },
+ {
+  "question_id": 473,
+  "answer": "LIST f FROM Set has SetCode c AND ALSO has SetIsForeignOnly f WHERE c = 'C14' OR c = 'C18' OR c = 'CSP' OR c = 'MMA' OR c = 'PLIST'",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 2,
+  "candidates": 2
+ },
+ {
+  "question_id": 424,
+  "answer": "THE COUNT OF Card [has CardIsTextless: 1] [has CardLayout: 'normal'] * 100 / THE COUNT OF Card",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST n FROM Legality [has LegalityFormat: 'gladiator'] [has LegalityStatus: 'Banned'] has Card [has CardRarity: 'mythic'] has CardName n",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 1,
+  "candidates": 2
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes <> 'Angel']",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 352,
+  "answer": "THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF ForeignData",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 518,
+  "answer": "LIST f, n FROM Legality [has LegalityFormat: 'legacy'] [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO has Card has CardName n",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 416,
+  "answer": "(THE DISTINCT COUNT OF u IN ForeignData [has ForeignDataLanguage: 'French'] has Card has CardUuid u - THE DISTINCT COUNT OF u IN ForeignData [has ForeignDataLanguage: 'French'] has Card [has CardPower <> '*'] has CardUuid u) * 100 / (THE COUNT OF Card - THE COUNT OF Card [has CardPower <> '*'])",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 1,
+  "candidates": 1
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST name, artist, promo FROM Card crd has CardName name AND ALSO has CardArtist artist AND ALSO has CardIsPromo promo AND ALSO is of Ruling r AND ALSO THE COUNT OF r GROUPED BY crd AS c ORDERED WITH c DESCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer_run2",
+  "agreement": 2,
+  "candidates": 3
+ },
+ {
+  "question_id": 462,
+  "answer": "LIST t FROM SetTranslation [has SetTranslationLanguage: 'Italian'] has SetTranslationTranslation t AND ALSO has Set has SetCode c WHERE c = '10E' OR c = 'JUD' OR c = 'UMA'",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 2,
+  "candidates": 2
+ }
+]

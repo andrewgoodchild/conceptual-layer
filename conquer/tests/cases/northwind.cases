@@ -1,0 +1,88 @@
+# Northwind. Database: https://github.com/jpwhite3/northwind-SQLite3 (dist/northwind.db).
+# The questions are the standard Northwind exercises; unlike the Chinook file, the reference
+# SQL here was written for this project rather than taken from a published solution set, so
+# it is an independent second implementation rather than an external authority.
+# Model: reverse engineered by reverse/reverse.py, no hand editing.
+#
+# This file exists mainly to exercise things Chinook does not: a table name containing a
+# space ("Order Details"), an objectified association (OrderDetail), and a pure association
+# with no payload (EmployeeTerritory).
+#
+# Cases whose name starts with SLOW are skipped unless compare.py is given --slow. The one
+# here is a correlated aggregate over 609,283 unindexed order lines; the REFERENCE SQL takes
+# ~23s to return 200 rows, so the cost is the query shape and the data, not the transpiler.
+
+=== Products supplied from Japan
+--- conquer
+LIST pid, pname FROM Product has ProductId pid AND ALSO has ProductName pname
+    AND ALSO has Supplier has SupplierCountry: 'Japan'
+--- sql
+select p.ProductID, p.ProductName from Products p
+join Suppliers s on s.SupplierID = p.SupplierID where s.Country = 'Japan'
+
+=== Discontinued products with their category
+--- conquer
+LIST pname, cname FROM Product [has ProductName pname] [has ProductDiscontinued: 1]
+    has Category has CategoryName cname
+--- sql
+select p.ProductName, c.CategoryName from Products p
+join Categories c on c.CategoryID = p.CategoryID where p.Discontinued = 1
+
+=== Order lines: an objectified association carrying a payload
+--- conquer
+LIST oid, pname, qty FROM OrderDetail has OrderDetailQuantity qty
+    AND ALSO has Order has OrderId oid
+    AND ALSO has Product has ProductName pname
+--- sql
+select od.OrderID, p.ProductName, od.Quantity from "Order Details" od
+join Products p on p.ProductID = od.ProductID
+
+=== Orders shipped to France with the employee who took them
+--- conquer
+LIST oid, lname FROM Order [has OrderId oid] [has OrderShipCountry: 'France']
+    has Employee has EmployeeLastName lname
+--- sql
+select o.OrderID, e.LastName from Orders o
+join Employees e on e.EmployeeID = o.EmployeeID where o.ShipCountry = 'France'
+
+=== Employee territories: a pure association with no payload
+--- conquer
+LIST lname, tdesc FROM Employee [has EmployeeLastName lname]
+    has Territory has TerritoryDescription tdesc
+--- sql
+select e.LastName, t.TerritoryDescription from Employees e
+join EmployeeTerritories et on et.EmployeeID = e.EmployeeID
+join Territories t on t.TerritoryID = et.TerritoryID
+
+=== Territories in the Eastern region
+--- conquer
+LIST tdesc FROM Territory has TerritoryDescription tdesc
+    AND ALSO has Region has RegionDescription: 'Eastern'
+--- sql
+select t.TerritoryDescription from Territories t
+join Regions r on r.RegionID = t.RegionID where r.RegionDescription = 'Eastern'
+
+=== Employees who report to employee 2
+--- conquer
+LIST eid, lname FROM Employee has EmployeeId eid AND ALSO has EmployeeLastName lname
+    AND ALSO reports to Employee has EmployeeId: 2
+--- sql
+select e.EmployeeID, e.LastName from Employees e where e.ReportsTo = 2
+
+=== SLOW Order lines priced above the average line price for their product
+--- conquer
+LIST oid, qty FROM OrderDetail has Order has OrderId oid
+    AND ALSO has OrderDetailQuantity qty
+    AND ALSO has OrderDetailUnitPrice up
+    AND ALSO has Product p
+    WHERE up > THE AVERAGE OrderDetail [has Product: !p] has OrderDetailUnitPrice
+--- sql
+select o.OrderID, od.Quantity from "Order Details" od join Orders o on o.OrderID = od.OrderID
+where od.UnitPrice > (select avg(x.UnitPrice) from "Order Details" x
+                      where x.ProductID = od.ProductID)
+
+=== Average unit price across all order lines
+--- conquer
+THE AVERAGE OrderDetail has OrderDetailUnitPrice
+--- sql
+select avg(UnitPrice) from "Order Details"

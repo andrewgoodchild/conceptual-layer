@@ -1,0 +1,34 @@
+[
+ {
+  "question_id": "exchange_traded_funds_13",
+  "answer": "THE DISTINCT COUNT OF f IN Fund f is of Holding has HoldingPct p AND ALSO f is of RiskMetric has RiskMetricAlpha5y a WHERE p > 0.08 AND a > 0"
+ },
+ {
+  "question_id": "exchange_traded_funds_12",
+  "answer": "DEFINE Amv ::= LIST f, a FROM Fund f is of RiskMetric r AND ALSO f is of Performance p AND ALSO r has RiskMetricAvgreturn3y ar AND ALSO r has RiskMetricVolatility3y vol AND ALSO p has PerformanceBenchr3y br AND ALSO f has FundExpensenet en AND ALSO f has FundBenchmarkexp be AND ALSO ((ar - br) / vol) - ((en - be) * 10) AS a\nLIST t, round(a, 4), round((THE COUNT OF Fund [has Amv AmvA x] WHERE x > 0) * 100.0 / THE COUNT OF Fund [has Amv AmvA], 4) FROM Fund has FundTickersym t AND ALSO has Amv AmvA a ORDERED WITH a DESCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "exchange_traded_funds_8",
+  "answer": "LIST c, n, round(slope, 4), round(r2, 4) FROM Fund f has Category has CategoryClasstype c AND ALSO f is of RiskMetric has RiskMetricAlpha3y y AND ALSO f has FundTurnoverratio x AND ALSO THE DISTINCT COUNT OF f GROUPED BY c AS n AND ALSO THE SUM OF x GROUPED BY c AS sx AND ALSO THE SUM OF y GROUPED BY c AS sy AND ALSO THE SUM OF (x * y) GROUPED BY c AS sxy AND ALSO THE SUM OF (x * x) GROUPED BY c AS sxx AND ALSO THE SUM OF (y * y) GROUPED BY c AS syy AND ALSO ((n * sxy - sx * sy) / (n * sxx - sx * sx)) AS slope AND ALSO (((n * sxy - sx * sy) * (n * sxy - sx * sy)) / ((n * sxx - sx * sx) * (n * syy - sy * sy))) AS r2 WHERE n > 25 ORDERED WITH slope DESCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "exchange_traded_funds_14",
+  "answer": "LIST round(THE AVERAGE v IN (Fund f is of RiskMetric r AND ALSO f is of Performance p AND ALSO r has RiskMetricAvgreturn3y ar AND ALSO r has RiskMetricVolatility3y vol AND ALSO p has PerformanceBenchr3y br AND ALSO p has PerformancePositiveyears py AND ALSO p has PerformanceNegativeyears ny AND ALSO ((ar - br) / vol) * (py / (py + ny)) AS v), 2)"
+ },
+ {
+  "question_id": "exchange_traded_funds_9",
+  "answer": "LIST t, sl, round(pos, 8) FROM Fund f has FundTickersym t AND ALSO f has FundShortlabel sl AND ALSO f is of Performance p AND ALSO p has PerformanceHigh52w h AND ALSO p has PerformanceLow52w l AND ALSO p has PerformanceLowdelta ld AND ALSO f has FundTurnoverratio tr AND ALSO f has FundExpensenet en AND ALSO f has FundBenchmarkexp be AND ALSO ((((l + ld) - l) / (h - l)) * 100) AS pos WHERE pos < 25 AND tr < 0.3 AND (en - be) < 0 ORDERED WITH pos ASCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "exchange_traded_funds_1",
+  "answer": "DEFINE Hq ::= LIST tk, q FROM BondAllocation b has Fund has FundTickersym tk AND ALSO b has BondAllocationAllocationpct a AND ALSO b has BondRating has BondRatingCreditScoringmark m AND ALSO THE SUM OF (if(m = 'aaa' OR m = 'aa' OR m = 'us_government', a, 0)) GROUPED BY tk AS q\nLIST t, sl, rk, sies FROM Fund f has FundTickersym t AND ALSO f has FundShortlabel sl AND ALSO f has FundYieldrate y AND ALSO f has FundExpensenet e AND ALSO t has Hq HqQ q AND ALSO ((y / e) * q) AS sies AND ALSO THE RANK OF sies WITHIN 1 AS rk WHERE (y / e) > 15 AND q > 0.6 ORDERED WITH sies DESCENDING"
+ },
+ {
+  "question_id": "exchange_traded_funds_10",
+  "answer": "LIST g, c, round(med, 4) FROM Fund f AND ALSO OPTIONALLY f has FundPeRatio pe AND ALSO OPTIONALLY f has FundPbRatio pb AND ALSO OPTIONALLY f is of Performance OPTIONALLY has PerformanceR1y r1 AND ALSO (if(coalesce(pe, 0) > 0 AND coalesce(pb, 0) > 0, 'Transparent', 'Opaque')) AS g AND ALSO THE DISTINCT COUNT OF f GROUPED BY g AS c AND ALSO THE MEDIAN r1 GROUPED BY g AS med"
+ },
+ {
+  "question_id": "exchange_traded_funds_2",
+  "answer": "LIST y, op, prev, yoy FROM AnnualReturn ar has Fund has FundTickersym: 'AADR' AND ALSO ar has AnnualReturnCalendaryear y AND ALSO ar has AnnualReturnFundperf fp AND ALSO ar has AnnualReturnCategoryperf cp AND ALSO (fp - cp) AS op AND ALSO THE PREVIOUS op BY y WITHIN 1 AS prev AND ALSO (op - prev) AS yoy ORDERED WITH y ASCENDING"
+ }
+]

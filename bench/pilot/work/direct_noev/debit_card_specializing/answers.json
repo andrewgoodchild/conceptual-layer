@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "SELECT p.Description FROM transactions_1k t JOIN gasstations g ON t.GasStationID = g.GasStationID JOIN products p ON t.ProductID = p.ProductID WHERE g.Country = 'CZE'",
+  "attempts": 1
+ },
+ {
+  "question_id": 1505,
+  "answer": "SELECT COUNT(DISTINCT ym.CustomerID) FROM yearmonth ym JOIN customers c ON ym.CustomerID = c.CustomerID WHERE c.Currency = 'EUR' AND ym.Consumption > 1000",
+  "attempts": 1
+ },
+ {
+  "question_id": 1481,
+  "answer": "WITH seg_avg AS (SELECT c.Segment, c.CustomerID, AVG(y.Consumption) AS avg_cons FROM customers c JOIN yearmonth y ON y.CustomerID = c.CustomerID WHERE c.Currency = 'CZK' AND substr(y.Date,1,4) = '2013' GROUP BY c.CustomerID, c.Segment), seg_min AS (SELECT Segment, MIN(avg_cons) AS min_avg_cons FROM seg_avg GROUP BY Segment) SELECT (SELECT min_avg_cons FROM seg_min WHERE Segment='SME') - (SELECT min_avg_cons FROM seg_min WHERE Segment='LAM') AS SME_minus_LAM, (SELECT min_avg_cons FROM seg_min WHERE Segment='LAM') - (SELECT min_avg_cons FROM seg_min WHERE Segment='KAM') AS LAM_minus_KAM, (SELECT min_avg_cons FROM seg_min WHERE Segment='KAM') - (SELECT min_avg_cons FROM seg_min WHERE Segment='SME') AS KAM_minus_SME",
+  "attempts": 2
+ },
+ {
+  "question_id": 1486,
+  "answer": "SELECT (SELECT COUNT(*) FROM customers WHERE Segment = 'SME' AND Currency = 'CZK') - (SELECT COUNT(*) FROM customers WHERE Segment = 'SME' AND Currency = 'EUR') AS diff",
+  "attempts": 1
+ },
+ {
+  "question_id": 1525,
+  "answer": "SELECT COUNT(DISTINCT CASE WHEN c.Currency = 'EUR' THEN t.CustomerID END) * 100.0 / COUNT(DISTINCT t.CustomerID) AS pct FROM transactions_1k t JOIN customers c ON t.CustomerID = c.CustomerID WHERE t.Date = '2012-08-25'",
+  "attempts": 1
+ },
+ {
+  "question_id": 1501,
+  "answer": "SELECT DISTINCT g.Country FROM transactions_1k t JOIN gasstations g ON t.GasStationID = g.GasStationID WHERE t.Date LIKE '2013-06%'",
+  "attempts": 1
+ }
+]

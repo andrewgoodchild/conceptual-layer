@@ -1,0 +1,10 @@
+[
+ {"question_id": 201, "answer": "THE COUNT OF CarbonAtom [has Molecule is of DoubleBond] * 100.0 / THE COUNT OF Atom [has Molecule is of DoubleBond]", "attempts": 2},
+ {"question_id": 239, "answer": "THE COUNT OF Atom19 is connected to Atom", "attempts": 1},
+ {"question_id": 243, "answer": "LIST bd FROM DISTINCT Connected has ConnectedAtom has AtomElement: 'p' AND ALSO has ConnectedAtomid2 has AtomElement: 'n' AND ALSO has Bond bd", "attempts": 4},
+ {"question_id": 234, "answer": "THE COUNT OF Atom [has AtomId: 'TR009_12'] has ConnectedAtom has Bond", "attempts": 2},
+ {"question_id": 215, "answer": "THE COUNT OF Atom [has AtomElement e WHERE e = 'i' OR e = 's'] [has Molecule is of SingleBond]", "attempts": 1},
+ {"question_id": 230, "answer": "LIST e, l FROM DISTINCT Atom [has Molecule: 'TR060'] has AtomElement e AND ALSO has Molecule has MoleculeLabel l", "attempts": 2},
+ {"question_id": 206, "answer": "LIST e FROM DISTINCT Bond [has BondId: 'TR004_8_9'] is of Connected has ConnectedAtom has AtomElement e", "attempts": 1},
+ {"question_id": 212, "answer": "LIST e FROM Atom a has NonCarcinogenicMolecule AND ALSO has AtomElement e AND ALSO THE COUNT OF a GROUPED BY e AS c ORDERED WITH c ASCENDING THE FIRST 1", "attempts": 1}
+]

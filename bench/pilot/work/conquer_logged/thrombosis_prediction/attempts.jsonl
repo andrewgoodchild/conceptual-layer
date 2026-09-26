@@ -1,0 +1,17 @@
+{"at": 1789256904.1336708, "query": "LIST i, d FROM Patient has PatientID i AND ALSO OPTIONALLY has PatientDescription d"}
+{"at": 1789256908.323135, "query": "THE DISTINCT COUNT OF p IN Patient p [is of Laboratory has LaboratoryCRP: '+'] BUT NOT has PatientDescription"}
+{"at": 1789256937.831726, "query": "LIST d, l FROM Examination has ExaminationDate d AND ALSO has Patient is of Laboratory has LaboratoryDate l"}
+{"at": 1789256943.193038, "query": "THE COUNT OF Examination [has ExaminationThrombosis: '2'] [has ExaminationANAPattern: 'S'] [has ExaminationACLIgM m] WHERE m > (THE AVERAGE Examination has ExaminationACLIgM) * 1.2"}
+{"at": 1789256953.23322, "query": "THE COUNT OF Examination [has ExaminationThrombosis: '2'] [has ExaminationANAPattern: 'S'] [has ExaminationACLIgM m]"}
+{"at": 1789256953.335894, "query": "LIST a FROM (THE AVERAGE Examination has ExaminationACLIgM) AS a"}
+{"at": 1789256959.3228219, "query": "THE DISTINCT COUNT OF p IN Patient p [is of Laboratory has LaboratorySM s] [is of Examination has ExaminationThrombosis: '0'] WHERE s = 'negative' OR s = '0'"}
+{"at": 1789256965.5073228, "query": "THE DISTINCT COUNT OF p IN Patient p [is of Laboratory has LaboratorySM s] WHERE s = 'negative' OR s = '0'"}
+{"at": 1789256965.760983, "query": "THE DISTINCT COUNT OF p IN Patient p [is of Examination has ExaminationThrombosis: '0']"}
+{"at": 1789256976.515651, "query": "LIST i, s, d FROM DISTINCT Patient [is of Examination has ExaminationThrombosis: '2'] has PatientID i AND ALSO OPTIONALLY has PatientSEX s AND ALSO OPTIONALLY has PatientDiagnosis d"}
+{"at": 1789257011.348447, "query": "THE COUNT OF Patient [has PatientSEX: 'F'] [has PatientAdmission: '-'] [has PatientDescription d] WHERE year(d) = 1997"}
+{"at": 1789257022.063694, "query": "THE DISTINCT COUNT OF p IN Patient p [has PatientSEX: 'F'] is of Examination [has ExaminationThrombosis: '1'] has ExaminationDate e WHERE year(e) = 1997"}
+{"at": 1789257022.2222972, "query": "THE COUNT OF p IN Patient p [has PatientSEX: 'F'] is of Examination [has ExaminationThrombosis: '1'] has ExaminationDate e WHERE year(e) = 1997"}
+{"at": 1789257050.061188, "query": "LIST m FROM Patient [has PatientDiagnosis: 'SLE'] [has PatientDescription: '1994-02-19'] is of Examination [has ExaminationDate: '1993-11-12'] has ExaminationACLIgM m"}
+{"at": 1789257057.3990788, "query": "LIST i FROM DISTINCT Patient [has PatientAdmission: '-'] has PatientID i AND ALSO is of Laboratory [has LaboratoryDate d] [has LaboratoryTBIL t] WHERE like(d, '1991-10%') AND t < 2.0"}
+{"at": 1789257066.121362, "query": "LIST i, s, a FROM DISTINCT Patient has PatientID i AND ALSO has PatientSEX s AND ALSO has PatientBirthday b AND ALSO (year(today()) - year(b)) AS a AND ALSO is of Laboratory [has LaboratoryGLU g] [has LaboratoryTCHO c] WHERE g >= 180 AND c < 250"}
+{"at": 1789257079.813056, "query": "LIST i FROM DISTINCT Patient has PatientID i AND ALSO is of Laboratory [has LaboratoryDate d] [has LaboratoryGPT g] [has LaboratoryALB a] WHERE d >= '1987-07-06' AND d <= '1996-01-31' AND g > 30 AND a < 4"}

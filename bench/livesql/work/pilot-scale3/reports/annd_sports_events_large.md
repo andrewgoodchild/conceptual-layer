@@ -1,0 +1,5 @@
+All ten answers written and run with ./try (the last batch timed out after q8, q13, q3 and part of q6; q11 and q1 were run in the same form earlier).
+
+Hardest: q8 Veteran's Podium (the knowledge base defines age as of today, the question asks age at the race; the writer used the race date); q1 Sprint Winner age (sprint session dates mostly null, race date used; 6 of 18 winners have a birth date); q6 Hamilton DPV (order unstated); q11 Hat Trick probability (0.35 x 0.25 averaged over pole-sitters; the knowledge base's own Hat Trick check returns no rows); q13/q3 Constructor Reliability Rate (one non-null status mark in the table, so 43 constructors tie at 100).
+
+What mattered: "the knowledge base's 'In this database' SQL expressions were decisive" -- they named the obscure columns (sprint_performance JSON, st_mark, msec_val, acc_pt/rnum) and said there is no main Grand Prix results table, so race winners and podiums come from sprint results; they gave threshold boundaries. The schema showed many driver and constructor names null. Neither said how to take age at an event against age today, how to order career rows, or how to break reliability ties.

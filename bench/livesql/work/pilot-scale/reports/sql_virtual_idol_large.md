@@ -1,0 +1,4 @@
+Writer's report (sql arm, virtual_idol_large), as returned. Drafts in `drafts/`.
+
+- Hardest: vi_10 Ripple Effect returns 0/0/0 (no two interactions within 5 minutes); vi_9 spending velocity loosely defined, pre-registration interactions change it a lot; fan-level vs per-session metrics (avg vs max FMI); vi_2 two join paths disagree on 27 of 555 rows; vi_11 "entire fan base" ranked over 106 fans with all metrics; vi_5 loyalty covers 64 fans (LEFT JOIN).
+- Helpful: sample rows gave the JSON key names (`Gift_Val_Usd`, `Chat_Msg`, `Msg_Tone`, ...) and showed `coll_comp_rate` is on 0-100. Missing: the route from each metric table to a fan (cryptic "pivot" links, several paths); which genre source (q7: `genre_tag` vs `idol_genre_map` disagree completely); whether total spending is `spending_profile.total_spend_usd`.

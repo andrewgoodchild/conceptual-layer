@@ -1,0 +1,3 @@
+All ten answers written and run; no notes.
+Hardest: ERF (which sensitivity keys; averaged the five environment keys); High counts for _2 and _5; _8 the undefined "secondary" humidity threshold; _5 latest reading per artifact; _4 inferred artifact-to-budget chain; _3 null CPI; _11 readings against days.
+What mattered: the main links were easy to see from sample rows (ConditionAssessments, case_link, monitor_link); camelCase tables are filler; ratings 10 rows, sensitivity 3. Trap: RHvar is integer. The knowledge base did not say which fields make ERF, how to treat empty ratings, or what the secondary threshold is.

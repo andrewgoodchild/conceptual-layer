@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "LIST p FROM Transactions1k has Gasstation has GasstationCountry: 'CZE' AND ALSO has Product has ProductDescription p",
+  "attempts": 2
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE DISTINCT COUNT OF cust IN Customer cust [has CustomerCurrency: 'EUR'] is of Yearmonth has YearmonthConsumption c WHERE c > 1000",
+  "attempts": 5
+ },
+ {
+  "question_id": 1481,
+  "answer": "LIST diff1, diff2, diff3 FROM Customer: 3 AND ALSO (THE MINIMUM t IN (Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] has CustomerID x AND ALSO THE SUM OF con IN Customer is of Yearmonth [has YearmonthDate d] has YearmonthConsumption con WHERE d >= '201301' AND d <= '201312' GROUPED BY x AS t)) - (THE MINIMUM t IN (Customer [has CustomerSegment: 'LAM'] [has CustomerCurrency: 'CZK'] has CustomerID x AND ALSO THE SUM OF con IN Customer is of Yearmonth [has YearmonthDate d] has YearmonthConsumption con WHERE d >= '201301' AND d <= '201312' GROUPED BY x AS t)) AS diff1 AND ALSO (THE MINIMUM t IN (Customer [has CustomerSegment: 'LAM'] [has CustomerCurrency: 'CZK'] has CustomerID x AND ALSO THE SUM OF con IN Customer is of Yearmonth [has YearmonthDate d] has YearmonthConsumption con WHERE d >= '201301' AND d <= '201312' GROUPED BY x AS t)) - (THE MINIMUM t IN (Customer [has CustomerSegment: 'KAM'] [has CustomerCurrency: 'CZK'] has CustomerID x AND ALSO THE SUM OF con IN Customer is of Yearmonth [has YearmonthDate d] has YearmonthConsumption con WHERE d >= '201301' AND d <= '201312' GROUPED BY x AS t)) AS diff2 AND ALSO (THE MINIMUM t IN (Customer [has CustomerSegment: 'KAM'] [has CustomerCurrency: 'CZK'] has CustomerID x AND ALSO THE SUM OF con IN Customer is of Yearmonth [has YearmonthDate d] has YearmonthConsumption con WHERE d >= '201301' AND d <= '201312' GROUPED BY x AS t)) - (THE MINIMUM t IN (Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] has CustomerID x AND ALSO THE SUM OF con IN Customer is of Yearmonth [has YearmonthDate d] has YearmonthConsumption con WHERE d >= '201301' AND d <= '201312' GROUPED BY x AS t)) AS diff3",
+  "attempts": 14
+ },
+ {
+  "question_id": 1486,
+  "answer": "THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] - THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR']",
+  "attempts": 5
+ },
+ {
+  "question_id": 1525,
+  "answer": "THE DISTINCT COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25'] has Customer [has CustomerCurrency: 'EUR'] * 100 / THE DISTINCT COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25'] has Customer",
+  "attempts": 3
+ },
+ {
+  "question_id": 1501,
+  "answer": "LIST co FROM DISTINCT Transactions1k has Gasstation has GasstationCountry co AND ALSO has Customer is of Yearmonth [has YearmonthDate: '201306']",
+  "attempts": 2
+ }
+]

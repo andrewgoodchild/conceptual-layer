@@ -1,0 +1,1440 @@
+{
+ "database": "residential_data_large",
+ "verdicts": [
+  {
+   "id": "Air_Quality_Health_Correlation.Microclimate_Sensor_FK -> Environmental_Microclimate_Sensors.Microclimate_Sensor_PK",
+   "verdict": "yes",
+   "reason": "Microclimate_Sensor_FK holds EMS- sensor ids and covers the 20-row sensor table; named FK to that PK."
+  },
+  {
+   "id": "Air_Quality_Health_Correlation.respiratory_hospital_admissions_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Air_Quality_Health_Correlation.wind_direction_degrees -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Bridge_Structural_Monitoring.Structural_Health_FK -> Resilient_Infrastructure_Health.Structural_Health_PK",
+   "verdict": "yes",
+   "reason": "Structural_Health_FK holds RIH- ids covering all 20 Resilient_Infrastructure_Health rows; named FK to that PK."
+  },
+  {
+   "id": "Commercial_Energy_Efficiency.business_ref -> commercial_establishments.establishment_ID",
+   "verdict": "yes",
+   "reason": "business_ref spans exactly the four commercial establishments; name and cardinality fit a lookup parent."
+  },
+  {
+   "id": "Commercial_Energy_Efficiency.hvac_system_age_years -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Commercial_Energy_Efficiency.smart_thermostat_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Commercial_Energy_Efficiency.window_glazing_layers -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "Commercial_Energy_Efficiency.vfd_motor_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Digital_Classroom_Engagement.Resource_Inventory_FK -> Education_Facility_Resources.Resource_Inventory_PK",
+   "verdict": "yes",
+   "reason": "Resource_Inventory_FK holds EFR- ids covering all 27 rows of the named parent."
+  },
+  {
+   "id": "Digital_Classroom_Engagement.student_login_concurrency_peak -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Digital_Classroom_Engagement.it_support_ticket_volume -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Digital_Classroom_Engagement.web_filter_blocked_attempts -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Digital_Classroom_Engagement.facility_wifi_ap_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Digital_Payment_Transactional_Flux.financial_account_link -> financial_services.Financial_ID",
+   "verdict": "yes",
+   "reason": "financial_account_link covers all seven financial_services rows; the name names the parent."
+  },
+  {
+   "id": "Digital_Payment_Transactional_Flux.peak_spending_hour_24h -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Education_Facility_Resources.Facility_Link_Ref -> commercial_establishments.establishment_ID",
+   "verdict": "no",
+   "reason": "a real link column, but by name and value range its parent is education_facilities.Facility_ID, not commercial_establishments.establishment_ID."
+  },
+  {
+   "id": "Education_Facility_Resources.available_desktop_computers -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Education_Facility_Resources.library_book_volume_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Education_Facility_Resources.classroom_interactive_whiteboards -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Education_Facility_Resources.cafeteria_seating_capacity -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Education_Facility_Resources.security_camera_total_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Emergency_Vehicle_Telematics.Patrol_Log_FK -> Public_Safety_Patrol_Logs.Patrol_Log_PK",
+   "verdict": "yes",
+   "reason": "Patrol_Log_FK holds PSPL- ids covering all 25 patrol logs; named FK to that PK."
+  },
+  {
+   "id": "Emergency_Vehicle_Telematics.license_plate_reader_hits -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Environmental_Microclimate_Sensors.environmental_base_link -> environmental_data.ENV_id",
+   "verdict": "yes",
+   "reason": "environmental_base_link matches environmental_data by name and uses all three of its ids."
+  },
+  {
+   "id": "Environmental_Microclimate_Sensors.leaf_wetness_duration_minutes -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.facility_link -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a real link column, but by name and value range its parent is healthcare_facilities.healthcare_ID, not environmental_data.ENV_id."
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.ventilator_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.emergency_room_wait_minutes -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.ambulance_fleet_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.staff_radiology_certification_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.ultrasound_probe_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Healthcare_Equipment_Inventory.patient_monitoring_screen_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Healthcare_Power_Resilience.Inventory_Tracker_FK -> Healthcare_Equipment_Inventory.Inventory_Tracker_PK",
+   "verdict": "yes",
+   "reason": "Inventory_Tracker_FK holds HEI- ids covering all 11 equipment rows; named FK to that PK."
+  },
+  {
+   "id": "Healthcare_Power_Resilience.ats_switch_count_monthly -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Healthcare_Power_Resilience.maintenance_staff_on_call_count -> commercial_establishments.establishment_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at commercial_establishments."
+  },
+  {
+   "id": "Hospital_Critical_Care_Telemetry.Inventory_Tracker_FK -> Healthcare_Equipment_Inventory.Inventory_Tracker_PK",
+   "verdict": "yes",
+   "reason": "Inventory_Tracker_FK holds HEI- ids from the named parent; a second telemetry table on the same equipment."
+  },
+  {
+   "id": "Hospital_Critical_Care_Telemetry.systolic_blood_pressure_mmhg -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Hospital_Critical_Care_Telemetry.diastolic_blood_pressure_mmhg -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Hospital_Critical_Care_Telemetry.heart_rate_bpm -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Hospital_Critical_Care_Telemetry.respiratory_rate_bpm -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Household_Skill_Progression.assignment_link -> household_demographics.DEMO_ID",
+   "verdict": "no",
+   "reason": "a real link column, but by name and value range its parent is household_member_skills.Assignment_ID, not household_demographics.DEMO_ID."
+  },
+  {
+   "id": "Household_Skill_Progression.technical_stack_diversity_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Household_Skill_Progression.language_fluency_count -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "Household_Skill_Progression.project_leadership_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Household_Skill_Progression.occupational_hazard_exposure_rating -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Household_Telecomm_Metrix.household_target -> amenities.houseid",
+   "verdict": "no",
+   "reason": "the values are household numbers (4, 7, 22, ...), so the meant parent is households.housenum, not amenities.houseid."
+  },
+  {
+   "id": "Household_Telecomm_Metrix.latency_ping_ms -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Household_Telecomm_Metrix.iot_device_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Industrial_HVAC_Sensor_Array.Energy_Audit_FK -> Commercial_Energy_Efficiency.Energy_Audit_PK",
+   "verdict": "yes",
+   "reason": "Energy_Audit_FK holds CEE- ids covering all 11 audits; named FK to that PK."
+  },
+  {
+   "id": "Industrial_HVAC_Sensor_Array.co2_concentration_ppm -> amenities.amenityref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Merchant_Settlement_Audit.Transaction_Flux_FK -> Digital_Payment_Transactional_Flux.Transaction_Flux_PK",
+   "verdict": "yes",
+   "reason": "Transaction_Flux_FK holds DPTF- ids of the named parent; settlement rows per transaction."
+  },
+  {
+   "id": "Professional_Certification_Audit.Skill_Growth_FK -> Household_Skill_Progression.Skill_Growth_PK",
+   "verdict": "yes",
+   "reason": "Skill_Growth_FK holds HSP- ids covering all 41 progression rows; named FK to that PK."
+  },
+  {
+   "id": "Professional_Certification_Audit.exam_duration_minutes -> amenities.amenityref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Professional_Certification_Audit.question_count_total -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Professional_Certification_Audit.recertification_cycle_years -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Professional_Certification_Audit.exam_center_latency_ms -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Public_Safety_Patrol_Logs.crime_stat_link -> commercial_establishments.establishment_ID",
+   "verdict": "no",
+   "reason": "a real link column, but by name and value range its parent is crime_statistics.Crime_ID, not commercial_establishments.establishment_ID."
+  },
+  {
+   "id": "Public_Safety_Patrol_Logs.average_response_time_seconds -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Public_Safety_Patrol_Logs.active_duty_officer_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Public_Safety_Patrol_Logs.dispatch_call_volume -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Public_Safety_Patrol_Logs.non_emergency_assistance_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Resilient_Infrastructure_Health.infra_detail_link -> skills_inventory.Skill_ID",
+   "verdict": "no",
+   "reason": "a real link column, but by name and value range its parent is infrastructure_details.Detail_ID (its values are exactly {3,4,5}), not skills_inventory.Skill_ID."
+  },
+  {
+   "id": "Resilient_Infrastructure_Health.street_lighting_lux_level -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Resilient_Infrastructure_Health.load_bearing_limit_tons -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Smart_Home_Bandwidth_Allocation.Comms_Stats_FK -> Household_Telecomm_Metrix.Comms_Stats_PK",
+   "verdict": "yes",
+   "reason": "Comms_Stats_FK holds HTM- ids of the named parent; bandwidth samples per telecom record."
+  },
+  {
+   "id": "Smart_Home_Bandwidth_Allocation.active_connected_clients_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Waste_Processing_Plant_Efficiency.Waste_Composition_FK -> Waste_Stream_Analysis.Waste_Composition_PK",
+   "verdict": "yes",
+   "reason": "Waste_Composition_FK holds WSA- ids of the named parent; plant runs per analysed stream."
+  },
+  {
+   "id": "Waste_Processing_Plant_Efficiency.trommel_screen_mesh_size_mm -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Waste_Stream_Analysis.waste_monitor_link -> household_demographics.DEMO_ID",
+   "verdict": "no",
+   "reason": "a real link column, but by name and value range its parent is waste_management.Waste_ID, not household_demographics.DEMO_ID."
+  },
+  {
+   "id": "Waste_Stream_Analysis.microplastic_particle_count_per_kg -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "Waste_Stream_Analysis.odor_intensity_index -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "amenities.houseid -> households.housenum",
+   "verdict": "yes",
+   "reason": "houseid is the household each amenity row belongs to and matches households.housenum one-for-one."
+  },
+  {
+   "id": "commercial_establishments.Commercial_Sector_Number -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are location zone numbers (315, 222, 352, ...), so the meant parent is locations.zonenum, not properties.propref."
+  },
+  {
+   "id": "commercial_establishments.EMPLOYEE_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "commercial_establishments.daily_customer_COUNT -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "commercial_establishments.Opening_Hours_Per_Day -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "commercial_establishments.DAYS_open_per_week -> household_service_enrollment.Enrollment_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at household_service_enrollment."
+  },
+  {
+   "id": "commercial_establishments.parking_SPACES -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "commercial_establishments.payment_methods_ACCEPTED -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "commercial_establishments.SAFETY_rating -> infrastructure_details.Detail_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at infrastructure_details."
+  },
+  {
+   "id": "commercial_establishments.hygiene_RATING -> infrastructure_details.Detail_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at infrastructure_details."
+  },
+  {
+   "id": "commercial_establishments.years_in_OPERATION -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "commercial_establishments.supply_chain_RELIABILITY_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "commercial_establishments.Technology_Adoption_Level -> infrastructure_details.Detail_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at infrastructure_details."
+  },
+  {
+   "id": "community_engagement.Community_Engagement_Household_Participation -> amenities.houseid",
+   "verdict": "no",
+   "reason": "the values are household numbers (4, 7, 22, ...), so the meant parent is households.housenum, not amenities.houseid."
+  },
+  {
+   "id": "community_engagement.community_organization_MEMBERSHIPS -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "community_engagement.Local_Business_Patronage_Frequency -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "community_engagement.CULTURAL_events_attended -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "community_engagement.POLITICAL_participation_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "community_engagement.Neighbor_Interaction_Frequency -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "community_engagement.local_media_ENGAGEMENT_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "community_engagement.Cultural_Diversity_Acceptance_Score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "community_engagement.CHARITABLE_donation_frequency_per_year -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "community_engagement.Social_Media_Community_Group_Participation -> skills_inventory.Skill_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at skills_inventory."
+  },
+  {
+   "id": "community_engagement.sense_of_BELONGING_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "crime_statistics.Crime_District_Zone -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are location zone numbers (315, 222, 352, ...), so the meant parent is locations.zonenum, not properties.propref."
+  },
+  {
+   "id": "crime_statistics.Theft_Incidents -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "crime_statistics.BURGLARY_incidents -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "crime_statistics.assault_INCIDENTS -> household_service_enrollment.Enrollment_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at household_service_enrollment."
+  },
+  {
+   "id": "crime_statistics.Vandalism_Incidents -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "crime_statistics.DRUG_related_incidents -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "crime_statistics.traffic_VIOLATIONS -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "crime_statistics.Domestic_Violence_Incidents -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "crime_statistics.FRAUD_incidents -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "crime_statistics.total_INCIDENTS -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "crime_statistics.patrol_frequency_PER_day -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "crime_statistics.COMMUNITY_policing_programs -> skills_inventory.Skill_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at skills_inventory."
+  },
+  {
+   "id": "crime_statistics.security_camera_COUNT -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "crime_statistics.NEIGHBORHOOD_watch_groups -> skills_inventory.Skill_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at skills_inventory."
+  },
+  {
+   "id": "crime_statistics.EMERGENCY_call_volume -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "crime_statistics.DISASTER_preparedness_score -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "crime_statistics.risk_assessment_LEVEL -> household_demographics.DEMO_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at household_demographics."
+  },
+  {
+   "id": "education_facilities.Education_Zone_Number -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are location zone numbers (315, 222, 352, ...), so the meant parent is locations.zonenum, not properties.propref."
+  },
+  {
+   "id": "education_facilities.current_ENROLLMENT -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "education_facilities.Teacher_Count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "education_facilities.Classroom_Count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "education_facilities.LABORATORY_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "education_facilities.COMPUTER_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "education_facilities.WATER_access_quality -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "education_facilities.EXTRACURRICULAR_programs_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "education_facilities.security_LEVEL -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "energy_consumption.Energy_Consumption_Household_Tracker -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are household numbers (4, 7, 22, ...), so the meant parent is households.housenum, not properties.propref."
+  },
+  {
+   "id": "energy_consumption.Energy_Efficiency_Score -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "energy_consumption.grid_reliability_OUTAGES -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "energy_consumption.ENERGY_audit_recommendations_count -> skills_inventory.Skill_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at skills_inventory."
+  },
+  {
+   "id": "energy_consumption.insulation_quality_SCORE -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "energy_consumption.Window_Efficiency_Rating -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "energy_consumption.HVAC_efficiency_rating -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "environmental_data.Environmental_Zone_Reference -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are location zone numbers (315, 222, 352, ...), so the meant parent is locations.zonenum, not properties.propref."
+  },
+  {
+   "id": "environmental_data.Wind_Direction_Degrees -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "financial_services.Financial_Services_Household_Account -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are household numbers (4, 7, 22, ...), so the meant parent is households.housenum, not properties.propref."
+  },
+  {
+   "id": "financial_services.CREDIT_score_average -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "financial_services.DIGITAL_payment_adoption_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "financial_services.financial_literacy_SCORE -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "financial_services.INSURANCE_coverage_adequacy_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "financial_services.fraud_protection_SCORE -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "financial_services.FINANCIAL_stress_level -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "financial_services.Financial_Goal_Achievement_Score -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "healthcare_facilities.Healthcare_District_Code -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are location zone numbers (315, 222, 352, ...), so the meant parent is locations.zonenum, not properties.propref."
+  },
+  {
+   "id": "healthcare_facilities.Doctor_Count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "healthcare_facilities.NURSE_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "healthcare_facilities.specialist_COUNT -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "healthcare_facilities.diagnostic_equipment_COUNT -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "healthcare_facilities.insurance_accepted_COUNT -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "healthcare_facilities.technology_LEVEL -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "healthcare_facilities.Accreditation_Level -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_demographics.Demographics_Household_Reference -> properties.houselink",
+   "verdict": "no",
+   "reason": "the values are household numbers (4, 7, 22, ...), so the meant parent is households.housenum, not properties.houselink."
+  },
+  {
+   "id": "household_demographics.children_Count -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "household_demographics.Working_Adults_Count -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "household_demographics.employment_rate_PERCENT -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_demographics.Household_Head_Age -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_demographics.years_in_RESIDENCE -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_demographics.community_involvement_SCORE -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_member_skills.Member_Skills_Household_Link -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are household numbers (4, 7, 22, ...), so the meant parent is households.housenum, not properties.propref."
+  },
+  {
+   "id": "household_member_skills.Member_Skills_Ability_Reference -> skills_inventory.Skill_ID",
+   "verdict": "yes",
+   "reason": "Ability_Reference spans the whole 5-row skills_inventory; an explicit skill lookup."
+  },
+  {
+   "id": "household_member_skills.Member_Position -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "household_member_skills.PROFICIENCY_level -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_member_skills.COST_invested_brl -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_member_skills.Skill_Transferability_Score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_member_skills.MARKET_relevance_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_member_skills.passion_LEVEL -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_member_skills.Natural_Aptitude_Score -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "household_member_skills.Networking_Connections_Count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_member_skills.PORTFOLIO_projects_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_member_skills.Teaching_Others_Hours -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_service_enrollment.Service_Enrollment_Household_Connection -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are household numbers (4, 7, 22, ...), so the meant parent is households.housenum, not properties.propref."
+  },
+  {
+   "id": "household_service_enrollment.Service_Enrollment_Category_Link -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a real link column, but by name and value range its parent is service_categories.Category_ID, not environmental_data.ENV_id."
+  },
+  {
+   "id": "household_service_enrollment.priority_LEVEL -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "household_service_enrollment.DURATION_months -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_service_enrollment.PROGRESS_milestones_achieved -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_service_enrollment.total_MILESTONES -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_service_enrollment.fraud_risk_SCORE -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "household_transportation_usage.Transportation_Usage_Household_Ref -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are household numbers (4, 7, 22, ...), so the meant parent is households.housenum, not properties.propref."
+  },
+  {
+   "id": "household_transportation_usage.Transportation_Usage_Mode_Key -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a real link column, but by name and value range its parent is transportation_modes.Mode_ID, not environmental_data.ENV_id."
+  },
+  {
+   "id": "household_transportation_usage.Primary_User_Position -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "household_transportation_usage.PURPOSE_distribution_shopping_percent -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_transportation_usage.Purpose_Distribution_Healthcare_Percent -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_transportation_usage.PURPOSE_distribution_recreation_percent -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_transportation_usage.monthly_cost_BRL -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_transportation_usage.Time_Saved_Per_Trip_Minutes -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_transportation_usage.WEATHER_impact_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_transportation_usage.storage_utilization_PERCENT -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_transportation_usage.ENVIRONMENTAL_consciousness_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "household_transportation_usage.social_status_IMPORTANCE -> household_service_enrollment.Enrollment_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at household_service_enrollment."
+  },
+  {
+   "id": "households.residentcount -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "households.loczone -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are location zone numbers (315, 222, 352, ...), so the meant parent is locations.zonenum, not properties.propref."
+  },
+  {
+   "id": "households.serviceplan -> service_types.serviceref",
+   "verdict": "yes",
+   "reason": "serviceplan reproduces service_types' sparse ids (1,14,21,26,50) exactly across all 31 plans."
+  },
+  {
+   "id": "infrastructure_details.Infrastructure_Specification_Code -> infrastructure.infraref",
+   "verdict": "yes",
+   "reason": "the three detail rows name their infrastructure element; the table's only cross-table link."
+  },
+  {
+   "id": "infrastructure_details.ROAD_LOAD_CAPACITY_kg_per_m2 -> properties.houselink",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "infrastructure_details.Curb_Height_cm -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "infrastructure_details.Parking_Spots_Count -> infrastructure.infraref",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at infrastructure."
+  },
+  {
+   "id": "infrastructure_details.CONTRACTOR_ID -> properties.propref",
+   "verdict": "no",
+   "reason": "a contractor identifier from some outside system; nothing to do with properties' key."
+  },
+  {
+   "id": "infrastructure_details.inspection_frequency_MONTHS -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "infrastructure_details.Compliance_Score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "infrastructure_details.utility_pole_COUNT -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "locations.zonenum -> properties.propref",
+   "verdict": "no",
+   "reason": "zonenum is locations' own zone code repeated across 122 rows, not a pointer into properties."
+  },
+  {
+   "id": "properties.houselink -> amenities.houseid",
+   "verdict": "no",
+   "reason": "the values are household numbers (4, 7, 22, ...), so the meant parent is households.housenum, not amenities.houseid."
+  },
+  {
+   "id": "properties.infralink -> infrastructure.infraref",
+   "verdict": "yes",
+   "reason": "infralink covers all 75 infrastructure rows from 1577 properties; textbook many-to-one."
+  },
+  {
+   "id": "property_valuations.Valuation_Property_Key -> properties.propref",
+   "verdict": "yes",
+   "reason": "Valuation_Property_Key is the property each valuation row is about; contiguous propref values."
+  },
+  {
+   "id": "property_valuations.STRUCTURAL_condition_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "property_valuations.walkability_SCORE -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "property_valuations.School_District_Rating -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "property_valuations.PUBLIC_transport_access_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "service_categories.application_process_DURATION_days -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "service_categories.MAXIMUM_benefit_duration_months -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "service_categories.renewal_frequency_MONTHS -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "service_categories.Documentation_Requirements_Count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "service_categories.Wait_List_Average_Days -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "service_categories.STAFF_requirement_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "service_categories.training_hours_REQUIRED -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "service_categories.Compliance_Audits_Per_Year -> commercial_establishments.establishment_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at commercial_establishments."
+  },
+  {
+   "id": "service_categories.PARTNERSHIP_organizations_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "service_categories.Data_Collection_Frequency_Days -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "service_categories.REPORTING_requirements_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "service_categories.quality_metrics_COUNT -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "service_categories.IMPACT_assessment_frequency_months -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "skills_inventory.MARKET_demand_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "skills_inventory.automation_risk_SCORE -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "skills_inventory.Learning_Time_Hours -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "skills_inventory.online_courses_AVAILABLE -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "skills_inventory.JOB_postings_monthly -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "skills_inventory.freelance_opportunity_SCORE -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "skills_inventory.Career_Growth_Potential -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "skills_inventory.TECHNOLOGY_dependence_level -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "skills_inventory.physical_demand_LEVEL -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "skills_inventory.Creativity_Requirement_Level -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "skills_inventory.TEAMWORK_requirement_level -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "skills_inventory.Communication_Intensity_Level -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "skills_inventory.industry_stability_SCORE -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "transportation_assets.housetag -> amenities.houseid",
+   "verdict": "no",
+   "reason": "the values are household numbers (4, 7, 22, ...), so the meant parent is households.housenum, not amenities.houseid."
+  },
+  {
+   "id": "transportation_modes.registration_cost_BRL -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "transportation_modes.SAFETY_rating -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "transportation_modes.comfort_LEVEL -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "transportation_modes.Weather_Dependency -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "transportation_modes.STORAGE_capacity_kg -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "transportation_modes.passenger_CAPACITY -> skills_inventory.Skill_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at skills_inventory."
+  },
+  {
+   "id": "transportation_modes.age_restriction_MINIMUM -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "transportation_modes.Physical_Fitness_Required -> financial_services.Financial_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at financial_services."
+  },
+  {
+   "id": "transportation_modes.LEARNING_curve_difficulty -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "transportation_modes.social_acceptability_SCORE -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "transportation_modes.Environmental_Impact_Score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "transportation_modes.theft_risk_LEVEL -> community_engagement.Engagement_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at community_engagement."
+  },
+  {
+   "id": "transportation_network.Transportation_Grid_Sector -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are location zone numbers (315, 222, 352, ...), so the meant parent is locations.zonenum, not properties.propref."
+  },
+  {
+   "id": "transportation_network.Stops_Count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "transportation_network.DAILY_frequency -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "transportation_network.peak_hour_FREQUENCY -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "transportation_network.Off_Peak_Frequency -> household_demographics.DEMO_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at household_demographics."
+  },
+  {
+   "id": "transportation_network.VEHICLE_count -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "transportation_network.vehicle_CAPACITY -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "utility_services.Utility_Coverage_Zone -> service_types.serviceref",
+   "verdict": "no",
+   "reason": "the values are location zone numbers (315, 222, 352, ...), so the meant parent is locations.zonenum, not service_types.serviceref."
+  },
+  {
+   "id": "utility_services.Peak_Demand_Units -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "utility_services.OFF_peak_demand_units -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "utility_services.Maintenance_Frequency_Months -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "utility_services.OUTAGE_frequency_per_year -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "utility_services.installation_wait_TIME_days -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "waste_management.Waste_Management_Household_Monitor -> properties.propref",
+   "verdict": "no",
+   "reason": "the values are household numbers (4, 7, 22, ...), so the meant parent is households.housenum, not properties.propref."
+  },
+  {
+   "id": "waste_management.waste_reduction_EFFORTS_score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "waste_management.COLLECTION_frequency_per_week -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at environmental_data."
+  },
+  {
+   "id": "waste_management.Reuse_Initiatives_Count -> skills_inventory.Skill_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at skills_inventory."
+  },
+  {
+   "id": "waste_management.DONATION_frequency_per_month -> commercial_establishments.establishment_ID",
+   "verdict": "no",
+   "reason": "a small-range score or count nesting inside a tiny surrogate id sequence; coincidence, not a pointer at commercial_establishments."
+  },
+  {
+   "id": "waste_management.Environmental_Awareness_Score -> properties.propref",
+   "verdict": "no",
+   "reason": "a measurement/count that happens to fall inside a 1577-row surrogate sequence; containment is coincidence."
+  },
+  {
+   "id": "amenities.amenityref -> transportation_assets.transref",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "commercial_establishments.establishment_ID -> crime_statistics.Crime_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "community_engagement.Engagement_ID -> properties.propref",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "crime_statistics.Crime_ID -> commercial_establishments.establishment_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "education_facilities.Facility_ID -> commercial_establishments.establishment_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "energy_consumption.Consumption_ID -> commercial_establishments.establishment_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "environmental_data.ENV_id -> healthcare_facilities.healthcare_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "financial_services.Financial_ID -> household_transportation_usage.Usage_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "healthcare_facilities.healthcare_ID -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "household_demographics.DEMO_ID -> household_member_skills.Assignment_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "household_member_skills.Assignment_ID -> household_demographics.DEMO_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "household_service_enrollment.Enrollment_ID -> financial_services.Financial_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "household_transportation_usage.Usage_ID -> financial_services.Financial_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "households.housenum -> amenities.houseid",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "infrastructure.infraref -> properties.propref",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "infrastructure_details.Detail_ID -> skills_inventory.Skill_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "property_valuations.valuation_ID -> financial_services.Financial_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "service_categories.Category_ID -> commercial_establishments.establishment_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "service_types.serviceref -> properties.propref",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "skills_inventory.Skill_ID -> transportation_network.Transport_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "transportation_assets.transref -> amenities.amenityref",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "transportation_modes.Mode_ID -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "transportation_network.Transport_ID -> skills_inventory.Skill_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "utility_services.Utility_ID -> environmental_data.ENV_id",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  },
+  {
+   "id": "waste_management.Waste_ID -> household_demographics.DEMO_ID",
+   "verdict": "no",
+   "reason": "two unrelated surrogate id sequences nesting because they are the same length; no shared entity."
+  }
+ ]
+}

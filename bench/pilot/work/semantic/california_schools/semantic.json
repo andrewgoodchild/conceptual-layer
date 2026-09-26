@@ -1,0 +1,77 @@
+{
+ "concepts": [
+  {"id": "et.ExclusivelyVirtualSchool", "name": "ExclusivelyVirtualSchool", "kind": "entity",
+   "supertypes": ["et.School"], "derivation": "dr.exvirtual"},
+
+  {"id": "et.StateSpecialSchool", "name": "StateSpecialSchool", "kind": "entity",
+   "supertypes": ["et.School"], "derivation": "dr.stateSpecial"},
+
+  {"id": "vt.ExcellenceRate", "name": "ExcellenceRate", "kind": "value",
+   "dataType": {"name": "numeric"}},
+  {"id": "ft.SatscoreHasExcellenceRate", "name": "SatscoreHasExcellenceRate", "kind": "fact",
+   "roles": [{"id": "r.SatscoreHasExcellenceRate.satscore", "player": "et.Satscore",
+              "name": "Satscore", "ordinal": 0},
+             {"id": "r.SatscoreHasExcellenceRate.rate", "player": "vt.ExcellenceRate",
+              "name": "Rate", "ordinal": 1}],
+   "readings": [{"id": "rd.SatscoreHasExcellenceRate", "text": "{0} has {1}",
+                 "roleSequence": ["r.SatscoreHasExcellenceRate.satscore",
+                                  "r.SatscoreHasExcellenceRate.rate"]}],
+   "derivation": "dr.excellence"},
+
+  {"id": "vt.CompleteAddress", "name": "CompleteAddress", "kind": "value",
+   "dataType": {"name": "text"}},
+  {"id": "ft.SchoolHasCompleteAddress", "name": "SchoolHasCompleteAddress", "kind": "fact",
+   "roles": [{"id": "r.SchoolHasCompleteAddress.school", "player": "et.School",
+              "name": "School", "ordinal": 0},
+             {"id": "r.SchoolHasCompleteAddress.address", "player": "vt.CompleteAddress",
+              "name": "Address", "ordinal": 1}],
+   "readings": [{"id": "rd.SchoolHasCompleteAddress", "text": "{0} has {1}",
+                 "roleSequence": ["r.SchoolHasCompleteAddress.school",
+                                  "r.SchoolHasCompleteAddress.address"]}],
+   "derivation": "dr.completeAddress"},
+
+  {"id": "vt.EnrollmentDifference", "name": "EnrollmentDifference", "kind": "value",
+   "dataType": {"name": "numeric"}},
+  {"id": "ft.FrpmHasEnrollmentDifference", "name": "FrpmHasEnrollmentDifference", "kind": "fact",
+   "roles": [{"id": "r.FrpmHasEnrollmentDifference.frpm", "player": "et.Frpm",
+              "name": "Frpm", "ordinal": 0},
+             {"id": "r.FrpmHasEnrollmentDifference.difference", "player": "vt.EnrollmentDifference",
+              "name": "Difference", "ordinal": 1}],
+   "readings": [{"id": "rd.FrpmHasEnrollmentDifference", "text": "{0} has {1}",
+                 "roleSequence": ["r.FrpmHasEnrollmentDifference.frpm",
+                                  "r.FrpmHasEnrollmentDifference.difference"]}],
+   "derivation": "dr.enrollmentDifference"},
+
+  {"id": "vt.PercentEligibleFreeMeals", "name": "PercentEligibleFreeMeals", "kind": "value",
+   "dataType": {"name": "numeric"}},
+  {"id": "ft.FrpmHasPercentEligibleFreeMeals", "name": "FrpmHasPercentEligibleFreeMeals", "kind": "fact",
+   "roles": [{"id": "r.FrpmHasPercentEligibleFreeMeals.frpm", "player": "et.Frpm",
+              "name": "Frpm", "ordinal": 0},
+             {"id": "r.FrpmHasPercentEligibleFreeMeals.percent", "player": "vt.PercentEligibleFreeMeals",
+              "name": "Percent", "ordinal": 1}],
+   "readings": [{"id": "rd.FrpmHasPercentEligibleFreeMeals", "text": "{0} has {1}",
+                 "roleSequence": ["r.FrpmHasPercentEligibleFreeMeals.frpm",
+                                  "r.FrpmHasPercentEligibleFreeMeals.percent"]}],
+   "derivation": "dr.percentEligibleFreeMeals"}
+ ],
+ "derivationRules": [
+  {"id": "dr.exvirtual", "target": {"kind": "subtype", "ref": "et.ExclusivelyVirtualSchool"},
+   "source": "School [has SchoolVirtual: 'F']"},
+
+  {"id": "dr.stateSpecial", "target": {"kind": "subtype", "ref": "et.StateSpecialSchool"},
+   "source": "School [has SchoolDOC: '31']"},
+
+  {"id": "dr.excellence", "target": {"kind": "factType", "ref": "ft.SatscoreHasExcellenceRate"},
+   "source": "LIST s, r FROM Satscore s has SatscoreNumGE1500 g AND ALSO has SatscoreNumTstTakr t AND ALSO (g * 1.0 / t) AS r"},
+
+  {"id": "dr.completeAddress", "target": {"kind": "factType", "ref": "ft.SchoolHasCompleteAddress"},
+   "source": "LIST s, a FROM School s has SchoolStreet st AND ALSO has SchoolCity ci AND ALSO has SchoolState se AND ALSO has SchoolZip z AND ALSO (st + ', ' + ci + ', ' + se + ' ' + z) AS a"},
+
+  {"id": "dr.enrollmentDifference", "target": {"kind": "factType", "ref": "ft.FrpmHasEnrollmentDifference"},
+   "source": "LIST f, d FROM Frpm f has FrpmEnrollmentK12 k AND ALSO has FrpmEnrollmentAges517 e AND ALSO (k - e) AS d"},
+
+  {"id": "dr.percentEligibleFreeMeals", "target": {"kind": "factType", "ref": "ft.FrpmHasPercentEligibleFreeMeals"},
+   "source": "LIST f, p FROM Frpm f has FrpmFreeMealCountK12 m AND ALSO has FrpmEnrollmentK12 e AND ALSO (m * 1.0 / e) AS p"}
+ ],
+ "macros": []
+}

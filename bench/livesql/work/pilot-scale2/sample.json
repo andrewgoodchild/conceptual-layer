@@ -1,0 +1,50 @@
+{
+ "archeology_scan_large": [
+  "archeology_scan_4",
+  "archeology_scan_6",
+  "archeology_scan_10",
+  "archeology_scan_5",
+  "archeology_scan_2",
+  "archeology_scan_1",
+  "archeology_scan_8",
+  "archeology_scan_9",
+  "archeology_scan_7",
+  "archeology_scan_3"
+ ],
+ "robot_fault_prediction_large": [
+  "robot_fault_prediction_11",
+  "robot_fault_prediction_1",
+  "robot_fault_prediction_8",
+  "robot_fault_prediction_7",
+  "robot_fault_prediction_3",
+  "robot_fault_prediction_4",
+  "robot_fault_prediction_5",
+  "robot_fault_prediction_6",
+  "robot_fault_prediction_10",
+  "robot_fault_prediction_12"
+ ],
+ "exchange_traded_funds_large": [
+  "exchange_traded_funds_2",
+  "exchange_traded_funds_11",
+  "exchange_traded_funds_8",
+  "exchange_traded_funds_3",
+  "exchange_traded_funds_6",
+  "exchange_traded_funds_10",
+  "exchange_traded_funds_9",
+  "exchange_traded_funds_1",
+  "exchange_traded_funds_4",
+  "exchange_traded_funds_5"
+ ],
+ "labor_certification_applications_large": [
+  "labor_certification_applications_2",
+  "labor_certification_applications_19",
+  "labor_certification_applications_16",
+  "labor_certification_applications_11",
+  "labor_certification_applications_8",
+  "labor_certification_applications_13",
+  "labor_certification_applications_15",
+  "labor_certification_applications_14",
+  "labor_certification_applications_1",
+  "labor_certification_applications_3"
+ ]
+}

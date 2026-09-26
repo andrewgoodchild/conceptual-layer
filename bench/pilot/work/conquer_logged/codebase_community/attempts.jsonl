@@ -1,0 +1,17 @@
+{"at": 1789256803.524132, "query": "THE COUNT OF Post [has owner User has UserDisplayName: 'csgillespie']"}
+{"at": 1789256808.228194, "query": "THE COUNT OF Post [has owner User has UserDisplayName: 'Tiago Pasqualini']"}
+{"at": 1789256809.915204, "query": "LIST n FROM Post [has PostTitle: 'Eliciting priors from experts'] has owner User has UserDisplayName n"}
+{"at": 1789256820.835701, "query": "LIST e, w FROM Tag [has TagName: 'sample'] has Post has PostId e AND ALSO has TagWikiPostId w"}
+{"at": 1789256824.8873532, "query": "LIST d FROM Comment [has User has UserId: '3025'] has CommentCreationDate d"}
+{"at": 1789256838.603425, "query": "LIST f FROM Comment [has User has UserId: '3025'] [has CommentCreationDate: '2014-04-23 20:29:39.0'] has Post has PostFavoriteCount f"}
+{"at": 1789256840.078617, "query": "LIST t FROM Comment has CommentText t AND ALSO has User is of PostHistory has Post has PostTitle: 'Why square the difference instead of taking the absolute value in standard deviation?'"}
+{"at": 1789256991.839714, "query": "THE AVERAGE v IN User u [has UserUpVotes v] WHERE THE COUNT OF Post [has owner User: !u] > 10"}
+{"at": 1789256994.181371, "query": "THE COUNT OF PostLink [has PostLinkCreationDate d] [has Post has PostAnswerCount c] WHERE year(d) = 2010 AND c <= 2"}
+{"at": 1789257008.030805, "query": "(THE COUNT OF PostLink [has PostLinkCreationDate d] [has Post has PostAnswerCount c] WHERE year(d) = 2010 AND c <= 2) / 12"}
+{"at": 1789257009.774923, "query": "LIST au, aa FROM User u has UserUpVotes v AND ALSO OPTIONALLY has UserAge a AND ALSO (1) AS k AND ALSO THE AVERAGE v GROUPED BY k AS au AND ALSO THE AVERAGE a GROUPED BY k AS aa WHERE THE COUNT OF Post [has owner User: !u] > 10"}
+{"at": 1789257025.8658738, "query": "LIST au, aa FROM User u has UserUpVotes v AND ALSO OPTIONALLY has UserAge a AND ALSO (v - v) AS k AND ALSO THE AVERAGE v GROUPED BY k AS au AND ALSO THE AVERAGE a GROUPED BY k AS aa WHERE THE COUNT OF Post [has owner User: !u] > 10"}
+{"at": 1789257041.389893, "query": "LIST THE AVERAGE v, THE AVERAGE a FROM User u has UserUpVotes v AND ALSO OPTIONALLY has UserAge a WHERE THE COUNT OF Post [has owner User: !u] > 10"}
+{"at": 1789257069.65008, "query": "LIST t FROM Comment has CommentText t AND ALSO has User is of PostHistory has Post has PostTitle: 'Why square the difference instead of taking the absolute value in standard deviation?'"}
+{"at": 1789257083.2017121, "query": "THE DISTINCT COUNT OF User [has UserLocation: 'United Kingdom'] [is owner of Post has PostFavoriteCount f] WHERE f >= 4"}
+{"at": 1789257085.683655, "query": "(THE COUNT OF Post [has owner User has UserReputation r] [has PostScore s] WHERE s > 50 AND r = THE MAXIMUM User has UserReputation) * 100 / (THE COUNT OF Post [has owner User has UserReputation r] WHERE r = THE MAXIMUM User has UserReputation)"}
+{"at": 1789257107.152166, "query": "LIST t FROM Post [has PostTitle: 'Why square the difference instead of taking the absolute value in standard deviation?'] is of PostHistory has User is of Comment has CommentText t"}

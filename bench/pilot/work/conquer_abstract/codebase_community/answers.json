@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 604,
+  "answer": "LIST (THE AVERAGE uv IN User u [has UserUpVotes uv] WHERE (THE COUNT OF Post [has owner User: !u]) > 10), (THE AVERAGE age IN User u [has UserAge age] WHERE (THE COUNT OF Post [has owner User: !u]) > 10)",
+  "attempts": 3
+ },
+ {
+  "question_id": 584,
+  "answer": "LIST t FROM DISTINCT User [is of PostHistory has Post has PostTitle: 'Why square the difference instead of taking the absolute value in standard deviation?'] is of Comment has CommentText t",
+  "attempts": 2
+ },
+ {
+  "question_id": 537,
+  "answer": "THE COUNT OF Post [has owner User has UserDisplayName: 'csgillespie']",
+  "attempts": 1
+ },
+ {
+  "question_id": 704,
+  "answer": "LIST epid, wpid FROM Tag [has TagName: 'sample'] has Post has PostId epid AND ALSO has TagWikiPostId wpid",
+  "attempts": 1
+ },
+ {
+  "question_id": 665,
+  "answer": "(THE COUNT OF PostLink [has PostLinkCreationDate d AND ALSO has Post has PostAnswerCount a] WHERE year(d) = 2010 AND a <= 2) / 12",
+  "attempts": 2
+ },
+ {
+  "question_id": 672,
+  "answer": "THE DISTINCT COUNT OF User [has UserLocation: 'United Kingdom' AND ALSO is owner of Post has PostFavoriteCount f] WHERE f >= 4",
+  "attempts": 2
+ },
+ {
+  "question_id": 701,
+  "answer": "(THE COUNT OF Post [has owner User has UserReputation r AND ALSO has PostScore s] WHERE r = (THE MAXIMUM User has UserReputation) AND s > 50) * 100 / (THE COUNT OF Post [has owner User has UserReputation r2] WHERE r2 = (THE MAXIMUM User has UserReputation))",
+  "attempts": 2
+ },
+ {
+  "question_id": 567,
+  "answer": "THE COUNT OF Post [has owner User has UserDisplayName: 'Tiago Pasqualini']",
+  "attempts": 1
+ },
+ {
+  "question_id": 539,
+  "answer": "LIST n FROM Post [has PostTitle: 'Eliciting priors from experts'] has owner User has UserDisplayName n",
+  "attempts": 1
+ },
+ {
+  "question_id": 563,
+  "answer": "LIST f FROM Comment [has User: '3025' AND ALSO has CommentCreationDate: '2014-04-23 20:29:39.0'] has Post has PostFavoriteCount f",
+  "attempts": 1
+ }
+]

@@ -1,0 +1,33 @@
+[
+  {
+    "question_id": 1506,
+    "answer": "SELECT DISTINCT p.Description FROM transactions_1k t JOIN gasstations g ON t.GasStationID = g.GasStationID JOIN products p ON t.ProductID = p.ProductID WHERE g.Country = 'CZE';",
+    "attempts": 2
+  },
+  {
+    "question_id": 1505,
+    "answer": "SELECT COUNT(DISTINCT y.CustomerID) FROM yearmonth y JOIN customers c ON y.CustomerID = c.CustomerID WHERE c.Currency = 'EUR' AND y.Consumption > 1000;",
+    "attempts": 2
+  },
+  {
+    "question_id": 1481,
+    "answer": "WITH cust_totals AS (\n  SELECT c.CustomerID, c.Segment, SUM(y.Consumption) AS total_consumption\n  FROM customers c\n  JOIN yearmonth y ON c.CustomerID = y.CustomerID\n  WHERE c.Currency = 'CZK' AND y.Date BETWEEN '201301' AND '201312'\n  GROUP BY c.CustomerID, c.Segment\n),\nseg_min AS (\n  SELECT Segment, MIN(total_consumption) AS min_total\n  FROM cust_totals\n  GROUP BY Segment\n),\nseg_avg AS (\n  SELECT ct.Segment,\n         SUM(ct.total_consumption) * 1.0 / COUNT(*) AS annual_avg\n  FROM cust_totals ct\n  JOIN seg_min sm ON ct.Segment = sm.Segment AND ct.total_consumption = sm.min_total\n  GROUP BY ct.Segment\n)\nSELECT\n  (SELECT annual_avg FROM seg_avg WHERE Segment='SME') - (SELECT annual_avg FROM seg_avg WHERE Segment='LAM') AS SME_minus_LAM,\n  (SELECT annual_avg FROM seg_avg WHERE Segment='LAM') - (SELECT annual_avg FROM seg_avg WHERE Segment='KAM') AS LAM_minus_KAM,\n  (SELECT annual_avg FROM seg_avg WHERE Segment='KAM') - (SELECT annual_avg FROM seg_avg WHERE Segment='SME') AS KAM_minus_SME;",
+    "attempts": 2
+  },
+  {
+    "question_id": 1486,
+    "answer": "SELECT (SELECT COUNT(*) FROM customers WHERE Segment='SME' AND Currency='CZK') - (SELECT COUNT(*) FROM customers WHERE Segment='SME' AND Currency='EUR') AS diff;",
+    "attempts": 1
+  },
+  {
+    "question_id": 1525,
+    "answer": "SELECT CAST(COUNT(DISTINCT CASE WHEN c.Currency='EUR' THEN t.CustomerID END) AS REAL) * 100 / COUNT(DISTINCT t.CustomerID) AS pct_eur FROM transactions_1k t JOIN customers c ON t.CustomerID = c.CustomerID WHERE t.Date = '2012-08-25';",
+    "attempts": 2
+  },
+  {
+    "question_id": 1501,
+    "answer": "SELECT DISTINCT g.Country FROM yearmonth y JOIN transactions_1k t ON y.CustomerID = t.CustomerID JOIN gasstations g ON t.GasStationID = g.GasStationID WHERE y.Date = '201306';",
+    "attempts": 3,
+    "note": "transactions_1k only contains transactions dated 2012-08-23 through 2012-08-26 (no June 2013 rows), so filtering transactions_1k.Date directly returns nothing. Followed the evidence's instruction to derive year/month from the yearmonth table's YYYYMM-formatted Date, joining yearmonth (filtered to 201306) to transactions_1k by CustomerID to reach the gas stations."
+  }
+]

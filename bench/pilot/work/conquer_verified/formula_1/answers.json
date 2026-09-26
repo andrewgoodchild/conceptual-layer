@@ -1,0 +1,93 @@
+[
+ {
+  "question_id": 930,
+  "answer": "LIST rn FROM Result [has Driver has DriverForename: 'Lewis'] [has Driver has DriverSurname: 'Hamilton'] has Race has RaceName rn AND ALSO has ResultRank rk ORDERED WITH rk ASCENDING THE FIRST 1",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Matches the evidence's literal min(rank) formula, using ResultRank as the schema requires. Checked the underlying data: ResultRank contains a sentinel value 0 shared by many results in the same race (e.g. 10+ tied rows for race 843), so min(rank) ties on 0 rather than on a real rank of 1; even excluding 0 there is a genuine tie at rank 1 across several of Hamilton's races. This ambiguity is inherent to the data/evidence definition, not to this query, so it was left as drafted."
+ },
+ {
+  "question_id": 1011,
+  "answer": "LIST fn, sn FROM LapTime has Driver has DriverForename fn AND ALSO has Driver has DriverSurname sn AND ALSO has LapTimeMilliseconds ms ORDERED WITH ms ASCENDING THE FIRST 1",
+  "attempts": 4,
+  "verdict": "revised",
+  "reason": "The draft ordered by LapTimeTime, a string field formatted 'M:SS.mmm'/'MM:SS.mmm'. Lexical ordering of that string is wrong: '10:32.179' sorts before '1:07.411' because '1'<'6' in the seconds-omitted comparison, so the draft returned Anthony Davidson (a 10-minute-plus lap) as the 'shortest'. Re-ordered by LapTimeMilliseconds, the numeric field evidence's own warning about the string format was pointing at; this returns Lewis Hamilton at 1:07.411 (67411 ms), a unique minimum with no tie. Also dropped no extra columns; the question only asks for the name so fn, sn alone are projected."
+ },
+ {
+  "question_id": 909,
+  "answer": "THE COUNT OF Race [has RaceName: 'European Grand Prix'] [has Circuit has CircuitCountry: 'Germany'] * 100 / THE COUNT OF Race [has RaceName: 'European Grand Prix']",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Numerator and denominator exactly match the evidence's formula (count of European GP races hosted in Germany over count of all European GP races, times 100). Compiled cleanly with no warnings; result 52.17."
+ },
+ {
+  "question_id": 892,
+  "answer": "LIST fn, sn, p FROM DriverStanding has Driver has DriverForename fn AND ALSO has Driver has DriverSurname sn AND ALSO has DriverStandingPoints p ORDERED WITH p DESCENDING THE FIRST 1",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Question asks for the driver's name and points, which the draft projects (no more, no less). Orders by DriverStandingPoints descending, first 1, matching 'max(points)'. Returns Sebastian Vettel, 397.0 points, no reported ties."
+ },
+ {
+  "question_id": 854,
+  "answer": "LIST la, lo FROM DISTINCT Race [has RaceName: 'Australian Grand Prix'] has Circuit has CircuitLat la AND ALSO has Circuit has CircuitLng lo",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Projects exactly lat/lng as the evidence specifies, DISTINCT correctly collapses the many Australian Grand Prix races (one per year) at the same circuit into a single coordinate pair."
+ },
+ {
+  "question_id": 898,
+  "answer": "LIST fn, sn, year(today()) - year(dob) FROM Driver [has DriverNationality: 'Japanese'] has DriverForename fn AND ALSO has DriverSurname sn AND ALSO has DriverDob dob ORDERED WITH dob DESCENDING THE FIRST 1",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Filters Japanese nationality, computes age with year(today())-year(dob) matching the evidence formula, and orders by dob descending (largest/most recent birthdate = youngest) taking the first 1. Returns Kamui Kobayashi, age 40, consistent with his known birth year 1986."
+ },
+ {
+  "question_id": 877,
+  "answer": "LIST fn, sn FROM Result [has Race: 872] has ResultTime t AND ALSO has Driver has DriverForename fn AND ALSO has Driver has DriverSurname sn AND ALSO has Driver has DriverDob dob ORDERED WITH dob DESCENDING THE FIRST 1",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Filters to race 872 (via RaceId reference scheme), requires ResultTime to restrict to finishers as the evidence directs, and orders by dob descending (max dob = youngest) taking the first 1. Returns Sergio Pérez."
+ },
+ {
+  "question_id": 906,
+  "answer": "LIST rn, p FROM Result [has Driver has DriverForename: 'Lewis'] [has Driver has DriverSurname: 'Hamilton'] has Race has RaceName rn AND ALSO has ResultPoints p AND ALSO has Race has Season has SeasonYear y ORDERED WITH y ASCENDING THE FIRST 1",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "Matches evidence's min(Year) formula and projects race name plus points as asked. Checked the tie risk within Hamilton's rookie year (2007 has many races): re-ran with a secondary ORDER BY RaceRound to disambiguate and got the identical row (Malaysian Grand Prix, 8.0 points) -- his Round 1 Australian GP result is simply absent from this database, so Round 2 is genuinely his earliest recorded race either way. Left the draft unchanged since it already produces the correct row."
+ },
+ {
+  "question_id": 988,
+  "answer": "LIST fn, sn FROM PitStop [has Driver has DriverNationality: 'German'] has Driver has DriverId di AND ALSO has Driver has DriverForename fn AND ALSO has Driver has DriverSurname sn AND ALSO has Driver has DriverDob dob AND ALSO has PitStopDuration dur AND ALSO THE AVERAGE dur GROUPED BY di AS a WHERE year(dob) >= 1980 AND year(dob) <= 1985 ORDERED WITH a ASCENDING THE FIRST 3",
+  "attempts": 2,
+  "verdict": "revised",
+  "reason": "Filtering (German, born 1980-1985), grouping/averaging by driver, and ORDER BY average ASC THE FIRST 3 were all correct. But the draft also projected the average duration 'a' as a third column, which the question never asked for -- it only asks to 'list down' the top 3 drivers. Removed 'a' from the LIST while keeping it as the (unprojected) sort key; same three rows and order result (Nico Rosberg, Adrian Sutil, Timo Glock)."
+ },
+ {
+  "question_id": 881,
+  "answer": "THE COUNT OF Result [has Race has RaceDate: '1983-07-16'] [has ResultTime] / THE COUNT OF Result [has Race has RaceDate: '1983-07-16']",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Matches the evidence's formula exactly: count of results with a recorded time (finishers) divided by count of all results (participants) for the race dated 1983-07-16, using real division and no extra *100 (the evidence's own formula does not multiply by 100, despite labelling the result 'percentage'). Result 0.1724, consistent with 5 finishers out of 29 participants."
+ },
+ {
+  "question_id": 977,
+  "answer": "THE COUNT OF Result [has Race has RaceId r] [has Status: 2] [has ResultTime] WHERE r > 50 AND r < 100",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Matches the evidence's literal bounds (raceId > 50 and < 100, exclusive), status = 2 for disqualified, and requires ResultTime to mean 'finisher' as specified. Compiles cleanly; result 2."
+ },
+ {
+  "question_id": 915,
+  "answer": "LIST nat FROM Driver has DriverNationality nat AND ALSO has DriverDob dob ORDERED WITH dob ASCENDING THE FIRST 1",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Projects only nationality as asked. Orders by dob ascending (smallest/earliest birthdate = oldest per the evidence) taking the first 1. Returns French."
+ },
+ {
+  "question_id": 868,
+  "answer": "LIST la, lo FROM DISTINCT Race [has RaceName: 'Malaysian Grand Prix'] has Circuit has CircuitLat la AND ALSO has Circuit has CircuitLng lo",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Same pattern as the Australian Grand Prix question: projects exactly lat/lng, DISTINCT collapses repeated years at the same circuit into one coordinate pair."
+ }
+]

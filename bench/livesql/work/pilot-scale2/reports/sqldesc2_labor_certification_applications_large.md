@@ -1,0 +1,5 @@
+Writer's report (sqldesc2 arm, labor_certification_applications_large), as returned. Drafts in `./drafts/`.
+
+- Hardest: Q11 filing window with no month boundaries (every receipt date 2023-12-21); Q14/Q13 need data the database lacks (workforce, population); Q15 vague categories; Q8 annualised wages; Q16 jurisdiction read as the attorney's court state; ties in Q1/Q3/Q16.
+- **What the description told it that mattered:** the status column is one value in three spellings (so every rate is 100%); **the receipt and decision dates are each a single constant value** (processing 8 days everywhere; 216 without a decision); **dates stored as text in three formats**; JSON wages carry their unit; the links from cases to employers, worksites, prevailing wage and attorneys.
+- **What it failed to tell:** where the NAICS code, court jurisdiction and worksite state were -- **the term-to-column hints pointed at an unrelated table** (`attorney_case_specialization.successRate_pct`), and matched nothing for Visa Classification Types; found via `information_schema`. No filing-window thresholds anywhere.

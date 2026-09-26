@@ -1,0 +1,57 @@
+[
+ {
+  "question_id": 422,
+  "answer": "SELECT language FROM foreign_data WHERE multiverseid = 149934;",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": "SELECT c.id, c.artist FROM cards c JOIN legalities l ON c.uuid = l.uuid WHERE (c.power = '*' OR c.power IS NULL) AND l.format = 'commander' AND l.status = 'Legal';",
+  "attempts": 2
+ },
+ {
+  "question_id": 473,
+  "answer": "SELECT DISTINCT s.name AS set_name, s.isForeignOnly, CASE WHEN s.isForeignOnly = 1 THEN 'Yes' ELSE 'No' END AS only_outside_us FROM cards c JOIN sets s ON c.setCode = s.code WHERE c.name = 'Adarkar Valkyrie';",
+  "attempts": 1
+ },
+ {
+  "question_id": 424,
+  "answer": "SELECT CAST(SUM(CASE WHEN isTextless = 1 AND layout = 'normal' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) AS proportion FROM cards;",
+  "attempts": 1
+ },
+ {
+  "question_id": 344,
+  "answer": "SELECT c.id, c.name FROM cards c JOIN legalities l ON c.uuid = l.uuid WHERE c.rarity = 'mythic' AND l.format = 'gladiator' AND l.status = 'Banned';",
+  "attempts": 1
+ },
+ {
+  "question_id": 377,
+  "answer": "SELECT COUNT(*) FROM cards WHERE originalType = 'Summon - Angel' AND subtypes IS NOT 'Angel';",
+  "attempts": 2
+ },
+ {
+  "question_id": 352,
+  "answer": "SELECT CAST(COUNT(CASE WHEN language = 'Chinese Simplified' THEN id END) AS REAL) * 100 / COUNT(id) AS percentage FROM foreign_data;",
+  "attempts": 1
+ },
+ {
+  "question_id": 518,
+  "answer": "WITH top_format AS (SELECT format FROM legalities WHERE status = 'Banned' GROUP BY format ORDER BY COUNT(*) DESC LIMIT 1) SELECT tf.format, c.name FROM legalities l JOIN top_format tf ON l.format = tf.format JOIN cards c ON c.uuid = l.uuid WHERE l.status = 'Banned';",
+  "attempts": 3
+ },
+ {
+  "question_id": 416,
+  "answer": "SELECT COUNT(CASE WHEN fd.language = 'French' THEN 1 END) * 100.0 / COUNT(*) AS percentage FROM cards c JOIN foreign_data fd ON c.uuid = fd.uuid WHERE c.power IS NULL OR c.power = '*';",
+  "attempts": 1
+ },
+ {
+  "question_id": 349,
+  "answer": "SELECT c.name, c.artist, c.isPromo, COUNT(r.id) AS ruling_count FROM cards c JOIN rulings r ON c.uuid = r.uuid GROUP BY c.uuid ORDER BY ruling_count DESC, c.uuid ASC LIMIT 1;",
+  "attempts": 3
+ },
+ {
+  "question_id": 462,
+  "answer": "SELECT DISTINCT st.translation FROM cards c JOIN set_translations st ON c.setCode = st.setCode WHERE c.name = 'Ancestor''s Chosen' AND st.language = 'Italian';",
+  "attempts": 4
+ }
+]

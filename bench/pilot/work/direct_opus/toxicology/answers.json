@@ -1,0 +1,10 @@
+[
+ {"question_id": 201, "answer": "SELECT CAST(COUNT(CASE WHEN T3.element = 'c' THEN T3.atom_id ELSE NULL END) AS REAL) * 100 / COUNT(T3.atom_id) FROM bond AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id INNER JOIN atom AS T3 ON T2.molecule_id = T3.molecule_id WHERE T1.bond_type = '='", "attempts": 2},
+ {"question_id": 239, "answer": "SELECT COUNT(bond_id) FROM connected WHERE atom_id LIKE 'TR%_19'", "attempts": 2},
+ {"question_id": 243, "answer": "SELECT DISTINCT T1.bond_id FROM connected AS T1 INNER JOIN atom AS T2 ON T1.atom_id = T2.atom_id INNER JOIN atom AS T3 ON T1.atom_id2 = T3.atom_id WHERE (T2.element = 'p' AND T3.element = 'n') OR (T2.element = 'n' AND T3.element = 'p')", "attempts": 1},
+ {"question_id": 234, "answer": "SELECT COUNT(DISTINCT bond_id) FROM connected WHERE atom_id = 'TR009_12' OR atom_id2 = 'TR009_12'", "attempts": 2},
+ {"question_id": 215, "answer": "SELECT COUNT(DISTINCT T2.atom_id) FROM bond AS T1 INNER JOIN atom AS T2 ON T1.molecule_id = T2.molecule_id WHERE T1.bond_type = '-' AND T2.element IN ('i','s')", "attempts": 1},
+ {"question_id": 230, "answer": "SELECT DISTINCT T1.element, T2.label FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.molecule_id = 'TR060'", "attempts": 1},
+ {"question_id": 206, "answer": "SELECT DISTINCT T2.element FROM connected AS T1 INNER JOIN atom AS T2 ON T1.atom_id = T2.atom_id WHERE T1.bond_id = 'TR004_8_9'", "attempts": 2},
+ {"question_id": 212, "answer": "SELECT T1.element FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.label = '-' GROUP BY T1.element ORDER BY COUNT(T1.element) ASC LIMIT 1", "attempts": 2}
+]

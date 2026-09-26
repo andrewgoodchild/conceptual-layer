@@ -1,0 +1,3979 @@
+{
+ "database": "polar_equipment_large",
+ "tables": [
+  "BatteryChargeCycleLog",
+  "BatteryDegradationAnalysis",
+  "CabinAirQualitySample",
+  "CabinEnvironment",
+  "CabinOccupancyEvent",
+  "ChassisAndVehicle",
+  "ChassisDynamicsEvent",
+  "Communication",
+  "CommunicationLinkMetric",
+  "CommunicationQualityMetric",
+  "CommunicationSessionLog",
+  "CrewCertificationRecord",
+  "CrewMember",
+  "CrewProjectAssignment",
+  "CrewTrainingSession",
+  "EnergyGenerationLog",
+  "EngineAndFluids",
+  "EngineEmissionMeasurement",
+  "EngineRuntimeSnapshot",
+  "Equipment",
+  "EquipmentAnomalyDetection",
+  "EquipmentHealthAssessment",
+  "EquipmentLifecycle",
+  "EquipmentLocationHistory",
+  "EquipmentPerformanceLog",
+  "EquipmentSensorMapping",
+  "EquipmentSpecification",
+  "EquipmentType",
+  "EquipmentTypeDetail",
+  "FuelingAndChargingEvent",
+  "LightingAndSafety",
+  "Location",
+  "LocationEnvironmentalLog",
+  "LocationWeatherObservation",
+  "MaintenancePartConsumption",
+  "MaintenanceTaskCatalog",
+  "MaintenanceWorkOrder",
+  "OperationMaintenance",
+  "PowerBattery",
+  "Project",
+  "SafetyInspection",
+  "Scientific",
+  "ScientificCalibrationSchedule",
+  "ScientificDataAcquisition",
+  "ScientificExperimentResult",
+  "SensorModel",
+  "SensorModelMeasurementProfile",
+  "StationEquipmentType",
+  "TaskCrewAssignment",
+  "ThermalSolarWindAndGrid",
+  "Transmission",
+  "TransmissionDiagnosticEvent",
+  "TransmissionFluidAnalysis",
+  "TransmissionServiceHistory",
+  "WaterAndWaste",
+  "WaterTreatmentCycle",
+  "WeatherAndStructure"
+ ],
+ "candidates": [
+  {
+   "id": "BatteryChargeCycleLog.battery_ref -> PowerBattery.PWR_BATT_ID",
+   "source_table": "BatteryChargeCycleLog",
+   "source_column": "battery_ref",
+   "target_table": "PowerBattery",
+   "target_key": "PWR_BATT_ID",
+   "source_rows": 3668,
+   "source_distinct": 889,
+   "target_rows": 899,
+   "score": 3.98,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "358",
+    "460",
+    "356",
+    "209",
+    "162"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BatteryChargeCycleLog.cycleCountTotal -> FuelingAndChargingEvent.fuelChargeSeq",
+   "source_table": "BatteryChargeCycleLog",
+   "source_column": "cycleCountTotal",
+   "target_table": "FuelingAndChargingEvent",
+   "target_key": "fuelChargeSeq",
+   "source_rows": 3668,
+   "source_distinct": 1915,
+   "target_rows": 4000,
+   "score": 2.72,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "266",
+    "39",
+    "1475",
+    "301",
+    "2252"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BatteryDegradationAnalysis.charge_cycle_ref -> BatteryChargeCycleLog.chargeCycleSeq",
+   "source_table": "BatteryDegradationAnalysis",
+   "source_column": "charge_cycle_ref",
+   "target_table": "BatteryChargeCycleLog",
+   "target_key": "chargeCycleSeq",
+   "source_rows": 17413,
+   "source_distinct": 3638,
+   "target_rows": 3668,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "BCC-2693C2B75D45",
+    "BCC-173441261CDE",
+    "BCC-C498BDD338BE",
+    "BCC-A11CA926E7D1",
+    "BCC-AEE83D6E3E0A"
+   ],
+   "target_samples": [
+    "BCC-00061F02E787",
+    "BCC-002419D51095",
+    "BCC-0049190CCB11",
+    "BCC-0051C6E449C2",
+    "BCC-0060FCB86CD7"
+   ]
+  },
+  {
+   "id": "BatteryDegradationAnalysis.cycleCount -> FuelingAndChargingEvent.fuelChargeSeq",
+   "source_table": "BatteryDegradationAnalysis",
+   "source_column": "cycleCount",
+   "target_table": "FuelingAndChargingEvent",
+   "target_key": "fuelChargeSeq",
+   "source_rows": 17413,
+   "source_distinct": 2947,
+   "target_rows": 4000,
+   "score": 3.26,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "391",
+    "293",
+    "502",
+    "1491",
+    "2579"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BatteryDegradationAnalysis.calendarAgeDays -> SafetyInspection.safetyNote",
+   "source_table": "BatteryDegradationAnalysis",
+   "source_column": "calendarAgeDays",
+   "target_table": "SafetyInspection",
+   "target_key": "safetyNote",
+   "source_rows": 17413,
+   "source_distinct": 1970,
+   "target_rows": 2389,
+   "score": 3.52,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1020",
+    "1805",
+    "1091",
+    "545",
+    "485"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BatteryDegradationAnalysis.predictedEOL_days -> SafetyInspection.safetyNote",
+   "source_table": "BatteryDegradationAnalysis",
+   "source_column": "predictedEOL_days",
+   "target_table": "SafetyInspection",
+   "target_key": "safetyNote",
+   "source_rows": 17413,
+   "source_distinct": 1512,
+   "target_rows": 2389,
+   "score": 3.02,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "266",
+    "566",
+    "804",
+    "891",
+    "304"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CabinAirQualitySample.occupancy_event_ref -> CabinOccupancyEvent.occupancyEventSeq",
+   "source_table": "CabinAirQualitySample",
+   "source_column": "occupancy_event_ref",
+   "target_table": "CabinOccupancyEvent",
+   "target_key": "occupancyEventSeq",
+   "source_rows": 4433,
+   "source_distinct": 1154,
+   "target_rows": 1175,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "COE-7E7A99E60C9D",
+    "COE-E6AB00695005",
+    "COE-15A395B59585",
+    "COE-1B9E0B70A6AD",
+    "COE-4CEB2DA37307"
+   ],
+   "target_samples": [
+    "COE-003E2E17FBED",
+    "COE-00541EBB6013",
+    "COE-017A452F2DAF",
+    "COE-01C2A5E7F1E3",
+    "COE-0259BB52A4EA"
+   ]
+  },
+  {
+   "id": "CabinEnvironment.equipRef -> Equipment.EQUIP_CODE",
+   "source_table": "CabinEnvironment",
+   "source_column": "equipRef",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 346,
+   "source_distinct": 346,
+   "target_rows": 1000,
+   "score": 3.8,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "CabinEnvironment.loc_link -> Location.STATION_name",
+   "source_table": "CabinEnvironment",
+   "source_column": "loc_link",
+   "target_table": "Location",
+   "target_key": "STATION_name",
+   "source_rows": 346,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Station-14",
+    "Station-8",
+    "Station-19",
+    "Station-20",
+    "Station-13"
+   ],
+   "target_samples": [
+    "Station-1",
+    "Station-10",
+    "Station-11",
+    "Station-12",
+    "Station-13"
+   ]
+  },
+  {
+   "id": "CabinEnvironment.comm_link -> EngineAndFluids.ENGINE_ID",
+   "source_table": "CabinEnvironment",
+   "source_column": "comm_link",
+   "target_table": "EngineAndFluids",
+   "target_key": "ENGINE_ID",
+   "source_rows": 346,
+   "source_distinct": 346,
+   "target_rows": 467,
+   "score": 3.72,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CabinOccupancyEvent.cabin_ref -> CabinEnvironment.CABIN_ID",
+   "source_table": "CabinOccupancyEvent",
+   "source_column": "cabin_ref",
+   "target_table": "CabinEnvironment",
+   "target_key": "CABIN_ID",
+   "source_rows": 1175,
+   "source_distinct": 332,
+   "target_rows": 346,
+   "score": 3.95,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "266",
+    "291",
+    "288",
+    "296",
+    "224"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CabinOccupancyEvent.maxCapacity -> SensorModelMeasurementProfile.profileStamp",
+   "source_table": "CabinOccupancyEvent",
+   "source_column": "maxCapacity",
+   "target_table": "SensorModelMeasurementProfile",
+   "target_key": "profileStamp",
+   "source_rows": 1175,
+   "source_distinct": 6,
+   "target_rows": 56,
+   "score": 1.69,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "6",
+    "4",
+    "10",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ChassisAndVehicle.equipRef -> Equipment.EQUIP_CODE",
+   "source_table": "ChassisAndVehicle",
+   "source_column": "equipRef",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "ChassisAndVehicle.trans_link -> Transmission.TRANS_ID",
+   "source_table": "ChassisAndVehicle",
+   "source_column": "trans_link",
+   "target_table": "Transmission",
+   "target_key": "TRANS_ID",
+   "source_rows": 1000,
+   "source_distinct": 976,
+   "target_rows": 976,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ChassisAndVehicle.engine_link -> EngineAndFluids.ENGINE_ID",
+   "source_table": "ChassisAndVehicle",
+   "source_column": "engine_link",
+   "target_table": "EngineAndFluids",
+   "target_key": "ENGINE_ID",
+   "source_rows": 1000,
+   "source_distinct": 467,
+   "target_rows": 467,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ChassisDynamicsEvent.for_chassis -> ChassisAndVehicle.CHASSIS_ID",
+   "source_table": "ChassisDynamicsEvent",
+   "source_column": "for_chassis",
+   "target_table": "ChassisAndVehicle",
+   "target_key": "CHASSIS_ID",
+   "source_rows": 8562,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Communication.equipRef -> Equipment.EQUIP_CODE",
+   "source_table": "Communication",
+   "source_column": "equipRef",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 850,
+   "source_distinct": 850,
+   "target_rows": 1000,
+   "score": 4.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "Communication.loc_link -> Location.STATION_name",
+   "source_table": "Communication",
+   "source_column": "loc_link",
+   "target_table": "Location",
+   "target_key": "STATION_name",
+   "source_rows": 850,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Station-14",
+    "Station-8",
+    "Station-19",
+    "Station-20",
+    "Station-13"
+   ],
+   "target_samples": [
+    "Station-1",
+    "Station-10",
+    "Station-11",
+    "Station-12",
+    "Station-13"
+   ]
+  },
+  {
+   "id": "CommunicationLinkMetric.for_comm_link -> Communication.COMM_ID",
+   "source_table": "CommunicationLinkMetric",
+   "source_column": "for_comm_link",
+   "target_table": "Communication",
+   "target_key": "COMM_ID",
+   "source_rows": 7288,
+   "source_distinct": 850,
+   "target_rows": 850,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CommunicationQualityMetric.comm_session_ref -> CommunicationSessionLog.commSessionSeq",
+   "source_table": "CommunicationQualityMetric",
+   "source_column": "comm_session_ref",
+   "target_table": "CommunicationSessionLog",
+   "target_key": "commSessionSeq",
+   "source_rows": 8282,
+   "source_distinct": 1788,
+   "target_rows": 1812,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CSL-2F7A29D3D855",
+    "CSL-9012066B5B53",
+    "CSL-AB87B344528B",
+    "CSL-8E82BD6D185B",
+    "CSL-70B670D1B790"
+   ],
+   "target_samples": [
+    "CSL-00279FF07368",
+    "CSL-0045EB2D1361",
+    "CSL-00592429D5B8",
+    "CSL-009A5A6B6C14",
+    "CSL-00BDE314D723"
+   ]
+  },
+  {
+   "id": "CommunicationSessionLog.comm_ref -> Communication.COMM_ID",
+   "source_table": "CommunicationSessionLog",
+   "source_column": "comm_ref",
+   "target_table": "Communication",
+   "target_key": "COMM_ID",
+   "source_rows": 1812,
+   "source_distinct": 750,
+   "target_rows": 850,
+   "score": 3.87,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "49",
+    "261",
+    "624",
+    "233",
+    "140"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CommunicationSessionLog.durationSeconds -> CommunicationLinkMetric.commMeasureNo",
+   "source_table": "CommunicationSessionLog",
+   "source_column": "durationSeconds",
+   "target_table": "CommunicationLinkMetric",
+   "target_key": "commMeasureNo",
+   "source_rows": 1812,
+   "source_distinct": 1326,
+   "target_rows": 7288,
+   "score": 2.26,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "822",
+    "5",
+    "326",
+    "1770",
+    "2153"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CommunicationSessionLog.bandwidthAllocated_kbps -> WaterTreatmentCycle.cycleStamp",
+   "source_table": "CommunicationSessionLog",
+   "source_column": "bandwidthAllocated_kbps",
+   "target_table": "WaterTreatmentCycle",
+   "target_key": "cycleStamp",
+   "source_rows": 1812,
+   "source_distinct": 7,
+   "target_rows": 4548,
+   "score": 2.02,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "128",
+    "512",
+    "64",
+    "256",
+    "2048"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CrewCertificationRecord.crew_ref -> CrewMember.crewToken",
+   "source_table": "CrewCertificationRecord",
+   "source_column": "crew_ref",
+   "target_table": "CrewMember",
+   "target_key": "crewToken",
+   "source_rows": 574,
+   "source_distinct": 120,
+   "target_rows": 120,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CRW-1096",
+    "CRW-1058",
+    "CRW-1047",
+    "CRW-1101",
+    "CRW-1094"
+   ],
+   "target_samples": [
+    "CRW-1000",
+    "CRW-1001",
+    "CRW-1002",
+    "CRW-1003",
+    "CRW-1004"
+   ]
+  },
+  {
+   "id": "CrewCertificationRecord.attemptNumber -> EquipmentTypeDetail.typeDetailNo",
+   "source_table": "CrewCertificationRecord",
+   "source_column": "attemptNumber",
+   "target_table": "EquipmentTypeDetail",
+   "target_key": "typeDetailNo",
+   "source_rows": 574,
+   "source_distinct": 2,
+   "target_rows": 6,
+   "score": 2.33,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CrewCertificationRecord.renewalPeriodMonths -> CabinEnvironment.CABIN_ID",
+   "source_table": "CrewCertificationRecord",
+   "source_column": "renewalPeriodMonths",
+   "target_table": "CabinEnvironment",
+   "target_key": "CABIN_ID",
+   "source_rows": 574,
+   "source_distinct": 4,
+   "target_rows": 346,
+   "score": 1.38,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "36",
+    "60",
+    "24"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CrewProjectAssignment.crew_ref -> CrewMember.crewToken",
+   "source_table": "CrewProjectAssignment",
+   "source_column": "crew_ref",
+   "target_table": "CrewMember",
+   "target_key": "crewToken",
+   "source_rows": 422,
+   "source_distinct": 120,
+   "target_rows": 120,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CRW-1000",
+    "CRW-1001",
+    "CRW-1002",
+    "CRW-1003",
+    "CRW-1004"
+   ],
+   "target_samples": [
+    "CRW-1000",
+    "CRW-1001",
+    "CRW-1002",
+    "CRW-1003",
+    "CRW-1004"
+   ]
+  },
+  {
+   "id": "CrewProjectAssignment.project_ref -> Project.projectSlug",
+   "source_table": "CrewProjectAssignment",
+   "source_column": "project_ref",
+   "target_table": "Project",
+   "target_key": "projectSlug",
+   "source_rows": 422,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PRJ-215",
+    "PRJ-218",
+    "PRJ-220",
+    "PRJ-222",
+    "PRJ-233"
+   ],
+   "target_samples": [
+    "PRJ-200",
+    "PRJ-201",
+    "PRJ-202",
+    "PRJ-203",
+    "PRJ-204"
+   ]
+  },
+  {
+   "id": "CrewProjectAssignment.breakMin -> CabinEnvironment.CABIN_ID",
+   "source_table": "CrewProjectAssignment",
+   "source_column": "breakMin",
+   "target_table": "CabinEnvironment",
+   "target_key": "CABIN_ID",
+   "source_rows": 422,
+   "source_distinct": 4,
+   "target_rows": 346,
+   "score": 2.15,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "45",
+    "30",
+    "90",
+    "60"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CrewTrainingSession.cert_record_ref -> CrewCertificationRecord.certRecordSeq",
+   "source_table": "CrewTrainingSession",
+   "source_column": "cert_record_ref",
+   "target_table": "CrewCertificationRecord",
+   "target_key": "certRecordSeq",
+   "source_rows": 2079,
+   "source_distinct": 564,
+   "target_rows": 574,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CCR-5DEA7914555B",
+    "CCR-61E5690E2B32",
+    "CCR-96CD00C00C2B",
+    "CCR-FF74AF2161C6",
+    "CCR-08CB0AF2E356"
+   ],
+   "target_samples": [
+    "CCR-00F8A136D837",
+    "CCR-010F29A2F846",
+    "CCR-02249102EC6E",
+    "CCR-030BC3023B16",
+    "CCR-03407E92F5DE"
+   ]
+  },
+  {
+   "id": "CrewTrainingSession.sessionDuration_min -> CabinEnvironment.CABIN_ID",
+   "source_table": "CrewTrainingSession",
+   "source_column": "sessionDuration_min",
+   "target_table": "CabinEnvironment",
+   "target_key": "CABIN_ID",
+   "source_rows": 2079,
+   "source_distinct": 215,
+   "target_rows": 346,
+   "score": 3.04,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "132",
+    "117",
+    "112",
+    "176",
+    "103"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EnergyGenerationLog.for_thermal_asset -> ChassisAndVehicle.CHASSIS_ID",
+   "source_table": "EnergyGenerationLog",
+   "source_column": "for_thermal_asset",
+   "target_table": "ChassisAndVehicle",
+   "target_key": "CHASSIS_ID",
+   "source_rows": 7485,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EngineAndFluids.equipRef -> Equipment.EQUIP_CODE",
+   "source_table": "EngineAndFluids",
+   "source_column": "equipRef",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 467,
+   "source_distinct": 467,
+   "target_rows": 1000,
+   "score": 3.93,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "EngineAndFluids.batt_link -> LightingAndSafety.LIGHT_ID",
+   "source_table": "EngineAndFluids",
+   "source_column": "batt_link",
+   "target_table": "LightingAndSafety",
+   "target_key": "LIGHT_ID",
+   "source_rows": 467,
+   "source_distinct": 467,
+   "target_rows": 693,
+   "score": 3.52,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EngineEmissionMeasurement.runtime_snap_ref -> EngineRuntimeSnapshot.runtimeSnapSeq",
+   "source_table": "EngineEmissionMeasurement",
+   "source_column": "runtime_snap_ref",
+   "target_table": "EngineRuntimeSnapshot",
+   "target_key": "runtimeSnapSeq",
+   "source_rows": 9334,
+   "source_distinct": 1881,
+   "target_rows": 1893,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ERS-882CA95F89C9",
+    "ERS-0136B818AC26",
+    "ERS-2FB4FA9328B1",
+    "ERS-C4087C7ADE8A",
+    "ERS-65203B4A3198"
+   ],
+   "target_samples": [
+    "ERS-00541AE44DE2",
+    "ERS-00662506FF55",
+    "ERS-008250C44496",
+    "ERS-008D62D06F47",
+    "ERS-0108318B3E62"
+   ]
+  },
+  {
+   "id": "EngineRuntimeSnapshot.engine_ref -> EngineAndFluids.ENGINE_ID",
+   "source_table": "EngineRuntimeSnapshot",
+   "source_column": "engine_ref",
+   "target_table": "EngineAndFluids",
+   "target_key": "ENGINE_ID",
+   "source_rows": 1893,
+   "source_distinct": 458,
+   "target_rows": 467,
+   "score": 3.97,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "267",
+    "377",
+    "167",
+    "413",
+    "67"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Equipment.EquipType -> EquipmentType.EquipType",
+   "source_table": "Equipment",
+   "source_column": "EquipType",
+   "target_table": "EquipmentType",
+   "target_key": "EquipType",
+   "source_rows": 1000,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Shelter",
+    "Scientific",
+    "Safety",
+    "Vehicle",
+    "Generator"
+   ],
+   "target_samples": [
+    "Communication",
+    "Generator",
+    "Safety",
+    "Scientific",
+    "Shelter"
+   ]
+  },
+  {
+   "id": "Equipment.SERVICE_YRS -> SensorModelMeasurementProfile.profileStamp",
+   "source_table": "Equipment",
+   "source_column": "SERVICE_YRS",
+   "target_table": "SensorModelMeasurementProfile",
+   "target_key": "profileStamp",
+   "source_rows": 1000,
+   "source_distinct": 20,
+   "target_rows": 56,
+   "score": 2.54,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "6",
+    "10",
+    "16",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentAnomalyDetection.perf_log_ref -> EquipmentPerformanceLog.perfLogSeq",
+   "source_table": "EquipmentAnomalyDetection",
+   "source_column": "perf_log_ref",
+   "target_table": "EquipmentPerformanceLog",
+   "target_key": "perfLogSeq",
+   "source_rows": 10812,
+   "source_distinct": 3972,
+   "target_rows": 4322,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EPL-F4112DE51471",
+    "EPL-4AEA429059F8",
+    "EPL-2389F0424FDE",
+    "EPL-27A305C75A4D",
+    "EPL-50C0EE64D3CC"
+   ],
+   "target_samples": [
+    "EPL-0014256F3EA6",
+    "EPL-00165D95EBE3",
+    "EPL-0025541C456A",
+    "EPL-0031C8C5885A",
+    "EPL-003634C3E609"
+   ]
+  },
+  {
+   "id": "EquipmentAnomalyDetection.durationSeconds -> CommunicationLinkMetric.commMeasureNo",
+   "source_table": "EquipmentAnomalyDetection",
+   "source_column": "durationSeconds",
+   "target_table": "CommunicationLinkMetric",
+   "target_key": "commMeasureNo",
+   "source_rows": 10812,
+   "source_distinct": 5455,
+   "target_rows": 7288,
+   "score": 3.72,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6654",
+    "6076",
+    "1234",
+    "478",
+    "2583"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentHealthAssessment.perf_log_ref -> EquipmentPerformanceLog.perfLogSeq",
+   "source_table": "EquipmentHealthAssessment",
+   "source_column": "perf_log_ref",
+   "target_table": "EquipmentPerformanceLog",
+   "target_key": "perfLogSeq",
+   "source_rows": 16296,
+   "source_distinct": 4220,
+   "target_rows": 4322,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EPL-998FDB04F894",
+    "EPL-619B391C8875",
+    "EPL-7C065F59C9BB",
+    "EPL-8F322A776F37",
+    "EPL-D62F1D8DBBC9"
+   ],
+   "target_samples": [
+    "EPL-0014256F3EA6",
+    "EPL-00165D95EBE3",
+    "EPL-0025541C456A",
+    "EPL-0031C8C5885A",
+    "EPL-003634C3E609"
+   ]
+  },
+  {
+   "id": "EquipmentHealthAssessment.remainingUsefulLife_hrs -> EquipmentLocationHistory.locSeq",
+   "source_table": "EquipmentHealthAssessment",
+   "source_column": "remainingUsefulLife_hrs",
+   "target_table": "EquipmentLocationHistory",
+   "target_key": "locSeq",
+   "source_rows": 16296,
+   "source_distinct": 3520,
+   "target_rows": 6000,
+   "score": 3.14,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1823",
+    "2662",
+    "267",
+    "2265",
+    "2824"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentLifecycle.lifeEquipRef -> Equipment.EQUIP_CODE",
+   "source_table": "EquipmentLifecycle",
+   "source_column": "lifeEquipRef",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "EquipmentLifecycle.warrantyYears -> EquipmentTypeDetail.typeDetailNo",
+   "source_table": "EquipmentLifecycle",
+   "source_column": "warrantyYears",
+   "target_table": "EquipmentTypeDetail",
+   "target_key": "typeDetailNo",
+   "source_rows": 1000,
+   "source_distinct": 5,
+   "target_rows": 6,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5.0",
+    "3.0",
+    "4.0",
+    "2.0",
+    "1.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentLifecycle.deprYears -> SensorModelMeasurementProfile.profileStamp",
+   "source_table": "EquipmentLifecycle",
+   "source_column": "deprYears",
+   "target_table": "SensorModelMeasurementProfile",
+   "target_key": "profileStamp",
+   "source_rows": 1000,
+   "source_distinct": 16,
+   "target_rows": 56,
+   "score": 2.09,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12.0",
+    "9.0",
+    "10.0",
+    "7.0",
+    "13.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentLifecycle.auditCycle_days -> EngineAndFluids.ENGINE_ID",
+   "source_table": "EquipmentLifecycle",
+   "source_column": "auditCycle_days",
+   "target_table": "EngineAndFluids",
+   "target_key": "ENGINE_ID",
+   "source_rows": 1000,
+   "source_distinct": 1,
+   "target_rows": 467,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "365"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentLocationHistory.loc_for_equipment -> Equipment.EQUIP_CODE",
+   "source_table": "EquipmentLocationHistory",
+   "source_column": "loc_for_equipment",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 6000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "EquipmentLocationHistory.at_station -> Location.STATION_name",
+   "source_table": "EquipmentLocationHistory",
+   "source_column": "at_station",
+   "target_table": "Location",
+   "target_key": "STATION_name",
+   "source_rows": 6000,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Station-15",
+    "Station-19",
+    "Station-5",
+    "Station-8",
+    "Station-16"
+   ],
+   "target_samples": [
+    "Station-1",
+    "Station-10",
+    "Station-11",
+    "Station-12",
+    "Station-13"
+   ]
+  },
+  {
+   "id": "EquipmentLocationHistory.satCount -> SensorModelMeasurementProfile.profileStamp",
+   "source_table": "EquipmentLocationHistory",
+   "source_column": "satCount",
+   "target_table": "SensorModelMeasurementProfile",
+   "target_key": "profileStamp",
+   "source_rows": 6000,
+   "source_distinct": 24,
+   "target_rows": 56,
+   "score": 3.11,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "23",
+    "29",
+    "8",
+    "17"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentPerformanceLog.equip_ref -> Equipment.EQUIP_CODE",
+   "source_table": "EquipmentPerformanceLog",
+   "source_column": "equip_ref",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 4322,
+   "source_distinct": 987,
+   "target_rows": 1000,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593084",
+    "PE109485",
+    "PE109134",
+    "PE823422",
+    "PE884458"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "EquipmentPerformanceLog.memoryUsedMB -> FuelingAndChargingEvent.fuelChargeSeq",
+   "source_table": "EquipmentPerformanceLog",
+   "source_column": "memoryUsedMB",
+   "target_table": "FuelingAndChargingEvent",
+   "target_key": "fuelChargeSeq",
+   "source_rows": 4322,
+   "source_distinct": 1794,
+   "target_rows": 4000,
+   "score": 2.97,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2304",
+    "2225",
+    "1802",
+    "2377",
+    "1356"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentPerformanceLog.fanSpeedRPM -> WaterTreatmentCycle.cycleStamp",
+   "source_table": "EquipmentPerformanceLog",
+   "source_column": "fanSpeedRPM",
+   "target_table": "WaterTreatmentCycle",
+   "target_key": "cycleStamp",
+   "source_rows": 4322,
+   "source_distinct": 1919,
+   "target_rows": 4548,
+   "score": 2.94,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1757",
+    "2536",
+    "1678",
+    "2024",
+    "3143"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentSensorMapping.equip_ref_map -> Equipment.EQUIP_CODE",
+   "source_table": "EquipmentSensorMapping",
+   "source_column": "equip_ref_map",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 3036,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "EquipmentSensorMapping.sensor_model_ref -> SensorModel.modelHandle",
+   "source_table": "EquipmentSensorMapping",
+   "source_column": "sensor_model_ref",
+   "target_table": "SensorModel",
+   "target_key": "modelHandle",
+   "source_rows": 3036,
+   "source_distinct": 28,
+   "target_rows": 28,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SM-ACC-1013",
+    "SM-LID-1000",
+    "SM-MAG-1002",
+    "SM-PM2-1008",
+    "SM-ACC-1027"
+   ],
+   "target_samples": [
+    "SM-ACC-1013",
+    "SM-ACC-1027",
+    "SM-BAR-1011",
+    "SM-BAR-1019",
+    "SM-BAR-1022"
+   ]
+  },
+  {
+   "id": "EquipmentSensorMapping.bitDepth -> SensorModelMeasurementProfile.profileStamp",
+   "source_table": "EquipmentSensorMapping",
+   "source_column": "bitDepth",
+   "target_table": "SensorModelMeasurementProfile",
+   "target_key": "profileStamp",
+   "source_rows": 3036,
+   "source_distinct": 5,
+   "target_rows": 56,
+   "score": 2.56,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "24",
+    "12",
+    "14",
+    "18",
+    "16"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentSensorMapping.cal_profile_link -> SensorModelMeasurementProfile.profileStamp",
+   "source_table": "EquipmentSensorMapping",
+   "source_column": "cal_profile_link",
+   "target_table": "SensorModelMeasurementProfile",
+   "target_key": "profileStamp",
+   "source_rows": 3036,
+   "source_distinct": 56,
+   "target_rows": 56,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9",
+    "54",
+    "42",
+    "23",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentSpecification.spec_for_equipment -> Equipment.EQUIP_CODE",
+   "source_table": "EquipmentSpecification",
+   "source_column": "spec_for_equipment",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "EquipmentTypeDetail.for_type_code -> EquipmentType.EquipType",
+   "source_table": "EquipmentTypeDetail",
+   "source_column": "for_type_code",
+   "target_table": "EquipmentType",
+   "target_key": "EquipType",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Shelter",
+    "Scientific",
+    "Safety",
+    "Vehicle",
+    "Generator"
+   ],
+   "target_samples": [
+    "Communication",
+    "Generator",
+    "Safety",
+    "Scientific",
+    "Shelter"
+   ]
+  },
+  {
+   "id": "FuelingAndChargingEvent.for_equip_event -> Equipment.EQUIP_CODE",
+   "source_table": "FuelingAndChargingEvent",
+   "source_column": "for_equip_event",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 4000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "FuelingAndChargingEvent.battery_power_link -> PowerBattery.PWR_BATT_ID",
+   "source_table": "FuelingAndChargingEvent",
+   "source_column": "battery_power_link",
+   "target_table": "PowerBattery",
+   "target_key": "PWR_BATT_ID",
+   "source_rows": 4000,
+   "source_distinct": 583,
+   "target_rows": 899,
+   "score": 4.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "562",
+    "12",
+    "13",
+    "18"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FuelingAndChargingEvent.chargeVolt_V -> Scientific.SCI_ID",
+   "source_table": "FuelingAndChargingEvent",
+   "source_column": "chargeVolt_V",
+   "target_table": "Scientific",
+   "target_key": "SCI_ID",
+   "source_rows": 4000,
+   "source_distinct": 2,
+   "target_rows": 768,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "750.0",
+    "400.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FuelingAndChargingEvent.duration_s -> CommunicationLinkMetric.commMeasureNo",
+   "source_table": "FuelingAndChargingEvent",
+   "source_column": "duration_s",
+   "target_table": "CommunicationLinkMetric",
+   "target_key": "commMeasureNo",
+   "source_rows": 4000,
+   "source_distinct": 1995,
+   "target_rows": 7288,
+   "score": 2.87,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "278",
+    "452",
+    "4655",
+    "1745",
+    "226"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "LightingAndSafety.equipRef -> Equipment.EQUIP_CODE",
+   "source_table": "LightingAndSafety",
+   "source_column": "equipRef",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 693,
+   "source_distinct": 693,
+   "target_rows": 1000,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "LocationEnvironmentalLog.location_ref -> Location.STATION_name",
+   "source_table": "LocationEnvironmentalLog",
+   "source_column": "location_ref",
+   "target_table": "Location",
+   "target_key": "STATION_name",
+   "source_rows": 44,
+   "source_distinct": 19,
+   "target_rows": 20,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Station-19",
+    "Station-16",
+    "Station-1",
+    "Station-7",
+    "Station-11"
+   ],
+   "target_samples": [
+    "Station-1",
+    "Station-10",
+    "Station-11",
+    "Station-12",
+    "Station-13"
+   ]
+  },
+  {
+   "id": "LocationWeatherObservation.env_log_ref -> LocationEnvironmentalLog.envLogSeq",
+   "source_table": "LocationWeatherObservation",
+   "source_column": "env_log_ref",
+   "target_table": "LocationEnvironmentalLog",
+   "target_key": "envLogSeq",
+   "source_rows": 198,
+   "source_distinct": 44,
+   "target_rows": 44,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "LEL-591C791D059F",
+    "LEL-2DDCA8453A47",
+    "LEL-BDB0CC6A6089",
+    "LEL-DA83FE01603A",
+    "LEL-3984C9F9D6D3"
+   ],
+   "target_samples": [
+    "LEL-07614AF532D2",
+    "LEL-0E0DF04EBB79",
+    "LEL-18C0A297900D",
+    "LEL-1A3F3CECE8FB",
+    "LEL-1EAF53F2A903"
+   ]
+  },
+  {
+   "id": "MaintenancePartConsumption.work_order_ref -> MaintenanceWorkOrder.workOrderSeq",
+   "source_table": "MaintenancePartConsumption",
+   "source_column": "work_order_ref",
+   "target_table": "MaintenanceWorkOrder",
+   "target_key": "workOrderSeq",
+   "source_rows": 6320,
+   "source_distinct": 2220,
+   "target_rows": 2379,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MWO-3EF6E85AC78C",
+    "MWO-8D2C907AD168",
+    "MWO-E48F2D5128C6",
+    "MWO-711779DF3D61",
+    "MWO-C8F33A36CBDC"
+   ],
+   "target_samples": [
+    "MWO-00264512085D",
+    "MWO-005ADC6245D2",
+    "MWO-007A82C61E5A",
+    "MWO-00AD149D1A74",
+    "MWO-00BA99E19A23"
+   ]
+  },
+  {
+   "id": "MaintenancePartConsumption.quantityUsed -> SensorModelMeasurementProfile.profileStamp",
+   "source_table": "MaintenancePartConsumption",
+   "source_column": "quantityUsed",
+   "target_table": "SensorModelMeasurementProfile",
+   "target_key": "profileStamp",
+   "source_rows": 6320,
+   "source_distinct": 49,
+   "target_rows": 56,
+   "score": 3.59,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "30",
+    "47",
+    "41",
+    "2",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MaintenancePartConsumption.installationTime_min -> CabinEnvironment.CABIN_ID",
+   "source_table": "MaintenancePartConsumption",
+   "source_column": "installationTime_min",
+   "target_table": "CabinEnvironment",
+   "target_key": "CABIN_ID",
+   "source_rows": 6320,
+   "source_distinct": 136,
+   "target_rows": 346,
+   "score": 2.22,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "44",
+    "16",
+    "60",
+    "58",
+    "36"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MaintenancePartConsumption.leadTime_days -> CabinEnvironment.CABIN_ID",
+   "source_table": "MaintenancePartConsumption",
+   "source_column": "leadTime_days",
+   "target_table": "CabinEnvironment",
+   "target_key": "CABIN_ID",
+   "source_rows": 6320,
+   "source_distinct": 89,
+   "target_rows": 346,
+   "score": 1.77,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15",
+    "21",
+    "49",
+    "51",
+    "66"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MaintenancePartConsumption.reorderPoint -> SensorModelMeasurementProfile.profileStamp",
+   "source_table": "MaintenancePartConsumption",
+   "source_column": "reorderPoint",
+   "target_table": "SensorModelMeasurementProfile",
+   "target_key": "profileStamp",
+   "source_rows": 6320,
+   "source_distinct": 49,
+   "target_rows": 56,
+   "score": 3.59,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "47",
+    "8",
+    "7",
+    "35",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MaintenanceWorkOrder.opmaint_ref -> OperationMaintenance.OP_MAINT_ID",
+   "source_table": "MaintenanceWorkOrder",
+   "source_column": "opmaint_ref",
+   "target_table": "OperationMaintenance",
+   "target_key": "OP_MAINT_ID",
+   "source_rows": 2379,
+   "source_distinct": 807,
+   "target_rows": 859,
+   "score": 3.93,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "701",
+    "18",
+    "284",
+    "106",
+    "555"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MaintenanceWorkOrder.technicianCount -> EquipmentTypeDetail.typeDetailNo",
+   "source_table": "MaintenanceWorkOrder",
+   "source_column": "technicianCount",
+   "target_table": "EquipmentTypeDetail",
+   "target_key": "typeDetailNo",
+   "source_rows": 2379,
+   "source_distinct": 5,
+   "target_rows": 6,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "OperationMaintenance.equipRef -> Equipment.EQUIP_CODE",
+   "source_table": "OperationMaintenance",
+   "source_column": "equipRef",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 859,
+   "source_distinct": 859,
+   "target_rows": 1000,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "OperationMaintenance.maintCycleHrs -> TransmissionDiagnosticEvent.transDiagSeq",
+   "source_table": "OperationMaintenance",
+   "source_column": "maintCycleHrs",
+   "target_table": "TransmissionDiagnosticEvent",
+   "target_key": "transDiagSeq",
+   "source_rows": 859,
+   "source_distinct": 689,
+   "target_rows": 5381,
+   "score": 3.01,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2047.0",
+    "2269.0",
+    "2335.0",
+    "1934.0",
+    "4408.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PowerBattery.equip_ref -> Equipment.EQUIP_CODE",
+   "source_table": "PowerBattery",
+   "source_column": "equip_ref",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 899,
+   "source_distinct": 899,
+   "target_rows": 1000,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE209064"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "SafetyInspection.for_light_asset -> LightingAndSafety.LIGHT_ID",
+   "source_table": "SafetyInspection",
+   "source_column": "for_light_asset",
+   "target_table": "LightingAndSafety",
+   "target_key": "LIGHT_ID",
+   "source_rows": 2389,
+   "source_distinct": 693,
+   "target_rows": 693,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SafetyInspection.exitSignCount -> SensorModelMeasurementProfile.profileStamp",
+   "source_table": "SafetyInspection",
+   "source_column": "exitSignCount",
+   "target_table": "SensorModelMeasurementProfile",
+   "target_key": "profileStamp",
+   "source_rows": 2389,
+   "source_distinct": 20,
+   "target_rows": 56,
+   "score": 2.54,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "10",
+    "9",
+    "3",
+    "19"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SafetyInspection.extinguisherCount -> SensorModelMeasurementProfile.profileStamp",
+   "source_table": "SafetyInspection",
+   "source_column": "extinguisherCount",
+   "target_table": "SensorModelMeasurementProfile",
+   "target_key": "profileStamp",
+   "source_rows": 2389,
+   "source_distinct": 15,
+   "target_rows": 56,
+   "score": 2.27,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11",
+    "1",
+    "9",
+    "2",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Scientific.equipRef -> Equipment.EQUIP_CODE",
+   "source_table": "Scientific",
+   "source_column": "equipRef",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 768,
+   "source_distinct": 768,
+   "target_rows": 1000,
+   "score": 4.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "ScientificCalibrationSchedule.for_science_row -> Scientific.SCI_ID",
+   "source_table": "ScientificCalibrationSchedule",
+   "source_column": "for_science_row",
+   "target_table": "Scientific",
+   "target_key": "SCI_ID",
+   "source_rows": 768,
+   "source_distinct": 768,
+   "target_rows": 768,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13",
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScientificCalibrationSchedule.equip_ref_for_cal -> Equipment.EQUIP_CODE",
+   "source_table": "ScientificCalibrationSchedule",
+   "source_column": "equip_ref_for_cal",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 768,
+   "source_distinct": 100,
+   "target_rows": 1000,
+   "score": 3.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PE527247",
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "ScientificDataAcquisition.scientific_ref -> Scientific.SCI_ID",
+   "source_table": "ScientificDataAcquisition",
+   "source_column": "scientific_ref",
+   "target_table": "Scientific",
+   "target_key": "SCI_ID",
+   "source_rows": 1718,
+   "source_distinct": 692,
+   "target_rows": 768,
+   "score": 3.88,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "626",
+    "431",
+    "346",
+    "463",
+    "422"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScientificDataAcquisition.resolutionBits -> SensorModelMeasurementProfile.profileStamp",
+   "source_table": "ScientificDataAcquisition",
+   "source_column": "resolutionBits",
+   "target_table": "SensorModelMeasurementProfile",
+   "target_key": "profileStamp",
+   "source_rows": 1718,
+   "source_distinct": 5,
+   "target_rows": 56,
+   "score": 2.04,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "24",
+    "14",
+    "16",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScientificDataAcquisition.gainSetting -> CabinEnvironment.CABIN_ID",
+   "source_table": "ScientificDataAcquisition",
+   "source_column": "gainSetting",
+   "target_table": "CabinEnvironment",
+   "target_key": "CABIN_ID",
+   "source_rows": 1718,
+   "source_distinct": 7,
+   "target_rows": 346,
+   "score": 1.32,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2.0",
+    "20.0",
+    "10.0",
+    "1.0",
+    "5.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScientificExperimentResult.data_acq_ref -> ScientificDataAcquisition.dataAcqSeq",
+   "source_table": "ScientificExperimentResult",
+   "source_column": "data_acq_ref",
+   "target_table": "ScientificDataAcquisition",
+   "target_key": "dataAcqSeq",
+   "source_rows": 6593,
+   "source_distinct": 1679,
+   "target_rows": 1718,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SDA-24DEDA0270D4",
+    "SDA-344D0D386C01",
+    "SDA-7A7D02ECE710",
+    "SDA-6F5BDA8C5596",
+    "SDA-2178A0A7D52B"
+   ],
+   "target_samples": [
+    "SDA-0011821D50FE",
+    "SDA-00278D3832CD",
+    "SDA-00A2733466F8",
+    "SDA-00B2E90361E1",
+    "SDA-00BB986FAAFD"
+   ]
+  },
+  {
+   "id": "SensorModelMeasurementProfile.profile_for_model -> SensorModel.modelHandle",
+   "source_table": "SensorModelMeasurementProfile",
+   "source_column": "profile_for_model",
+   "target_table": "SensorModel",
+   "target_key": "modelHandle",
+   "source_rows": 56,
+   "source_distinct": 28,
+   "target_rows": 28,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SM-LID-1000",
+    "SM-GYR-1001",
+    "SM-MAG-1002",
+    "SM-GPS-1003",
+    "SM-HUM-1004"
+   ],
+   "target_samples": [
+    "SM-ACC-1013",
+    "SM-ACC-1027",
+    "SM-BAR-1011",
+    "SM-BAR-1019",
+    "SM-BAR-1022"
+   ]
+  },
+  {
+   "id": "SensorModelMeasurementProfile.oversample -> CabinEnvironment.CABIN_ID",
+   "source_table": "SensorModelMeasurementProfile",
+   "source_column": "oversample",
+   "target_table": "CabinEnvironment",
+   "target_key": "CABIN_ID",
+   "source_rows": 56,
+   "source_distinct": 6,
+   "target_rows": 346,
+   "score": 1.63,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "32",
+    "8",
+    "16"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "StationEquipmentType.station_name -> Location.STATION_name",
+   "source_table": "StationEquipmentType",
+   "source_column": "station_name",
+   "target_table": "Location",
+   "target_key": "STATION_name",
+   "source_rows": 120,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Station-1",
+    "Station-10",
+    "Station-11",
+    "Station-12",
+    "Station-13"
+   ],
+   "target_samples": [
+    "Station-1",
+    "Station-10",
+    "Station-11",
+    "Station-12",
+    "Station-13"
+   ]
+  },
+  {
+   "id": "StationEquipmentType.equip_type -> EquipmentType.EquipType",
+   "source_table": "StationEquipmentType",
+   "source_column": "equip_type",
+   "target_table": "EquipmentType",
+   "target_key": "EquipType",
+   "source_rows": 120,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Shelter",
+    "Scientific",
+    "Safety",
+    "Vehicle",
+    "Generator"
+   ],
+   "target_samples": [
+    "Communication",
+    "Generator",
+    "Safety",
+    "Scientific",
+    "Shelter"
+   ]
+  },
+  {
+   "id": "TaskCrewAssignment.task_ref_code -> MaintenanceTaskCatalog.taskCodeToken",
+   "source_table": "TaskCrewAssignment",
+   "source_column": "task_ref_code",
+   "target_table": "MaintenanceTaskCatalog",
+   "target_key": "taskCodeToken",
+   "source_rows": 831,
+   "source_distinct": 64,
+   "target_rows": 64,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MT-2000",
+    "MT-2001",
+    "MT-2002",
+    "MT-2003",
+    "MT-2004"
+   ],
+   "target_samples": [
+    "MT-2000",
+    "MT-2001",
+    "MT-2002",
+    "MT-2003",
+    "MT-2004"
+   ]
+  },
+  {
+   "id": "TaskCrewAssignment.crew_ref_code -> CrewMember.crewToken",
+   "source_table": "TaskCrewAssignment",
+   "source_column": "crew_ref_code",
+   "target_table": "CrewMember",
+   "target_key": "crewToken",
+   "source_rows": 831,
+   "source_distinct": 120,
+   "target_rows": 120,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CRW-1000",
+    "CRW-1003",
+    "CRW-1017",
+    "CRW-1056",
+    "CRW-1058"
+   ],
+   "target_samples": [
+    "CRW-1000",
+    "CRW-1001",
+    "CRW-1002",
+    "CRW-1003",
+    "CRW-1004"
+   ]
+  },
+  {
+   "id": "ThermalSolarWindAndGrid.comm_link -> Communication.COMM_ID",
+   "source_table": "ThermalSolarWindAndGrid",
+   "source_column": "comm_link",
+   "target_table": "Communication",
+   "target_key": "COMM_ID",
+   "source_rows": 1000,
+   "source_distinct": 850,
+   "target_rows": 850,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ThermalSolarWindAndGrid.batt_link -> PowerBattery.PWR_BATT_ID",
+   "source_table": "ThermalSolarWindAndGrid",
+   "source_column": "batt_link",
+   "target_table": "PowerBattery",
+   "target_key": "PWR_BATT_ID",
+   "source_rows": 1000,
+   "source_distinct": 899,
+   "target_rows": 899,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ThermalSolarWindAndGrid.windRPM -> CabinEnvironment.CABIN_ID",
+   "source_table": "ThermalSolarWindAndGrid",
+   "source_column": "windRPM",
+   "target_table": "CabinEnvironment",
+   "target_key": "CABIN_ID",
+   "source_rows": 1000,
+   "source_distinct": 295,
+   "target_rows": 346,
+   "score": 4.08,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "130",
+    "221",
+    "210",
+    "118",
+    "187"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Transmission.equipRef -> Equipment.EQUIP_CODE",
+   "source_table": "Transmission",
+   "source_column": "equipRef",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 976,
+   "source_distinct": 976,
+   "target_rows": 1000,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "Transmission.engine_link -> EngineAndFluids.ENGINE_ID",
+   "source_table": "Transmission",
+   "source_column": "engine_link",
+   "target_table": "EngineAndFluids",
+   "target_key": "ENGINE_ID",
+   "source_rows": 976,
+   "source_distinct": 467,
+   "target_rows": 467,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransmissionDiagnosticEvent.for_transmission -> Transmission.TRANS_ID",
+   "source_table": "TransmissionDiagnosticEvent",
+   "source_column": "for_transmission",
+   "target_table": "Transmission",
+   "target_key": "TRANS_ID",
+   "source_rows": 5381,
+   "source_distinct": 976,
+   "target_rows": 976,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransmissionFluidAnalysis.trans_service_ref -> TransmissionServiceHistory.transServiceSeq",
+   "source_table": "TransmissionFluidAnalysis",
+   "source_column": "trans_service_ref",
+   "target_table": "TransmissionServiceHistory",
+   "target_key": "transServiceSeq",
+   "source_rows": 14223,
+   "source_distinct": 3723,
+   "target_rows": 3834,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TSH-93487061E5E1",
+    "TSH-1D1844F07DBB",
+    "TSH-AFF9CA508D51",
+    "TSH-BDA4CFC97F55",
+    "TSH-934422F7DC2E"
+   ],
+   "target_samples": [
+    "TSH-000F9933C964",
+    "TSH-002A95D5CEB2",
+    "TSH-0032C4F30000",
+    "TSH-0038D72E916D",
+    "TSH-0042D44C699E"
+   ]
+  },
+  {
+   "id": "TransmissionFluidAnalysis.viscosityIndex -> CabinEnvironment.CABIN_ID",
+   "source_table": "TransmissionFluidAnalysis",
+   "source_column": "viscosityIndex",
+   "target_table": "CabinEnvironment",
+   "target_key": "CABIN_ID",
+   "source_rows": 14223,
+   "source_distinct": 121,
+   "target_rows": 346,
+   "score": 2.69,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "151",
+    "140",
+    "133",
+    "135",
+    "170"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransmissionFluidAnalysis.particleCount_14um -> TransmissionDiagnosticEvent.transDiagSeq",
+   "source_table": "TransmissionFluidAnalysis",
+   "source_column": "particleCount_14um",
+   "target_table": "TransmissionDiagnosticEvent",
+   "target_key": "transDiagSeq",
+   "source_rows": 14223,
+   "source_distinct": 4657,
+   "target_rows": 5381,
+   "score": 3.73,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3502",
+    "1238",
+    "4411",
+    "4044",
+    "4814"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransmissionServiceHistory.transmission_ref -> Transmission.TRANS_ID",
+   "source_table": "TransmissionServiceHistory",
+   "source_column": "transmission_ref",
+   "target_table": "Transmission",
+   "target_key": "TRANS_ID",
+   "source_rows": 3834,
+   "source_distinct": 957,
+   "target_rows": 976,
+   "score": 3.97,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "969",
+    "267",
+    "798",
+    "284",
+    "508"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WaterAndWaste.equipRef -> Equipment.EQUIP_CODE",
+   "source_table": "WaterAndWaste",
+   "source_column": "equipRef",
+   "target_table": "Equipment",
+   "target_key": "EQUIP_CODE",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE593707",
+    "PE292528",
+    "PE617633",
+    "PE991302",
+    "PE669257"
+   ],
+   "target_samples": [
+    "PE100139",
+    "PE100443",
+    "PE100466",
+    "PE102028",
+    "PE103362"
+   ]
+  },
+  {
+   "id": "WaterTreatmentCycle.for_water_proc -> ChassisAndVehicle.CHASSIS_ID",
+   "source_table": "WaterTreatmentCycle",
+   "source_column": "for_water_proc",
+   "target_table": "ChassisAndVehicle",
+   "target_key": "CHASSIS_ID",
+   "source_rows": 4548,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WeatherAndStructure.loc_link -> Location.STATION_name",
+   "source_table": "WeatherAndStructure",
+   "source_column": "loc_link",
+   "target_table": "Location",
+   "target_key": "STATION_name",
+   "source_rows": 1000,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Station-14",
+    "Station-8",
+    "Station-19",
+    "Station-20",
+    "Station-13"
+   ],
+   "target_samples": [
+    "Station-1",
+    "Station-10",
+    "Station-11",
+    "Station-12",
+    "Station-13"
+   ]
+  },
+  {
+   "id": "WeatherAndStructure.opmaint_link -> OperationMaintenance.OP_MAINT_ID",
+   "source_table": "WeatherAndStructure",
+   "source_column": "opmaint_link",
+   "target_table": "OperationMaintenance",
+   "target_key": "OP_MAINT_ID",
+   "source_rows": 1000,
+   "source_distinct": 859,
+   "target_rows": 859,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WeatherAndStructure.snowLoad_kgm2 -> LightingAndSafety.LIGHT_ID",
+   "source_table": "WeatherAndStructure",
+   "source_column": "snowLoad_kgm2",
+   "target_table": "LightingAndSafety",
+   "target_key": "LIGHT_ID",
+   "source_rows": 1000,
+   "source_distinct": 430,
+   "target_rows": 693,
+   "score": 3.58,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "460",
+    "111",
+    "400",
+    "444",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CabinEnvironment.CABIN_ID -> EngineAndFluids.ENGINE_ID",
+   "source_table": "CabinEnvironment",
+   "source_column": "CABIN_ID",
+   "target_table": "EngineAndFluids",
+   "target_key": "ENGINE_ID",
+   "source_rows": 346,
+   "source_distinct": 346,
+   "target_rows": 467,
+   "score": 2.72,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ChassisAndVehicle.CHASSIS_ID -> EquipmentLifecycle.lifeTrack",
+   "source_table": "ChassisAndVehicle",
+   "source_column": "CHASSIS_ID",
+   "target_table": "EquipmentLifecycle",
+   "target_key": "lifeTrack",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Communication.COMM_ID -> OperationMaintenance.OP_MAINT_ID",
+   "source_table": "Communication",
+   "source_column": "COMM_ID",
+   "target_table": "OperationMaintenance",
+   "target_key": "OP_MAINT_ID",
+   "source_rows": 850,
+   "source_distinct": 850,
+   "target_rows": 859,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CommunicationLinkMetric.commMeasureNo -> EnergyGenerationLog.energyLogNo",
+   "source_table": "CommunicationLinkMetric",
+   "source_column": "commMeasureNo",
+   "target_table": "EnergyGenerationLog",
+   "target_key": "energyLogNo",
+   "source_rows": 7288,
+   "source_distinct": 7288,
+   "target_rows": 7485,
+   "score": 3.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EnergyGenerationLog.energyLogNo -> ChassisDynamicsEvent.chRecord",
+   "source_table": "EnergyGenerationLog",
+   "source_column": "energyLogNo",
+   "target_table": "ChassisDynamicsEvent",
+   "target_key": "chRecord",
+   "source_rows": 7485,
+   "source_distinct": 7485,
+   "target_rows": 8562,
+   "score": 3.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EngineAndFluids.ENGINE_ID -> LightingAndSafety.LIGHT_ID",
+   "source_table": "EngineAndFluids",
+   "source_column": "ENGINE_ID",
+   "target_table": "LightingAndSafety",
+   "target_key": "LIGHT_ID",
+   "source_rows": 467,
+   "source_distinct": 467,
+   "target_rows": 693,
+   "score": 2.52,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentLifecycle.lifeTrack -> ChassisAndVehicle.CHASSIS_ID",
+   "source_table": "EquipmentLifecycle",
+   "source_column": "lifeTrack",
+   "target_table": "ChassisAndVehicle",
+   "target_key": "CHASSIS_ID",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentLocationHistory.locSeq -> CommunicationLinkMetric.commMeasureNo",
+   "source_table": "EquipmentLocationHistory",
+   "source_column": "locSeq",
+   "target_table": "CommunicationLinkMetric",
+   "target_key": "commMeasureNo",
+   "source_rows": 6000,
+   "source_distinct": 6000,
+   "target_rows": 7288,
+   "score": 2.97,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentSpecification.specRecord -> ChassisAndVehicle.CHASSIS_ID",
+   "source_table": "EquipmentSpecification",
+   "source_column": "specRecord",
+   "target_table": "ChassisAndVehicle",
+   "target_key": "CHASSIS_ID",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentTypeDetail.typeDetailNo -> SensorModelMeasurementProfile.profileStamp",
+   "source_table": "EquipmentTypeDetail",
+   "source_column": "typeDetailNo",
+   "target_table": "SensorModelMeasurementProfile",
+   "target_key": "profileStamp",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 56,
+   "score": 0.79,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FuelingAndChargingEvent.fuelChargeSeq -> WaterTreatmentCycle.cycleStamp",
+   "source_table": "FuelingAndChargingEvent",
+   "source_column": "fuelChargeSeq",
+   "target_table": "WaterTreatmentCycle",
+   "target_key": "cycleStamp",
+   "source_rows": 4000,
+   "source_distinct": 4000,
+   "target_rows": 4548,
+   "score": 3.14,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "LightingAndSafety.LIGHT_ID -> Scientific.SCI_ID",
+   "source_table": "LightingAndSafety",
+   "source_column": "LIGHT_ID",
+   "target_table": "Scientific",
+   "target_key": "SCI_ID",
+   "source_rows": 693,
+   "source_distinct": 693,
+   "target_rows": 768,
+   "score": 3.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "OperationMaintenance.OP_MAINT_ID -> PowerBattery.PWR_BATT_ID",
+   "source_table": "OperationMaintenance",
+   "source_column": "OP_MAINT_ID",
+   "target_table": "PowerBattery",
+   "target_key": "PWR_BATT_ID",
+   "source_rows": 859,
+   "source_distinct": 859,
+   "target_rows": 899,
+   "score": 3.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PowerBattery.PWR_BATT_ID -> Transmission.TRANS_ID",
+   "source_table": "PowerBattery",
+   "source_column": "PWR_BATT_ID",
+   "target_table": "Transmission",
+   "target_key": "TRANS_ID",
+   "source_rows": 899,
+   "source_distinct": 899,
+   "target_rows": 976,
+   "score": 3.26,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SafetyInspection.safetyNote -> FuelingAndChargingEvent.fuelChargeSeq",
+   "source_table": "SafetyInspection",
+   "source_column": "safetyNote",
+   "target_table": "FuelingAndChargingEvent",
+   "target_key": "fuelChargeSeq",
+   "source_rows": 2389,
+   "source_distinct": 2389,
+   "target_rows": 4000,
+   "score": 2.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Scientific.SCI_ID -> ScientificCalibrationSchedule.calibrationNote",
+   "source_table": "Scientific",
+   "source_column": "SCI_ID",
+   "target_table": "ScientificCalibrationSchedule",
+   "target_key": "calibrationNote",
+   "source_rows": 768,
+   "source_distinct": 768,
+   "target_rows": 768,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScientificCalibrationSchedule.calibrationNote -> Scientific.SCI_ID",
+   "source_table": "ScientificCalibrationSchedule",
+   "source_column": "calibrationNote",
+   "target_table": "Scientific",
+   "target_key": "SCI_ID",
+   "source_rows": 768,
+   "source_distinct": 768,
+   "target_rows": 768,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SensorModelMeasurementProfile.profileStamp -> CabinEnvironment.CABIN_ID",
+   "source_table": "SensorModelMeasurementProfile",
+   "source_column": "profileStamp",
+   "target_table": "CabinEnvironment",
+   "target_key": "CABIN_ID",
+   "source_rows": 56,
+   "source_distinct": 56,
+   "target_rows": 346,
+   "score": 0.98,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ThermalSolarWindAndGrid.THERMAL_ID -> ChassisAndVehicle.CHASSIS_ID",
+   "source_table": "ThermalSolarWindAndGrid",
+   "source_column": "THERMAL_ID",
+   "target_table": "ChassisAndVehicle",
+   "target_key": "CHASSIS_ID",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Transmission.TRANS_ID -> ChassisAndVehicle.CHASSIS_ID",
+   "source_table": "Transmission",
+   "source_column": "TRANS_ID",
+   "target_table": "ChassisAndVehicle",
+   "target_key": "CHASSIS_ID",
+   "source_rows": 976,
+   "source_distinct": 976,
+   "target_rows": 1000,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransmissionDiagnosticEvent.transDiagSeq -> EquipmentLocationHistory.locSeq",
+   "source_table": "TransmissionDiagnosticEvent",
+   "source_column": "transDiagSeq",
+   "target_table": "EquipmentLocationHistory",
+   "target_key": "locSeq",
+   "source_rows": 5381,
+   "source_distinct": 5381,
+   "target_rows": 6000,
+   "score": 3.19,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WaterAndWaste.WATER_ID -> ChassisAndVehicle.CHASSIS_ID",
+   "source_table": "WaterAndWaste",
+   "source_column": "WATER_ID",
+   "target_table": "ChassisAndVehicle",
+   "target_key": "CHASSIS_ID",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WaterTreatmentCycle.cycleStamp -> TransmissionDiagnosticEvent.transDiagSeq",
+   "source_table": "WaterTreatmentCycle",
+   "source_column": "cycleStamp",
+   "target_table": "TransmissionDiagnosticEvent",
+   "target_key": "transDiagSeq",
+   "source_rows": 4548,
+   "source_distinct": 4548,
+   "target_rows": 5381,
+   "score": 3.04,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WeatherAndStructure.WEATHER_ID -> ChassisAndVehicle.CHASSIS_ID",
+   "source_table": "WeatherAndStructure",
+   "source_column": "WEATHER_ID",
+   "target_table": "ChassisAndVehicle",
+   "target_key": "CHASSIS_ID",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

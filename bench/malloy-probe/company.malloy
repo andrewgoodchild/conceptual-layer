@@ -1,0 +1,23 @@
+source: department is duckdb.table('department') extend {
+  primary_key: dept_code
+  measure: total_budget is budget.sum()
+  measure: avg_budget is budget.avg()
+  measure: dept_count is count()
+}
+source: employee is duckdb.table('employee') extend {
+  primary_key: emp_nr
+  join_one: dept is department on dept_code = dept.dept_code
+  measure: total_salary is salary.sum()
+  measure: emp_count is count()
+}
+source: assignment is duckdb.table('assignment') extend {
+  join_one: emp is employee on emp_nr = emp.emp_nr
+}
+// the fan-out direction: one department, many employees
+source: dept_with_emps is department extend {
+  join_many: emps is employee on dept_code = emps.dept_code
+}
+// one employee, many assignments
+source: emp_with_assignments is employee extend {
+  join_many: asg is assignment on emp_nr = asg.emp_nr
+}

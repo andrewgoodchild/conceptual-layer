@@ -1,0 +1,3 @@
+All ten answers written and run; 17, 5, 12 and 15 carry notes.
+Hardest: _15 (panel degyrrate / 100 rather than the knowledge base's snapshot rate); _17 and _5 (unavailability tops out at 0.04); _5 performance ratio from the formula is nonsense (irradiance in W/m2), used the stored field; _12 soiling tops out at 14.99; _10 filter order.
+What mattered: "the schema output warned that plant_panel_model and plants.modhook disagree" (followed modhook, documented as the primary panel model); the schema comments made clear which JSON fields hold the values; keys upper-case. Units -- percentages or fractions -- were the main doubt.

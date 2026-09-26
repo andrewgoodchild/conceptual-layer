@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 1256,
+  "answer": "THE COUNT OF Patient [is of Laboratory has LaboratoryCRP: '+'] BUT NOT [has PatientDescription]"
+ },
+ {
+  "question_id": 1189,
+  "answer": "THE COUNT OF Examination [has ExaminationThrombosis: '2'] [has ExaminationANAPattern: 'S'] [has ExaminationACLIgM m] WHERE m > THE AVERAGE ExaminationACLIgM * 1.2"
+ },
+ {
+  "question_id": 1267,
+  "answer": "THE DISTINCT COUNT OF Patient [is of Laboratory has LaboratorySM sm WHERE sm = 'negative' OR sm = '0'] [is of Examination has ExaminationThrombosis: '0']"
+ },
+ {
+  "question_id": 1157,
+  "answer": "LIST i, s, dx FROM DISTINCT Patient [is of Examination has ExaminationThrombosis: '2'] has PatientID i AND ALSO OPTIONALLY has PatientSEX s AND ALSO OPTIONALLY has PatientDiagnosis dx"
+ },
+ {
+  "question_id": 1162,
+  "answer": "THE COUNT OF Patient [has PatientSEX: 'F'] [has PatientAdmission: '-'] [has PatientDescription d] WHERE year(d) = 1997"
+ },
+ {
+  "question_id": 1164,
+  "answer": "THE DISTINCT COUNT OF Patient [has PatientSEX: 'F'] [is of Examination [has ExaminationThrombosis: '1'] has ExaminationDate d] WHERE year(d) = 1997"
+ },
+ {
+  "question_id": 1179,
+  "answer": "LIST m FROM Examination [has ExaminationDate: '1993-11-12'] [has Patient [has PatientDiagnosis: 'SLE'] [has PatientDescription: '1994-02-19']] has ExaminationACLIgM m"
+ },
+ {
+  "question_id": 1192,
+  "answer": "LIST i FROM DISTINCT Patient [has PatientAdmission: '-'] has PatientID i AND ALSO is of Laboratory l AND ALSO l has LaboratoryTBIL t AND ALSO l has LaboratoryDate d WHERE t < 2.0 AND starts_with(d, '1991-10')"
+ },
+ {
+  "question_id": 1232,
+  "answer": "LIST i, s, a FROM DISTINCT Patient has PatientID i AND ALSO has PatientSEX s AND ALSO has PatientBirthday b AND ALSO (year(today()) - year(b)) AS a AND ALSO is of Laboratory l AND ALSO l has LaboratoryGLU g AND ALSO l has LaboratoryTCHO c WHERE g >= 180 AND c < 250"
+ },
+ {
+  "question_id": 1187,
+  "answer": "LIST i FROM DISTINCT Patient has PatientID i AND ALSO is of Laboratory l AND ALSO l has LaboratoryDate d AND ALSO l has LaboratoryGPT g AND ALSO l has LaboratoryALB a WHERE d >= '1987-07-06' AND d <= '1996-01-31' AND g > 30 AND a < 4"
+ }
+]

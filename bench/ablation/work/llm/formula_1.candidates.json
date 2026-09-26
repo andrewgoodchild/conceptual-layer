@@ -1,0 +1,1079 @@
+{
+ "database": "formula_1",
+ "tables": [
+  "circuits",
+  "constructorResults",
+  "constructorStandings",
+  "constructors",
+  "driverStandings",
+  "drivers",
+  "lapTimes",
+  "pitStops",
+  "qualifying",
+  "races",
+  "results",
+  "seasons",
+  "status"
+ ],
+ "candidates": [
+  {
+   "id": "constructorResults.constructorId -> constructors.constructorId",
+   "source_table": "constructorResults",
+   "source_column": "constructorId",
+   "target_table": "constructors",
+   "target_key": "constructorId",
+   "source_rows": 11082,
+   "source_distinct": 172,
+   "target_rows": 208,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "147",
+    "39",
+    "54",
+    "161",
+    "51"
+   ]
+  },
+  {
+   "id": "constructorStandings.raceId -> constructorResults.constructorResultsId",
+   "source_table": "constructorStandings",
+   "source_column": "raceId",
+   "target_table": "constructorResults",
+   "target_key": "constructorResultsId",
+   "source_rows": 11836,
+   "source_distinct": 906,
+   "target_rows": 11082,
+   "score": 1.75,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "18",
+    "19",
+    "20",
+    "21",
+    "22"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructorStandings.constructorId -> constructors.constructorId",
+   "source_table": "constructorStandings",
+   "source_column": "constructorId",
+   "target_table": "constructors",
+   "target_key": "constructorId",
+   "source_rows": 11836,
+   "source_distinct": 156,
+   "target_rows": 208,
+   "score": 3.98,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "147",
+    "39",
+    "54",
+    "161",
+    "51"
+   ]
+  },
+  {
+   "id": "constructorStandings.position -> status.statusId",
+   "source_table": "constructorStandings",
+   "source_column": "position",
+   "target_table": "status",
+   "target_key": "statusId",
+   "source_rows": 11836,
+   "source_distinct": 22,
+   "target_rows": 134,
+   "score": 1.98,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "2",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "driverStandings.raceId -> constructorResults.constructorResultsId",
+   "source_table": "driverStandings",
+   "source_column": "raceId",
+   "target_table": "constructorResults",
+   "target_key": "constructorResultsId",
+   "source_rows": 31578,
+   "source_distinct": 970,
+   "target_rows": 11082,
+   "score": 1.76,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "18",
+    "19",
+    "20",
+    "21",
+    "22"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "driverStandings.driverId -> drivers.driverId",
+   "source_table": "driverStandings",
+   "source_column": "driverId",
+   "target_table": "drivers",
+   "target_key": "driverId",
+   "source_rows": 31578,
+   "source_distinct": 833,
+   "target_rows": 840,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ]
+  },
+  {
+   "id": "driverStandings.position -> drivers.driverId",
+   "source_table": "driverStandings",
+   "source_column": "position",
+   "target_table": "drivers",
+   "target_key": "driverId",
+   "source_rows": 31578,
+   "source_distinct": 108,
+   "target_rows": 840,
+   "score": 1.88,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ]
+  },
+  {
+   "id": "drivers.number -> status.statusId",
+   "source_table": "drivers",
+   "source_column": "number",
+   "target_table": "status",
+   "target_key": "statusId",
+   "source_rows": 840,
+   "source_distinct": 36,
+   "target_rows": 134,
+   "score": 2.65,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "44",
+    "6",
+    "14",
+    "7",
+    "19"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "lapTimes.raceId -> races.raceId",
+   "source_table": "lapTimes",
+   "source_column": "raceId",
+   "target_table": "races",
+   "target_key": "raceId",
+   "source_rows": 400524,
+   "source_distinct": 367,
+   "target_rows": 954,
+   "score": 3.23,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "837",
+    "833",
+    "838",
+    "835",
+    "839"
+   ]
+  },
+  {
+   "id": "lapTimes.driverId -> drivers.driverId",
+   "source_table": "lapTimes",
+   "source_column": "driverId",
+   "target_table": "drivers",
+   "target_key": "driverId",
+   "source_rows": 400524,
+   "source_distinct": 121,
+   "target_rows": 840,
+   "score": 2.63,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "6"
+   ],
+   "target_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ]
+  },
+  {
+   "id": "lapTimes.lap -> drivers.driverId",
+   "source_table": "lapTimes",
+   "source_column": "lap",
+   "target_table": "drivers",
+   "target_key": "driverId",
+   "source_rows": 400524,
+   "source_distinct": 78,
+   "target_rows": 840,
+   "score": 1.78,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ]
+  },
+  {
+   "id": "lapTimes.position -> status.statusId",
+   "source_table": "lapTimes",
+   "source_column": "position",
+   "target_table": "status",
+   "target_key": "statusId",
+   "source_rows": 400524,
+   "source_distinct": 24,
+   "target_rows": 134,
+   "score": 2.02,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "11",
+    "9",
+    "8",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "pitStops.raceId -> qualifying.qualifyId",
+   "source_table": "pitStops",
+   "source_column": "raceId",
+   "target_table": "qualifying",
+   "target_key": "qualifyId",
+   "source_rows": 5815,
+   "source_distinct": 124,
+   "target_rows": 6967,
+   "score": 1.95,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "842",
+    "843",
+    "844",
+    "845",
+    "846"
+   ],
+   "target_samples": [
+    "23",
+    "24",
+    "25",
+    "26",
+    "27"
+   ]
+  },
+  {
+   "id": "pitStops.driverId -> drivers.driverId",
+   "source_table": "pitStops",
+   "source_column": "driverId",
+   "target_table": "drivers",
+   "target_key": "driverId",
+   "source_rows": 5815,
+   "source_distinct": 54,
+   "target_rows": 840,
+   "score": 2.65,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ]
+  },
+  {
+   "id": "pitStops.stop -> status.statusId",
+   "source_table": "pitStops",
+   "source_column": "stop",
+   "target_table": "status",
+   "target_key": "statusId",
+   "source_rows": 5815,
+   "source_distinct": 6,
+   "target_rows": 134,
+   "score": 1.62,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "pitStops.lap -> drivers.driverId",
+   "source_table": "pitStops",
+   "source_column": "lap",
+   "target_table": "drivers",
+   "target_key": "driverId",
+   "source_rows": 5815,
+   "source_distinct": 73,
+   "target_rows": 840,
+   "score": 1.76,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "24",
+    "37",
+    "52",
+    "13"
+   ],
+   "target_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ]
+  },
+  {
+   "id": "qualifying.raceId -> races.raceId",
+   "source_table": "qualifying",
+   "source_column": "raceId",
+   "target_table": "races",
+   "target_key": "raceId",
+   "source_rows": 6967,
+   "source_distinct": 319,
+   "target_rows": 954,
+   "score": 3.23,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "19",
+    "20",
+    "21",
+    "22",
+    "23"
+   ],
+   "target_samples": [
+    "837",
+    "833",
+    "838",
+    "835",
+    "839"
+   ]
+  },
+  {
+   "id": "qualifying.driverId -> drivers.driverId",
+   "source_table": "qualifying",
+   "source_column": "driverId",
+   "target_table": "drivers",
+   "target_key": "driverId",
+   "source_rows": 6967,
+   "source_distinct": 151,
+   "target_rows": 840,
+   "score": 2.62,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "13",
+    "8",
+    "5",
+    "1",
+    "15"
+   ],
+   "target_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ]
+  },
+  {
+   "id": "qualifying.constructorId -> constructors.constructorId",
+   "source_table": "qualifying",
+   "source_column": "constructorId",
+   "target_table": "constructors",
+   "target_key": "constructorId",
+   "source_rows": 6967,
+   "source_distinct": 41,
+   "target_rows": 208,
+   "score": 2.66,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "1",
+    "7",
+    "2",
+    "9"
+   ],
+   "target_samples": [
+    "147",
+    "39",
+    "54",
+    "161",
+    "51"
+   ]
+  },
+  {
+   "id": "qualifying.position -> status.statusId",
+   "source_table": "qualifying",
+   "source_column": "position",
+   "target_table": "status",
+   "target_key": "statusId",
+   "source_rows": 6967,
+   "source_distinct": 28,
+   "target_rows": 134,
+   "score": 2.11,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "races.year -> seasons.year",
+   "source_table": "races",
+   "source_column": "year",
+   "target_table": "seasons",
+   "target_key": "year",
+   "source_rows": 954,
+   "source_distinct": 68,
+   "target_rows": 68,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2009",
+    "2008",
+    "2007",
+    "2006",
+    "2005"
+   ],
+   "target_samples": [
+    "1950",
+    "1951",
+    "1952",
+    "1953",
+    "1954"
+   ]
+  },
+  {
+   "id": "races.round -> status.statusId",
+   "source_table": "races",
+   "source_column": "round",
+   "target_table": "status",
+   "target_key": "statusId",
+   "source_rows": 954,
+   "source_distinct": 21,
+   "target_rows": 134,
+   "score": 1.96,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "races.circuitId -> circuits.circuitId",
+   "source_table": "races",
+   "source_column": "circuitId",
+   "target_table": "circuits",
+   "target_key": "circuitId",
+   "source_rows": 954,
+   "source_distinct": 71,
+   "target_rows": 72,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "17",
+    "3",
+    "4",
+    "6"
+   ],
+   "target_samples": [
+    "23",
+    "61",
+    "29",
+    "64",
+    "58"
+   ]
+  },
+  {
+   "id": "results.raceId -> races.raceId",
+   "source_table": "results",
+   "source_column": "raceId",
+   "target_table": "races",
+   "target_key": "raceId",
+   "source_rows": 23179,
+   "source_distinct": 948,
+   "target_rows": 954,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "19",
+    "20",
+    "21",
+    "22",
+    "23"
+   ],
+   "target_samples": [
+    "837",
+    "833",
+    "838",
+    "835",
+    "839"
+   ]
+  },
+  {
+   "id": "results.driverId -> drivers.driverId",
+   "source_table": "results",
+   "source_column": "driverId",
+   "target_table": "drivers",
+   "target_key": "driverId",
+   "source_rows": 23179,
+   "source_distinct": 839,
+   "target_rows": 840,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8",
+    "9",
+    "5",
+    "15",
+    "1"
+   ],
+   "target_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ]
+  },
+  {
+   "id": "results.constructorId -> constructors.constructorId",
+   "source_table": "results",
+   "source_column": "constructorId",
+   "target_table": "constructors",
+   "target_key": "constructorId",
+   "source_rows": 23179,
+   "source_distinct": 207,
+   "target_rows": 208,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "2",
+    "1",
+    "7",
+    "9"
+   ],
+   "target_samples": [
+    "147",
+    "39",
+    "54",
+    "161",
+    "51"
+   ]
+  },
+  {
+   "id": "results.position -> status.statusId",
+   "source_table": "results",
+   "source_column": "position",
+   "target_table": "status",
+   "target_key": "statusId",
+   "source_rows": 23179,
+   "source_distinct": 33,
+   "target_rows": 134,
+   "score": 2.22,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "results.positionOrder -> status.statusId",
+   "source_table": "results",
+   "source_column": "positionOrder",
+   "target_table": "status",
+   "target_key": "statusId",
+   "source_rows": 23179,
+   "source_distinct": 39,
+   "target_rows": 134,
+   "score": 2.36,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "results.fastestLap -> drivers.driverId",
+   "source_table": "results",
+   "source_column": "fastestLap",
+   "target_table": "drivers",
+   "target_key": "driverId",
+   "source_rows": 23179,
+   "source_distinct": 77,
+   "target_rows": 840,
+   "score": 1.78,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "37",
+    "39",
+    "19",
+    "53",
+    "55"
+   ],
+   "target_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ]
+  },
+  {
+   "id": "results.statusId -> status.statusId",
+   "source_table": "results",
+   "source_column": "statusId",
+   "target_table": "status",
+   "target_key": "statusId",
+   "source_rows": 23179,
+   "source_distinct": 131,
+   "target_rows": 134,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "11",
+    "12",
+    "5",
+    "20"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "circuits.circuitId -> drivers.driverId",
+   "source_table": "circuits",
+   "source_column": "circuitId",
+   "target_table": "drivers",
+   "target_key": "driverId",
+   "source_rows": 72,
+   "source_distinct": 72,
+   "target_rows": 840,
+   "score": 0.76,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "23",
+    "61",
+    "29",
+    "64",
+    "58"
+   ],
+   "target_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ]
+  },
+  {
+   "id": "constructors.constructorId -> drivers.driverId",
+   "source_table": "constructors",
+   "source_column": "constructorId",
+   "target_table": "drivers",
+   "target_key": "driverId",
+   "source_rows": 208,
+   "source_distinct": 208,
+   "target_rows": 840,
+   "score": 1.25,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "147",
+    "39",
+    "54",
+    "161",
+    "51"
+   ],
+   "target_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ]
+  },
+  {
+   "id": "drivers.driverId -> constructorResults.constructorResultsId",
+   "source_table": "drivers",
+   "source_column": "driverId",
+   "target_table": "constructorResults",
+   "target_key": "constructorResultsId",
+   "source_rows": 840,
+   "source_distinct": 840,
+   "target_rows": 11082,
+   "score": 0.73,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "races.raceId -> constructorResults.constructorResultsId",
+   "source_table": "races",
+   "source_column": "raceId",
+   "target_table": "constructorResults",
+   "target_key": "constructorResultsId",
+   "source_rows": 954,
+   "source_distinct": 954,
+   "target_rows": 11082,
+   "score": 0.76,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "837",
+    "833",
+    "838",
+    "835",
+    "839"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "seasons.year -> qualifying.qualifyId",
+   "source_table": "seasons",
+   "source_column": "year",
+   "target_table": "qualifying",
+   "target_key": "qualifyId",
+   "source_rows": 68,
+   "source_distinct": 68,
+   "target_rows": 6967,
+   "score": 1.29,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1950",
+    "1951",
+    "1952",
+    "1953",
+    "1954"
+   ],
+   "target_samples": [
+    "23",
+    "24",
+    "25",
+    "26",
+    "27"
+   ]
+  },
+  {
+   "id": "status.statusId -> drivers.driverId",
+   "source_table": "status",
+   "source_column": "statusId",
+   "target_table": "drivers",
+   "target_key": "driverId",
+   "source_rows": 134,
+   "source_distinct": 134,
+   "target_rows": 840,
+   "score": 0.98,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "452",
+    "625",
+    "103",
+    "100",
+    "695"
+   ]
+  }
+ ]
+}

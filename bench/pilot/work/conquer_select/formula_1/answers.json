@@ -1,0 +1,93 @@
+[
+ {
+  "question_id": 930,
+  "answer": "LIST rn FROM Result [has Driver has DriverForename: 'Lewis'] [has Driver has DriverSurname: 'Hamilton'] has Race has RaceName rn AND ALSO has ResultRank rk ORDERED WITH rk ASCENDING THE FIRST 1",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree exactly (Chinese Grand Prix), each ordering Result by ResultRank ascending and taking the first row, matching 'rank the highest = min(rank)'. Candidate 1 is the plainest formulation of the three equivalent queries."
+ },
+ {
+  "question_id": 1011,
+  "answer": "LIST fn, sn FROM LapTime has LapTimeMilliseconds m AND ALSO has Driver has DriverForename fn AND ALSO has Driver has DriverSurname sn ORDERED WITH m ASCENDING THE FIRST 20",
+  "attempts": 3,
+  "chosen": 2,
+  "reason": "The question asks for the 'top 20' drivers by shortest lap time, but candidates 1 and 3 both use THE FIRST 1, returning a single row -- wrong grain. Only candidate 2 uses THE FIRST 20. It orders by LapTimeMilliseconds rather than the LapTimeTime text field the evidence names, but both measure the same duration, so the ordering (and hence the top-20 set) is equivalent to MIN(time)."
+ },
+ {
+  "question_id": 909,
+  "answer": "THE COUNT OF Race [has RaceName: 'European Grand Prix'] [has Circuit has CircuitCountry: 'Germany'] * 100 / THE COUNT OF Race [has RaceName: 'European Grand Prix']",
+  "attempts": 2,
+  "chosen": 1,
+  "reason": "Candidates 1 and 3 are textually identical; candidate 2 phrases the filter with AND ALSO inside one bracket instead of two brackets. All three compile to the same result, 52.17391304347826, matching the evidence's *100 percentage formula."
+ },
+ {
+  "question_id": 892,
+  "answer": "LIST fn, sn, p FROM DriverStanding has Driver has DriverForename fn AND ALSO has Driver has DriverSurname sn AND ALSO has DriverStandingPoints p ORDERED WITH p DESCENDING THE FIRST 1",
+  "attempts": 2,
+  "chosen": 1,
+  "reason": "Candidates 1 and 2 are identical and use DriverStanding.points (the driver's standing total), giving Sebastian Vettel with 397 points -- the recognized 'most points scored' reading for this dataset. Candidate 3 instead uses Result.points, a single race's points, giving Lewis Hamilton with only 50 -- too small to be 'the most points scored' and the wrong grain (per-race, not cumulative)."
+ },
+ {
+  "question_id": 854,
+  "answer": "LIST la, lo FROM DISTINCT Race [has RaceName: 'Australian Grand Prix'] has Circuit has CircuitLat la AND ALSO has Circuit has CircuitLng lo",
+  "attempts": 1,
+  "chosen": 1,
+  "reason": "All three candidates are the same query modulo variable names (la/lo vs lat/lng); one run confirms the result (-34.9272, 138.617), matching 'coordinates refers to lat, lng'."
+ },
+ {
+  "question_id": 898,
+  "answer": "LIST fn, sn, year(today()) - year(dob) FROM Driver [has DriverNationality: 'Japanese'] has DriverForename fn AND ALSO has DriverSurname sn AND ALSO has DriverDob dob ORDERED WITH dob DESCENDING THE FIRST 1",
+  "attempts": 2,
+  "chosen": 1,
+  "reason": "Candidates 1 and 2 are identical; candidate 3 computes the same expression via an AS-named variable. All resolve to the same query and return the same row (Kamui Kobayashi, age 40), ordering by dob descending per the evidence ('larger dob = younger')."
+ },
+ {
+  "question_id": 877,
+  "answer": "LIST fn, sn FROM Result [has Race: 872] has ResultTime t AND ALSO has Driver has DriverForename fn AND ALSO has Driver has DriverSurname sn AND ALSO has Driver has DriverDob dob ORDERED WITH dob DESCENDING THE FIRST 1",
+  "attempts": 1,
+  "chosen": 1,
+  "reason": "All three candidates are textually identical: filter Result to race 872, require ResultTime (drivers who finished), order by dob descending (youngest first per evidence) and take one. Returns Sergio Perez."
+ },
+ {
+  "question_id": 906,
+  "answer": "LIST rn, p FROM Result [has Driver has DriverForename: 'Lewis'] [has Driver has DriverSurname: 'Hamilton'] has Race has RaceName rn AND ALSO has ResultPoints p AND ALSO has Race has Season has SeasonYear y ORDERED WITH y ASCENDING THE FIRST 1",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree exactly (Malaysian Grand Prix, 8.0 points). Candidate 1 orders directly by SeasonYear ascending, matching the evidence's 'first race refers to min(Year)' most literally; candidates 2 and 3 use RaceDate as an equivalent proxy and land on the same row."
+ },
+ {
+  "question_id": 988,
+  "answer": "LIST fn, sn, a FROM PitStop [has Driver has DriverNationality: 'German'] has Driver has DriverId di AND ALSO has Driver has DriverForename fn AND ALSO has Driver has DriverSurname sn AND ALSO has Driver has DriverDob dob AND ALSO has PitStopDuration dur AND ALSO THE AVERAGE dur GROUPED BY di AS a WHERE year(dob) >= 1980 AND year(dob) <= 1985 ORDERED WITH a ASCENDING THE FIRST 3",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates -- despite different grouping keys (DriverId, the driver entity via correlated subquery, DriverRef) -- return exactly the same three rows and averages: Nico Rosberg (23.27), Adrian Sutil (23.47), Timo Glock (23.69), confirming the grouping is correct in each. Candidate 1 is the most direct formulation."
+ },
+ {
+  "question_id": 881,
+  "answer": "THE COUNT OF Result [has Race has RaceDate: '1983-07-16'] [has ResultTime] / THE COUNT OF Result [has Race has RaceDate: '1983-07-16']",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "Candidates 1 and 3 are equivalent and return 0.1724..., a plain ratio with no *100, matching the evidence formula DIVIDE(...) which (unlike question 909's evidence) does not specify *100. Candidate 2 multiplies by 100, giving 17.24, which is not what the evidence's formula computes."
+ },
+ {
+  "question_id": 977,
+  "answer": "THE COUNT OF Result [has Race has RaceId r] [has Status: 2] [has ResultTime] WHERE r > 50 AND r < 100",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree exactly: count = 2, each filtering Status=2 (disqualified), requiring ResultTime present (finisher... though see note), and raceId strictly between 50 and 100 per the evidence. Candidate 1 is the most direct formulation."
+ },
+ {
+  "question_id": 915,
+  "answer": "LIST nat FROM Driver has DriverNationality nat AND ALSO has DriverDob dob ORDERED WITH dob ASCENDING THE FIRST 1",
+  "attempts": 1,
+  "chosen": 1,
+  "reason": "All three candidates are textually identical. Orders by dob ascending (oldest first, per evidence: smaller dob = older) and takes one, returning French."
+ },
+ {
+  "question_id": 868,
+  "answer": "LIST la, lo FROM DISTINCT Race [has RaceName: 'Malaysian Grand Prix'] has Circuit has CircuitLat la AND ALSO has Circuit has CircuitLng lo",
+  "attempts": 1,
+  "chosen": 1,
+  "reason": "All three candidates are the same query modulo variable names (la/lo vs lat/lng); one run confirms the result (2.76083, 101.738), matching 'location coordinates refers to (lat, lng)'."
+ }
+]

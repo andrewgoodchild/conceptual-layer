@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 37,
+  "answer": "SELECT T2.Street, T2.City, T2.Zip, T2.State FROM satscores AS T1 JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T1.NumTstTakr > 0 AND T1.NumGE1500 IS NOT NULL ORDER BY CAST(T1.NumGE1500 AS REAL) / T1.NumTstTakr ASC LIMIT 1;",
+  "attempts": 2
+ },
+ {
+  "question_id": 46,
+  "answer": "SELECT s.School FROM schools s JOIN frpm f ON s.CDSCode = f.CDSCode WHERE s.DOC = '31' AND f.`Enrollment (K-12)` = (SELECT MAX(f2.`Enrollment (K-12)`) FROM schools s2 JOIN frpm f2 ON s2.CDSCode = f2.CDSCode WHERE s2.DOC = '31');",
+  "attempts": 2
+ },
+ {
+  "question_id": 82,
+  "answer": "SELECT GSoffered FROM schools WHERE Longitude IS NOT NULL AND GSoffered IS NOT NULL ORDER BY ABS(Longitude) DESC LIMIT 1;",
+  "attempts": 3
+ },
+ {
+  "question_id": 28,
+  "answer": "WITH locally AS (SELECT f.`School Name` AS name, s.DOCType AS doctype, (f.`Enrollment (K-12)` - f.`Enrollment (Ages 5-17)`) AS diff FROM frpm f JOIN schools s ON f.CDSCode = s.CDSCode WHERE s.FundingType = 'Locally funded') SELECT name, doctype FROM locally WHERE diff > (SELECT AVG(diff) FROM locally);",
+  "attempts": 2
+ },
+ {
+  "question_id": 24,
+  "answer": "SELECT f.`School Name` FROM frpm f JOIN satscores s2 ON f.CDSCode = s2.cds WHERE f.`Percent (%) Eligible Free (K-12)` > 0.1 AND s2.NumGE1500 > 0;",
+  "attempts": 2
+ },
+ {
+  "question_id": 79,
+  "answer": "SELECT County, COUNT(*) AS num_schools FROM schools WHERE County IN ('San Diego', 'Santa Barbara') AND Virtual = 'F' GROUP BY County ORDER BY num_schools DESC LIMIT 1;",
+  "attempts": 1
+ }
+]

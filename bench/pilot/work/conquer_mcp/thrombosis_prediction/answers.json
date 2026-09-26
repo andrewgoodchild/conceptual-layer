@@ -1,0 +1,42 @@
+[
+  {
+    "question_id": 1256,
+    "answer": "THE COUNT OF Patient [is of Laboratory has LaboratoryCRP: '+'] BUT NOT [has PatientDescription]"
+  },
+  {
+    "question_id": 1189,
+    "answer": "THE COUNT OF Patient [is of Examination [has ExaminationThrombosis: 2] [has ExaminationANAPattern: 'S'] has ExaminationACLIgM m WHERE m > 1.2 * THE AVERAGE ExaminationACLIgM]"
+  },
+  {
+    "question_id": 1267,
+    "answer": "THE DISTINCT COUNT OF Patient [is of Laboratory has LaboratorySM sm WHERE sm = 'negative' OR sm = '0'] [is of Examination has ExaminationThrombosis: 0]"
+  },
+  {
+    "question_id": 1157,
+    "answer": "LIST id, sex, diag FROM Patient [is of Examination has ExaminationThrombosis: 2] has PatientID id AND ALSO OPTIONALLY has PatientSEX sex AND ALSO OPTIONALLY has PatientDiagnosis diag"
+  },
+  {
+    "question_id": 1162,
+    "answer": "THE COUNT OF Patient [has PatientSEX: 'F'] [has PatientAdmission: '-'] [has PatientDescription d] WHERE year(d) = 1997"
+  },
+  {
+    "question_id": 1164,
+    "answer": "THE DISTINCT COUNT OF Patient [has PatientSEX: 'F'] [is of Examination [has ExaminationThrombosis: 1] has ExaminationDate ed WHERE year(ed) = 1997]"
+  },
+  {
+    "question_id": 1179,
+    "answer": "LIST m FROM Patient [has PatientDiagnosis: 'SLE'] [has PatientDescription: '1994-02-19'] is of Examination [has ExaminationDate: '1993-11-12'] has ExaminationACLIgM m"
+  },
+  {
+    "question_id": 1192,
+    "answer": "LIST id FROM DISTINCT Patient [has PatientAdmission: '-'] has PatientID id AND ALSO is of Laboratory lab AND ALSO lab has LaboratoryDate ld AND ALSO lab has LaboratoryTBIL tb WHERE year(ld) = 1991 AND month(ld) = 10 AND tb < 2.0"
+  },
+  {
+    "question_id": 1232,
+    "answer": "LIST id, sex, age FROM DISTINCT Patient has PatientID id AND ALSO has PatientSEX sex AND ALSO has PatientBirthday b AND ALSO (year(today()) - year(b)) AS age AND ALSO is of Laboratory lab AND ALSO lab has LaboratoryGLU g AND ALSO lab has LaboratoryTCHO tc WHERE g >= 180 AND tc < 250"
+  },
+  {
+    "question_id": 1187,
+    "answer": "LIST id FROM DISTINCT Patient has PatientID id AND ALSO is of Laboratory lab AND ALSO lab has LaboratoryDate ld AND ALSO lab has LaboratoryGPT gpt AND ALSO lab has LaboratoryALB alb WHERE ld >= '1987-07-06' AND ld <= '1996-01-31' AND gpt > 30 AND alb < 4"
+  }
+]

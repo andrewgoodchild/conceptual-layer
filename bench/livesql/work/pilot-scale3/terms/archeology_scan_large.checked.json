@@ -1,0 +1,542 @@
+[
+ {
+  "id": 0,
+  "kind": "measure",
+  "expression": "(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5)",
+  "from": "pointcloud pc",
+  "check": "SELECT pc.cloudregistry, (log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5) AS v FROM pointcloud pc",
+  "note": "Per point-cloud row. Scan Resolution (mm) = cloud_metrics->>'Scan_Resol_Mm'; Point Density = cloud_metrics->>'Point_Dense' (points/m2). log = base-10 log on float8. Range 1.7-6.4.",
+  "knowledge": "Scan Resolution Index (SRI)",
+  "checked": "ran, 697 rows, from 1.73 to 6.36"
+ },
+ {
+  "id": 1,
+  "kind": "measure",
+  "expression": "((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))",
+  "from": "pointcloud pc",
+  "check": "SELECT pc.cloudregistry, ((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100))) AS v FROM pointcloud pc",
+  "note": "Per point-cloud row. Coverage % = cloud_metrics->>'Cover_Pct', Overlap % = cloud_metrics->>'Lap_Pct' (both 0-100 percent). Range 85-100.",
+  "knowledge": "Scan Coverage Effectiveness (SCE)",
+  "checked": "ran, 697 rows, from 85.49 to 99.94"
+ },
+ {
+  "id": 2,
+  "kind": "measure",
+  "expression": "((pc.cloud_metrics->>'Total_Pts')::float8 / ((pc.cloud_metrics->>'Cloud_Dense')::float8 * (sp.spatial_dims->>'Area_M2')::float8))",
+  "from": "pointcloud pc JOIN spatial sp ON sp.arcref = pc.arcref AND sp.crewref = pc.crewref",
+  "check": "SELECT pc.cloudregistry, ((pc.cloud_metrics->>'Total_Pts')::float8 / ((pc.cloud_metrics->>'Cloud_Dense')::float8 * (sp.spatial_dims->>'Area_M2')::float8)) AS v FROM pointcloud pc JOIN spatial sp ON sp.arcref = pc.arcref AND sp.crewref = pc.crewref",
+  "note": "Per point cloud. Total Points = cloud_metrics->>'Total_Pts'; Point-Cloud Density Code = cloud_metrics->>'Cloud_Dense' (a code 128-9988, distinct from Point_Dense); Surface Area (m2) = spatial.spatial_dims->>'Area_M2', joined on (arcref, crewref), which is unique in both tables. Only 234 of 697 point clouds have a spatial row.",
+  "knowledge": "Point Cloud Density Ratio (PCDR)",
+  "checked": "ran, 234 rows, from 0.35 to 15466.5"
+ },
+ {
+  "id": 3,
+  "kind": "measure",
+  "expression": "(power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2))",
+  "from": "pointcloud pc",
+  "check": "SELECT pc.cloudregistry, (power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) AS v FROM pointcloud pc",
+  "note": "Per point-cloud row; uses SRI [0] and SCE [1]. Noise Level (dB) = cloud_metrics->>'Noise_Db' (0-2). Range 1.8-11.3; 64 rows exceed 7.5.",
+  "knowledge": "Scan Quality Score (SQS)",
+  "checked": "ran, 697 rows, from 1.77 to 11.26"
+ },
+ {
+  "id": 4,
+  "kind": "measure",
+  "expression": "((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000)",
+  "from": "mesh m",
+  "check": "SELECT m.facetregistry, ((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) AS v FROM mesh m",
+  "note": "Per mesh row. Mesh Faces = mesh_specs->>'Facet_Faces', Mesh Vertices = mesh_specs->>'Facet_Verts', Mesh Resolution (mm) = mesh_specs->>'Facet_Res_Mm'. Very skewed because of the squared resolution (0.12-9.99 mm).",
+  "knowledge": "Mesh Complexity Ratio (MCR)",
+  "checked": "ran, 839 rows, from 0.18 to 755326.64"
+ },
+ {
+  "id": 5,
+  "kind": "measure",
+  "expression": "((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)",
+  "from": "mesh m",
+  "check": "SELECT m.facetregistry, ((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01) AS v FROM mesh m",
+  "note": "Per mesh row. Texture Size (px) = mesh_specs->>'Tex_Pix' (1024/2048/4096/8192), not 'Tex_Dist' ('1K','2K','4K'). Values are small (well under 8).",
+  "knowledge": "Texture Density Index (TDI)",
+  "checked": "ran, 839 rows, from 0.0 to 0.18"
+ },
+ {
+  "id": 6,
+  "kind": "measure",
+  "expression": "(((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8)))",
+  "from": "mesh m",
+  "check": "SELECT m.facetregistry, (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8))) AS v FROM mesh m",
+  "note": "Per mesh row; uses MCR [4] and TDI [5]. Geometric Accuracy (mm) = mesh_specs->>'Geom_Delta_Mm'.",
+  "knowledge": "Model Fidelity Score (MFS)",
+  "checked": "ran, 839 rows, from 0.0 to 10775.34"
+ },
+ {
+  "id": 7,
+  "kind": "measure",
+  "expression": "(100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100))",
+  "from": "environment e",
+  "check": "SELECT e.airregistry, (100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) AS v FROM environment e",
+  "note": "Per environment row. Ambient Temperature (C) = ambient_cond->>'Ambic_Temp'; Relative Humidity % = ambient_cond->>'Hume_Pct'; Light (lux) = ambient_cond->>'Illume_Lux'.",
+  "knowledge": "Environmental Suitability Index (ESI)",
+  "checked": "ran, 908 rows, from -60.7 to 97.12"
+ },
+ {
+  "id": 8,
+  "kind": "measure",
+  "expression": "(split_part(s.size,' ',1)::float8 * log((pc.cloud_metrics->>'Total_Pts')::float8) / ((pr.system_usage->>'Flow_Hrs')::float8 * ((pr.system_usage->>'Proc_CPU')::float8 + (pr.system_usage->>'Proc_GPU')::float8)/200))",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN processing pr ON pr.zoneref = s.zoneref",
+  "check": "SELECT s.questregistry, pr.flowregistry, (split_part(s.size,' ',1)::float8 * log((pc.cloud_metrics->>'Total_Pts')::float8) / ((pr.system_usage->>'Flow_Hrs')::float8 * ((pr.system_usage->>'Proc_CPU')::float8 + (pr.system_usage->>'Proc_GPU')::float8)/200)) AS v FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN processing pr ON pr.zoneref = s.zoneref",
+  "note": "Per scan x processing pair. File Size (GB) = number in scans.size (text like '24.71 GB'); Total Points from pointcloud (joined to scans on arcref+crewref); Processing Time (hours) = processing.system_usage->>'Flow_Hrs', CPU % = 'Proc_CPU', GPU % = 'Proc_GPU'. Processing has no scan key: it is linked to the scan by site (processing.zoneref = scans.zoneref), so a site with several processing rows gives several PER values per scan. log = base 10.",
+  "knowledge": "Processing Efficiency Ratio (PER)",
+  "checked": "ran, 757 rows, from 0.1 to 1001.48"
+ },
+ {
+  "id": 9,
+  "kind": "measure",
+  "expression": "((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2))*0.4 + (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8)))*0.4 + ((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))*0.2 - 5*sqrt((pc.cloud_metrics->>'Noise_Db')::float8/10))",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN mesh m ON m.zoneref = s.zoneref",
+  "check": "SELECT s.questregistry, m.facetregistry, ((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2))*0.4 + (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8)))*0.4 + ((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))*0.2 - 5*sqrt((pc.cloud_metrics->>'Noise_Db')::float8/10)) AS v FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN mesh m ON m.zoneref = s.zoneref",
+  "note": "Per scan (point cloud) x mesh pair. SQS and SCE come from pointcloud, MFS from mesh; mesh has no scan key, so mesh is linked by site (mesh.zoneref = scans.zoneref). Noise Level = cloud_metrics->>'Noise_Db'.",
+  "knowledge": "Archaeological Documentation Completeness (ADC)",
+  "checked": "ran, 715 rows, from 16.89 to 4329.76"
+ },
+ {
+  "id": 10,
+  "kind": "condition",
+  "expression": "((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 <= 1.0 AND (pc.cloud_metrics->>'Point_Dense')::float8 >= 1000)",
+  "from": "pointcloud pc",
+  "check": "SELECT pc.cloudregistry FROM pointcloud pc WHERE ((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 <= 1.0 AND (pc.cloud_metrics->>'Point_Dense')::float8 >= 1000)",
+  "note": "Per point cloud: Scan_Resol_Mm <= 1.0 and Point_Dense >= 1000.",
+  "knowledge": "High Resolution Scan",
+  "checked": "ran, 134 rows, from 5.0 to 688.0"
+ },
+ {
+  "id": 11,
+  "kind": "condition",
+  "expression": "((pc.cloud_metrics->>'Cover_Pct')::float8 >= 95 AND (pc.cloud_metrics->>'Lap_Pct')::float8 >= 30)",
+  "from": "pointcloud pc",
+  "check": "SELECT pc.cloudregistry FROM pointcloud pc WHERE ((pc.cloud_metrics->>'Cover_Pct')::float8 >= 95 AND (pc.cloud_metrics->>'Lap_Pct')::float8 >= 30)",
+  "note": "Per point cloud: Cover_Pct >= 95 and Lap_Pct >= 30.",
+  "knowledge": "Comprehensive Coverage",
+  "checked": "ran, 174 rows, from 2.0 to 693.0"
+ },
+ {
+  "id": 12,
+  "kind": "condition",
+  "expression": "(((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 <= 1.0 AND (pc.cloud_metrics->>'Point_Dense')::float8 >= 1000) AND ((pc.cloud_metrics->>'Cover_Pct')::float8 >= 95 AND (pc.cloud_metrics->>'Lap_Pct')::float8 >= 30) AND (power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) > 7.5)",
+  "from": "pointcloud pc",
+  "check": "SELECT pc.cloudregistry FROM pointcloud pc WHERE (((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 <= 1.0 AND (pc.cloud_metrics->>'Point_Dense')::float8 >= 1000) AND ((pc.cloud_metrics->>'Cover_Pct')::float8 >= 95 AND (pc.cloud_metrics->>'Lap_Pct')::float8 >= 30) AND (power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) > 7.5)",
+  "note": "Per point cloud: High Resolution Scan [10] AND Comprehensive Coverage [11] AND SQS [3] > 7.5.",
+  "knowledge": "Premium Quality Scan",
+  "checked": "ran, 17 rows, from 22.0 to 686.0"
+ },
+ {
+  "id": 13,
+  "kind": "condition",
+  "expression": "(((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) > 5.0 AND (m.mesh_specs->>'Facet_Res_Mm')::float8 < 1.0 AND (m.mesh_specs->>'Geom_Delta_Mm')::float8 < 0.5)",
+  "from": "mesh m",
+  "check": "SELECT m.facetregistry FROM mesh m WHERE (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) > 5.0 AND (m.mesh_specs->>'Facet_Res_Mm')::float8 < 1.0 AND (m.mesh_specs->>'Geom_Delta_Mm')::float8 < 0.5)",
+  "note": "Per mesh: MCR [4] > 5, Facet_Res_Mm < 1.0, Geom_Delta_Mm < 0.5.",
+  "knowledge": "High Fidelity Mesh",
+  "checked": "ran, 6 rows, from 17.0 to 608.0"
+ },
+ {
+  "id": 14,
+  "kind": "condition",
+  "expression": "(si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%')",
+  "from": "sites si JOIN conservation c ON c.zoneref = si.zoneregistry",
+  "check": "SELECT si.zoneregistry, c.cureregistry FROM sites si JOIN conservation c ON c.zoneref = si.zoneregistry WHERE (si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%')",
+  "note": "Preservation Status = sites.site_status->>'Pres_Stat' (Critical/Excellent/Fair/Good/Poor). Structural Stability = conservation.structstate, whose values are 'Stable condition, ...', 'Moderate condition, ...', 'Unstable condition, ...' (no 'Critical' as in [26]). The 'not containing Stable' test must be case-sensitive (NOT LIKE '%Stable%') or 'Unstable' would be excluded too. Sites without a conservation row have no stability and are not in the zone; 26 sites have two conservation rows, which can disagree (test per row, or EXISTS for a site).",
+  "knowledge": "Degradation Risk Zone",
+  "checked": "ran, 127 rows, from 5.0 to 454.0"
+ },
+ {
+  "id": 15,
+  "kind": "condition",
+  "expression": "(100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) > 85",
+  "from": "environment e",
+  "check": "SELECT e.airregistry FROM environment e WHERE (100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) > 85",
+  "note": "Per environment row: ESI [7] > 85.",
+  "knowledge": "Optimal Scanning Conditions",
+  "checked": "ran, 33 rows, from 27.0 to 833.0"
+ },
+ {
+  "id": 16,
+  "kind": "condition",
+  "expression": "((si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%') AND ((CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int) < -1000 OR si.typesite IN ('Rare','Unique')))",
+  "from": "sites si JOIN conservation c ON c.zoneref = si.zoneregistry",
+  "check": "SELECT si.zoneregistry FROM sites si JOIN conservation c ON c.zoneref = si.zoneregistry WHERE ((si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%') AND ((CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int) < -1000 OR si.typesite IN ('Rare','Unique')))",
+  "note": "Highest-priority sites: Degradation Risk Zone [14] AND (Estimated Date older than 1000 BCE OR Site Type 'Rare'/'Unique'). Estimated Date = sites.guessdate, text like '-2996 BCE', '670 BCE' or '834 CE'; the sign is inconsistent for BCE, so the signed year is -(digits) when it ends in BCE, +(digits) for CE. sites.typesite never holds 'Rare' or 'Unique' (values are Industrial, Religious, Military, Settlement, Burial and variants), so only the date branch selects. The definition's 'through Premium Quality Scans' [12] is what the site should receive, not a filter.",
+  "knowledge": "Digital Conservation Priority",
+  "checked": "ran, 56 rows"
+ },
+ {
+  "id": 17,
+  "kind": "condition",
+  "expression": "(split_part(s.size,' ',1)::float8 * log((pc.cloud_metrics->>'Total_Pts')::float8) / ((pr.system_usage->>'Flow_Hrs')::float8 * ((pr.system_usage->>'Proc_CPU')::float8 + (pr.system_usage->>'Proc_GPU')::float8)/200)) < 0.5",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN processing pr ON pr.zoneref = s.zoneref",
+  "check": "SELECT s.questregistry, pr.flowregistry FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN processing pr ON pr.zoneref = s.zoneref WHERE (split_part(s.size,' ',1)::float8 * log((pc.cloud_metrics->>'Total_Pts')::float8) / ((pr.system_usage->>'Flow_Hrs')::float8 * ((pr.system_usage->>'Proc_CPU')::float8 + (pr.system_usage->>'Proc_GPU')::float8)/200)) < 0.5",
+  "note": "PER [8] < 0.5, per scan x processing pair (same joins as [8]).",
+  "knowledge": "Processing Bottleneck",
+  "checked": "ran, 13 rows, from 10.0 to 796.0"
+ },
+ {
+  "id": 18,
+  "kind": "condition",
+  "expression": "((r.reg_accuracy->>'Log_Accu_Mm')::float8 < 1.0 AND (r.reg_accuracy->>'Err_Val_Mm')::float8 < 2.0)",
+  "from": "registration r",
+  "check": "SELECT r.logregistry FROM registration r WHERE ((r.reg_accuracy->>'Log_Accu_Mm')::float8 < 1.0 AND (r.reg_accuracy->>'Err_Val_Mm')::float8 < 2.0)",
+  "note": "Registration Accuracy (mm) = registration.reg_accuracy->>'Log_Accu_Mm'; Error Value (mm) = reg_accuracy->>'Err_Val_Mm'.",
+  "knowledge": "Registration Quality Threshold",
+  "checked": "ran, 26 rows, from 55.0 to 668.0"
+ },
+ {
+  "id": 19,
+  "kind": "condition",
+  "expression": "((((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 <= 1.0 AND (pc.cloud_metrics->>'Point_Dense')::float8 >= 1000) AND ((pc.cloud_metrics->>'Cover_Pct')::float8 >= 95 AND (pc.cloud_metrics->>'Lap_Pct')::float8 >= 30) AND (power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) > 7.5) AND (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) > 5.0 AND (m.mesh_specs->>'Facet_Res_Mm')::float8 < 1.0 AND (m.mesh_specs->>'Geom_Delta_Mm')::float8 < 0.5) AND ((r.reg_accuracy->>'Log_Accu_Mm')::float8 < 1.0 AND (r.reg_accuracy->>'Err_Val_Mm')::float8 < 2.0) AND ((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2))*0.4 + (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8)))*0.4 + ((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))*0.2 - 5*sqrt((pc.cloud_metrics->>'Noise_Db')::float8/10)) > 85)",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN mesh m ON m.zoneref = s.zoneref JOIN registration r ON r.arcref = s.arcref AND r.crewref = s.crewref",
+  "check": "SELECT DISTINCT s.zoneref FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN mesh m ON m.zoneref = s.zoneref JOIN registration r ON r.arcref = s.arcref AND r.crewref = s.crewref WHERE ((((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 <= 1.0 AND (pc.cloud_metrics->>'Point_Dense')::float8 >= 1000) AND ((pc.cloud_metrics->>'Cover_Pct')::float8 >= 95 AND (pc.cloud_metrics->>'Lap_Pct')::float8 >= 30) AND (power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) > 7.5) AND (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) > 5.0 AND (m.mesh_specs->>'Facet_Res_Mm')::float8 < 1.0 AND (m.mesh_specs->>'Geom_Delta_Mm')::float8 < 0.5) AND ((r.reg_accuracy->>'Log_Accu_Mm')::float8 < 1.0 AND (r.reg_accuracy->>'Err_Val_Mm')::float8 < 2.0) AND ((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2))*0.4 + (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8)))*0.4 + ((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))*0.2 - 5*sqrt((pc.cloud_metrics->>'Noise_Db')::float8/10)) > 85)",
+  "note": "Per scan x mesh x registration: Premium Quality Scan [12] on the point cloud, High Fidelity Mesh [13] on a mesh of the same site (mesh.zoneref = scans.zoneref), Registration Quality Threshold [18] on the registration of the same scan (arcref+crewref), and ADC [9] > 85. A site qualifies if any such combination exists (group by s.zoneref). No site qualifies in this data (only 17 premium scans and 6 high-fidelity meshes, never at the same site with a qualifying registration).",
+  "knowledge": "Full Archaeological Digital Twin",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 20,
+  "kind": "measure",
+  "expression": "(pc.cloud_metrics->>'Scan_Resol_Mm')::float8",
+  "from": "pointcloud pc",
+  "check": "SELECT pc.cloudregistry, (pc.cloud_metrics->>'Scan_Resol_Mm')::float8 AS v FROM pointcloud pc",
+  "note": "Scan Resolution in mm = pointcloud.cloud_metrics->>'Scan_Resol_Mm' (0.12-4.99). Smaller = finer.",
+  "knowledge": "Scan Resolution",
+  "checked": "ran, 697 rows, from 0.12 to 4.99"
+ },
+ {
+  "id": 21,
+  "kind": "measure",
+  "expression": "(pc.cloud_metrics->>'Point_Dense')::float8",
+  "from": "pointcloud pc",
+  "check": "SELECT pc.cloudregistry, (pc.cloud_metrics->>'Point_Dense')::float8 AS v FROM pointcloud pc",
+  "note": "Point Density (points/m2) = pointcloud.cloud_metrics->>'Point_Dense' (439-999,837). Not 'Cloud_Dense', which is the Point-Cloud Density Code.",
+  "knowledge": "Point Density",
+  "checked": "ran, 697 rows, from 439.0 to 999837.0"
+ },
+ {
+  "id": 22,
+  "kind": "measure",
+  "expression": "(pc.cloud_metrics->>'Noise_Db')::float8",
+  "from": "pointcloud pc",
+  "check": "SELECT pc.cloudregistry, (pc.cloud_metrics->>'Noise_Db')::float8 AS v FROM pointcloud pc",
+  "note": "Noise Level (dB) = pointcloud.cloud_metrics->>'Noise_Db'. Data range 0.008-2.0, so no row reaches the definition's 'above 3.0' noisy band; < 1.0 = clean.",
+  "knowledge": "Noise Level",
+  "checked": "ran, 697 rows, from 0.01 to 2.0"
+ },
+ {
+  "id": 23,
+  "kind": "measure",
+  "expression": "(pc.cloud_metrics->>'Cover_Pct')::float8",
+  "from": "pointcloud pc",
+  "check": "SELECT pc.cloudregistry, (pc.cloud_metrics->>'Cover_Pct')::float8 AS v FROM pointcloud pc",
+  "note": "Coverage % = pointcloud.cloud_metrics->>'Cover_Pct' (80-99.9, percent units, not fraction).",
+  "knowledge": "Coverage Percentage",
+  "checked": "ran, 697 rows, from 80.0 to 99.9"
+ },
+ {
+  "id": 24,
+  "kind": "measure",
+  "expression": "(m.mesh_specs->>'Geom_Delta_Mm')::float8",
+  "from": "mesh m",
+  "check": "SELECT m.facetregistry, (m.mesh_specs->>'Geom_Delta_Mm')::float8 AS v FROM mesh m",
+  "note": "Geometric Accuracy (mm) = mesh.mesh_specs->>'Geom_Delta_Mm' (0.1-5.0). No row is below the 0.1 museum-quality mark.",
+  "knowledge": "Geometric Accuracy",
+  "checked": "ran, 839 rows, from 0.1 to 5.0"
+ },
+ {
+  "id": 25,
+  "kind": "value",
+  "expression": "(CASE WHEN lower(si.phasefactor) IN ('neolithic','neo','neo.','neolithic period','new stone age') THEN 'Neolithic' WHEN lower(si.phasefactor) IN ('bronze age','ba','b.a.','bronze era','bronze period') THEN 'Bronze Age' WHEN lower(si.phasefactor) IN ('iron age','ia','i.a.','iron era','iron period') THEN 'Iron Age' WHEN lower(si.phasefactor) IN ('classical','classical period','greco-roman') THEN 'Classical' WHEN lower(si.phasefactor) IN ('medieval','med','med.','medieval period','middle ages') THEN 'Medieval' END) = 'Bronze Age'",
+  "from": "sites si",
+  "check": "SELECT si.zoneregistry, si.phasefactor FROM sites si WHERE (CASE WHEN lower(si.phasefactor) IN ('neolithic','neo','neo.','neolithic period','new stone age') THEN 'Neolithic' WHEN lower(si.phasefactor) IN ('bronze age','ba','b.a.','bronze era','bronze period') THEN 'Bronze Age' WHEN lower(si.phasefactor) IN ('iron age','ia','i.a.','iron era','iron period') THEN 'Iron Age' WHEN lower(si.phasefactor) IN ('classical','classical period','greco-roman') THEN 'Classical' WHEN lower(si.phasefactor) IN ('medieval','med','med.','medieval period','middle ages') THEN 'Medieval' END) = 'Bronze Age'",
+  "note": "Cultural Period = sites.phasefactor, stored in 38 spellings of 5 periods (Neolithic, Bronze Age, Iron Age, Classical, Medieval) plus 150 empty. Normalise with the CASE shown (compare its result to the canonical name; 'Bronze Age' is the example). There is no 'Roman' period; the nearest is Classical (incl. 'Greco-Roman').",
+  "knowledge": "Cultural Period",
+  "checked": "ran, 166 rows"
+ },
+ {
+  "id": 26,
+  "kind": "value",
+  "expression": "c.structstate LIKE 'Stable%'",
+  "from": "conservation c",
+  "check": "SELECT c.cureregistry, c.structstate FROM conservation c WHERE c.structstate LIKE 'Stable%'",
+  "note": "Structural Stability = conservation.structstate. Stored values: 'Stable condition, structure secure for access' (c.structstate LIKE 'Stable%'), 'Unstable condition, restricted access for safety' (LIKE 'Unstable%'), 'Moderate condition, careful monitoring required' (LIKE 'Moderate%'). The definition's 'Critical' does not occur; 'Moderate' is not in the definition. Use case-sensitive LIKE: 'Unstable' contains 'stable'.",
+  "knowledge": "Structural Stability",
+  "checked": "ran, 142 rows, values 'Stable condition, structure secure for access'"
+ },
+ {
+  "id": 27,
+  "kind": "value",
+  "expression": "pr.flowstage = 'Meshed'",
+  "from": "processing pr",
+  "check": "SELECT pr.flowregistry, pr.flowstage FROM processing pr WHERE pr.flowstage = 'Meshed'",
+  "note": "Processing Stage = processing.flowstage, values 'Raw', 'Aligned', 'Meshed', 'Textured', 'Final' (exact case). No 'Cleaned' stage exists in the data; 'Final' is not in the definition. Example shown tests 'Meshed'.",
+  "knowledge": "Processing Stage",
+  "checked": "ran, 132 rows, values 'Meshed'"
+ },
+ {
+  "id": 28,
+  "kind": "value",
+  "expression": "r.reg_accuracy->>'Log_Method' = 'Target-based'",
+  "from": "registration r",
+  "check": "SELECT r.logregistry FROM registration r WHERE r.reg_accuracy->>'Log_Method' = 'Target-based'",
+  "note": "Registration Method = registration.reg_accuracy->>'Log_Method', values 'Target-based', 'Hybrid', 'Feature-based'. 'ICP' and 'SLAM' do not occur; 'Feature-based' is not in the definition. Example tests Target-based.",
+  "knowledge": "Registration Method",
+  "checked": "ran, 237 rows, from 2.0 to 727.0"
+ },
+ {
+  "id": 29,
+  "kind": "measure",
+  "expression": "(CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)",
+  "from": "sites si",
+  "check": "SELECT si.zoneregistry, si.guessdate, (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int) AS v FROM sites si",
+  "note": "Estimated Date = sites.guessdate, text in three forms: '-2996 BCE', '670 BCE', '834 CE' (no ranges, centuries or 'ca.' as the definition describes). Expression gives a signed year (negative = BCE): the minus sign is redundant/inconsistent for BCE so the sign comes from the suffix. 'before 500 CE' = expr < 500; 'older than 1000 BCE' = expr < -1000.",
+  "knowledge": "Estimated Dating",
+  "checked": "ran, 900 rows, from -4998.0 to 1500.0"
+ },
+ {
+  "id": 30,
+  "kind": "measure",
+  "expression": "((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) * sqrt((pc.cloud_metrics->>'Cover_Pct')::float8) / ((split_part(s.size,' ',1)::float8*1024 / split_part(s.scanning_rate,' ',1)::float8) * sqrt(substring(s.scancount from '^[0-9]+')::float8)))",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref",
+  "check": "SELECT s.questregistry, ((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) * sqrt((pc.cloud_metrics->>'Cover_Pct')::float8) / ((split_part(s.size,' ',1)::float8*1024 / split_part(s.scanning_rate,' ',1)::float8) * sqrt(substring(s.scancount from '^[0-9]+')::float8))) AS v FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref",
+  "note": "Per scan (point cloud via arcref+crewref). Number of Scans = leading integer of scans.scancount ('5 scans, moderate coverage session'). No column holds Scan Duration (min); it is derived as file size / scanning rate = scans.size (GB) * 1024 / scans.scanning_rate (MB/min), giving minutes (median ~218). This derivation is an assumption.",
+  "knowledge": "Scan Time Efficiency (STE)",
+  "checked": "ran, 697 rows, from 0.0 to 6.16"
+ },
+ {
+  "id": 31,
+  "kind": "measure",
+  "expression": "((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) / ((100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) + 10) * 100)",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN environment e ON e.zoneref = s.zoneref",
+  "check": "SELECT s.questregistry, e.airregistry, ((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) / ((100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) + 10) * 100) AS v FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN environment e ON e.zoneref = s.zoneref",
+  "note": "Per scan x environment row. SQS from the point cloud, ESI from environment; environment has no scan key and is linked by site (environment.zoneref = scans.zoneref).",
+  "knowledge": "Environmental Impact Factor (EIF)",
+  "checked": "ran, 774 rows, from -2203.31 to 6194.99"
+ },
+ {
+  "id": 32,
+  "kind": "measure",
+  "expression": "(((f.feature_analysis->>'Trait_Count')::float8 + (f.feature_analysis->>'Arti_Count')::float8) / (((pc.cloud_metrics->>'Total_Pts')::float8 / ((pc.cloud_metrics->>'Cloud_Dense')::float8 * (sp.spatial_dims->>'Area_M2')::float8)) * sqrt((pc.cloud_metrics->>'Cloud_Dense')::float8)) * 1000)",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN spatial sp ON sp.arcref = s.arcref AND sp.crewref = s.crewref JOIN features f ON f.zoneref = s.zoneref",
+  "check": "SELECT s.questregistry, f.traitregistry, (((f.feature_analysis->>'Trait_Count')::float8 + (f.feature_analysis->>'Arti_Count')::float8) / (((pc.cloud_metrics->>'Total_Pts')::float8 / ((pc.cloud_metrics->>'Cloud_Dense')::float8 * (sp.spatial_dims->>'Area_M2')::float8)) * sqrt((pc.cloud_metrics->>'Cloud_Dense')::float8)) * 1000) AS v FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN spatial sp ON sp.arcref = s.arcref AND sp.crewref = s.crewref JOIN features f ON f.zoneref = s.zoneref",
+  "note": "Per scan x feature row. Number of Detected Features = features.feature_analysis->>'Trait_Count', Artifact Count = feature_analysis->>'Arti_Count'; PCDR [2] needs spatial area; features linked by site (features.zoneref = scans.zoneref).",
+  "knowledge": "Feature Extraction Efficiency (FEE)",
+  "checked": "ran, 163 rows, from 2.31 to 21711.73"
+ },
+ {
+  "id": 33,
+  "kind": "measure",
+  "expression": "((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 / ((r.reg_accuracy->>'Log_Accu_Mm')::float8 * sqrt(1 + (r.reg_accuracy->>'Err_Val_Mm')::float8/(r.reg_accuracy->>'Log_Accu_Mm')::float8)))",
+  "from": "pointcloud pc JOIN registration r ON r.arcref = pc.arcref AND r.crewref = pc.crewref",
+  "check": "SELECT pc.cloudregistry, r.logregistry, ((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 / ((r.reg_accuracy->>'Log_Accu_Mm')::float8 * sqrt(1 + (r.reg_accuracy->>'Err_Val_Mm')::float8/(r.reg_accuracy->>'Log_Accu_Mm')::float8))) AS v FROM pointcloud pc JOIN registration r ON r.arcref = pc.arcref AND r.crewref = pc.crewref",
+  "note": "Per scan: Scan Resolution from pointcloud, Registration Accuracy (Log_Accu_Mm) and Error Value (Err_Val_Mm) from registration, joined on (arcref, crewref).",
+  "knowledge": "Registration Accuracy Ratio (RAR)",
+  "checked": "ran, 528 rows, from 0.02 to 16.46"
+ },
+ {
+  "id": 34,
+  "kind": "measure",
+  "expression": "((pc.cloud_metrics->>'Total_Pts')::float8 / ((sp.spatial_dims->>'Area_M2')::float8 * 1e4) * power((pc.cloud_metrics->>'Point_Dense')::float8/(pc.cloud_metrics->>'Cloud_Dense')::float8, 0.5))",
+  "from": "pointcloud pc JOIN spatial sp ON sp.arcref = pc.arcref AND sp.crewref = pc.crewref",
+  "check": "SELECT pc.cloudregistry, ((pc.cloud_metrics->>'Total_Pts')::float8 / ((sp.spatial_dims->>'Area_M2')::float8 * 1e4) * power((pc.cloud_metrics->>'Point_Dense')::float8/(pc.cloud_metrics->>'Cloud_Dense')::float8, 0.5)) AS v FROM pointcloud pc JOIN spatial sp ON sp.arcref = pc.arcref AND sp.crewref = pc.crewref",
+  "note": "Per point cloud with a spatial row (arcref+crewref). Total_Pts, Point_Dense, Cloud_Dense from cloud_metrics; Area_M2 from spatial.",
+  "knowledge": "Spatial Density Index (SDI)",
+  "checked": "ran, 234 rows, from 1.83 to 65282.99"
+ },
+ {
+  "id": 35,
+  "kind": "measure",
+  "expression": "(CASE WHEN COALESCE((si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%'), false) THEN 100 - (CASE si.site_status->>'Pres_Stat' WHEN 'Excellent' THEN 10 WHEN 'Good' THEN 30 WHEN 'Fair' THEN 50 WHEN 'Poor' THEN 70 WHEN 'Critical' THEN 90 END) + ((EXTRACT(YEAR FROM CURRENT_DATE) - (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)) / 1000.0) * (1 + 0/10.0) ELSE 50 - (CASE si.site_status->>'Pres_Stat' WHEN 'Excellent' THEN 10 WHEN 'Good' THEN 30 WHEN 'Fair' THEN 50 WHEN 'Poor' THEN 70 WHEN 'Critical' THEN 90 END) + ((EXTRACT(YEAR FROM CURRENT_DATE) - (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)) / 1000.0) * (1 + 0/20.0) END)",
+  "from": "sites si LEFT JOIN conservation c ON c.zoneref = si.zoneregistry",
+  "check": "SELECT si.zoneregistry, c.cureregistry, (CASE WHEN COALESCE((si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%'), false) THEN 100 - (CASE si.site_status->>'Pres_Stat' WHEN 'Excellent' THEN 10 WHEN 'Good' THEN 30 WHEN 'Fair' THEN 50 WHEN 'Poor' THEN 70 WHEN 'Critical' THEN 90 END) + ((EXTRACT(YEAR FROM CURRENT_DATE) - (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)) / 1000.0) * (1 + 0/10.0) ELSE 50 - (CASE si.site_status->>'Pres_Stat' WHEN 'Excellent' THEN 10 WHEN 'Good' THEN 30 WHEN 'Fair' THEN 50 WHEN 'Poor' THEN 70 WHEN 'Critical' THEN 90 END) + ((EXTRACT(YEAR FROM CURRENT_DATE) - (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)) / 1000.0) * (1 + 0/20.0) END) AS v FROM sites si LEFT JOIN conservation c ON c.zoneref = si.zoneregistry",
+  "note": "Per site (x conservation row). PS maps site_status->>'Pres_Stat'. AF = age in millennia = (current year - signed year from guessdate [29]) / 1000. TS (site-type rarity 0-10) has no column: sites.typesite holds only common types (Industrial, Religious, Military, Settlement, Burial ... in mixed spellings) and no rarity score, so TS is taken as 0 (the 0/10 and 0/20 terms mark where it goes). Sites without a conservation row are treated as not in a Degradation Risk Zone [14]; sites with two conservation rows give two CPI values.",
+  "knowledge": "Conservation Priority Index (CPI)",
+  "checked": "ran, 926 rows, from -39.47 to 46.98"
+ },
+ {
+  "id": 36,
+  "kind": "measure",
+  "expression": "((m.mesh_specs->>'Facet_Verts')::float8 / (pc.cloud_metrics->>'Total_Pts')::float8 * 100 * power(((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000)/10, 0.3))",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN mesh m ON m.zoneref = s.zoneref",
+  "check": "SELECT s.questregistry, m.facetregistry, ((m.mesh_specs->>'Facet_Verts')::float8 / (pc.cloud_metrics->>'Total_Pts')::float8 * 100 * power(((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000)/10, 0.3)) AS v FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN mesh m ON m.zoneref = s.zoneref",
+  "note": "Per scan x mesh pair: Mesh Vertices (Facet_Verts) and MCR [4] from mesh, Total Points from pointcloud; mesh is linked to the scan by site (mesh.zoneref = scans.zoneref).",
+  "knowledge": "Mesh-to-Point Ratio (MPR)",
+  "checked": "ran, 715 rows, from 0.33 to 1285.17"
+ },
+ {
+  "id": 37,
+  "kind": "measure",
+  "expression": "((pr.system_usage->>'Flow_Hrs')::float8 * ((pr.system_usage->>'Proc_CPU')::float8 + (pr.system_usage->>'Proc_GPU')::float8) / 2 / (split_part(s.size,' ',1)::float8 * 10 * log((m.mesh_specs->>'Facet_Verts')::float8 + 1e4)))",
+  "from": "processing pr JOIN mesh m ON m.zoneref = pr.zoneref AND m.equipref = pr.equipref JOIN scans s ON s.zoneref = pr.zoneref",
+  "check": "SELECT pr.flowregistry, m.facetregistry, s.questregistry, ((pr.system_usage->>'Flow_Hrs')::float8 * ((pr.system_usage->>'Proc_CPU')::float8 + (pr.system_usage->>'Proc_GPU')::float8) / 2 / (split_part(s.size,' ',1)::float8 * 10 * log((m.mesh_specs->>'Facet_Verts')::float8 + 1e4))) AS v FROM processing pr JOIN mesh m ON m.zoneref = pr.zoneref AND m.equipref = pr.equipref JOIN scans s ON s.zoneref = pr.zoneref",
+  "note": "Per processing row, with its mesh (same zoneref+equipref) and File Size from scans.size of the same site (zoneref). File Size in GB from scans.size text; Flow_Hrs, Proc_CPU, Proc_GPU from processing.system_usage; log base 10.",
+  "knowledge": "Processing Resource Utilization (PRU)",
+  "checked": "ran, 842 rows, from 0.01 to 119.94"
+ },
+ {
+  "id": 38,
+  "kind": "measure",
+  "expression": "(0.3*((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2))*0.4 + (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8)))*0.4 + ((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))*0.2 - 5*sqrt((pc.cloud_metrics->>'Noise_Db')::float8/10)) + 0.3*(((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8))) + 0.2*((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 / ((r.reg_accuracy->>'Log_Accu_Mm')::float8 * sqrt(1 + (r.reg_accuracy->>'Err_Val_Mm')::float8/(r.reg_accuracy->>'Log_Accu_Mm')::float8))) + 0.2*((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100))) - 2*sqrt((r.reg_accuracy->>'Err_Val_Mm')::float8/(pc.cloud_metrics->>'Scan_Resol_Mm')::float8))",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN mesh m ON m.zoneref = s.zoneref JOIN registration r ON r.arcref = s.arcref AND r.crewref = s.crewref",
+  "check": "SELECT s.questregistry, m.facetregistry, r.logregistry, (0.3*((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2))*0.4 + (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8)))*0.4 + ((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))*0.2 - 5*sqrt((pc.cloud_metrics->>'Noise_Db')::float8/10)) + 0.3*(((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8))) + 0.2*((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 / ((r.reg_accuracy->>'Log_Accu_Mm')::float8 * sqrt(1 + (r.reg_accuracy->>'Err_Val_Mm')::float8/(r.reg_accuracy->>'Log_Accu_Mm')::float8))) + 0.2*((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100))) - 2*sqrt((r.reg_accuracy->>'Err_Val_Mm')::float8/(pc.cloud_metrics->>'Scan_Resol_Mm')::float8)) AS v FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN mesh m ON m.zoneref = s.zoneref JOIN registration r ON r.arcref = s.arcref AND r.crewref = s.crewref",
+  "note": "Per scan x mesh x registration: ADC [9], MFS [6], RAR [33], SCE [1]; Error Value = reg_accuracy->>'Err_Val_Mm', Scan Resolution = cloud_metrics->>'Scan_Resol_Mm'.",
+  "knowledge": "Digital Preservation Quality (DPQ)",
+  "checked": "ran, 539 rows, from 8.94 to 1161.96"
+ },
+ {
+  "id": 39,
+  "kind": "measure",
+  "expression": "((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) * (CASE WHEN eq.equipstatus LIKE 'Excellent%' THEN 1.0 WHEN eq.equipstatus LIKE 'Good%' THEN 0.8 WHEN eq.equipstatus LIKE 'Fair%' THEN 0.5 WHEN eq.equipstatus LIKE 'Poor%' THEN 0.2 END) / (NULLIF(substring(eq.powerlevel from '^[0-9]+')::float8,0) * (101 - (CURRENT_DATE - eq.equiptune)) / 365.0) * 25)",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN environment e ON e.zoneref = s.zoneref JOIN equipment eq ON eq.equipregistry = e.equipref",
+  "check": "SELECT s.questregistry, eq.equipregistry, ((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) * (CASE WHEN eq.equipstatus LIKE 'Excellent%' THEN 1.0 WHEN eq.equipstatus LIKE 'Good%' THEN 0.8 WHEN eq.equipstatus LIKE 'Fair%' THEN 0.5 WHEN eq.equipstatus LIKE 'Poor%' THEN 0.2 END) / (NULLIF(substring(eq.powerlevel from '^[0-9]+')::float8,0) * (101 - (CURRENT_DATE - eq.equiptune)) / 365.0) * 25) AS v FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN environment e ON e.zoneref = s.zoneref JOIN equipment eq ON eq.equipregistry = e.equipref",
+  "note": "Per scan x equipment. Scans carry no equipment key; equipment is reached through the environment reading at the scan's site (environment.zoneref = scans.zoneref, equipment = environment.equipref) - other routes (mesh, processing, features) give different equipment. EquipStatus_value from equipment.equipstatus: Excellent 1.0, Good 0.8, Fair 0.5, Poor 0.2 (only the ends are given by the definition; the middle two are a choice). Battery Level % = leading number of equipment.powerlevel ('45% battery, ...'); 0% gives NULL. EquipAge_days = CURRENT_DATE - equipment.equiptune (calibration date, 2024-08..2025-02), so every age is > 101 days and the (101 - age) factor makes EER negative; the result also drifts with the run date. Range -134 to -0.1; 4 rows null (0% battery).",
+  "knowledge": "Equipment Effectiveness Ratio (EER)",
+  "checked": "ran, 774 rows, 1% of them null, from -134.35 to -0.11"
+ },
+ {
+  "id": 40,
+  "kind": "condition",
+  "expression": "(sp.spatial_dims->>'Area_M2')::float8 > 100 AND ((pc.cloud_metrics->>'Total_Pts')::float8 / ((sp.spatial_dims->>'Area_M2')::float8 * 1e4) * power((pc.cloud_metrics->>'Point_Dense')::float8/(pc.cloud_metrics->>'Cloud_Dense')::float8, 0.5)) > 50",
+  "from": "pointcloud pc JOIN spatial sp ON sp.arcref = pc.arcref AND sp.crewref = pc.crewref",
+  "check": "SELECT pc.cloudregistry FROM pointcloud pc JOIN spatial sp ON sp.arcref = pc.arcref AND sp.crewref = pc.crewref WHERE (sp.spatial_dims->>'Area_M2')::float8 > 100 AND ((pc.cloud_metrics->>'Total_Pts')::float8 / ((sp.spatial_dims->>'Area_M2')::float8 * 1e4) * power((pc.cloud_metrics->>'Point_Dense')::float8/(pc.cloud_metrics->>'Cloud_Dense')::float8, 0.5)) > 50",
+  "note": "Per point cloud with spatial row: Area_M2 > 100 and SDI [34] > 50.",
+  "knowledge": "Spatially Complex Site",
+  "checked": "ran, 135 rows, from 3.0 to 697.0"
+ },
+ {
+  "id": 41,
+  "kind": "condition",
+  "expression": "(f.feature_analysis->'Analysis_Status'->>'Texture_Study' ~ '(Detailed|Critical)' AND ((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01) > 8.0)",
+  "from": "features f JOIN mesh m ON m.zoneref = f.zoneref AND m.equipref = f.equipref",
+  "check": "SELECT f.traitregistry FROM features f JOIN mesh m ON m.zoneref = f.zoneref AND m.equipref = f.equipref WHERE (f.feature_analysis->'Analysis_Status'->>'Texture_Study' ~ '(Detailed|Critical)' AND ((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01) > 8.0)",
+  "note": "Texture Analysis = features.feature_analysis->'Analysis_Status'->>'Texture_Study', whose values are only 'Completed', 'Partial', 'Not Required' - never 'Detailed' or 'Critical'. TDI [5] comes from the mesh of the same site and equipment and never exceeds 8 in the data. The condition therefore selects no rows.",
+  "knowledge": "Texture-Critical Artifact",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 42,
+  "kind": "condition",
+  "expression": "(si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%') AND (CASE WHEN COALESCE((si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%'), false) THEN 100 - (CASE si.site_status->>'Pres_Stat' WHEN 'Excellent' THEN 10 WHEN 'Good' THEN 30 WHEN 'Fair' THEN 50 WHEN 'Poor' THEN 70 WHEN 'Critical' THEN 90 END) + ((EXTRACT(YEAR FROM CURRENT_DATE) - (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)) / 1000.0) * (1 + 0/10.0) ELSE 50 - (CASE si.site_status->>'Pres_Stat' WHEN 'Excellent' THEN 10 WHEN 'Good' THEN 30 WHEN 'Fair' THEN 50 WHEN 'Poor' THEN 70 WHEN 'Critical' THEN 90 END) + ((EXTRACT(YEAR FROM CURRENT_DATE) - (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)) / 1000.0) * (1 + 0/20.0) END) > 75",
+  "from": "sites si JOIN conservation c ON c.zoneref = si.zoneregistry",
+  "check": "SELECT si.zoneregistry FROM sites si JOIN conservation c ON c.zoneref = si.zoneregistry WHERE (si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%') AND (CASE WHEN COALESCE((si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%'), false) THEN 100 - (CASE si.site_status->>'Pres_Stat' WHEN 'Excellent' THEN 10 WHEN 'Good' THEN 30 WHEN 'Fair' THEN 50 WHEN 'Poor' THEN 70 WHEN 'Critical' THEN 90 END) + ((EXTRACT(YEAR FROM CURRENT_DATE) - (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)) / 1000.0) * (1 + 0/10.0) ELSE 50 - (CASE si.site_status->>'Pres_Stat' WHEN 'Excellent' THEN 10 WHEN 'Good' THEN 30 WHEN 'Fair' THEN 50 WHEN 'Poor' THEN 70 WHEN 'Critical' THEN 90 END) + ((EXTRACT(YEAR FROM CURRENT_DATE) - (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)) / 1000.0) * (1 + 0/20.0) END) > 75",
+  "note": "Degradation Risk Zone [14] AND CPI [35] > 75 (within the zone CPI = 100 - PS + AF). In this data no row qualifies: inside the zone PS is 70 or 90, so CPI = 30 or 10 plus AF (at most ~7 millennia), max ~37 - CPI > 75 is unreachable even with the missing rarity term at its maximum.",
+  "knowledge": "Conservation Emergency",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 43,
+  "kind": "condition",
+  "expression": "((pr.system_usage->>'Flow_Hrs')::float8 * ((pr.system_usage->>'Proc_CPU')::float8 + (pr.system_usage->>'Proc_GPU')::float8) / 2 / (split_part(s.size,' ',1)::float8 * 10 * log((m.mesh_specs->>'Facet_Verts')::float8 + 1e4))) < 5.0 AND (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8))) > 7.0",
+  "from": "processing pr JOIN mesh m ON m.zoneref = pr.zoneref AND m.equipref = pr.equipref JOIN scans s ON s.zoneref = pr.zoneref",
+  "check": "SELECT pr.flowregistry FROM processing pr JOIN mesh m ON m.zoneref = pr.zoneref AND m.equipref = pr.equipref JOIN scans s ON s.zoneref = pr.zoneref WHERE ((pr.system_usage->>'Flow_Hrs')::float8 * ((pr.system_usage->>'Proc_CPU')::float8 + (pr.system_usage->>'Proc_GPU')::float8) / 2 / (split_part(s.size,' ',1)::float8 * 10 * log((m.mesh_specs->>'Facet_Verts')::float8 + 1e4))) < 5.0 AND (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8))) > 7.0",
+  "note": "Per processing row with its mesh (zoneref+equipref) and scan file size: PRU [37] < 5 and MFS [6] > 7.",
+  "knowledge": "Processing Optimized Workflow",
+  "checked": "ran, 38 rows, from 17.0 to 689.0"
+ },
+ {
+  "id": 44,
+  "kind": "condition",
+  "expression": "(CASE WHEN ((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 / ((r.reg_accuracy->>'Log_Accu_Mm')::float8 * sqrt(1 + (r.reg_accuracy->>'Err_Val_Mm')::float8/(r.reg_accuracy->>'Log_Accu_Mm')::float8))) > 1.5 AND r.reg_accuracy->>'Log_Method' LIKE '%Target%' THEN 'High Confidence' WHEN ((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 / ((r.reg_accuracy->>'Log_Accu_Mm')::float8 * sqrt(1 + (r.reg_accuracy->>'Err_Val_Mm')::float8/(r.reg_accuracy->>'Log_Accu_Mm')::float8))) BETWEEN 1.0 AND 1.5 THEN 'Medium Confidence' ELSE 'Low Confidence' END) = 'High Confidence'",
+  "from": "pointcloud pc JOIN registration r ON r.arcref = pc.arcref AND r.crewref = pc.crewref",
+  "check": "SELECT (CASE WHEN ((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 / ((r.reg_accuracy->>'Log_Accu_Mm')::float8 * sqrt(1 + (r.reg_accuracy->>'Err_Val_Mm')::float8/(r.reg_accuracy->>'Log_Accu_Mm')::float8))) > 1.5 AND r.reg_accuracy->>'Log_Method' LIKE '%Target%' THEN 'High Confidence' WHEN ((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 / ((r.reg_accuracy->>'Log_Accu_Mm')::float8 * sqrt(1 + (r.reg_accuracy->>'Err_Val_Mm')::float8/(r.reg_accuracy->>'Log_Accu_Mm')::float8))) BETWEEN 1.0 AND 1.5 THEN 'Medium Confidence' ELSE 'Low Confidence' END) AS lvl, count(*) FROM pointcloud pc JOIN registration r ON r.arcref = pc.arcref AND r.crewref = pc.crewref GROUP BY 1",
+  "note": "Classification expression: (CASE WHEN ((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 / ((r.reg_accuracy->>'Log_Accu_Mm')::float8 * sqrt(1 + (r.reg_accuracy->>'Err_Val_Mm')::float8/(r.reg_accuracy->>'Log_Accu_Mm')::float8))) > 1.5 AND r.reg_accuracy->>'Log_Method' LIKE '%Target%' THEN 'High Confidence' WHEN ((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 / ((r.reg_accuracy->>'Log_Accu_Mm')::float8 * sqrt(1 + (r.reg_accuracy->>'Err_Val_Mm')::float8/(r.reg_accuracy->>'Log_Accu_Mm')::float8))) BETWEEN 1.0 AND 1.5 THEN 'Medium Confidence' ELSE 'Low Confidence' END). RAR [33]; Registration Method = reg_accuracy->>'Log_Method' ('Target-based' contains 'Target'). RAR > 1.5 without Target-based falls to Low (not Medium), as the definition literally says.",
+  "knowledge": "Registration Confidence Level",
+  "checked": "ran, 3 rows, from 22.0 to 448.0"
+ },
+ {
+  "id": 45,
+  "kind": "condition",
+  "expression": "((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) / ((100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) + 10) * 100) > 120",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN environment e ON e.zoneref = s.zoneref",
+  "check": "SELECT s.questregistry FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN environment e ON e.zoneref = s.zoneref WHERE ((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) / ((100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) + 10) * 100) > 120",
+  "note": "EIF [31] > 120. With SQS <= 11.3 and ESI mostly large, EIF > 120 needs ESI close to -10 or just below; ESI + 10 < 0 gives negative EIF.",
+  "knowledge": "Environmental Challenge Scan",
+  "checked": "ran, 18 rows"
+ },
+ {
+  "id": 46,
+  "kind": "condition",
+  "expression": "(CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int) < 500 AND (CASE WHEN COALESCE((si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%'), false) THEN 100 - (CASE si.site_status->>'Pres_Stat' WHEN 'Excellent' THEN 10 WHEN 'Good' THEN 30 WHEN 'Fair' THEN 50 WHEN 'Poor' THEN 70 WHEN 'Critical' THEN 90 END) + ((EXTRACT(YEAR FROM CURRENT_DATE) - (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)) / 1000.0) * (1 + 0/10.0) ELSE 50 - (CASE si.site_status->>'Pres_Stat' WHEN 'Excellent' THEN 10 WHEN 'Good' THEN 30 WHEN 'Fair' THEN 50 WHEN 'Poor' THEN 70 WHEN 'Critical' THEN 90 END) + ((EXTRACT(YEAR FROM CURRENT_DATE) - (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)) / 1000.0) * (1 + 0/20.0) END) > 60",
+  "from": "sites si LEFT JOIN conservation c ON c.zoneref = si.zoneregistry",
+  "check": "SELECT si.zoneregistry FROM sites si LEFT JOIN conservation c ON c.zoneref = si.zoneregistry WHERE (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int) < 500 AND (CASE WHEN COALESCE((si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%'), false) THEN 100 - (CASE si.site_status->>'Pres_Stat' WHEN 'Excellent' THEN 10 WHEN 'Good' THEN 30 WHEN 'Fair' THEN 50 WHEN 'Poor' THEN 70 WHEN 'Critical' THEN 90 END) + ((EXTRACT(YEAR FROM CURRENT_DATE) - (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)) / 1000.0) * (1 + 0/10.0) ELSE 50 - (CASE si.site_status->>'Pres_Stat' WHEN 'Excellent' THEN 10 WHEN 'Good' THEN 30 WHEN 'Fair' THEN 50 WHEN 'Poor' THEN 70 WHEN 'Critical' THEN 90 END) + ((EXTRACT(YEAR FROM CURRENT_DATE) - (CASE WHEN si.guessdate LIKE '%BCE' THEN -1 ELSE 1 END * substring(si.guessdate from '[0-9]+')::int)) / 1000.0) * (1 + 0/20.0) END) > 60",
+  "note": "Signed year from guessdate [29] < 500 (i.e. before 500 CE) and CPI [35] > 60. No row qualifies: CPI tops out at ~47 in this data (see [35], [42]).",
+  "knowledge": "High Temporal Value Site",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 47,
+  "kind": "condition",
+  "expression": "(m.mesh_specs->>'Facet_Faces')::float8 > 2000000 AND ((m.mesh_specs->>'Facet_Verts')::float8 / (pc.cloud_metrics->>'Total_Pts')::float8 * 100 * power(((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000)/10, 0.3)) < 15",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN mesh m ON m.zoneref = s.zoneref",
+  "check": "SELECT m.facetregistry, s.questregistry FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN mesh m ON m.zoneref = s.zoneref WHERE (m.mesh_specs->>'Facet_Faces')::float8 > 2000000 AND ((m.mesh_specs->>'Facet_Verts')::float8 / (pc.cloud_metrics->>'Total_Pts')::float8 * 100 * power(((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000)/10, 0.3)) < 15",
+  "note": "Facet_Faces > 2,000,000 and MPR [36] < 15, per scan x mesh (same site).",
+  "knowledge": "Resource-Intensive Model",
+  "checked": "ran, 262 rows"
+ },
+ {
+  "id": 48,
+  "kind": "condition",
+  "expression": "count(DISTINCT s.questregistry) > 1 AND max(((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2))*0.4 + (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8)))*0.4 + ((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))*0.2 - 5*sqrt((pc.cloud_metrics->>'Noise_Db')::float8/10))) < 70 AND avg((0.3*((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2))*0.4 + (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8)))*0.4 + ((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))*0.2 - 5*sqrt((pc.cloud_metrics->>'Noise_Db')::float8/10)) + 0.3*(((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8))) + 0.2*((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 / ((r.reg_accuracy->>'Log_Accu_Mm')::float8 * sqrt(1 + (r.reg_accuracy->>'Err_Val_Mm')::float8/(r.reg_accuracy->>'Log_Accu_Mm')::float8))) + 0.2*((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100))) - 2*sqrt((r.reg_accuracy->>'Err_Val_Mm')::float8/(pc.cloud_metrics->>'Scan_Resol_Mm')::float8))) > 80",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN mesh m ON m.zoneref = s.zoneref JOIN registration r ON r.arcref = s.arcref AND r.crewref = s.crewref",
+  "check": "SELECT s.arcref FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN mesh m ON m.zoneref = s.zoneref JOIN registration r ON r.arcref = s.arcref AND r.crewref = s.crewref GROUP BY s.arcref HAVING count(DISTINCT s.questregistry) > 1 AND max(((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2))*0.4 + (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8)))*0.4 + ((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))*0.2 - 5*sqrt((pc.cloud_metrics->>'Noise_Db')::float8/10))) < 70 AND avg((0.3*((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2))*0.4 + (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8)))*0.4 + ((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))*0.2 - 5*sqrt((pc.cloud_metrics->>'Noise_Db')::float8/10)) + 0.3*(((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) * (((m.mesh_specs->>'Tex_Pix')::float8 / (sqrt((m.mesh_specs->>'Facet_Faces')::float8) * (m.mesh_specs->>'Facet_Res_Mm')::float8) * 0.01)/10) * (1 + exp(-(m.mesh_specs->>'Geom_Delta_Mm')::float8))) + 0.2*((pc.cloud_metrics->>'Scan_Resol_Mm')::float8 / ((r.reg_accuracy->>'Log_Accu_Mm')::float8 * sqrt(1 + (r.reg_accuracy->>'Err_Val_Mm')::float8/(r.reg_accuracy->>'Log_Accu_Mm')::float8))) + 0.2*((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100))) - 2*sqrt((r.reg_accuracy->>'Err_Val_Mm')::float8/(pc.cloud_metrics->>'Scan_Resol_Mm')::float8))) > 80",
+  "note": "A HAVING condition over GROUP BY s.arcref (project). 'Multiple scans' = more than one scan in the project; 'ADC < 70 for individual scans' read as every scan's ADC [9] < 70 (max < 70); 'DPQ > 80 when combined' read as the project's average DPQ [38] > 80. Only 38 projects have more than one scan with a point cloud; none meets the condition (DPQ averages ~27 and includes 0.3*ADC, so ADC < 70 with DPQ > 80 is essentially unreachable).",
+  "knowledge": "Multi-Phase Documentation Project",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 49,
+  "kind": "condition",
+  "expression": "((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) * (CASE WHEN eq.equipstatus LIKE 'Excellent%' THEN 1.0 WHEN eq.equipstatus LIKE 'Good%' THEN 0.8 WHEN eq.equipstatus LIKE 'Fair%' THEN 0.5 WHEN eq.equipstatus LIKE 'Poor%' THEN 0.2 END) / (NULLIF(substring(eq.powerlevel from '^[0-9]+')::float8,0) * (101 - (CURRENT_DATE - eq.equiptune)) / 365.0) * 25) < 30 AND (100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) > 80",
+  "from": "scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN environment e ON e.zoneref = s.zoneref JOIN equipment eq ON eq.equipregistry = e.equipref",
+  "check": "SELECT s.questregistry, eq.equipregistry FROM scans s JOIN pointcloud pc ON pc.arcref = s.arcref AND pc.crewref = s.crewref JOIN environment e ON e.zoneref = s.zoneref JOIN equipment eq ON eq.equipregistry = e.equipref WHERE ((power(10/(log((pc.cloud_metrics->>'Scan_Resol_Mm')::float8*1000) / log((pc.cloud_metrics->>'Point_Dense')::float8) * 5), 1.5) * (((pc.cloud_metrics->>'Cover_Pct')::float8 * (1 + (pc.cloud_metrics->>'Lap_Pct')::float8/100 * (1 - (pc.cloud_metrics->>'Cover_Pct')::float8/100)))/100) * power(1 - (pc.cloud_metrics->>'Noise_Db')::float8/30, 2)) * (CASE WHEN eq.equipstatus LIKE 'Excellent%' THEN 1.0 WHEN eq.equipstatus LIKE 'Good%' THEN 0.8 WHEN eq.equipstatus LIKE 'Fair%' THEN 0.5 WHEN eq.equipstatus LIKE 'Poor%' THEN 0.2 END) / (NULLIF(substring(eq.powerlevel from '^[0-9]+')::float8,0) * (101 - (CURRENT_DATE - eq.equiptune)) / 365.0) * 25) < 30 AND (100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) > 80",
+  "note": "EER [39] < 30 and ESI [7] > 80, per scan x environment/equipment row. Because EER is negative for all rows (see [39]), the EER test holds everywhere; the ESI part decides.",
+  "knowledge": "Equipment Optimization Opportunity",
+  "checked": "ran, 58 rows"
+ },
+ {
+  "id": 50,
+  "kind": "condition",
+  "expression": "(CASE WHEN (100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) > 85 THEN 'Optimal Scanning Conditions' WHEN (100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) >= 70 THEN 'Good Scanning Conditions' WHEN (100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) >= 50 THEN 'Acceptable Scanning Conditions' ELSE 'Challenging Scanning Conditions' END)",
+  "from": "environment e",
+  "check": "SELECT (CASE WHEN (100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) > 85 THEN 'Optimal Scanning Conditions' WHEN (100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) >= 70 THEN 'Good Scanning Conditions' WHEN (100 - 2.5*abs((e.ambient_cond->>'Ambic_Temp')::float8 - 20) - power(abs(((e.ambient_cond->>'Hume_Pct')::float8 - 50)/2), 1.5) - 600/((e.ambient_cond->>'Illume_Lux')::float8 + 100)) >= 50 THEN 'Acceptable Scanning Conditions' ELSE 'Challenging Scanning Conditions' END) AS cls, count(*) FROM environment e GROUP BY 1",
+  "note": "Classification expression per environment row, from ESI [7]. Boundaries: 70 and 50 go to the higher tier; 85 exactly is Good.",
+  "knowledge": "Environmental Condition Classification System (ECCS)",
+  "checked": "ran, 4 rows, from 33.0 to 573.0"
+ },
+ {
+  "id": 51,
+  "kind": "condition",
+  "expression": "(CASE WHEN ((pr.system_usage->>'Flow_Hrs')::float8 * ((pr.system_usage->>'Proc_CPU')::float8 + (pr.system_usage->>'Proc_GPU')::float8) / 2 / (split_part(s.size,' ',1)::float8 * 10 * log((m.mesh_specs->>'Facet_Verts')::float8 + 1e4))) < 5.0 THEN 'Optimized' WHEN ((pr.system_usage->>'Flow_Hrs')::float8 * ((pr.system_usage->>'Proc_CPU')::float8 + (pr.system_usage->>'Proc_GPU')::float8) / 2 / (split_part(s.size,' ',1)::float8 * 10 * log((m.mesh_specs->>'Facet_Verts')::float8 + 1e4))) <= 10.0 THEN 'Acceptable' ELSE 'Needs Optimization' END)",
+  "from": "processing pr JOIN mesh m ON m.zoneref = pr.zoneref AND m.equipref = pr.equipref JOIN scans s ON s.zoneref = pr.zoneref",
+  "check": "SELECT (CASE WHEN ((pr.system_usage->>'Flow_Hrs')::float8 * ((pr.system_usage->>'Proc_CPU')::float8 + (pr.system_usage->>'Proc_GPU')::float8) / 2 / (split_part(s.size,' ',1)::float8 * 10 * log((m.mesh_specs->>'Facet_Verts')::float8 + 1e4))) < 5.0 THEN 'Optimized' WHEN ((pr.system_usage->>'Flow_Hrs')::float8 * ((pr.system_usage->>'Proc_CPU')::float8 + (pr.system_usage->>'Proc_GPU')::float8) / 2 / (split_part(s.size,' ',1)::float8 * 10 * log((m.mesh_specs->>'Facet_Verts')::float8 + 1e4))) <= 10.0 THEN 'Acceptable' ELSE 'Needs Optimization' END) AS cls, count(*) FROM processing pr JOIN mesh m ON m.zoneref = pr.zoneref AND m.equipref = pr.equipref JOIN scans s ON s.zoneref = pr.zoneref GROUP BY 1",
+  "note": "Classification expression per processing x mesh x scan row, from PRU [37].",
+  "knowledge": "Workflow Efficiency Classification",
+  "checked": "ran, 3 rows, from 39.0 to 757.0"
+ },
+ {
+  "id": 52,
+  "kind": "condition",
+  "expression": "(CASE WHEN EXISTS (SELECT 1 FROM conservation c WHERE c.zoneref = si.zoneregistry AND (si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%')) THEN 'Degradation Risk Zone' ELSE 'Not in Risk Zone' END)",
+  "from": "sites si",
+  "check": "SELECT (CASE WHEN EXISTS (SELECT 1 FROM conservation c WHERE c.zoneref = si.zoneregistry AND (si.site_status->>'Pres_Stat' ~ '(Poor|Critical)' AND c.structstate NOT LIKE '%Stable%')) THEN 'Degradation Risk Zone' ELSE 'Not in Risk Zone' END) AS cls, count(*) FROM sites si GROUP BY 1",
+  "note": "Per site; a site is in the zone if any of its conservation rows meets [14]. Sites with no conservation row are 'Not in Risk Zone'.",
+  "knowledge": "Risk Zone Category",
+  "checked": "ran, 2 rows, from 122.0 to 778.0"
+ },
+ {
+  "id": 53,
+  "kind": "condition",
+  "expression": "(CASE WHEN EXISTS (SELECT 1 FROM mesh m WHERE m.zoneref = si.zoneregistry AND (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) > 5.0 AND (m.mesh_specs->>'Facet_Res_Mm')::float8 < 1.0 AND (m.mesh_specs->>'Geom_Delta_Mm')::float8 < 0.5)) THEN 'Has High-Fidelity Meshes' WHEN EXISTS (SELECT 1 FROM mesh m WHERE m.zoneref = si.zoneregistry) THEN 'Standard Mesh Quality' ELSE 'No Mesh Data' END)",
+  "from": "sites si",
+  "check": "SELECT (CASE WHEN EXISTS (SELECT 1 FROM mesh m WHERE m.zoneref = si.zoneregistry AND (((m.mesh_specs->>'Facet_Faces')::float8 / ((m.mesh_specs->>'Facet_Verts')::float8 * power((m.mesh_specs->>'Facet_Res_Mm')::float8, 2)) * 1000) > 5.0 AND (m.mesh_specs->>'Facet_Res_Mm')::float8 < 1.0 AND (m.mesh_specs->>'Geom_Delta_Mm')::float8 < 0.5)) THEN 'Has High-Fidelity Meshes' WHEN EXISTS (SELECT 1 FROM mesh m WHERE m.zoneref = si.zoneregistry) THEN 'Standard Mesh Quality' ELSE 'No Mesh Data' END) AS cls, count(*) FROM sites si GROUP BY 1",
+  "note": "Per site, from mesh rows at the site (mesh.zoneref) tested with High Fidelity Mesh [13].",
+  "knowledge": "Mesh Quality Classification",
+  "checked": "ran, 3 rows, from 6.0 to 761.0"
+ }
+]

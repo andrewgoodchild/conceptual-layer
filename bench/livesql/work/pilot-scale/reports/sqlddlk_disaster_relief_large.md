@@ -1,0 +1,4 @@
+Writer's report (sqlddlk arm, disaster_relief_large), as returned.
+
+- Hardest: tying operations to disasters -- no key, and the material did not say how; four bridge tables compared by querying, `coordinationandevaluation` chosen (one operation maps to up to 11 disasters). Q6/Q7 scores spread over three tables; Q4 hub source ambiguous (`transportation` vs `supplies`); Q3/Q8/Q9 personnel only in a 57-row JSON table, results swing on empty-as-0 (955 vs 599); Q5 "ongoing" as 'Active'; Q2 inner join to supplies (312 of 1000).
+- Material: essential for the JSON layouts (`impact_summary`, `delivery_metrics`, `staffing_details`, `health_environment_profile`) and for values needing cleaning ('$4,227,090.00', '85.6 WQI'). It did not say how operations link to disasters, which bridge each business term expects, or how missing counts should be treated; knowledge.md's column names do not exist.

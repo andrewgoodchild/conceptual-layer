@@ -1,0 +1,627 @@
+<title>Fact Type Atlas</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --paper:#FCFCFD; --panel:#F4F5F8; --ink:#15171C; --ink-soft:#5C6373;
+    --rule:#C4C9D4; --hair:#DFE3EA; --value-ink:#7A8296;
+    --accent:#A8433A; --accent-soft:#F0DEDB; --focus:#2F5FA8;
+    --shadow:0 1px 2px rgba(20,22,28,.06);
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+    --paper:#14161B; --panel:#1B1E25; --ink:#E8EAF0; --ink-soft:#98A0B2;
+    --rule:#4B5262; --hair:#2A2E38; --value-ink:#8A93A8;
+    --accent:#E08A7E; --accent-soft:#3A2724; --focus:#7BA5E8;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }}
+  :root[data-theme="dark"]{
+    --paper:#14161B; --panel:#1B1E25; --ink:#E8EAF0; --ink-soft:#98A0B2;
+    --rule:#4B5262; --hair:#2A2E38; --value-ink:#8A93A8;
+    --accent:#E08A7E; --accent-soft:#3A2724; --focus:#7BA5E8;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:14px; line-height:1.5; height:100vh; overflow:hidden;
+    display:grid; grid-template-columns:272px 1fr; grid-template-rows:100%;
+  }
+  @media (max-width:820px){ body{grid-template-columns:1fr; grid-template-rows:auto 1fr; height:auto; overflow:auto} }
+  a{color:var(--focus)}
+  :focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+
+  /* ---- rail ---- */
+  .rail{
+    background:var(--panel); border-right:1px solid var(--hair);
+    display:flex; flex-direction:column; min-height:0; overflow-y:auto;
+  }
+  .rail > *{padding:0 18px}
+  .brand{padding-top:18px; padding-bottom:14px; border-bottom:1px solid var(--hair)}
+  .brand h1{
+    margin:0; font-size:15px; font-weight:600; letter-spacing:-.01em;
+    text-wrap:balance;
+  }
+  .brand .sub{
+    margin-top:3px; font-size:11px; color:var(--ink-soft);
+    font-family:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  .counts{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    padding:0; margin:0; background:var(--hair); border-bottom:1px solid var(--hair);
+  }
+  .counts div{background:var(--panel); padding:10px 8px 11px 18px}
+  .counts div:nth-child(2),.counts div:nth-child(3){padding-left:12px}
+  .counts b{
+    display:block; font-size:18px; font-weight:500; letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;
+  }
+  .counts span{font-size:10px; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-soft)}
+
+  .group{padding-top:16px; padding-bottom:16px; border-bottom:1px solid var(--hair)}
+  .group h2{
+    margin:0 0 9px; font-size:10px; font-weight:600; text-transform:uppercase;
+    letter-spacing:.09em; color:var(--ink-soft);
+  }
+  .seg{display:flex; border:1px solid var(--rule); border-radius:6px; overflow:hidden}
+  .seg button{
+    flex:1; appearance:none; border:0; background:transparent; color:var(--ink-soft);
+    font:inherit; font-size:12px; padding:6px 4px; cursor:pointer;
+  }
+  .seg button[aria-pressed="true"]{background:var(--accent); color:#fff}
+  .seg button + button{border-left:1px solid var(--rule)}
+  input[type=search]{
+    width:100%; font:inherit; font-size:13px; padding:6px 9px; color:var(--ink);
+    background:var(--paper); border:1px solid var(--rule); border-radius:6px;
+  }
+  .hits{margin:9px 0 0; padding:0; list-style:none; max-height:190px; overflow-y:auto}
+  .hits li{margin:0}
+  .hits button{
+    width:100%; text-align:left; appearance:none; border:0; background:transparent;
+    font:inherit; font-size:13px; color:var(--ink); padding:3px 6px; border-radius:4px;
+    cursor:pointer; display:flex; align-items:baseline; gap:7px;
+  }
+  .hits button:hover{background:var(--accent-soft)}
+  .hits em{font-style:normal; font-size:10px; color:var(--ink-soft); letter-spacing:.05em; text-transform:uppercase}
+
+  /* ---- legend: draws the real marks ---- */
+  .legend{display:flex; flex-direction:column; gap:7px}
+  .legend .row{display:flex; align-items:center; gap:10px; font-size:12px; color:var(--ink-soft)}
+  .legend svg{flex:none; overflow:visible}
+
+  .foot{padding-top:14px; padding-bottom:18px; font-size:11px; color:var(--ink-soft); line-height:1.45}
+  .foot code{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px}
+
+  /* ---- canvas ---- */
+  .stage{position:relative; min-width:0; min-height:0; overflow:hidden; background:var(--paper)}
+  @media (max-width:820px){ .stage{height:70vh} }
+  #canvas{width:100%; height:100%; display:block; cursor:grab; touch-action:none}
+  #canvas.dragging{cursor:grabbing}
+  .tools{
+    position:absolute; top:14px; right:14px; display:flex; gap:6px;
+  }
+  .tools button{
+    appearance:none; width:30px; height:30px; border:1px solid var(--rule); border-radius:6px;
+    background:var(--panel); color:var(--ink); font:inherit; font-size:14px; cursor:pointer;
+    box-shadow:var(--shadow); line-height:1;
+  }
+  .tools button:hover{border-color:var(--accent); color:var(--accent)}
+
+  /* ---- inspector ---- */
+  .inspect{
+    position:absolute; left:14px; bottom:14px; width:330px; max-width:calc(100% - 28px);
+    max-height:calc(100% - 28px); overflow-y:auto; background:var(--panel);
+    border:1px solid var(--hair); border-radius:9px; box-shadow:var(--shadow); padding:15px 16px 16px;
+  }
+  .inspect[hidden]{display:none!important}
+  .inspect h3{margin:0; font-size:15px; font-weight:600; letter-spacing:-.01em}
+  .inspect .kind{
+    font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--accent);
+    font-weight:600; margin-bottom:2px;
+  }
+  .inspect .close{
+    position:absolute; top:11px; right:11px; appearance:none; border:0; background:transparent;
+    color:var(--ink-soft); font-size:17px; cursor:pointer; line-height:1; padding:2px 4px;
+  }
+  .inspect dl{margin:13px 0 0; display:grid; grid-template-columns:auto 1fr; gap:5px 12px; font-size:12.5px}
+  .inspect dt{color:var(--ink-soft); white-space:nowrap}
+  .inspect dd{margin:0}
+  .mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12px}
+  /* Cautions about the values, not constraints on them: set apart from the structure so a
+     reader does not mistake advice for a rule the model enforces. */
+  .caution{margin:13px 0 0; padding:9px 11px; border-radius:7px; font-size:12.5px;
+           background:var(--panel); border:1px solid var(--rule)}
+  .caution b{display:block; margin-bottom:5px; color:var(--ink-soft); font-weight:500;
+             font-size:11px; letter-spacing:.06em; text-transform:uppercase}
+  .caution ul{margin:0; padding-left:16px; display:flex; flex-direction:column; gap:5px}
+  .facts{margin:13px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:5px}
+  .facts li{font-size:12.5px; display:flex; gap:8px; align-items:baseline}
+  .facts .dot{flex:none; width:5px; height:5px; border-radius:50%; background:var(--rule); margin-top:6px}
+  .facts .dot.req{background:var(--ink)}
+  .facts button{
+    appearance:none; border:0; background:transparent; font:inherit; font-size:12.5px;
+    color:var(--ink); text-align:left; padding:0; cursor:pointer;
+  }
+  .facts button:hover{color:var(--accent); text-decoration:underline}
+  .sect{
+    margin-top:15px; padding-top:12px; border-top:1px solid var(--hair);
+    font-size:10px; text-transform:uppercase; letter-spacing:.09em; color:var(--ink-soft);
+    font-weight:600;
+  }
+
+  /* ---- diagram ---- */
+  .ot rect{fill:var(--panel); stroke:var(--ink); stroke-width:1.4}
+  .ot.value rect{stroke:var(--value-ink); stroke-dasharray:5 3.5; fill:transparent}
+  .ot text{fill:var(--ink); font-size:12.5px; font-weight:500; text-anchor:middle}
+  .ot.value text{fill:var(--value-ink); font-weight:400}
+  .ot .refmode{font-size:10.5px; fill:var(--ink-soft); font-weight:400}
+  .ot{cursor:pointer}
+  .ot:hover rect{stroke:var(--accent); stroke-width:2}
+  .ot.sel rect{stroke:var(--accent); stroke-width:2.4}
+  .ot.dim{opacity:.2}
+  .link{stroke:var(--rule); stroke-width:1.2; fill:none}
+  .link.dim{opacity:.15}
+  .rolebox{fill:var(--paper); stroke:var(--ink); stroke-width:1.2}
+  .ft.dim{opacity:.15}
+  .uc{stroke:var(--accent); stroke-width:1.6; fill:none}
+  .mand{fill:var(--ink)}
+  .objectified{fill:none; stroke:var(--ink); stroke-width:1.2; stroke-dasharray:none}
+  .ftlabel{font-size:10.5px; fill:var(--ink-soft); text-anchor:middle}
+  .subtype{stroke:var(--ink); stroke-width:1.4; fill:none}
+  @media (prefers-reduced-motion:no-preference){
+    .ot rect,.link,.ft{transition:opacity .16s ease}
+  }
+</style>
+
+<nav class="rail">
+  <div class="brand">
+    <h1 id="modelName">ORM schema</h1>
+    <div class="sub" id="modelSub"></div>
+  </div>
+  <div class="counts" id="counts"></div>
+
+  <div class="group">
+    <h2>View</h2>
+    <div class="seg" role="group" aria-label="Diagram detail">
+      <button id="viewFull" aria-pressed="true">Full notation</button>
+      <button id="viewCompact" aria-pressed="false">Entities only</button>
+    </div>
+  </div>
+
+  <div class="group">
+    <h2>Find an object type</h2>
+    <input type="search" id="search" placeholder="Employee, Salary&hellip;" autocomplete="off">
+    <ul class="hits" id="hits"></ul>
+  </div>
+
+  <div class="group">
+    <h2>Notation</h2>
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="foot">
+    ORM 2 notation. Drag to pan, scroll to zoom, drag a shape to move it.
+    Click any shape to inspect it and, where the model carries a relational mapping,
+    the table and columns it maps to.
+  </div>
+</nav>
+
+<main class="stage">
+  <svg id="canvas"></svg>
+  <div class="tools">
+    <button id="zoomIn" title="Zoom in" aria-label="Zoom in">&plus;</button>
+    <button id="zoomOut" title="Zoom out" aria-label="Zoom out">&minus;</button>
+    <button id="zoomFit" title="Fit to window" aria-label="Fit to window">&#8690;</button>
+  </div>
+  <aside class="inspect" id="inspect" hidden>
+    <button class="close" id="inspectClose" aria-label="Close">&times;</button>
+    <div class="kind" id="inspectKind"></div>
+    <h3 id="inspectName"></h3>
+    <div id="inspectBody"></div>
+  </aside>
+</main>
+
+<script>
+const DATA = /*__DATA__*/null;
+const SVGNS = "http://www.w3.org/2000/svg";
+const RW = 30, RH = 20;            // role box, ORM's unit of drawing
+
+const byId = {};
+DATA.concepts.forEach(c => byId[c.id] = c);
+const roleOf = {}, factOfRole = {};
+DATA.concepts.forEach(c => (c.roles || []).forEach(r => { roleOf[r.id] = r; factOfRole[r.id] = c.id; }));
+
+let view = DATA.initialView || "full";
+let L = DATA.layouts[view];
+let selected = null;
+let tx = 0, ty = 0, scale = 1;
+
+const svg = document.getElementById("canvas");
+const root = el("g");
+svg.appendChild(root);
+
+function el(name, attrs) {
+  const n = document.createElementNS(SVGNS, name);
+  for (const k in (attrs || {})) n.setAttribute(k, attrs[k]);
+  return n;
+}
+function pos(id) { return L.nodes[id]; }
+
+/* Where a line from `p` toward (tx,ty) leaves the box at `p`. */
+function edgePoint(p, ox, oy) {
+  const dx = ox - p.x, dy = oy - p.y;
+  if (!dx && !dy) return { x: p.x, y: p.y };
+  const hw = p.w / 2, hh = p.h / 2;
+  const sx = dx ? hw / Math.abs(dx) : Infinity;
+  const sy = dy ? hh / Math.abs(dy) : Infinity;
+  const s = Math.min(sx, sy);
+  return { x: p.x + dx * s, y: p.y + dy * s };
+}
+
+function factGeometry(f) {
+  const players = f.roles.map(r => r.player).filter(p => L.nodes[p]);
+  if (players.length !== f.roles.length) return null;
+  const hub = L.hubs[f.id];
+  let cx, cy, angle;
+  if (hub && L.nodes[hub]) {
+    cx = L.nodes[hub].x; cy = L.nodes[hub].y; angle = 0;
+  } else if (players.length === 2 && players[0] !== players[1]) {
+    const a = pos(players[0]), b = pos(players[1]);
+    cx = (a.x + b.x) / 2; cy = (a.y + b.y) / 2;
+    angle = Math.atan2(b.y - a.y, b.x - a.x);
+    if (angle > Math.PI / 2 || angle < -Math.PI / 2) angle += Math.PI;  // keep text upright
+  } else {
+    const a = pos(players[0]);
+    cx = a.x; cy = a.y - a.h / 2 - 56; angle = 0;                        // ring / unary
+  }
+  const n = f.roles.length, total = n * RW;
+  const ux = Math.cos(angle), uy = Math.sin(angle);
+  const boxes = f.roles.map((r, i) => {
+    const off = -total / 2 + RW * (i + 0.5);
+    return { role: r, cx: cx + ux * off, cy: cy + uy * off };
+  });
+  return { cx, cy, angle, ux, uy, boxes, players };
+}
+
+function drawFact(f, g) {
+  const geo = factGeometry(f);
+  if (!geo) return;
+  const { cx, cy, angle, ux, uy, boxes } = geo;
+  const deg = angle * 180 / Math.PI;
+  const px = -uy, py = ux;                       // perpendicular
+
+  const grp = el("g", { class: "ft", "data-id": f.id });
+
+  boxes.forEach(b => {
+    const p = pos(b.role.player);
+    const from = edgePoint(p, b.cx, b.cy);
+    grp.appendChild(el("line", { class: "link", x1: from.x, y1: from.y, x2: b.cx, y2: b.cy }));
+    if (b.role.mandatory) {
+      grp.appendChild(el("circle", { class: "mand", cx: from.x, cy: from.y, r: 4 }));
+    }
+  });
+
+  if (f.isObjectified) {
+    const w = boxes.length * RW + 18, h = RH + 18;
+    grp.appendChild(el("rect", {
+      class: "objectified", x: cx - w / 2, y: cy - h / 2, width: w, height: h,
+      rx: 9, transform: "rotate(" + deg + " " + cx + " " + cy + ")"
+    }));
+  }
+
+  boxes.forEach(b => {
+    grp.appendChild(el("rect", {
+      class: "rolebox", x: b.cx - RW / 2, y: b.cy - RH / 2, width: RW, height: RH,
+      transform: "rotate(" + deg + " " + b.cx + " " + b.cy + ")"
+    }));
+  });
+
+  const own = f.roles.map(r => r.id);
+  DATA.uniqueness.forEach(u => {
+    const idx = u.roles.map(r => own.indexOf(r)).filter(i => i >= 0);
+    if (!idx.length || idx.length !== u.roles.length) return;
+    const lo = Math.min.apply(null, idx), hi = Math.max.apply(null, idx);
+    const a = boxes[lo], b = boxes[hi];
+    const lift = RH / 2 + (f.isObjectified ? 13 : 5);
+    const draw = d => grp.appendChild(el("line", {
+      class: "uc",
+      x1: a.cx - ux * RW / 2 + px * (lift + d), y1: a.cy - uy * RW / 2 + py * (lift + d),
+      x2: b.cx + ux * RW / 2 + px * (lift + d), y2: b.cy + uy * RW / 2 + py * (lift + d)
+    }));
+    draw(0);
+    if (u.preferred) draw(3.5);                   // double bar = preferred identifier
+  });
+
+  if (view === "compact" || f.roles.every(r => byId[r.player].kind !== "value")) {
+    const lift = RH / 2 + (f.isObjectified ? 24 : 15);
+    const t = el("text", {
+      class: "ftlabel", x: cx + px * -lift, y: cy + py * -lift + 3,
+      transform: "rotate(" + deg + " " + (cx + px * -lift) + " " + (cy + py * -lift + 3) + ")"
+    });
+    t.textContent = f.name;
+    grp.appendChild(t);
+  }
+  g.appendChild(grp);
+}
+
+function drawSubtypes(g) {
+  DATA.concepts.forEach(c => (c.supertypes || []).forEach(sup => {
+    if (!L.nodes[c.id] || !L.nodes[sup]) return;
+    const a = pos(c.id), b = pos(sup);
+    const from = edgePoint(a, b.x, b.y), to = edgePoint(b, a.x, a.y);
+    const grp = el("g", { class: "ft", "data-id": "sub:" + c.id + ":" + sup });
+    grp.appendChild(el("line", { class: "subtype", x1: from.x, y1: from.y, x2: to.x, y2: to.y }));
+    const ang = Math.atan2(to.y - from.y, to.x - from.x);
+    const s = 9;
+    const p1 = (to.x - Math.cos(ang) * s - Math.cos(ang - Math.PI / 2) * s * .45) + "," +
+               (to.y - Math.sin(ang) * s - Math.sin(ang - Math.PI / 2) * s * .45);
+    const p2 = (to.x - Math.cos(ang) * s + Math.cos(ang - Math.PI / 2) * s * .45) + "," +
+               (to.y - Math.sin(ang) * s + Math.sin(ang - Math.PI / 2) * s * .45);
+    grp.appendChild(el("polygon", { points: to.x + "," + to.y + " " + p1 + " " + p2, fill: "var(--ink)" }));
+    g.appendChild(grp);
+  }));
+}
+
+function drawObjectType(c, g) {
+  const p = pos(c.id);
+  const grp = el("g", { class: "ot " + c.kind, "data-id": c.id, tabindex: "0", role: "button" });
+  grp.appendChild(el("rect", { x: p.x - p.w / 2, y: p.y - p.h / 2, width: p.w, height: p.h, rx: 13 }));
+  const hasMode = c.kind === "entity" && c.referenceMode;
+  const t = el("text", { x: p.x, y: p.y + (hasMode ? -3 : 4.5) });
+  t.textContent = c.name;
+  grp.appendChild(t);
+  if (hasMode) {
+    const m = el("text", { class: "refmode", x: p.x, y: p.y + 12 });
+    m.textContent = "(" + c.referenceMode + ")";
+    grp.appendChild(m);
+  }
+  g.appendChild(grp);
+}
+
+function draw() {
+  root.textContent = "";
+  const gFacts = el("g"), gTypes = el("g");
+  root.appendChild(gFacts); root.appendChild(gTypes);
+  drawSubtypes(gFacts);
+  DATA.concepts.forEach(c => { if (c.kind === "fact" && L.facts.indexOf(c.id) >= 0) drawFact(c, gFacts); });
+  DATA.concepts.forEach(c => { if (c.kind !== "fact" && L.nodes[c.id]) drawObjectType(c, gTypes); });
+  applyFocus();
+}
+
+/* ---- focus: dim everything not touching the selection ---- */
+function applyFocus() {
+  const keep = new Set();
+  if (selected) {
+    keep.add(selected);
+    DATA.concepts.forEach(f => {
+      if (f.kind !== "fact") return;
+      const players = f.roles.map(r => r.player);
+      if (players.indexOf(selected) >= 0) { keep.add(f.id); players.forEach(p => keep.add(p)); }
+    });
+    const sel = byId[selected];
+    if (sel) {
+      (sel.supertypes || []).forEach(s => { keep.add(s); keep.add("sub:" + selected + ":" + s); });
+      DATA.concepts.forEach(c => (c.supertypes || []).forEach(s => {
+        if (s === selected) { keep.add(c.id); keep.add("sub:" + c.id + ":" + s); }
+      }));
+      if (sel.kind === "fact") sel.roles.forEach(r => keep.add(r.player));
+    }
+  }
+  root.querySelectorAll("[data-id]").forEach(n => {
+    const id = n.getAttribute("data-id");
+    const dim = selected && !keep.has(id);
+    n.classList.toggle("dim", !!dim);
+    n.classList.toggle("sel", id === selected);
+  });
+}
+
+/* ---- inspector ---- */
+function inspect(id) {
+  const c = byId[id];
+  const box = document.getElementById("inspect");
+  if (!c) { box.hidden = true; selected = null; applyFocus(); return; }
+  selected = id;
+  document.getElementById("inspectKind").textContent =
+    c.kind === "fact" ? (c.isObjectified ? "Objectified fact type" : "Fact type")
+    : c.kind === "value" ? "Value type" : "Entity type";
+  document.getElementById("inspectName").textContent = c.name;
+
+  const parts = [];
+  const dl = [];
+  if (c.kind === "fact" && c.reading) dl.push(["Reads", esc(c.reading)]);
+  if (c.kind === "entity" && c.referenceMode) dl.push(["Reference mode", esc(c.referenceMode)]);
+  if (c.kind === "value" && c.dataType) {
+    let dt = c.dataType.name;
+    if (c.dataType.length) dt += "(" + c.dataType.length + (c.dataType.scale != null ? "," + c.dataType.scale : "") + ")";
+    dl.push(["Data type", '<span class="mono">' + esc(dt) + "</span>"]);
+  }
+  if (c.restriction) {
+    const vals = (c.restriction.values || []).map(esc).join(", ");
+    const rng = (c.restriction.ranges || []).map(r => esc(r.min) + "\u2026" + esc(r.max)).join(", ");
+    dl.push(["Restricted to", '<span class="mono">' + (vals || rng) + "</span>"]);
+  }
+  if (c.description) dl.push(["Means", esc(c.description)]);
+  if ((c.supertypes || []).length) {
+    dl.push(["Subtype of", c.supertypes.map(s => byId[s] ? esc(byId[s].name) : s).join(", ")]);
+  }
+  if (c.map) {
+    dl.push(["Table", '<span class="mono">' + esc(c.map.table) + "</span>"]);
+    if (c.map.columns && c.map.columns.length) {
+      dl.push(["Identified by", '<span class="mono">' + c.map.columns.map(esc).join(", ") + "</span>"]);
+    }
+  }
+  if (dl.length) {
+    parts.push("<dl>" + dl.map(p => "<dt>" + p[0] + "</dt><dd>" + p[1] + "</dd>").join("") + "</dl>");
+  }
+  // Cautions about the values, from profiling the population. Not constraints -- nothing
+  // enforces them -- but each is a way an ordinary filter matches the wrong rows without
+  // failing, so they are set apart rather than listed among the structure.
+  if ((c.dataQuality || []).length) {
+    parts.push('<div class="caution"><b>About the data</b><ul>'
+      + c.dataQuality.map(t => "<li>" + esc(t) + "</li>").join("") + "</ul></div>");
+  }
+
+  if (c.kind === "fact") {
+    parts.push('<div class="sect">Roles</div><ul class="facts">' + c.roles.map(r => {
+      const player = byId[r.player];
+      const m = DATA.roleMap[r.id];
+      return '<li><span class="dot' + (r.mandatory ? " req" : "") + '"></span><span>' +
+        '<button data-go="' + esc(r.player) + '">' + esc(player ? player.name : r.player) + "</button>" +
+        (r.mandatory ? " \u00b7 mandatory" : "") +
+        (m ? '<br><span class="mono" style="color:var(--ink-soft);font-size:11px">' +
+             esc(m.table) + "." + m.columns.map(esc).join(", ") + "</span>" : "") +
+        "</span></li>";
+    }).join("") + "</ul>");
+  } else {
+    const plays = DATA.concepts.filter(f => f.kind === "fact" &&
+      f.roles.some(r => r.player === id));
+    if (plays.length) {
+      parts.push('<div class="sect">Plays ' + plays.length + ' role' + (plays.length === 1 ? "" : "s") +
+        '</div><ul class="facts">' + plays.map(f => {
+          const mine = f.roles.filter(r => r.player === id);
+          const req = mine.some(r => r.mandatory);
+          return '<li><span class="dot' + (req ? " req" : "") + '"></span>' +
+            '<button data-go="' + esc(f.id) + '">' + esc(f.reading || f.name) + "</button></li>";
+        }).join("") + "</ul>");
+    }
+  }
+  document.getElementById("inspectBody").innerHTML = parts.join("");
+  box.hidden = false;
+  applyFocus();
+}
+function esc(s) {
+  return String(s == null ? "" : s).replace(/[&<>"']/g, ch =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+}
+
+/* ---- pan, zoom, drag ---- */
+function apply() { root.setAttribute("transform", "translate(" + tx + "," + ty + ") scale(" + scale + ")"); }
+function fit() {
+  const r = svg.getBoundingClientRect();
+  scale = Math.min(r.width / L.width, r.height / L.height, 1.6) * 0.94;
+  tx = (r.width - L.width * scale) / 2;
+  ty = (r.height - L.height * scale) / 2;
+  apply();
+}
+function zoomBy(f, ox, oy) {
+  const r = svg.getBoundingClientRect();
+  ox = ox == null ? r.width / 2 : ox; oy = oy == null ? r.height / 2 : oy;
+  const ns = Math.max(0.15, Math.min(4, scale * f));
+  tx = ox - (ox - tx) * (ns / scale); ty = oy - (oy - ty) * (ns / scale);
+  scale = ns; apply();
+}
+svg.addEventListener("wheel", e => {
+  e.preventDefault();
+  const r = svg.getBoundingClientRect();
+  zoomBy(Math.pow(0.999, e.deltaY), e.clientX - r.left, e.clientY - r.top);
+}, { passive: false });
+
+let drag = null;
+svg.addEventListener("pointerdown", e => {
+  const shape = e.target.closest(".ot");
+  const r = svg.getBoundingClientRect();
+  if (shape) {
+    const id = shape.getAttribute("data-id");
+    drag = { kind: "node", id, x: e.clientX, y: e.clientY, moved: false };
+  } else {
+    drag = { kind: "pan", x: e.clientX, y: e.clientY, moved: false };
+    svg.classList.add("dragging");
+  }
+  svg.setPointerCapture(e.pointerId);
+});
+svg.addEventListener("pointermove", e => {
+  if (!drag) return;
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+  drag.x = e.clientX; drag.y = e.clientY;
+  if (drag.kind === "pan") { tx += dx; ty += dy; apply(); }
+  else { const p = pos(drag.id); p.x += dx / scale; p.y += dy / scale; draw(); }
+});
+svg.addEventListener("pointerup", e => {
+  if (drag && !drag.moved) {
+    if (drag.kind === "node") inspect(drag.id);
+    else {
+      const ft = e.target.closest(".ft");
+      const id = ft && ft.getAttribute("data-id");
+      inspect(id && id.indexOf("sub:") !== 0 ? id : null);
+    }
+  }
+  drag = null; svg.classList.remove("dragging");
+});
+svg.addEventListener("keydown", e => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+  const shape = e.target.closest(".ot");
+  if (shape) { e.preventDefault(); inspect(shape.getAttribute("data-id")); }
+});
+
+document.getElementById("zoomIn").onclick = () => zoomBy(1.25);
+document.getElementById("zoomOut").onclick = () => zoomBy(0.8);
+document.getElementById("zoomFit").onclick = fit;
+document.getElementById("inspectClose").onclick = () => inspect(null);
+document.getElementById("inspectBody").addEventListener("click", e => {
+  const b = e.target.closest("[data-go]");
+  if (b) inspect(b.getAttribute("data-go"));
+});
+
+function setView(next) {
+  view = next; L = DATA.layouts[view];
+  document.getElementById("viewFull").setAttribute("aria-pressed", String(view === "full"));
+  document.getElementById("viewCompact").setAttribute("aria-pressed", String(view === "compact"));
+  if (selected && !L.nodes[selected]) inspect(null);
+  draw(); fit();
+}
+document.getElementById("viewFull").onclick = () => setView("full");
+document.getElementById("viewCompact").onclick = () => setView("compact");
+
+/* ---- rail ---- */
+document.getElementById("modelName").textContent = DATA.name || "ORM schema";
+const nE = DATA.concepts.filter(c => c.kind === "entity").length;
+const nV = DATA.concepts.filter(c => c.kind === "value").length;
+const nF = DATA.concepts.filter(c => c.kind === "fact").length;
+document.getElementById("modelSub").textContent =
+  nE + " entity \u00b7 " + nV + " value \u00b7 " + nF + " fact types";
+document.getElementById("counts").innerHTML =
+  [["Entity types", nE], ["Value types", nV], ["Fact types", nF]]
+    .map(p => "<div><b>" + p[1] + "</b><span>" + p[0] + "</span></div>").join("");
+
+const searchable = DATA.concepts.filter(c => c.kind !== "fact")
+  .sort((a, b) => a.name.localeCompare(b.name));
+function renderHits(q) {
+  const list = document.getElementById("hits");
+  const needle = q.trim().toLowerCase();
+  const hits = (needle ? searchable.filter(c => c.name.toLowerCase().indexOf(needle) >= 0)
+                       : searchable).slice(0, 40);
+  list.innerHTML = hits.map(c =>
+    '<li><button data-go="' + esc(c.id) + '">' + esc(c.name) +
+    "<em>" + (c.kind === "value" ? "value" : "entity") + "</em></button></li>").join("");
+}
+document.getElementById("search").addEventListener("input", e => renderHits(e.target.value));
+document.getElementById("hits").addEventListener("click", e => {
+  const b = e.target.closest("[data-go]");
+  if (!b) return;
+  const id = b.getAttribute("data-go");
+  if (!L.nodes[id] && view === "compact") setView("full");
+  inspect(id);
+  const p = pos(id);
+  if (p) {
+    const r = svg.getBoundingClientRect();
+    tx = r.width / 2 - p.x * scale; ty = r.height / 2 - p.y * scale; apply();
+  }
+});
+renderHits("");
+
+/* Legend draws the marks themselves -- the notation is unfamiliar to most readers. */
+document.getElementById("legend").innerHTML = [
+  ['<svg width="46" height="24"><rect x="1" y="3" width="44" height="18" rx="8" fill="var(--panel)" stroke="var(--ink)" stroke-width="1.4"/></svg>', "Entity type"],
+  ['<svg width="46" height="24"><rect x="1" y="3" width="44" height="18" rx="8" fill="none" stroke="var(--value-ink)" stroke-width="1.4" stroke-dasharray="5 3.5"/></svg>', "Value type"],
+  ['<svg width="46" height="24"><rect x="8" y="6" width="15" height="12" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"/><rect x="23" y="6" width="15" height="12" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"/></svg>', "Fact type, one box per role"],
+  ['<svg width="46" height="24"><rect x="8" y="9" width="15" height="12" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"/><rect x="23" y="9" width="15" height="12" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"/><line x1="8" y1="5" x2="23" y2="5" stroke="var(--accent)" stroke-width="1.6"/></svg>', "Uniqueness over those roles"],
+  ['<svg width="46" height="24"><rect x="8" y="11" width="15" height="12" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"/><rect x="23" y="11" width="15" height="12" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"/><line x1="8" y1="4" x2="38" y2="4" stroke="var(--accent)" stroke-width="1.6"/><line x1="8" y1="7.5" x2="38" y2="7.5" stroke="var(--accent)" stroke-width="1.6"/></svg>', "Doubled: preferred identifier"],
+  ['<svg width="46" height="24"><line x1="4" y1="12" x2="42" y2="12" stroke="var(--rule)" stroke-width="1.2"/><circle cx="8" cy="12" r="4" fill="var(--ink)"/></svg>', "Mandatory role"],
+  ['<svg width="46" height="24"><line x1="4" y1="12" x2="34" y2="12" stroke="var(--ink)" stroke-width="1.4"/><polygon points="42,12 33,8 33,16" fill="var(--ink)"/></svg>', "Is a subtype of"],
+  ['<svg width="46" height="24"><rect x="3" y="3" width="40" height="18" rx="8" fill="none" stroke="var(--ink)" stroke-width="1.2"/><rect x="9" y="7" width="12" height="10" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.1"/><rect x="25" y="7" width="12" height="10" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.1"/></svg>', "Objectified fact type"],
+].map(p => '<div class="row">' + p[0] + "<span>" + p[1] + "</span></div>").join("");
+
+setView(view);
+window.addEventListener("resize", fit);
+</script>

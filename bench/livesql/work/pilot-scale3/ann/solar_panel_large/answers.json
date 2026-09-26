@@ -1,0 +1,44 @@
+[
+ {
+  "question_id": "solar_panel_10",
+  "answer": "WITH latest AS (SELECT r.snapkey, r.sitetie, ROW_NUMBER() OVER (PARTITION BY r.sitetie ORDER BY r.snapts DESC) AS rn FROM plant_record r) SELECT p.sitelabel, ROUND((e.elec_perf_snapshot->'power'->>'power_now_w')::numeric * (1 - (e.elec_perf_snapshot->'power'->>'power_loss_w')::numeric / ((e.elec_perf_snapshot->'power'->>'power_now_w')::numeric + (e.elec_perf_snapshot->'power'->>'power_loss_w')::numeric)), 2) AS effective_power FROM latest l JOIN plants p ON p.sitekey = l.sitetie JOIN electrical_performance e ON e.snaplink = l.snapkey WHERE l.rn = 1 AND (e.elec_perf_snapshot->'power'->>'power_now_w') IS NOT NULL AND (e.elec_perf_snapshot->'power'->>'power_loss_w') IS NOT NULL AND (e.elec_perf_snapshot->'power'->>'power_now_w')::numeric + (e.elec_perf_snapshot->'power'->>'power_loss_w')::numeric <> 0 ORDER BY effective_power DESC"
+ },
+ {
+  "question_id": "solar_panel_16",
+  "answer": "SELECT LOWER(pm.pnlkind) AS pnlkind, AVG(((e.elec_perf_snapshot->'iv_curve'->>'vmp_initial_v')::numeric - (e.elec_perf_snapshot->'iv_curve'->>'vmp_now_v')::numeric) / (e.elec_perf_snapshot->'iv_curve'->>'vmp_initial_v')::numeric) AS avg_voltage_degradation_factor FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie JOIN panel_models pm ON pm.modkey = p.modhook WHERE (e.elec_perf_snapshot->'iv_curve'->>'vmp_initial_v') IS NOT NULL AND (e.elec_perf_snapshot->'iv_curve'->>'vmp_now_v') IS NOT NULL AND (e.elec_perf_snapshot->'iv_curve'->>'vmp_initial_v')::numeric > 0 GROUP BY LOWER(pm.pnlkind) ORDER BY avg_voltage_degradation_factor DESC"
+ },
+ {
+  "question_id": "solar_panel_15",
+  "answer": "SELECT SUM(pm.degyrrate::numeric / 100 * 400000 * 50 * 15) AS total_lifetime_revenue_loss FROM plants p JOIN panel_models pm ON pm.modkey = p.modhook WHERE pm.degyrrate::numeric * 20 > 14",
+  "note": "ADR taken as the panel model's specified annual degradation rate (percent, divided by 100). If gold uses the raw percentage the result is 100x larger."
+ },
+ {
+  "question_id": "solar_panel_17",
+  "answer": "WITH b AS (SELECT o.maintcost::numeric AS mc, o.mtbfh::numeric AS mtbf, o.mttrh::numeric AS mttr, EXTRACT(EPOCH FROM (r.snapts - p.goliveon::timestamp)) / 3600.0 AS total_h FROM operational_metrics o JOIN plant_record r ON r.snapkey = o.snapops JOIN plants p ON p.sitekey = r.sitetie) SELECT AVG(mc / (total_h / mtbf)) AS avg_mean_repair_cost FROM b WHERE mtbf > 0 AND total_h > 0 AND mttr / (mtbf + mttr) > 0.05",
+  "note": "No snapshot has unavailability above 5% (max ~4%), so the result is NULL."
+ },
+ {
+  "question_id": "solar_panel_13",
+  "answer": "SELECT sitelabel, warrclaims FROM plants WHERE LOWER(warrstate) = 'claimed' AND warrclaims > 2 ORDER BY warrclaims DESC"
+ },
+ {
+  "question_id": "solar_panel_18",
+  "answer": "SELECT COUNT(DISTINCT r.sitetie) AS plant_count FROM mechanical_condition m JOIN plant_record r ON r.snapkey = m.snapmk WHERE LOWER(m.mech_health_snapshot->'electrical_integrity'->>'grounding_status') = 'failed' OR LOWER(m.mech_health_snapshot->'electrical_integrity'->>'bypass_diode_status') <> 'normal'"
+ },
+ {
+  "question_id": "solar_panel_8",
+  "answer": "SELECT ROUND(AVG(o.maintcost::numeric / (17520.0 / o.mtbfh::numeric))) AS mean_repair_cost FROM operational_metrics o JOIN plant_record r ON r.snapkey = o.snapops JOIN plants p ON p.sitekey = r.sitetie JOIN panel_models pm ON pm.modkey = p.modhook WHERE LOWER(pm.pnlkind) = 'hjt' AND o.mtbfh IS NOT NULL AND o.mtbfh > 0"
+ },
+ {
+  "question_id": "solar_panel_12",
+  "answer": "SELECT COUNT(*) FROM electrical_performance WHERE (elec_perf_snapshot->'efficiency'->>'soil_loss_pct')::numeric > 15"
+ },
+ {
+  "question_id": "solar_panel_5",
+  "answer": "SELECT COUNT(DISTINCT r.sitetie) FROM plant_record r JOIN electrical_performance e ON e.snaplink = r.snapkey JOIN environmental_conditions c ON c.snapref = r.snapkey JOIN operational_metrics o ON o.snapops = r.snapkey WHERE (e.elec_perf_snapshot->'energy_yield'->>'specific_yield_kwh_kw') IS NOT NULL AND (c.env_snapshot->'irradiance'->>'poa_irr_w_m2')::numeric > 0 AND o.mtbfh > 0 AND o.mttrh >= 0 AND (e.elec_perf_snapshot->'energy_yield'->>'specific_yield_kwh_kw')::numeric / ((c.env_snapshot->'irradiance'->>'poa_irr_w_m2')::numeric / 1000) < 0.75 AND (1 - o.mttrh::numeric / (o.mtbfh::numeric + o.mttrh::numeric)) < 0.95"
+ },
+ {
+  "question_id": "solar_panel_19",
+  "answer": "SELECT (e.elec_perf_snapshot->'power'->>'power_now_w')::numeric * (1 - (e.elec_perf_snapshot->'power'->>'power_loss_w')::numeric / ((e.elec_perf_snapshot->'power'->>'power_now_w')::numeric + (e.elec_perf_snapshot->'power'->>'power_loss_w')::numeric)) AS effective_power_w FROM electrical_performance e WHERE LOWER(e.snaplink) = 'pv945724'"
+ }
+]

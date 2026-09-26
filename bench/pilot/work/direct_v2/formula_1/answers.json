@@ -1,0 +1,67 @@
+[
+ {
+  "question_id": 930,
+  "answer": "SELECT r.name, r.year FROM results res JOIN races r ON res.raceId = r.raceId JOIN drivers d ON res.driverId = d.driverId WHERE d.forename='Lewis' AND d.surname='Hamilton' AND res.rank = (SELECT MIN(res2.rank) FROM results res2 JOIN drivers d2 ON res2.driverId=d2.driverId WHERE d2.forename='Lewis' AND d2.surname='Hamilton' AND res2.rank > 0) ORDER BY r.raceId LIMIT 1;",
+  "attempts": 3
+ },
+ {
+  "question_id": 1011,
+  "answer": "SELECT d.forename, d.surname FROM lapTimes lt JOIN drivers d ON lt.driverId = d.driverId WHERE lt.milliseconds = (SELECT MIN(milliseconds) FROM lapTimes);",
+  "attempts": 2
+ },
+ {
+  "question_id": 909,
+  "answer": "SELECT CAST(SUM(CASE WHEN c.country='Germany' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) AS percentage FROM races r JOIN circuits c ON r.circuitId = c.circuitId WHERE r.name = 'European Grand Prix';",
+  "attempts": 1
+ },
+ {
+  "question_id": 892,
+  "answer": "SELECT d.forename, d.surname, ds.points FROM driverStandings ds JOIN drivers d ON ds.driverId = d.driverId ORDER BY ds.points DESC LIMIT 1;",
+  "attempts": 1
+ },
+ {
+  "question_id": 854,
+  "answer": "SELECT DISTINCT c.lat, c.lng FROM races r JOIN circuits c ON r.circuitId = c.circuitId WHERE r.name = 'Australian Grand Prix';",
+  "attempts": 1
+ },
+ {
+  "question_id": 898,
+  "answer": "SELECT forename, surname, (CAST(strftime('%Y','now') AS INTEGER) - CAST(strftime('%Y', dob) AS INTEGER)) AS age FROM drivers WHERE nationality = 'Japanese' ORDER BY dob DESC LIMIT 1;",
+  "attempts": 2
+ },
+ {
+  "question_id": 877,
+  "answer": "SELECT d.forename, d.surname FROM results res JOIN drivers d ON res.driverId = d.driverId WHERE res.raceId = 872 AND res.time IS NOT NULL ORDER BY d.dob DESC LIMIT 1;",
+  "attempts": 1
+ },
+ {
+  "question_id": 906,
+  "answer": "SELECT r.name, r.year, res.points FROM results res JOIN races r ON res.raceId = r.raceId JOIN drivers d ON res.driverId = d.driverId WHERE d.forename = 'Lewis' AND d.surname = 'Hamilton' ORDER BY r.date ASC LIMIT 1;",
+  "attempts": 2
+ },
+ {
+  "question_id": 988,
+  "answer": "SELECT d.forename, d.surname, AVG(CAST(p.duration AS REAL)) AS avg_duration FROM pitStops p JOIN drivers d ON p.driverId = d.driverId WHERE d.nationality = 'German' AND CAST(strftime('%Y', d.dob) AS INTEGER) BETWEEN 1980 AND 1985 GROUP BY d.driverId ORDER BY avg_duration ASC LIMIT 3;",
+  "attempts": 1
+ },
+ {
+  "question_id": 881,
+  "answer": "SELECT CAST(SUM(CASE WHEN res.time IS NOT NULL THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) AS completion_rate FROM results res JOIN races r ON res.raceId = r.raceId WHERE r.date = '1983-07-16';",
+  "attempts": 1
+ },
+ {
+  "question_id": 977,
+  "answer": "SELECT COUNT(*) FROM results WHERE statusId = 2 AND time IS NOT NULL AND raceId > 50 AND raceId < 100;",
+  "attempts": 1
+ },
+ {
+  "question_id": 915,
+  "answer": "SELECT nationality FROM drivers ORDER BY dob ASC LIMIT 1;",
+  "attempts": 1
+ },
+ {
+  "question_id": 868,
+  "answer": "SELECT DISTINCT c.lat, c.lng FROM races r JOIN circuits c ON r.circuitId = c.circuitId WHERE r.name = 'Malaysian Grand Prix';",
+  "attempts": 1
+ }
+]

@@ -1,0 +1,5128 @@
+{
+ "database": "virtual_idol_large",
+ "tables": [
+  "AlgorithmRecommendationFeeds",
+  "AuctionPaymentSettlements",
+  "CoCreationRoyaltySplits",
+  "CollaborativeSongWritingSessions",
+  "CopyrightInfringementReports",
+  "CopyrightTakedownAppeals",
+  "DigitalSkinTransactionHistory",
+  "FanArtAuctionBidLogs",
+  "GlobalServerLatencyStats",
+  "HologramProjectorMaintenance",
+  "ProjectorBulbReplacementHistory",
+  "RecommendationClickstream",
+  "SentimentKeywordTrends",
+  "ServerRegionalOutageLogs",
+  "SkinOwnershipCertificates",
+  "SocialSentimentTrendSnapshots",
+  "SynthesizedVoiceFeedback",
+  "VREyeTrackingHeatmaps",
+  "VirtualRealitySessionTelemetry",
+  "VoiceSynthesisQualityLogs",
+  "additionalnotes",
+  "club_roles",
+  "commerceandcollection",
+  "designers",
+  "engagement",
+  "event_logistics_and_planning",
+  "event_sponsors",
+  "eventsandclub",
+  "fan_club_roles_map",
+  "fan_collaboration_projects",
+  "fan_content_submission_details",
+  "fan_interest_tags_map",
+  "fan_sentiment_analysis",
+  "fan_technical_profile",
+  "fans",
+  "genres",
+  "idol_asset_management",
+  "idol_content_platforms_map",
+  "idol_fan_collaborations",
+  "idol_genre_map",
+  "idol_merchandise_details",
+  "idol_skill_sets_map",
+  "idol_training_and_development",
+  "interactions",
+  "interest_tags",
+  "loyaltyandachievements",
+  "market_analysis_and_trends",
+  "membershipandspending",
+  "merchandise_designers_map",
+  "moderationandcompliance",
+  "physics_simulation_data",
+  "platforms",
+  "preferencesandsettings",
+  "retentionandinfluence",
+  "skills",
+  "socialcommunity",
+  "sponsors",
+  "streaming_session_logs",
+  "supportandfeedback",
+  "virtual_idol_lore_and_storylines",
+  "virtual_idol_performance_metrics",
+  "virtual_idol_sponsorships",
+  "virtualidols"
+ ],
+ "candidates": [
+  {
+   "id": "AlgorithmRecommendationFeeds.fan_user_ref -> fans.user_registry",
+   "source_table": "AlgorithmRecommendationFeeds",
+   "source_column": "fan_user_ref",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 900,
+   "source_distinct": 596,
+   "target_rows": 972,
+   "score": 4.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FAN48612",
+    "FAN72027",
+    "FAN30619",
+    "FAN12019",
+    "FAN37801"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "AlgorithmRecommendationFeeds.position_in_feed -> interest_tags.TAG_ID",
+   "source_table": "AlgorithmRecommendationFeeds",
+   "source_column": "position_in_feed",
+   "target_table": "interest_tags",
+   "target_key": "TAG_ID",
+   "source_rows": 900,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 3.96,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "30",
+    "22",
+    "6",
+    "8",
+    "34"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AlgorithmRecommendationFeeds.latency_inference_ms -> preferencesandsettings.pref_reg",
+   "source_table": "AlgorithmRecommendationFeeds",
+   "source_column": "latency_inference_ms",
+   "target_table": "preferencesandsettings",
+   "target_key": "pref_reg",
+   "source_rows": 900,
+   "source_distinct": 54,
+   "target_rows": 106,
+   "score": 3.01,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "47",
+    "42",
+    "46",
+    "56",
+    "37"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AuctionPaymentSettlements.winning_bid_ref -> FanArtAuctionBidLogs.bid_id",
+   "source_table": "AuctionPaymentSettlements",
+   "source_column": "winning_bid_ref",
+   "target_table": "FanArtAuctionBidLogs",
+   "target_key": "bid_id",
+   "source_rows": 1549,
+   "source_distinct": 743,
+   "target_rows": 900,
+   "score": 4.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "BID-AA875833",
+    "BID-EB91BECF",
+    "BID-F8FD0A24",
+    "BID-D8434B8E",
+    "BID-5A7D8E95"
+   ],
+   "target_samples": [
+    "BID-008CBA0F",
+    "BID-00D07735",
+    "BID-00DBF0BD",
+    "BID-00EF0868",
+    "BID-01731E6A"
+   ]
+  },
+  {
+   "id": "AuctionPaymentSettlements.currency_conversion_rate -> physics_simulation_data.SimulationID",
+   "source_table": "AuctionPaymentSettlements",
+   "source_column": "currency_conversion_rate",
+   "target_table": "physics_simulation_data",
+   "target_key": "SimulationID",
+   "source_rows": 1549,
+   "source_distinct": 1,
+   "target_rows": 10,
+   "score": 2.1,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CoCreationRoyaltySplits.session_ref -> CollaborativeSongWritingSessions.collab_session_id",
+   "source_table": "CoCreationRoyaltySplits",
+   "source_column": "session_ref",
+   "target_table": "CollaborativeSongWritingSessions",
+   "target_key": "collab_session_id",
+   "source_rows": 549,
+   "source_distinct": 427,
+   "target_rows": 986,
+   "score": 3.89,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SONG-420C2A8A",
+    "SONG-F90F663C",
+    "SONG-505975FE",
+    "SONG-885B66E3",
+    "SONG-F83918BD"
+   ],
+   "target_samples": [
+    "SONG-003718D6",
+    "SONG-0097FE2B",
+    "SONG-00C5EFF5",
+    "SONG-00D14ECA",
+    "SONG-00DF773A"
+   ]
+  },
+  {
+   "id": "CoCreationRoyaltySplits.min_payout_threshold_usd -> designers.DESIGNER_ID",
+   "source_table": "CoCreationRoyaltySplits",
+   "source_column": "min_payout_threshold_usd",
+   "target_table": "designers",
+   "target_key": "DESIGNER_ID",
+   "source_rows": 549,
+   "source_distinct": 1,
+   "target_rows": 25,
+   "score": 2.04,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "20.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CollaborativeSongWritingSessions.idol_host_ref -> virtualidols.entity_reg",
+   "source_table": "CollaborativeSongWritingSessions",
+   "source_column": "idol_host_ref",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 986,
+   "source_distinct": 546,
+   "target_rows": 742,
+   "score": 4.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VI8178",
+    "VI8705",
+    "VI1449",
+    "VI8592",
+    "VI1648"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "CollaborativeSongWritingSessions.lyric_lines_contributed -> fan_interest_tags_map.fan_interest_tag_id",
+   "source_table": "CollaborativeSongWritingSessions",
+   "source_column": "lyric_lines_contributed",
+   "target_table": "fan_interest_tags_map",
+   "target_key": "fan_interest_tag_id",
+   "source_rows": 986,
+   "source_distinct": 56,
+   "target_rows": 70,
+   "score": 3.55,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "25",
+    "42",
+    "33",
+    "52",
+    "57"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CollaborativeSongWritingSessions.bpm_tempo -> idol_content_platforms_map.idol_platform_id",
+   "source_table": "CollaborativeSongWritingSessions",
+   "source_column": "bpm_tempo",
+   "target_table": "idol_content_platforms_map",
+   "target_key": "idol_platform_id",
+   "source_rows": 986,
+   "source_distinct": 107,
+   "target_rows": 199,
+   "score": 3.02,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "138",
+    "103",
+    "107",
+    "119",
+    "129"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CopyrightInfringementReports.idol_entity_ref -> virtualidols.entity_reg",
+   "source_table": "CopyrightInfringementReports",
+   "source_column": "idol_entity_ref",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 503,
+   "source_distinct": 371,
+   "target_rows": 742,
+   "score": 3.93,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VI3244",
+    "VI6154",
+    "VI3036",
+    "VI6522",
+    "VI4462"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "CopyrightInfringementReports.severity_score -> physics_simulation_data.SimulationID",
+   "source_table": "CopyrightInfringementReports",
+   "source_column": "severity_score",
+   "target_table": "physics_simulation_data",
+   "target_key": "SimulationID",
+   "source_rows": 503,
+   "source_distinct": 5,
+   "target_rows": 10,
+   "score": 2.3,
+   "signals": [
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "1",
+    "4",
+    "5",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CopyrightTakedownAppeals.report_ref -> CopyrightInfringementReports.report_id",
+   "source_table": "CopyrightTakedownAppeals",
+   "source_column": "report_ref",
+   "target_table": "CopyrightInfringementReports",
+   "target_key": "report_id",
+   "source_rows": 930,
+   "source_distinct": 423,
+   "target_rows": 503,
+   "score": 4.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CPR-C0AF2702",
+    "CPR-30779267",
+    "CPR-A239AD91",
+    "CPR-CC15F0F7",
+    "CPR-FFE1FDF5"
+   ],
+   "target_samples": [
+    "CPR-001ED91A",
+    "CPR-00636DF0",
+    "CPR-00E86F51",
+    "CPR-0185FC18",
+    "CPR-01D1E29E"
+   ]
+  },
+  {
+   "id": "CopyrightTakedownAppeals.escalation_level -> physics_simulation_data.SimulationID",
+   "source_table": "CopyrightTakedownAppeals",
+   "source_column": "escalation_level",
+   "target_table": "physics_simulation_data",
+   "target_key": "SimulationID",
+   "source_rows": 930,
+   "source_distinct": 3,
+   "target_rows": 10,
+   "score": 1.7,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DigitalSkinTransactionHistory.buyer_fan_ref -> fans.user_registry",
+   "source_table": "DigitalSkinTransactionHistory",
+   "source_column": "buyer_fan_ref",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 918,
+   "source_distinct": 592,
+   "target_rows": 972,
+   "score": 4.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FAN29186",
+    "FAN76827",
+    "FAN26243",
+    "FAN82422",
+    "FAN62295"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "DigitalSkinTransactionHistory.platform_fee_pct -> club_roles.RoleID",
+   "source_table": "DigitalSkinTransactionHistory",
+   "source_column": "platform_fee_pct",
+   "target_table": "club_roles",
+   "target_key": "RoleID",
+   "source_rows": 918,
+   "source_distinct": 1,
+   "target_rows": 15,
+   "score": 2.07,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FanArtAuctionBidLogs.bidder_fan_ref -> fans.user_registry",
+   "source_table": "FanArtAuctionBidLogs",
+   "source_column": "bidder_fan_ref",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 900,
+   "source_distinct": 566,
+   "target_rows": 972,
+   "score": 4.05,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FAN98596",
+    "FAN81946",
+    "FAN18680",
+    "FAN35476",
+    "FAN33142"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "FanArtAuctionBidLogs.auction_round -> physics_simulation_data.SimulationID",
+   "source_table": "FanArtAuctionBidLogs",
+   "source_column": "auction_round",
+   "target_table": "physics_simulation_data",
+   "target_key": "SimulationID",
+   "source_rows": 900,
+   "source_distinct": 3,
+   "target_rows": 10,
+   "score": 1.7,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FanArtAuctionBidLogs.bid_increment_step -> physics_simulation_data.SimulationID",
+   "source_table": "FanArtAuctionBidLogs",
+   "source_column": "bid_increment_step",
+   "target_table": "physics_simulation_data",
+   "target_key": "SimulationID",
+   "source_rows": 900,
+   "source_distinct": 1,
+   "target_rows": 10,
+   "score": 2.1,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "GlobalServerLatencyStats.event_ref -> eventsandclub.events_reg",
+   "source_table": "GlobalServerLatencyStats",
+   "source_column": "event_ref",
+   "target_table": "eventsandclub",
+   "target_key": "events_reg",
+   "source_rows": 142,
+   "source_distinct": 83,
+   "target_rows": 117,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "84",
+    "82",
+    "105",
+    "77",
+    "79"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "GlobalServerLatencyStats.packet_loss_pct -> preferencesandsettings.pref_reg",
+   "source_table": "GlobalServerLatencyStats",
+   "source_column": "packet_loss_pct",
+   "target_table": "preferencesandsettings",
+   "target_key": "pref_reg",
+   "source_rows": 142,
+   "source_distinct": 76,
+   "target_rows": 106,
+   "score": 3.61,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "37.0",
+    "65.0",
+    "94.0",
+    "70.0",
+    "45.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "GlobalServerLatencyStats.rebuffering_ratio -> preferencesandsettings.pref_reg",
+   "source_table": "GlobalServerLatencyStats",
+   "source_column": "rebuffering_ratio",
+   "target_table": "preferencesandsettings",
+   "target_key": "pref_reg",
+   "source_rows": 142,
+   "source_distinct": 76,
+   "target_rows": 106,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1.0",
+    "29.0",
+    "56.0",
+    "93.0",
+    "4.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "GlobalServerLatencyStats.auto_scaling_group_size -> interest_tags.TAG_ID",
+   "source_table": "GlobalServerLatencyStats",
+   "source_column": "auto_scaling_group_size",
+   "target_table": "interest_tags",
+   "target_key": "TAG_ID",
+   "source_rows": 142,
+   "source_distinct": 46,
+   "target_rows": 50,
+   "score": 3.88,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "21",
+    "17",
+    "22",
+    "44",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "HologramProjectorMaintenance.event_venue_ref -> eventsandclub.events_reg",
+   "source_table": "HologramProjectorMaintenance",
+   "source_column": "event_venue_ref",
+   "target_table": "eventsandclub",
+   "target_key": "events_reg",
+   "source_rows": 149,
+   "source_distinct": 84,
+   "target_rows": 117,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "48",
+    "8",
+    "20",
+    "92",
+    "54"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProjectorBulbReplacementHistory.maintenance_ref -> HologramProjectorMaintenance.maintenance_id",
+   "source_table": "ProjectorBulbReplacementHistory",
+   "source_column": "maintenance_ref",
+   "target_table": "HologramProjectorMaintenance",
+   "target_key": "maintenance_id",
+   "source_rows": 113,
+   "source_distinct": 80,
+   "target_rows": 149,
+   "score": 3.95,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "HPM-BB604202",
+    "HPM-76F8A9E9",
+    "HPM-B6CE3DA5",
+    "HPM-510B2B7D",
+    "HPM-848C7B67"
+   ],
+   "target_samples": [
+    "HPM-02D72F5E",
+    "HPM-03CD8FBC",
+    "HPM-0960D3B0",
+    "HPM-0D3F218D",
+    "HPM-0DAA4ACD"
+   ]
+  },
+  {
+   "id": "RecommendationClickstream.feed_ref -> AlgorithmRecommendationFeeds.feed_event_id",
+   "source_table": "RecommendationClickstream",
+   "source_column": "feed_ref",
+   "target_table": "AlgorithmRecommendationFeeds",
+   "target_key": "feed_event_id",
+   "source_rows": 1503,
+   "source_distinct": 725,
+   "target_rows": 900,
+   "score": 4.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FEED-673810F0",
+    "FEED-BF8E1A25",
+    "FEED-6E7526A3",
+    "FEED-1CC6F694",
+    "FEED-876400E6"
+   ],
+   "target_samples": [
+    "FEED-00719897",
+    "FEED-007469CC",
+    "FEED-00B385FA",
+    "FEED-01079B52",
+    "FEED-010D14E4"
+   ]
+  },
+  {
+   "id": "RecommendationClickstream.battery_level_pct -> preferencesandsettings.pref_reg",
+   "source_table": "RecommendationClickstream",
+   "source_column": "battery_level_pct",
+   "target_table": "preferencesandsettings",
+   "target_key": "pref_reg",
+   "source_rows": 1503,
+   "source_distinct": 96,
+   "target_rows": 106,
+   "score": 3.8,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "23",
+    "12",
+    "32",
+    "63",
+    "36"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SentimentKeywordTrends.snapshot_ref -> SocialSentimentTrendSnapshots.snapshot_id",
+   "source_table": "SentimentKeywordTrends",
+   "source_column": "snapshot_ref",
+   "target_table": "SocialSentimentTrendSnapshots",
+   "target_key": "snapshot_id",
+   "source_rows": 1006,
+   "source_distinct": 729,
+   "target_rows": 1413,
+   "score": 3.99,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SNT-65BF3825",
+    "SNT-A32C2AD4",
+    "SNT-EF0F1E40",
+    "SNT-6A703007",
+    "SNT-85197DB8"
+   ],
+   "target_samples": [
+    "SNT-00209AC3",
+    "SNT-006039F4",
+    "SNT-00A90281",
+    "SNT-00B9B0CD",
+    "SNT-01503755"
+   ]
+  },
+  {
+   "id": "SentimentKeywordTrends.frequency_count -> engagement.engage_reg",
+   "source_table": "SentimentKeywordTrends",
+   "source_column": "frequency_count",
+   "target_table": "engagement",
+   "target_key": "engage_reg",
+   "source_rows": 1006,
+   "source_distinct": 222,
+   "target_rows": 555,
+   "score": 2.42,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "52",
+    "79",
+    "179",
+    "133",
+    "91"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SentimentKeywordTrends.keyword_length -> club_roles.RoleID",
+   "source_table": "SentimentKeywordTrends",
+   "source_column": "keyword_length",
+   "target_table": "club_roles",
+   "target_key": "RoleID",
+   "source_rows": 1006,
+   "source_distinct": 13,
+   "target_rows": 15,
+   "score": 3.7,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9",
+    "10",
+    "11",
+    "5",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ServerRegionalOutageLogs.stat_trigger_ref -> GlobalServerLatencyStats.stat_id",
+   "source_table": "ServerRegionalOutageLogs",
+   "source_column": "stat_trigger_ref",
+   "target_table": "GlobalServerLatencyStats",
+   "target_key": "stat_id",
+   "source_rows": 108,
+   "source_distinct": 76,
+   "target_rows": 142,
+   "score": 3.98,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "LAT-02635779",
+    "LAT-99D8C3F7",
+    "LAT-B6B0678B",
+    "LAT-57754354",
+    "LAT-532CE0FD"
+   ],
+   "target_samples": [
+    "LAT-02635779",
+    "LAT-04601FCD",
+    "LAT-05165A75",
+    "LAT-055570E4",
+    "LAT-062B58BE"
+   ]
+  },
+  {
+   "id": "ServerRegionalOutageLogs.resolution_time_minutes -> eventsandclub.events_reg",
+   "source_table": "ServerRegionalOutageLogs",
+   "source_column": "resolution_time_minutes",
+   "target_table": "eventsandclub",
+   "target_key": "events_reg",
+   "source_rows": 108,
+   "source_distinct": 65,
+   "target_rows": 117,
+   "score": 3.35,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "93",
+    "28",
+    "11",
+    "3",
+    "31"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ServerRegionalOutageLogs.customer_tickets_generated -> fan_sentiment_analysis.SentimentID",
+   "source_table": "ServerRegionalOutageLogs",
+   "source_column": "customer_tickets_generated",
+   "target_table": "fan_sentiment_analysis",
+   "target_key": "SentimentID",
+   "source_rows": 108,
+   "source_distinct": 27,
+   "target_rows": 80,
+   "score": 2.58,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "53",
+    "52",
+    "56",
+    "51",
+    "62"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SkinOwnershipCertificates.origin_txn_ref -> DigitalSkinTransactionHistory.transaction_id",
+   "source_table": "SkinOwnershipCertificates",
+   "source_column": "origin_txn_ref",
+   "target_table": "DigitalSkinTransactionHistory",
+   "target_key": "transaction_id",
+   "source_rows": 990,
+   "source_distinct": 609,
+   "target_rows": 918,
+   "score": 4.14,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TXN-9CD551C8",
+    "TXN-B8EFB53F",
+    "TXN-D9B6DFF1",
+    "TXN-24500027",
+    "TXN-E9F9DBED"
+   ],
+   "target_samples": [
+    "TXN-00128D4F",
+    "TXN-001E872E",
+    "TXN-007D1BA2",
+    "TXN-009347A1",
+    "TXN-00D2B2F9"
+   ]
+  },
+  {
+   "id": "SocialSentimentTrendSnapshots.idol_entity_ref -> virtualidols.entity_reg",
+   "source_table": "SocialSentimentTrendSnapshots",
+   "source_column": "idol_entity_ref",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 1413,
+   "source_distinct": 623,
+   "target_rows": 742,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VI8465",
+    "VI6956",
+    "VI5727",
+    "VI3171",
+    "VI3647"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "SocialSentimentTrendSnapshots.influencer_mention_count -> designers.DESIGNER_ID",
+   "source_table": "SocialSentimentTrendSnapshots",
+   "source_column": "influencer_mention_count",
+   "target_table": "designers",
+   "target_key": "DESIGNER_ID",
+   "source_rows": 1413,
+   "source_distinct": 21,
+   "target_rows": 25,
+   "score": 3.59,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "11",
+    "10",
+    "13",
+    "15",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SocialSentimentTrendSnapshots.brand_safety_score -> streaming_session_logs.session_log_id",
+   "source_table": "SocialSentimentTrendSnapshots",
+   "source_column": "brand_safety_score",
+   "target_table": "streaming_session_logs",
+   "target_key": "session_log_id",
+   "source_rows": 1413,
+   "source_distinct": 44,
+   "target_rows": 150,
+   "score": 2.59,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "81",
+    "100",
+    "86",
+    "87",
+    "78"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SynthesizedVoiceFeedback.voice_log_ref -> VoiceSynthesisQualityLogs.voice_log_id",
+   "source_table": "SynthesizedVoiceFeedback",
+   "source_column": "voice_log_ref",
+   "target_table": "VoiceSynthesisQualityLogs",
+   "target_key": "voice_log_id",
+   "source_rows": 1069,
+   "source_distinct": 707,
+   "target_rows": 1182,
+   "score": 4.08,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VC-LOG-4DF568FB",
+    "VC-LOG-D4F5D0C3",
+    "VC-LOG-5DAEBFE3",
+    "VC-LOG-A32EA081",
+    "VC-LOG-6F8A76FB"
+   ],
+   "target_samples": [
+    "VC-LOG-00115405",
+    "VC-LOG-0037AB53",
+    "VC-LOG-00509658",
+    "VC-LOG-00711F5B",
+    "VC-LOG-00B02ED8"
+   ]
+  },
+  {
+   "id": "SynthesizedVoiceFeedback.user_rating_stars -> physics_simulation_data.SimulationID",
+   "source_table": "SynthesizedVoiceFeedback",
+   "source_column": "user_rating_stars",
+   "target_table": "physics_simulation_data",
+   "target_key": "SimulationID",
+   "source_rows": 1069,
+   "source_distinct": 5,
+   "target_rows": 10,
+   "score": 2.3,
+   "signals": [
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "1",
+    "2",
+    "4",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SynthesizedVoiceFeedback.playback_volume_level -> preferencesandsettings.pref_reg",
+   "source_table": "SynthesizedVoiceFeedback",
+   "source_column": "playback_volume_level",
+   "target_table": "preferencesandsettings",
+   "target_key": "pref_reg",
+   "source_rows": 1069,
+   "source_distinct": 81,
+   "target_rows": 106,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "63",
+    "69",
+    "62",
+    "79",
+    "84"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VREyeTrackingHeatmaps.session_ref -> VirtualRealitySessionTelemetry.vr_session_id",
+   "source_table": "VREyeTrackingHeatmaps",
+   "source_column": "session_ref",
+   "target_table": "VirtualRealitySessionTelemetry",
+   "target_key": "vr_session_id",
+   "source_rows": 1865,
+   "source_distinct": 1143,
+   "target_rows": 1721,
+   "score": 4.15,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VRS-FBC101EB",
+    "VRS-032A2FE8",
+    "VRS-DF19068B",
+    "VRS-E0733F7A",
+    "VRS-C32AF75C"
+   ],
+   "target_samples": [
+    "VRS-002FC21C",
+    "VRS-0036B354",
+    "VRS-00452D49",
+    "VRS-00845386",
+    "VRS-00985DB5"
+   ]
+  },
+  {
+   "id": "VREyeTrackingHeatmaps.saccade_count -> streaming_session_logs.session_log_id",
+   "source_table": "VREyeTrackingHeatmaps",
+   "source_column": "saccade_count",
+   "target_table": "streaming_session_logs",
+   "target_key": "session_log_id",
+   "source_rows": 1865,
+   "source_distinct": 63,
+   "target_rows": 150,
+   "score": 2.68,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "103",
+    "99",
+    "95",
+    "84",
+    "102"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VREyeTrackingHeatmaps.raw_sample_rate_hz -> virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID",
+   "source_table": "VREyeTrackingHeatmaps",
+   "source_column": "raw_sample_rate_hz",
+   "target_table": "virtual_idol_performance_metrics",
+   "target_key": "PERFORMANCE_METRIC_ID",
+   "source_rows": 1865,
+   "source_distinct": 3,
+   "target_rows": 280,
+   "score": 2.55,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "200",
+    "90",
+    "120"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VirtualRealitySessionTelemetry.fan_user_ref -> fans.user_registry",
+   "source_table": "VirtualRealitySessionTelemetry",
+   "source_column": "fan_user_ref",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 1721,
+   "source_distinct": 806,
+   "target_rows": 972,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FAN62804",
+    "FAN66600",
+    "FAN69067",
+    "FAN91117",
+    "FAN20528"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "VirtualRealitySessionTelemetry.motion_sickness_score -> physics_simulation_data.SimulationID",
+   "source_table": "VirtualRealitySessionTelemetry",
+   "source_column": "motion_sickness_score",
+   "target_table": "physics_simulation_data",
+   "target_key": "SimulationID",
+   "source_rows": 1721,
+   "source_distinct": 10,
+   "target_rows": 10,
+   "score": 3.8,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "9",
+    "7",
+    "1",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VirtualRealitySessionTelemetry.haptic_feedback_events -> fan_sentiment_analysis.SentimentID",
+   "source_table": "VirtualRealitySessionTelemetry",
+   "source_column": "haptic_feedback_events",
+   "target_table": "fan_sentiment_analysis",
+   "target_key": "SentimentID",
+   "source_rows": 1721,
+   "source_distinct": 45,
+   "target_rows": 80,
+   "score": 2.96,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "53",
+    "51",
+    "57",
+    "48",
+    "46"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VirtualRealitySessionTelemetry.controller_battery_start_pct -> preferencesandsettings.pref_reg",
+   "source_table": "VirtualRealitySessionTelemetry",
+   "source_column": "controller_battery_start_pct",
+   "target_table": "preferencesandsettings",
+   "target_key": "pref_reg",
+   "source_rows": 1721,
+   "source_distinct": 81,
+   "target_rows": 106,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "75",
+    "95",
+    "24",
+    "91",
+    "36"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VoiceSynthesisQualityLogs.idol_entity_ref -> virtualidols.entity_reg",
+   "source_table": "VoiceSynthesisQualityLogs",
+   "source_column": "idol_entity_ref",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 1182,
+   "source_distinct": 583,
+   "target_rows": 742,
+   "score": 4.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VI9778",
+    "VI9011",
+    "VI5566",
+    "VI7158",
+    "VI8447"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "VoiceSynthesisQualityLogs.latency_ms -> virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID",
+   "source_table": "VoiceSynthesisQualityLogs",
+   "source_column": "latency_ms",
+   "target_table": "virtual_idol_performance_metrics",
+   "target_key": "PERFORMANCE_METRIC_ID",
+   "source_rows": 1182,
+   "source_distinct": 152,
+   "target_rows": 280,
+   "score": 3.1,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "143",
+    "145",
+    "177",
+    "201",
+    "104"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "additionalnotes.notes_retain_pivot -> retentionandinfluence.ret_reg",
+   "source_table": "additionalnotes",
+   "source_column": "notes_retain_pivot",
+   "target_table": "retentionandinfluence",
+   "target_key": "ret_reg",
+   "source_rows": 52,
+   "source_distinct": 52,
+   "target_rows": 52,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commerceandcollection.commerce_engage_pivot -> engagement.engage_reg",
+   "source_table": "commerceandcollection",
+   "source_column": "commerce_engage_pivot",
+   "target_table": "engagement",
+   "target_key": "engage_reg",
+   "source_rows": 356,
+   "source_distinct": 356,
+   "target_rows": 555,
+   "score": 4.11,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "5",
+    "6",
+    "7",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commerceandcollection.commerce_member_pivot -> membershipandspending.member_reg",
+   "source_table": "commerceandcollection",
+   "source_column": "commerce_member_pivot",
+   "target_table": "membershipandspending",
+   "target_key": "member_reg",
+   "source_rows": 356,
+   "source_distinct": 356,
+   "target_rows": 659,
+   "score": 4.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "5",
+    "7",
+    "8",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "engagement.engage_activity_pivot -> interactions.activity_reg",
+   "source_table": "engagement",
+   "source_column": "engage_activity_pivot",
+   "target_table": "interactions",
+   "target_key": "activity_reg",
+   "source_rows": 555,
+   "source_distinct": 537,
+   "target_rows": 821,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FI537855",
+    "FI528045",
+    "FI137526",
+    "FI133051",
+    "FI331368"
+   ],
+   "target_samples": [
+    "FI104028",
+    "FI105371",
+    "FI105590",
+    "FI107030",
+    "FI108189"
+   ]
+  },
+  {
+   "id": "engagement.engage_member_pivot -> membershipandspending.member_reg",
+   "source_table": "engagement",
+   "source_column": "engage_member_pivot",
+   "target_table": "membershipandspending",
+   "target_key": "member_reg",
+   "source_rows": 555,
+   "source_distinct": 555,
+   "target_rows": 659,
+   "score": 4.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "engagement.avg_sess_count -> designers.DESIGNER_ID",
+   "source_table": "engagement",
+   "source_column": "avg_sess_count",
+   "target_table": "designers",
+   "target_key": "DESIGNER_ID",
+   "source_rows": 555,
+   "source_distinct": 20,
+   "target_rows": 25,
+   "score": 3.32,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "20",
+    "9",
+    "13",
+    "11",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "event_logistics_and_planning.Event_Club_Record_ID -> eventsandclub.events_reg",
+   "source_table": "event_logistics_and_planning",
+   "source_column": "Event_Club_Record_ID",
+   "target_table": "eventsandclub",
+   "target_key": "events_reg",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 117,
+   "score": 3.82,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "100",
+    "71",
+    "14",
+    "94"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "event_logistics_and_planning.security_personnel_count -> virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID",
+   "source_table": "event_logistics_and_planning",
+   "source_column": "security_personnel_count",
+   "target_table": "virtual_idol_performance_metrics",
+   "target_key": "PERFORMANCE_METRIC_ID",
+   "source_rows": 50,
+   "source_distinct": 30,
+   "target_rows": 280,
+   "score": 3.23,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "105",
+    "151",
+    "139",
+    "160",
+    "178"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "event_logistics_and_planning.TechnicalCrewCount -> interest_tags.TAG_ID",
+   "source_table": "event_logistics_and_planning",
+   "source_column": "TechnicalCrewCount",
+   "target_table": "interest_tags",
+   "target_key": "TAG_ID",
+   "source_rows": 50,
+   "source_distinct": 31,
+   "target_rows": 50,
+   "score": 4.02,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "27",
+    "21",
+    "6",
+    "30",
+    "13"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "event_logistics_and_planning.LiveStreamPlatform -> platforms.PlatformName",
+   "source_table": "event_logistics_and_planning",
+   "source_column": "LiveStreamPlatform",
+   "target_table": "platforms",
+   "target_key": "PlatformName",
+   "source_rows": 50,
+   "source_distinct": 3,
+   "target_rows": 15,
+   "score": 3.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "Twitch",
+    "Bilibili",
+    "YouTube"
+   ],
+   "target_samples": [
+    "Apple Music",
+    "Bilibili",
+    "Discord",
+    "IdolSpace",
+    "Instagram"
+   ]
+  },
+  {
+   "id": "event_sponsors.Event_Identifier -> eventsandclub.events_reg",
+   "source_table": "event_sponsors",
+   "source_column": "Event_Identifier",
+   "target_table": "eventsandclub",
+   "target_key": "events_reg",
+   "source_rows": 75,
+   "source_distinct": 39,
+   "target_rows": 117,
+   "score": 3.52,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "108",
+    "77",
+    "57",
+    "106",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "event_sponsors.Sponsor_Identifier -> fan_club_roles_map.fan_club_role_id",
+   "source_table": "event_sponsors",
+   "source_column": "Sponsor_Identifier",
+   "target_table": "fan_club_roles_map",
+   "target_key": "fan_club_role_id",
+   "source_rows": 75,
+   "source_distinct": 29,
+   "target_rows": 30,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "27",
+    "21",
+    "16",
+    "9",
+    "29"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "event_sponsors.NumberOfComplimentaryTickets -> designers.DESIGNER_ID",
+   "source_table": "event_sponsors",
+   "source_column": "NumberOfComplimentaryTickets",
+   "target_table": "designers",
+   "target_key": "DESIGNER_ID",
+   "source_rows": 75,
+   "source_distinct": 19,
+   "target_rows": 25,
+   "score": 3.85,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13",
+    "14",
+    "7",
+    "2",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "event_sponsors.SOCIAL_MEDIA_MENTIONS_COUNT -> preferencesandsettings.pref_reg",
+   "source_table": "event_sponsors",
+   "source_column": "SOCIAL_MEDIA_MENTIONS_COUNT",
+   "target_table": "preferencesandsettings",
+   "target_key": "pref_reg",
+   "source_rows": 75,
+   "source_distinct": 50,
+   "target_rows": 106,
+   "score": 3.84,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "77",
+    "59",
+    "13",
+    "88",
+    "69"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "event_sponsors.LEAD_GENERATION_COUNT -> engagement.engage_reg",
+   "source_table": "event_sponsors",
+   "source_column": "LEAD_GENERATION_COUNT",
+   "target_table": "engagement",
+   "target_key": "engage_reg",
+   "source_rows": 75,
+   "source_distinct": 68,
+   "target_rows": 555,
+   "score": 3.27,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "202",
+    "166",
+    "475",
+    "51",
+    "254"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "event_sponsors.DURATION_OF_SPONSORSHIP_days -> engagement.engage_reg",
+   "source_table": "event_sponsors",
+   "source_column": "DURATION_OF_SPONSORSHIP_days",
+   "target_table": "engagement",
+   "target_key": "engage_reg",
+   "source_rows": 75,
+   "source_distinct": 64,
+   "target_rows": 555,
+   "score": 3.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "270",
+    "122",
+    "335",
+    "266",
+    "59"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "eventsandclub.events_social_pivot -> socialcommunity.social_reg",
+   "source_table": "eventsandclub",
+   "source_column": "events_social_pivot",
+   "target_table": "socialcommunity",
+   "target_key": "social_reg",
+   "source_rows": 117,
+   "source_distinct": 117,
+   "target_rows": 185,
+   "score": 4.08,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "eventsandclub.events_member_pivot -> membershipandspending.member_reg",
+   "source_table": "eventsandclub",
+   "source_column": "events_member_pivot",
+   "target_table": "membershipandspending",
+   "target_key": "member_reg",
+   "source_rows": 117,
+   "source_distinct": 117,
+   "target_rows": 659,
+   "score": 3.54,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "10",
+    "11",
+    "12",
+    "13"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_club_roles_map.Fan_Member_Identifier -> fans.user_registry",
+   "source_table": "fan_club_roles_map",
+   "source_column": "Fan_Member_Identifier",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 30,
+   "source_distinct": 30,
+   "target_rows": 972,
+   "score": 3.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "FAN89766",
+    "FAN53141",
+    "FAN15441",
+    "FAN84246",
+    "FAN95411"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "fan_club_roles_map.Club_Role_Identifier -> club_roles.RoleID",
+   "source_table": "fan_club_roles_map",
+   "source_column": "Club_Role_Identifier",
+   "target_table": "club_roles",
+   "target_key": "RoleID",
+   "source_rows": 30,
+   "source_distinct": 12,
+   "target_rows": 15,
+   "score": 4.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13",
+    "10",
+    "3",
+    "1",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_club_roles_map.ASSIGNED_BY_USER_REGISTRY -> fans.user_registry",
+   "source_table": "fan_club_roles_map",
+   "source_column": "ASSIGNED_BY_USER_REGISTRY",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 30,
+   "source_distinct": 5,
+   "target_rows": 972,
+   "score": 2.79,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "FAN95411",
+    "FAN74949",
+    "FAN13737",
+    "FAN99565",
+    "FAN13244"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "fan_club_roles_map.TermLength_months -> designers.DESIGNER_ID",
+   "source_table": "fan_club_roles_map",
+   "source_column": "TermLength_months",
+   "target_table": "designers",
+   "target_key": "DESIGNER_ID",
+   "source_rows": 30,
+   "source_distinct": 3,
+   "target_rows": 25,
+   "score": 3.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "24",
+    "6",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_club_roles_map.MentorshipPairID -> virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID",
+   "source_table": "fan_club_roles_map",
+   "source_column": "MentorshipPairID",
+   "target_table": "virtual_idol_performance_metrics",
+   "target_key": "PERFORMANCE_METRIC_ID",
+   "source_rows": 30,
+   "source_distinct": 15,
+   "target_rows": 280,
+   "score": 2.94,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "148",
+    "198",
+    "199",
+    "120",
+    "188"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_collaboration_projects.Project_Lead_Fan_ID -> fans.user_registry",
+   "source_table": "fan_collaboration_projects",
+   "source_column": "Project_Lead_Fan_ID",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 45,
+   "source_distinct": 43,
+   "target_rows": 972,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "FAN32968",
+    "FAN51909",
+    "FAN21110",
+    "FAN93517",
+    "FAN27103"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "fan_collaboration_projects.NUMBER_OF_PARTICIPANTS -> additionalnotes.notes_reg",
+   "source_table": "fan_collaboration_projects",
+   "source_column": "NUMBER_OF_PARTICIPANTS",
+   "target_table": "additionalnotes",
+   "target_key": "notes_reg",
+   "source_rows": 45,
+   "source_distinct": 28,
+   "target_rows": 52,
+   "score": 3.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "31",
+    "33",
+    "16",
+    "45",
+    "38"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_collaboration_projects.Associated_Idol_Record -> virtualidols.entity_reg",
+   "source_table": "fan_collaboration_projects",
+   "source_column": "Associated_Idol_Record",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 45,
+   "source_distinct": 34,
+   "target_rows": 742,
+   "score": 3.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI5276",
+    "VI7624",
+    "VI2896",
+    "VI8836",
+    "VI1003"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "fan_collaboration_projects.RELATED_EVENT_ID -> eventsandclub.events_reg",
+   "source_table": "fan_collaboration_projects",
+   "source_column": "RELATED_EVENT_ID",
+   "target_table": "eventsandclub",
+   "target_key": "events_reg",
+   "source_rows": 45,
+   "source_distinct": 12,
+   "target_rows": 117,
+   "score": 3.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "18",
+    "50",
+    "114",
+    "27",
+    "110"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_collaboration_projects.Moderator_Fan_ID -> fans.user_registry",
+   "source_table": "fan_collaboration_projects",
+   "source_column": "Moderator_Fan_ID",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 45,
+   "source_distinct": 43,
+   "target_rows": 972,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "FAN96410",
+    "FAN49739",
+    "FAN28410",
+    "FAN66600",
+    "FAN27859"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "fan_content_submission_details.Fan_Identifier -> fans.user_registry",
+   "source_table": "fan_content_submission_details",
+   "source_column": "Fan_Identifier",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 75,
+   "source_distinct": 74,
+   "target_rows": 972,
+   "score": 3.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "FAN78978",
+    "FAN66376",
+    "FAN28303",
+    "FAN10916",
+    "FAN97144"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "fan_content_submission_details.MODERATOR_ID -> physics_simulation_data.SimulationID",
+   "source_table": "fan_content_submission_details",
+   "source_column": "MODERATOR_ID",
+   "target_table": "physics_simulation_data",
+   "target_key": "SimulationID",
+   "source_rows": 75,
+   "source_distinct": 10,
+   "target_rows": 10,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "2",
+    "1",
+    "10",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_content_submission_details.CommentCount -> engagement.engage_reg",
+   "source_table": "fan_content_submission_details",
+   "source_column": "CommentCount",
+   "target_table": "engagement",
+   "target_key": "engage_reg",
+   "source_rows": 75,
+   "source_distinct": 70,
+   "target_rows": 555,
+   "score": 3.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "179",
+    "107",
+    "329",
+    "374",
+    "306"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_content_submission_details.Associated_Idol_Ref -> virtualidols.entity_reg",
+   "source_table": "fan_content_submission_details",
+   "source_column": "Associated_Idol_Ref",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 75,
+   "source_distinct": 53,
+   "target_rows": 742,
+   "score": 3.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI8692",
+    "VI4541",
+    "VI2485",
+    "VI8146",
+    "VI8836"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "fan_content_submission_details.ASSOCIATED_EVENT_ID -> eventsandclub.events_reg",
+   "source_table": "fan_content_submission_details",
+   "source_column": "ASSOCIATED_EVENT_ID",
+   "target_table": "eventsandclub",
+   "target_key": "events_reg",
+   "source_rows": 75,
+   "source_distinct": 28,
+   "target_rows": 117,
+   "score": 3.57,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "48",
+    "117",
+    "1",
+    "98"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_interest_tags_map.Fan_Account_Identifier -> fans.user_registry",
+   "source_table": "fan_interest_tags_map",
+   "source_column": "Fan_Account_Identifier",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 70,
+   "source_distinct": 68,
+   "target_rows": 972,
+   "score": 3.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "FAN27525",
+    "FAN29831",
+    "FAN17288",
+    "FAN93514",
+    "FAN62703"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "fan_interest_tags_map.Interest_Tag_Identifier -> interest_tags.TAG_ID",
+   "source_table": "fan_interest_tags_map",
+   "source_column": "Interest_Tag_Identifier",
+   "target_table": "interest_tags",
+   "target_key": "TAG_ID",
+   "source_rows": 70,
+   "source_distinct": 42,
+   "target_rows": 50,
+   "score": 4.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "44",
+    "3",
+    "14",
+    "24",
+    "36"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_interest_tags_map.RelatedContentConsumedCount -> idol_content_platforms_map.idol_platform_id",
+   "source_table": "fan_interest_tags_map",
+   "source_column": "RelatedContentConsumedCount",
+   "target_table": "idol_content_platforms_map",
+   "target_key": "idol_platform_id",
+   "source_rows": 70,
+   "source_distinct": 62,
+   "target_rows": 199,
+   "score": 3.73,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "122",
+    "128",
+    "29",
+    "42",
+    "134"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_sentiment_analysis.Interaction_Activity_ID -> interactions.activity_reg",
+   "source_table": "fan_sentiment_analysis",
+   "source_column": "Interaction_Activity_ID",
+   "target_table": "interactions",
+   "target_key": "activity_reg",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 821,
+   "score": 3.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "FI125333",
+    "FI595881",
+    "FI807584",
+    "FI167725",
+    "FI545172"
+   ],
+   "target_samples": [
+    "FI104028",
+    "FI105371",
+    "FI105590",
+    "FI107030",
+    "FI108189"
+   ]
+  },
+  {
+   "id": "fan_sentiment_analysis.Fan_Account_ID -> fans.user_registry",
+   "source_table": "fan_sentiment_analysis",
+   "source_column": "Fan_Account_ID",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 80,
+   "source_distinct": 75,
+   "target_rows": 972,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "FAN92697",
+    "FAN14771",
+    "FAN21568",
+    "FAN96552",
+    "FAN53397"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "fan_sentiment_analysis.source_platform -> platforms.PlatformName",
+   "source_table": "fan_sentiment_analysis",
+   "source_column": "source_platform",
+   "target_table": "platforms",
+   "target_key": "PlatformName",
+   "source_rows": 80,
+   "source_distinct": 1,
+   "target_rows": 15,
+   "score": 2.57,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "YouTube"
+   ],
+   "target_samples": [
+    "Apple Music",
+    "Bilibili",
+    "Discord",
+    "IdolSpace",
+    "Instagram"
+   ]
+  },
+  {
+   "id": "fan_technical_profile.Fan_User_ID -> fans.user_registry",
+   "source_table": "fan_technical_profile",
+   "source_column": "Fan_User_ID",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 60,
+   "source_distinct": 60,
+   "target_rows": 972,
+   "score": 3.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "FAN79893",
+    "FAN20353",
+    "FAN85706",
+    "FAN49768",
+    "FAN39354"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "fans.tier_step -> preferencesandsettings.pref_reg",
+   "source_table": "fans",
+   "source_column": "tier_step",
+   "target_table": "preferencesandsettings",
+   "target_key": "pref_reg",
+   "source_rows": 972,
+   "source_distinct": 100,
+   "target_rows": 106,
+   "score": 3.81,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "52",
+    "3",
+    "41",
+    "93",
+    "94"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_asset_management.Virtual_Idol_ID -> virtualidols.entity_reg",
+   "source_table": "idol_asset_management",
+   "source_column": "Virtual_Idol_ID",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 80,
+   "source_distinct": 35,
+   "target_rows": 742,
+   "score": 3.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI4009",
+    "VI1977",
+    "VI4622",
+    "VI6212",
+    "VI2622"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "idol_content_platforms_map.Idol_Account_Identifier -> virtualidols.entity_reg",
+   "source_table": "idol_content_platforms_map",
+   "source_column": "Idol_Account_Identifier",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 199,
+   "source_distinct": 40,
+   "target_rows": 742,
+   "score": 3.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI6888",
+    "VI3837",
+    "VI5159",
+    "VI2854",
+    "VI1123"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "idol_content_platforms_map.Platform_Service_Identifier -> club_roles.RoleID",
+   "source_table": "idol_content_platforms_map",
+   "source_column": "Platform_Service_Identifier",
+   "target_table": "club_roles",
+   "target_key": "RoleID",
+   "source_rows": 199,
+   "source_distinct": 15,
+   "target_rows": 15,
+   "score": 4.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "5",
+    "15",
+    "3",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_fan_collaborations.Idol_Ref -> virtualidols.entity_reg",
+   "source_table": "idol_fan_collaborations",
+   "source_column": "Idol_Ref",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 60,
+   "source_distinct": 2,
+   "target_rows": 742,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI1003",
+    "VI1013"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "idol_fan_collaborations.Fan_Ref -> fans.user_registry",
+   "source_table": "idol_fan_collaborations",
+   "source_column": "Fan_Ref",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 60,
+   "source_distinct": 57,
+   "target_rows": 972,
+   "score": 3.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "FAN61698",
+    "FAN84498",
+    "FAN75279",
+    "FAN39354",
+    "FAN35296"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "idol_fan_collaborations.PROJECT_REFERENCE_ID -> fan_collaboration_projects.PROJECT_ID",
+   "source_table": "idol_fan_collaborations",
+   "source_column": "PROJECT_REFERENCE_ID",
+   "target_table": "fan_collaboration_projects",
+   "target_key": "PROJECT_ID",
+   "source_rows": 60,
+   "source_distinct": 32,
+   "target_rows": 45,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9015",
+    "9026",
+    "9029",
+    "9019",
+    "9033"
+   ],
+   "target_samples": [
+    "9001",
+    "9002",
+    "9003",
+    "9004",
+    "9005"
+   ]
+  },
+  {
+   "id": "idol_genre_map.Virtual_Idol_Identifier -> virtualidols.entity_reg",
+   "source_table": "idol_genre_map",
+   "source_column": "Virtual_Idol_Identifier",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 76,
+   "source_distinct": 40,
+   "target_rows": 742,
+   "score": 3.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI6888",
+    "VI3837",
+    "VI5159",
+    "VI2854",
+    "VI1123"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "idol_genre_map.Music_Genre_Identifier -> designers.DESIGNER_ID",
+   "source_table": "idol_genre_map",
+   "source_column": "Music_Genre_Identifier",
+   "target_table": "designers",
+   "target_key": "DESIGNER_ID",
+   "source_rows": 76,
+   "source_distinct": 25,
+   "target_rows": 25,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "13",
+    "11",
+    "6",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_merchandise_details.Commerce_Record_ID -> commerceandcollection.commerce_reg",
+   "source_table": "idol_merchandise_details",
+   "source_column": "Commerce_Record_ID",
+   "target_table": "commerceandcollection",
+   "target_key": "commerce_reg",
+   "source_rows": 65,
+   "source_distinct": 58,
+   "target_rows": 356,
+   "score": 3.6,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "69",
+    "132",
+    "59",
+    "266",
+    "348"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_merchandise_details.EditionSize -> engagement.engage_reg",
+   "source_table": "idol_merchandise_details",
+   "source_column": "EditionSize",
+   "target_table": "engagement",
+   "target_key": "engage_reg",
+   "source_rows": 65,
+   "source_distinct": 33,
+   "target_rows": 555,
+   "score": 3.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "84",
+    "425",
+    "97",
+    "119",
+    "159"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_merchandise_details.Autograph_Idol_Ref -> virtualidols.entity_reg",
+   "source_table": "idol_merchandise_details",
+   "source_column": "Autograph_Idol_Ref",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 65,
+   "source_distinct": 3,
+   "target_rows": 742,
+   "score": 1.52,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI1003",
+    "VI1085",
+    "VI1020"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "idol_merchandise_details.NUMBER_OF_REVIEWS -> engagement.engage_reg",
+   "source_table": "idol_merchandise_details",
+   "source_column": "NUMBER_OF_REVIEWS",
+   "target_table": "engagement",
+   "target_key": "engage_reg",
+   "source_rows": 65,
+   "source_distinct": 63,
+   "target_rows": 555,
+   "score": 3.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "31",
+    "301",
+    "161",
+    "238",
+    "210"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_merchandise_details.SUPPLIER_ID -> virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID",
+   "source_table": "idol_merchandise_details",
+   "source_column": "SUPPLIER_ID",
+   "target_table": "virtual_idol_performance_metrics",
+   "target_key": "PERFORMANCE_METRIC_ID",
+   "source_rows": 65,
+   "source_distinct": 50,
+   "target_rows": 280,
+   "score": 3.03,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "127",
+    "125",
+    "109",
+    "149",
+    "123"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_skill_sets_map.Idol_Record_Identifier -> virtualidols.entity_reg",
+   "source_table": "idol_skill_sets_map",
+   "source_column": "Idol_Record_Identifier",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 201,
+   "source_distinct": 40,
+   "target_rows": 742,
+   "score": 3.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI5950",
+    "VI9017",
+    "VI8686",
+    "VI6535",
+    "VI2622"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "idol_skill_sets_map.Skill_Definition_Identifier -> skills.skill_id",
+   "source_table": "idol_skill_sets_map",
+   "source_column": "Skill_Definition_Identifier",
+   "target_table": "skills",
+   "target_key": "skill_id",
+   "source_rows": 201,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "27",
+    "7",
+    "5",
+    "33",
+    "22"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_skill_sets_map.TrainingHours_hr -> engagement.engage_reg",
+   "source_table": "idol_skill_sets_map",
+   "source_column": "TrainingHours_hr",
+   "target_table": "engagement",
+   "target_key": "engage_reg",
+   "source_rows": 201,
+   "source_distinct": 162,
+   "target_rows": 555,
+   "score": 3.05,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "270.0",
+    "148.0",
+    "256.0",
+    "448.0",
+    "255.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_skill_sets_map.self_assessment_score -> physics_simulation_data.SimulationID",
+   "source_table": "idol_skill_sets_map",
+   "source_column": "self_assessment_score",
+   "target_table": "physics_simulation_data",
+   "target_key": "SimulationID",
+   "source_rows": 201,
+   "source_distinct": 10,
+   "target_rows": 10,
+   "score": 3.8,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8.0",
+    "3.0",
+    "1.0",
+    "10.0",
+    "6.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_training_and_development.Idol_Identifier -> virtualidols.entity_reg",
+   "source_table": "idol_training_and_development",
+   "source_column": "Idol_Identifier",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 70,
+   "source_distinct": 31,
+   "target_rows": 742,
+   "score": 3.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI6182",
+    "VI3113",
+    "VI1686",
+    "VI4162",
+    "VI8686"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "interactions.interact_fan_pivot -> fans.user_registry",
+   "source_table": "interactions",
+   "source_column": "interact_fan_pivot",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 821,
+   "source_distinct": 797,
+   "target_rows": 972,
+   "score": 4.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FAN29489",
+    "FAN35728",
+    "FAN68495",
+    "FAN62925",
+    "FAN40145"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "interactions.interact_idol_pivot -> virtualidols.entity_reg",
+   "source_table": "interactions",
+   "source_column": "interact_idol_pivot",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 821,
+   "source_distinct": 632,
+   "target_rows": 742,
+   "score": 4.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VI1686",
+    "VI1123",
+    "VI2303",
+    "VI4163",
+    "VI8862"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "interactions.sess_dur_min -> socialcommunity.social_reg",
+   "source_table": "interactions",
+   "source_column": "sess_dur_min",
+   "target_table": "socialcommunity",
+   "target_key": "social_reg",
+   "source_rows": 821,
+   "source_distinct": 180,
+   "target_rows": 185,
+   "score": 3.91,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "88",
+    "85",
+    "116",
+    "86",
+    "72"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "loyaltyandachievements.loyalty_events_pivot -> eventsandclub.events_reg",
+   "source_table": "loyaltyandachievements",
+   "source_column": "loyalty_events_pivot",
+   "target_table": "eventsandclub",
+   "target_key": "events_reg",
+   "source_rows": 64,
+   "source_distinct": 64,
+   "target_rows": 117,
+   "score": 3.95,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "14",
+    "15",
+    "16",
+    "17",
+    "19"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "loyaltyandachievements.loyalty_engage_pivot -> engagement.engage_reg",
+   "source_table": "loyaltyandachievements",
+   "source_column": "loyalty_engage_pivot",
+   "target_table": "engagement",
+   "target_key": "engage_reg",
+   "source_rows": 64,
+   "source_distinct": 64,
+   "target_rows": 555,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "32",
+    "41",
+    "43",
+    "44",
+    "64"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "market_analysis_and_trends.ForecastHorizon_years -> physics_simulation_data.SimulationID",
+   "source_table": "market_analysis_and_trends",
+   "source_column": "ForecastHorizon_years",
+   "target_table": "physics_simulation_data",
+   "target_key": "SimulationID",
+   "source_rows": 45,
+   "source_distinct": 3,
+   "target_rows": 10,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "5",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "membershipandspending.member_fan_pivot -> fans.user_registry",
+   "source_table": "membershipandspending",
+   "source_column": "member_fan_pivot",
+   "target_table": "fans",
+   "target_key": "user_registry",
+   "source_rows": 659,
+   "source_distinct": 645,
+   "target_rows": 972,
+   "score": 4.14,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FAN75581",
+    "FAN27370",
+    "FAN83813",
+    "FAN15741",
+    "FAN62295"
+   ],
+   "target_samples": [
+    "FAN10010",
+    "FAN10080",
+    "FAN10128",
+    "FAN10285",
+    "FAN10589"
+   ]
+  },
+  {
+   "id": "merchandise_designers_map.Merchandise_Item_Identifier -> idol_merchandise_details.MerchItemID",
+   "source_table": "merchandise_designers_map",
+   "source_column": "Merchandise_Item_Identifier",
+   "target_table": "idol_merchandise_details",
+   "target_key": "MerchItemID",
+   "source_rows": 55,
+   "source_distinct": 35,
+   "target_rows": 65,
+   "score": 3.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2047",
+    "2060",
+    "2007",
+    "2020",
+    "2013"
+   ],
+   "target_samples": [
+    "2001",
+    "2002",
+    "2003",
+    "2004",
+    "2005"
+   ]
+  },
+  {
+   "id": "merchandise_designers_map.Creator_Identifier -> designers.DESIGNER_ID",
+   "source_table": "merchandise_designers_map",
+   "source_column": "Creator_Identifier",
+   "target_table": "designers",
+   "target_key": "DESIGNER_ID",
+   "source_rows": 55,
+   "source_distinct": 22,
+   "target_rows": 25,
+   "score": 4.23,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "11",
+    "20",
+    "15",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "moderationandcompliance.moderation_interact_pivot -> interactions.activity_reg",
+   "source_table": "moderationandcompliance",
+   "source_column": "moderation_interact_pivot",
+   "target_table": "interactions",
+   "target_key": "activity_reg",
+   "source_rows": 25,
+   "source_distinct": 25,
+   "target_rows": 821,
+   "score": 3.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "FI648876",
+    "FI202186",
+    "FI156375",
+    "FI349241",
+    "FI791783"
+   ],
+   "target_samples": [
+    "FI104028",
+    "FI105371",
+    "FI105590",
+    "FI107030",
+    "FI108189"
+   ]
+  },
+  {
+   "id": "moderationandcompliance.moderation_social_pivot -> socialcommunity.social_reg",
+   "source_table": "moderationandcompliance",
+   "source_column": "moderation_social_pivot",
+   "target_table": "socialcommunity",
+   "target_key": "social_reg",
+   "source_rows": 25,
+   "source_distinct": 25,
+   "target_rows": 185,
+   "score": 3.51,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "18",
+    "25",
+    "33",
+    "36"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "physics_simulation_data.IDOL_ID -> virtualidols.entity_reg",
+   "source_table": "physics_simulation_data",
+   "source_column": "IDOL_ID",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 10,
+   "source_distinct": 9,
+   "target_rows": 742,
+   "score": 3.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI4162",
+    "VI8895",
+    "VI5059",
+    "VI2016",
+    "VI2234"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "preferencesandsettings.preferences_member_pivot -> membershipandspending.member_reg",
+   "source_table": "preferencesandsettings",
+   "source_column": "preferences_member_pivot",
+   "target_table": "membershipandspending",
+   "target_key": "member_reg",
+   "source_rows": 106,
+   "source_distinct": 106,
+   "target_rows": 659,
+   "score": 3.6,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "14",
+    "17",
+    "19",
+    "22",
+    "23"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "preferencesandsettings.preferences_social_pivot -> socialcommunity.social_reg",
+   "source_table": "preferencesandsettings",
+   "source_column": "preferences_social_pivot",
+   "target_table": "socialcommunity",
+   "target_key": "social_reg",
+   "source_rows": 106,
+   "source_distinct": 106,
+   "target_rows": 185,
+   "score": 4.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "8",
+    "10",
+    "11",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "preferencesandsettings.dev_count -> physics_simulation_data.SimulationID",
+   "source_table": "preferencesandsettings",
+   "source_column": "dev_count",
+   "target_table": "physics_simulation_data",
+   "target_key": "SimulationID",
+   "source_rows": 106,
+   "source_distinct": 5,
+   "target_rows": 10,
+   "score": 2.3,
+   "signals": [
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "4",
+    "3",
+    "5",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "retentionandinfluence.retain_engage_pivot -> engagement.engage_reg",
+   "source_table": "retentionandinfluence",
+   "source_column": "retain_engage_pivot",
+   "target_table": "engagement",
+   "target_key": "engage_reg",
+   "source_rows": 52,
+   "source_distinct": 52,
+   "target_rows": 555,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "16",
+    "21",
+    "32",
+    "41"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "retentionandinfluence.retain_loyalty_pivot -> loyaltyandachievements.loyalty_reg",
+   "source_table": "retentionandinfluence",
+   "source_column": "retain_loyalty_pivot",
+   "target_table": "loyaltyandachievements",
+   "target_key": "loyalty_reg",
+   "source_rows": 52,
+   "source_distinct": 52,
+   "target_rows": 64,
+   "score": 4.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "socialcommunity.social_engage_pivot -> engagement.engage_reg",
+   "source_table": "socialcommunity",
+   "source_column": "social_engage_pivot",
+   "target_table": "engagement",
+   "target_key": "engage_reg",
+   "source_rows": 185,
+   "source_distinct": 185,
+   "target_rows": 555,
+   "score": 3.74,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "16",
+    "17",
+    "18",
+    "110",
+    "64"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "socialcommunity.social_commerce_pivot -> commerceandcollection.commerce_reg",
+   "source_table": "socialcommunity",
+   "source_column": "social_commerce_pivot",
+   "target_table": "commerceandcollection",
+   "target_key": "commerce_reg",
+   "source_rows": 185,
+   "source_distinct": 185,
+   "target_rows": 356,
+   "score": 3.95,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "10",
+    "11",
+    "12",
+    "73",
+    "45"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "streaming_session_logs.Idol_Ref_ID -> virtualidols.entity_reg",
+   "source_table": "streaming_session_logs",
+   "source_column": "Idol_Ref_ID",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 150,
+   "source_distinct": 40,
+   "target_rows": 742,
+   "score": 3.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI8895",
+    "VI2854",
+    "VI3837",
+    "VI1517",
+    "VI6535"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "streaming_session_logs.Platform -> platforms.PlatformName",
+   "source_table": "streaming_session_logs",
+   "source_column": "Platform",
+   "target_table": "platforms",
+   "target_key": "PlatformName",
+   "source_rows": 150,
+   "source_distinct": 4,
+   "target_rows": 15,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "Twitch",
+    "Bilibili",
+    "Niconico",
+    "YouTube"
+   ],
+   "target_samples": [
+    "Apple Music",
+    "Bilibili",
+    "Discord",
+    "IdolSpace",
+    "Instagram"
+   ]
+  },
+  {
+   "id": "supportandfeedback.support_interact_pivot -> interactions.activity_reg",
+   "source_table": "supportandfeedback",
+   "source_column": "support_interact_pivot",
+   "target_table": "interactions",
+   "target_key": "activity_reg",
+   "source_rows": 39,
+   "source_distinct": 39,
+   "target_rows": 821,
+   "score": 3.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "FI814576",
+    "FI648876",
+    "FI817373",
+    "FI266894",
+    "FI588158"
+   ],
+   "target_samples": [
+    "FI104028",
+    "FI105371",
+    "FI105590",
+    "FI107030",
+    "FI108189"
+   ]
+  },
+  {
+   "id": "supportandfeedback.support_pref_pivot -> preferencesandsettings.pref_reg",
+   "source_table": "supportandfeedback",
+   "source_column": "support_pref_pivot",
+   "target_table": "preferencesandsettings",
+   "target_key": "pref_reg",
+   "source_rows": 39,
+   "source_distinct": 39,
+   "target_rows": 106,
+   "score": 3.66,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "4",
+    "5",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "virtual_idol_lore_and_storylines.Idol_Registration_ID -> virtualidols.entity_reg",
+   "source_table": "virtual_idol_lore_and_storylines",
+   "source_column": "Idol_Registration_ID",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 50,
+   "source_distinct": 30,
+   "target_rows": 742,
+   "score": 3.26,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI2016",
+    "VI6182",
+    "VI6535",
+    "VI4162",
+    "VI3113"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "virtual_idol_performance_metrics.Idol_Entity_Identifier -> virtualidols.entity_reg",
+   "source_table": "virtual_idol_performance_metrics",
+   "source_column": "Idol_Entity_Identifier",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 280,
+   "source_distinct": 40,
+   "target_rows": 742,
+   "score": 3.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI6888",
+    "VI3837",
+    "VI5159",
+    "VI2854",
+    "VI1123"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "virtual_idol_performance_metrics.streaming_platform -> platforms.PlatformName",
+   "source_table": "virtual_idol_performance_metrics",
+   "source_column": "streaming_platform",
+   "target_table": "platforms",
+   "target_key": "PlatformName",
+   "source_rows": 280,
+   "source_distinct": 4,
+   "target_rows": 15,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "Bilibili",
+    "YouTube",
+    "Niconico",
+    "Twitch"
+   ],
+   "target_samples": [
+    "Apple Music",
+    "Bilibili",
+    "Discord",
+    "IdolSpace",
+    "Instagram"
+   ]
+  },
+  {
+   "id": "virtual_idol_performance_metrics.fan_art_submissions_per_day -> interest_tags.TAG_ID",
+   "source_table": "virtual_idol_performance_metrics",
+   "source_column": "fan_art_submissions_per_day",
+   "target_table": "interest_tags",
+   "target_key": "TAG_ID",
+   "source_rows": 280,
+   "source_distinct": 46,
+   "target_rows": 50,
+   "score": 3.8,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "15.0",
+    "40.0",
+    "9.0",
+    "38.0",
+    "25.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "virtual_idol_sponsorships.Idol_Record_ID -> virtualidols.entity_reg",
+   "source_table": "virtual_idol_sponsorships",
+   "source_column": "Idol_Record_ID",
+   "target_table": "virtualidols",
+   "target_key": "entity_reg",
+   "source_rows": 50,
+   "source_distinct": 29,
+   "target_rows": 742,
+   "score": 3.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VI8845",
+    "VI1686",
+    "VI5325",
+    "VI6888",
+    "VI2622"
+   ],
+   "target_samples": [
+    "VI1003",
+    "VI1013",
+    "VI1014",
+    "VI1020",
+    "VI1045"
+   ]
+  },
+  {
+   "id": "virtual_idol_sponsorships.SponsorCompanyName -> sponsors.SponsorName",
+   "source_table": "virtual_idol_sponsorships",
+   "source_column": "SponsorCompanyName",
+   "target_table": "sponsors",
+   "target_key": "SponsorName",
+   "source_rows": 50,
+   "source_distinct": 8,
+   "target_rows": 30,
+   "score": 3.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "CyberCore Energy",
+    "FutureFunk Foods",
+    "Nebula Noodles",
+    "SynthWave Apparel",
+    "Quantum Beats Headsets"
+   ],
+   "target_samples": [
+    "Analog Arcade",
+    "Avatar Attire",
+    "Bassline Broadcasting",
+    "Chrome Catwalk",
+    "Circuit Snacks"
+   ]
+  },
+  {
+   "id": "additionalnotes.notes_reg -> retentionandinfluence.ret_reg",
+   "source_table": "additionalnotes",
+   "source_column": "notes_reg",
+   "target_table": "retentionandinfluence",
+   "target_key": "ret_reg",
+   "source_rows": 52,
+   "source_distinct": 52,
+   "target_rows": 52,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "club_roles.RoleID -> platforms.platform_id",
+   "source_table": "club_roles",
+   "source_column": "RoleID",
+   "target_table": "platforms",
+   "target_key": "platform_id",
+   "source_rows": 15,
+   "source_distinct": 15,
+   "target_rows": 15,
+   "score": 3.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "commerceandcollection.commerce_reg -> engagement.engage_reg",
+   "source_table": "commerceandcollection",
+   "source_column": "commerce_reg",
+   "target_table": "engagement",
+   "target_key": "engage_reg",
+   "source_rows": 356,
+   "source_distinct": 356,
+   "target_rows": 555,
+   "score": 2.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "designers.DESIGNER_ID -> genres.GenreID",
+   "source_table": "designers",
+   "source_column": "DESIGNER_ID",
+   "target_table": "genres",
+   "target_key": "GenreID",
+   "source_rows": 25,
+   "source_distinct": 25,
+   "target_rows": 25,
+   "score": 3.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "engagement.engage_reg -> membershipandspending.member_reg",
+   "source_table": "engagement",
+   "source_column": "engage_reg",
+   "target_table": "membershipandspending",
+   "target_key": "member_reg",
+   "source_rows": 555,
+   "source_distinct": 555,
+   "target_rows": 659,
+   "score": 3.02,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "eventsandclub.events_reg -> streaming_session_logs.session_log_id",
+   "source_table": "eventsandclub",
+   "source_column": "events_reg",
+   "target_table": "streaming_session_logs",
+   "target_key": "session_log_id",
+   "source_rows": 117,
+   "source_distinct": 117,
+   "target_rows": 150,
+   "score": 2.83,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_club_roles_map.fan_club_role_id -> sponsors.SPONSOR_ID",
+   "source_table": "fan_club_roles_map",
+   "source_column": "fan_club_role_id",
+   "target_table": "sponsors",
+   "target_key": "SPONSOR_ID",
+   "source_rows": 30,
+   "source_distinct": 30,
+   "target_rows": 30,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_interest_tags_map.fan_interest_tag_id -> idol_training_and_development.TrainingModuleID",
+   "source_table": "fan_interest_tags_map",
+   "source_column": "fan_interest_tag_id",
+   "target_table": "idol_training_and_development",
+   "target_key": "TrainingModuleID",
+   "source_rows": 70,
+   "source_distinct": 70,
+   "target_rows": 70,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_sentiment_analysis.SentimentID -> idol_asset_management.ASSET_ID",
+   "source_table": "fan_sentiment_analysis",
+   "source_column": "SentimentID",
+   "target_table": "idol_asset_management",
+   "target_key": "ASSET_ID",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fan_technical_profile.technical_profile_id -> loyaltyandachievements.loyalty_reg",
+   "source_table": "fan_technical_profile",
+   "source_column": "technical_profile_id",
+   "target_table": "loyaltyandachievements",
+   "target_key": "loyalty_reg",
+   "source_rows": 60,
+   "source_distinct": 60,
+   "target_rows": 64,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "genres.GenreID -> designers.DESIGNER_ID",
+   "source_table": "genres",
+   "source_column": "GenreID",
+   "target_table": "designers",
+   "target_key": "DESIGNER_ID",
+   "source_rows": 25,
+   "source_distinct": 25,
+   "target_rows": 25,
+   "score": 3.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_asset_management.ASSET_ID -> fan_sentiment_analysis.SentimentID",
+   "source_table": "idol_asset_management",
+   "source_column": "ASSET_ID",
+   "target_table": "fan_sentiment_analysis",
+   "target_key": "SentimentID",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_content_platforms_map.idol_platform_id -> idol_skill_sets_map.idol_skill_id",
+   "source_table": "idol_content_platforms_map",
+   "source_column": "idol_platform_id",
+   "target_table": "idol_skill_sets_map",
+   "target_key": "idol_skill_id",
+   "source_rows": 199,
+   "source_distinct": 199,
+   "target_rows": 201,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_genre_map.idol_genre_id -> fan_sentiment_analysis.SentimentID",
+   "source_table": "idol_genre_map",
+   "source_column": "idol_genre_id",
+   "target_table": "fan_sentiment_analysis",
+   "target_key": "SentimentID",
+   "source_rows": 76,
+   "source_distinct": 76,
+   "target_rows": 80,
+   "score": 3.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_skill_sets_map.idol_skill_id -> virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID",
+   "source_table": "idol_skill_sets_map",
+   "source_column": "idol_skill_id",
+   "target_table": "virtual_idol_performance_metrics",
+   "target_key": "PERFORMANCE_METRIC_ID",
+   "source_rows": 201,
+   "source_distinct": 201,
+   "target_rows": 280,
+   "score": 2.65,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "idol_training_and_development.TrainingModuleID -> fan_interest_tags_map.fan_interest_tag_id",
+   "source_table": "idol_training_and_development",
+   "source_column": "TrainingModuleID",
+   "target_table": "fan_interest_tags_map",
+   "target_key": "fan_interest_tag_id",
+   "source_rows": 70,
+   "source_distinct": 70,
+   "target_rows": 70,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "interest_tags.TAG_ID -> virtual_idol_lore_and_storylines.lore_id",
+   "source_table": "interest_tags",
+   "source_column": "TAG_ID",
+   "target_table": "virtual_idol_lore_and_storylines",
+   "target_key": "lore_id",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "loyaltyandachievements.loyalty_reg -> fan_interest_tags_map.fan_interest_tag_id",
+   "source_table": "loyaltyandachievements",
+   "source_column": "loyalty_reg",
+   "target_table": "fan_interest_tags_map",
+   "target_key": "fan_interest_tag_id",
+   "source_rows": 64,
+   "source_distinct": 64,
+   "target_rows": 70,
+   "score": 3.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "market_analysis_and_trends.AnalysisID -> event_logistics_and_planning.EventLogisticsID",
+   "source_table": "market_analysis_and_trends",
+   "source_column": "AnalysisID",
+   "target_table": "event_logistics_and_planning",
+   "target_key": "EventLogisticsID",
+   "source_rows": 45,
+   "source_distinct": 45,
+   "target_rows": 50,
+   "score": 3.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "3001",
+    "3002",
+    "3003",
+    "3004",
+    "3005"
+   ],
+   "target_samples": [
+    "3000",
+    "3001",
+    "3002",
+    "3003",
+    "3004"
+   ]
+  },
+  {
+   "id": "moderationandcompliance.mod_reg -> designers.DESIGNER_ID",
+   "source_table": "moderationandcompliance",
+   "source_column": "mod_reg",
+   "target_table": "designers",
+   "target_key": "DESIGNER_ID",
+   "source_rows": 25,
+   "source_distinct": 25,
+   "target_rows": 25,
+   "score": 3.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "physics_simulation_data.SimulationID -> club_roles.RoleID",
+   "source_table": "physics_simulation_data",
+   "source_column": "SimulationID",
+   "target_table": "club_roles",
+   "target_key": "RoleID",
+   "source_rows": 10,
+   "source_distinct": 10,
+   "target_rows": 15,
+   "score": 2.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "platforms.platform_id -> club_roles.RoleID",
+   "source_table": "platforms",
+   "source_column": "platform_id",
+   "target_table": "club_roles",
+   "target_key": "RoleID",
+   "source_rows": 15,
+   "source_distinct": 15,
+   "target_rows": 15,
+   "score": 3.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "preferencesandsettings.pref_reg -> eventsandclub.events_reg",
+   "source_table": "preferencesandsettings",
+   "source_column": "pref_reg",
+   "target_table": "eventsandclub",
+   "target_key": "events_reg",
+   "source_rows": 106,
+   "source_distinct": 106,
+   "target_rows": 117,
+   "score": 3.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "retentionandinfluence.ret_reg -> additionalnotes.notes_reg",
+   "source_table": "retentionandinfluence",
+   "source_column": "ret_reg",
+   "target_table": "additionalnotes",
+   "target_key": "notes_reg",
+   "source_rows": 52,
+   "source_distinct": 52,
+   "target_rows": 52,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "skills.skill_id -> interest_tags.TAG_ID",
+   "source_table": "skills",
+   "source_column": "skill_id",
+   "target_table": "interest_tags",
+   "target_key": "TAG_ID",
+   "source_rows": 40,
+   "source_distinct": 40,
+   "target_rows": 50,
+   "score": 2.86,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "socialcommunity.social_reg -> idol_content_platforms_map.idol_platform_id",
+   "source_table": "socialcommunity",
+   "source_column": "social_reg",
+   "target_table": "idol_content_platforms_map",
+   "target_key": "idol_platform_id",
+   "source_rows": 185,
+   "source_distinct": 185,
+   "target_rows": 199,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsors.SPONSOR_ID -> fan_club_roles_map.fan_club_role_id",
+   "source_table": "sponsors",
+   "source_column": "SPONSOR_ID",
+   "target_table": "fan_club_roles_map",
+   "target_key": "fan_club_role_id",
+   "source_rows": 30,
+   "source_distinct": 30,
+   "target_rows": 30,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "streaming_session_logs.session_log_id -> socialcommunity.social_reg",
+   "source_table": "streaming_session_logs",
+   "source_column": "session_log_id",
+   "target_table": "socialcommunity",
+   "target_key": "social_reg",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 185,
+   "score": 2.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "supportandfeedback.support_reg -> skills.skill_id",
+   "source_table": "supportandfeedback",
+   "source_column": "support_reg",
+   "target_table": "skills",
+   "target_key": "skill_id",
+   "source_rows": 39,
+   "source_distinct": 39,
+   "target_rows": 40,
+   "score": 3.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "virtual_idol_lore_and_storylines.lore_id -> interest_tags.TAG_ID",
+   "source_table": "virtual_idol_lore_and_storylines",
+   "source_column": "lore_id",
+   "target_table": "interest_tags",
+   "target_key": "TAG_ID",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID -> commerceandcollection.commerce_reg",
+   "source_table": "virtual_idol_performance_metrics",
+   "source_column": "PERFORMANCE_METRIC_ID",
+   "target_table": "commerceandcollection",
+   "target_key": "commerce_reg",
+   "source_rows": 280,
+   "source_distinct": 280,
+   "target_rows": 356,
+   "score": 2.85,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "virtual_idol_sponsorships.sponsorship_id -> interest_tags.TAG_ID",
+   "source_table": "virtual_idol_sponsorships",
+   "source_column": "sponsorship_id",
+   "target_table": "interest_tags",
+   "target_key": "TAG_ID",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

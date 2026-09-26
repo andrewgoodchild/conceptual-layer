@@ -1,0 +1,42 @@
+[
+ {
+  "instance_id": "exchange_traded_funds_1",
+  "answer": "WITH hq AS (SELECT ba.fundlink AS fundlink, SUM(CASE WHEN br.credit_scoringmark IN ('us_government', 'aaa', 'aa') THEN ba.allocationpct ELSE 0 END) AS hq_alloc FROM bond_allocations ba JOIN bond_ratings br ON br.ratekey = ba.ratinglink GROUP BY ba.fundlink), base AS (SELECT f.tickersym AS tickersym, f.shortlabel AS shortlabel, f.yieldrate / NULLIF(f.expensenet, 0) AS yter, hq.hq_alloc AS hq_alloc FROM funds f JOIN hq ON hq.fundlink = f.tickersym WHERE f.yieldrate / NULLIF(f.expensenet, 0) > 15 AND hq.hq_alloc > 0.6) SELECT tickersym, shortlabel, RANK() OVER (ORDER BY yter * hq_alloc DESC) AS premier_rank, yter * hq_alloc AS secure_income_efficiency_score FROM base ORDER BY secure_income_efficiency_score DESC;",
+  "note": "Premier Income Fund = YTER > 15 and government+AAA+AA allocation > 60% of bond holdings. bond_allocations.allocationpct is a fraction summing to 1.0 per fund, so the threshold is 0.6 and SIES multiplies YTER by the fractional high-quality allocation (multiplying by the percentage form instead would scale every score by 100). 27 funds qualify."
+ },
+ {
+  "instance_id": "exchange_traded_funds_10",
+  "answer": "WITH g AS (SELECT CASE WHEN f.pe_ratio IS NOT NULL AND f.pb_ratio IS NOT NULL THEN 'Transparent' ELSE 'Opaque' END AS transparency_group, p.r1y AS r1y FROM funds f JOIN performance p ON p.productref = f.tickersym), counts AS (SELECT transparency_group, COUNT(*) AS fund_count FROM g GROUP BY transparency_group), ranked AS (SELECT transparency_group, r1y, ROW_NUMBER() OVER (PARTITION BY transparency_group ORDER BY r1y) AS rn, COUNT(*) OVER (PARTITION BY transparency_group) AS n FROM g WHERE r1y IS NOT NULL), med AS (SELECT transparency_group, AVG(r1y) AS median_1y_return FROM ranked WHERE rn IN ((n + 1) / 2, (n + 2) / 2) GROUP BY transparency_group) SELECT c.transparency_group, c.fund_count, ROUND(m.median_1y_return, 4) AS median_1y_return FROM counts c JOIN med m ON m.transparency_group = c.transparency_group;",
+  "note": "Missing P/E and P/B are stored as SQL NULL (the 'nan' in the schema dump), and every fund with a P/E also has a P/B, so the split is 1493 Transparent / 813 Opaque. fund_count counts all funds in the group; the median is taken over the funds that actually report a 1-year return (1243 / 670). If fund_count was meant to count only funds with a 1-year return it would be 1243 and 670 instead."
+ },
+ {
+  "instance_id": "exchange_traded_funds_12",
+  "answer": "WITH amv_calc AS (SELECT f.tickersym AS tickersym, (r.avgreturn3y - p.benchr3y) / NULLIF(r.volatility3y, 0) - (f.expensenet - f.benchmarkexp) * 10 AS amv FROM funds f JOIN risk_metrics r ON r.investmentref = f.tickersym JOIN performance p ON p.productref = f.tickersym) SELECT tickersym, ROUND(amv, 4) AS amv, (SELECT ROUND(100.0 * COUNT(CASE WHEN amv > 0 THEN 1 END) / COUNT(amv), 4) FROM amv_calc) AS pct_funds_positive_amv FROM amv_calc WHERE amv IS NOT NULL ORDER BY amv DESC LIMIT 10;",
+  "note": "AMV = Information Ratio - (Relative Expense Ratio * 10). IR uses risk_metrics.avgreturn3y (the only '3-year average return' column) minus performance.benchr3y over volatility3y; note the two are on different scales (avgreturn3y/volatility3y look like percent units, benchr3y is a decimal), but these are the only matching columns. The scalar percentage is computed over the 1008 funds for which AMV is computable (93.9484%); if 'all funds' meant all 2306 rows of funds the figure would instead be 41.0668%."
+ },
+ {
+  "instance_id": "exchange_traded_funds_13",
+  "answer": "SELECT COUNT(*) AS total_focused_alpha_leaders FROM funds f JOIN risk_metrics r ON r.investmentref = f.tickersym JOIN (SELECT instrumentref, MAX(holdingpct) AS max_holding FROM holdings GROUP BY instrumentref) h ON h.instrumentref = f.tickersym WHERE r.alpha5y > 0 AND h.max_holding > 0.08;",
+  "note": "Focused Alpha Leader = Alpha Generator (alpha5y > 0) AND High-Conviction Portfolio. performance.topweight is 100% NULL in this DB, so the largest-holding weight is taken as MAX(holdings.holdingpct); holdingpct is a fraction, so 8% is 0.08. Result: 144."
+ },
+ {
+  "instance_id": "exchange_traded_funds_14",
+  "answer": "SELECT ROUND(AVG(((r.avgreturn3y - p.benchr3y) / NULLIF(r.volatility3y, 0)) * ((p.positiveyears * 1.0 / NULLIF(p.positiveyears + p.negativeyears, 0)) * 100) / 100.0), 2) AS avg_consistency_adjusted_information_ratio FROM funds f JOIN risk_metrics r ON r.investmentref = f.tickersym JOIN performance p ON p.productref = f.tickersym;",
+  "note": "CAIR = IR * (Positive Return Consistency / 100), averaged over the 1008 funds where every input exists (AVG skips NULLs). Same IR scale caveat as question 12: using avgreturn3y - benchr3y gives 0.05; using performance.r3y - benchr3y instead would give 0.00, which looks like a less likely intended answer."
+ },
+ {
+  "instance_id": "exchange_traded_funds_2",
+  "answer": "WITH yearly AS (SELECT ar.calendaryear AS calendaryear, ar.fundperf - ar.categoryperf AS outperformance FROM annual_returns ar WHERE ar.portfolioref = 'AADR'), l AS (SELECT calendaryear, outperformance, LAG(outperformance) OVER (ORDER BY calendaryear) AS prev_year_outperformance FROM yearly) SELECT calendaryear, outperformance, prev_year_outperformance, outperformance - prev_year_outperformance AS yoy_change FROM l ORDER BY calendaryear;",
+  "note": "AADR has 15 rows in annual_returns (2006-2020) but both fundperf and categoryperf are present only for 2011-2015, so the other years return NULL outperformance. Rows are not filtered, on the reading that the question asks for 'each calendar year'; a gold that filters to years with a computable outperformance would return only 2011-2015."
+ },
+ {
+  "instance_id": "exchange_traded_funds_8",
+  "answer": "WITH d AS (SELECT f.productclass AS productclass, f.turnoverratio AS x, r.alpha3y AS y FROM funds f JOIN risk_metrics r ON r.investmentref = f.tickersym WHERE f.productclass IS NOT NULL AND f.turnoverratio IS NOT NULL AND r.alpha3y IS NOT NULL), s AS (SELECT productclass, COUNT(*) AS n, SUM(x) AS sx, SUM(y) AS sy, SUM(x * x) AS sxx, SUM(y * y) AS syy, SUM(x * y) AS sxy FROM d GROUP BY productclass HAVING COUNT(*) > 25) SELECT productclass, n AS fund_count, ROUND((n * sxy - sx * sy) / NULLIF(n * sxx - sx * sx, 0), 4) AS alpha_turnover_slope, ROUND((n * sxy - sx * sy) * (n * sxy - sx * sy) / NULLIF((n * sxx - sx * sx) * (n * syy - sy * sy), 0), 4) AS r_squared FROM s ORDER BY alpha_turnover_slope DESC LIMIT 100;",
+  "note": "OLS of alpha3y (Y) on turnoverratio (X) per productclass. 'More than 25 funds' is applied to the regression sample (funds having both alpha3y and turnoverratio), giving 9 classes; if the threshold were meant against every fund in the class regardless of missing data, 18 classes would qualify (e.g. Trading--Inverse Equity has 65 funds but only 6 usable). Only 9 rows exist, so the top-100 limit is not binding."
+ },
+ {
+  "instance_id": "exchange_traded_funds_9",
+  "answer": "WITH cvp AS (SELECT f.tickersym AS tickersym, f.shortlabel AS shortlabel, ((p.low52w + p.lowdelta) - p.low52w) * 100.0 / NULLIF(p.high52w - p.low52w, 0) AS price_position FROM funds f JOIN performance p ON p.productref = f.tickersym WHERE f.turnoverratio < 0.3 AND (f.expensenet - f.benchmarkexp) < 0) SELECT tickersym, shortlabel, ROUND(price_position, 8) AS price_position FROM cvp WHERE price_position < 25 ORDER BY price_position ASC LIMIT 100;",
+  "note": "There is no explicit current-price column; the recent price is reconstructed as low52w + lowdelta (verified consistent with high52w + highdelta and with rangemove). Turnover is stored as a fraction so Low-Turnover is turnoverratio < 0.3. Only 52 funds qualify, so the top-100 limit is not binding."
+ }
+]

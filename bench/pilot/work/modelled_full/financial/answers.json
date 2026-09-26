@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 137,
+  "answer": "SELECT COUNT(DISTINCT loan.account_id) FROM loan JOIN account ON loan.account_id = account.account_id WHERE account.district_id = 1 AND loan.status IN ('C','D');",
+  "attempts": 1
+ },
+ {
+  "question_id": 173,
+  "answer": "SELECT (SELECT COUNT(*) FROM trans WHERE account_id = 3 AND k_symbol = 'SLUZBY') AS statement_release_count, (SELECT DISTINCT k_symbol FROM trans WHERE account_id = 3 AND amount = 3539) AS debit_aim;",
+  "attempts": 2
+ },
+ {
+  "question_id": 92,
+  "answer": "SELECT COUNT(DISTINCT district.district_id) FROM district JOIN client ON district.district_id = client.district_id WHERE client.gender = 'F' AND district.A11 > 6000 AND district.A11 < 10000;",
+  "attempts": 1
+ },
+ {
+  "question_id": 189,
+  "answer": "SELECT disp.account_id FROM disp INNER JOIN client ON disp.client_id = client.client_id INNER JOIN district ON client.district_id = district.district_id WHERE client.gender = 'F' ORDER BY client.birth_date ASC, district.A11 ASC LIMIT 1;",
+  "attempts": 1
+ },
+ {
+  "question_id": 128,
+  "answer": "SELECT district.A2 FROM district INNER JOIN client ON district.district_id = client.district_id WHERE client.gender = 'F' GROUP BY district.district_id ORDER BY COUNT(client.client_id) DESC LIMIT 9;",
+  "attempts": 1
+ },
+ {
+  "question_id": 89,
+  "answer": "SELECT COUNT(*) FROM account JOIN district ON account.district_id = district.district_id WHERE account.frequency = 'POPLATEK PO OBRATU' AND district.A3 = 'east Bohemia';",
+  "attempts": 1
+ }
+]

@@ -1,0 +1,12 @@
+[
+ {"question_id": 604, "answer": "LIST au, aa FROM THE AVERAGE v IN (User u1 has UserUpVotes v WHERE (THE COUNT OF Post [has owner User: !u1]) > 10) AS au AND ALSO THE AVERAGE w IN (User u2 has UserAge w WHERE (THE COUNT OF Post [has owner User: !u2]) > 10) AS aa", "attempts": 2},
+ {"question_id": 584, "answer": "LIST ct FROM DISTINCT Post [has PostTitle: 'Why square the difference instead of taking the absolute value in standard deviation?'] is of PostHistory has User is of Comment has CommentText ct", "attempts": 3},
+ {"question_id": 537, "answer": "THE COUNT OF Post [has owner User has UserDisplayName: 'csgillespie']", "attempts": 1},
+ {"question_id": 704, "answer": "LIST pid, wpid FROM Tag [has TagName: 'sample'] OPTIONALLY has Post has PostId pid AND ALSO OPTIONALLY has TagWikiPostId wpid", "attempts": 1},
+ {"question_id": 665, "answer": "THE COUNT OF PostLink [has PostLinkCreationDate c WHERE year(c) = 2010] [has Post has PostAnswerCount a WHERE a <= 2] / 12", "attempts": 1},
+ {"question_id": 672, "answer": "THE COUNT OF u1 IN (User u1 [has UserLocation: 'United Kingdom'] WHERE (THE SUM OF f IN Post [has owner User: !u1] has PostFavoriteCount f) >= 4)", "attempts": 3},
+ {"question_id": 701, "answer": "THE COUNT OF Post [has owner User has UserReputation r WHERE r = THE MAXIMUM User has UserReputation] [has PostScore s WHERE s > 50] * 100 / THE COUNT OF Post [has owner User has UserReputation r WHERE r = THE MAXIMUM User has UserReputation]", "attempts": 1},
+ {"question_id": 567, "answer": "THE COUNT OF Post [has owner User has UserDisplayName: 'Tiago Pasqualini']", "attempts": 1},
+ {"question_id": 539, "answer": "LIST dn FROM Post [has PostTitle: 'Eliciting priors from experts'] has owner User has UserDisplayName dn", "attempts": 1},
+ {"question_id": 563, "answer": "LIST f FROM Comment [has User has UserId: '3025'] [has CommentCreationDate: '2014-04-23 20:29:39.0'] has Post has PostFavoriteCount f", "attempts": 2}
+]

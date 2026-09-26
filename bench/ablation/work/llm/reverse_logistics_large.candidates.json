@@ -1,0 +1,2870 @@
+{
+ "database": "reverse_logistics_large",
+ "tables": [
+  "appeal_compliance_checks",
+  "automated_sorting_machine_events",
+  "carrier_invoice_reconciliations",
+  "carrier_supported_regions",
+  "case_escalation_records",
+  "case_management",
+  "circular_economy_impact_reports",
+  "customer_appeals_records",
+  "customer_communication_logs",
+  "customers",
+  "disposal_vendors",
+  "dropoff_location_audits",
+  "employees",
+  "environmental_alert_history",
+  "financial_management",
+  "financial_transaction_audits",
+  "fraud_detection_rules",
+  "freight_audit_discrepancies",
+  "liquidation_auction_lots",
+  "liquidation_buyer_feedback",
+  "omnichannel_return_points",
+  "order_shipment_details",
+  "orders",
+  "packaging_compliance_certs",
+  "product_component_details",
+  "product_disposal_guidelines",
+  "product_supplier_link",
+  "products",
+  "quality_assessment",
+  "recycled_material_sales",
+  "refurb_qa_checklists",
+  "refurbishment_job_logs",
+  "repair_parts_inventory",
+  "return_fraud_flags",
+  "return_package_inspections",
+  "return_packaging_inventory",
+  "return_processing",
+  "returns",
+  "service_level_agreements",
+  "sorter_jam_incidents",
+  "supplier_recovery_claims",
+  "suppliers",
+  "transportation_carriers",
+  "vendor_credit_memos",
+  "warehouse_climate_sensor_logs",
+  "warehouse_staff_assignments",
+  "warehouses"
+ ],
+ "candidates": [
+  {
+   "id": "appeal_compliance_checks.target_appeal_ref -> customer_appeals_records.appeal_record_ref",
+   "source_table": "appeal_compliance_checks",
+   "source_column": "target_appeal_ref",
+   "target_table": "customer_appeals_records",
+   "target_key": "appeal_record_ref",
+   "source_rows": 8562,
+   "source_distinct": 3320,
+   "target_rows": 3727,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "-CE7026FF",
+    "-3845356E",
+    "-235DCD10",
+    "-60C0B0F9",
+    "-433603B9"
+   ],
+   "target_samples": [
+    "-00244335",
+    "-00256255",
+    "-0027220E",
+    "-003DC8AE",
+    "-004C09D2"
+   ]
+  },
+  {
+   "id": "automated_sorting_machine_events.facility_code_ref -> warehouses.warehouse_code",
+   "source_table": "automated_sorting_machine_events",
+   "source_column": "facility_code_ref",
+   "target_table": "warehouses",
+   "target_key": "warehouse_code",
+   "source_rows": 86,
+   "source_distinct": 25,
+   "target_rows": 25,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WH-A39-019",
+    "WH-YB9-021",
+    "WH-DSU-022",
+    "WH-CVY-017",
+    "WH-SID-011"
+   ],
+   "target_samples": [
+    "WH-34K-010",
+    "WH-43E-013",
+    "WH-4CN-006",
+    "WH-51H-025",
+    "WH-5K3-009"
+   ]
+  },
+  {
+   "id": "automated_sorting_machine_events.sorted_item_ref -> case_management.casetie",
+   "source_table": "automated_sorting_machine_events",
+   "source_column": "sorted_item_ref",
+   "target_table": "case_management",
+   "target_key": "casetie",
+   "source_rows": 86,
+   "source_distinct": 84,
+   "target_rows": 1500,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RL435958",
+    "RL776546",
+    "RL989501",
+    "RL200617",
+    "RL702688"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "carrier_invoice_reconciliations.shipment_tracking_ref -> order_shipment_details.shipment_tracking_id",
+   "source_table": "carrier_invoice_reconciliations",
+   "source_column": "shipment_tracking_ref",
+   "target_table": "order_shipment_details",
+   "target_key": "shipment_tracking_id",
+   "source_rows": 149,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3GKXHP1QVXQK5MZ",
+    "A0N1S4JL7N7ZWFU",
+    "GP2DZJYQIALSRL5",
+    "OAS9I06KMLDSS27",
+    "5JMD9GKK7K9Z3G1"
+   ],
+   "target_samples": [
+    "397JH6GR6FRFZ1K",
+    "3GKXHP1QVXQK5MZ",
+    "4FOPJHDLOOIPEVU",
+    "584OL4C15309BS8",
+    "5A1SJH6JEAK3XD1"
+   ]
+  },
+  {
+   "id": "carrier_invoice_reconciliations.carrier_entity_ref -> transportation_carriers.carrier_id",
+   "source_table": "carrier_invoice_reconciliations",
+   "source_column": "carrier_entity_ref",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 149,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9",
+    "17",
+    "13",
+    "10",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "carrier_supported_regions.servicing_carrier_id -> transportation_carriers.carrier_id",
+   "source_table": "carrier_supported_regions",
+   "source_column": "servicing_carrier_id",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 50,
+   "source_distinct": 19,
+   "target_rows": 20,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9",
+    "16",
+    "15",
+    "18",
+    "13"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "case_escalation_records.originating_case_link -> case_management.casetie",
+   "source_table": "case_escalation_records",
+   "source_column": "originating_case_link",
+   "target_table": "case_management",
+   "target_key": "casetie",
+   "source_rows": 40,
+   "source_distinct": 40,
+   "target_rows": 1500,
+   "score": 3.15,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RL130597",
+    "RL201778",
+    "RL156055",
+    "RL847845",
+    "RL100182"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "case_escalation_records.escalated_from_agent_id -> employees.EMPLOYEE_ID",
+   "source_table": "case_escalation_records",
+   "source_column": "escalated_from_agent_id",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 40,
+   "source_distinct": 28,
+   "target_rows": 50,
+   "score": 3.86,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1049",
+    "1006",
+    "1012",
+    "1028",
+    "1020"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "case_escalation_records.ESCALATED_TO_TIER -> transportation_carriers.carrier_id",
+   "source_table": "case_escalation_records",
+   "source_column": "ESCALATED_TO_TIER",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 40,
+   "source_distinct": 2,
+   "target_rows": 20,
+   "score": 2.6,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "case_escalation_records.current_assigned_agent_id -> employees.EMPLOYEE_ID",
+   "source_table": "case_escalation_records",
+   "source_column": "current_assigned_agent_id",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 40,
+   "source_distinct": 23,
+   "target_rows": 50,
+   "score": 3.86,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1015",
+    "1033",
+    "1004",
+    "1017",
+    "1047"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "case_escalation_records.manager_approval_id -> employees.EMPLOYEE_ID",
+   "source_table": "case_escalation_records",
+   "source_column": "manager_approval_id",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 40,
+   "source_distinct": 10,
+   "target_rows": 50,
+   "score": 2.95,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1030",
+    "1003",
+    "1021",
+    "1001",
+    "1035"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "case_escalation_records.resolution_satisfaction_score -> transportation_carriers.carrier_id",
+   "source_table": "case_escalation_records",
+   "source_column": "resolution_satisfaction_score",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 40,
+   "source_distinct": 5,
+   "target_rows": 20,
+   "score": 2.15,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "5",
+    "1",
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "case_management.satisfscore -> transportation_carriers.carrier_id",
+   "source_table": "case_management",
+   "source_column": "satisfscore",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 1500,
+   "source_distinct": 5,
+   "target_rows": 20,
+   "score": 2.15,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "5",
+    "1",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "circular_economy_impact_reports.return_case_ref -> case_management.casetie",
+   "source_table": "circular_economy_impact_reports",
+   "source_column": "return_case_ref",
+   "target_table": "case_management",
+   "target_key": "casetie",
+   "source_rows": 4666,
+   "source_distinct": 1420,
+   "target_rows": 1500,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RL480119",
+    "RL363579",
+    "RL206565",
+    "RL258927",
+    "RL619337"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "circular_economy_impact_reports.disposal_guideline_ref -> product_disposal_guidelines.guideline_id",
+   "source_table": "circular_economy_impact_reports",
+   "source_column": "disposal_guideline_ref",
+   "target_table": "product_disposal_guidelines",
+   "target_key": "guideline_id",
+   "source_rows": 4666,
+   "source_distinct": 65,
+   "target_rows": 65,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4035",
+    "4063",
+    "4007",
+    "4048",
+    "4051"
+   ],
+   "target_samples": [
+    "4000",
+    "4001",
+    "4002",
+    "4003",
+    "4004"
+   ]
+  },
+  {
+   "id": "customer_appeals_records.disputed_return_ref -> case_management.casetie",
+   "source_table": "customer_appeals_records",
+   "source_column": "disputed_return_ref",
+   "target_table": "case_management",
+   "target_key": "casetie",
+   "source_rows": 3727,
+   "source_distinct": 1380,
+   "target_rows": 1500,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RL996277",
+    "RL271986",
+    "RL929523",
+    "RL966932",
+    "RL280111"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "customer_appeals_records.appealing_customer_ref -> customers.profilenum",
+   "source_table": "customer_appeals_records",
+   "source_column": "appealing_customer_ref",
+   "target_table": "customers",
+   "target_key": "profilenum",
+   "source_rows": 3727,
+   "source_distinct": 206,
+   "target_rows": 206,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CUS00020",
+    "CUS00093",
+    "CUS00185",
+    "CUS00167",
+    "CUS00147"
+   ],
+   "target_samples": [
+    "CUS00001",
+    "CUS00002",
+    "CUS00003",
+    "CUS00004",
+    "CUS00005"
+   ]
+  },
+  {
+   "id": "customer_communication_logs.logged_customer_profile -> customers.profilenum",
+   "source_table": "customer_communication_logs",
+   "source_column": "logged_customer_profile",
+   "target_table": "customers",
+   "target_key": "profilenum",
+   "source_rows": 60,
+   "source_distinct": 43,
+   "target_rows": 206,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "CUS00074",
+    "CUS00081",
+    "CUS00063",
+    "CUS00155",
+    "CUS00185"
+   ],
+   "target_samples": [
+    "CUS00001",
+    "CUS00002",
+    "CUS00003",
+    "CUS00004",
+    "CUS00005"
+   ]
+  },
+  {
+   "id": "customer_communication_logs.employee_handler_id -> employees.EMPLOYEE_ID",
+   "source_table": "customer_communication_logs",
+   "source_column": "employee_handler_id",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 60,
+   "source_distinct": 34,
+   "target_rows": 50,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1011",
+    "1046",
+    "1006",
+    "1047",
+    "1016"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "customer_communication_logs.customer_satisfaction_rating -> transportation_carriers.carrier_id",
+   "source_table": "customer_communication_logs",
+   "source_column": "customer_satisfaction_rating",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 60,
+   "source_distinct": 5,
+   "target_rows": 20,
+   "score": 2.15,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "5",
+    "2",
+    "4",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "disposal_vendors.years_in_business -> suppliers.supplier_id",
+   "source_table": "disposal_vendors",
+   "source_column": "years_in_business",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 25,
+   "source_distinct": 20,
+   "target_rows": 60,
+   "score": 3.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "17",
+    "5",
+    "36",
+    "13",
+    "27"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "dropoff_location_audits.target_return_point -> omnichannel_return_points.return_point_code",
+   "source_table": "dropoff_location_audits",
+   "source_column": "target_return_point",
+   "target_table": "omnichannel_return_points",
+   "target_key": "return_point_code",
+   "source_rows": 32,
+   "source_distinct": 16,
+   "target_rows": 24,
+   "score": 4.01,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "-C4732ACE",
+    "-CAD43968",
+    "-6E64F02F",
+    "-AA2EEA89",
+    "-B567A488"
+   ],
+   "target_samples": [
+    "-13B8FDBE",
+    "-1811EB2B",
+    "-2908AE31",
+    "-35CAC8EF",
+    "-49CE7BEA"
+   ]
+  },
+  {
+   "id": "dropoff_location_audits.photo_proof_count -> transportation_carriers.carrier_id",
+   "source_table": "dropoff_location_audits",
+   "source_column": "photo_proof_count",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 32,
+   "source_distinct": 10,
+   "target_rows": 20,
+   "score": 2.42,
+   "signals": [
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "9",
+    "3",
+    "6",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "employees.access_level -> transportation_carriers.carrier_id",
+   "source_table": "employees",
+   "source_column": "access_level",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 50,
+   "source_distinct": 5,
+   "target_rows": 20,
+   "score": 2.15,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "3",
+    "1",
+    "2",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "environmental_alert_history.triggering_log_ref -> warehouse_climate_sensor_logs.sensor_log_sequence",
+   "source_table": "environmental_alert_history",
+   "source_column": "triggering_log_ref",
+   "target_table": "warehouse_climate_sensor_logs",
+   "target_key": "sensor_log_sequence",
+   "source_rows": 94,
+   "source_distinct": 35,
+   "target_rows": 40,
+   "score": 4.27,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "-303478D7",
+    "-BBE79654",
+    "-415ABF64",
+    "-48EDD324",
+    "-6250029A"
+   ],
+   "target_samples": [
+    "-00842C75",
+    "-06CC9A2F",
+    "-0703F37F",
+    "-0C17B6AF",
+    "-271AFE24"
+   ]
+  },
+  {
+   "id": "financial_management.casetag -> case_management.casetie",
+   "source_table": "financial_management",
+   "source_column": "casetag",
+   "target_table": "case_management",
+   "target_key": "casetie",
+   "source_rows": 995,
+   "source_distinct": 995,
+   "target_rows": 1500,
+   "score": 4.15,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RL924605",
+    "RL818285",
+    "RL381491",
+    "RL346441",
+    "RL756298"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "financial_transaction_audits.audited_credit_reference -> financial_management.creditref",
+   "source_table": "financial_transaction_audits",
+   "source_column": "audited_credit_reference",
+   "target_table": "financial_management",
+   "target_key": "creditref",
+   "source_rows": 50,
+   "source_distinct": 30,
+   "target_rows": 995,
+   "score": 3.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "CM44391",
+    "CM27423",
+    "CM76855",
+    "CM35342",
+    "CM77083"
+   ],
+   "target_samples": [
+    "CM10064",
+    "CM10123",
+    "CM10421",
+    "CM10482",
+    "CM10535"
+   ]
+  },
+  {
+   "id": "financial_transaction_audits.rollback_possible -> transportation_carriers.carrier_id",
+   "source_table": "financial_transaction_audits",
+   "source_column": "rollback_possible",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 50,
+   "source_distinct": 1,
+   "target_rows": 20,
+   "score": 2.05,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "financial_transaction_audits.verified_by_auditor_id -> employees.EMPLOYEE_ID",
+   "source_table": "financial_transaction_audits",
+   "source_column": "verified_by_auditor_id",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 50,
+   "source_distinct": 9,
+   "target_rows": 50,
+   "score": 2.81,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1006",
+    "1018",
+    "1001",
+    "1004",
+    "1035"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "financial_transaction_audits.audit_priority -> transportation_carriers.carrier_id",
+   "source_table": "financial_transaction_audits",
+   "source_column": "audit_priority",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 50,
+   "source_distinct": 1,
+   "target_rows": 20,
+   "score": 2.55,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "financial_transaction_audits.related_case_id -> case_management.casetie",
+   "source_table": "financial_transaction_audits",
+   "source_column": "related_case_id",
+   "target_table": "case_management",
+   "target_key": "casetie",
+   "source_rows": 50,
+   "source_distinct": 34,
+   "target_rows": 1500,
+   "score": 3.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RL886688",
+    "RL364374",
+    "RL496030",
+    "RL737405",
+    "RL294767"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "fraud_detection_rules.author_employee_id -> employees.EMPLOYEE_ID",
+   "source_table": "fraud_detection_rules",
+   "source_column": "author_employee_id",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 40,
+   "source_distinct": 27,
+   "target_rows": 50,
+   "score": 3.83,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1038",
+    "1018",
+    "1020",
+    "1023",
+    "1012"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "freight_audit_discrepancies.invoice_recon_ref -> carrier_invoice_reconciliations.invoice_reconciliation_ref",
+   "source_table": "freight_audit_discrepancies",
+   "source_column": "invoice_recon_ref",
+   "target_table": "carrier_invoice_reconciliations",
+   "target_key": "invoice_reconciliation_ref",
+   "source_rows": 334,
+   "source_distinct": 137,
+   "target_rows": 149,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "-D0944C39",
+    "-A6C7D60A",
+    "-017745D1",
+    "-E55459E4",
+    "-D1957199"
+   ],
+   "target_samples": [
+    "-017745D1",
+    "-02F2F85E",
+    "-045C48E6",
+    "-0695FFEC",
+    "-06AD1885"
+   ]
+  },
+  {
+   "id": "liquidation_auction_lots.storage_location_ref -> warehouses.warehouse_code",
+   "source_table": "liquidation_auction_lots",
+   "source_column": "storage_location_ref",
+   "target_table": "warehouses",
+   "target_key": "warehouse_code",
+   "source_rows": 79,
+   "source_distinct": 21,
+   "target_rows": 25,
+   "score": 4.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WH-F3B-015",
+    "WH-T23-005",
+    "WH-NV7-016",
+    "WH-4CN-006",
+    "WH-YF5-003"
+   ],
+   "target_samples": [
+    "WH-34K-010",
+    "WH-43E-013",
+    "WH-4CN-006",
+    "WH-51H-025",
+    "WH-5K3-009"
+   ]
+  },
+  {
+   "id": "liquidation_auction_lots.dominant_sku_ref -> products.itemcode",
+   "source_table": "liquidation_auction_lots",
+   "source_column": "dominant_sku_ref",
+   "target_table": "products",
+   "target_key": "itemcode",
+   "source_rows": 79,
+   "source_distinct": 70,
+   "target_rows": 333,
+   "score": 3.63,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PRD00150",
+    "PRD00175",
+    "PRD00102",
+    "PRD00337",
+    "PRD00094"
+   ],
+   "target_samples": [
+    "PRD00001",
+    "PRD00003",
+    "PRD00004",
+    "PRD00005",
+    "PRD00006"
+   ]
+  },
+  {
+   "id": "liquidation_buyer_feedback.auction_lot_ref -> liquidation_auction_lots.auction_lot_reference",
+   "source_table": "liquidation_buyer_feedback",
+   "source_column": "auction_lot_ref",
+   "target_table": "liquidation_auction_lots",
+   "target_key": "auction_lot_reference",
+   "source_rows": 194,
+   "source_distinct": 69,
+   "target_rows": 79,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "-6B9FA9D2",
+    "-CF6BF166",
+    "-9811AE89",
+    "-F516B9A6",
+    "-4F6F8A00"
+   ],
+   "target_samples": [
+    "-0721266E",
+    "-08AA5195",
+    "-0C96BB49",
+    "-1018367C",
+    "-13759596"
+   ]
+  },
+  {
+   "id": "omnichannel_return_points.pickup_carrier_ref -> transportation_carriers.carrier_id",
+   "source_table": "omnichannel_return_points",
+   "source_column": "pickup_carrier_ref",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 24,
+   "source_distinct": 13,
+   "target_rows": 20,
+   "score": 4.05,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "19",
+    "3",
+    "12",
+    "16"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "omnichannel_return_points.avg_daily_volume_cnt -> transportation_carriers.carrier_id",
+   "source_table": "omnichannel_return_points",
+   "source_column": "avg_daily_volume_cnt",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 24,
+   "source_distinct": 9,
+   "target_rows": 20,
+   "score": 2.76,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "16",
+    "15",
+    "19",
+    "13",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "order_shipment_details.linked_order_transaction -> orders.txnnum",
+   "source_table": "order_shipment_details",
+   "source_column": "linked_order_transaction",
+   "target_table": "orders",
+   "target_key": "txnnum",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 1488,
+   "score": 3.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ORD16220",
+    "ORD48790",
+    "ORD41936",
+    "ORD27497",
+    "ORD49345"
+   ],
+   "target_samples": [
+    "ORD10045",
+    "ORD10075",
+    "ORD10192",
+    "ORD10218",
+    "ORD10277"
+   ]
+  },
+  {
+   "id": "order_shipment_details.delivery_attempts -> transportation_carriers.carrier_id",
+   "source_table": "order_shipment_details",
+   "source_column": "delivery_attempts",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 50,
+   "source_distinct": 3,
+   "target_rows": 20,
+   "score": 1.85,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "1",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "order_shipment_details.shipment_priority_level -> transportation_carriers.carrier_id",
+   "source_table": "order_shipment_details",
+   "source_column": "shipment_priority_level",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 50,
+   "source_distinct": 5,
+   "target_rows": 20,
+   "score": 2.15,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "2",
+    "1",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "orders.buyerlink -> customers.profilenum",
+   "source_table": "orders",
+   "source_column": "buyerlink",
+   "target_table": "customers",
+   "target_key": "profilenum",
+   "source_rows": 1488,
+   "source_distinct": 206,
+   "target_rows": 206,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CUS00181",
+    "CUS00009",
+    "CUS00042",
+    "CUS00074",
+    "CUS00015"
+   ],
+   "target_samples": [
+    "CUS00001",
+    "CUS00002",
+    "CUS00003",
+    "CUS00004",
+    "CUS00005"
+   ]
+  },
+  {
+   "id": "packaging_compliance_certs.packaging_sku_ref -> return_packaging_inventory.material_sku_code",
+   "source_table": "packaging_compliance_certs",
+   "source_column": "packaging_sku_ref",
+   "target_table": "return_packaging_inventory",
+   "target_key": "material_sku_code",
+   "source_rows": 72,
+   "source_distinct": 33,
+   "target_rows": 37,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "-4251066F",
+    "-65F86A28",
+    "-B7C4FA04",
+    "-C7214196",
+    "-A8028ADD"
+   ],
+   "target_samples": [
+    "-02C73AC8",
+    "-0D841A87",
+    "-1D4E5FB0",
+    "-203A3E05",
+    "-2BB42D0E"
+   ]
+  },
+  {
+   "id": "packaging_compliance_certs.audit_frequency_months -> suppliers.supplier_id",
+   "source_table": "packaging_compliance_certs",
+   "source_column": "audit_frequency_months",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 72,
+   "source_distinct": 3,
+   "target_rows": 60,
+   "score": 2.54,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "36",
+    "24",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "product_component_details.associated_product_item -> products.itemcode",
+   "source_table": "product_component_details",
+   "source_column": "associated_product_item",
+   "target_table": "products",
+   "target_key": "itemcode",
+   "source_rows": 150,
+   "source_distinct": 64,
+   "target_rows": 333,
+   "score": 3.62,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PRD00293",
+    "PRD00026",
+    "PRD00140",
+    "PRD00075",
+    "PRD00289"
+   ],
+   "target_samples": [
+    "PRD00001",
+    "PRD00003",
+    "PRD00004",
+    "PRD00005",
+    "PRD00006"
+   ]
+  },
+  {
+   "id": "product_component_details.SUPPLIER_ID -> suppliers.supplier_id",
+   "source_table": "product_component_details",
+   "source_column": "SUPPLIER_ID",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 150,
+   "source_distinct": 54,
+   "target_rows": 60,
+   "score": 4.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "49",
+    "43",
+    "56",
+    "14",
+    "20"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "product_component_details.warranty_period_months -> suppliers.supplier_id",
+   "source_table": "product_component_details",
+   "source_column": "warranty_period_months",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 150,
+   "source_distinct": 3,
+   "target_rows": 60,
+   "score": 3.04,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "24",
+    "36",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "product_disposal_guidelines.product_to_dispose -> products.itemcode",
+   "source_table": "product_disposal_guidelines",
+   "source_column": "product_to_dispose",
+   "target_table": "products",
+   "target_key": "itemcode",
+   "source_rows": 65,
+   "source_distinct": 65,
+   "target_rows": 333,
+   "score": 3.62,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PRD00355",
+    "PRD00152",
+    "PRD00008",
+    "PRD00289",
+    "PRD00058"
+   ],
+   "target_samples": [
+    "PRD00001",
+    "PRD00003",
+    "PRD00004",
+    "PRD00005",
+    "PRD00006"
+   ]
+  },
+  {
+   "id": "product_disposal_guidelines.preferred_disposal_agent -> disposal_vendors.vendor_id",
+   "source_table": "product_disposal_guidelines",
+   "source_column": "preferred_disposal_agent",
+   "target_table": "disposal_vendors",
+   "target_key": "vendor_id",
+   "source_rows": 65,
+   "source_distinct": 23,
+   "target_rows": 25,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "15",
+    "5",
+    "1",
+    "21",
+    "22"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "product_disposal_guidelines.alternate_vendor_id -> disposal_vendors.vendor_id",
+   "source_table": "product_disposal_guidelines",
+   "source_column": "alternate_vendor_id",
+   "target_table": "disposal_vendors",
+   "target_key": "vendor_id",
+   "source_rows": 65,
+   "source_distinct": 20,
+   "target_rows": 25,
+   "score": 4.14,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "24",
+    "3",
+    "10",
+    "4",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "product_supplier_link.product_reference -> products.itemcode",
+   "source_table": "product_supplier_link",
+   "source_column": "product_reference",
+   "target_table": "products",
+   "target_key": "itemcode",
+   "source_rows": 100,
+   "source_distinct": 54,
+   "target_rows": 333,
+   "score": 3.59,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PRD00146",
+    "PRD00203",
+    "PRD00261",
+    "PRD00324",
+    "PRD00240"
+   ],
+   "target_samples": [
+    "PRD00001",
+    "PRD00003",
+    "PRD00004",
+    "PRD00005",
+    "PRD00006"
+   ]
+  },
+  {
+   "id": "product_supplier_link.supplier_providing_product -> suppliers.supplier_id",
+   "source_table": "product_supplier_link",
+   "source_column": "supplier_providing_product",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 100,
+   "source_distinct": 46,
+   "target_rows": 60,
+   "score": 4.19,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "23",
+    "27",
+    "33",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "product_supplier_link.minimum_lead_time_days -> suppliers.supplier_id",
+   "source_table": "product_supplier_link",
+   "source_column": "minimum_lead_time_days",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 100,
+   "source_distinct": 45,
+   "target_rows": 60,
+   "score": 3.86,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "48",
+    "46",
+    "26",
+    "20",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "product_supplier_link.supply_chain_tier -> transportation_carriers.carrier_id",
+   "source_table": "product_supplier_link",
+   "source_column": "supply_chain_tier",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 100,
+   "source_distinct": 3,
+   "target_rows": 20,
+   "score": 1.85,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "recycled_material_sales.source_impact_report -> circular_economy_impact_reports.impact_report_ref",
+   "source_table": "recycled_material_sales",
+   "source_column": "source_impact_report",
+   "target_table": "circular_economy_impact_reports",
+   "target_key": "impact_report_ref",
+   "source_rows": 9461,
+   "source_distinct": 3910,
+   "target_rows": 4666,
+   "score": 4.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "-FAD28A7F",
+    "-BFC99348",
+    "-F63D3F87",
+    "-6C86E460",
+    "-A2F5390A"
+   ],
+   "target_samples": [
+    "-000D2CEB",
+    "-0011C073",
+    "-001AFF0F",
+    "-001CE943",
+    "-003F06F7"
+   ]
+  },
+  {
+   "id": "refurb_qa_checklists.refurb_job_ref -> refurbishment_job_logs.job_log_reference",
+   "source_table": "refurb_qa_checklists",
+   "source_column": "refurb_job_ref",
+   "target_table": "refurbishment_job_logs",
+   "target_key": "job_log_reference",
+   "source_rows": 8702,
+   "source_distinct": 2734,
+   "target_rows": 2980,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RJB-60B2650E",
+    "RJB-47006523",
+    "RJB-ED4E3666",
+    "RJB-28ADC496",
+    "RJB-89164061"
+   ],
+   "target_samples": [
+    "RJB-00085672",
+    "RJB-00143175",
+    "RJB-00181147",
+    "RJB-003C4AF7",
+    "RJB-00B18F41"
+   ]
+  },
+  {
+   "id": "refurb_qa_checklists.stress_test_duration_min -> suppliers.supplier_id",
+   "source_table": "refurb_qa_checklists",
+   "source_column": "stress_test_duration_min",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 8702,
+   "source_distinct": 39,
+   "target_rows": 60,
+   "score": 3.3,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "37",
+    "32",
+    "26",
+    "31",
+    "24"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "refurbishment_job_logs.related_return_case -> case_management.casetie",
+   "source_table": "refurbishment_job_logs",
+   "source_column": "related_return_case",
+   "target_table": "case_management",
+   "target_key": "casetie",
+   "source_rows": 2980,
+   "source_distinct": 1301,
+   "target_rows": 1500,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RL280111",
+    "RL398215",
+    "RL185503",
+    "RL328613",
+    "RL724417"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "refurbishment_job_logs.technician_employee_ref -> employees.EMPLOYEE_ID",
+   "source_table": "refurbishment_job_logs",
+   "source_column": "technician_employee_ref",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 2980,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1001",
+    "1049",
+    "1009",
+    "1040",
+    "1017"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "repair_parts_inventory.supplier_id_for_part -> suppliers.supplier_id",
+   "source_table": "repair_parts_inventory",
+   "source_column": "supplier_id_for_part",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 60,
+   "source_distinct": 39,
+   "target_rows": 60,
+   "score": 4.05,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "43",
+    "10",
+    "25",
+    "60",
+    "32"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "repair_parts_inventory.lead_time_days -> suppliers.supplier_id",
+   "source_table": "repair_parts_inventory",
+   "source_column": "lead_time_days",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 60,
+   "source_distinct": 23,
+   "target_rows": 60,
+   "score": 2.97,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "20",
+    "9",
+    "23",
+    "26",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "repair_parts_inventory.shelf_life_months -> suppliers.supplier_id",
+   "source_table": "repair_parts_inventory",
+   "source_column": "shelf_life_months",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 60,
+   "source_distinct": 4,
+   "target_rows": 60,
+   "score": 3.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "36",
+    "24",
+    "60"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "return_fraud_flags.flagged_return_case -> case_management.casetie",
+   "source_table": "return_fraud_flags",
+   "source_column": "flagged_return_case",
+   "target_table": "case_management",
+   "target_key": "casetie",
+   "source_rows": 40,
+   "source_distinct": 28,
+   "target_rows": 1500,
+   "score": 3.26,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RL971661",
+    "RL499056",
+    "RL130597",
+    "RL781345",
+    "RL631433"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "return_fraud_flags.triggered_fraud_alert_rule -> fraud_detection_rules.RULE_ID",
+   "source_table": "return_fraud_flags",
+   "source_column": "triggered_fraud_alert_rule",
+   "target_table": "fraud_detection_rules",
+   "target_key": "RULE_ID",
+   "source_rows": 40,
+   "source_distinct": 30,
+   "target_rows": 40,
+   "score": 4.19,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RULE-0023",
+    "RULE-0027",
+    "RULE-0012",
+    "RULE-0017",
+    "RULE-0004"
+   ],
+   "target_samples": [
+    "RULE-0001",
+    "RULE-0002",
+    "RULE-0003",
+    "RULE-0004",
+    "RULE-0005"
+   ]
+  },
+  {
+   "id": "return_fraud_flags.investigator_employee_id -> employees.EMPLOYEE_ID",
+   "source_table": "return_fraud_flags",
+   "source_column": "investigator_employee_id",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 40,
+   "source_distinct": 28,
+   "target_rows": 50,
+   "score": 3.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1035",
+    "1013",
+    "1032",
+    "1001",
+    "1030"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "return_package_inspections.related_return_case -> case_management.casetie",
+   "source_table": "return_package_inspections",
+   "source_column": "related_return_case",
+   "target_table": "case_management",
+   "target_key": "casetie",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 1500,
+   "score": 3.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RL156055",
+    "RL364374",
+    "RL862996",
+    "RL543700",
+    "RL646148"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "return_package_inspections.inspecting_employee_id -> employees.EMPLOYEE_ID",
+   "source_table": "return_package_inspections",
+   "source_column": "inspecting_employee_id",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 50,
+   "source_distinct": 36,
+   "target_rows": 50,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1038",
+    "1042",
+    "1002",
+    "1014",
+    "1043"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "return_packaging_inventory.warehouse_loc_ref -> warehouses.warehouse_code",
+   "source_table": "return_packaging_inventory",
+   "source_column": "warehouse_loc_ref",
+   "target_table": "warehouses",
+   "target_key": "warehouse_code",
+   "source_rows": 37,
+   "source_distinct": 19,
+   "target_rows": 25,
+   "score": 4.14,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WH-VS9-002",
+    "WH-34K-010",
+    "WH-4CN-006",
+    "WH-NV7-016",
+    "WH-5K3-009"
+   ],
+   "target_samples": [
+    "WH-34K-010",
+    "WH-43E-013",
+    "WH-4CN-006",
+    "WH-51H-025",
+    "WH-5K3-009"
+   ]
+  },
+  {
+   "id": "return_packaging_inventory.supplier_source_ref -> suppliers.supplier_id",
+   "source_table": "return_packaging_inventory",
+   "source_column": "supplier_source_ref",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 37,
+   "source_distinct": 32,
+   "target_rows": 60,
+   "score": 3.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "1",
+    "60",
+    "49",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "return_packaging_inventory.supplier_lead_time_days -> transportation_carriers.carrier_id",
+   "source_table": "return_packaging_inventory",
+   "source_column": "supplier_lead_time_days",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 37,
+   "source_distinct": 11,
+   "target_rows": 20,
+   "score": 2.82,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "10",
+    "3",
+    "14",
+    "7",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "return_processing.quardays -> transportation_carriers.carrier_id",
+   "source_table": "return_processing",
+   "source_column": "quardays",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 26,
+   "source_distinct": 12,
+   "target_rows": 20,
+   "score": 3.56,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "14",
+    "4",
+    "13",
+    "11",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "returns.srctxn -> orders.txnnum",
+   "source_table": "returns",
+   "source_column": "srctxn",
+   "target_table": "orders",
+   "target_key": "txnnum",
+   "source_rows": 1500,
+   "source_distinct": 1488,
+   "target_rows": 1488,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ORD67804",
+    "ORD46009",
+    "ORD93572",
+    "ORD58789",
+    "ORD89293"
+   ],
+   "target_samples": [
+    "ORD10045",
+    "ORD10075",
+    "ORD10192",
+    "ORD10218",
+    "ORD10277"
+   ]
+  },
+  {
+   "id": "returns.itemlink -> products.itemcode",
+   "source_table": "returns",
+   "source_column": "itemlink",
+   "target_table": "products",
+   "target_key": "itemcode",
+   "source_rows": 1500,
+   "source_distinct": 333,
+   "target_rows": 333,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PRD00357",
+    "PRD00219",
+    "PRD00053",
+    "PRD00361",
+    "PRD00023"
+   ],
+   "target_samples": [
+    "PRD00001",
+    "PRD00003",
+    "PRD00004",
+    "PRD00005",
+    "PRD00006"
+   ]
+  },
+  {
+   "id": "returns.dayslapsed -> suppliers.supplier_id",
+   "source_table": "returns",
+   "source_column": "dayslapsed",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 1500,
+   "source_distinct": 60,
+   "target_rows": 60,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "56",
+    "40",
+    "43",
+    "27",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_level_agreements.IS_ACTIVE -> transportation_carriers.carrier_id",
+   "source_table": "service_level_agreements",
+   "source_column": "IS_ACTIVE",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 40,
+   "source_distinct": 1,
+   "target_rows": 20,
+   "score": 2.05,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "service_level_agreements.owner_employee_id -> employees.EMPLOYEE_ID",
+   "source_table": "service_level_agreements",
+   "source_column": "owner_employee_id",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 40,
+   "source_distinct": 29,
+   "target_rows": 50,
+   "score": 3.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1023",
+    "1042",
+    "1012",
+    "1025",
+    "1007"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "service_level_agreements.approved_by -> employees.EMPLOYEE_ID",
+   "source_table": "service_level_agreements",
+   "source_column": "approved_by",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 40,
+   "source_distinct": 10,
+   "target_rows": 50,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1021",
+    "1019",
+    "1024",
+    "1048",
+    "1032"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "service_level_agreements.review_cycle_months -> disposal_vendors.vendor_id",
+   "source_table": "service_level_agreements",
+   "source_column": "review_cycle_months",
+   "target_table": "disposal_vendors",
+   "target_key": "vendor_id",
+   "source_rows": 40,
+   "source_distinct": 3,
+   "target_rows": 25,
+   "score": 3.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "24",
+    "12",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sorter_jam_incidents.related_sort_event -> automated_sorting_machine_events.sort_event_ref",
+   "source_table": "sorter_jam_incidents",
+   "source_column": "related_sort_event",
+   "target_table": "automated_sorting_machine_events",
+   "target_key": "sort_event_ref",
+   "source_rows": 170,
+   "source_distinct": 67,
+   "target_rows": 86,
+   "score": 4.18,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "-30055CEE",
+    "-3B32436E",
+    "-8E2B9A14",
+    "-8D55D948",
+    "-5C739D07"
+   ],
+   "target_samples": [
+    "-0096AA9E",
+    "-00CB1408",
+    "-0406CFCC",
+    "-06465594",
+    "-089CBCF7"
+   ]
+  },
+  {
+   "id": "supplier_recovery_claims.supplier_entity_ref -> suppliers.supplier_id",
+   "source_table": "supplier_recovery_claims",
+   "source_column": "supplier_entity_ref",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 183,
+   "source_distinct": 56,
+   "target_rows": 60,
+   "score": 4.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "24",
+    "54",
+    "22",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "supplier_recovery_claims.related_return_ref -> case_management.casetie",
+   "source_table": "supplier_recovery_claims",
+   "source_column": "related_return_ref",
+   "target_table": "case_management",
+   "target_key": "casetie",
+   "source_rows": 183,
+   "source_distinct": 174,
+   "target_rows": 1500,
+   "score": 3.57,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "RL670923",
+    "RL376279",
+    "RL437882",
+    "RL797371",
+    "RL598917"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "vendor_credit_memos.recovery_claim_link -> supplier_recovery_claims.recovery_claim_ref",
+   "source_table": "vendor_credit_memos",
+   "source_column": "recovery_claim_link",
+   "target_table": "supplier_recovery_claims",
+   "target_key": "recovery_claim_ref",
+   "source_rows": 264,
+   "source_distinct": 122,
+   "target_rows": 183,
+   "score": 4.07,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "-0D6195E1",
+    "-4022B284",
+    "-84189C54",
+    "-CC3D4ECF",
+    "-0757BE9F"
+   ],
+   "target_samples": [
+    "-0057DB8D",
+    "-00C5E38F",
+    "-01392366",
+    "-0757BE9F",
+    "-0938919D"
+   ]
+  },
+  {
+   "id": "warehouse_climate_sensor_logs.monitored_warehouse_ref -> warehouses.warehouse_code",
+   "source_table": "warehouse_climate_sensor_logs",
+   "source_column": "monitored_warehouse_ref",
+   "target_table": "warehouses",
+   "target_key": "warehouse_code",
+   "source_rows": 40,
+   "source_distinct": 19,
+   "target_rows": 25,
+   "score": 4.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WH-VS9-002",
+    "WH-W62-018",
+    "WH-H3H-007",
+    "WH-NV7-016",
+    "WH-SID-011"
+   ],
+   "target_samples": [
+    "WH-34K-010",
+    "WH-43E-013",
+    "WH-4CN-006",
+    "WH-51H-025",
+    "WH-5K3-009"
+   ]
+  },
+  {
+   "id": "warehouse_climate_sensor_logs.dust_particle_count -> suppliers.supplier_id",
+   "source_table": "warehouse_climate_sensor_logs",
+   "source_column": "dust_particle_count",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 40,
+   "source_distinct": 18,
+   "target_rows": 60,
+   "score": 2.48,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "16",
+    "22",
+    "12",
+    "17",
+    "18"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "warehouse_staff_assignments.assigned_staff_member -> employees.EMPLOYEE_ID",
+   "source_table": "warehouse_staff_assignments",
+   "source_column": "assigned_staff_member",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 45,
+   "source_distinct": 45,
+   "target_rows": 50,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1043",
+    "1027",
+    "1020",
+    "1002",
+    "1038"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "warehouse_staff_assignments.workplace_location -> warehouses.warehouse_code",
+   "source_table": "warehouse_staff_assignments",
+   "source_column": "workplace_location",
+   "target_table": "warehouses",
+   "target_key": "warehouse_code",
+   "source_rows": 45,
+   "source_distinct": 25,
+   "target_rows": 25,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WH-DSU-022",
+    "WH-F3B-015",
+    "WH-H3H-007",
+    "WH-43E-013",
+    "WH-RZH-014"
+   ],
+   "target_samples": [
+    "WH-34K-010",
+    "WH-43E-013",
+    "WH-4CN-006",
+    "WH-51H-025",
+    "WH-5K3-009"
+   ]
+  },
+  {
+   "id": "warehouse_staff_assignments.is_primary_location -> transportation_carriers.carrier_id",
+   "source_table": "warehouse_staff_assignments",
+   "source_column": "is_primary_location",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 45,
+   "source_distinct": 1,
+   "target_rows": 20,
+   "score": 2.05,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "warehouse_staff_assignments.emergency_drill_certified -> transportation_carriers.carrier_id",
+   "source_table": "warehouse_staff_assignments",
+   "source_column": "emergency_drill_certified",
+   "target_table": "transportation_carriers",
+   "target_key": "carrier_id",
+   "source_rows": 45,
+   "source_distinct": 1,
+   "target_rows": 20,
+   "score": 2.05,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "warehouse_staff_assignments.supervisor_id -> employees.EMPLOYEE_ID",
+   "source_table": "warehouse_staff_assignments",
+   "source_column": "supervisor_id",
+   "target_table": "employees",
+   "target_key": "EMPLOYEE_ID",
+   "source_rows": 45,
+   "source_distinct": 11,
+   "target_rows": 50,
+   "score": 3.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1030",
+    "1048",
+    "1041",
+    "1049",
+    "1021"
+   ],
+   "target_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ]
+  },
+  {
+   "id": "case_management.casetie -> quality_assessment.inspectref",
+   "source_table": "case_management",
+   "source_column": "casetie",
+   "target_table": "quality_assessment",
+   "target_key": "inspectref",
+   "source_rows": 1500,
+   "source_distinct": 1500,
+   "target_rows": 1500,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "disposal_vendors.vendor_id -> suppliers.supplier_id",
+   "source_table": "disposal_vendors",
+   "source_column": "vendor_id",
+   "target_table": "suppliers",
+   "target_key": "supplier_id",
+   "source_rows": 25,
+   "source_distinct": 25,
+   "target_rows": 60,
+   "score": 1.72,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "quality_assessment.inspectref -> case_management.casetie",
+   "source_table": "quality_assessment",
+   "source_column": "inspectref",
+   "target_table": "case_management",
+   "target_key": "casetie",
+   "source_rows": 1500,
+   "source_distinct": 1500,
+   "target_rows": 1500,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "returns.casenum -> case_management.casetie",
+   "source_table": "returns",
+   "source_column": "casenum",
+   "target_table": "case_management",
+   "target_key": "casetie",
+   "source_rows": 1500,
+   "source_distinct": 1500,
+   "target_rows": 1500,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ],
+   "target_samples": [
+    "RL100182",
+    "RL100255",
+    "RL100949",
+    "RL101047",
+    "RL101302"
+   ]
+  },
+  {
+   "id": "transportation_carriers.carrier_id -> disposal_vendors.vendor_id",
+   "source_table": "transportation_carriers",
+   "source_column": "carrier_id",
+   "target_table": "disposal_vendors",
+   "target_key": "vendor_id",
+   "source_rows": 20,
+   "source_distinct": 20,
+   "target_rows": 25,
+   "score": 2.82,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

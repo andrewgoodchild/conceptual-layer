@@ -1,0 +1,34 @@
+[
+  {
+    "question_id": "labor_certification_applications_2",
+    "answer": "SELECT COUNT(CASE WHEN UPPER(statustag) = 'CERTIFIED' THEN 1 END) * 100.0 / COUNT(*) AS approval_rate FROM cases WHERE visacls = 'H-1B'"
+  },
+  {
+    "question_id": "labor_certification_applications_19",
+    "answer": "WITH b AS (SELECT CASE WHEN ca.docketkey IS NOT NULL THEN 'With Attorney' ELSE 'Self-Represented' END AS representation_type, c.statustag FROM cases c LEFT JOIN case_attorney ca ON ca.docketkey = c.filekey) SELECT representation_type, COUNT(*) AS total_applications, COUNT(CASE WHEN UPPER(statustag) = 'CERTIFIED' THEN 1 END) AS certified_applications, ROUND(COUNT(CASE WHEN UPPER(statustag) = 'CERTIFIED' THEN 1 END) * 100.0 / COUNT(*), 2) AS approval_rate FROM b GROUP BY representation_type"
+  },
+  {
+    "question_id": "labor_certification_applications_16",
+    "answer": "WITH j AS (SELECT a.attorney_profile->'highest_court'->>'state' AS jurisdiction_state, c.statustag FROM case_attorney ca JOIN attorney a ON a.lawmail = ca.counselmail JOIN cases c ON c.filekey = ca.docketkey) SELECT jurisdiction_state, COUNT(*) AS total_cases, COUNT(CASE WHEN UPPER(statustag) = 'CERTIFIED' THEN 1 END) AS certified_cases, ROUND(COUNT(CASE WHEN UPPER(statustag) = 'CERTIFIED' THEN 1 END) * 100.0 / COUNT(*), 2) AS success_rate FROM j GROUP BY jurisdiction_state HAVING COUNT(*) >= 3 ORDER BY success_rate DESC, total_cases DESC LIMIT 3"
+  },
+  {
+    "question_id": "labor_certification_applications_11",
+    "answer": "WITH d AS (SELECT to_date(beginday, 'DD/MM/YYYY') AS b, to_date(recvday, 'YYYY/MM/DD') AS r, (EXTRACT(YEAR FROM to_date(beginday, 'DD/MM/YYYY')) - EXTRACT(YEAR FROM to_date(recvday, 'YYYY/MM/DD'))) * 12 + (EXTRACT(MONTH FROM to_date(beginday, 'DD/MM/YYYY')) - EXTRACT(MONTH FROM to_date(recvday, 'YYYY/MM/DD'))) AS md FROM cases), cat AS (SELECT CASE WHEN b < r THEN 'After Start Date' WHEN md = 0 THEN 'Same Month' WHEN md BETWEEN 1 AND 3 THEN '1-3 Months Before' WHEN md BETWEEN 4 AND 6 THEN 'Optimal Window (4-6 Months)' ELSE 'Early Filing' END AS filing_window FROM d) SELECT filing_window, COUNT(*) AS application_count, ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM cases), 2) AS pct_of_total FROM cat GROUP BY filing_window ORDER BY application_count DESC"
+  },
+  {
+    "question_id": "labor_certification_applications_13",
+    "answer": "WITH sc AS (SELECT wsstate, COUNT(DISTINCT dockkey) AS n FROM case_worksite GROUP BY wsstate), h AS (SELECT wsstate, n FROM sc WHERE n > 1.5 * (SELECT AVG(n) FROM sc)) SELECT wsstate AS hotspot_state, (SELECT COUNT(*) FROM h) AS hotspot_state_count FROM h ORDER BY n DESC"
+  },
+  {
+    "question_id": "labor_certification_applications_15",
+    "answer": "WITH per AS (SELECT ca.counselmail AS m, c.visacls AS v, COUNT(*) AS k FROM case_attorney ca JOIN cases c ON c.filekey = ca.docketkey GROUP BY 1, 2), agg AS (SELECT m, SUM(k) AS n, COUNT(*) AS t, MAX(k) AS dom FROM per GROUP BY m), s AS (SELECT m, 1 - t::numeric / (SELECT COUNT(DISTINCT visacls) FROM cases) AS asi, dom * 100.0 / n AS dompct, t FROM agg WHERE n >= 5) SELECT CASE WHEN dompct > 80 THEN 'Specialists' WHEN t BETWEEN 2 AND 3 THEN 'Hybrid Practitioners' ELSE 'Generalists' END AS specialization_category, COUNT(*) AS attorney_count, ROUND(AVG(asi), 2) AS avg_asi, ROUND(AVG(dompct), 2) AS avg_dominant_visa_type_pct FROM s GROUP BY 1 ORDER BY attorney_count DESC"
+  },
+  {
+    "question_id": "labor_certification_applications_14",
+    "answer": "SELECT e.employer_contact_info->>'naics_code' AS naics_code, COUNT(*) AS total_applications, ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM cases), 2) AS pct_of_total FROM cases c JOIN employer e ON e.corphandle = c.homefirm AND e.zipref = c.homezip GROUP BY 1 HAVING COUNT(*) * 100.0 / (SELECT COUNT(*) FROM cases) > 15 ORDER BY pct_of_total DESC"
+  },
+  {
+    "question_id": "labor_certification_applications_1",
+    "answer": "SELECT visacls AS visa_class, AVG(to_date(decisionday, 'YYYY-MM-DD') - to_date(recvday, 'YYYY/MM/DD')) AS avg_processing_days FROM cases WHERE UPPER(statustag) = 'CERTIFIED' AND decisionday IS NOT NULL GROUP BY visacls ORDER BY avg_processing_days DESC, visacls"
+  }
+]

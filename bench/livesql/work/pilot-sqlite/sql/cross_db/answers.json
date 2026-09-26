@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "cross_db_10",
+  "answer": "WITH base AS (\n  SELECT f.recordregistry AS flow_id,\n         a.critfindnum * 1.0 / (a.findtally + 1) AS afs,\n         (a.accreqnum + a.delreqnum + a.rectreqnum + a.portreqnum) AS dsrl,\n         CAST(julianday('2025-04-01') - julianday(a.remeddue) AS INTEGER) AS days_overdue\n  FROM auditandcompliance a\n  JOIN dataprofile p ON p.profiletrace = a.profjoin\n  JOIN dataflow f ON f.recordregistry = p.flowsign\n  WHERE f.orignation <> f.destnation\n)\nSELECT flow_id,\n       ROUND(afs * dsrl * afs, 2) AS acp,\n       days_overdue\nFROM base\nWHERE afs * dsrl * afs > 5\n  AND days_overdue >= -5\nORDER BY days_overdue DESC, acp DESC\nLIMIT 10"
+ },
+ {
+  "question_id": "cross_db_1",
+  "answer": "SELECT f.recordregistry AS flow_id,\n       ROUND(r.riskassess / r.ctrleff, 2) AS risk_exposure_score,\n       ROUND(p.volgb * CASE p.datasense WHEN 'High' THEN 3 WHEN 'Medium' THEN 2 WHEN 'Low' THEN 1 ELSE 1 END, 2) AS data_sensitivity_index\nFROM dataflow f\nLEFT JOIN riskmanagement r ON r.flowlink = f.recordregistry\nLEFT JOIN dataprofile p ON p.flowsign = f.recordregistry\nWHERE r.riskassess / r.ctrleff > 0.7\n  AND p.volgb * CASE p.datasense WHEN 'High' THEN 3 WHEN 'Medium' THEN 2 WHEN 'Low' THEN 1 ELSE 1 END > 100\nORDER BY data_sensitivity_index DESC\nLIMIT 5"
+ },
+ {
+  "question_id": "cross_db_8",
+  "answer": "WITH cb AS (\n  SELECT f.recordregistry AS flow_id,\n         (r.riskassess / r.ctrleff) * CASE WHEN f.orignation <> f.destnation THEN 2 ELSE 1 END AS cbrf,\n         (r.riskassess / r.ctrleff) * CASE WHEN f.orignation <> f.destnation THEN 2 ELSE 1 END * p.volgb AS cdvr\n  FROM dataflow f\n  JOIN riskmanagement r ON r.flowlink = f.recordregistry\n  JOIN dataprofile p ON p.flowsign = f.recordregistry\n  WHERE f.orignation <> f.destnation\n)\nSELECT flow_id,\n       ROUND(cbrf, 2) AS cbrf,\n       ROUND(cdvr, 2) AS cdvr,\n       RANK() OVER (ORDER BY cdvr DESC) AS cdvr_rank\nFROM cb\nWHERE cdvr > 1000\nORDER BY cdvr DESC\nLIMIT 5"
+ },
+ {
+  "question_id": "cross_db_7",
+  "answer": "WITH d AS (\n  SELECT audittrace,\n         (accreqnum + delreqnum + rectreqnum + portreqnum) * resptimeday AS dsrp,\n         accreqnum, delreqnum, rectreqnum, portreqnum\n  FROM auditandcompliance\n  WHERE (accreqnum + delreqnum + rectreqnum + portreqnum) * resptimeday > 50\n),\nt(i) AS (VALUES (1),(2),(3),(4))\nSELECT d.audittrace AS audit_id,\n       ROUND(d.dsrp, 2) AS dsrp,\n       CASE t.i\n         WHEN 1 THEN 'Access: ' || d.accreqnum\n         WHEN 2 THEN 'Deletion: ' || d.delreqnum\n         WHEN 3 THEN 'Rectification: ' || d.rectreqnum\n         ELSE 'Portability: ' || d.portreqnum\n       END AS request_breakdown\nFROM d JOIN t\nORDER BY d.dsrp DESC, d.audittrace, t.i\nLIMIT 100"
+ },
+ {
+  "question_id": "cross_db_2",
+  "answer": "WITH v AS (\n  SELECT (CASE vendsecrate WHEN 'A' THEN 4 WHEN 'B' THEN 3 WHEN 'C' THEN 2 ELSE 1 END)\n         * (CASE WHEN contrstate = 'Active' THEN 1.0 ELSE 0.5 END) AS vri\n  FROM vendormanagement\n)\nSELECT CASE WHEN vri < 2 THEN 'High Risk' WHEN vri < 3 THEN 'Medium Risk' ELSE 'Low Risk' END AS risk_tier,\n       COUNT(*) AS vendor_count,\n       ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM vendormanagement), 2) AS pct_of_total\nFROM v\nGROUP BY risk_tier\nORDER BY vendor_count DESC"
+ },
+ {
+  "question_id": "cross_db_5",
+  "answer": "SELECT c.compliancetrace AS compliance_id,\n       c.gdprcomp AS gdpr_compliance,\n       c.loclawcomp AS local_law_compliance,\n       f.orignation || ' -> ' || f.destnation AS transfer_path\nFROM compliance c\nJOIN riskmanagement r ON r.risktrace = c.risktie\nJOIN dataflow f ON f.recordregistry = r.flowlink\nWHERE c.gdprcomp = 'Non-compliant'\n   OR (c.loclawcomp = 'Non-compliant' AND f.orignation <> f.destnation)\nORDER BY c.compliancetrace ASC\nLIMIT 10"
+ },
+ {
+  "question_id": "cross_db_3",
+  "answer": "SELECT recordregistry AS flow_id,\n       ROUND(bwidthpct * datasizemb / durmin, 2) AS bsi,\n       ROUND(successpct / (errtally + 1.0), 2) AS dte\nFROM dataflow\nWHERE bwidthpct * datasizemb / durmin > 50\n  AND successpct / (errtally + 1.0) < 1.0\nORDER BY bsi DESC\nLIMIT 10"
+ },
+ {
+  "question_id": "cross_db_4",
+  "answer": "SELECT json_object(\n         'ProfileTrace', p.profiletrace,\n         'DataSensitivityIndex', ROUND(p.volgb * CASE p.datasense WHEN 'High' THEN 3 WHEN 'Medium' THEN 2 WHEN 'Low' THEN 1 ELSE 1 END, 2),\n         'SecurityRobustnessScore', CASE WHEN s.encstate = 'Full' AND s.aclstate = 'Strong' THEN 3\n                                         WHEN s.encstate = 'Full' OR s.aclstate = 'Adequate' THEN 2\n                                         ELSE 1 END\n       ) AS profile_json\nFROM dataprofile p\nJOIN securityprofile s ON s.profilekey = p.profiletrace\nWHERE p.volgb * CASE p.datasense WHEN 'High' THEN 3 WHEN 'Medium' THEN 2 WHEN 'Low' THEN 1 ELSE 1 END > 100\n  AND CASE WHEN s.encstate = 'Full' AND s.aclstate = 'Strong' THEN 3\n           WHEN s.encstate = 'Full' OR s.aclstate = 'Adequate' THEN 2\n           ELSE 1 END < 2\nORDER BY p.volgb * CASE p.datasense WHEN 'High' THEN 3 WHEN 'Medium' THEN 2 WHEN 'Low' THEN 1 ELSE 1 END DESC\nLIMIT 5"
+ },
+ {
+  "question_id": "cross_db_6",
+  "answer": "WITH crit AS (\n  SELECT strftime('%Y-%m', remeddue) AS month,\n         critfindnum * 1.0 / (findtally + 1) AS afs\n  FROM auditandcompliance\n  WHERE critfindnum * 1.0 / (findtally + 1) > 0.5\n),\nmonthly AS (\n  SELECT month, AVG(afs) AS avg_afs FROM crit GROUP BY month\n),\nranked AS (\n  SELECT month, avg_afs, RANK() OVER (ORDER BY avg_afs DESC) AS severity_rank FROM monthly\n)\nSELECT month, ROUND(avg_afs, 2) AS avg_afs, severity_rank\nFROM ranked\nWHERE severity_rank <= 3\nORDER BY month ASC"
+ },
+ {
+  "question_id": "cross_db_9",
+  "answer": "SELECT profiletrace AS profile_id,\n       (CASE WHEN intcheck = 'Failed' THEN 1 ELSE 0 END) + (CASE WHEN csumverify = 'Failed' THEN 1 ELSE 0 END) AS ifc,\n       CASE WHEN intcheck = 'Failed' AND csumverify = 'Failed' THEN 'Integrity Check, Checksum Verification'\n            WHEN intcheck = 'Failed' THEN 'Integrity Check'\n            ELSE 'Checksum Verification' END AS failure_types\nFROM dataprofile\nWHERE intcheck = 'Failed' OR csumverify = 'Failed'\nORDER BY ifc DESC\nLIMIT 10"
+ }
+]

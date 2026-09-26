@@ -1,0 +1,47 @@
+[
+ {
+  "question_id": "museum_artifact_18",
+  "answer": "WITH erf AS (\n  SELECT s.\"ART_link\" AS art_id,\n         AVG(CASE v WHEN 'High' THEN 10 WHEN 'Medium' THEN 5 WHEN 'Low' THEN 1 END) AS erf\n  FROM \"SensitivityData\" s\n  CROSS JOIN LATERAL jsonb_each_text(s.env_handling_sensitivity->'environment') AS e(k, v)\n  GROUP BY s.\"ART_link\"\n), cpi AS (\n  SELECT r.\"ART_link\" AS art_id,\n         ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric)\n          * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END)) / 30.0 AS cpi\n  FROM \"ArtifactRatings\" r JOIN \"ArtifactsCore\" a ON a.\"ARTregID\" = r.\"ART_link\"\n)\nSELECT MAX(c.cpi * e.erf) AS max_avs\nFROM cpi c JOIN erf e ON e.art_id = c.art_id",
+  "note": "ERF taken as the average of the non-null 'environment' sensitivity ratings (light, temperature, humidity, vibration, pollutants); KB does not say which ratings count."
+ },
+ {
+  "question_id": "museum_artifact_11",
+  "answer": "WITH r AS (\n  SELECT EXTRACT(YEAR FROM \"readTS\")::int AS yr, \"TEMPc\" AS temp\n  FROM \"EnvironmentalReadingsCore\"\n  WHERE \"readTS\" >= '2023-01-01' AND \"readTS\" < '2026-01-01'\n), y AS (\n  SELECT yr, AVG(temp) AS avg_temp FROM r GROUP BY yr\n)\nSELECT y.yr AS year,\n       ROUND(y.avg_temp, 2) AS avg_temperature,\n       COUNT(*) FILTER (WHERE ABS(r.temp - y.avg_temp) > 0 AND ABS(r.temp - y.avg_temp) <= 4) AS anomaly_count\nFROM y JOIN r ON r.yr = y.yr\nGROUP BY y.yr, y.avg_temp\nORDER BY y.yr",
+  "note": "Anomalies counted per reading (absolute deviation from the year's average); data covers only 2024-2025."
+ },
+ {
+  "question_id": "museum_artifact_8",
+  "answer": "WITH cur AS (\n  SELECT DISTINCT ON (c.art_exam) c.art_exam, e.\"RH\"\n  FROM \"ConditionAssessments\" c\n  JOIN \"EnvironmentalReadingsCore\" e ON e.case_link = c.case_exam\n  ORDER BY c.art_exam, e.\"readTS\" DESC\n)\nSELECT a.\"ARTregID\", a.art_title, a.\"MatKind\",\n       s.env_handling_sensitivity->'environment'->>'humidity' AS humidity_sensitivity,\n       CASE WHEN (s.env_handling_sensitivity->'environment'->>'humidity' = 'High' AND cur.\"RH\" > 55)\n              OR (s.env_handling_sensitivity->'environment'->>'humidity' = 'Medium' AND cur.\"RH\" > 60)\n            THEN 'Over Exposure' ELSE 'Within Limits' END AS exposure_status\nFROM \"ArtifactsCore\" a\nJOIN \"SensitivityData\" s ON s.\"ART_link\" = a.\"ARTregID\"\nLEFT JOIN cur ON cur.art_exam = a.\"ARTregID\"\nWHERE s.env_handling_sensitivity->'environment'->>'humidity' IN ('Medium', 'High')\nORDER BY a.\"ARTregID\"",
+  "note": "No 'secondary, more cautious' humidity threshold is defined; used Humidity Exposure Thresholds (High >55, Medium >60) against the latest reading in the artifact's showcase."
+ },
+ {
+  "question_id": "museum_artifact_1",
+  "answer": "SELECT a.\"ARTregID\", a.art_title, ra.risk_level, r.\"HIST_sign\" AS historical_significance,\n       (r.rating_profile->>'cultural_score')::int AS cultural_score\nFROM \"ArtifactsCore\" a\nJOIN \"RiskAssessments\" ra ON ra.art_concern = a.\"ARTregID\"\nJOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"\nWHERE ra.risk_level IN ('High', 'Medium')\n  AND r.\"HIST_sign\" > 8\n  AND (r.rating_profile->>'cultural_score')::int > 20"
+ },
+ {
+  "question_id": "museum_artifact_4",
+  "answer": "WITH cm AS (\n  SELECT DISTINCT ON (c.art_exam) c.art_exam, m.budget_alloc, m.budget_stat\n  FROM \"ConditionAssessments\" c\n  JOIN \"EnvironmentalReadingsCore\" e ON e.case_link = c.case_exam\n  JOIN \"ConservationAndMaintenance\" m ON m.monitor_link = e.monitor_code\n  ORDER BY c.art_exam, e.\"readTS\" DESC\n)\nSELECT a.\"DYNASTY\",\n       ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric)\n        * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END)) / 30.0 AS cpi_score,\n       cm.budget_alloc,\n       cm.budget_stat\nFROM \"ArtifactsCore\" a\nJOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"\nLEFT JOIN cm ON cm.art_exam = a.\"ARTregID\"\nWHERE a.\"DYNASTY\" IS NOT NULL",
+  "note": "Budget linked via ConditionAssessments -> showcase -> latest reading -> ConservationAndMaintenance; 'generalized budget status' taken as budget_stat."
+ },
+ {
+  "question_id": "museum_artifact_2",
+  "answer": "WITH env AS (\n  SELECT s.\"ART_link\" AS art_id, e.k, e.v\n  FROM \"SensitivityData\" s\n  CROSS JOIN LATERAL jsonb_each_text(s.env_handling_sensitivity->'environment') AS e(k, v)\n), erf AS (\n  SELECT art_id, AVG(CASE v WHEN 'High' THEN 10 WHEN 'Medium' THEN 5 WHEN 'Low' THEN 1 END) AS erf\n  FROM env GROUP BY art_id\n), highs AS (\n  SELECT s.\"ART_link\" AS art_id,\n         jsonb_object_agg(g.key || '_' || f.key, f.value) FILTER (WHERE f.value = 'High') AS high_sensitivities\n  FROM \"SensitivityData\" s\n  CROSS JOIN LATERAL jsonb_each(s.env_handling_sensitivity) AS g(key, value)\n  CROSS JOIN LATERAL jsonb_each_text(g.value) AS f(key, value)\n  GROUP BY s.\"ART_link\"\n)\nSELECT a.\"ARTregID\", a.art_title, erf.erf AS erf_score, h.high_sensitivities\nFROM \"ArtifactsCore\" a\nJOIN erf ON erf.art_id = a.\"ARTregID\"\nLEFT JOIN highs h ON h.art_id = a.\"ARTregID\"\nWHERE erf.erf > 4\nORDER BY erf.erf DESC"
+ },
+ {
+  "question_id": "museum_artifact_3",
+  "answer": "WITH c AS (\n  SELECT a.\"ARTregID\", a.art_title, a.\"DYNASTY\",\n         ((r.\"HIST_sign\" + (r.rating_profile->>'research_score')::numeric + (r.rating_profile->>'cultural_score')::numeric)\n          * (10 - CASE a.conserve_status WHEN 'Excellent' THEN 1 WHEN 'Good' THEN 3 WHEN 'Fair' THEN 5 WHEN 'Poor' THEN 7 WHEN 'Critical' THEN 10 END)) / 30.0 AS cpi\n  FROM \"ArtifactsCore\" a\n  JOIN \"ArtifactRatings\" r ON r.\"ART_link\" = a.\"ARTregID\"\n  WHERE a.\"DYNASTY\" IN ('Ming', 'Qing')\n)\nSELECT \"ARTregID\", art_title, \"DYNASTY\", cpi AS cpi_score,\n       CASE WHEN cpi > 7 THEN 'High Priority' WHEN cpi > 4 THEN 'Medium Priority' WHEN cpi <= 4 THEN 'Low Priority' END AS priority_level\nFROM c\nORDER BY cpi DESC"
+ },
+ {
+  "question_id": "museum_artifact_5",
+  "answer": "WITH cur AS (\n  SELECT DISTINCT ON (c.art_exam) c.art_exam, e.\"TEMPc\", e.\"RH\"\n  FROM \"ConditionAssessments\" c\n  JOIN \"EnvironmentalReadingsCore\" e ON e.case_link = c.case_exam\n  ORDER BY c.art_exam, e.\"readTS\" DESC\n), sens AS (\n  SELECT s.\"ART_link\" AS art_id,\n         AVG(CASE v WHEN 'High' THEN 10 WHEN 'Medium' THEN 5 WHEN 'Low' THEN 1 END) AS erf,\n         COUNT(*) FILTER (WHERE v = 'High') AS high_count\n  FROM \"SensitivityData\" s\n  CROSS JOIN LATERAL jsonb_each_text(s.env_handling_sensitivity->'environment') AS e(k, v)\n  GROUP BY s.\"ART_link\"\n)\nSELECT a.\"ARTregID\", a.art_title, cur.\"TEMPc\" AS current_temperature, cur.\"RH\" AS current_humidity,\n       COALESCE(sens.high_count, 0) AS high_sensitivity_count,\n       CASE WHEN (a.\"ageYears\" * sens.erf * POWER(cur.\"RH\" - 50, 2) * cur.\"TEMPc\") / 100000.0 > 5\n                 AND COALESCE(sens.high_count, 0) >= 2\n            THEN 'Yes' ELSE 'No' END AS accelerated_deterioration\nFROM \"ArtifactsCore\" a\nLEFT JOIN cur ON cur.art_exam = a.\"ARTregID\"\nLEFT JOIN sens ON sens.art_id = a.\"ARTregID\"\nORDER BY a.\"ARTregID\"",
+  "note": "Current conditions = latest reading in the showcase from ConditionAssessments; high count over environment sensitivities."
+ },
+ {
+  "question_id": "museum_artifact_6",
+  "answer": "SELECT DISTINCT case_link AS showcase_id\nFROM \"EnvironmentalReadingsCore\"\nWHERE case_link IS NOT NULL AND (\"tempVar24\" > 1 OR \"RHvar\" > 3)\nORDER BY case_link"
+ },
+ {
+  "question_id": "museum_artifact_7",
+  "answer": "WITH s AS (\n  SELECT sc.\"caseID\",\n         10 - ((e.\"tempVar24\" + e.\"RHvar\" / 5.0 + (sc.case_environment_profile->'physical_state'->>'leak_rate_per_day')::numeric) / 3.0) AS sesr,\n         (CASE WHEN sc.case_environment_profile->'physical_state'->>'seal_state' = 'Poor' THEN 1 ELSE 0 END\n        + CASE WHEN sc.case_environment_profile->'maintenance'->>'maint_status' = 'Overdue' THEN 1 ELSE 0 END\n        + CASE WHEN sc.case_environment_profile->'maintenance'->>'filter_status' = 'Replace Now' THEN 1 ELSE 0 END\n        + CASE WHEN sc.case_environment_profile->'maintenance'->>'silica_status' = 'Replace Now' THEN 1 ELSE 0 END) AS issues\n  FROM \"Showcases\" sc\n  LEFT JOIN \"EnvironmentalReadingsCore\" e ON e.case_link = sc.\"caseID\"\n)\nSELECT DISTINCT \"caseID\"\nFROM s\nWHERE sesr < 5 OR issues >= 3\nORDER BY \"caseID\""
+ }
+]

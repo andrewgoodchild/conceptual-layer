@@ -1,0 +1,52 @@
+{
+ "concepts": [
+  {"id": "et.CarbonAtom", "name": "CarbonAtom", "kind": "entity",
+   "supertypes": ["et.Atom"], "derivation": "dr.CarbonAtom"},
+  {"id": "et.PhosphorusAtom", "name": "PhosphorusAtom", "kind": "entity",
+   "supertypes": ["et.Atom"], "derivation": "dr.PhosphorusAtom"},
+  {"id": "et.NitrogenAtom", "name": "NitrogenAtom", "kind": "entity",
+   "supertypes": ["et.Atom"], "derivation": "dr.NitrogenAtom"},
+  {"id": "et.IodineAtom", "name": "IodineAtom", "kind": "entity",
+   "supertypes": ["et.Atom"], "derivation": "dr.IodineAtom"},
+  {"id": "et.SulfurAtom", "name": "SulfurAtom", "kind": "entity",
+   "supertypes": ["et.Atom"], "derivation": "dr.SulfurAtom"},
+  {"id": "et.DoubleBond", "name": "DoubleBond", "kind": "entity",
+   "supertypes": ["et.Bond"], "derivation": "dr.DoubleBond"},
+  {"id": "et.SingleBond", "name": "SingleBond", "kind": "entity",
+   "supertypes": ["et.Bond"], "derivation": "dr.SingleBond"},
+  {"id": "et.NonCarcinogenicMolecule", "name": "NonCarcinogenicMolecule", "kind": "entity",
+   "supertypes": ["et.Molecule"], "derivation": "dr.NonCarcinogenicMolecule"},
+  {"id": "et.Connection", "name": "Connection", "kind": "entity",
+   "supertypes": ["et.Bond"], "derivation": "dr.Connection"},
+  {"id": "et.Atom19", "name": "Atom19", "kind": "entity",
+   "supertypes": ["et.Atom"], "derivation": "dr.Atom19"}
+ ],
+ "derivationRules": [
+  {"id": "dr.CarbonAtom", "target": {"kind": "subtype", "ref": "et.CarbonAtom"},
+   "source": "Atom [has AtomElement: 'c']"},
+  {"id": "dr.PhosphorusAtom", "target": {"kind": "subtype", "ref": "et.PhosphorusAtom"},
+   "source": "Atom [has AtomElement: 'p']"},
+  {"id": "dr.NitrogenAtom", "target": {"kind": "subtype", "ref": "et.NitrogenAtom"},
+   "source": "Atom [has AtomElement: 'n']"},
+  {"id": "dr.IodineAtom", "target": {"kind": "subtype", "ref": "et.IodineAtom"},
+   "source": "Atom [has AtomElement: 'i']"},
+  {"id": "dr.SulfurAtom", "target": {"kind": "subtype", "ref": "et.SulfurAtom"},
+   "source": "Atom [has AtomElement: 's']"},
+  {"id": "dr.DoubleBond", "target": {"kind": "subtype", "ref": "et.DoubleBond"},
+   "source": "Bond [has BondType: '=']"},
+  {"id": "dr.SingleBond", "target": {"kind": "subtype", "ref": "et.SingleBond"},
+   "source": "Bond [has BondType: '-']"},
+  {"id": "dr.NonCarcinogenicMolecule", "target": {"kind": "subtype", "ref": "et.NonCarcinogenicMolecule"},
+   "source": "Molecule [has MoleculeLabel: '-']"},
+  {"id": "dr.Connection", "target": {"kind": "subtype", "ref": "et.Connection"},
+   "source": "Bond [has BondId]"},
+  {"id": "dr.Atom19", "target": {"kind": "subtype", "ref": "et.Atom19"},
+   "source": "Atom [has AtomId i WHERE like(i, 'TR%_19')]"}
+ ],
+ "macros": [
+  {"id": "mc.CarbonAtomPercentage", "name": "CarbonAtomPercentage", "parameters": [], "kind": "scalar",
+   "source": "THE COUNT OF CarbonAtom * 1.0 / THE COUNT OF Atom"},
+  {"id": "mc.LeastNumerousElementCount", "name": "LeastNumerousElementCount", "parameters": [], "kind": "scalar",
+   "source": "THE MINIMUM c IN (Atom a has AtomElement e AND ALSO THE COUNT OF a GROUPED BY e AS c)"}
+ ]
+}

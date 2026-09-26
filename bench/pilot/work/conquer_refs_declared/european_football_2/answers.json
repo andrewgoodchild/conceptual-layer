@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 1115,
+  "answer": "(THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Landon Donovan'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r - THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Jordan Bowery'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r) * 100 / THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Landon Donovan'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r"
+ },
+ {
+  "question_id": 1134,
+  "answer": "THE SUM OF j IN PlayerAttribute [has PlayerAttributeId: 6] has PlayerAttributeJumping j - THE SUM OF j IN PlayerAttribute [has PlayerAttributeId: 23] has PlayerAttributeJumping j"
+ },
+ {
+  "question_id": 1135,
+  "answer": "LIST i FROM PlayerAttribute [has PlayerAttributePreferredFoot: 'right'] has PlayerAttributeId i AND ALSO has PlayerAttributePotential p ORDERED WITH p ASCENDING THE FIRST 4"
+ },
+ {
+  "question_id": 1124,
+  "answer": "LIST n FROM DISTINCT PlayerAttribute [has PlayerAttributeAttackingWorkRate: 'high'] has api Player has PlayerName n"
+ },
+ {
+  "question_id": 1107,
+  "answer": "LIST d FROM PlayerAttribute [has api Player has PlayerName: 'Kevin Constant'] has PlayerAttributeDate d AND ALSO has PlayerAttributeCrossing c ORDERED WITH c DESCENDING, d ASCENDING THE FIRST 1"
+ },
+ {
+  "question_id": 1094,
+  "answer": "(THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Ariel Borysiuk'] has PlayerAttributeOverallRating r - THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] has PlayerAttributeOverallRating r) * 100 / THE SUM OF r IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] has PlayerAttributeOverallRating r"
+ },
+ {
+  "question_id": 1110,
+  "answer": "LIST cls FROM TeamAttribute [has api Team has TeamLongName: 'FC Lorient'] has TeamAttributeBuildUpPlayPassingClass cls AND ALSO has TeamAttributeDate d WHERE starts_with(d, '2010-02-22')"
+ },
+ {
+  "question_id": 1130,
+  "answer": "LIST sn FROM DISTINCT TeamAttribute [has TeamAttributeChanceCreationPassingClass: 'Safe'] has api Team has TeamShortName sn"
+ },
+ {
+  "question_id": 1116,
+  "answer": "LIST n FROM Player has PlayerName n AND ALSO has PlayerHeight h WHERE h = THE MAXIMUM PlayerHeight"
+ },
+ {
+  "question_id": 1044,
+  "answer": "LIST n FROM Player has PlayerName n AND ALSO has PlayerBirthday b WHERE substr(b,1,7) = '1970-10'"
+ }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "question_id": "crypto_1",
+    "answer": "LIST e, t, sp FROM Marketdata has MarketdataQuoteDepthSnapshot d AND ALSO jsonPath(d,'$.metadata.exchnote') AS e AND ALSO jsonPath(d,'$.metadata.timetrack') AS t AND ALSO ((jsonPath(d,'$.quotes.askquote') - jsonPath(d,'$.quotes.bidquote')) / jsonPath(d,'$.quotes.midquote') * 100) AS sp ORDERED WITH t DESCENDING THE FIRST 1"
+  },
+  {
+    "question_id": "crypto_2",
+    "answer": "LIST oid, dc, rc, fr FROM Order has OrderRecordvault oid AND ALSO has OrderDealcount dc AND ALSO is of Orderexecution e AND ALSO e has OrderexecutionRemaincount rc AND ALSO e has OrderexecutionOrderexecmark em AND ALSO ((dc - rc) / dc * 100) AS fr ORDERED WITH em DESCENDING THE FIRST 1 PER oid"
+  },
+  {
+    "question_id": "crypto_3",
+    "answer": "LIST p, ps, vm, pvar FROM Riskandmargin has RiskandmarginPivot p AND ALSO has RiskandmarginMarginProfile mp AND ALSO jsonPath(mp,'$.position.possum') AS ps AND ALSO (THE MAXIMUM v IN Marketstat [has MarketstatSmark sm WHERE sm = THE MAXIMUM MarketstatSmark] has MarketstatVolmeter v) AS vm AND ALSO (ps * vm * 0.01) AS pvar ORDERED WITH pvar DESCENDING THE FIRST 5"
+  },
+  {
+    "question_id": "crypto_4",
+    "answer": "LIST p, oid, abn, ih, ms, mu FROM Riskandmargin has RiskandmarginPivot p AND ALSO has Order o AND ALSO o has OrderRecordvault oid AND ALSO o has User u AND ALSO u is of Accountbalance ab AND ALSO ab has AccountbalanceSnode abn AND ALSO ab has AccountbalanceMargsum ms AND ALSO has RiskandmarginMarginProfile mp AND ALSO jsonPath(mp,'$.margin_thresholds.inithold') AS ih AND ALSO (ih / ms * 100) AS mu"
+  },
+  {
+    "question_id": "crypto_5",
+    "answer": "LIST (THE SUM OF v IN (Accountbalance has AccountbalanceRealline r AND ALSO if(r > 0, r, 0.0) AS v)), (THE SUM OF w IN (Accountbalance has AccountbalanceRealline r2 AND ALSO if(r2 < 0, r2, 0.0) AS w)), ((THE SUM OF v3 IN (Accountbalance has AccountbalanceRealline r3 AND ALSO if(r3 > 0, r3, 0.0) AS v3)) / abs(THE SUM OF w4 IN (Accountbalance has AccountbalanceRealline r4 AND ALSO if(r4 < 0, r4, 0.0) AS w4)))"
+  },
+  {
+    "question_id": "crypto_6",
+    "answer": "LIST mp, sp, sent, bf, avgsp, pr FROM Analyticsindicator ai has AnalyticsindicatorMarketSentimentIndicators si AND ALSO ai has Marketdata has MarketdataQuoteDepthSnapshot d AND ALSO jsonPath(d,'$.metadata.mktcombo') AS mp AND ALSO ((jsonPath(d,'$.quotes.askquote') - jsonPath(d,'$.quotes.bidquote')) / jsonPath(d,'$.quotes.midquote') * 100) AS sp AND ALSO jsonPath(si,'$.momentum.mktfeel') AS sent AND ALSO jsonPath(si,'$.momentum.buyforce') AS bf AND ALSO 1 AS grp AND ALSO THE AVERAGE sp WITHIN sent AS avgsp AND ALSO THE RANK OF sp WITHIN grp AS rk AND ALSO THE COUNT OF ai WITHIN grp AS n AND ALSO ((n - rk) / (n - 1.0)) AS pr"
+  },
+  {
+    "question_id": "crypto_7",
+    "answer": "LIST fd, wa, mp, a1, a4, a24, acc FROM Analyticsindicator ai has AnalyticsindicatorMarketSentimentIndicators si AND ALSO ai has Marketdata has MarketdataQuoteDepthSnapshot d AND ALSO jsonPath(d,'$.metadata.mktcombo') AS mp AND ALSO ai has Marketstat has MarketstatPriceShiftDay ps AND ALSO jsonPath(si,'$.flow.smartforce') AS sf AND ALSO jsonPath(si,'$.flow.retailflow') AS rf AND ALSO jsonPath(si,'$.flow.instflow') AS inf AND ALSO if(sf > rf * 1.2 AND sf > inf * 1.2, 'Smart Money Dominant', if(rf > sf * 1.2 AND rf > inf * 1.2, 'Retail Dominant', if(inf > sf * 1.2 AND inf > rf * 1.2, 'Institutional Dominant', 'Mixed'))) AS fd AND ALSO jsonPath(si,'$.big_players.whalemotion') AS wa AND ALSO if((sf > rf AND sf > inf AND ps > 0) OR (sf < rf AND sf < inf AND ps < 0), 1.0, 0.0) AS hit AND ALSO THE AVERAGE ps GROUPED BY fd, wa, mp AS a1 AND ALSO THE AVERAGE ps GROUPED BY fd, wa, mp AS a4 AND ALSO THE AVERAGE ps GROUPED BY fd, wa, mp AS a24 AND ALSO THE AVERAGE hit GROUPED BY fd, wa, mp AS acc ORDERED WITH acc DESCENDING"
+  },
+  {
+    "question_id": "crypto_8",
+    "answer": "LIST p, ps, pm, ws, el FROM Riskandmargin has RiskandmarginPivot p AND ALSO has RiskandmarginMarginProfile mp AND ALSO jsonPath(mp,'$.position.possum') AS ps AND ALSO jsonPath(mp,'$.position.posmagn') AS pm AND ALSO has Order o AND ALSO o has User u AND ALSO u is of Accountbalance has AccountbalanceWalletsum ws AND ALSO (castNumber(pm) * ps / ws) AS el"
+  },
+  {
+    "question_id": "crypto_9",
+    "answer": "LIST rsi, macd, bb, tm, tss FROM Analyticsindicator has AnalyticsindicatorMarketSentimentIndicators si AND ALSO jsonPath(si,'$.oscillators.rsi14spot') AS rsi AND ALSO jsonPath(si,'$.oscillators.macdtrail') AS macd AND ALSO jsonPath(si,'$.oscillators.bbandspan') AS bb AND ALSO jsonPath(si,'$.momentum.techmeter') AS tm AND ALSO ((abs(rsi - 50) + abs(macd) + (bb * 0.01)) / 3 * if(tm = 'Buy', 1, if(tm = 'Sell', -1, 0))) AS tss"
+  },
+  {
+    "question_id": "crypto_10",
+    "answer": "LIST oid, side, qty, dep FROM Order has OrderRecordvault oid AND ALSO has OrderDealedge side AND ALSO has OrderDealcount qty AND ALSO (THE MAXIMUM u IN (Marketstat [has MarketstatSmark sm WHERE sm = THE MAXIMUM MarketstatSmark] has Marketdata has MarketdataQuoteDepthSnapshot d AND ALSO jsonPath(d,'$.depth.bidunits') AS u)) AS bu AND ALSO (THE MAXIMUM w IN (Marketstat [has MarketstatSmark sm2 WHERE sm2 = THE MAXIMUM MarketstatSmark] has Marketdata has MarketdataQuoteDepthSnapshot d2 AND ALSO jsonPath(d2,'$.depth.askunits') AS w)) AS au AND ALSO if(side = 'Buy', bu, au) AS dep WHERE qty > dep * 0.1"
+  }
+]

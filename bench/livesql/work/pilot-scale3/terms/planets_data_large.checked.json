@@ -1,0 +1,522 @@
+[
+ {
+  "id": 0,
+  "kind": "measure",
+  "expression": "s.stellardist * 3.26156",
+  "from": "stars s",
+  "check": "SELECT s.hostplname, s.stellardist, s.stellardist * 3.26156 AS dist_ly FROM stars s WHERE s.stellardist IS NOT NULL ORDER BY s.stellarref LIMIT 5",
+  "note": "Per star (host system). stars.stellardist is the distance in parsecs (3.21-8500 pc; null for ~20% of stars). Result in light-years.",
+  "knowledge": "Distance in Light-Years",
+  "checked": "ran, 1,996 rows, from 10.47 to 27723.26"
+ },
+ {
+  "id": 1,
+  "kind": "measure",
+  "expression": "(pp.massjup * 317.83)",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT p.planetref, (pp.massjup * 317.83) AS v FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref WHERE pp.massjup IS NOT NULL ORDER BY p.planetref LIMIT 5",
+  "note": "Per planet. physical_properties.massjup is mass in Jupiter masses (one row per planet via objectlink = planets.planetref); null for about 2/3 of planets. Result in Earth masses.",
+  "knowledge": "Planet Mass in Earth Units",
+  "checked": "ran, 1,174 rows, from 0.02 to 9058.15"
+ },
+ {
+  "id": 2,
+  "kind": "measure",
+  "expression": "(pp.radjup * 11.209)",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT p.planetref, (pp.radjup * 11.209) AS v FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref WHERE pp.radjup IS NOT NULL ORDER BY p.planetref LIMIT 5",
+  "note": "Per planet. physical_properties.radjup is radius in Jupiter radii; null for ~20% of planets. Result in Earth radii.",
+  "knowledge": "Planet Radius in Earth Units",
+  "checked": "ran, 2,694 rows, from 0.3 to 77.34"
+ },
+ {
+  "id": 3,
+  "kind": "measure",
+  "expression": "(power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4))",
+  "from": "stars s",
+  "check": "SELECT s.hostplname, (s.stellarprops->'physical'->>'Temp_Value')::float AS teff, (s.stellarprops->'physical'->>'Radius_Value')::float AS rstar, (power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) AS lum FROM stars s WHERE (power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) IS NOT NULL ORDER BY s.stellarref LIMIT 5",
+  "note": "Per star, in solar luminosities. R_star = stars.stellarprops->'physical'->>'Radius_Value' (solar radii), T_star = stars.stellarprops->'physical'->>'Temp_Value' (K); JSON values are cast to float. T_sun = 5778 K. Null when either is missing (~12% of stars).",
+  "knowledge": "Stellar Luminosity",
+  "checked": "ran, 2,207 rows, from 0.0 to 630.99"
+ },
+ {
+  "id": 4,
+  "kind": "measure",
+  "expression": "(pp.massjup * 317.83) / NULLIF(power((pp.radjup * 11.209), 2), 0)",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT p.planetref, (pp.massjup * 317.83) / NULLIF(power((pp.radjup * 11.209), 2), 0) AS v FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref WHERE pp.massjup IS NOT NULL AND pp.radjup IS NOT NULL ORDER BY p.planetref LIMIT 5",
+  "note": "Per planet, in Earth gravities; uses [1] and [2]. Needs both massjup and radjup, so defined for only a few hundred planets.",
+  "knowledge": "Planet Surface Gravity",
+  "checked": "ran, 509 rows, from 0.01 to 1254.68"
+ },
+ {
+  "id": 5,
+  "kind": "measure",
+  "expression": "(s.stellarprops->'physical'->>'Temp_Value')::float * sqrt(((s.stellarprops->'physical'->>'Radius_Value')::float * 0.00465047) / (2 * oc.semimajor))",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT p.planetref, (s.stellarprops->'physical'->>'Temp_Value')::float * sqrt(((s.stellarprops->'physical'->>'Radius_Value')::float * 0.00465047) / (2 * oc.semimajor)) AS v FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref WHERE oc.semimajor IS NOT NULL ORDER BY p.planetref LIMIT 5",
+  "note": "Per planet, in K. T_star and R_star from stars.stellarprops->'physical' (Temp_Value K, Radius_Value solar radii); a = orbital_characteristics.semimajor (AU). R_star is converted to AU with 1 R_sun = 0.00465047 AU so the ratio is unitless. Assumes zero albedo and full redistribution as the formula does.",
+  "knowledge": "Planetary Equilibrium Temperature",
+  "checked": "ran, 1,897 rows, 19% of them null, from 2.94 to 7720.1"
+ },
+ {
+  "id": 6,
+  "kind": "measure",
+  "expression": "sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 1.1)",
+  "from": "stars s",
+  "check": "SELECT s.hostplname, sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 1.1) AS hz_inner_au FROM stars s WHERE sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 1.1) IS NOT NULL ORDER BY s.stellarref LIMIT 5",
+  "note": "Per star, in AU; uses Stellar Luminosity [3]. (habitability_metrics.conservative_hz_inner_AU is a separate stored estimate, nearly constant 0.95, not this formula.)",
+  "knowledge": "Habitable Zone Inner Boundary",
+  "checked": "ran, 2,207 rows, from 0.0 to 23.95"
+ },
+ {
+  "id": 7,
+  "kind": "measure",
+  "expression": "sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 0.53)",
+  "from": "stars s",
+  "check": "SELECT s.hostplname, sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 0.53) AS hz_outer_au FROM stars s WHERE sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 0.53) IS NOT NULL ORDER BY s.stellarref LIMIT 5",
+  "note": "Per star, in AU; uses Stellar Luminosity [3]. (habitability_metrics.ConservativeHzOuter_AU is a separate stored estimate, not this formula.)",
+  "knowledge": "Habitable Zone Outer Boundary",
+  "checked": "ran, 2,207 rows, from 0.0 to 34.5"
+ },
+ {
+  "id": 8,
+  "kind": "measure",
+  "expression": "((q.masserr1 - q.masserr2) / 2.0 / NULLIF(pp.massjup, 0) * 100)",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT p.planetref, ((q.masserr1 - q.masserr2) / 2.0 / NULLIF(pp.massjup, 0) * 100) AS v FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref WHERE q.masserr1 IS NOT NULL AND pp.massjup IS NOT NULL ORDER BY p.planetref LIMIT 5",
+  "note": "Percent. Generic formula ((err1 - err2)/2)/value*100; shown for planet mass. Errors are in data_quality_tracking (one row per planet, targetlink = planets.planetref); err2 columns are stored as negative numbers, so err1 - err2 adds the magnitudes. Value/error pairs: oc.period/perioderr1,2; oc.semimajor/semimajerr1,2; oc.eccentricity/eccerr1,2; oc.inclination/inclerr1,2; pp.massjup/masserr1,2; pp.radjup/raderr1,2; pp.densvalue/denserr1,2; s.stellardist/disterr1,2; stellar Temp_Value/temperr1,2; stellar Mass_Value/stellarmasserr1,2; stellar Radius_Value/stellarraderr1,2. optmagerr is a single symmetric error (use optmagerr/value*100).",
+  "knowledge": "Relative Uncertainty",
+  "checked": "ran, 987 rows, from 0.2 to 7990.48"
+ },
+ {
+  "id": 9,
+  "kind": "measure",
+  "expression": "power((pp.radjup * 0.10276) / NULLIF((s.stellarprops->'physical'->>'Radius_Value')::float, 0), 2)",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT p.planetref, power((pp.radjup * 0.10276) / NULLIF((s.stellarprops->'physical'->>'Radius_Value')::float, 0), 2) AS v FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref WHERE pp.radjup IS NOT NULL ORDER BY p.planetref LIMIT 5",
+  "note": "Per planet, a fraction (multiply by 1e6 for ppm). R_p = physical_properties.radjup (Jupiter radii) converted to solar radii with 1 R_J = 0.10276 R_sun; R_star = stellarprops->'physical'->>'Radius_Value' (solar radii).",
+  "knowledge": "Transit Depth",
+  "checked": "ran, 2,694 rows, 0% of them null, from 0.0 to 1.14"
+ },
+ {
+  "id": 10,
+  "kind": "measure",
+  "expression": "sqrt(2 * 6.674e-11 * ((pp.massjup * 317.83) * 5.972e24) / NULLIF((pp.radjup * 11.209) * 6.3781e6, 0)) / 1000",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT p.planetref, sqrt(2 * 6.674e-11 * ((pp.massjup * 317.83) * 5.972e24) / NULLIF((pp.radjup * 11.209) * 6.3781e6, 0)) / 1000 AS v FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref WHERE pp.massjup IS NOT NULL AND pp.radjup IS NOT NULL ORDER BY p.planetref LIMIT 5",
+  "note": "Per planet, in km/s. Uses [1] and [2] converted to SI: 1 M_E = 5.972e24 kg, 1 R_E = 6.3781e6 m (equatorial, matching the 11.209 R_J factor), G = 6.674e-11. Earth gives ~11.2 km/s. Needs both mass and radius.",
+  "knowledge": "Planet Escape Velocity",
+  "checked": "ran, 509 rows, from 2.01 to 585.45"
+ },
+ {
+  "id": 11,
+  "kind": "measure",
+  "expression": "sqrt(6.674e-11 * ((s.stellarprops->'physical'->>'Mass_Value')::float * 1.989e30) / (oc.semimajor * 1.496e11)) / 1000",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT p.planetref, sqrt(6.674e-11 * ((s.stellarprops->'physical'->>'Mass_Value')::float * 1.989e30) / (oc.semimajor * 1.496e11)) / 1000 AS v FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref WHERE oc.semimajor IS NOT NULL ORDER BY p.planetref LIMIT 5",
+  "note": "Per planet, in km/s. M_star = stellarprops->'physical'->>'Mass_Value' (solar masses, x1.989e30 kg); a = orbital_characteristics.semimajor (AU, x1.496e11 m). Earth gives ~29.8 km/s.",
+  "knowledge": "Orbital Velocity",
+  "checked": "ran, 1,897 rows, 16% of them null, from 0.24 to 531.35"
+ },
+ {
+  "id": 12,
+  "kind": "measure",
+  "expression": "((s.stellarprops->'physical'->>'Mass_Value')::float * 1.989e33) / ((4.0 / 3.0) * pi() * power((s.stellarprops->'physical'->>'Radius_Value')::float * 6.957e10, 3))",
+  "from": "stars s",
+  "check": "SELECT s.hostplname, ((s.stellarprops->'physical'->>'Mass_Value')::float * 1.989e33) / ((4.0 / 3.0) * pi() * power((s.stellarprops->'physical'->>'Radius_Value')::float * 6.957e10, 3)) AS rho_gcc FROM stars s WHERE ((s.stellarprops->'physical'->>'Mass_Value')::float * 1.989e33) / ((4.0 / 3.0) * pi() * power((s.stellarprops->'physical'->>'Radius_Value')::float * 6.957e10, 3)) IS NOT NULL ORDER BY s.stellarref LIMIT 5",
+  "note": "Per star, in g/cm^3 (Sun = 1.41). Mass_Value (solar masses -> 1.989e33 g) and Radius_Value (solar radii -> 6.957e10 cm) from stellarprops->'physical'. Equivalently in solar units: Mass_Value/Radius_Value^3 * 1.41.",
+  "knowledge": "Stellar Density",
+  "checked": "ran, 2,117 rows, from 0.0 to 30848.09"
+ },
+ {
+  "id": 13,
+  "kind": "measure",
+  "expression": "(s.stellarprops->'physical'->>'Temp_Value')::float AS hr_temperature_k, (power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) AS hr_luminosity_lsun",
+  "from": "stars s",
+  "check": "SELECT s.hostplname, (s.stellarprops->'physical'->>'Temp_Value')::float AS hr_temperature_k, (power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) AS hr_luminosity_lsun FROM stars s WHERE (power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) IS NOT NULL ORDER BY s.stellarref LIMIT 5",
+  "note": "Per star, a pair of values (two select-list items): effective temperature (K, Temp_Value) and Stellar Luminosity [3] (L_sun). Luminosity is usually plotted on a log scale.",
+  "knowledge": "Hertzsprung-Russell (HR) Diagram Position",
+  "checked": "ran, 2,207 rows, from 0.0 to 630.99"
+ },
+ {
+  "id": 14,
+  "kind": "measure",
+  "expression": "(oc.semimajor - sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 1.1)) / NULLIF(sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 0.53) - sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 1.1), 0)",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT p.planetref, (oc.semimajor - sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 1.1)) / NULLIF(sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 0.53) - sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 1.1), 0) AS v FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref WHERE oc.semimajor IS NOT NULL ORDER BY p.planetref LIMIT 5",
+  "note": "Per planet, dimensionless: 0 = at inner edge, 1 = at outer edge, 0.5 centred; outside [0,1] means outside the zone. a = orbital_characteristics.semimajor (AU); r_i, r_o from [6], [7] on the host star.",
+  "knowledge": "Goldilocks Value",
+  "checked": "ran, 1,897 rows, 19% of them null, from -2.27 to 21361.1"
+ },
+ {
+  "id": 15,
+  "kind": "measure",
+  "expression": "power(oc.semimajor, 3) / power(oc.period / 365.25, 2)",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT p.planetref, power(oc.semimajor, 3) / power(oc.period / 365.25, 2) AS v FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref WHERE oc.semimajor IS NOT NULL AND oc.period IS NOT NULL ORDER BY p.planetref LIMIT 5",
+  "note": "Per planet, derived host mass in solar masses. a = orbital_characteristics.semimajor (AU); P = orbital_characteristics.period, stored in days, converted to years by /365.25. Compare with stellarprops->'physical'->>'Mass_Value' to verify.",
+  "knowledge": "Kepler's Third Law Verification",
+  "checked": "ran, 1,831 rows, from 0.02 to 3.91"
+ },
+ {
+  "id": 16,
+  "kind": "measure",
+  "expression": "(pp.massjup * 317.83) / NULLIF((pp.radjup * 11.209), 0)",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT p.planetref, (pp.massjup * 317.83) / NULLIF((pp.radjup * 11.209), 0) AS v FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref WHERE pp.massjup IS NOT NULL AND pp.radjup IS NOT NULL ORDER BY p.planetref LIMIT 5",
+  "note": "Per planet, Earth masses per Earth radius; uses [1] and [2].",
+  "knowledge": "Mass-Radius Relationship",
+  "checked": "ran, 509 rows, from 0.03 to 2742.43"
+ },
+ {
+  "id": 17,
+  "kind": "measure",
+  "expression": "(pr.next_period / pr.period)",
+  "from": "(SELECT p.planetref, p.hostlink, oc.period, LEAD(oc.period) OVER (PARTITION BY p.hostlink ORDER BY oc.period) AS next_period FROM planets p JOIN orbital_characteristics oc ON oc.bodylink = p.planetref WHERE oc.period IS NOT NULL) pr",
+  "check": "SELECT pr.hostlink, pr.planetref, pr.period, pr.next_period, (pr.next_period / pr.period) AS period_ratio FROM (SELECT p.planetref, p.hostlink, oc.period, LEAD(oc.period) OVER (PARTITION BY p.hostlink ORDER BY oc.period) AS next_period FROM planets p JOIN orbital_characteristics oc ON oc.bodylink = p.planetref WHERE oc.period IS NOT NULL) pr WHERE pr.next_period IS NOT NULL ORDER BY pr.hostlink, pr.period LIMIT 8",
+  "note": "Per adjacent pair within a host star (row = the inner planet; next_period is the next-longer period at the same planets.hostlink). Adjacency is taken as ordering by orbital_characteristics.period (days); planets with null period are left out. Null for the outermost planet of each system. Ratio is always >= 1.",
+  "knowledge": "Orbital Period Ratio",
+  "checked": "ran, 861 rows, from 1.01 to 4482.23"
+ },
+ {
+  "id": 18,
+  "kind": "measure",
+  "expression": "(pp.massjup * 9.5458e-4) / NULLIF((s.stellarprops->'physical'->>'Mass_Value')::float, 0)",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT p.planetref, (pp.massjup * 9.5458e-4) / NULLIF((s.stellarprops->'physical'->>'Mass_Value')::float, 0) AS v FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref WHERE pp.massjup IS NOT NULL ORDER BY p.planetref LIMIT 5",
+  "note": "Per planet, dimensionless. Planet mass physical_properties.massjup (Jupiter masses) converted to solar masses with 1 M_J = 9.5458e-4 M_sun; star mass Mass_Value (solar masses).",
+  "knowledge": "Planet-Star Mass Ratio",
+  "checked": "ran, 1,174 rows, 4% of them null, from 0.0 to 0.7"
+ },
+ {
+  "id": 19,
+  "kind": "measure",
+  "expression": "6.674e-11 * (s.stellarprops->'physical'->>'Mass_Value')::float * 1.989e30",
+  "from": "stars s",
+  "check": "SELECT s.hostplname, 6.674e-11 * (s.stellarprops->'physical'->>'Mass_Value')::float * 1.989e30 AS mu_m3_s2 FROM stars s WHERE (s.stellarprops->'physical'->>'Mass_Value')::float IS NOT NULL ORDER BY s.stellarref LIMIT 5",
+  "note": "Per star, in m^3/s^2 (Sun = 1.327e20). Mass_Value (solar masses) x 1.989e30 kg, G = 6.674e-11 SI.",
+  "knowledge": "Gravitational Parameter (\u03bc)",
+  "checked": "ran, 2,357 rows, from 2.6549171999999995e+18 to 5.177088539999999e+20"
+ },
+ {
+  "id": 20,
+  "kind": "condition",
+  "expression": "pp.massjup > 0.1",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE pp.massjup > 0.1) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Per planet. physical_properties.massjup in Jupiter masses; planets with null mass (most) are not classified.",
+  "knowledge": "Gas Giant Planet",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 21,
+  "kind": "condition",
+  "expression": "pp.densvalue > 3",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE pp.densvalue > 3) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Per planet. physical_properties.densvalue is bulk density in g/cm^3, but it is filled for only ~390 planets, so most cannot be tested. (Density could be derived from mass and radius, but the definition names bulk density and the stored column holds it.)",
+  "knowledge": "Rocky Planet",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 22,
+  "kind": "condition",
+  "expression": "oc.period < 10",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE oc.period < 10) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Per planet. orbital_characteristics.period is in days.",
+  "knowledge": "Short-Period Planet",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 23,
+  "kind": "condition",
+  "expression": "pp.massjup > 0.1 AND oc.period < 10",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE pp.massjup > 0.1 AND oc.period < 10) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Per planet: Gas Giant [20] and Short-Period [22].",
+  "knowledge": "Hot Jupiter",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 24,
+  "kind": "condition",
+  "expression": "pp.densvalue > 3 AND (pp.massjup * 317.83) BETWEEN 1 AND 10",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE pp.densvalue > 3 AND (pp.massjup * 317.83) BETWEEN 1 AND 10) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Per planet: Rocky [21] (densvalue > 3 g/cm^3) and mass in Earth units [1] between 1 and 10 inclusive. Requires both density and mass, so few planets qualify.",
+  "knowledge": "Super-Earth",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 25,
+  "kind": "condition",
+  "expression": "oc.semimajor BETWEEN sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 1.1) AND sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 0.53)",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE oc.semimajor BETWEEN sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 1.1) AND sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 0.53)) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Per planet: orbital_characteristics.semimajor (AU) between [6] and [7] computed from the host star's luminosity. (habitability_metrics.IN_HABITABLE_ZONE and PlanetCharacterizationSummary.in_habitable_zone are separate stored flags that do not follow this formula.)",
+  "knowledge": "Planet in Habitable Zone",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 26,
+  "kind": "condition",
+  "expression": "pp.densvalue > 3 AND oc.semimajor BETWEEN sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 1.1) AND sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 0.53)",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE pp.densvalue > 3 AND oc.semimajor BETWEEN sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 1.1) AND sqrt((power((s.stellarprops->'physical'->>'Radius_Value')::float, 2) * power((s.stellarprops->'physical'->>'Temp_Value')::float / 5778.0, 4)) / 0.53)) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Per planet: Rocky [21] and in Habitable Zone [25]. No planet in the data satisfies both (densvalue is sparse; only 28 planets are in the computed zone).",
+  "knowledge": "Potentially Habitable Exoplanet",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 27,
+  "kind": "condition",
+  "expression": "oc.eccentricity > 0.25",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE oc.eccentricity > 0.25) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Per planet. orbital_characteristics.eccentricity, null for ~70% of planets.",
+  "knowledge": "High Eccentricity Planet",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 28,
+  "kind": "condition",
+  "expression": "s.compcount > 1",
+  "from": "stars s",
+  "check": "SELECT count(*) FILTER (WHERE s.compcount > 1) AS n_true, count(*) AS n FROM stars s",
+  "note": "Per star. stars.compcount is the number of planetary companions; it agrees with the count of planets rows per hostlink for all but one star. Equivalent: (SELECT count(*) FROM planets p WHERE p.hostlink = s.stellarref) > 1.",
+  "knowledge": "Multi-planetary System",
+  "checked": "ran, 1 row, from 2509.0 to 2509.0"
+ },
+ {
+  "id": 29,
+  "kind": "condition",
+  "expression": "((q.masserr1 - q.masserr2) / 2.0 / NULLIF(pp.massjup, 0) * 100) < 5",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE ((q.masserr1 - q.masserr2) / 2.0 / NULLIF(pp.massjup, 0) * 100) < 5) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Relative Uncertainty [8] below 5 percent; shown for planet mass. Substitute any value/err1/err2 triple listed under [8] for other parameters. False/null when the value or errors are missing.",
+  "knowledge": "High-Precision Measurement",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 30,
+  "kind": "condition",
+  "expression": "((q.masserr1 - q.masserr2) / 2.0 / NULLIF(pp.massjup, 0) * 100) < 5 AND ((q.raderr1 - q.raderr2) / 2.0 / NULLIF(pp.radjup, 0) * 100) < 5 AND ((q.perioderr1 - q.perioderr2) / 2.0 / NULLIF(oc.period, 0) * 100) < 5",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE ((q.masserr1 - q.masserr2) / 2.0 / NULLIF(pp.massjup, 0) * 100) < 5 AND ((q.raderr1 - q.raderr2) / 2.0 / NULLIF(pp.radjup, 0) * 100) < 5 AND ((q.perioderr1 - q.perioderr2) / 2.0 / NULLIF(oc.period, 0) * 100) < 5) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Per planet: High-Precision [29] on mass (pp.massjup, q.masserr1/2), radius (pp.radjup, q.raderr1/2) and orbital period (oc.period, q.perioderr1/2).",
+  "knowledge": "Well-Characterized Planet",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 31,
+  "kind": "condition",
+  "expression": "oc.inclination > 90",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE oc.inclination > 90) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Per planet. orbital_characteristics.inclination in degrees; filled for ~500 planets, max ~90.8, so only a handful qualify.",
+  "knowledge": "Retrograde Orbit",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 32,
+  "kind": "condition",
+  "expression": "pp.massjup > 0.1 AND pp.densvalue < 0.5",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE pp.massjup > 0.1 AND pp.densvalue < 0.5) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Per planet: Gas Giant [20] with physical_properties.densvalue < 0.5 g/cm^3.",
+  "knowledge": "Inflated Gas Giant",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 33,
+  "kind": "condition",
+  "expression": "s.compcount > 1 AND bool_and((pr.next_period / pr.period) < 3) FILTER (WHERE pr.next_period IS NOT NULL)",
+  "from": "stars s JOIN (SELECT p.planetref, p.hostlink, oc.period, LEAD(oc.period) OVER (PARTITION BY p.hostlink ORDER BY oc.period) AS next_period FROM planets p JOIN orbital_characteristics oc ON oc.bodylink = p.planetref WHERE oc.period IS NOT NULL) pr ON pr.hostlink = s.stellarref GROUP BY s.stellarref, s.compcount",
+  "check": "SELECT count(*) FILTER (WHERE cs) AS n_true, count(*) AS n FROM (SELECT s.stellarref, s.compcount > 1 AND bool_and((pr.next_period / pr.period) < 3) FILTER (WHERE pr.next_period IS NOT NULL) AS cs FROM stars s JOIN (SELECT p.planetref, p.hostlink, oc.period, LEAD(oc.period) OVER (PARTITION BY p.hostlink ORDER BY oc.period) AS next_period FROM planets p JOIN orbital_characteristics oc ON oc.bodylink = p.planetref WHERE oc.period IS NOT NULL) pr ON pr.hostlink = s.stellarref GROUP BY s.stellarref, s.compcount) t",
+  "note": "Per star, an aggregate over its adjacent period pairs from [17] (use in HAVING or a subquery, grouped by star). Multi-planetary [28] and every adjacent ratio < 3. Pairs involving a planet with null period are skipped; a multi-planet star with fewer than two known periods yields null (not compact).",
+  "knowledge": "Compact System",
+  "checked": "ran, 1 row, from 2444.0 to 2444.0"
+ },
+ {
+  "id": 34,
+  "kind": "value",
+  "expression": "q.masssource = 'Msini'",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE q.masssource = 'Msini') AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Per planet. data_quality_tracking.masssource: 'Msini' = minimum mass (M sin i); 'Mass' = true mass; 'Msin(i)/sin(i)' = minimum mass corrected by a known inclination, i.e. a true mass, so not minimum; null when no mass. (limitflags Mass_Lim is a separate limit flag, not this.)",
+  "knowledge": "Minimum Mass Status",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 35,
+  "kind": "value",
+  "expression": "(q.limitflags->'planetary_limits'->>'Mass_Lim')::int = 1",
+  "from": "planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "check": "SELECT count(*) FILTER (WHERE (q.limitflags->'planetary_limits'->>'Mass_Lim')::int = 1) AS n_true, count(*) AS n FROM planets p JOIN stars s ON s.stellarref = p.hostlink LEFT JOIN physical_properties pp ON pp.objectlink = p.planetref LEFT JOIN orbital_characteristics oc ON oc.bodylink = p.planetref LEFT JOIN data_quality_tracking q ON q.targetlink = p.planetref",
+  "note": "Limit flags live in data_quality_tracking.limitflags JSON, one per parameter: planetary_limits -> Period_Lim, Semimaj_Lim, Ecc_Lim, Incl_Lim, Mass_Lim, Rad_Lim, Dens_Lim; stellar_limits -> Dist_Lim, OptMag_Lim, Temp_Lim, StellarMass_Lim, StellarRad_Lim. Value 1 = upper limit (true value <= stated), -1 = lower limit, 0 = measured. Shown for Mass_Lim; substitute the parameter's key. Mapping 1 = upper follows the usual exoplanet-archive convention; the data does not state it.",
+  "knowledge": "Upper Limit Value",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 36,
+  "kind": "condition",
+  "expression": "p.discmethod IN ('Transit', 'TR', 'Transit Method', 'Photometry', 'Photometric')",
+  "from": "planets p",
+  "check": "SELECT count(*) FILTER (WHERE p.discmethod IN ('Transit', 'TR', 'Transit Method', 'Photometry', 'Photometric')) AS n_true, count(*) AS n FROM planets p",
+  "note": "Per planet. planets.discmethod raw labels; all five spellings occur (about 2660 planets).",
+  "knowledge": "Discovery via Transit Method",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 37,
+  "kind": "condition",
+  "expression": "p.discmethod IN ('RadVel', 'RV', 'RV Method', 'Radial Velocity', 'Doppler')",
+  "from": "planets p",
+  "check": "SELECT count(*) FILTER (WHERE p.discmethod IN ('RadVel', 'RV', 'RV Method', 'Radial Velocity', 'Doppler')) AS n_true, count(*) AS n FROM planets p",
+  "note": "Per planet. planets.discmethod raw labels; all five spellings occur (about 590 planets).",
+  "knowledge": "Discovery via Radial Velocity",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 38,
+  "kind": "value",
+  "expression": "((s.stellarprops->'photometry'->>'Mag_Blend')::int = 1 OR (s.stellarprops->'physical'->>'Temp_Blend')::int = 1 OR (s.stellarprops->'physical'->>'Mass_Blend')::int = 1 OR (s.stellarprops->'physical'->>'Rad_Blend')::int = 1)",
+  "from": "stars s",
+  "check": "SELECT count(*) FILTER (WHERE ((s.stellarprops->'photometry'->>'Mag_Blend')::int = 1 OR (s.stellarprops->'physical'->>'Temp_Blend')::int = 1 OR (s.stellarprops->'physical'->>'Mass_Blend')::int = 1 OR (s.stellarprops->'physical'->>'Rad_Blend')::int = 1)) AS n_true, count(*) AS n FROM stars s",
+  "note": "Per star. Blend flags are in stars.stellarprops: photometry->>'Mag_Blend' (optical magnitude), physical->>'Temp_Blend', 'Mass_Blend', 'Rad_Blend'; 1 = blended. Only Mag_Blend is ever 1 (7 stars); the physical ones are always 0. Use the single flag for the parameter in question.",
+  "knowledge": "Blended Measurement",
+  "checked": "ran, 1 row, from 2509.0 to 2509.0"
+ },
+ {
+  "id": 39,
+  "kind": "condition",
+  "expression": "EXISTS (SELECT 1 FROM planet_instrument_observations o JOIN instruments_surveys i ON i.instrumentref = o.facilitylink WHERE o.subjectlink = p.planetref AND i.facilityname = 'kep')",
+  "from": "planets p",
+  "check": "SELECT count(*) FILTER (WHERE EXISTS (SELECT 1 FROM planet_instrument_observations o JOIN instruments_surveys i ON i.instrumentref = o.facilitylink WHERE o.subjectlink = p.planetref AND i.facilityname = 'kep')) AS n_true, count(*) AS n FROM planets p",
+  "note": "Per planet. Link table planet_instrument_observations (subjectlink -> planets.planetref, facilitylink -> instruments_surveys.instrumentref); facilityname 'kep' (lowercase). 'k2' is a separate facility and is not included.",
+  "knowledge": "Kepler Mission Discovery",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 40,
+  "kind": "value",
+  "expression": "s.stellardist",
+  "from": "stars s",
+  "check": "SELECT min(s.stellardist), max(s.stellardist), count(s.stellardist), count(*) FROM stars s",
+  "note": "stars.stellardist, parsecs (3.21-8500 pc in the data); null for ~20% of stars. Light-years via [0].",
+  "knowledge": "Stellar Distance Value",
+  "checked": "ran, 1 row, from 2509.0 to 2509.0"
+ },
+ {
+  "id": 41,
+  "kind": "value",
+  "expression": "(s.stellarprops->'photometry'->>'Opt_Mag')::float",
+  "from": "stars s",
+  "check": "SELECT min((s.stellarprops->'photometry'->>'Opt_Mag')::float), max((s.stellarprops->'photometry'->>'Opt_Mag')::float), count(s.stellarprops->'photometry'->>'Opt_Mag'), count(*) FROM stars s",
+  "note": "Apparent optical magnitude in stars.stellarprops->'photometry'->>'Opt_Mag' (0.85-20.15; smaller = brighter). Its band is in photometry->>'Photo_Band', with many spellings of the same bands (e.g. 'V', 'V-band', 'Johnson V', 'V (Johnson)'; 'Kep', 'Kepler', 'Kepler-band'; plus 'K-band').",
+  "knowledge": "Apparent Magnitude Value",
+  "checked": "ran, 1 row, from 2509.0 to 2509.0"
+ },
+ {
+  "id": 42,
+  "kind": "value",
+  "expression": "(s.stellarprops->'physical'->>'Temp_Value')::float",
+  "from": "stars s",
+  "check": "SELECT min((s.stellarprops->'physical'->>'Temp_Value')::float), max((s.stellarprops->'physical'->>'Temp_Value')::float), count((s.stellarprops->'physical'->>'Temp_Value')::float), count(*) FROM stars s",
+  "note": "stars.stellarprops->'physical'->>'Temp_Value', Kelvin (575-57000 in the data).",
+  "knowledge": "Stellar Temperature Value",
+  "checked": "ran, 1 row, from 2509.0 to 2509.0"
+ },
+ {
+  "id": 43,
+  "kind": "value",
+  "expression": "(s.stellarprops->'physical'->>'Mass_Value')::float",
+  "from": "stars s",
+  "check": "SELECT min((s.stellarprops->'physical'->>'Mass_Value')::float), max((s.stellarprops->'physical'->>'Mass_Value')::float), count((s.stellarprops->'physical'->>'Mass_Value')::float), count(*) FROM stars s",
+  "note": "stars.stellarprops->'physical'->>'Mass_Value', solar masses (0.02-3.9).",
+  "knowledge": "Stellar Mass Value",
+  "checked": "ran, 1 row, from 2509.0 to 2509.0"
+ },
+ {
+  "id": 44,
+  "kind": "value",
+  "expression": "(s.stellarprops->'physical'->>'Radius_Value')::float",
+  "from": "stars s",
+  "check": "SELECT min((s.stellarprops->'physical'->>'Radius_Value')::float), max((s.stellarprops->'physical'->>'Radius_Value')::float), count((s.stellarprops->'physical'->>'Radius_Value')::float), count(*) FROM stars s",
+  "note": "stars.stellarprops->'physical'->>'Radius_Value', solar radii (0.04-51.1).",
+  "knowledge": "Stellar Radius Value",
+  "checked": "ran, 1 row, from 2509.0 to 2509.0"
+ },
+ {
+  "id": 45,
+  "kind": "value",
+  "expression": "oc.period",
+  "from": "orbital_characteristics oc",
+  "check": "SELECT min(oc.period), max(oc.period), count(oc.period), count(*) FROM orbital_characteristics oc",
+  "note": "orbital_characteristics.period, days (0.09 to 7.3e6); join oc.bodylink = planets.planetref.",
+  "knowledge": "Orbital Period Value",
+  "checked": "ran, 1 row, from 3371.0 to 3371.0"
+ },
+ {
+  "id": 46,
+  "kind": "value",
+  "expression": "oc.eccentricity",
+  "from": "orbital_characteristics oc",
+  "check": "SELECT min(oc.eccentricity), max(oc.eccentricity), count(oc.eccentricity), count(*) FROM orbital_characteristics oc",
+  "note": "orbital_characteristics.eccentricity, dimensionless 0 to 0.956; null for most planets.",
+  "knowledge": "Orbital Eccentricity Value",
+  "checked": "ran, 1 row, from 3371.0 to 3371.0"
+ },
+ {
+  "id": 47,
+  "kind": "value",
+  "expression": "pp.massjup",
+  "from": "physical_properties pp",
+  "check": "SELECT min(pp.massjup), max(pp.massjup), count(pp.massjup), count(*) FROM physical_properties pp",
+  "note": "physical_properties.massjup, Jupiter masses (6e-5 to 28.5); join pp.objectlink = planets.planetref. Whether it is a true or minimum mass is in data_quality_tracking.masssource [34].",
+  "knowledge": "Planet Mass Value",
+  "checked": "ran, 1 row, from 3359.0 to 3359.0"
+ },
+ {
+  "id": 48,
+  "kind": "value",
+  "expression": "pp.radjup",
+  "from": "physical_properties pp",
+  "check": "SELECT min(pp.radjup), max(pp.radjup), count(pp.radjup), count(*) FROM physical_properties pp",
+  "note": "physical_properties.radjup, Jupiter radii (0.027-6.9).",
+  "knowledge": "Planet Radius Value",
+  "checked": "ran, 1 row, from 3359.0 to 3359.0"
+ },
+ {
+  "id": 49,
+  "kind": "value",
+  "expression": "pp.densvalue",
+  "from": "physical_properties pp",
+  "check": "SELECT min(pp.densvalue), max(pp.densvalue), count(pp.densvalue), count(*) FROM physical_properties pp",
+  "note": "physical_properties.densvalue, g/cm^3 (0.03-77.7); filled for only ~390 planets.",
+  "knowledge": "Planet Density Value",
+  "checked": "ran, 1 row, from 3359.0 to 3359.0"
+ },
+ {
+  "id": 50,
+  "kind": "condition",
+  "expression": "EXISTS (SELECT 1 FROM planet_instrument_observations o JOIN instruments_surveys i ON i.instrumentref = o.facilitylink WHERE o.subjectlink = p.planetref AND i.facilityname = 'ttv')",
+  "from": "planets p",
+  "check": "SELECT count(*) FILTER (WHERE EXISTS (SELECT 1 FROM planet_instrument_observations o JOIN instruments_surveys i ON i.instrumentref = o.facilitylink WHERE o.subjectlink = p.planetref AND i.facilityname = 'ttv')) AS n_true, count(*) AS n FROM planets p",
+  "note": "Per planet. Same link path as [39] with facilityname 'ttv'. Note this is the facility link, not planets.discmethod (whose TTV labels cover only ~15 planets).",
+  "knowledge": "Transit Timing Variation (TTV) Method",
+  "checked": "ran, 1 row, from 3372.0 to 3372.0"
+ },
+ {
+  "id": 51,
+  "kind": "measure",
+  "expression": "CASE WHEN p.discmethod IN ('RadVel', 'RV', 'RV Method', 'Radial Velocity', 'Doppler') THEN 'Radial Velocity' WHEN p.discmethod IN ('Transit', 'TR', 'Transit Method', 'Photometry', 'Photometric') THEN 'Transit' WHEN p.discmethod IN ('Direct Imaging', 'DI', 'Imaging', 'IMG', 'Direct') THEN 'Imaging' WHEN p.discmethod IN ('TTV', 'Transit Timing Variations', 'Transit Timing', 'TTV Method', 'Timing Var') THEN 'TTV' WHEN p.discmethod IN ('Microlensing', 'ML', '\u03bcLens', 'Lensing', 'Gravitational') THEN 'Microlensing' ELSE 'Other' END",
+  "from": "planets p",
+  "check": "SELECT CASE WHEN p.discmethod IN ('RadVel', 'RV', 'RV Method', 'Radial Velocity', 'Doppler') THEN 'Radial Velocity' WHEN p.discmethod IN ('Transit', 'TR', 'Transit Method', 'Photometry', 'Photometric') THEN 'Transit' WHEN p.discmethod IN ('Direct Imaging', 'DI', 'Imaging', 'IMG', 'Direct') THEN 'Imaging' WHEN p.discmethod IN ('TTV', 'Transit Timing Variations', 'Transit Timing', 'TTV Method', 'Timing Var') THEN 'TTV' WHEN p.discmethod IN ('Microlensing', 'ML', '\u03bcLens', 'Lensing', 'Gravitational') THEN 'Microlensing' ELSE 'Other' END AS method_std, count(*) FROM planets p GROUP BY 1 ORDER BY 2 DESC",
+  "note": "Per planet, a derived category label from planets.discmethod (text, not a number). Labels outside the lists fall to 'Other' (e.g. 'Timing Variations', 'Eclipse Timing Variations', 'ETV', 'PSR Timing', 'Pulsar', 'Brightness Mod', 'Orbital Mod', 'OBM', 'AST', 'PT', 'Phase Curve'). '\u03bcLens' uses the Greek mu (U+03BC). Uses discmethod, not the facility link that [50] uses.",
+  "knowledge": "Discovery Method Standardization",
+  "checked": "ran, 6 rows, from 15.0 to 2664.0"
+ }
+]

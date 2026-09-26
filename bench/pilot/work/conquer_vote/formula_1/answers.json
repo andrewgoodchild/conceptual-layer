@@ -1,0 +1,106 @@
+[
+ {
+  "question_id": 930,
+  "answer": "LIST rn FROM Result [has Driver has DriverForename: 'Lewis'] [has Driver has DriverSurname: 'Hamilton'] has Race has RaceName rn AND ALSO has ResultRank rk ORDERED WITH rk ASCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 1011,
+  "answer": "LIST fn, sn FROM LapTime has Driver has DriverForename fn AND ALSO has Driver has DriverSurname sn AND ALSO has LapTimeTime t ORDERED WITH t ASCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 1,
+  "candidates": 3
+ },
+ {
+  "question_id": 909,
+  "answer": "THE COUNT OF Race [has RaceName: 'European Grand Prix'] [has Circuit has CircuitCountry: 'Germany'] * 100 / THE COUNT OF Race [has RaceName: 'European Grand Prix']",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 892,
+  "answer": "LIST fn, sn, p FROM DriverStanding has Driver has DriverForename fn AND ALSO has Driver has DriverSurname sn AND ALSO has DriverStandingPoints p ORDERED WITH p DESCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 2,
+  "candidates": 3
+ },
+ {
+  "question_id": 854,
+  "answer": "LIST la, lo FROM DISTINCT Race [has RaceName: 'Australian Grand Prix'] has Circuit has CircuitLat la AND ALSO has Circuit has CircuitLng lo",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 898,
+  "answer": "LIST fn, sn, year(today()) - year(dob) FROM Driver [has DriverNationality: 'Japanese'] has DriverForename fn AND ALSO has DriverSurname sn AND ALSO has DriverDob dob ORDERED WITH dob DESCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 877,
+  "answer": "LIST fn, sn FROM Result [has Race: 872] has ResultTime t AND ALSO has Driver has DriverForename fn AND ALSO has Driver has DriverSurname sn AND ALSO has Driver has DriverDob dob ORDERED WITH dob DESCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 906,
+  "answer": "LIST rn, p FROM Result [has Driver has DriverForename: 'Lewis'] [has Driver has DriverSurname: 'Hamilton'] has Race has RaceName rn AND ALSO has ResultPoints p AND ALSO has Race has Season has SeasonYear y ORDERED WITH y ASCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 988,
+  "answer": "LIST fn, sn, a FROM PitStop [has Driver has DriverNationality: 'German'] has Driver has DriverId di AND ALSO has Driver has DriverForename fn AND ALSO has Driver has DriverSurname sn AND ALSO has Driver has DriverDob dob AND ALSO has PitStopDuration dur AND ALSO THE AVERAGE dur GROUPED BY di AS a WHERE year(dob) >= 1980 AND year(dob) <= 1985 ORDERED WITH a ASCENDING THE FIRST 3",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 881,
+  "answer": "THE COUNT OF Result [has Race has RaceDate: '1983-07-16'] [has ResultTime] / THE COUNT OF Result [has Race has RaceDate: '1983-07-16']",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 2,
+  "candidates": 3
+ },
+ {
+  "question_id": 977,
+  "answer": "THE COUNT OF Result [has Race has RaceId r] [has Status: 2] [has ResultTime] WHERE r > 50 AND r < 100",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 915,
+  "answer": "LIST nat FROM Driver has DriverNationality nat AND ALSO has DriverDob dob ORDERED WITH dob ASCENDING THE FIRST 1",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ },
+ {
+  "question_id": 868,
+  "answer": "LIST la, lo FROM DISTINCT Race [has RaceName: 'Malaysian Grand Prix'] has Circuit has CircuitLat la AND ALSO has Circuit has CircuitLng lo",
+  "attempts": 0,
+  "chosen": "conquer",
+  "agreement": 3,
+  "candidates": 3
+ }
+]

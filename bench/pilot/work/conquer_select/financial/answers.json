@@ -1,0 +1,44 @@
+[
+ {
+  "question_id": 137,
+  "answer": "THE COUNT OF DISTINCT Account [has District: 1] [is of Loan has LoanStatus s] WHERE s = 'C' OR s = 'D'",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "Candidates 1 and 3 both give 47 (Account-Loan is 1:1 here so plain COUNT and DISTINCT COUNT agree). Candidate 2 omits the brackets around 'is of Loan has LoanStatus s', which shifts the aggregate's grain from Account to LoanStatus (its own English reading and 'Worth checking' note say so), giving the wrong count of 2. Chose candidate 1 over 3 because DISTINCT is the semantically correct choice for 'how many accounts' regardless of the 1:1 coincidence."
+ },
+ {
+  "question_id": 173,
+  "answer": "LIST c, k FROM Order [has Account: 3] [has OrderAmount: 3539] has OrderKSymbol k AND ALSO THE COUNT OF Tran [has Account: 3] [has TranKSymbol: 'SLUZBY'] AS c",
+  "attempts": 3,
+  "chosen": 3,
+  "reason": "Question has two parts: 'how often' (a count) and 'aim of debiting 3539' (a k_symbol/purpose). Candidate 1 answers the first part with the account's issuance-frequency label ('POPLATEK MESICNE') instead of a count, which does not answer 'how often'. Candidates 2 and 3 both interpret 'request a statement' as TranKSymbol='SLUZBY' and both return c=13, k=POJISTNE -- exact agreement across two independently-built queries (one via Tran-amount, one via Order-amount) is strong evidence the answer is right. Chose 3 over 2 because it computes the count with a simple THE COUNT OF ... AS c rather than 2's more convoluted DISTINCT COUNT with a reused grouped variable name, which is a simpler, lower-risk pattern for the same verified result, and its column order (c, k) matches the question's order (how-often, then aim)."
+ },
+ {
+  "question_id": 92,
+  "answer": "THE DISTINCT COUNT OF District [has DistrictA11 a] [is of Client has ClientGender: 'F'] WHERE a > 6000 AND a < 10000",
+  "attempts": 3,
+  "chosen": 2,
+  "reason": "All three candidates return 69: with the female-client filter and DISTINCT (2), with the filter but no DISTINCT (1), and with no filter at all (3) -- meaning every district in the A11 range happens to have at least one female client, so results coincide. Chose candidate 2 because it is the only one that both uses the evidence's gender filter (Female -> ClientGender='F') AND guards against the fan-out the District-to-Client join introduces (District [has DistrictA11] [is of Client ...] joins one District row to potentially many Client rows) with an explicit DISTINCT COUNT, making it correct by construction rather than by data coincidence."
+ },
+ {
+  "question_id": 189,
+  "answer": "LIST acc FROM Client [has ClientGender: 'F'] is of Disp has Account has AccountId acc AND ALSO has ClientBirthDate b AND ALSO has District has DistrictA11 a ORDERED WITH b ASCENDING, a ASCENDING THE FIRST 1",
+  "attempts": 3,
+  "chosen": 2,
+  "reason": "All three candidates order by birth date ascending (oldest first) then district A11 ascending (lowest average salary first), THE FIRST 1, and all three return the identical account number 1743 despite reaching it via different path shapes (starting from Disp vs. starting from Client). That agreement is strong evidence for the answer. Chose candidate 2 because its head is Client [has ClientGender: 'F'] -- directly matching the question's subject 'female clients' -- making the query's intent the most transparent of the three equivalent formulations."
+ },
+ {
+  "question_id": 128,
+  "answer": "LIST a2 FROM Client cl [has ClientGender: 'F'] has District has DistrictA2 a2 AND ALSO THE DISTINCT COUNT OF cl GROUPED BY a2 AS c ORDERED WITH c DESCENDING THE FIRST 9",
+  "attempts": 3,
+  "chosen": 2,
+  "reason": "All three candidates rank the same 9 districts in the same order (Hl.m. Praha, Karvina, Ostrava - mesto, Brno - mesto, Zlin, Olomouc, Frydek - Mistek, Kolin, Nachod), and where they project a count column (candidates 1 and 3) the counts also agree (324, 88, 84, 75, 57, 50, 42, 39, 37) -- strong agreement on the ranking itself. The question asks to 'list the top nine districts ... [by] the number of female account holders': the count is the ordering criterion, not something asked to be listed, so per the 'project exactly what's asked, no more' rule only the district name should be returned. Candidate 2 is the only one that projects just a2 (district); candidates 1 and 3 also project the count column c, which is extra and would mismatch a result-set comparison against gold. Also preferred candidate 2's DISTINCT COUNT of Client over candidate 1's plain COUNT of Disp, since it counts female account holders (people) rather than female account holdings (Disp rows), matching 'account holders' literally, though the counts happened to coincide in this data."
+ },
+ {
+  "question_id": 89,
+  "answer": "THE COUNT OF Account [has AccountFrequency: 'POPLATEK PO OBRATU'] [has District has DistrictA3: 'east Bohemia']",
+  "attempts": 1,
+  "chosen": 1,
+  "reason": "All three candidates are byte-for-byte identical, so only one run was needed. It filters Account by AccountFrequency='POPLATEK PO OBRATU' (issuance after transaction, per evidence) and by District A3='east Bohemia' (region, per evidence); Account-District is a functional (many-to-one) path so no DISTINCT is needed. Result: 13."
+ }
+]

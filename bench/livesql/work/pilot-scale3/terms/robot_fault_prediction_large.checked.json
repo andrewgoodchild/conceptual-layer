@@ -1,0 +1,652 @@
+[
+ {
+  "id": 0,
+  "kind": "measure",
+  "expression": "(CURRENT_DATE - d.instdateval)",
+  "from": "robot_details d",
+  "check": "SELECT d.botdetreg, d.instdateval, (CURRENT_DATE - d.instdateval) AS robot_age_days FROM robot_details d",
+  "note": "Per robot. installation_date = robot_details.instdateval (date, no nulls, 2022-05-27..2024-11-11); date minus date gives integer days.",
+  "knowledge": "Robot Age",
+  "checked": "ran, 951 rows, from 685.0 to 1584.0"
+ },
+ {
+  "id": 1,
+  "kind": "measure",
+  "expression": "(a.payloadwval / NULLIF(d.payloadcapkg, 0))",
+  "from": "actuation_data a JOIN robot_details d ON d.botdetreg = a.actrecref",
+  "check": "SELECT a.actreg, a.actrecref, a.payloadwval, d.payloadcapkg, (a.payloadwval / NULLIF(d.payloadcapkg, 0)) AS pur FROM actuation_data a JOIN robot_details d ON d.botdetreg = a.actrecref",
+  "note": "Per actuation record (one per operation). actual_payload_weight = actuation_data.payloadwval (kg; null in ~52% of rows); payload_capacity_kg = robot_details.payloadcapkg (3..200 kg). Join actuation_data.actrecref = robot_details.botdetreg (or via operation.operrecref; the routes agree). payloadival is payload inertia, not weight.",
+  "knowledge": "Payload Utilization Ratio (PUR)",
+  "checked": "ran, 1,000 rows, 52% of them null, from 0.0 to 12.04"
+ },
+ {
+  "id": 2,
+  "kind": "measure",
+  "expression": "(o.totopshrval / NULLIF(p.emergencystopcount, 0))",
+  "from": "performance_and_safety p JOIN actuation_data a ON a.actreg = p.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref",
+  "check": "SELECT p.effectivenessactuation, o.totopshrval, p.emergencystopcount, (o.totopshrval / NULLIF(p.emergencystopcount, 0)) AS mtbs_hours FROM performance_and_safety p JOIN actuation_data a ON a.actreg = p.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref",
+  "note": "Per actuation/operation record. total_operational_hours = operation.totopshrval (hours, 1087..49921, null in ~half of rows); emergency_stop_count = performance_and_safety.emergencystopcount (0..5). Rows with 0 stops give NULL (division undefined). performance_and_safety only covers 479 of 1000 actuations.",
+  "knowledge": "Mean Time Between Stoppages (MTBS)",
+  "checked": "ran, 479 rows, 58% of them null, from 436.25 to 48292.0"
+ },
+ {
+  "id": 3,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Disaster-relief/humanitarian definition; this database is about industrial robots and has no food, water or affected-population columns.",
+  "knowledge": "Supply Sufficiency (Days)",
+  "checked": "not derived"
+ },
+ {
+  "id": 4,
+  "kind": "measure",
+  "expression": "((jc.joint_health->'J1'->>'temperature_C')::real + (jc.joint_health->'J2'->>'temperature_C')::real + (jc.joint_health->'J3'->>'temperature_C')::real + (jc.joint_health->'J4'->>'temperature_C')::real + (jc.joint_health->'J5'->>'temperature_C')::real + (jc.joint_health->'J6'->>'temperature_C')::real) / 6.0",
+  "from": "joint_condition jc",
+  "check": "SELECT jc.jcondid, jc.jcdetref, ((jc.joint_health->'J1'->>'temperature_C')::real + (jc.joint_health->'J2'->>'temperature_C')::real + (jc.joint_health->'J3'->>'temperature_C')::real + (jc.joint_health->'J4'->>'temperature_C')::real + (jc.joint_health->'J5'->>'temperature_C')::real + (jc.joint_health->'J6'->>'temperature_C')::real) / 6.0 AS avg_joint_temp_c FROM joint_condition jc",
+  "note": "J1_temp..J6_temp = joint_condition.joint_health->'Jn'->>'temperature_C' (degrees C, 20..80, no nulls). One joint_condition row per operation (jcondoperref), robot = jcdetref. mechanical_status.component_status->'gearboxes' also has temperature_C per joint (gearbox temps); joint_health is the joint reading used here.",
+  "knowledge": "Average Joint Temperature",
+  "checked": "ran, 1,000 rows, from 26.41 to 68.99"
+ },
+ {
+  "id": 5,
+  "kind": "measure",
+  "expression": "((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0",
+  "from": "joint_condition jc",
+  "check": "SELECT jc.jcondid, jc.jcdetref, ((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0 AS avg_joint_vibration_mmps FROM joint_condition jc",
+  "note": "joint_condition.joint_health->'Jn'->>'vibration_mmps' for J1..J6 (mm/s, 0..10, no nulls), averaged over the 6 joints.",
+  "knowledge": "Average Joint Vibration",
+  "checked": "ran, 1,000 rows, from 1.81 to 8.41"
+ },
+ {
+  "id": 6,
+  "kind": "measure",
+  "expression": "((sc.overseerloadvalue + sc.memuseval) / 2.0)",
+  "from": "system_controller sc",
+  "check": "SELECT sc.systemoverseeractuation, sc.overseerloadvalue, sc.memuseval, ((sc.overseerloadvalue + sc.memuseval) / 2.0) AS controller_stress FROM system_controller sc",
+  "note": "Per controller reading (one per actuation record; systemoverseeroperation links to operation). overseer_load_value = system_controller.overseerloadvalue (CPU load %, 0..100); memory_usage_value = system_controller.memuseval (%, 0..100). No nulls.",
+  "knowledge": "Controller Stress Score",
+  "checked": "ran, 1,000 rows, from 1.82 to 99.52"
+ },
+ {
+  "id": 7,
+  "kind": "measure",
+  "expression": "((p.collisioncount + p.zoneviolnum + p.speedviolnum) * 1000.0 / NULLIF(o.totopshrval, 0))",
+  "from": "performance_and_safety p JOIN actuation_data a ON a.actreg = p.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref",
+  "check": "SELECT p.effectivenessactuation, ((p.collisioncount + p.zoneviolnum + p.speedviolnum) * 1000.0 / NULLIF(o.totopshrval, 0)) AS safety_incident_rate FROM performance_and_safety p JOIN actuation_data a ON a.actreg = p.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref",
+  "note": "Incidents per 1000 operating hours, per actuation/operation record. collision_count = performance_and_safety.collisioncount, zone_violations = zoneviolnum, speed_violations = speedviolnum; total_operational_hours = operation.totopshrval (null for ~half the rows -> NULL rate).",
+  "knowledge": "Safety Incident Rate",
+  "checked": "ran, 479 rows, 50% of them null, from 0.02 to 12.01"
+ },
+ {
+  "id": 8,
+  "kind": "measure",
+  "expression": "(a.poserrmmval / NULLIF(d.reachmmval, 0))",
+  "from": "actuation_data a JOIN robot_details d ON d.botdetreg = a.actrecref",
+  "check": "SELECT a.actreg, a.actrecref, a.poserrmmval, d.reachmmval, (a.poserrmmval / NULLIF(d.reachmmval, 0)) AS rel_pos_error FROM actuation_data a JOIN robot_details d ON d.botdetreg = a.actrecref",
+  "note": "positional_error_mm = actuation_data.poserrmmval (mm, 0.001..0.499, null in ~52%); reach_mm = robot_details.reachmmval (mm, 504..2500). Dimensionless fraction (~1e-6..1e-3).",
+  "knowledge": "Relative Positional Error",
+  "checked": "ran, 1,000 rows, 52% of them null, from 0.0 to 0.0"
+ },
+ {
+  "id": 9,
+  "kind": "measure",
+  "expression": "GREATEST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real) - LEAST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real)",
+  "from": "joint_condition jc",
+  "check": "SELECT jc.jcondid, jc.jcdetref, GREATEST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real) - LEAST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real) AS joint_temp_diff_c FROM joint_condition jc",
+  "note": "Max minus min of joint_health->'Jn'->>'temperature_C' over J1..J6, degrees C.",
+  "knowledge": "Joint Temperature Differential",
+  "checked": "ran, 1,000 rows, from 8.88 to 59.59"
+ },
+ {
+  "id": 10,
+  "kind": "measure",
+  "expression": "(m.rulhours / 24.0)",
+  "from": "maintenance_and_fault m",
+  "check": "SELECT m.upkeepactuation, m.rulhours, m.rulhours / 24.0 AS rul_days FROM maintenance_and_fault m",
+  "note": "remaining_useful_life_hours = maintenance_and_fault.rulhours (bigint, 5..4987; use 24.0 to avoid integer division). One row per actuation record (upkeepactuation), 513 rows; robot via actuation_data.actrecref.",
+  "knowledge": "Remaining Useful Life in Days",
+  "checked": "ran, 513 rows, from 0.21 to 207.79"
+ },
+ {
+  "id": 11,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Disaster-relief/humanitarian definition; this database is about industrial robots and has no allocated budget, operational costs or burn rate. (Its stated dependency on [4] Average Joint Temperature is also unrelated.)",
+  "knowledge": "Budget Runway (Days)",
+  "checked": "not derived"
+ },
+ {
+  "id": 12,
+  "kind": "measure",
+  "expression": "(60.0 / NULLIF(o.cycletimesecval, 0))",
+  "from": "operation o",
+  "check": "SELECT o.operreg, o.operrecref, o.cycletimesecval, 60.0 / NULLIF(o.cycletimesecval, 0) AS cycles_per_min FROM operation o",
+  "note": "cycle_time_seconds = operation.cycletimesecval (10..300 s, null in ~52% of rows). Cycles per minute, per operation record.",
+  "knowledge": "Throughput Rate",
+  "checked": "ran, 1,000 rows, 52% of them null, from 0.2 to 5.94"
+ },
+ {
+  "id": 13,
+  "kind": "measure",
+  "expression": "(p.overloadcnt / (NULLIF(o.totopshrval, 0) / 1000.0))",
+  "from": "performance_and_safety p JOIN actuation_data a ON a.actreg = p.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref",
+  "check": "SELECT p.effectivenessactuation, p.overloadcnt, o.totopshrval, p.overloadcnt / (NULLIF(o.totopshrval, 0) / 1000.0) AS overloads_per_1000h FROM performance_and_safety p JOIN actuation_data a ON a.actreg = p.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref",
+  "note": "overload_count = performance_and_safety.overloadcnt (0..5); total_operational_hours = operation.totopshrval.",
+  "knowledge": "Overload Frequency",
+  "checked": "ran, 479 rows, 50% of them null, from 0.0 to 1.98"
+ },
+ {
+  "id": 14,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Disaster-relief/humanitarian definition; this database is about industrial robots and has no success rate, beneficiary feedback or distribution equity columns.",
+  "knowledge": "Response Effectiveness Score (RES)",
+  "checked": "not derived"
+ },
+ {
+  "id": 15,
+  "kind": "measure",
+  "expression": "((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0",
+  "from": "joint_condition jc",
+  "check": "SELECT jc.jcondid, jc.jcdetref, ((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0 AS avg_backlash_deg FROM joint_condition jc",
+  "note": "joint_condition.joint_health->'Jn'->>'backlash_deg' for J1..J6 (degrees, 0..0.1, no nulls), averaged over 6 joints.",
+  "knowledge": "Average Backlash",
+  "checked": "ran, 1,000 rows, from 0.01 to 0.08"
+ },
+ {
+  "id": 16,
+  "kind": "measure",
+  "expression": "(m.upkeepcostest::numeric / NULLIF(o.totopshrval, 0))",
+  "from": "maintenance_and_fault m JOIN operation o ON o.operreg = m.upkeepoperation",
+  "check": "SELECT m.upkeepactuation, m.upkeepcostest, o.totopshrval, m.upkeepcostest::numeric / NULLIF(o.totopshrval, 0) AS maint_cost_per_hour FROM maintenance_and_fault m JOIN operation o ON o.operreg = m.upkeepoperation",
+  "note": "upkeep_cost_est = maintenance_and_fault.upkeepcostest (text) and total_ops_hours = operation.totopshrval. upkeepcostest is NULL in every row, so this is always NULL in the current data. maintenance_logs.cost_breakdown->>'total_usd' holds actual past work-order costs, a different quantity, not substituted.",
+  "knowledge": "Maintenance Cost Per Hour",
+  "checked": "ran, 513 rows, 100% of them null, values "
+ },
+ {
+  "id": 17,
+  "kind": "measure",
+  "expression": "((1000.0 / (m.rulhours + 1)) + (m.faultpredscore * 10))",
+  "from": "maintenance_and_fault m",
+  "check": "SELECT m.upkeepactuation, m.rulhours, m.faultpredscore, ((1000.0 / (m.rulhours + 1)) + (m.faultpredscore * 10)) AS pmu FROM maintenance_and_fault m",
+  "note": "rulhours = maintenance_and_fault.rulhours (hours); faultpredscore = maintenance_and_fault.faultpredscore (0..1 probability, null in 272 of 513 rows -> PMU NULL there).",
+  "knowledge": "Predictive Maintenance Urgency (PMU)",
+  "checked": "ran, 513 rows, 53% of them null, from 0.32 to 113.48"
+ },
+ {
+  "id": 18,
+  "kind": "measure",
+  "expression": "(0.6 * (((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0) + 0.4 * (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0))",
+  "from": "joint_condition jc",
+  "check": "SELECT jc.jcondid, jc.jcdetref, 0.6 * (((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0) + 0.4 * (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0) AS mech_wear_score FROM joint_condition jc",
+  "note": "Uses [5] and [15] from the same joint_condition row. Units are mixed (mm/s and degrees); vibration dominates since backlash is <=0.1 deg.",
+  "knowledge": "Mechanical Wear Score",
+  "checked": "ran, 1,000 rows, from 1.11 to 5.07"
+ },
+ {
+  "id": 19,
+  "kind": "measure",
+  "expression": "((1.0 - p.conditionindexval) / NULLIF((CURRENT_DATE - d.instdateval), 0))",
+  "from": "performance_and_safety p JOIN robot_details d ON d.botdetreg = p.effectivenessrobot",
+  "check": "SELECT p.effectivenessactuation, p.effectivenessrobot, p.conditionindexval, (CURRENT_DATE - d.instdateval) AS age_days, (1.0 - p.conditionindexval) / NULLIF((CURRENT_DATE - d.instdateval), 0) AS hdr FROM performance_and_safety p JOIN robot_details d ON d.botdetreg = p.effectivenessrobot",
+  "note": "condition_index = performance_and_safety.conditionindexval (0..1); robot_age_in_days = [0]. Per performance_and_safety row (479 rows, 464 robots). Units: index points per day.",
+  "knowledge": "Health Degradation Rate (HDR)",
+  "checked": "ran, 479 rows, from 0.0 to 0.0"
+ },
+ {
+  "id": 20,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Disaster-relief/humanitarian definition; this database is about industrial robots and has no funds utilisation, budget allotment or resource-gap columns.",
+  "knowledge": "Financial Health Score (FHS)",
+  "checked": "not derived"
+ },
+ {
+  "id": 21,
+  "kind": "value",
+  "expression": "CASE p.safetystateval WHEN '\u2713 Normal' THEN 'Normal' WHEN 'Warning' THEN 'Protective Stop' WHEN '\u2717 Emergency' THEN 'Emergency' END",
+  "from": "performance_and_safety p",
+  "check": "SELECT p.safetystateval, CASE p.safetystateval WHEN '\u2713 Normal' THEN 'Normal' WHEN 'Warning' THEN 'Protective Stop' WHEN '\u2717 Emergency' THEN 'Emergency' END AS meaning, count(*) FROM performance_and_safety p GROUP BY 1, 2",
+  "note": "performance_and_safety.safetystateval holds exactly '\u2713 Normal', 'Warning', '\u2717 Emergency' (with the check/cross symbols and a space). Protective Stop = safetystateval = 'Warning'.",
+  "knowledge": "Safety State Meanings",
+  "checked": "ran, 3 rows, from 148.0 to 167.0"
+ },
+ {
+  "id": 22,
+  "kind": "value",
+  "expression": "CASE p.calibstateval WHEN 'Y' THEN 'Success' WHEN '0' THEN 'Failed' WHEN 'N' THEN 'Pending' END",
+  "from": "performance_and_safety p",
+  "check": "SELECT p.calibstateval, CASE p.calibstateval WHEN 'Y' THEN 'Success' WHEN '0' THEN 'Failed' WHEN 'N' THEN 'Pending' END AS meaning, count(*) FROM performance_and_safety p GROUP BY 1, 2",
+  "note": "performance_and_safety.calibstateval is character(1): 'Y' Success, '0' (zero, a string) Failed, 'N' Pending.",
+  "knowledge": "Calibration State Meanings",
+  "checked": "ran, 3 rows, from 148.0 to 179.0"
+ },
+ {
+  "id": 23,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Disaster-relief/humanitarian definition; this database is about industrial robots and has no supply stocks or population. Depends on [3], which is also not realisable.",
+  "knowledge": "Imminent Supply Depletion Alert",
+  "checked": "not derived"
+ },
+ {
+  "id": 24,
+  "kind": "condition",
+  "expression": "CASE WHEN m.faultpredscore < 0.3 THEN 'Low' WHEN m.faultpredscore <= 0.7 THEN 'Medium' WHEN m.faultpredscore > 0.7 THEN 'High' END",
+  "from": "maintenance_and_fault m",
+  "check": "SELECT CASE WHEN m.faultpredscore < 0.3 THEN 'Low' WHEN m.faultpredscore <= 0.7 THEN 'Medium' WHEN m.faultpredscore > 0.7 THEN 'High' END AS tier, count(*), min(m.faultpredscore), max(m.faultpredscore) FROM maintenance_and_fault m GROUP BY 1",
+  "note": "Fault Prediction Score = maintenance_and_fault.faultpredscore (0..1; NULL in 272 of 513 rows -> no tier). Boundaries 0.3 and 0.7 inclusive in Medium. High tier alone: m.faultpredscore > 0.7.",
+  "knowledge": "Fault Prediction Score Tiers",
+  "checked": "ran, 4 rows, 25% of them null, from 0.3 to 0.99"
+ },
+ {
+  "id": 25,
+  "kind": "condition",
+  "expression": "CASE WHEN p.conditionindexval > 0.9 THEN 'Excellent' WHEN p.conditionindexval >= 0.7 THEN 'Good' WHEN p.conditionindexval >= 0.5 THEN 'Fair' WHEN p.conditionindexval < 0.5 THEN 'Poor' END",
+  "from": "performance_and_safety p",
+  "check": "SELECT CASE WHEN p.conditionindexval > 0.9 THEN 'Excellent' WHEN p.conditionindexval >= 0.7 THEN 'Good' WHEN p.conditionindexval >= 0.5 THEN 'Fair' WHEN p.conditionindexval < 0.5 THEN 'Poor' END AS tier, count(*) FROM performance_and_safety p GROUP BY 1",
+  "note": "Condition Index = performance_and_safety.conditionindexval (0..1). Shared boundaries 0.9/0.7/0.5 assigned to the higher tier except 0.9, which is Good (Excellent is strictly > 0.9).",
+  "knowledge": "Condition Index Tiers",
+  "checked": "ran, 4 rows, from 51.0 to 267.0"
+ },
+ {
+  "id": 26,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Public Health Risk Score is a disaster-relief concept; this robot database has no disease-risk or health-capacity data. (Its stated dependency on [19] Health Degradation Rate is a robot metric, unrelated.)",
+  "knowledge": "Public Health Emergency",
+  "checked": "not derived"
+ },
+ {
+  "id": 27,
+  "kind": "condition",
+  "expression": "CASE WHEN sc.overseerloadvalue < 70 THEN 'Normal' WHEN sc.overseerloadvalue <= 90 THEN 'High' WHEN sc.overseerloadvalue > 90 THEN 'Critical' END",
+  "from": "system_controller sc",
+  "check": "SELECT CASE WHEN sc.overseerloadvalue < 70 THEN 'Normal' WHEN sc.overseerloadvalue <= 90 THEN 'High' WHEN sc.overseerloadvalue > 90 THEN 'Critical' END AS cpu_level, count(*) FROM system_controller sc GROUP BY 1",
+  "note": "CPU load = system_controller.overseerloadvalue, already in percent (0..100).",
+  "knowledge": "CPU Load Levels",
+  "checked": "ran, 3 rows, from 118.0 to 674.0"
+ },
+ {
+  "id": 28,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Response Effectiveness Score and Coordination Quality Index are disaster-relief operation metrics; neither exists here ([14] is not realisable; its dependency on [15] Average Backlash is unrelated).",
+  "knowledge": "Highly Effective Operation",
+  "checked": "not derived"
+ },
+ {
+  "id": 29,
+  "kind": "condition",
+  "expression": "CASE WHEN substring(sc.cabhumiditylevel from '[0-9.]+')::real < 60 THEN 'Safe' WHEN substring(sc.cabhumiditylevel from '[0-9.]+')::real <= 80 THEN 'Warning' WHEN substring(sc.cabhumiditylevel from '[0-9.]+')::real > 80 THEN 'Danger' END",
+  "from": "system_controller sc",
+  "check": "SELECT count(*) AS n, count(sc.cabhumiditylevel) AS with_humidity, count(CASE WHEN substring(sc.cabhumiditylevel from '[0-9.]+')::real < 60 THEN 'Safe' WHEN substring(sc.cabhumiditylevel from '[0-9.]+')::real <= 80 THEN 'Warning' WHEN substring(sc.cabhumiditylevel from '[0-9.]+')::real > 80 THEN 'Danger' END) AS classified FROM system_controller sc",
+  "note": "Cabinet humidity = system_controller.cabhumiditylevel (text, %). It is NULL in every one of the 1000 rows, so no row can be classified in the current data. Workcell Humidity sensors (environmental_readings/environmental_sensors) measure ambient cell humidity, not the control cabinet, and are not substituted.",
+  "knowledge": "Cabinet Humidity Risk",
+  "checked": "ran, 1 row, from 0.0 to 0.0"
+ },
+ {
+  "id": 30,
+  "kind": "condition",
+  "expression": "CASE WHEN d.payloadcapkg < 20 THEN 'Light-Duty' WHEN d.payloadcapkg < 150 THEN 'Medium-Duty' WHEN d.payloadcapkg >= 150 THEN 'Heavy-Duty' END",
+  "from": "robot_details d",
+  "check": "SELECT d.payloadcapkg, CASE WHEN d.payloadcapkg < 20 THEN 'Light-Duty' WHEN d.payloadcapkg < 150 THEN 'Medium-Duty' WHEN d.payloadcapkg >= 150 THEN 'Heavy-Duty' END AS class, count(*) FROM robot_details d GROUP BY 1, 2 ORDER BY 1",
+  "note": "robot_details.payloadcapkg takes only 3,5,10,20,50,100,200 kg: Light = 3/5/10, Medium = 20/50/100, Heavy = 200.",
+  "knowledge": "Payload Capacity Class",
+  "checked": "ran, 7 rows, from 132.0 to 143.0"
+ },
+ {
+  "id": 31,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Hub Strain Index is a disaster-relief logistics concept; no distribution hubs here. (Stated dependency on [7] Safety Incident Rate is unrelated.)",
+  "knowledge": "Overwhelmed Logistical Hub",
+  "checked": "not derived"
+ },
+ {
+  "id": 32,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Logistical Throughput per Vehicle and Response Effectiveness Score are disaster-relief metrics with no columns here ([14] not realisable).",
+  "knowledge": "Failing Operation",
+  "checked": "not derived"
+ },
+ {
+  "id": 33,
+  "kind": "condition",
+  "expression": "CASE WHEN p.airpressval < 5.5 THEN 'Low' WHEN p.airpressval <= 7.0 THEN 'Normal' WHEN p.airpressval > 7.0 THEN 'High' END",
+  "from": "performance_and_safety p",
+  "check": "SELECT CASE WHEN p.airpressval < 5.5 THEN 'Low' WHEN p.airpressval <= 7.0 THEN 'Normal' WHEN p.airpressval > 7.0 THEN 'High' END AS status, count(*), min(p.airpressval), max(p.airpressval) FROM performance_and_safety p GROUP BY 1",
+  "note": "Air pressure = performance_and_safety.airpressval, in bar (5.0..7.0). Data never exceeds 7.0, so 'High' never occurs.",
+  "knowledge": "Air Pressure Status",
+  "checked": "ran, 2 rows, from 5.49 to 7.0"
+ },
+ {
+  "id": 34,
+  "kind": "condition",
+  "expression": "CASE WHEN (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0) < 0.01 THEN 'Low' WHEN (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0) <= 0.05 THEN 'Medium' WHEN (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0) > 0.05 THEN 'High' END",
+  "from": "joint_condition jc",
+  "check": "SELECT CASE WHEN (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0) < 0.01 THEN 'Low' WHEN (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0) <= 0.05 THEN 'Medium' WHEN (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0) > 0.05 THEN 'High' END AS severity, count(*) FROM joint_condition jc GROUP BY 1",
+  "note": "Applied to [15] Average Backlash (degrees) per joint_condition row. In the data averages lie ~0.02..0.08, so no row is Low.",
+  "knowledge": "Backlash Severity",
+  "checked": "ran, 2 rows, from 497.0 to 503.0"
+ },
+ {
+  "id": 35,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Cost Per Person Affected and Response Effectiveness Score are disaster-relief metrics; no such data. (Stated dependency on [5] Average Joint Vibration is unrelated.)",
+  "knowledge": "High Cost, Low Impact Operation",
+  "checked": "not derived"
+ },
+ {
+  "id": 36,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Brake status is held in mechanical_status.component_status->'brakes'->>'J1'..'J6', but its values are only 'Normal', 'Warning', 'Error' (or null). None of the defined codes 'Released', 'Applied', 'Replaced', 'Slipping' occur anywhere in the database, so the meanings cannot be mapped.",
+  "knowledge": "Brake Status Interpretation",
+  "checked": "not derived"
+ },
+ {
+  "id": 37,
+  "kind": "value",
+  "expression": "d.fwversionval LIKE '3.%'",
+  "from": "robot_details d",
+  "check": "SELECT split_part(d.fwversionval, '.', 1) AS major, d.fwversionval LIKE '3.%' AS end_of_life, count(*) FROM robot_details d GROUP BY 1, 2 ORDER BY 1",
+  "note": "Firmware version = robot_details.fwversionval (e.g. '3.3.7', majors 1..9). Only End-of-Life is determinable: versions starting '3.' (89 robots). Which versions are 'Current' or 'Supported' is not stated and not held in the data.",
+  "knowledge": "Firmware Lifecycle Stage",
+  "checked": "ran, 9 rows, from 88.0 to 122.0"
+ },
+ {
+  "id": 38,
+  "kind": "value",
+  "expression": "d.bottypeval IN ('Articulated', 'SCARA', 'Delta', 'Cartesian')",
+  "from": "robot_details d",
+  "check": "SELECT d.bottypeval, d.bottypeval IN ('Articulated', 'SCARA', 'Delta', 'Cartesian') AS core_architecture, count(*) FROM robot_details d GROUP BY 1, 2",
+  "note": "Architecture = robot_details.bottypeval. Data also holds 'Collaborative' (183 robots), which is not one of the listed core architectures.",
+  "knowledge": "Robot Architectures",
+  "checked": "ran, 5 rows, from 183.0 to 203.0"
+ },
+ {
+  "id": 39,
+  "kind": "value",
+  "expression": "CASE WHEN o.apptypeval IN ('Material Handling', 'Picking', 'Packing', 'Palletizing') THEN 'Material Handling' WHEN o.apptypeval IN ('Processing', 'Grinding', 'Polishing') THEN 'Processing' WHEN o.apptypeval = 'Assembly' THEN 'Assembly' WHEN o.apptypeval = 'Welding' THEN 'Welding' WHEN o.apptypeval = 'Standby' THEN 'Standby' END",
+  "from": "operation o",
+  "check": "SELECT o.apptypeval, CASE WHEN o.apptypeval IN ('Material Handling', 'Picking', 'Packing', 'Palletizing') THEN 'Material Handling' WHEN o.apptypeval IN ('Processing', 'Grinding', 'Polishing') THEN 'Processing' WHEN o.apptypeval = 'Assembly' THEN 'Assembly' WHEN o.apptypeval = 'Welding' THEN 'Welding' WHEN o.apptypeval = 'Standby' THEN 'Standby' END AS app_group, count(*) FROM operation o GROUP BY 1, 2",
+  "note": "Application = operation.apptypeval; values present: 'Material Handling', 'Palletizing', 'Assembly', 'Welding', 'Painting', and NULL (519 of 1000). 'Painting' belongs to no listed group; no Processing or Standby values occur.",
+  "knowledge": "Common Application Groups",
+  "checked": "ran, 6 rows, from 87.0 to 519.0"
+ },
+ {
+  "id": 40,
+  "kind": "condition",
+  "expression": "o.apptypeval IN ('Welding', 'Grinding', 'Deburring', 'Palletizing', 'Machine Tending')",
+  "from": "operation o",
+  "check": "SELECT o.apptypeval, count(*) FROM operation o WHERE o.apptypeval IN ('Welding', 'Grinding', 'Deburring', 'Palletizing', 'Machine Tending') GROUP BY 1",
+  "note": "operation.apptypeval; only 'Welding' and 'Palletizing' occur in the data.",
+  "knowledge": "High-Wear Applications",
+  "checked": "ran, 2 rows, from 87.0 to 98.0"
+ },
+ {
+  "id": 41,
+  "kind": "condition",
+  "expression": "o.apptypeval IN ('Assembly', 'Electronics-Handling', 'Inspection', 'Dispensing', 'Laser Cutting')",
+  "from": "operation o",
+  "check": "SELECT o.apptypeval, count(*) FROM operation o WHERE o.apptypeval IN ('Assembly', 'Electronics-Handling', 'Inspection', 'Dispensing', 'Laser Cutting') GROUP BY 1",
+  "note": "operation.apptypeval; only 'Assembly' occurs in the data. (workcells.primary_application_type has 'Dispensing', but that is a cell attribute, not the robot's operation.)",
+  "knowledge": "Precision-Critical Applications",
+  "checked": "ran, 1 row, from 102.0 to 102.0"
+ },
+ {
+  "id": 42,
+  "kind": "condition",
+  "expression": "(a.payloadwval / NULLIF(d.payloadcapkg, 0)) > 1.0",
+  "from": "actuation_data a JOIN robot_details d ON d.botdetreg = a.actrecref",
+  "check": "SELECT a.actreg, a.actrecref, (a.payloadwval / NULLIF(d.payloadcapkg, 0)) AS pur FROM actuation_data a JOIN robot_details d ON d.botdetreg = a.actrecref WHERE (a.payloadwval / NULLIF(d.payloadcapkg, 0)) > 1.0",
+  "note": "Uses [1]. 8 actuation records qualify; a few have payloadwval far above capacity (PUR up to ~12), likely data errors, but they satisfy the definition.",
+  "knowledge": "Payload Overload Condition",
+  "checked": "ran, 8 rows, from 1.03 to 12.04"
+ },
+ {
+  "id": 43,
+  "kind": "condition",
+  "expression": "((((jc.joint_health->'J1'->>'temperature_C')::real + (jc.joint_health->'J2'->>'temperature_C')::real + (jc.joint_health->'J3'->>'temperature_C')::real + (jc.joint_health->'J4'->>'temperature_C')::real + (jc.joint_health->'J5'->>'temperature_C')::real + (jc.joint_health->'J6'->>'temperature_C')::real) / 6.0) > 75 OR (GREATEST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real) - LEAST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real)) > 15)",
+  "from": "joint_condition jc",
+  "check": "SELECT jc.jcondid, jc.jcdetref, ((jc.joint_health->'J1'->>'temperature_C')::real + (jc.joint_health->'J2'->>'temperature_C')::real + (jc.joint_health->'J3'->>'temperature_C')::real + (jc.joint_health->'J4'->>'temperature_C')::real + (jc.joint_health->'J5'->>'temperature_C')::real + (jc.joint_health->'J6'->>'temperature_C')::real) / 6.0 AS avg_t, GREATEST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real) - LEAST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real) AS diff_t, ((((jc.joint_health->'J1'->>'temperature_C')::real + (jc.joint_health->'J2'->>'temperature_C')::real + (jc.joint_health->'J3'->>'temperature_C')::real + (jc.joint_health->'J4'->>'temperature_C')::real + (jc.joint_health->'J5'->>'temperature_C')::real + (jc.joint_health->'J6'->>'temperature_C')::real) / 6.0) > 75 OR (GREATEST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real) - LEAST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real)) > 15) AS thermal_anomaly FROM joint_condition jc",
+  "note": "Uses [4] and [9] on the same joint_condition row. Temperature spreads across joints are wide in the data (joint temps are independent 20-80 C), so nearly every row has a differential > 15 C and is flagged.",
+  "knowledge": "Thermal Anomaly",
+  "checked": "ran, 1,000 rows, values False, True"
+ },
+ {
+  "id": 44,
+  "kind": "condition",
+  "expression": "CASE WHEN (0.6 * (((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0) + 0.4 * (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0)) < 0.5 THEN 'Low' WHEN (0.6 * (((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0) + 0.4 * (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0)) <= 0.8 THEN 'Medium' WHEN (0.6 * (((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0) + 0.4 * (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0)) > 0.8 THEN 'High' END",
+  "from": "joint_condition jc",
+  "check": "SELECT CASE WHEN (0.6 * (((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0) + 0.4 * (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0)) < 0.5 THEN 'Low' WHEN (0.6 * (((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0) + 0.4 * (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0)) <= 0.8 THEN 'Medium' WHEN (0.6 * (((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0) + 0.4 * (((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0)) > 0.8 THEN 'High' END AS tier, count(*) FROM joint_condition jc GROUP BY 1",
+  "note": "Tiers of [18] Mechanical Wear Score. With vibration in mm/s (avg ~5) the score is usually > 0.8, so almost every row is 'High'; the thresholds look designed for a normalised score.",
+  "knowledge": "Mechanical Wear Score Tiers",
+  "checked": "ran, 1 row, from 1000.0 to 1000.0"
+ },
+ {
+  "id": 45,
+  "kind": "condition",
+  "expression": "(CURRENT_DATE - d.instdateval) > 365 AND o.totopshrval < 2000",
+  "from": "robot_details d JOIN operation o ON o.operrecref = d.botdetreg",
+  "check": "SELECT d.botdetreg, o.operreg, (CURRENT_DATE - d.instdateval) AS age_days, o.totopshrval FROM robot_details d JOIN operation o ON o.operrecref = d.botdetreg WHERE (CURRENT_DATE - d.instdateval) > 365 AND o.totopshrval < 2000",
+  "note": "Uses [0]. Cumulative operating hours = operation.totopshrval (per operation record; a robot can have 2-3 operation records with different values; null in ~half).",
+  "knowledge": "Underutilized Asset",
+  "checked": "ran, 5 rows, from 1087.0 to 1745.0"
+ },
+ {
+  "id": 46,
+  "kind": "condition",
+  "expression": "(o.totopshrval / NULLIF(p.emergencystopcount, 0)) < 500",
+  "from": "performance_and_safety p JOIN actuation_data a ON a.actreg = p.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref",
+  "check": "SELECT p.effectivenessactuation, (o.totopshrval / NULLIF(p.emergencystopcount, 0)) AS mtbs FROM performance_and_safety p JOIN actuation_data a ON a.actreg = p.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref WHERE (o.totopshrval / NULLIF(p.emergencystopcount, 0)) < 500",
+  "note": "Uses [2]. Rows with zero emergency stops have NULL MTBS and are not flagged.",
+  "knowledge": "Reliability Risk",
+  "checked": "ran, 2 rows, from 436.25 to 439.6"
+ },
+ {
+  "id": 47,
+  "kind": "condition",
+  "expression": "((((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0) > 0.05 OR (((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0) > 3.0)",
+  "from": "joint_condition jc",
+  "check": "SELECT jc.jcondid, jc.jcdetref, ((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0 AS avg_backlash, ((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0 AS avg_vib, ((((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0) > 0.05 OR (((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0) > 3.0) AS mech_alert FROM joint_condition jc",
+  "note": "'High' Backlash Severity ([34]) = [15] Average Backlash > 0.05 deg; or [5] Average Joint Vibration > 3.0 mm/s.",
+  "knowledge": "Mechanical Degradation Alert",
+  "checked": "ran, 1,000 rows, values False, True"
+ },
+ {
+  "id": 48,
+  "kind": "condition",
+  "expression": "((1000.0 / (m.rulhours + 1)) + (m.faultpredscore * 10)) > 50",
+  "from": "maintenance_and_fault m",
+  "check": "SELECT m.upkeepactuation, ((1000.0 / (m.rulhours + 1)) + (m.faultpredscore * 10)) AS pmu FROM maintenance_and_fault m WHERE ((1000.0 / (m.rulhours + 1)) + (m.faultpredscore * 10)) > 50",
+  "note": "Uses [17]. PMU > 50 effectively needs rulhours < ~19 or so (faultpredscore*10 is at most 10).",
+  "knowledge": "Predictive Maintenance Trigger",
+  "checked": "ran, 2 rows, from 107.55 to 113.48"
+ },
+ {
+  "id": 49,
+  "kind": "condition",
+  "expression": "(((p.collisioncount + p.zoneviolnum + p.speedviolnum) * 1000.0 / NULLIF(o.totopshrval, 0)) > 2.0 OR p.collisioncount > 5)",
+  "from": "performance_and_safety p JOIN actuation_data a ON a.actreg = p.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref",
+  "check": "SELECT p.effectivenessactuation, ((p.collisioncount + p.zoneviolnum + p.speedviolnum) * 1000.0 / NULLIF(o.totopshrval, 0)) AS sir, p.collisioncount FROM performance_and_safety p JOIN actuation_data a ON a.actreg = p.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref WHERE ((p.collisioncount + p.zoneviolnum + p.speedviolnum) * 1000.0 / NULLIF(o.totopshrval, 0)) > 2.0 OR p.collisioncount > 5",
+  "note": "Uses [7]. Cumulative collision count = performance_and_safety.collisioncount (0..3 in data, so the > 5 branch never fires).",
+  "knowledge": "High Safety-Risk Unit",
+  "checked": "ran, 19 rows, from 0.0 to 3.0"
+ },
+ {
+  "id": 50,
+  "kind": "condition",
+  "expression": "(a.poserrmmval / NULLIF(d.reachmmval, 0)) > 0.0001",
+  "from": "actuation_data a JOIN robot_details d ON d.botdetreg = a.actrecref",
+  "check": "SELECT a.actreg, (a.poserrmmval / NULLIF(d.reachmmval, 0)) AS rel_err FROM actuation_data a JOIN robot_details d ON d.botdetreg = a.actrecref WHERE (a.poserrmmval / NULLIF(d.reachmmval, 0)) > 0.0001",
+  "note": "Uses [8].",
+  "knowledge": "Precision Performance Degradation",
+  "checked": "ran, 318 rows, from 0.0 to 0.0"
+ },
+ {
+  "id": 51,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Disaster Severity Index is a disaster-relief concept; no such data. (Stated dependency on [16] Maintenance Cost Per Hour is unrelated.)",
+  "knowledge": "Catastrophic Disaster",
+  "checked": "not derived"
+ },
+ {
+  "id": 52,
+  "kind": "condition",
+  "expression": "(CURRENT_DATE - d.instdateval) > 1825 AND o.totopshrval > 40000",
+  "from": "robot_details d JOIN operation o ON o.operrecref = d.botdetreg",
+  "check": "SELECT d.botdetreg, (CURRENT_DATE - d.instdateval) AS age_days, o.totopshrval FROM robot_details d JOIN operation o ON o.operrecref = d.botdetreg WHERE (CURRENT_DATE - d.instdateval) > 1825 AND o.totopshrval > 40000",
+  "note": "Uses [0]; hours = operation.totopshrval. Earliest installation is 2022-05-27, so no robot is yet older than 1825 days: returns no rows at present.",
+  "knowledge": "Workhorse Robot",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 53,
+  "kind": "condition",
+  "expression": "((m.rulhours / 24.0) < 7 OR m.upkeepduedays <= 0)",
+  "from": "maintenance_and_fault m",
+  "check": "SELECT m.upkeepactuation, m.rulhours / 24.0 AS rul_days, m.upkeepduedays FROM maintenance_and_fault m WHERE ((m.rulhours / 24.0) < 7 OR m.upkeepduedays <= 0)",
+  "note": "Uses [10]. UpkeepDueDays = maintenance_and_fault.upkeepduedays (0..180; 0 means due now).",
+  "knowledge": "Urgent Maintenance Required",
+  "checked": "ran, 24 rows, from 0.0 to 172.0"
+ },
+ {
+  "id": 54,
+  "kind": "condition",
+  "expression": "(CURRENT_DATE - d.instdateval) > 3650",
+  "from": "robot_details d",
+  "check": "SELECT d.botdetreg, (CURRENT_DATE - d.instdateval) AS age_days FROM robot_details d WHERE (CURRENT_DATE - d.instdateval) > 3650",
+  "note": "Uses [0]. No robot is older than ~4.3 years, so no rows qualify.",
+  "knowledge": "Legacy Robot",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 55,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Disaster-relief/humanitarian definition; this database is about industrial robots and has no medical staff or affected-population columns.",
+  "knowledge": "Medical Staff Ratio",
+  "checked": "not derived"
+ },
+ {
+  "id": 56,
+  "kind": "condition",
+  "expression": "m.faultpredscore > 0.7 AND ((m.rulhours / 24.0) < 7 OR m.upkeepduedays <= 0)",
+  "from": "maintenance_and_fault m",
+  "check": "SELECT m.upkeepactuation, m.faultpredscore, m.rulhours, m.upkeepduedays FROM maintenance_and_fault m WHERE m.faultpredscore > 0.7 AND ((m.rulhours / 24.0) < 7 OR m.upkeepduedays <= 0)",
+  "note": "'High' tier of [24] AND [53], both on the same maintenance_and_fault row.",
+  "knowledge": "Imminent Failure Warning",
+  "checked": "ran, 4 rows, from 0.0 to 105.0"
+ },
+ {
+  "id": 57,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Budget/total-cost burn for an operation is a disaster-relief concept; the robot database has no allocated budget or operation-cost columns.",
+  "knowledge": "High Burn Rate Alert",
+  "checked": "not derived"
+ },
+ {
+  "id": 58,
+  "kind": "condition",
+  "expression": "(q.pur > 0.8 AND q.tp_quintile = 1)",
+  "from": "(SELECT o.operreg, o.operrecref, o.apptypeval, a.payloadwval / NULLIF(d.payloadcapkg, 0) AS pur, 60.0 / o.cycletimesecval AS throughput, NTILE(5) OVER (PARTITION BY o.apptypeval ORDER BY 60.0 / o.cycletimesecval DESC) AS tp_quintile FROM operation o JOIN actuation_data a ON a.actoperref = o.operreg JOIN robot_details d ON d.botdetreg = a.actrecref WHERE o.cycletimesecval > 0) q",
+  "check": "SELECT q.operreg, q.apptypeval, q.pur, q.throughput, q.tp_quintile FROM (SELECT o.operreg, o.operrecref, o.apptypeval, a.payloadwval / NULLIF(d.payloadcapkg, 0) AS pur, 60.0 / o.cycletimesecval AS throughput, NTILE(5) OVER (PARTITION BY o.apptypeval ORDER BY 60.0 / o.cycletimesecval DESC) AS tp_quintile FROM operation o JOIN actuation_data a ON a.actoperref = o.operreg JOIN robot_details d ON d.botdetreg = a.actrecref WHERE o.cycletimesecval > 0) q WHERE q.pur > 0.8 AND q.tp_quintile = 1",
+  "note": "Uses [1] and [12]. Quintiles by NTILE(5) over rows with a known cycle time, partitioned by operation.apptypeval (NULL application, 519 of 1000 operations, forms its own partition; add o.apptypeval IS NOT NULL inside the subquery to exclude it), highest throughput = quintile 1.",
+  "knowledge": "Intensive Workload",
+  "checked": "ran, 6 rows, from 1.0 to 1.0"
+ },
+ {
+  "id": 59,
+  "kind": "condition",
+  "expression": "((1.0 - p.conditionindexval) / NULLIF((CURRENT_DATE - d.instdateval), 0)) > 0",
+  "from": "performance_and_safety p JOIN robot_details d ON d.botdetreg = p.effectivenessrobot",
+  "check": "SELECT count(*) AS n, count(*) FILTER (WHERE ((1.0 - p.conditionindexval) / NULLIF((CURRENT_DATE - d.instdateval), 0)) > 0) AS degrading FROM performance_and_safety p JOIN robot_details d ON d.botdetreg = p.effectivenessrobot",
+  "note": "Uses [19]. Since conditionindexval < 1 in all rows, every robot with a condition reading is 'Degrading'.",
+  "knowledge": "Degrading Robot",
+  "checked": "ran, 1 row, from 479.0 to 479.0"
+ },
+ {
+  "id": 60,
+  "kind": "condition",
+  "expression": "m.total_cycles >= pc.p75",
+  "from": "(SELECT d.modelseriesval, SUM(o.progcyclecount) AS total_cycles FROM robot_details d JOIN operation o ON o.operrecref = d.botdetreg GROUP BY d.modelseriesval) m CROSS JOIN (SELECT percentile_cont(0.75) WITHIN GROUP (ORDER BY x.total_cycles) AS p75 FROM (SELECT SUM(o2.progcyclecount) AS total_cycles FROM robot_details d2 JOIN operation o2 ON o2.operrecref = d2.botdetreg GROUP BY d2.modelseriesval) x) pc",
+  "check": "SELECT count(*) AS models, count(*) FILTER (WHERE m.total_cycles >= pc.p75) AS top_tier, min(pc.p75) AS p75 FROM (SELECT d.modelseriesval, SUM(o.progcyclecount) AS total_cycles FROM robot_details d JOIN operation o ON o.operrecref = d.botdetreg GROUP BY d.modelseriesval) m CROSS JOIN (SELECT percentile_cont(0.75) WITHIN GROUP (ORDER BY x.total_cycles) AS p75 FROM (SELECT SUM(o2.progcyclecount) AS total_cycles FROM robot_details d2 JOIN operation o2 ON o2.operrecref = d2.botdetreg GROUP BY d2.modelseriesval) x) pc",
+  "note": "Robot model = robot_details.modelseriesval (585 series); program cycle count = operation.progcyclecount, summed over all operation records of that series' robots.",
+  "knowledge": "Top-Tier Usage Model",
+  "checked": "ran, 1 row, from 1047978.0 to 1047978.0"
+ },
+ {
+  "id": 61,
+  "kind": "condition",
+  "expression": "s.stress > 1.2 * s.series_avg_stress",
+  "from": "(SELECT sc.systemoverseeractuation, d.botdetreg, d.modelseriesval, (sc.overseerloadvalue + sc.memuseval) / 2.0 AS stress, AVG((sc.overseerloadvalue + sc.memuseval) / 2.0) OVER (PARTITION BY d.modelseriesval) AS series_avg_stress FROM system_controller sc JOIN actuation_data a ON a.actreg = sc.systemoverseeractuation JOIN robot_details d ON d.botdetreg = a.actrecref) s",
+  "check": "SELECT count(*) AS n, count(*) FILTER (WHERE s.stress > 1.2 * s.series_avg_stress) AS anomalous FROM (SELECT sc.systemoverseeractuation, d.botdetreg, d.modelseriesval, (sc.overseerloadvalue + sc.memuseval) / 2.0 AS stress, AVG((sc.overseerloadvalue + sc.memuseval) / 2.0) OVER (PARTITION BY d.modelseriesval) AS series_avg_stress FROM system_controller sc JOIN actuation_data a ON a.actreg = sc.systemoverseeractuation JOIN robot_details d ON d.botdetreg = a.actrecref) s",
+  "note": "Uses [6]. Model series = robot_details.modelseriesval; many series have only 1-2 controllers, so a single-controller series can never be anomalous.",
+  "knowledge": "Anomalous Controller Stress",
+  "checked": "ran, 1 row, from 194.0 to 194.0"
+ },
+ {
+  "id": 62,
+  "kind": "condition",
+  "expression": "((((jc.joint_health->'J1'->>'temperature_C')::real + (jc.joint_health->'J2'->>'temperature_C')::real + (jc.joint_health->'J3'->>'temperature_C')::real + (jc.joint_health->'J4'->>'temperature_C')::real + (jc.joint_health->'J5'->>'temperature_C')::real + (jc.joint_health->'J6'->>'temperature_C')::real) / 6.0) > 75 OR (GREATEST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real) - LEAST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real)) > 15) AND ((((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0) > 0.05 OR (((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0) > 3.0)",
+  "from": "joint_condition jc",
+  "check": "SELECT count(*) AS n, count(*) FILTER (WHERE ((((jc.joint_health->'J1'->>'temperature_C')::real + (jc.joint_health->'J2'->>'temperature_C')::real + (jc.joint_health->'J3'->>'temperature_C')::real + (jc.joint_health->'J4'->>'temperature_C')::real + (jc.joint_health->'J5'->>'temperature_C')::real + (jc.joint_health->'J6'->>'temperature_C')::real) / 6.0) > 75 OR (GREATEST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real) - LEAST((jc.joint_health->'J1'->>'temperature_C')::real, (jc.joint_health->'J2'->>'temperature_C')::real, (jc.joint_health->'J3'->>'temperature_C')::real, (jc.joint_health->'J4'->>'temperature_C')::real, (jc.joint_health->'J5'->>'temperature_C')::real, (jc.joint_health->'J6'->>'temperature_C')::real)) > 15) AND ((((jc.joint_health->'J1'->>'backlash_deg')::real + (jc.joint_health->'J2'->>'backlash_deg')::real + (jc.joint_health->'J3'->>'backlash_deg')::real + (jc.joint_health->'J4'->>'backlash_deg')::real + (jc.joint_health->'J5'->>'backlash_deg')::real + (jc.joint_health->'J6'->>'backlash_deg')::real) / 6.0) > 0.05 OR (((jc.joint_health->'J1'->>'vibration_mmps')::real + (jc.joint_health->'J2'->>'vibration_mmps')::real + (jc.joint_health->'J3'->>'vibration_mmps')::real + (jc.joint_health->'J4'->>'vibration_mmps')::real + (jc.joint_health->'J5'->>'vibration_mmps')::real + (jc.joint_health->'J6'->>'vibration_mmps')::real) / 6.0) > 3.0)) AS critical FROM joint_condition jc",
+  "note": "[43] AND [47] on the same joint_condition row. Because both component tests fire for almost all rows, 975 of 1000 rows qualify.",
+  "knowledge": "Critical Condition Robot",
+  "checked": "ran, 1 row, from 975.0 to 975.0"
+ },
+ {
+  "id": 63,
+  "kind": "measure",
+  "expression": "(3600.0 / NULLIF(o.cycletimesecval, 0))",
+  "from": "operation o",
+  "check": "SELECT o.operreg, o.cycletimesecval, 3600.0 / NULLIF(o.cycletimesecval, 0) AS cycles_per_hour FROM operation o",
+  "note": "cycle_time_seconds = operation.cycletimesecval (null in ~52%).",
+  "knowledge": "Throughput Rate (Cycles per Hour)",
+  "checked": "ran, 1,000 rows, 52% of them null, from 12.0 to 356.44"
+ },
+ {
+  "id": 64,
+  "kind": "condition",
+  "expression": "(p.collisioncount > 5 OR ((p.collisioncount + p.zoneviolnum + p.speedviolnum) * 1000.0 / NULLIF(o.totopshrval, 0)) > 2.0)",
+  "from": "performance_and_safety p JOIN actuation_data a ON a.actreg = p.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref",
+  "check": "SELECT p.effectivenessactuation, p.collisioncount, ((p.collisioncount + p.zoneviolnum + p.speedviolnum) * 1000.0 / NULLIF(o.totopshrval, 0)) AS rate FROM performance_and_safety p JOIN actuation_data a ON a.actreg = p.effectivenessactuation JOIN operation o ON o.operreg = a.actoperref WHERE p.collisioncount > 5 OR ((p.collisioncount + p.zoneviolnum + p.speedviolnum) * 1000.0 / NULLIF(o.totopshrval, 0)) > 2.0",
+  "note": "Same test as [49]: collisions = performance_and_safety.collisioncount (max 3, so only the rate branch fires); rate = [7].",
+  "knowledge": "High Safety-Risk",
+  "checked": "ran, 19 rows, from 2.04 to 12.01"
+ }
+]

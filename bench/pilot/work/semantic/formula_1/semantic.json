@@ -1,0 +1,87 @@
+{
+ "concepts": [
+  {"id": "et.EuropeanGrandPrixRace", "name": "EuropeanGrandPrixRace", "kind": "entity",
+   "supertypes": ["et.Race"], "derivation": "dr.EuropeanGrandPrixRace"},
+  {"id": "et.MalaysianGrandPrixRace", "name": "MalaysianGrandPrixRace", "kind": "entity",
+   "supertypes": ["et.Race"], "derivation": "dr.MalaysianGrandPrixRace"},
+  {"id": "et.AustralianGrandPrixCircuit", "name": "AustralianGrandPrixCircuit", "kind": "entity",
+   "supertypes": ["et.Circuit"], "derivation": "dr.AustralianGrandPrixCircuit"},
+  {"id": "et.JapaneseDriver", "name": "JapaneseDriver", "kind": "entity",
+   "supertypes": ["et.Driver"], "derivation": "dr.JapaneseDriver"},
+  {"id": "et.DisqualifiedResult", "name": "DisqualifiedResult", "kind": "entity",
+   "supertypes": ["et.Result"], "derivation": "dr.DisqualifiedResult"},
+  {"id": "et.FinishedResult", "name": "FinishedResult", "kind": "entity",
+   "supertypes": ["et.Result"], "derivation": "dr.FinishedResult"},
+  {"id": "et.BornBetween1980And1985Driver", "name": "BornBetween1980And1985Driver", "kind": "entity",
+   "supertypes": ["et.Driver"], "derivation": "dr.BornBetween1980And1985Driver"},
+
+  {"id": "ft.DriverHasFullName", "name": "DriverHasFullName", "kind": "fact",
+   "roles": [
+     {"id": "r.DriverHasFullName.driver", "player": "et.Driver", "name": "Driver", "ordinal": 0},
+     {"id": "r.DriverHasFullName.forename", "player": "vt.DriverForename", "name": "Forename", "ordinal": 1},
+     {"id": "r.DriverHasFullName.surname", "player": "vt.DriverSurname", "name": "Surname", "ordinal": 2}
+   ],
+   "readings": [{"id": "rd.DriverHasFullName", "text": "{0} has full name {1} {2}",
+                 "roleSequence": ["r.DriverHasFullName.driver", "r.DriverHasFullName.forename", "r.DriverHasFullName.surname"]}],
+   "derivation": "dr.DriverHasFullName"},
+
+  {"id": "ft.CircuitHasCoordinates", "name": "CircuitHasCoordinates", "kind": "fact",
+   "roles": [
+     {"id": "r.CircuitHasCoordinates.circuit", "player": "et.Circuit", "name": "Circuit", "ordinal": 0},
+     {"id": "r.CircuitHasCoordinates.lat", "player": "vt.CircuitLat", "name": "Lat", "ordinal": 1},
+     {"id": "r.CircuitHasCoordinates.lng", "player": "vt.CircuitLng", "name": "Lng", "ordinal": 2}
+   ],
+   "readings": [{"id": "rd.CircuitHasCoordinates", "text": "{0} has coordinates {1} {2}",
+                 "roleSequence": ["r.CircuitHasCoordinates.circuit", "r.CircuitHasCoordinates.lat", "r.CircuitHasCoordinates.lng"]}],
+   "derivation": "dr.CircuitHasCoordinates"},
+
+  {"id": "vt.Age", "name": "Age", "kind": "value", "dataType": {"name": "numeric"}},
+  {"id": "ft.DriverHasAge", "name": "DriverHasAge", "kind": "fact",
+   "roles": [
+     {"id": "r.DriverHasAge.driver", "player": "et.Driver", "name": "Driver", "ordinal": 0},
+     {"id": "r.DriverHasAge.age", "player": "vt.Age", "name": "Age", "ordinal": 1}
+   ],
+   "readings": [{"id": "rd.DriverHasAge", "text": "{0} has {1}",
+                 "roleSequence": ["r.DriverHasAge.driver", "r.DriverHasAge.age"]}],
+   "derivation": "dr.DriverHasAge"}
+ ],
+ "derivationRules": [
+  {"id": "dr.EuropeanGrandPrixRace", "target": {"kind": "subtype", "ref": "et.EuropeanGrandPrixRace"},
+   "source": "Race [has RaceName: 'European Grand Prix']"},
+  {"id": "dr.MalaysianGrandPrixRace", "target": {"kind": "subtype", "ref": "et.MalaysianGrandPrixRace"},
+   "source": "Race [has RaceName: 'Malaysian Grand Prix']"},
+  {"id": "dr.AustralianGrandPrixCircuit", "target": {"kind": "subtype", "ref": "et.AustralianGrandPrixCircuit"},
+   "source": "Circuit [is of Race has RaceName: 'Australian Grand Prix']"},
+  {"id": "dr.JapaneseDriver", "target": {"kind": "subtype", "ref": "et.JapaneseDriver"},
+   "source": "Driver [has DriverNationality: 'Japanese']"},
+  {"id": "dr.DisqualifiedResult", "target": {"kind": "subtype", "ref": "et.DisqualifiedResult"},
+   "source": "Result [has Status has StatusId: '2']"},
+  {"id": "dr.FinishedResult", "target": {"kind": "subtype", "ref": "et.FinishedResult"},
+   "source": "Result [has ResultTime]"},
+  {"id": "dr.BornBetween1980And1985Driver", "target": {"kind": "subtype", "ref": "et.BornBetween1980And1985Driver"},
+   "source": "Driver [has DriverDob d] AND ALSO 1980 <= year(d) AND ALSO year(d) <= 1985"},
+
+  {"id": "dr.DriverHasFullName", "target": {"kind": "factType", "ref": "ft.DriverHasFullName"},
+   "source": "LIST d, f, s FROM Driver d has DriverForename f AND ALSO has DriverSurname s"},
+  {"id": "dr.CircuitHasCoordinates", "target": {"kind": "factType", "ref": "ft.CircuitHasCoordinates"},
+   "source": "LIST c, la, lo FROM Circuit c has CircuitLat la AND ALSO has CircuitLng lo"},
+  {"id": "dr.DriverHasAge", "target": {"kind": "factType", "ref": "ft.DriverHasAge"},
+   "source": "LIST d, a FROM Driver d has DriverDob b AND ALSO (year(today()) - year(b)) AS a"}
+ ],
+ "macros": [
+  {"id": "mc.AveragePitStopDuration", "name": "AveragePitStopDuration", "parameters": [], "kind": "scalar",
+   "source": "(THE SUM OF PitStop has PitStopDuration) * 1.0 / THE COUNT OF PitStop has PitStopDuration"},
+  {"id": "mc.FinishRatePercentage", "name": "FinishRatePercentage", "parameters": [], "kind": "scalar",
+   "source": "THE COUNT OF FinishedResult * 100.0 / THE COUNT OF Result"},
+  {"id": "mc.HighestRank", "name": "HighestRank", "parameters": [], "kind": "scalar",
+   "source": "THE MINIMUM Result has ResultRank"},
+  {"id": "mc.ShortestLapTime", "name": "ShortestLapTime", "parameters": [], "kind": "scalar",
+   "source": "THE MINIMUM LapTime has LapTimeMilliseconds"},
+  {"id": "mc.MostPointsScored", "name": "MostPointsScored", "parameters": [], "kind": "scalar",
+   "source": "THE MAXIMUM Result has ResultPoints"},
+  {"id": "mc.YoungestDob", "name": "YoungestDob", "parameters": [], "kind": "scalar",
+   "source": "THE MAXIMUM Driver has DriverDob"},
+  {"id": "mc.FirstRaceYear", "name": "FirstRaceYear", "parameters": [], "kind": "scalar",
+   "source": "THE MINIMUM Race has Season has SeasonYear"}
+ ]
+}

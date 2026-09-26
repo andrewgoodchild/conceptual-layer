@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 1256,
+  "answer": "LIST (THE DISTINCT COUNT OF Patient [is of Laboratory has LaboratoryCRP v WHERE (v > '0.3' AND NOT starts_with(v,'<')) OR v = '+'] - THE DISTINCT COUNT OF Patient [is of Laboratory has LaboratoryCRP v WHERE (v > '0.3' AND NOT starts_with(v,'<')) OR v = '+'] [has PatientDescription])",
+  "attempts": 7
+ },
+ {
+  "question_id": 1189,
+  "answer": "THE DISTINCT COUNT OF Patient [is of Examination [has ExaminationThrombosis: 2] [has ExaminationANAPattern: 'S'] has ExaminationACLIgM m WHERE m > 1.2 * THE AVERAGE Examination has ExaminationACLIgM]",
+  "attempts": 1
+ },
+ {
+  "question_id": 1267,
+  "answer": "THE DISTINCT COUNT OF Patient [is of Laboratory has LaboratorySM v WHERE v = '0' OR v = 'negative'] [is of Examination has ExaminationThrombosis: 0]",
+  "attempts": 1
+ },
+ {
+  "question_id": 1157,
+  "answer": "LIST id, sex, diag FROM DISTINCT Patient [is of Examination has ExaminationThrombosis: 3] has PatientID id AND ALSO has PatientSEX sex AND ALSO has PatientDiagnosis diag",
+  "attempts": 1
+ },
+ {
+  "question_id": 1162,
+  "answer": "THE DISTINCT COUNT OF Patient [has PatientSEX: 'F'] [has PatientFirstDate fd WHERE year(fd) = 1997] [has PatientAdmission: '-']",
+  "attempts": 1
+ },
+ {
+  "question_id": 1164,
+  "answer": "THE DISTINCT COUNT OF Patient [has PatientSEX: 'F'] [is of Examination [has ExaminationThrombosis: 3] has ExaminationDate d WHERE year(d) = 1997]",
+  "attempts": 1
+ },
+ {
+  "question_id": 1179,
+  "answer": "LIST p, igg, igm, iga FROM Patient p [has PatientDescription: '1994-02-19'] [has PatientDiagnosis diag WHERE contains(diag, 'SLE')] is of Examination [has ExaminationDate: '1993-11-12'] [has ExaminationACLIgG igg] [has ExaminationACLIgM igm] [has ExaminationACLIgA iga]",
+  "attempts": 3
+ },
+ {
+  "question_id": 1192,
+  "answer": "LIST id FROM DISTINCT Patient p [has PatientAdmission: '-'] [is of Laboratory [has LaboratoryDate ld WHERE year(ld)=1991 AND month(ld)=10] has LaboratoryTBIL t WHERE t >= 0.1 AND t <= 1.2] has PatientID id",
+  "attempts": 1
+ },
+ {
+  "question_id": 1232,
+  "answer": "LIST id, sex, year(today()) - year(bday) FROM DISTINCT Patient p [is of Laboratory [has LaboratoryGLU g] [has LaboratoryTCHO c] WHERE (g < 70 OR g > 109) AND c >= 130 AND c <= 220] has PatientID id AND ALSO has PatientSEX sex AND ALSO has PatientBirthday bday",
+  "attempts": 3
+ },
+ {
+  "question_id": 1187,
+  "answer": "LIST id FROM DISTINCT Patient p [is of Laboratory [has LaboratoryDate ld WHERE ld >= '1987-07-06' AND ld <= '1996-01-31'] [has LaboratoryGPT g WHERE g > 30] has LaboratoryALB a WHERE a < 4] has PatientID id ORDERED WITH id ASCENDING",
+  "attempts": 1
+ }
+]

@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 1115,
+  "answer": "SELECT CAST((SUM(CASE WHEN p.player_name = 'Landon Donovan' THEN pa.overall_rating ELSE 0 END) - SUM(CASE WHEN p.player_name = 'Jordan Bowery' THEN pa.overall_rating ELSE 0 END)) AS REAL) * 100 / SUM(CASE WHEN p.player_name = 'Landon Donovan' THEN pa.overall_rating ELSE 0 END) FROM Player_Attributes AS pa INNER JOIN Player AS p ON p.player_api_id = pa.player_api_id WHERE pa.date LIKE '2013-07-12%'",
+  "attempts": 2
+ },
+ {
+  "question_id": 1134,
+  "answer": "SELECT SUM(CASE WHEN id = 6 THEN jumping ELSE 0 END) - SUM(CASE WHEN id = 23 THEN jumping ELSE 0 END) FROM Player_Attributes",
+  "attempts": 2
+ },
+ {
+  "question_id": 1135,
+  "answer": "SELECT id FROM Player_Attributes WHERE preferred_foot = 'right' ORDER BY potential ASC LIMIT 4",
+  "attempts": 1
+ },
+ {
+  "question_id": 1124,
+  "answer": "SELECT DISTINCT p.player_name FROM Player_Attributes AS pa INNER JOIN Player AS p ON p.player_api_id = pa.player_api_id WHERE pa.attacking_work_rate = 'high'",
+  "attempts": 1
+ },
+ {
+  "question_id": 1107,
+  "answer": "SELECT pa.date FROM Player_Attributes AS pa INNER JOIN Player AS p ON p.player_api_id = pa.player_api_id WHERE p.player_name = 'Kevin Constant' ORDER BY pa.crossing DESC, pa.date ASC LIMIT 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 1094,
+  "answer": "SELECT CAST((SUM(CASE WHEN p.player_name = 'Ariel Borysiuk' THEN pa.overall_rating ELSE 0 END) - SUM(CASE WHEN p.player_name = 'Paulin Puel' THEN pa.overall_rating ELSE 0 END)) AS REAL) * 100 / SUM(CASE WHEN p.player_name = 'Paulin Puel' THEN pa.overall_rating ELSE 0 END) FROM Player_Attributes AS pa INNER JOIN Player AS p ON p.player_api_id = pa.player_api_id",
+  "attempts": 2
+ },
+ {
+  "question_id": 1110,
+  "answer": "SELECT ta.buildUpPlayPassingClass FROM Team_Attributes AS ta INNER JOIN Team AS t ON t.team_api_id = ta.team_api_id WHERE t.team_long_name = 'FC Lorient' AND ta.date LIKE '2010-02-22%'",
+  "attempts": 1
+ },
+ {
+  "question_id": 1130,
+  "answer": "SELECT DISTINCT t.team_short_name FROM Team_Attributes AS ta INNER JOIN Team AS t ON t.team_api_id = ta.team_api_id WHERE ta.chanceCreationPassingClass = 'Safe'",
+  "attempts": 2
+ },
+ {
+  "question_id": 1116,
+  "answer": "SELECT player_name FROM Player WHERE height = (SELECT MAX(height) FROM Player)",
+  "attempts": 1
+ },
+ {
+  "question_id": 1044,
+  "answer": "SELECT player_name FROM Player WHERE SUBSTR(birthday, 1, 7) = '1970-10'",
+  "attempts": 1
+ }
+]

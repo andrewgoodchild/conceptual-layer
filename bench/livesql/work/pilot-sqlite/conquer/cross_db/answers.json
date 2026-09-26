@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "cross_db_10",
+  "answer": "LIST f, round(acp,2), od FROM Auditandcompliance has Dataprofile p AND ALSO p has Dataflow df AND ALSO df has DataflowFlowTag f AND ALSO df has DataflowOrignation o AND ALSO df has DataflowDestnation dn AND ALSO has AuditandcomplianceCritfindnum cf AND ALSO has Distance ft AND ALSO has AuditandcomplianceAccreqnum ac AND ALSO has AuditandcomplianceDelreqnum de AND ALSO has AuditandcomplianceRectreqnum re AND ALSO has AuditandcompliancePortRequestNumber po AND ALSO has AuditandcomplianceRemeddue rd AND ALSO (cf / (ft + 1)) AS afs AND ALSO (afs * afs * (ac + de + re + po)) AS acp AND ALSO castInteger(days_between('2025-04-01', rd)) AS od WHERE o <> dn AND acp > 5 AND od >= -5 ORDERED WITH od DESCENDING, acp DESCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "cross_db_1",
+  "answer": "LIST f, round(res,2), round(dsi,2) FROM Dataflow has DataflowFlowTag f AND ALSO OPTIONALLY is of Riskmanagement r AND ALSO r OPTIONALLY has RiskmanagementRiskassess ra AND ALSO r OPTIONALLY has RiskmanagementCtrleff ce AND ALSO OPTIONALLY is of Dataprofile p AND ALSO p OPTIONALLY has DataprofileVolgb v AND ALSO p OPTIONALLY has DataprofileDatasense ds AND ALSO (ra / ce) AS res AND ALSO (v * if(ds = 'High', 3, if(ds = 'Medium', 2, 1))) AS dsi WHERE res > 0.7 AND dsi > 100 ORDERED WITH dsi DESCENDING THE FIRST 5"
+ },
+ {
+  "question_id": "cross_db_8",
+  "answer": "LIST f, round(cbrf,2), round(cdvr,2), rk FROM Dataflow has DataflowFlowTag f AND ALSO has DataflowOrignation o AND ALSO has DataflowDestnation dn AND ALSO is of Riskmanagement r AND ALSO r has RiskmanagementRiskassess ra AND ALSO r has RiskmanagementCtrleff ce AND ALSO is of Dataprofile p AND ALSO p has DataprofileVolgb v AND ALSO ((ra / ce) * if(o <> dn, 2, 1)) AS cbrf AND ALSO (cbrf * v) AS cdvr AND ALSO 1 AS k AND ALSO THE RANK OF cdvr WITHIN k AS rk WHERE o <> dn AND cdvr > 1000 ORDERED WITH cdvr DESCENDING THE FIRST 5"
+ },
+ {
+  "question_id": "cross_db_7",
+  "answer": "LIST a, round(dsrp,2), concat('[\"Access: ', ac, '\", \"Deletion: ', de, '\", \"Rectification: ', re, '\", \"Portability: ', po, '\"]') FROM Auditandcompliance has AuditandcomplianceAudittrace a AND ALSO has AuditandcomplianceAccreqnum ac AND ALSO has AuditandcomplianceDelreqnum de AND ALSO has AuditandcomplianceRectreqnum re AND ALSO has AuditandcompliancePortRequestNumber po AND ALSO has AuditandcomplianceResptimeday rt AND ALSO ((ac + de + re + po) * rt) AS dsrp WHERE dsrp > 50 ORDERED WITH dsrp DESCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "cross_db_2",
+  "answer": "LIST tier, c, round(c * 100.0 / THE COUNT OF Vendormanagement, 2) FROM Vendormanagement vm has VendormanagementVendsecrate sr AND ALSO has VendormanagementContrstate cs AND ALSO (if(sr = 'A', 4, if(sr = 'B', 3, if(sr = 'C', 2, 1))) * if(cs = 'Active', 1, 0.5)) AS vri AND ALSO if(vri < 2, 'High Risk', if(vri < 3, 'Medium Risk', 'Low Risk')) AS tier AND ALSO THE COUNT OF vm GROUPED BY tier AS c ORDERED WITH c DESCENDING"
+ },
+ {
+  "question_id": "cross_db_5",
+  "answer": "LIST c, g, l, concat(o, ' -> ', d) FROM Compliance has ComplianceTrace c AND ALSO has ComplianceGdprcomp g AND ALSO has ComplianceLoclawcomp l AND ALSO has Riskmanagement r AND ALSO r has Dataflow df AND ALSO df has DataflowOrignation o AND ALSO df has DataflowDestnation d WHERE g = 'Non-compliant' OR (l = 'Non-compliant' AND o <> d) ORDERED WITH c ASCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "cross_db_3",
+  "answer": "LIST f, round(b,2), round(d,2) FROM Dataflow has DataflowFlowTag f AND ALSO has bwidthpct Percentage bp AND ALSO has DataflowDatasizemb sz AND ALSO has DataflowDurationMinimum du AND ALSO has successpct Percentage sp AND ALSO has errtally Distance et AND ALSO (bp * sz / du) AS b AND ALSO (sp / (et + 1)) AS d WHERE b > 50 AND d < 1.0 ORDERED WITH b DESCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "cross_db_4",
+  "answer": "LIST concat('{\"ProfileTrace\": ', p, ', \"DataSensitivityIndex\": ', round(dsi,2), ', \"SecurityRobustnessScore\": ', srs, '}') FROM Dataprofile has DataprofileProfiletrace p AND ALSO has DataprofileVolgb v AND ALSO has DataprofileDatasense ds AND ALSO is of Securityprofile s AND ALSO s has SecurityprofileEncstate es AND ALSO s has SecurityprofileAclstate acl AND ALSO (v * if(ds = 'High', 3, if(ds = 'Medium', 2, 1))) AS dsi AND ALSO if(es = 'Full' AND acl = 'Strong', 3, if(es = 'Full' OR acl = 'Adequate', 2, 1)) AS srs WHERE dsi > 100 AND srs < 2 ORDERED WITH dsi DESCENDING THE FIRST 5"
+ },
+ {
+  "question_id": "cross_db_6",
+  "answer": "DEFINE MAvg ::= LIST x, m, a FROM Auditandcompliance x has AuditandcomplianceRemeddue d AND ALSO has AuditandcomplianceCritfindnum cf AND ALSO has Distance ft AND ALSO (cf / (ft + 1)) AS afs AND ALSO substr(d, 1, 7) AS m AND ALSO THE AVERAGE afs WITHIN m AS a WHERE afs > 0.5 LIST m, round(am,2), r FROM Auditandcompliance has MAvg MAvgM m AND ALSO has a MAvgA a AND ALSO (1 + THE DISTINCT COUNT OF m2 IN (Auditandcompliance has MAvg MAvgM m2 AND ALSO has a MAvgA a2 WHERE a2 > a)) AS rr AND ALSO THE MAXIMUM a GROUPED BY m AS am AND ALSO THE MAXIMUM rr GROUPED BY m AS r WHERE r <= 3 ORDERED WITH m ASCENDING"
+ },
+ {
+  "question_id": "cross_db_9",
+  "answer": "LIST p, ifc, ftl FROM Dataprofile has DataprofileProfiletrace p AND ALSO has DataprofileIntcheck ic AND ALSO has DataprofileCsumverify cv AND ALSO (if(ic = 'Failed', 1, 0) + if(cv = 'Failed', 1, 0)) AS ifc AND ALSO if(ic = 'Failed' AND cv = 'Failed', 'Integrity Check, Checksum Verification', if(ic = 'Failed', 'Integrity Check', 'Checksum Verification')) AS ftl WHERE ic = 'Failed' OR cv = 'Failed' ORDERED WITH ifc DESCENDING THE FIRST 10"
+ }
+]

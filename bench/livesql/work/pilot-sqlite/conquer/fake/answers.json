@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "fake_9",
+  "answer": "DEFINE SessCnt ::= LIST acc, sc FROM Sessionbehavior sb has Profile has Account acc AND ALSO THE COUNT OF sb GROUPED BY acc AS sc DEFINE PostTot ::= LIST acc2, tpf FROM Contentbehavior cb has ContentbehaviorPostFrequency pf AND ALSO cb has Sessionbehavior has Profile has Account acc2 AND ALSO THE SUM OF pf GROUPED BY acc2 AS tpf LIST i, n, tp, pc, cpri FROM Account a has AccountAccindex i AND ALSO a has SessCnt SessCntSc n AND ALSO a has PostTot PostTotTpf tp AND ALSO a is of Profile is of Sessionbehavior is of Networkmetric is of Technicalinfo t AND ALSO t has TechnicalinfoIpcountrynum icn AND ALSO t is of Securitydetection sd AND ALSO sd has SecuritydetectionDetectionScoreProfile dsp AND ALSO sd is of Moderationaction m AND ALSO m has ModerationactionTrustval tv AND ALSO m has ModerationactionImpactval iv AND ALSO 1 AS pc AND ALSO ((0.4 * jsonPath(dsp,'$.overall.riskval') + 0.3 * (1 - tv) + 0.3 * iv) * (1 + 0.2 * icn)) AS cpri WHERE n > 1000 OR tp > 50 ORDERED WITH cpri DESCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "fake_10",
+  "answer": "LIST i, nicr, r FROM Account has AccountAccindex i AND ALSO is of Profile is of Sessionbehavior is of Networkmetric n AND ALSO n has NetworkmetricEngagementMetrics em AND ALSO n is of Technicalinfo is of Securitydetection is of Moderationaction has ModerationactionNetinflscore nis AND ALSO (0.4 * jsonPath(em, '$.connection_metrics.connqualscore') + 0.3 * nis + 0.3 * jsonPath(em, '$.interaction_metrics.interactdiv')) AS nic AND ALSO round(nic, 2) AS nicr AND ALSO 1 AS one AND ALSO THE RANK OF nic WITHIN one AS r WHERE nic > 0 ORDERED WITH r ASCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "fake_5",
+  "answer": "LIST i, teir, icn, q FROM Account has AccountAccindex i AND ALSO is of Profile is of Sessionbehavior is of Networkmetric is of Technicalinfo t AND ALSO t has TechnicalinfoVpnratio vr AND ALSO t has TechnicalinfoProxycount px AND ALSO t has TechnicalinfoIpcountrynum icn AND ALSO (0.4 * vr + 0.3 * (px / 10) + 0.3 * (icn / 20)) AS tei AND ALSO round(tei, 2) AS teir AND ALSO 1 AS one AND ALSO THE RANK OF tei WITHIN one AS r AND ALSO THE COUNT OF t WITHIN one AS n AND ALSO (div((n - r) * 4, n) + 1) AS q WHERE tei > 0.8 AND icn >= 3 ORDERED WITH tei DESCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "fake_8",
+  "answer": "DEFINE AmpSize ::= LIST pid, mc FROM Moderationaction [has ModerationactionClustrole: 'Amplifier'] [has ModerationactionCoordscore > 0.8] has Securitydetection has Technicalinfo has Networkmetric has Sessionbehavior has Profile has Account acc AND ALSO acc has AccountPlatident pid AND ALSO THE DISTINCT COUNT OF acc GROUPED BY pid AS mc LIST i, nis, pf, mc, r FROM Moderationaction m [has ModerationactionClustrole: 'Amplifier'] [has ModerationactionCoordscore > 0.8] has ModerationactionNetinflscore nis AND ALSO m has Contentbehavior has ContentbehaviorPostFrequency pf AND ALSO m has Securitydetection has Technicalinfo has Networkmetric has Sessionbehavior has Profile has Account acc AND ALSO acc has AccountAccindex i AND ALSO acc has AccountPlatident pid AND ALSO pid has AmpSize AmpSizeMc mc AND ALSO 1 AS one AND ALSO THE RANK OF nis WITHIN one AS r WHERE nis > 80 AND pf > 30 ORDERED WITH r ASCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "fake_1",
+  "answer": "LIST cz, round(ab, 2), n FROM Moderationaction m has ModerationactionClustsize cz AND ALSO m has Securitydetection sd AND ALSO sd has SecuritydetectionDetectionScoreProfile dsp AND ALSO sd has Technicalinfo has Messaginganalysi has MessaginganalysiConvnatval cnv AND ALSO (0.4 * jsonPath(dsp,'$.behavior_scores.botlikscore') + 0.3 * jsonPath(dsp,'$.behavior_scores.autobehavscore') + 0.3 * (1 - cnv)) AS bbi AND ALSO THE AVERAGE bbi GROUPED BY cz AS ab AND ALSO THE COUNT OF m GROUPED BY cz AS n WHERE cz > 10 AND ab > 0.7 ORDERED WITH ab DESCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "fake_7",
+  "answer": "LIST i, rs, arn, lrd FROM Moderationaction m [has Securitydetection has Technicalinfo has Networkmetric has Sessionbehavior has Profile has Account has AccountAcctstatus: 'Dormant'] has ModerationactionReputscore rs AND ALSO m has ModerationactionAbuserepnum arn AND ALSO m has ModerationactionLastReviewDate lrd AND ALSO m has Securitydetection has Technicalinfo has Networkmetric has Sessionbehavior has Profile has Account has AccountAccindex i WHERE rs < 30 ORDERED WITH arn DESCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "fake_2",
+  "answer": "LIST i, ea, tip, st FROM Networkmetric n has NetworkmetricEngagementMetrics em AND ALSO n OPTIONALLY has Sessionbehavior OPTIONALLY has Profile OPTIONALLY has Account OPTIONALLY has AccountAccindex i AND ALSO jsonPath(em, '$.engagement_metrics.engauth') AS ea AND ALSO jsonPath(em, '$.interaction_metrics.tempinteractpat') AS tip AND ALSO 'Manipulator' AS st WHERE ea < 0.3 AND tip = 'Automated' THE FIRST 100"
+ },
+ {
+  "question_id": "fake_3",
+  "answer": "LIST i, bbi, rl FROM Account a [has AccountAcctstatus: 'Dormant'] has AccountAccindex i AND ALSO a OPTIONALLY is of Profile OPTIONALLY is of Sessionbehavior OPTIONALLY is of Networkmetric OPTIONALLY is of Technicalinfo t AND ALSO t OPTIONALLY is of Securitydetection OPTIONALLY has SecuritydetectionDetectionScoreProfile dsp AND ALSO t OPTIONALLY has Messaginganalysi OPTIONALLY has MessaginganalysiConvnatval cnv AND ALSO (0.4 * jsonPath(dsp,'$.behavior_scores.botlikscore') + 0.3 * jsonPath(dsp,'$.behavior_scores.autobehavscore') + 0.3 * (1 - cnv)) AS bbi AND ALSO if(bbi > 0.9, 'High Risk', if(bbi > 0.3, 'Moderate Risk', 'Low Risk')) AS rl WHERE bbi > 0.2 ORDERED WITH bbi DESCENDING THE FIRST 100"
+ },
+ {
+  "question_id": "fake_4",
+  "answer": "LIST cr, cms, pf, fc, r FROM Contentbehavior cb has ContentbehaviorCountRef cr AND ALSO cb has ContentbehaviorPostFrequency pf AND ALSO cb has ContentbehaviorCntuniqscore cu AND ALSO cb has ContentbehaviorMediareratio mr AND ALSO cb is of Messaginganalysi has MessaginganalysiTxtuniq tu AND ALSO (0.4 * (1 - cu) + 0.3 * mr + 0.3 * (1 - tu)) AS cms AND ALSO if(pf > 50, 'High', if(pf >= 20, 'Medium', 'Low')) AS fc AND ALSO 1 AS one AND ALSO THE RANK OF cms WITHIN one AS r WHERE cms > 0.7 AND pf > 50 ORDERED WITH r ASCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "fake_6",
+  "answer": "LIST i, basr, lbs FROM Securitydetection sd has SecuritydetectionDetectionScoreProfile dsp AND ALSO sd has Technicalinfo t AND ALSO t has Messaginganalysi has MessaginganalysiConvnatval cnv AND ALSO t has Networkmetric nm AND ALSO nm has NetworkmetricEngagementMetrics em AND ALSO nm has Sessionbehavior sb AND ALSO sb has SessionbehaviorSesscount sc AND ALSO sb has Profile has Account acc AND ALSO acc has AccountAccindex i AND ALSO acc has AccountAcctagespan ag AND ALSO jsonPath(dsp, '$.behavior_scores.botlikscore') AS lbs AND ALSO (0.4 * (0.4 * lbs + 0.3 * jsonPath(dsp, '$.behavior_scores.autobehavscore') + 0.3 * (1 - cnv)) + 0.4 * (sc / ag) + 0.2 * sqrt(power(jsonPath(em, '$.connection_metrics.followgrowrate'), 2) + power(jsonPath(em, '$.connection_metrics.followinggrowrate'), 2))) AS bas AND ALSO round(bas, 2) AS basr WHERE lbs > 70 ORDERED WITH bas DESCENDING THE FIRST 10"
+ }
+]

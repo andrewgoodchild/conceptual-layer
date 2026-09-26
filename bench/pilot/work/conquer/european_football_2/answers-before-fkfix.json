@@ -1,0 +1,58 @@
+[
+ {
+  "question_id": 1115,
+  "answer": null,
+  "attempts": 4,
+  "note": "Needs PlayerAttribute (overall_rating, date) joined to Player by name. The only readings that connect them, PlayerAttributeHasPlayerApi and PlayerAttributeHasPlayerFifaApi, compile to a join on the entity's own row id (e.g. Player.id = PlayerAttribute.player_api_id) rather than on the matching api-id value. Verified with try --sql-only: for 'Federico Marchetti' (PlayerId 3264, PlayerApiId 39599) the path returns 5 rows that actually belong to whichever player's attribute rows happen to have player_api_id=3264, not Marchetti's own data; for players whose PlayerId does not coincide with any attribute row's player_api_id -- Lionel Messi, Cristiano Ronaldo, Landon Donovan, Jordan Bowery, Kevin Constant, Ariel Borysiuk, Paulin Puel -- it returns 0 rows even though their real attribute data exists in the table. Both the api and fifa-api readings show the identical defect, so no path phrasing avoids it. Cannot be answered correctly against this model."
+ },
+ {
+  "question_id": 1134,
+  "answer": "THE MAXIMUM j IN PlayerAttribute: 6 has PlayerAttributeJumping j - THE MAXIMUM j IN PlayerAttribute: 23 has PlayerAttributeJumping j",
+  "attempts": 1
+ },
+ {
+  "question_id": 1135,
+  "answer": "LIST id FROM PlayerAttribute has PlayerAttributeId id AND ALSO has PlayerAttributePreferredFoot: 'right' AND ALSO has PlayerAttributePotential p ORDERED WITH p ASCENDING THE FIRST 4",
+  "attempts": 2
+ },
+ {
+  "question_id": 1124,
+  "answer": null,
+  "attempts": 3,
+  "note": "Needs PlayerAttribute.attacking_work_rate joined to Player.player_name. Same broken join as question 1115 (PlayerAttributeHasPlayerApi / PlayerAttributeHasPlayerFifaApi match Player's own row id against the attribute row's api-id column instead of the matching api value), so the names returned would be for the wrong players. Cannot be answered correctly against this model."
+ },
+ {
+  "question_id": 1107,
+  "answer": null,
+  "attempts": 3,
+  "note": "Needs PlayerAttribute (crossing, date) joined to Player by name ('Kevin Constant'). Same broken PlayerAttribute-to-Player join as question 1115; confirmed the path returns 0 rows for Kevin Constant even though he exists as a Player and has attribute rows in the table. Cannot be answered correctly against this model."
+ },
+ {
+  "question_id": 1094,
+  "answer": null,
+  "attempts": 3,
+  "note": "Needs PlayerAttribute.overall_rating joined to Player by name for two named players ('Ariel Borysiuk', 'Paulin Puel'). Same broken PlayerAttribute-to-Player join as question 1115; both names return 0 rows through the join even though they exist as Players. Cannot be answered correctly against this model."
+ },
+ {
+  "question_id": 1110,
+  "answer": null,
+  "attempts": 3,
+  "note": "Needs TeamAttribute.buildUpPlayPassingClass and TeamAttribute.date joined to Team by name ('FC Lorient'). The TeamAttributeHasTeamApi / TeamAttributeHasTeamFifaApi readings have the identical defect as the Player/PlayerAttribute case: verified 'FC Lorient' has TeamId 9544 and TeamApiId 8689, and 'TeamAttribute has api Team has TeamLongName: FC Lorient' returns 0 rows because the join compares Team.id (9544) to TeamAttribute's team_api_id column instead of Team's own TeamApiId (8689). Cannot be answered correctly against this model."
+ },
+ {
+  "question_id": 1130,
+  "answer": null,
+  "attempts": 3,
+  "note": "Needs Team.team_short_name joined to TeamAttribute.chanceCreationPassingClass. Same broken TeamAttribute-to-Team join as question 1110, so any names returned would belong to the wrong teams. Cannot be answered correctly against this model."
+ },
+ {
+  "question_id": 1116,
+  "answer": "LIST n FROM Player has PlayerName n AND ALSO has PlayerHeight h WHERE h = THE MAXIMUM Player has PlayerHeight",
+  "attempts": 1
+ },
+ {
+  "question_id": 1044,
+  "answer": "LIST n FROM Player has PlayerName n AND ALSO has PlayerBirthday b WHERE year(b) = 1970 AND month(b) = 10",
+  "attempts": 1
+ }
+]

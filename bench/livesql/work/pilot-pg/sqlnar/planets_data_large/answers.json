@@ -1,0 +1,34 @@
+[
+  {
+    "question_id": "planets_data_11",
+    "answer": "WITH per AS (SELECT s.stellarref, s.hostplname, o.period::double precision AS period, LAG(o.period::double precision) OVER (PARTITION BY s.stellarref ORDER BY o.period) AS prev_period FROM stars s JOIN planets p ON p.hostlink = s.stellarref JOIN orbital_characteristics o ON o.bodylink = p.planetref WHERE s.compcount > 1 AND o.period IS NOT NULL AND o.period > 0), ratios AS (SELECT stellarref, hostplname, period / prev_period AS ratio FROM per WHERE prev_period IS NOT NULL), mins AS (SELECT stellarref, MIN(period) AS min_period FROM per GROUP BY stellarref) SELECT r.hostplname, ROUND(EXP(AVG(LN(r.ratio)))::numeric, 3) AS geometric_mean_period_ratio FROM ratios r JOIN mins m ON m.stellarref = r.stellarref WHERE m.min_period < 10 GROUP BY r.stellarref, r.hostplname HAVING MAX(r.ratio) < 3 ORDER BY geometric_mean_period_ratio DESC"
+  },
+  {
+    "question_id": "planets_data_4",
+    "answer": "WITH cand AS (SELECT s.stellarref, s.hostplname, (s.stellarprops->'physical'->>'Mass_Value')::numeric AS recorded_mass, POWER(o.semimajor::numeric, 3) / POWER(o.period::numeric / 365.25, 2) AS calculated_mass, ROW_NUMBER() OVER (PARTITION BY s.stellarref ORDER BY o.semimajor DESC) AS rn FROM stars s JOIN planets p ON p.hostlink = s.stellarref JOIN orbital_characteristics o ON o.bodylink = p.planetref WHERE s.compcount > 1 AND o.semimajor IS NOT NULL AND o.period IS NOT NULL AND o.period > 0) SELECT hostplname, recorded_mass, calculated_mass FROM cand WHERE rn = 1 ORDER BY ABS(recorded_mass - calculated_mass) ASC"
+  },
+  {
+    "question_id": "planets_data_15",
+    "answer": "WITH pl AS (SELECT p.hostlink, pp.massjup, pp.densvalue FROM planets p JOIN physical_properties pp ON pp.objectlink = p.planetref WHERE pp.densvalue IS NOT NULL OR pp.massjup IS NOT NULL), st AS (SELECT s.stellarref, (s.stellarprops->'physical'->>'Radius_Value')::numeric AS srad, (s.stellarprops->'physical'->>'Temp_Value')::numeric AS stemp FROM stars s WHERE (s.stellarprops->'physical'->>'Radius_Value') IS NOT NULL AND (s.stellarprops->'physical'->>'Temp_Value') IS NOT NULL) SELECT ROUND(AVG(POWER(st.srad, 2) * POWER(st.stemp / 5778, 4)), 4) AS avg_stellar_luminosity FROM st WHERE EXISTS (SELECT 1 FROM pl WHERE pl.hostlink = st.stellarref AND pl.densvalue > 3) AND NOT EXISTS (SELECT 1 FROM pl WHERE pl.hostlink = st.stellarref AND pl.massjup > 0.1)"
+  },
+  {
+    "question_id": "planets_data_6",
+    "answer": "SELECT s.hostplname || ' ' || p.completter AS planet_name, s.hostplname AS host_star, o.eccentricity, ROUND(((pp.massjup * 1.898E27) / ((s.stellarprops->'physical'->>'Mass_Value')::numeric * 1.98847E30))::numeric, 5) AS mass_ratio FROM planets p JOIN stars s ON s.stellarref = p.hostlink JOIN orbital_characteristics o ON o.bodylink = p.planetref JOIN physical_properties pp ON pp.objectlink = p.planetref JOIN data_quality_tracking d ON d.targetlink = p.planetref WHERE o.eccentricity > 0.25 AND d.masssource ILIKE 'msini' AND pp.massjup IS NOT NULL AND (s.stellarprops->'physical'->>'Mass_Value') IS NOT NULL AND (s.stellarprops->'physical'->>'Mass_Value')::numeric > 0 ORDER BY mass_ratio ASC"
+  },
+  {
+    "question_id": "planets_data_9",
+    "answer": "SELECT TO_CHAR((pp.massjup * 1.898E27) / ((s.stellarprops->'physical'->>'Mass_Value')::numeric * 1.98847E30), '9.999999EEEE') AS planet_star_mass_ratio FROM planets p JOIN stars s ON s.stellarref = p.hostlink JOIN physical_properties pp ON pp.objectlink = p.planetref WHERE pp.massjup IS NOT NULL AND pp.radjup IS NOT NULL AND pp.densvalue IS NOT NULL AND pp.densvalue > 3 AND (pp.massjup * 317.83) BETWEEN 1 AND 10 AND (s.stellarprops->'physical'->>'Mass_Value') IS NOT NULL AND (s.stellarprops->'physical'->>'Mass_Value')::numeric > 0 ORDER BY (pp.massjup * 317.83) / POWER(pp.radjup * 11.209, 2) DESC LIMIT 1"
+  },
+  {
+    "question_id": "planets_data_13",
+    "answer": "SELECT ROUND(SQRT(2 * 6.674E-11 * (pp.massjup * 317.83 * 5.972E24) / (pp.radjup * 11.209 * 6.371E6)) / 1000) AS escape_velocity_km_s FROM planets p JOIN physical_properties pp ON pp.objectlink = p.planetref WHERE pp.massjup IS NOT NULL AND pp.massjup <> 0 AND pp.radjup IS NOT NULL AND pp.radjup <> 0 ORDER BY (pp.massjup * 317.83) / (pp.radjup * 11.209) DESC LIMIT 1"
+  },
+  {
+    "question_id": "planets_data_19",
+    "answer": "SELECT COUNT(*) AS planet_count FROM planets p JOIN physical_properties pp ON pp.objectlink = p.planetref JOIN data_quality_tracking d ON d.targetlink = p.planetref WHERE pp.radjup IS NOT NULL AND (d.limitflags->'planetary_limits'->>'Rad_Lim')::int = 1"
+  },
+  {
+    "question_id": "planets_data_14",
+    "answer": "SELECT CASE WHEN LOWER(stellarprops->'photometry'->>'Photo_Band') IN ('v (johnson)', 'johnson', 'v', 'johnson v', 'v-band') THEN 'v-band' WHEN LOWER(stellarprops->'photometry'->>'Photo_Band') IN ('kepler-band', 'kepler', 'kep-b', 'kep') THEN 'kepler-band' END AS band_name, COUNT(*) AS star_count FROM stars WHERE (stellarprops->'photometry'->>'Photo_Band') IS NOT NULL AND LOWER(stellarprops->'photometry'->>'Photo_Band') <> 'k-band' GROUP BY 1 ORDER BY star_count DESC"
+  }
+]

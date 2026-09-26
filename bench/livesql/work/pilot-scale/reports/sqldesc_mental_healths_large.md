@@ -1,0 +1,5 @@
+Writer's report (sqldesc arm, mental_healths_large), as returned.
+
+- Scratch: **had written drafts q1-q18.sql to the shared scratchpad before the rule arrived** -- the same folder and names the sql arm's mental_healths writer read from (that writer found its q1.sql overwritten). Left them untouched after the rule; rebuilt all SQL in `./drafts/build.py`. A grep of the full `./schema` output saved outside the directory was blocked.
+- Hardest: mh_1 identical time_mark (ties), single output column for two fields; mh_17 stored vs rounded rate; mh_5 SSE scale mismatch ('Moderate', NULL); TES with 'Non-compliant' excluded; mh_6/mh_4 453 treatment rows vs 259 encounters -- separate CTEs to avoid double counting; mh_11 ordering of 'All Ethnicities'.
+- Useful: unit-suffixed numeric text ('29.87 hours/month'), mixed-case warnings (also inside JSON). Missing: the join spine (found from the data: shared assessment key, encounters -> treatmentbasics -> treatmentoutcomes); `miss_appt` and the JSON fields only appeared when asked with those words. Silent: the single shared timestamp; 20 encounters whose pat_ref differs from the assessment's.

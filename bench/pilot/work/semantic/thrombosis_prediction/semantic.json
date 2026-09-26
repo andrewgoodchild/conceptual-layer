@@ -1,0 +1,510 @@
+{
+ "concepts": [
+  {
+   "id": "et.ThrombosisLevel2",
+   "name": "ThrombosisLevel2",
+   "kind": "entity",
+   "supertypes": [
+    "et.Examination"
+   ],
+   "derivation": "dr.ThrombosisLevel2"
+  },
+  {
+   "id": "et.NoThrombosis",
+   "name": "NoThrombosis",
+   "kind": "entity",
+   "supertypes": [
+    "et.Examination"
+   ],
+   "derivation": "dr.NoThrombosis"
+  },
+  {
+   "id": "et.SevereThrombosis",
+   "name": "SevereThrombosis",
+   "kind": "entity",
+   "supertypes": [
+    "et.Examination"
+   ],
+   "derivation": "dr.SevereThrombosis"
+  },
+  {
+   "id": "et.MostSeriousThrombosis",
+   "name": "MostSeriousThrombosis",
+   "kind": "entity",
+   "supertypes": [
+    "et.Examination"
+   ],
+   "derivation": "dr.MostSeriousThrombosis"
+  },
+  {
+   "id": "et.AnaPatternOnlyS",
+   "name": "AnaPatternOnlyS",
+   "kind": "entity",
+   "supertypes": [
+    "et.Examination"
+   ],
+   "derivation": "dr.AnaPatternOnlyS"
+  },
+  {
+   "id": "et.Female",
+   "name": "Female",
+   "kind": "entity",
+   "supertypes": [
+    "et.Patient"
+   ],
+   "derivation": "dr.Female"
+  },
+  {
+   "id": "et.Women",
+   "name": "Women",
+   "kind": "entity",
+   "supertypes": [
+    "et.Patient"
+   ],
+   "derivation": "dr.Women"
+  },
+  {
+   "id": "et.ImmediatelyFollowedAtOutpatientClinic",
+   "name": "ImmediatelyFollowedAtOutpatientClinic",
+   "kind": "entity",
+   "supertypes": [
+    "et.Patient"
+   ],
+   "derivation": "dr.ImmediatelyFollowedAtOutpatientClinic"
+  },
+  {
+   "id": "et.FollowedUpAtOutpatientClinic",
+   "name": "FollowedUpAtOutpatientClinic",
+   "kind": "entity",
+   "supertypes": [
+    "et.Patient"
+   ],
+   "derivation": "dr.FollowedUpAtOutpatientClinic"
+  },
+  {
+   "id": "et.DiagnosedWithSLE",
+   "name": "DiagnosedWithSLE",
+   "kind": "entity",
+   "supertypes": [
+    "et.Patient"
+   ],
+   "derivation": "dr.DiagnosedWithSLE"
+  },
+  {
+   "id": "et.PatientWithoutDescription",
+   "name": "PatientWithoutDescription",
+   "kind": "entity",
+   "supertypes": [
+    "et.Patient"
+   ],
+   "derivation": "dr.PatientWithoutDescription"
+  },
+  {
+   "id": "et.AbnormalCRPLaboratory",
+   "name": "AbnormalCRPLaboratory",
+   "kind": "entity",
+   "supertypes": [
+    "et.Laboratory"
+   ],
+   "derivation": "dr.AbnormalCRPLaboratory"
+  },
+  {
+   "id": "et.NegativeSMLaboratory",
+   "name": "NegativeSMLaboratory",
+   "kind": "entity",
+   "supertypes": [
+    "et.Laboratory"
+   ],
+   "derivation": "dr.NegativeSMLaboratory"
+  },
+  {
+   "id": "et.ZeroSMLaboratory",
+   "name": "ZeroSMLaboratory",
+   "kind": "entity",
+   "supertypes": [
+    "et.Laboratory"
+   ],
+   "derivation": "dr.ZeroSMLaboratory"
+  },
+  {
+   "id": "et.OneSMLaboratory",
+   "name": "OneSMLaboratory",
+   "kind": "entity",
+   "supertypes": [
+    "et.Laboratory"
+   ],
+   "derivation": "dr.OneSMLaboratory"
+  },
+  {
+   "id": "et.NormalAntiSMLaboratory",
+   "name": "NormalAntiSMLaboratory",
+   "kind": "entity",
+   "supertypes": [
+    "et.Laboratory"
+   ],
+   "derivation": "dr.NormalAntiSMLaboratory"
+  },
+  {
+   "id": "et.BilirubinWithinNormalRangeLaboratory",
+   "name": "BilirubinWithinNormalRangeLaboratory",
+   "kind": "entity",
+   "supertypes": [
+    "et.Laboratory"
+   ],
+   "derivation": "dr.BilirubinWithinNormalRangeLaboratory"
+  },
+  {
+   "id": "et.GlucoseNotWithinNormalRangeLaboratory",
+   "name": "GlucoseNotWithinNormalRangeLaboratory",
+   "kind": "entity",
+   "supertypes": [
+    "et.Laboratory"
+   ],
+   "derivation": "dr.GlucoseNotWithinNormalRangeLaboratory"
+  },
+  {
+   "id": "et.CholesterolWithinNormalRangeLaboratory",
+   "name": "CholesterolWithinNormalRangeLaboratory",
+   "kind": "entity",
+   "supertypes": [
+    "et.Laboratory"
+   ],
+   "derivation": "dr.CholesterolWithinNormalRangeLaboratory"
+  },
+  {
+   "id": "et.GPTGreaterThan30Laboratory",
+   "name": "GPTGreaterThan30Laboratory",
+   "kind": "entity",
+   "supertypes": [
+    "et.Laboratory"
+   ],
+   "derivation": "dr.GPTGreaterThan30Laboratory"
+  },
+  {
+   "id": "et.ALBLessThan4Laboratory",
+   "name": "ALBLessThan4Laboratory",
+   "kind": "entity",
+   "supertypes": [
+    "et.Laboratory"
+   ],
+   "derivation": "dr.ALBLessThan4Laboratory"
+  },
+  {
+   "id": "vt.Age",
+   "name": "Age",
+   "kind": "value",
+   "dataType": {
+    "name": "numeric"
+   }
+  },
+  {
+   "id": "ft.PatientHasAge",
+   "name": "PatientHasAge",
+   "kind": "fact",
+   "roles": [
+    {
+     "id": "r.PatientHasAge.Patient",
+     "player": "et.Patient",
+     "name": "Patient",
+     "ordinal": 0
+    },
+    {
+     "id": "r.PatientHasAge.Age",
+     "player": "vt.Age",
+     "name": "Age",
+     "ordinal": 1
+    }
+   ],
+   "readings": [
+    {
+     "id": "rd.PatientHasAge",
+     "text": "{0} has {1}",
+     "roleSequence": [
+      "r.PatientHasAge.Patient",
+      "r.PatientHasAge.Age"
+     ]
+    }
+   ],
+   "derivation": "dr.PatientHasAge"
+  },
+  {
+   "id": "vt.Disease",
+   "name": "Disease",
+   "kind": "value",
+   "dataType": {
+    "name": "text"
+   }
+  },
+  {
+   "id": "ft.PatientHasDisease",
+   "name": "PatientHasDisease",
+   "kind": "fact",
+   "roles": [
+    {
+     "id": "r.PatientHasDisease.Patient",
+     "player": "et.Patient",
+     "name": "Patient",
+     "ordinal": 0
+    },
+    {
+     "id": "r.PatientHasDisease.Disease",
+     "player": "vt.Disease",
+     "name": "Disease",
+     "ordinal": 1
+    }
+   ],
+   "readings": [
+    {
+     "id": "rd.PatientHasDisease",
+     "text": "{0} has {1}",
+     "roleSequence": [
+      "r.PatientHasDisease.Patient",
+      "r.PatientHasDisease.Disease"
+     ]
+    }
+   ],
+   "derivation": "dr.PatientHasDisease"
+  },
+  {
+   "id": "vt.AntiCardiolipin",
+   "name": "AntiCardiolipin",
+   "kind": "value",
+   "dataType": {
+    "name": "numeric"
+   }
+  },
+  {
+   "id": "ft.ExaminationHasAntiCardiolipin",
+   "name": "ExaminationHasAntiCardiolipin",
+   "kind": "fact",
+   "roles": [
+    {
+     "id": "r.ExaminationHasAntiCardiolipin.Examination",
+     "player": "et.Examination",
+     "name": "Examination",
+     "ordinal": 0
+    },
+    {
+     "id": "r.ExaminationHasAntiCardiolipin.AntiCardiolipin",
+     "player": "vt.AntiCardiolipin",
+     "name": "AntiCardiolipin",
+     "ordinal": 1
+    }
+   ],
+   "readings": [
+    {
+     "id": "rd.ExaminationHasAntiCardiolipin",
+     "text": "{0} has {1}",
+     "roleSequence": [
+      "r.ExaminationHasAntiCardiolipin.Examination",
+      "r.ExaminationHasAntiCardiolipin.AntiCardiolipin"
+     ]
+    }
+   ],
+   "derivation": "dr.ExaminationHasAntiCardiolipin"
+  }
+ ],
+ "derivationRules": [
+  {
+   "id": "dr.ThrombosisLevel2",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.ThrombosisLevel2"
+   },
+   "source": "Examination [has ExaminationThrombosis: 2]"
+  },
+  {
+   "id": "dr.NoThrombosis",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.NoThrombosis"
+   },
+   "source": "Examination [has ExaminationThrombosis: 0]"
+  },
+  {
+   "id": "dr.SevereThrombosis",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.SevereThrombosis"
+   },
+   "source": "Examination [has ExaminationThrombosis: 2]"
+  },
+  {
+   "id": "dr.MostSeriousThrombosis",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.MostSeriousThrombosis"
+   },
+   "source": "Examination [has ExaminationThrombosis: 1]"
+  },
+  {
+   "id": "dr.AnaPatternOnlyS",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.AnaPatternOnlyS"
+   },
+   "source": "Examination [has ExaminationANAPattern: 'S']"
+  },
+  {
+   "id": "dr.Female",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.Female"
+   },
+   "source": "Patient [has PatientSEX: 'F']"
+  },
+  {
+   "id": "dr.Women",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.Women"
+   },
+   "source": "Patient [has PatientSEX: 'F']"
+  },
+  {
+   "id": "dr.ImmediatelyFollowedAtOutpatientClinic",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.ImmediatelyFollowedAtOutpatientClinic"
+   },
+   "source": "Patient [has PatientAdmission: '-']"
+  },
+  {
+   "id": "dr.FollowedUpAtOutpatientClinic",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.FollowedUpAtOutpatientClinic"
+   },
+   "source": "Patient [has PatientAdmission: '-']"
+  },
+  {
+   "id": "dr.DiagnosedWithSLE",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.DiagnosedWithSLE"
+   },
+   "source": "Patient [has PatientDiagnosis: 'SLE']"
+  },
+  {
+   "id": "dr.PatientWithoutDescription",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.PatientWithoutDescription"
+   },
+   "source": "Patient BUT NOT has PatientDescription"
+  },
+  {
+   "id": "dr.AbnormalCRPLaboratory",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.AbnormalCRPLaboratory"
+   },
+   "source": "Laboratory [has LaboratoryCRP: '+']"
+  },
+  {
+   "id": "dr.NegativeSMLaboratory",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.NegativeSMLaboratory"
+   },
+   "source": "Laboratory [has LaboratorySM: 'negative']"
+  },
+  {
+   "id": "dr.ZeroSMLaboratory",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.ZeroSMLaboratory"
+   },
+   "source": "Laboratory [has LaboratorySM: '0']"
+  },
+  {
+   "id": "dr.OneSMLaboratory",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.OneSMLaboratory"
+   },
+   "source": "Laboratory [has LaboratorySM: '1']"
+  },
+  {
+   "id": "dr.NormalAntiSMLaboratory",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.NormalAntiSMLaboratory"
+   },
+   "source": "Laboratory [has LaboratorySM: 'negative'] OR OTHERWISE [has LaboratorySM: '0']"
+  },
+  {
+   "id": "dr.BilirubinWithinNormalRangeLaboratory",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.BilirubinWithinNormalRangeLaboratory"
+   },
+   "source": "Laboratory [has LaboratoryTBIL t] WHERE t < 2.0"
+  },
+  {
+   "id": "dr.GlucoseNotWithinNormalRangeLaboratory",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.GlucoseNotWithinNormalRangeLaboratory"
+   },
+   "source": "Laboratory [has LaboratoryGLU g] WHERE g >= 180"
+  },
+  {
+   "id": "dr.CholesterolWithinNormalRangeLaboratory",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.CholesterolWithinNormalRangeLaboratory"
+   },
+   "source": "Laboratory [has LaboratoryTCHO c] WHERE c < 250"
+  },
+  {
+   "id": "dr.GPTGreaterThan30Laboratory",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.GPTGreaterThan30Laboratory"
+   },
+   "source": "Laboratory [has LaboratoryGPT g] WHERE g > 30"
+  },
+  {
+   "id": "dr.ALBLessThan4Laboratory",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.ALBLessThan4Laboratory"
+   },
+   "source": "Laboratory [has LaboratoryALB a] WHERE a < 4"
+  },
+  {
+   "id": "dr.PatientHasAge",
+   "target": {
+    "kind": "factType",
+    "ref": "ft.PatientHasAge"
+   },
+   "source": "LIST p, a FROM Patient p has PatientBirthday b AND ALSO (year(today()) - year(b)) AS a"
+  },
+  {
+   "id": "dr.PatientHasDisease",
+   "target": {
+    "kind": "factType",
+    "ref": "ft.PatientHasDisease"
+   },
+   "source": "LIST p, d FROM Patient p has PatientDiagnosis d"
+  },
+  {
+   "id": "dr.ExaminationHasAntiCardiolipin",
+   "target": {
+    "kind": "factType",
+    "ref": "ft.ExaminationHasAntiCardiolipin"
+   },
+   "source": "LIST e, v FROM Examination e has ExaminationACLIgM v"
+  }
+ ],
+ "macros": [
+  {
+   "id": "mc.AverageAntiCardiolipinIgM",
+   "name": "AverageAntiCardiolipinIgM",
+   "parameters": [],
+   "kind": "scalar",
+   "source": "THE AVERAGE Examination has ExaminationACLIgM"
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "LIST d FROM DISTINCT Transactions1k has Gasstation has GasstationCountry: 'CZE' AND ALSO has Product has ProductDescription d",
+  "attempts": 2
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE COUNT OF Yearmonth [has Customer has CustomerCurrency: 'EUR'] [has YearmonthConsumption c] WHERE c > 1000",
+  "attempts": 2
+ },
+ {
+  "question_id": 1481,
+  "answer": "LIST (THE SUM OF c IN (Yearmonth has YearmonthConsumption c AND ALSO has YearmonthDate d AND ALSO has Customer [has CustomerCurrency: 'CZK'] has CustomerSegment: 'SME' WHERE d >= '201301' AND d <= '201312')) / (THE COUNT OF (Yearmonth [has YearmonthDate d] [has Customer has CustomerCurrency: 'CZK'] WHERE d >= '201301' AND d <= '201312')) - (THE SUM OF c IN (Yearmonth has YearmonthConsumption c AND ALSO has YearmonthDate d AND ALSO has Customer [has CustomerCurrency: 'CZK'] has CustomerSegment: 'LAM' WHERE d >= '201301' AND d <= '201312')) / (THE COUNT OF (Yearmonth [has YearmonthDate d] [has Customer has CustomerCurrency: 'CZK'] WHERE d >= '201301' AND d <= '201312')), (THE SUM OF c IN (Yearmonth has YearmonthConsumption c AND ALSO has YearmonthDate d AND ALSO has Customer [has CustomerCurrency: 'CZK'] has CustomerSegment: 'LAM' WHERE d >= '201301' AND d <= '201312')) / (THE COUNT OF (Yearmonth [has YearmonthDate d] [has Customer has CustomerCurrency: 'CZK'] WHERE d >= '201301' AND d <= '201312')) - (THE SUM OF c IN (Yearmonth has YearmonthConsumption c AND ALSO has YearmonthDate d AND ALSO has Customer [has CustomerCurrency: 'CZK'] has CustomerSegment: 'KAM' WHERE d >= '201301' AND d <= '201312')) / (THE COUNT OF (Yearmonth [has YearmonthDate d] [has Customer has CustomerCurrency: 'CZK'] WHERE d >= '201301' AND d <= '201312')), (THE SUM OF c IN (Yearmonth has YearmonthConsumption c AND ALSO has YearmonthDate d AND ALSO has Customer [has CustomerCurrency: 'CZK'] has CustomerSegment: 'KAM' WHERE d >= '201301' AND d <= '201312')) / (THE COUNT OF (Yearmonth [has YearmonthDate d] [has Customer has CustomerCurrency: 'CZK'] WHERE d >= '201301' AND d <= '201312')) - (THE SUM OF c IN (Yearmonth has YearmonthConsumption c AND ALSO has YearmonthDate d AND ALSO has Customer [has CustomerCurrency: 'CZK'] has CustomerSegment: 'SME' WHERE d >= '201301' AND d <= '201312')) / (THE COUNT OF (Yearmonth [has YearmonthDate d] [has Customer has CustomerCurrency: 'CZK'] WHERE d >= '201301' AND d <= '201312'))",
+  "attempts": 5
+ },
+ {
+  "question_id": 1486,
+  "answer": "THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] - THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR']",
+  "attempts": 1
+ },
+ {
+  "question_id": 1525,
+  "answer": "THE COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25'] [has Customer has CustomerCurrency: 'EUR'] * 100 / THE COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25'] [has Customer]",
+  "attempts": 1
+ },
+ {
+  "question_id": 1501,
+  "answer": "LIST c FROM DISTINCT Transactions1k has Gasstation has GasstationCountry c AND ALSO has Customer is of Yearmonth has YearmonthDate: '201306'",
+  "attempts": 1
+ }
+]

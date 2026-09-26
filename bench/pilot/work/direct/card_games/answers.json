@@ -1,0 +1,57 @@
+[
+ {
+  "question_id": 422,
+  "answer": "SELECT language FROM foreign_data WHERE multiverseid = 149934",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": "SELECT c.id, c.artist FROM cards c JOIN (SELECT DISTINCT uuid FROM legalities WHERE format = 'commander' AND status = 'Legal') l ON c.uuid = l.uuid WHERE c.power = '*' OR c.power IS NULL",
+  "attempts": 2
+ },
+ {
+  "question_id": 473,
+  "answer": "SELECT DISTINCT s.isForeignOnly FROM cards c JOIN sets s ON c.setCode = s.code WHERE c.name = 'Adarkar Valkyrie'",
+  "attempts": 1
+ },
+ {
+  "question_id": 424,
+  "answer": "SELECT COUNT(CASE WHEN isTextless = 1 AND layout = 'normal' THEN 1 END) * 100.0 / COUNT(*) FROM cards",
+  "attempts": 1
+ },
+ {
+  "question_id": 344,
+  "answer": "SELECT DISTINCT c.name FROM cards c JOIN legalities l ON c.uuid = l.uuid WHERE c.rarity = 'mythic' AND l.format = 'gladiator' AND l.status = 'Banned'",
+  "attempts": 1
+ },
+ {
+  "question_id": 377,
+  "answer": "SELECT COUNT(*) FROM cards WHERE originalType = 'Summon - Angel' AND (subtypes IS NULL OR subtypes != 'Angel')",
+  "attempts": 1
+ },
+ {
+  "question_id": 352,
+  "answer": "SELECT COUNT(CASE WHEN language = 'Chinese Simplified' THEN 1 END) * 100.0 / COUNT(*) FROM foreign_data",
+  "attempts": 1
+ },
+ {
+  "question_id": 518,
+  "answer": "SELECT l.format, c.name FROM legalities l JOIN cards c ON l.uuid = c.uuid WHERE l.status = 'Banned' AND l.format = (SELECT format FROM legalities WHERE status = 'Banned' GROUP BY format ORDER BY COUNT(*) DESC LIMIT 1)",
+  "attempts": 1
+ },
+ {
+  "question_id": 416,
+  "answer": "SELECT COUNT(CASE WHEN f.language = 'French' THEN 1 END) * 100.0 / COUNT(*) FROM cards c JOIN foreign_data f ON c.uuid = f.uuid WHERE c.power IS NULL OR c.power = '*'",
+  "attempts": 1
+ },
+ {
+  "question_id": 349,
+  "answer": "SELECT c.name, c.artist, c.isPromo FROM cards c JOIN rulings r ON r.uuid = c.uuid GROUP BY c.uuid ORDER BY COUNT(*) DESC LIMIT 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 462,
+  "answer": "SELECT DISTINCT st.translation FROM cards c JOIN set_translations st ON c.setCode = st.setCode WHERE c.name = 'Ancestor''s Chosen' AND st.language = 'Italian'",
+  "attempts": 2
+ }
+]

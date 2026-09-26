@@ -1,0 +1,26 @@
+[
+ {
+  "question_id": 137,
+  "answer": "SELECT COUNT(*) FROM loan AS T1 INNER JOIN account AS T2 ON T1.account_id = T2.account_id WHERE T2.district_id = 1 AND T1.status IN ('C', 'D')"
+ },
+ {
+  "question_id": 173,
+  "answer": "SELECT T1.frequency, T2.k_symbol FROM account AS T1 INNER JOIN `order` AS T2 ON T1.account_id = T2.account_id WHERE T1.account_id = 3 AND T2.amount = 3539"
+ },
+ {
+  "question_id": 92,
+  "answer": "SELECT COUNT(DISTINCT T1.district_id) FROM district AS T1 INNER JOIN client AS T2 ON T1.district_id = T2.district_id WHERE T2.gender = 'F' AND T1.A11 > 6000 AND T1.A11 < 10000"
+ },
+ {
+  "question_id": 189,
+  "answer": "SELECT T3.account_id FROM client AS T1 INNER JOIN district AS T2 ON T1.district_id = T2.district_id INNER JOIN disp AS T3 ON T1.client_id = T3.client_id WHERE T1.gender = 'F' ORDER BY T1.birth_date ASC, T2.A11 ASC LIMIT 1"
+ },
+ {
+  "question_id": 128,
+  "answer": "SELECT T1.A2 FROM district AS T1 INNER JOIN client AS T2 ON T1.district_id = T2.district_id WHERE T2.gender = 'F' GROUP BY T1.district_id, T1.A2 ORDER BY COUNT(T2.client_id) DESC LIMIT 9"
+ },
+ {
+  "question_id": 89,
+  "answer": "SELECT COUNT(*) FROM account AS T1 INNER JOIN district AS T2 ON T1.district_id = T2.district_id WHERE T2.A3 = 'east Bohemia' AND T1.frequency = 'POPLATEK PO OBRATU'"
+ }
+]

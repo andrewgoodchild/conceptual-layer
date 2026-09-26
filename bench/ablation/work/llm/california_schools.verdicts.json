@@ -1,0 +1,7 @@
+{
+ "database": "california_schools",
+ "verdicts": [
+  {"id": "frpm.CDSCode -> schools.CDSCode", "verdict": "yes", "reason": "Same column name, 14-digit CDS school codes with identical samples; frpm rows are one-to-one with schools (source column fully distinct) -- the entity-split shape."},
+  {"id": "satscores.cds -> schools.CDSCode", "verdict": "yes", "reason": "cds is the CDS code under an abbreviated name; samples are the same 14-digit codes as schools.CDSCode and every satscores row is distinct, so it is the SAT table keyed by school."}
+ ]
+}

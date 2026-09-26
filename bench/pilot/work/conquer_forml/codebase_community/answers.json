@@ -1,0 +1,58 @@
+[
+  {
+    "question_id": 604,
+    "answer": "182.2832618025751, 34.083333333333336",
+    "attempts": 6,
+    "note": "Query: LIST uv, ag, c FROM User u has UserUpVotes uv AND ALSO OPTIONALLY has UserAge ag AND ALSO THE COUNT OF Post [has owner User: !u] GROUPED BY u AS c WHERE c > 10 -- returns one row per qualifying user (1165 rows: 1165 with UpVotes, 312 with a non-null Age). ConQuer has no construct for a further aggregate over an already-GROUPED-BY/HAVING result (an 'aggregate of an aggregate'), and the natural single-query phrasing (a correlated THE COUNT OF ... subquery in a WHERE, per the primer's rule 14 pattern) compiles but times out (>120s) at this scale (40325 users x 91966 posts, no index on Post's owner). Per the task's own guidance to prefer grouped aggregates over per-row correlation, I used the GROUPED BY/HAVING form (fast, single-pass JOIN+GROUP BY) to fetch the qualifying rows, then computed sum/count by hand exactly as the evidence formula specifies (Divide(Sum,Count)), dividing each column's sum only by the count of its own non-null values -- matching SQL AVG()'s per-column null-skipping semantics that a single combined AVG(UpVotes), AVG(Age) query would produce."
+  },
+  {
+    "question_id": 584,
+    "answer": "14254 comment texts, authored by the 3 users (UserId 83, 88, 919) who have a PostHistory edit on that post -- 13220 of them are from UserId 919 alone. Full text list obtainable by re-running the recorded query.",
+    "attempts": 5,
+    "note": "Post 'Why square the difference...' identified the editors via: LIST uid FROM Post [has PostTitle: '...'] AND ALSO OPTIONALLY is of PostHistory has User has UserId uid -> {83, 88, 919}. Final query: LIST ct FROM Comment has CommentText ct AND ALSO has User has UserId uid WHERE uid = 83 OR uid = 88 OR uid = 919. A single-query phrasing that walks the whole path in one go (Comment has User is of PostHistory has Post has PostTitle: '...', with or without brackets/DISTINCT) compiles to a correlated EXISTS per Comment row and times out (>120s) against 174285 comments; splitting into a cheap lookup (Post is very selective) plus a cheap equality filter on the 3 known ids was the only way to get an answer inside the time budget."
+  },
+  {
+    "question_id": 537,
+    "answer": "121",
+    "attempts": 1
+  },
+  {
+    "question_id": 704,
+    "answer": "28276, 28275",
+    "attempts": 1,
+    "note": "Excerpt post ID = 28276 (Tag has Post -> PostId), wiki post ID = 28275 (Tag has TagWikiPostId directly, a raw value not an entity link). Both are optional per the model (Each Tag has at most one Post / TagWikiPostId), so OPTIONALLY was used on both to avoid silently dropping the tag if either were absent."
+  },
+  {
+    "question_id": 665,
+    "answer": "8.666666666666666",
+    "attempts": 3,
+    "note": "Raw count (PostLinks created in 2010 whose Post has AnswerCount <= 2) = 104; 104/12 = 8.6666... First attempt misplaced the /12 inside the WHERE clause (a <= 2/12) due to operator precedence and had to be parenthesized around the whole aggregate."
+  },
+  {
+    "question_id": 672,
+    "answer": "18",
+    "attempts": 2,
+    "note": "Direct phrasing (THE COUNT OF User [UK] WHERE (THE SUM OF ... correlated by !u) >= 4) compiles but times out (>120s): the correlated SUM subquery is not guaranteed to run only after the cheap Location filter. Rewrote as a grouped aggregate (JOIN users to posts, GROUP BY user, HAVING SUM(FavoriteCount) >= 4, restricted to Location = 'United Kingdom' first) -- compiles to a single-pass JOIN+GROUP BY and returns quickly: 18 qualifying users."
+  },
+  {
+    "question_id": 701,
+    "answer": "0.6644518272425249",
+    "attempts": 2,
+    "note": "Most influential user (max UserReputation) is UserId 919 (reputation 87393) -- found via LIST uid, r FROM User has UserId uid AND ALSO has UserReputation r ORDERED WITH r DESCENDING THE FIRST 1. Percentage query: THE COUNT OF Post [has owner User has UserId: 919 AND ALSO has PostScore s WHERE s > 50] * 100 / THE COUNT OF Post [has owner User has UserId: 919] = 8 posts with score>50 out of 1204 total = 0.664...%."
+  },
+  {
+    "question_id": 567,
+    "answer": "2",
+    "attempts": 1
+  },
+  {
+    "question_id": 539,
+    "answer": "csgillespie",
+    "attempts": 1
+  },
+  {
+    "question_id": 563,
+    "answer": "3",
+    "attempts": 1
+  }
+]

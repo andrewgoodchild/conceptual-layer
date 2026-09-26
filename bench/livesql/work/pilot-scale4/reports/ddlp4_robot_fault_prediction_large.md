@@ -1,0 +1,3 @@
+All ten answers written and run; 4, 1, 3 and 10 carry notes. Rules slip reported by the writer: a temporary file written to /tmp/q.sql (write only, deleted).
+Hardest: Q4 (NTILE(5) per application type; no-application rows kept as a group; robot ID added); Q10 (zero stops and missing hours); Q3 (only Assembly; LEFT JOIN; raw codes); Q1; Q6.
+What mattered: "The schema names are coded (overseerloadvalue, memuseval, rulhours, poserrmmval, modelseriesval), so mapping the knowledge base's formula terms onto columns was guesswork, backed up by sample rows"; everything joins through actuation_data (paths checked, zero mismatches); joint JSON keys; the knowledge base mixes in unrelated disaster-relief terms.

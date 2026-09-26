@@ -1,0 +1,79 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST lang FROM ForeignData [has ForeignDataMultiverseid: 149934] has ForeignDataLanguage lang",
+  "attempts": 2,
+  "chosen": 2,
+  "reason": "Candidate 1's quoted '149934' and candidates 2/3's bare 149934 all normalise to the same numeric denotation and both forms ran to the identical single row (French). All three candidates effectively agree; picked 2 (identical to 3) as the plainer form. Exactly one value projected, matching 'what is the language'."
+ },
+ {
+  "question_id": 346,
+  "answer": "LIST id, a FROM Legality [has LegalityFormat: 'commander'] [has LegalityStatus: 'Legal'] has Card has CardId id AND ALSO has Card has CardArtist a AND ALSO has Card has CardUuid u WHERE THE COUNT OF Card [has CardUuid: !u] [has CardPower <> '*'] = 0",
+  "attempts": 4,
+  "chosen": 1,
+  "reason": "Candidate 2 is null (gave up). Candidates 1 and 3 both encode the same correct logic for 'unknown power' (a correlated count-equals-zero test that is 0 exactly when power is NULL or '*'), confirmed by comparing --sql-only output for both. Ran candidate 1 to completion (29935 rows); let candidate 3 run in the background and it finished with the exact same 29935 rows, cross-verifying correctness. Chose 1 because it ran fast (a LEFT JOIN aggregate) while 3 is a slow correlated subquery on the 56k-row Card table, and both return identical rows so there is no accuracy tradeoff."
+ },
+ {
+  "question_id": 473,
+  "answer": "LIST f FROM Set has SetIsForeignOnly f AND ALSO has SetCode c WHERE SOME Card [has CardSetCode: !c] [has CardName: 'Adarkar Valkyrie']",
+  "attempts": 2,
+  "chosen": 3,
+  "reason": "Candidate 2 gave up (null). Candidates 1 and 3 both ran and returned the identical 5 rows, all SetIsForeignOnly = 0 (so 'No'). Candidate 1 first had to run a separate exploratory query by hand to hardcode the 5 set codes as literals; candidate 3 achieves the same result with a self-contained correlated WHERE SOME on CardSetCode = SetCode, needing no external literal-gathering step, so it stands better on its own. Both agree, giving confidence in the result (0 for every printing's set)."
+ },
+ {
+  "question_id": 424,
+  "answer": "THE COUNT OF Card [has CardIsTextless: 1] [has CardLayout: 'normal'] * 100 / THE COUNT OF Card",
+  "attempts": 1,
+  "chosen": 1,
+  "reason": "All three candidates are textually identical. Ran once: compiled cleanly and returned a single percentage (0.202...), matching the evidence formula COUNT(textless=1 and layout='normal')/COUNT(all cards)*100 exactly, with no extraneous columns or ordering."
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST id FROM Card has CardId id AND ALSO has CardRarity: 'mythic' AND ALSO is of Legality [has LegalityFormat: 'gladiator'] has LegalityStatus: 'Banned'",
+  "attempts": 3,
+  "chosen": 2,
+  "reason": "All three ran and returned 5 rows for the same 5 underlying cards (Oko x3, Nexus of Fate, and one more). Candidates 1 and 3 project CardName; candidate 2 projects CardId. The evidence rephrases the question's 'print cards' as 'mythic rarity printing' -- a printing in this schema is a row of Card identified by id (name is shared across reprints), and the question itself never says 'name' (contrast with Q518 in the same batch, which explicitly says 'the names of all the card'). That distinction points to id as the intended projection, so I chose candidate 2 despite it being outvoted 2-1 by the name-projecting candidates."
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes <> 'Angel']",
+  "attempts": 4,
+  "chosen": 1,
+  "reason": "Checked --sql-only for all three: candidates 1 and 2 compile to byte-identical SQL, and candidate 3's only difference is COUNT(subtypes) vs COUNT(id), which is the same number here since subtypes IS NOT NULL is already enforced by the WHERE clause -- CardSubtypes is a plain scalar column (no fan-out), so all three give the same count. Ran candidate 1 to confirm: count = 3."
+ },
+ {
+  "question_id": 352,
+  "answer": "THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF ForeignData",
+  "attempts": 1,
+  "chosen": 1,
+  "reason": "All three candidates are textually identical. Ran once: returned a single percentage (8.77...), matching the evidence's COUNT(language='Chinese Simplified')/COUNT(all ForeignData)*100 with no extra columns."
+ },
+ {
+  "question_id": 518,
+  "answer": "LIST f, n FROM Legality [has LegalityFormat: 'legacy'] [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO has Card has CardName n",
+  "attempts": 4,
+  "chosen": 1,
+  "reason": "First independently verified which format has the most bans with a grouped-aggregate query (GROUP BY format, ORDER BY count DESC, FIRST 1), which confirmed 'legacy' with 546 -- matching what all three candidates had separately determined and hardcoded. Ran all three final candidates: they are logically equivalent (filter Legality by format='legacy' and status='Banned', project format and card name) and all returned the identical 546 rows. Picked candidate 1 arbitrarily among the tied, verified set."
+ },
+ {
+  "question_id": 416,
+  "answer": "(THE DISTINCT COUNT OF u IN ForeignData [has ForeignDataLanguage: 'French'] has Card has CardUuid u - THE DISTINCT COUNT OF u IN ForeignData [has ForeignDataLanguage: 'French'] has Card [has CardPower <> '*'] has CardUuid u) * 100 / (THE COUNT OF Card - THE COUNT OF Card [has CardPower <> '*'])",
+  "attempts": 4,
+  "chosen": 1,
+  "reason": "Candidate 2 gave up (null). Candidate 1 ran to completion (47.9567...%); I decomposed and re-ran its numerator and denominator separately (14892 and 31053) and independently re-derived the French-total distinct count (29298) purely from the DB, which matches exactly the values candidate 3's own note reports having verified by hand for its equivalent (but unverified end-to-end) formula. This cross-check gives strong confidence candidate 1's executed answer is correct, and unlike candidate 3 it actually finished running rather than only being checked via --sql-only."
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST name, artist, promo FROM Card crd has CardName name AND ALSO has CardArtist artist AND ALSO has CardIsPromo promo AND ALSO is of Ruling r AND ALSO THE COUNT OF r GROUPED BY crd AS c ORDERED WITH c DESCENDING THE FIRST 1",
+  "attempts": 7,
+  "chosen": 2,
+  "reason": "All three ran and named the same card/artist (Teferi's Protection / Chase Stone), but candidate 1 gave isPromo=1 while candidates 2 and 3 (whose compiled SQL is byte-identical) both gave isPromo=0. Investigating the top 10 by ruling count showed a genuine 4-way tie at count=27, all named 'Teferi's Protection': 3 printings with isPromo=0 and 1 with isPromo=1 -- so the discrepancy is an unavoidable tie-break, not a query error. I chose candidates 2/3's answer (isPromo=0) because two of the three candidates independently converged on it, and because starting the path FROM Card (as 2 and 3 do) is the more natural reading of 'name the card ... with the most ruling information' than starting FROM Ruling and walking backward (candidate 1)."
+ },
+ {
+  "question_id": 462,
+  "answer": "LIST t FROM SetTranslation [has SetTranslationLanguage: 'Italian'] has SetTranslationTranslation t AND ALSO has Set has SetCode c WHERE SOME Card [has CardSetCode: !c] [has CardName: 'Ancestor''s Chosen']",
+  "attempts": 3,
+  "chosen": 3,
+  "reason": "Candidate 2 gave up (null). Verified independently that Card [name='Ancestor''s Chosen'] has set codes 10E (x2), JUD, and UMA. Candidate 1 hardcodes all three codes as literals; candidate 3 derives the same set via a correlated WHERE SOME on CardSetCode = SetCode. Both ran and returned the identical 2 rows ('Set Base Decima Edizione', 'Sentenza') -- UMA drops out on its own because that set has no Italian SetTranslation row, so the manual literal list in candidate 1 was unnecessary. Chose candidate 3 as the more robust, self-contained query; the question's presumption of a single set is a genuine ambiguity neither candidate can resolve."
+ }
+]

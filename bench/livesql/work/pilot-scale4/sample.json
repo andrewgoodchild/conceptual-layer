@@ -1,0 +1,74 @@
+{
+ "museum_artifact_large": [
+  "museum_artifact_18",
+  "museum_artifact_11",
+  "museum_artifact_8",
+  "museum_artifact_1",
+  "museum_artifact_4",
+  "museum_artifact_2",
+  "museum_artifact_3",
+  "museum_artifact_5",
+  "museum_artifact_6",
+  "museum_artifact_7"
+ ],
+ "planets_data_large": [
+  "planets_data_11",
+  "planets_data_4",
+  "planets_data_6",
+  "planets_data_15",
+  "planets_data_7",
+  "planets_data_17",
+  "planets_data_18",
+  "planets_data_2",
+  "planets_data_10",
+  "planets_data_1"
+ ],
+ "solar_panel_large": [
+  "solar_panel_10",
+  "solar_panel_16",
+  "solar_panel_15",
+  "solar_panel_17",
+  "solar_panel_13",
+  "solar_panel_18",
+  "solar_panel_8",
+  "solar_panel_12",
+  "solar_panel_5",
+  "solar_panel_19"
+ ],
+ "sports_events_large": [
+  "sports_events_8",
+  "sports_events_13",
+  "sports_events_3",
+  "sports_events_7",
+  "sports_events_6",
+  "sports_events_11",
+  "sports_events_15",
+  "sports_events_20",
+  "sports_events_4",
+  "sports_events_1"
+ ],
+ "archeology_scan_large": [
+  "archeology_scan_6",
+  "archeology_scan_4",
+  "archeology_scan_3",
+  "archeology_scan_2",
+  "archeology_scan_5",
+  "archeology_scan_9",
+  "archeology_scan_8",
+  "archeology_scan_7",
+  "archeology_scan_1",
+  "archeology_scan_10"
+ ],
+ "robot_fault_prediction_large": [
+  "robot_fault_prediction_7",
+  "robot_fault_prediction_5",
+  "robot_fault_prediction_12",
+  "robot_fault_prediction_4",
+  "robot_fault_prediction_1",
+  "robot_fault_prediction_3",
+  "robot_fault_prediction_6",
+  "robot_fault_prediction_8",
+  "robot_fault_prediction_10",
+  "robot_fault_prediction_11"
+ ]
+}

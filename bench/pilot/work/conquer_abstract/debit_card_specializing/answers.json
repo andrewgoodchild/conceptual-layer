@@ -1,0 +1,33 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "LIST d FROM Transactions1k has Gasstation [has GasstationCountry: 'CZE'] AND ALSO has Product has ProductDescription d",
+  "attempts": 1
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE DISTINCT COUNT OF cust IN Customer cust [has CustomerCurrency: 'EUR'] [is of Yearmonth has YearmonthConsumption c] WHERE c > 1000",
+  "attempts": 2
+ },
+ {
+  "question_id": 1481,
+  "answer": "(THE SUM OF v IN Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] [is of Yearmonth [has YearmonthDate d1] has YearmonthConsumption v1] is of Yearmonth [has YearmonthDate d2] has YearmonthConsumption v WHERE d1 >= '201301' AND d1 <= '201312' AND v1 = -14896.12 AND d2 >= '201301' AND d2 <= '201312') / (THE DISTINCT COUNT OF cust IN Customer cust [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] [is of Yearmonth [has YearmonthDate d3] has YearmonthConsumption v3] WHERE d3 >= '201301' AND d3 <= '201312' AND v3 = -14896.12) - (THE SUM OF v IN Customer [has CustomerSegment: 'LAM'] [has CustomerCurrency: 'CZK'] [is of Yearmonth [has YearmonthDate d1] has YearmonthConsumption v1] is of Yearmonth [has YearmonthDate d2] has YearmonthConsumption v WHERE d1 >= '201301' AND d1 <= '201312' AND v1 = -2458.05 AND d2 >= '201301' AND d2 <= '201312') / (THE DISTINCT COUNT OF cust IN Customer cust [has CustomerSegment: 'LAM'] [has CustomerCurrency: 'CZK'] [is of Yearmonth [has YearmonthDate d3] has YearmonthConsumption v3] WHERE d3 >= '201301' AND d3 <= '201312' AND v3 = -2458.05)",
+  "attempts": 10,
+  "note": "This computes only the first of the three requested differences (SME's annual average minus LAM's): ConQuer's scalar aggregate expressions can combine any number of independent THE ... OF subqueries arithmetically in one query (as in the primer's %-of-female-employees example), but each query yields exactly one number, so the other two differences (LAM-KAM, KAM-SME) need the same pattern re-run with the segment names swapped -- there is no shared enumerable head to LIST all three segments' figures together with a per-group MIN threshold that also varies by group. Also: embedding 'THE MINIMUM ... WHERE date BETWEEN ...' as a live nested subquery (instead of a literal) inside the SUM branch made the query join Yearmonth to Customer twice while re-evaluating the correlated MIN per row-pair, which never returned within 2 minutes even for a single segment; the same MIN embedded in the COUNT branch (only one Yearmonth join) ran fine. So the three per-segment minimum 2013-CZK consumption values were computed separately and first (THE MINIMUM v IN Customer [has CustomerSegment: 'X'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate d] has YearmonthConsumption v WHERE d >= '201301' AND d <= '201312'), giving SME=-14896.12, LAM=-2458.05, KAM=-582092.86, and plugged in as literals in the SUM branch for performance. Each segment turned out to have exactly one customer at its minimum, so annual average = that customer's total 2013 consumption; verified numbers: SME=153964.61, LAM=242686.29, KAM=170116.39, giving SME-LAM=-88721.68, LAM-KAM=72569.90, KAM-SME=16151.78."
+ },
+ {
+  "question_id": 1486,
+  "answer": "THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] - THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR']",
+  "attempts": 1
+ },
+ {
+  "question_id": 1525,
+  "answer": "THE DISTINCT COUNT OF cust IN Transactions1k [has Transactions1kDate: '2012-08-25'] has Customer cust [has CustomerCurrency: 'EUR'] * 100 / THE DISTINCT COUNT OF cust IN Transactions1k [has Transactions1kDate: '2012-08-25'] has Customer cust",
+  "attempts": 3
+ },
+ {
+  "question_id": 1501,
+  "answer": "LIST co FROM Gasstation has GasstationCountry co AND ALSO is of Transactions1k has Customer is of Yearmonth has YearmonthDate: '201306'",
+  "attempts": 3
+ }
+]

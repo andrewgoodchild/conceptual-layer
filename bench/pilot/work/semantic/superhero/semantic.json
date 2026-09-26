@@ -1,0 +1,114 @@
+{
+ "concepts": [
+  {
+   "id": "et.NeutralAlignmentSuperhero",
+   "name": "NeutralAlignmentSuperhero",
+   "kind": "entity",
+   "supertypes": [
+    "et.Superhero"
+   ],
+   "derivation": "dr.NeutralAlignmentSuperhero"
+  },
+  {
+   "id": "et.FemaleSuperhero",
+   "name": "FemaleSuperhero",
+   "kind": "entity",
+   "supertypes": [
+    "et.Superhero"
+   ],
+   "derivation": "dr.FemaleSuperhero"
+  },
+  {
+   "id": "et.BlueSkinSuperhero",
+   "name": "BlueSkinSuperhero",
+   "kind": "entity",
+   "supertypes": [
+    "et.Superhero"
+   ],
+   "derivation": "dr.BlueSkinSuperhero"
+  },
+  {
+   "id": "et.NoEyeColorSuperhero",
+   "name": "NoEyeColorSuperhero",
+   "kind": "entity",
+   "supertypes": [
+    "et.Superhero"
+   ],
+   "derivation": "dr.NoEyeColorSuperhero"
+  },
+  {
+   "id": "et.HeightFrom170To190Superhero",
+   "name": "HeightFrom170To190Superhero",
+   "kind": "entity",
+   "supertypes": [
+    "et.Superhero"
+   ],
+   "derivation": "dr.HeightFrom170To190Superhero"
+  }
+ ],
+ "derivationRules": [
+  {
+   "id": "dr.NeutralAlignmentSuperhero",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.NeutralAlignmentSuperhero"
+   },
+   "source": "Superhero [has Alignment has AlignmentAlignment: 'Neutral']"
+  },
+  {
+   "id": "dr.FemaleSuperhero",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.FemaleSuperhero"
+   },
+   "source": "Superhero [has Gender has GenderGender: 'Female']"
+  },
+  {
+   "id": "dr.BlueSkinSuperhero",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.BlueSkinSuperhero"
+   },
+   "source": "Superhero [has skin Colour has ColourColour: 'Blue']"
+  },
+  {
+   "id": "dr.NoEyeColorSuperhero",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.NoEyeColorSuperhero"
+   },
+   "source": "Superhero [has eye Colour has ColourColour: 'No Colour']"
+  },
+  {
+   "id": "dr.HeightFrom170To190Superhero",
+   "target": {
+    "kind": "subtype",
+    "ref": "et.HeightFrom170To190Superhero"
+   },
+   "source": "Superhero [has SuperheroHeightCm >= 170] AND ALSO [has SuperheroHeightCm <= 190]"
+  }
+ ],
+ "macros": [
+  {
+   "id": "mc.FastestSpeed",
+   "name": "FastestSpeed",
+   "parameters": [],
+   "kind": "scalar",
+   "source": "THE MAXIMUM HeroAttribute [has Attribute has AttributeName: 'Speed'] has HeroAttributeAttributeValue"
+  },
+  {
+   "id": "mc.PercentFemaleMarvel",
+   "name": "PercentFemaleMarvel",
+   "parameters": [],
+   "kind": "scalar",
+   "source": "THE COUNT OF FemaleSuperhero [has Publisher has PublisherName: 'Marvel Comics'] * 100 / THE COUNT OF Superhero [has Publisher has PublisherName: 'Marvel Comics']"
+  },
+  {
+   "id": "mc.PercentBlueFemale",
+   "name": "PercentBlueFemale",
+   "parameters": [],
+   "kind": "scalar",
+   "source": "THE COUNT OF BlueSkinSuperhero [has Gender has GenderGender: 'Female'] * 100 / THE COUNT OF FemaleSuperhero"
+  }
+ ]
+}

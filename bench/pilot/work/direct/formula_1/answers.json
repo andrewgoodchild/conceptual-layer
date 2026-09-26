@@ -1,0 +1,15 @@
+[
+ {"question_id": 930, "answer": "SELECT ra.name FROM results r JOIN drivers d ON r.driverId = d.driverId JOIN races ra ON r.raceId = ra.raceId WHERE d.forename = 'Lewis' AND d.surname = 'Hamilton' ORDER BY r.rank ASC LIMIT 1", "attempts": 2},
+ {"question_id": 1011, "answer": "SELECT d.forename, d.surname FROM lapTimes lt JOIN drivers d ON lt.driverId = d.driverId WHERE lt.time = (SELECT MIN(time) FROM lapTimes)", "attempts": 2},
+ {"question_id": 909, "answer": "SELECT CAST(SUM(CASE WHEN c.country = 'Germany' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) AS percentage FROM races ra JOIN circuits c ON ra.circuitId = c.circuitId WHERE ra.name = 'European Grand Prix'", "attempts": 1},
+ {"question_id": 892, "answer": "SELECT d.forename, d.surname, r.points FROM results r JOIN drivers d ON r.driverId = d.driverId ORDER BY r.points DESC LIMIT 1", "attempts": 1},
+ {"question_id": 854, "answer": "SELECT DISTINCT c.lat, c.lng FROM races ra JOIN circuits c ON ra.circuitId = c.circuitId WHERE ra.name = 'Australian Grand Prix'", "attempts": 1},
+ {"question_id": 898, "answer": "SELECT forename, surname, (CAST(strftime('%Y','now') AS INTEGER) - CAST(strftime('%Y', dob) AS INTEGER)) AS age FROM drivers WHERE nationality = 'Japanese' ORDER BY dob DESC LIMIT 1", "attempts": 2},
+ {"question_id": 877, "answer": "SELECT d.forename, d.surname FROM results r JOIN drivers d ON r.driverId = d.driverId WHERE r.raceId = 872 AND r.time IS NOT NULL ORDER BY d.dob DESC LIMIT 1", "attempts": 1},
+ {"question_id": 906, "answer": "SELECT ra.name, r.points FROM results r JOIN drivers d ON r.driverId = d.driverId JOIN races ra ON r.raceId = ra.raceId WHERE d.forename = 'Lewis' AND d.surname = 'Hamilton' ORDER BY ra.year ASC, ra.round ASC LIMIT 1", "attempts": 2},
+ {"question_id": 988, "answer": "SELECT d.forename, d.surname FROM pitStops p JOIN drivers d ON p.driverId = d.driverId WHERE d.nationality = 'German' AND CAST(strftime('%Y', d.dob) AS INTEGER) BETWEEN 1980 AND 1985 GROUP BY d.driverId ORDER BY SUM(p.duration) / COUNT(p.duration) ASC LIMIT 3", "attempts": 2},
+ {"question_id": 881, "answer": "SELECT CAST(SUM(CASE WHEN r.time IS NOT NULL THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(r.driverId) AS completion_rate FROM results r JOIN races ra ON r.raceId = ra.raceId WHERE ra.date = '1983-07-16'", "attempts": 1},
+ {"question_id": 977, "answer": "SELECT COUNT(*) FROM results r WHERE r.raceId > 50 AND r.raceId < 100 AND r.statusId = 2 AND r.time IS NOT NULL", "attempts": 1},
+ {"question_id": 915, "answer": "SELECT nationality FROM drivers ORDER BY dob ASC LIMIT 1", "attempts": 1},
+ {"question_id": 868, "answer": "SELECT DISTINCT c.lat, c.lng FROM races ra JOIN circuits c ON ra.circuitId = c.circuitId WHERE ra.name = 'Malaysian Grand Prix'", "attempts": 1}
+]

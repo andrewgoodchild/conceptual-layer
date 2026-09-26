@@ -1,0 +1,36 @@
+{
+ "concepts": [
+  {"id": "et.RightFootedPlayerAttribute", "name": "RightFootedPlayerAttribute", "kind": "entity",
+   "supertypes": ["et.PlayerAttribute"], "derivation": "dr.RightFootedPlayerAttribute"},
+  {"id": "et.HighAttackingWorkRatePlayerAttribute", "name": "HighAttackingWorkRatePlayerAttribute", "kind": "entity",
+   "supertypes": ["et.PlayerAttribute"], "derivation": "dr.HighAttackingWorkRatePlayerAttribute"},
+  {"id": "et.SafeChanceCreationPassingTeamAttribute", "name": "SafeChanceCreationPassingTeamAttribute", "kind": "entity",
+   "supertypes": ["et.TeamAttribute"], "derivation": "dr.SafeChanceCreationPassingTeamAttribute"},
+  {"id": "ft.TeamHasShortNameTerm", "name": "TeamHasShortNameTerm", "kind": "fact",
+   "roles": [{"id": "r.TeamHasShortNameTerm.team", "player": "et.Team", "name": "Team", "ordinal": 0},
+             {"id": "r.TeamHasShortNameTerm.name", "player": "vt.TeamShortName", "name": "Name", "ordinal": 1}],
+   "readings": [{"id": "rd.TeamHasShortNameTerm", "text": "{0} has short- {1}",
+                 "roleSequence": ["r.TeamHasShortNameTerm.team", "r.TeamHasShortNameTerm.name"]}],
+   "derivation": "dr.TeamHasShortNameTerm"},
+  {"id": "et.TallestPlayer", "name": "TallestPlayer", "kind": "entity",
+   "supertypes": ["et.Player"], "derivation": "dr.TallestPlayer"}
+ ],
+ "derivationRules": [
+  {"id": "dr.RightFootedPlayerAttribute", "target": {"kind": "subtype", "ref": "et.RightFootedPlayerAttribute"},
+   "source": "PlayerAttribute [has PlayerAttributePreferredFoot: 'right']"},
+  {"id": "dr.HighAttackingWorkRatePlayerAttribute", "target": {"kind": "subtype", "ref": "et.HighAttackingWorkRatePlayerAttribute"},
+   "source": "PlayerAttribute [has PlayerAttributeAttackingWorkRate: 'high']"},
+  {"id": "dr.SafeChanceCreationPassingTeamAttribute", "target": {"kind": "subtype", "ref": "et.SafeChanceCreationPassingTeamAttribute"},
+   "source": "TeamAttribute [has TeamAttributeChanceCreationPassingClass: 'Safe']"},
+  {"id": "dr.TeamHasShortNameTerm", "target": {"kind": "factType", "ref": "ft.TeamHasShortNameTerm"},
+   "source": "LIST t, n FROM Team t has TeamShortName n"},
+  {"id": "dr.TallestPlayer", "target": {"kind": "subtype", "ref": "et.TallestPlayer"},
+   "source": "Player [has PlayerHeight h WHERE h = THE MAXIMUM Player has PlayerHeight]"}
+ ],
+ "macros": [
+  {"id": "mc.LowestPotential", "name": "LowestPotential", "parameters": [], "kind": "scalar",
+   "source": "THE MINIMUM PlayerAttribute has PlayerAttributePotential"},
+  {"id": "mc.HighestCrossingScore", "name": "HighestCrossingScore", "parameters": [], "kind": "scalar",
+   "source": "THE MAXIMUM PlayerAttribute has PlayerAttributeCrossing"}
+ ]
+}

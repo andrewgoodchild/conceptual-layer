@@ -1,0 +1,45 @@
+[
+ {
+  "question_id": "reverse_logistics_9",
+  "answer": "WITH r AS (SELECT casenum, return_channel, (return_details->'shipping'->>'fee')::numeric AS fee, CASE WHEN logtime ~ '^\\d{4}-\\d{2}-\\d{2}$' THEN to_date(logtime,'YYYY-MM-DD') WHEN logtime ~ '^\\d{4}/\\d{2}/\\d{2}$' THEN to_date(logtime,'YYYY/MM/DD') WHEN logtime ~ '^[A-Za-z]+ \\d{1,2}(st|nd|rd|th)?, \\d{4}$' THEN to_date(regexp_replace(logtime,'^([A-Za-z]{3})[A-Za-z]* (\\d{1,2})(st|nd|rd|th)?, (\\d{4})$','\\1 \\2 \\4'),'Mon DD YYYY') WHEN logtime ~ '^\\d{4}$' THEN make_date(logtime::int,1,1) END AS logdate FROM returns), c AS (SELECT casenum, return_channel, logdate, fee / AVG(fee) OVER (PARTITION BY return_channel) AS rcci FROM r) SELECT casenum, return_channel, ROUND(rcci, 2) AS rcci FROM c ORDER BY logdate DESC NULLS LAST, casenum LIMIT 100",
+  "note": "returns.logtime is free text in ~50 formats (ISO, slashes, 'Mon DD, YYYY', 'Month DDth, YYYY', bare year); parsed to a date, bare years as Jan 1 (none reach the top 100). Ties broken by casenum."
+ },
+ {
+  "question_id": "reverse_logistics_19",
+  "answer": "SELECT f.cost_breakdown->'disposal'->>'disposal_method' AS disposal_method, COUNT(*) AS non_compliant_count, ROUND(AVG((f.cost_breakdown->'sustainability'->>'carbon_footprint')::numeric), 2) AS avg_carbon_footprint FROM financial_management f JOIN returns r ON r.casenum = f.casetag JOIN products p ON p.itemcode = r.itemlink WHERE p.product_traceability->'compliance'->>'regulatory_compliance' = 'Non-compliant' GROUP BY 1 ORDER BY non_compliant_count DESC"
+ },
+ {
+  "question_id": "reverse_logistics_17",
+  "answer": "SELECT f.cost_breakdown->'refund'->>'method' AS refund_method, SUM((f.cost_breakdown->'valuation'->>'recovery_value')::numeric) AS total_recovery_value, SUM(((r.return_details->'shipping'->>'fee')::numeric + (f.cost_breakdown->'fees'->>'restocking_fee')::numeric + (f.cost_breakdown->'fees'->>'relabeling_cost')::numeric + (f.cost_breakdown->'disposal'->>'disposal_cost')::numeric + (f.cost_breakdown->'repair_costs'->>'repair_estimate')::numeric)) AS total_return_cost, SUM((f.cost_breakdown->'valuation'->>'recovery_value')::numeric) - SUM(((r.return_details->'shipping'->>'fee')::numeric + (f.cost_breakdown->'fees'->>'restocking_fee')::numeric + (f.cost_breakdown->'fees'->>'relabeling_cost')::numeric + (f.cost_breakdown->'disposal'->>'disposal_cost')::numeric + (f.cost_breakdown->'repair_costs'->>'repair_estimate')::numeric)) AS net_return_profit_impact FROM financial_management f JOIN returns r ON r.casenum = f.casetag GROUP BY 1"
+ },
+ {
+  "question_id": "reverse_logistics_7",
+  "answer": "SELECT casenum, (return_details->'fraud'->>'fraud_flags')::int AS fraud_flags, CASE return_details->'fraud'->>'risk_level' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 2 WHEN 'High' THEN 3 END AS risk_weight, (return_details->'fraud'->>'fraud_flags')::int * CASE return_details->'fraud'->>'risk_level' WHEN 'Low' THEN 1 WHEN 'Medium' THEN 2 WHEN 'High' THEN 3 END AS ffs FROM returns ORDER BY ffs DESC NULLS LAST, casenum",
+  "note": "645 returns have null risk_level; their weight/FFS are NULL and sorted last."
+ },
+ {
+  "question_id": "reverse_logistics_13",
+  "answer": "SELECT r.return_channel, ROUND(AVG((f.cost_breakdown->'valuation'->>'recovery_value')::numeric), 2) AS avg_recovery_value FROM financial_management f JOIN returns r ON r.casenum = f.casetag GROUP BY r.return_channel"
+ },
+ {
+  "question_id": "reverse_logistics_1",
+  "answer": "SELECT r.casenum, ROUND(((r.return_details->'shipping'->>'fee')::numeric + (f.cost_breakdown->'fees'->>'restocking_fee')::numeric + (f.cost_breakdown->'fees'->>'relabeling_cost')::numeric + (f.cost_breakdown->'disposal'->>'disposal_cost')::numeric + (f.cost_breakdown->'repair_costs'->>'repair_estimate')::numeric), 2) AS trc FROM financial_management f JOIN returns r ON r.casenum = f.casetag ORDER BY trc DESC"
+ },
+ {
+  "question_id": "reverse_logistics_2",
+  "answer": "SELECT ROUND(SUM((f.cost_breakdown->'valuation'->>'recovery_value')::numeric) - SUM(((r.return_details->'shipping'->>'fee')::numeric + (f.cost_breakdown->'fees'->>'restocking_fee')::numeric + (f.cost_breakdown->'fees'->>'relabeling_cost')::numeric + (f.cost_breakdown->'disposal'->>'disposal_cost')::numeric + (f.cost_breakdown->'repair_costs'->>'repair_estimate')::numeric)), 2) AS net_impact, ROUND(SUM((f.cost_breakdown->'valuation'->>'recovery_value')::numeric), 2) AS total_recovery_value, ROUND(SUM(((r.return_details->'shipping'->>'fee')::numeric + (f.cost_breakdown->'fees'->>'restocking_fee')::numeric + (f.cost_breakdown->'fees'->>'relabeling_cost')::numeric + (f.cost_breakdown->'disposal'->>'disposal_cost')::numeric + (f.cost_breakdown->'repair_costs'->>'repair_estimate')::numeric)), 2) AS total_return_cost FROM financial_management f JOIN returns r ON r.casenum = f.casetag"
+ },
+ {
+  "question_id": "reverse_logistics_3",
+  "answer": "SELECT ROUND(SUM((f.cost_breakdown->'valuation'->>'recovery_value')::numeric) / SUM(r.dayslapsed), 2) AS recovery_rate_per_day, ROUND(SUM((f.cost_breakdown->'valuation'->>'recovery_value')::numeric), 2) AS total_recovery_value, SUM(r.dayslapsed) AS total_days_lapsed FROM financial_management f JOIN returns r ON r.casenum = f.casetag"
+ },
+ {
+  "question_id": "reverse_logistics_4",
+  "answer": "SELECT ROUND(AVG(((r.return_details->'shipping'->>'fee')::numeric + (f.cost_breakdown->'fees'->>'restocking_fee')::numeric + (f.cost_breakdown->'fees'->>'relabeling_cost')::numeric + (f.cost_breakdown->'disposal'->>'disposal_cost')::numeric + (f.cost_breakdown->'repair_costs'->>'repair_estimate')::numeric) + 0.5 * (f.cost_breakdown->'sustainability'->>'carbon_footprint')::numeric - (f.cost_breakdown->'valuation'->>'recovery_value')::numeric), 2) AS avg_sal FROM financial_management f JOIN returns r ON r.casenum = f.casetag"
+ },
+ {
+  "question_id": "reverse_logistics_5",
+  "answer": "SELECT loccode, ROUND(proctime::numeric, 1) AS processing_time, ROUND(AVG(proctime::numeric) OVER (PARTITION BY loccode), 1) AS apt FROM return_processing ORDER BY apt DESC, loccode",
+  "note": "return_processing has one row per loccode and no link to returns, so each site's APT equals its single processing time."
+ }
+]

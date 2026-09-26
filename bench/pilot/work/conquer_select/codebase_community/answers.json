@@ -1,0 +1,72 @@
+[
+ {
+  "question_id": 604,
+  "answer": "LIST au, aa FROM THE AVERAGE v IN (User u1 has UserUpVotes v WHERE (THE COUNT OF Post [has owner User: !u1]) > 10) AS au AND ALSO THE AVERAGE w IN (User u2 has UserAge w WHERE (THE COUNT OF Post [has owner User: !u2]) > 10) AS aa",
+  "attempts": 6,
+  "chosen": 2,
+  "reason": "All three candidates normalise to the identical query and return identical values (avg up votes 182.28, avg age 34.08). Verified the >10-posts filter selects 1165 users, all with non-null UpVotes, but only 312 with non-null Age -- so all three candidates' AVERAGE quietly narrows the age average to users who have an age on file (matching plain SQL AVG semantics), which is the best any of the three achieve. Picked candidate 2 for its clear AS-named projection; candidate 3 is byte-identical."
+ },
+ {
+  "question_id": 584,
+  "answer": "LIST t FROM Comment has User has UserDisplayName n AND ALSO has CommentText t WHERE n = 'c4il' OR n = 'whuber' OR n = 'mbq'",
+  "attempts": 14,
+  "chosen": 1,
+  "reason": "Confirmed independently (via DISTINCT PostHistory has User has UserDisplayName on the named post) that the three editors are exactly c4il/whuber/mbq, each a unique display name (UserId 83, 88, 919). Ground truth per-user comment counts (via Comment [has User: <id>]) sum to 1+1033+13220=14254, exactly matching candidate 1's 14254 rows. Candidates 2 and 3 both use DISTINCT on the User/Post head intending to dedupe multiple PostHistory edit rows per editor, but --sql-only shows the compiler implements DISTINCT as SELECT DISTINCT on the single projected column (CommentText), which collapses comments that happen to share identical text -- they return only 14240 rows, undercounting by 14 real comments. The question asks for 'all the comments' (no dedup requested), so candidate 1's plain, non-DISTINCT query is the correct one."
+ },
+ {
+  "question_id": 537,
+  "answer": "THE COUNT OF Post [has owner User has UserDisplayName: 'csgillespie']",
+  "attempts": 2,
+  "chosen": 2,
+  "reason": "Candidates 1 and 2/3 all return count=121; candidate 2's bracket sits on the whole owner-chain from Post (grain Post), matching the question's 'how many posts' directly."
+ },
+ {
+  "question_id": 704,
+  "answer": "LIST eid, wid FROM Tag [has TagName: 'sample'] has Post has PostId eid AND ALSO has TagWikiPostId wid",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates return the same single row (excerpt post id 28276, wiki post id 28275) for the 'sample' tag. Candidates 2/3 add OPTIONALLY defensively, but neither value is actually null for this tag, so results are identical; picked the simplest, non-defensive form."
+ },
+ {
+  "question_id": 665,
+  "answer": "LIST (THE COUNT OF PostLink [has PostLinkCreationDate d] [has Post has PostAnswerCount a] WHERE year(d) = 2010 AND a <= 2) / 12",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates normalise to the exact same query (same bracket structure once resolved) and return 8.666666666666666, matching the evidence's count/12 formula."
+ },
+ {
+  "question_id": 672,
+  "answer": "THE COUNT OF User u [has UserLocation loc] WHERE loc = 'United Kingdom' AND (THE SUM OF f IN Post [has owner User: !u] has PostFavoriteCount f) >= 4",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates (equality-in-WHERE vs. equality-in-denotation vs. count-of-a-filtered-subquery) return the same count, 18, correctly using the per-user SUM of PostFavoriteCount ('total favorite amount') correlated with !u."
+ },
+ {
+  "question_id": 701,
+  "answer": "LIST (THE COUNT OF Post [has owner User has UserReputation r] [has PostScore s] WHERE r = (THE MAXIMUM User has UserReputation) AND s > 50) * 100.0 / (THE COUNT OF Post [has owner User has UserReputation r] WHERE r = (THE MAXIMUM User has UserReputation))",
+  "attempts": 6,
+  "chosen": 1,
+  "reason": "Verified independently: max reputation is 87393, that user owns 1204 posts, 8 of which have PostScore > 50; 8/1204*100 = 0.6644518272425249, matching all three candidates exactly (they normalise to the same query)."
+ },
+ {
+  "question_id": 567,
+  "answer": "THE COUNT OF Post [has owner User has UserDisplayName: 'Tiago Pasqualini']",
+  "attempts": 2,
+  "chosen": 2,
+  "reason": "Both phrasings (bracket on User vs. bracket wrapping the whole owner chain) return count=2 identically."
+ },
+ {
+  "question_id": 539,
+  "answer": "LIST n FROM Post [has PostTitle: 'Eliciting priors from experts'] has owner User has UserDisplayName n",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates differ only in the bound variable's name and return the same single value, 'csgillespie'."
+ },
+ {
+  "question_id": 563,
+  "answer": "LIST f FROM Comment [has User: '3025'] [has CommentCreationDate: '2014-04-23 20:29:39.0'] has Post has PostFavoriteCount f",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates (literal denotation, explicit UserId path, and OPTIONALLY on the projected count) return the same single value, f=3."
+ }
+]

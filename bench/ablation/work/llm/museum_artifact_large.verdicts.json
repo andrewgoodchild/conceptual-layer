@@ -1,0 +1,570 @@
+{
+ "database": "museum_artifact_large",
+ "verdicts": [
+  {
+   "id": "AirQualityMonitor.aqReadingId -> AirQualityReadings.aq_id",
+   "verdict": "yes",
+   "reason": "aqReadingId names an air-quality reading and covers all 1000 AirQualityReadings keys"
+  },
+  {
+   "id": "AirQualityMonitor.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "AirQualityReadings.env_link -> EnvironmentalReadingsCore.monitor_code",
+   "verdict": "yes",
+   "reason": "env_link holds MMnnnnnn monitor codes covering all 999 EnvironmentalReadingsCore keys"
+  },
+  {
+   "id": "ArtifactArtistLink.artwork_to_link -> ArtifactsCore.ARTregID",
+   "verdict": "yes",
+   "reason": "artwork_to_link holds ARTnnnnn artifact ids in ArtifactsCore's format; artifact-artist link table"
+  },
+  {
+   "id": "ArtifactArtistLink.artist_to_link -> Artists.Artist_Registry_Code",
+   "verdict": "yes",
+   "reason": "artist_to_link holds 101..180 artist registry codes covering most of Artists; artifact-artist link table"
+  },
+  {
+   "id": "ArtifactArtistLink.verifier_staff_code -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "no",
+   "reason": "verifier_staff_code -> DigitalAssets: the name says staff, but the target is not Staff; the small integers nest in an unrelated 1..N sequence"
+  },
+  {
+   "id": "ArtifactCondition.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "ArtifactConservatorLink.conservator_staff_ref -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "conservator_staff_ref holds staff codes; a conservator is a staff member"
+  },
+  {
+   "id": "ArtifactConservatorLink.authorized_by_staff_ref -> ArtifactRatings.HIST_sign",
+   "verdict": "no",
+   "reason": "authorized_by_staff_ref -> ArtifactRatings.HIST_sign: the name says staff, but the target is not Staff; the small integers nest in an unrelated 1..N sequence"
+  },
+  {
+   "id": "ArtifactLoan.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "ArtifactProvenance.Record_Verifier_Staff_Code -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "no",
+   "reason": "Record_Verifier_Staff_Code -> DigitalAssets: the name says staff, but the target is not Staff; the small integers nest in an unrelated 1..N sequence"
+  },
+  {
+   "id": "ArtifactPublicationLink.linked_by_staff_tag -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "no",
+   "reason": "linked_by_staff_tag -> DigitalAssets: the name says staff, but the target is not Staff; the small integers nest in an unrelated 1..N sequence"
+  },
+  {
+   "id": "ArtifactRatings.ART_link -> ArtifactsCore.ARTregID",
+   "verdict": "yes",
+   "reason": "ART_link holds ARTnnnnn artifact ids in ArtifactsCore's format"
+  },
+  {
+   "id": "ArtifactUsageLog.usageRecordId -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "usageRecordId names UsageRecords, not AirQualityReadings; the name points at a different 1000-row table (all of them share a 1..1000 integer key, so containment in aq_id is coincidental)"
+  },
+  {
+   "id": "ArtifactUsageLog.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "ArtifactsCore.ageYears -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "ageYears is an age; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "Artists.record_creator_staff_ref -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "no",
+   "reason": "record_creator_staff_ref -> DigitalAssets: the name says staff, but the target is not Staff; the small integers nest in an unrelated 1..N sequence"
+  },
+  {
+   "id": "ConditionAssessments.art_exam -> ArtifactsCore.ARTregID",
+   "verdict": "yes",
+   "reason": "art_exam holds ARTnnnnn artifact ids covering all 995 ArtifactsCore keys"
+  },
+  {
+   "id": "ConditionAssessments.case_exam -> Showcases.caseID",
+   "verdict": "yes",
+   "reason": "case_exam holds SCnnnn showcase ids covering all 953 Showcases keys"
+  },
+  {
+   "id": "ConditionAssessments.light_link -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "light_link names LightAndRadiationReadings, not AirQualityReadings; the name points at a different 1000-row table (all of them share a 1..1000 integer key, so containment in aq_id is coincidental)"
+  },
+  {
+   "id": "ConditionAssessments.score -> Staff.Staff_Code",
+   "verdict": "no",
+   "reason": "score is a 1-100 score, not a staff code; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "ConservationAndMaintenance.monitor_link -> EnvironmentalReadingsCore.monitor_code",
+   "verdict": "yes",
+   "reason": "monitor_link holds MMnnnnnn monitor codes covering all 999 EnvironmentalReadingsCore keys"
+  },
+  {
+   "id": "ConservationAndMaintenance.surf_link -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "surf_link names SurfaceAndPhysicalReadings, not AirQualityReadings; the name points at a different 1000-row table (all of them share a 1..1000 integer key, so containment in aq_id is coincidental)"
+  },
+  {
+   "id": "ConservationAndMaintenance.cleanDays -> Staff.Staff_Code",
+   "verdict": "no",
+   "reason": "cleanDays is a day count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "ConservationAndMaintenance.treatEffect -> SensitivityData.ENVsense",
+   "verdict": "no",
+   "reason": "treatEffect is a Low/Medium/High enumeration; SensitivityData is a 3-row per-artifact table whose ENVsense value happens to be unique, not a lookup of levels"
+  },
+  {
+   "id": "ConservationAndMaintenance.reversePot -> SensitivityData.ENVsense",
+   "verdict": "no",
+   "reason": "reversePot is a Low/Medium/High enumeration; SensitivityData is a 3-row per-artifact table whose ENVsense value happens to be unique, not a lookup of levels"
+  },
+  {
+   "id": "ConservationMaintenanceLog.maintenanceId -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "maintenanceId names ConservationAndMaintenance, not AirQualityReadings; the name points at a different 1000-row table (all of them share a 1..1000 integer key, so containment in aq_id is coincidental)"
+  },
+  {
+   "id": "ConservationMaintenanceLog.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "ConservationTreatment.leadConservator -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "leadConservator holds staff codes covering all 100 Staff_Code values; a conservator is a staff member"
+  },
+  {
+   "id": "ConservationTreatment.assistantConservator -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "assistantConservator holds staff codes covering all 100 Staff_Code values; a conservator is a staff member"
+  },
+  {
+   "id": "ConservationTreatments.treatment_for_artifact -> ArtifactsCore.ARTregID",
+   "verdict": "yes",
+   "reason": "treatment_for_artifact holds ARTnnnnn artifact ids in ArtifactsCore's format"
+  },
+  {
+   "id": "ConservationTreatments.requesting_staff_code -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "requesting_staff_code holds staff codes"
+  },
+  {
+   "id": "ConservationTreatments.estimated_duration_hours -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "estimated_duration_hours is a decimal duration; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "ConservationTreatments.approving_manager_code -> ArtifactRatings.HIST_sign",
+   "verdict": "no",
+   "reason": "approving_manager_code -> ArtifactRatings.HIST_sign: the name says staff, but the target is not Staff; the small integers nest in an unrelated 1..N sequence"
+  },
+  {
+   "id": "DigitalAssetLink.assetRegistryTag -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "yes",
+   "reason": "assetRegistryTag names Asset_Registry_Tag and covers all 60 DigitalAssets keys"
+  },
+  {
+   "id": "DigitalAssets.technician_staff_ref -> ArtifactProvenance.Provenance_Record_Num",
+   "verdict": "no",
+   "reason": "technician_staff_ref -> ArtifactProvenance: the name says staff, but the target is not Staff; the small integers nest in an unrelated 1..N sequence"
+  },
+  {
+   "id": "DigitalAssets.version -> ArtifactRatings.HIST_sign",
+   "verdict": "no",
+   "reason": "version is a version number (1/2); numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "DigitalAssets.parent_asset_tag -> ArtifactRatings.HIST_sign",
+   "verdict": "no",
+   "reason": "parent_asset_tag would be a self-reference into DigitalAssets, not ArtifactRatings; single value 1"
+  },
+  {
+   "id": "EmergencyPlans.plan_for_hall -> ExhibitionHalls.Hall_ID",
+   "verdict": "yes",
+   "reason": "plan_for_hall holds Hall-n ids covering 16 of 20 ExhibitionHalls keys"
+  },
+  {
+   "id": "EmergencyPlans.primary_responder_staff -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "no",
+   "reason": "primary_responder_staff -> DigitalAssets: the name says staff, but the target is not Staff; the small integers nest in an unrelated 1..N sequence"
+  },
+  {
+   "id": "EmergencyPlans.is_active -> ArtifactRatings.HIST_sign",
+   "verdict": "no",
+   "reason": "is_active is a boolean flag; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "EmergencyResponseLog.leadStaffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "leadStaffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "EmergencyResponseLog.supportStaffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "supportStaffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "EnvironmentalReadingsCore.case_link -> Showcases.caseID",
+   "verdict": "yes",
+   "reason": "case_link holds SCnnnn showcase ids covering 952 of 953 Showcases keys"
+  },
+  {
+   "id": "EnvironmentalReadingsCore.TEMPc -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "no",
+   "reason": "TEMPc is a temperature; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "EnvironmentalReadingsCore.RH -> Staff.Staff_Code",
+   "verdict": "no",
+   "reason": "RH is relative humidity; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "Exhibitions.curator_in_charge_stafftag -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "no",
+   "reason": "curator_in_charge_stafftag -> DigitalAssets: the name says staff, but the target is not Staff; the small integers nest in an unrelated 1..N sequence"
+  },
+  {
+   "id": "Exhibitions.location_in_hall -> ExhibitionHalls.Hall_ID",
+   "verdict": "yes",
+   "reason": "location_in_hall holds Hall-n ids covering all 20 ExhibitionHalls keys"
+  },
+  {
+   "id": "InsurancePolicies.policy_for_exhibition -> Exhibitions.Exhibition_Catalog_Code",
+   "verdict": "yes",
+   "reason": "policy_for_exhibition holds EXH-yyyy-nn exhibition catalog codes"
+  },
+  {
+   "id": "InsurancePolicies.policy_updated_by -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "no",
+   "reason": "policy_updated_by is a staff reference, not a DigitalAssets one; the name says staff, but the target is not Staff; the small integers nest in an unrelated 1..N sequence"
+  },
+  {
+   "id": "InsurancePolicyDetail.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "LightAndRadiationReadings.env_link -> EnvironmentalReadingsCore.monitor_code",
+   "verdict": "yes",
+   "reason": "env_link holds MMnnnnnn monitor codes covering all 999 EnvironmentalReadingsCore keys"
+  },
+  {
+   "id": "LightAndRadiationReadings.lux -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "lux is a light measurement; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "LightRadiationLog.radiationReadingId -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "radiationReadingId names LightAndRadiationReadings, not AirQualityReadings; the name points at a different 1000-row table (all of them share a 1..1000 integer key, so containment in aq_id is coincidental)"
+  },
+  {
+   "id": "LightRadiationLog.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "MaterialAnalysis.ANALYSIS_COST -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "ANALYSIS_COST is a money amount; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "MaterialAnalysisLog.surfaceReadingId -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "surfaceReadingId names SurfaceAndPhysicalReadings, not AirQualityReadings; the name points at a different 1000-row table (all of them share a 1..1000 integer key, so containment in aq_id is coincidental)"
+  },
+  {
+   "id": "MaterialAnalysisLog.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "Monitor_Showcase_Map.mon_ID -> EnvironmentalReadingsCore.monitor_code",
+   "verdict": "yes",
+   "reason": "mon_ID holds MMnnnnnn monitor codes covering all 999 of EnvironmentalReadingsCore, the table every other env_link points at; monitor-showcase map"
+  },
+  {
+   "id": "Monitor_Showcase_Map.case_ID -> Showcases.caseID",
+   "verdict": "yes",
+   "reason": "case_ID holds SCnnnn showcase ids covering all 953 Showcases keys; monitor-showcase map"
+  },
+  {
+   "id": "ResearcherAccess.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "Researchers.researcher_staff_profile -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "no",
+   "reason": "researcher_staff_profile -> DigitalAssets: the name says staff, but the target is not Staff; the small integers nest in an unrelated 1..N sequence"
+  },
+  {
+   "id": "RiskAssessmentDetail.conditionAssessmentId -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "conditionAssessmentId names ConditionAssessments, not AirQualityReadings; the name points at a different 1000-row table (all of them share a 1..1000 integer key, so containment in aq_id is coincidental)"
+  },
+  {
+   "id": "RiskAssessmentDetail.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "RiskAssessments.art_concern -> ArtifactsCore.ARTregID",
+   "verdict": "yes",
+   "reason": "art_concern holds ARTnnnnn artifact ids covering all 995 ArtifactsCore keys"
+  },
+  {
+   "id": "RiskAssessments.hall_concern -> ExhibitionHalls.Hall_ID",
+   "verdict": "yes",
+   "reason": "hall_concern holds Hall-n ids covering all 20 ExhibitionHalls keys"
+  },
+  {
+   "id": "RiskAssessments.risk_level -> SensitivityData.ENVsense",
+   "verdict": "no",
+   "reason": "risk_level is a Low/Medium/High enumeration; SensitivityData is a 3-row per-artifact table whose ENVsense value happens to be unique, not a lookup of levels"
+  },
+  {
+   "id": "RiskAssessments.conserve_score -> Staff.Staff_Code",
+   "verdict": "no",
+   "reason": "conserve_score is a 1-100 score, not a staff code; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "SecurityIncident.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "SensitivityData.ART_link -> ArtifactsCore.ARTregID",
+   "verdict": "yes",
+   "reason": "ART_link holds ARTnnnnn artifact ids seen elsewhere as real artifacts; 3-row seed table"
+  },
+  {
+   "id": "ShowcaseEnvironment.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "Showcases.hall_ref -> ExhibitionHalls.Hall_ID",
+   "verdict": "yes",
+   "reason": "hall_ref holds Hall-n ids covering all 20 ExhibitionHalls keys; a showcase's hall"
+  },
+  {
+   "id": "Staff.Manager_Staff_Code -> ArtifactProvenance.Provenance_Record_Num",
+   "verdict": "no",
+   "reason": "Manager_Staff_Code would be a self-reference into Staff, not ArtifactProvenance; the name says staff, but the target is not Staff; the small integers nest in an unrelated 1..N sequence"
+  },
+  {
+   "id": "Staff.Security_Clearance -> ArtifactRatings.HIST_sign",
+   "verdict": "no",
+   "reason": "Security_Clearance is a 1-5 level; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "SurfaceAndPhysicalReadings.env_link -> EnvironmentalReadingsCore.monitor_code",
+   "verdict": "yes",
+   "reason": "env_link holds MMnnnnnn monitor codes covering all 999 EnvironmentalReadingsCore keys"
+  },
+  {
+   "id": "SurfaceAndPhysicalReadings.noise_dB -> ArtifactProvenance.Provenance_Record_Num",
+   "verdict": "no",
+   "reason": "noise_dB is a decibel measurement; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "SurfaceAndPhysicalReadings.pestActivity -> SensitivityData.ENVsense",
+   "verdict": "no",
+   "reason": "pestActivity is a Low/Medium/High enumeration; SensitivityData is a 3-row per-artifact table whose ENVsense value happens to be unique, not a lookup of levels"
+  },
+  {
+   "id": "SurfaceAndPhysicalReadings.saltRisk -> SensitivityData.ENVsense",
+   "verdict": "no",
+   "reason": "saltRisk is a Low/Medium/High enumeration; SensitivityData is a 3-row per-artifact table whose ENVsense value happens to be unique, not a lookup of levels"
+  },
+  {
+   "id": "SurfaceAndPhysicalReadings.condRisk -> SensitivityData.ENVsense",
+   "verdict": "no",
+   "reason": "condRisk is a Low/Medium/High enumeration; SensitivityData is a 3-row per-artifact table whose ENVsense value happens to be unique, not a lookup of levels"
+  },
+  {
+   "id": "TransportationMonitor.staffCode -> Staff.Staff_Code",
+   "verdict": "yes",
+   "reason": "staffCode holds staff codes covering all 100 Staff_Code values"
+  },
+  {
+   "id": "UsageRecords.env_link -> EnvironmentalReadingsCore.monitor_code",
+   "verdict": "yes",
+   "reason": "env_link holds MMnnnnnn monitor codes covering all 999 EnvironmentalReadingsCore keys"
+  },
+  {
+   "id": "UsageRecords.displayMonths -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "no",
+   "reason": "displayMonths is a month count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "UsageRecords.restMonths -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "no",
+   "reason": "restMonths is a month count; numeric measure/rating/flag whose small integers merely fall inside a 1..N surrogate sequence"
+  },
+  {
+   "id": "AirQualityMonitor.id -> ArtifactCondition.id",
+   "verdict": "no",
+   "reason": "AirQualityMonitor.id vs ArtifactCondition.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "AirQualityReadings.aq_id -> ConditionAssessments.cond_id",
+   "verdict": "no",
+   "reason": "aq_id vs cond_id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ArtifactCondition.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "ArtifactCondition.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ArtifactLoan.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "ArtifactLoan.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ArtifactProfile.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "ArtifactProfile.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ArtifactProvenance.Provenance_Record_Num -> Staff.Staff_Code",
+   "verdict": "no",
+   "reason": "Provenance_Record_Num 1..80 vs Staff_Code 1..100: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ArtifactRatings.HIST_sign -> DigitalAssets.Asset_Registry_Tag",
+   "verdict": "no",
+   "reason": "HIST_sign 1..10 vs Asset_Registry_Tag 1..60: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ArtifactUsageLog.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "ArtifactUsageLog.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ConditionAssessments.cond_id -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "cond_id vs aq_id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ConservationAndMaintenance.maint_id -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "maint_id vs aq_id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ConservationMaintenanceLog.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "ConservationMaintenanceLog.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ConservationTreatment.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "ConservationTreatment.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "CorporateSponsorRecord.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "CorporateSponsorRecord.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "DigitalAssetLink.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "DigitalAssetLink.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "DigitalAssets.Asset_Registry_Tag -> ArtifactProvenance.Provenance_Record_Num",
+   "verdict": "no",
+   "reason": "Asset_Registry_Tag 1..60 vs Provenance_Record_Num 1..80: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "EmergencyResponseLog.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "EmergencyResponseLog.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ExhibitionSchedule.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "ExhibitionSchedule.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "InsurancePolicyDetail.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "InsurancePolicyDetail.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "LightAndRadiationReadings.rad_id -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "rad_id vs aq_id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "LightRadiationLog.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "LightRadiationLog.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "MaterialAnalysisLog.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "MaterialAnalysisLog.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "PublicationRecord.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "PublicationRecord.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ResearcherAccess.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "ResearcherAccess.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "RiskAssessmentDetail.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "RiskAssessmentDetail.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "SecurityIncident.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "SecurityIncident.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "ShowcaseEnvironment.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "ShowcaseEnvironment.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "Staff.Staff_Code -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "Staff_Code 1..100 vs aq_id 1..1000: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "SurfaceAndPhysicalReadings.surf_id -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "surf_id vs aq_id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "TransportationMonitor.id -> AirQualityMonitor.id",
+   "verdict": "no",
+   "reason": "TransportationMonitor.id vs AirQualityMonitor.id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  },
+  {
+   "id": "UsageRecords.usage_id -> AirQualityReadings.aq_id",
+   "verdict": "no",
+   "reason": "usage_id vs aq_id: two unrelated tables' own 1..N surrogate sequences nesting because one is no longer than the other; classic false positive"
+  }
+ ]
+}

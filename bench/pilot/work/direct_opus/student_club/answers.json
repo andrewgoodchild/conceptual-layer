@@ -1,0 +1,52 @@
+[
+  {
+    "question_id": 1435,
+    "answer": "SELECT event_name FROM event WHERE type = 'Game' AND status = 'Closed' AND event_date BETWEEN '2019-03-15' AND '2020-03-20'",
+    "attempts": 1
+  },
+  {
+    "question_id": 1378,
+    "answer": "SELECT MAX(spent) FROM budget",
+    "attempts": 1
+  },
+  {
+    "question_id": 1427,
+    "answer": "SELECT T2.category FROM event AS T1 INNER JOIN budget AS T2 ON T1.event_id = T2.link_to_event WHERE T1.location = 'MU 215' AND T1.type = 'Guest Speaker' AND T2.spent = 0",
+    "attempts": 2
+  },
+  {
+    "question_id": 1380,
+    "answer": "SELECT SUM(spent) FROM budget WHERE category = 'Food'",
+    "attempts": 1
+  },
+  {
+    "question_id": 1404,
+    "answer": "SELECT T1.expense_description, SUM(T1.cost) FROM expense AS T1 INNER JOIN budget AS T2 ON T1.link_to_budget = T2.budget_id INNER JOIN event AS T3 ON T2.link_to_event = T3.event_id WHERE T3.event_name = 'October Meeting' AND T1.approved = 'true' GROUP BY T1.expense_description",
+    "attempts": 2
+  },
+  {
+    "question_id": 1361,
+    "answer": "SELECT SUM(cost) FROM expense WHERE expense_description = 'Pizza'",
+    "attempts": 1
+  },
+  {
+    "question_id": 1375,
+    "answer": "SELECT T1.first_name, T1.last_name FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T2.department = 'School of Applied Sciences, Technology and Education'",
+    "attempts": 1
+  },
+  {
+    "question_id": 1405,
+    "answer": "SELECT SUM(T2.amount), T2.category FROM event AS T1 INNER JOIN budget AS T2 ON T1.event_id = T2.link_to_event WHERE T1.event_name = 'April Speaker' GROUP BY T2.category ORDER BY SUM(T2.amount) ASC",
+    "attempts": 1
+  },
+  {
+    "question_id": 1464,
+    "answer": "SELECT T2.first_name, T2.last_name, T1.amount FROM income AS T1 INNER JOIN member AS T2 ON T1.link_to_member = T2.member_id WHERE T1.date_received = '2019-09-09'",
+    "attempts": 1
+  },
+  {
+    "question_id": 1312,
+    "answer": "SELECT T2.major_name FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T1.first_name = 'Angela' AND T1.last_name = 'Sanders'",
+    "attempts": 1
+  }
+]

@@ -1,0 +1,2804 @@
+{
+ "database": "solar_panel_large",
+ "tables": [
+  "BatteryStorageUnits",
+  "BatteryThermalEvents",
+  "ClaimAppealDocuments",
+  "CleaningRobotTelemetry",
+  "ClientSupportTickets",
+  "DroneFlightLogs",
+  "DroneInspectionFindings",
+  "EnergyGenerationForecasts",
+  "ForecastAccuracyMetrics",
+  "GridEventSettlements",
+  "GridInterconnectionEvents",
+  "RobotPathObstacles",
+  "SafetyCorrectiveActions",
+  "SafetyIncidentReports",
+  "ShipmentTrackingUpdates",
+  "SupplyChainShipments",
+  "TicketResolutionSteps",
+  "VegetationManagementLogs",
+  "VegetationTaskMaterials",
+  "WarrantyClaimFilings",
+  "alert",
+  "asset_manufacturers",
+  "certifications",
+  "clients",
+  "compliance_audits",
+  "electrical_performance",
+  "energy_tariffs",
+  "environmental_conditions",
+  "environmental_reports",
+  "financial_ledger",
+  "inspection",
+  "inverter_models",
+  "inverters",
+  "maintenance_procedures",
+  "mechanical_condition",
+  "operational_metrics",
+  "panel_models",
+  "plant_panel_model",
+  "plant_record",
+  "plants",
+  "ppa_contracts",
+  "session_attendance",
+  "site_inventory",
+  "spare_parts",
+  "technician_certifications",
+  "technicians",
+  "training_sessions",
+  "weather_stations",
+  "work_order_parts_usage",
+  "work_order_procedures",
+  "work_order_updates",
+  "work_orders"
+ ],
+ "candidates": [
+  {
+   "id": "BatteryStorageUnits.site_ref -> plants.sitekey",
+   "source_table": "BatteryStorageUnits",
+   "source_column": "site_ref",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 1048,
+   "source_distinct": 626,
+   "target_rows": 939,
+   "score": 4.14,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SP1378",
+    "SP3063",
+    "SP6230",
+    "SP7287",
+    "SP3246"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "BatteryStorageUnits.manufacturer_ref -> asset_manufacturers.MfrCode",
+   "source_table": "BatteryStorageUnits",
+   "source_column": "manufacturer_ref",
+   "target_table": "asset_manufacturers",
+   "target_key": "MfrCode",
+   "source_rows": 1048,
+   "source_distinct": 3,
+   "target_rows": 50,
+   "score": 1.72,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "MFR-01",
+    "MFR-03",
+    "MFR-05"
+   ],
+   "target_samples": [
+    "MFR-01",
+    "MFR-02",
+    "MFR-03",
+    "MFR-04",
+    "MFR-05"
+   ]
+  },
+  {
+   "id": "BatteryStorageUnits.depth_of_discharge_limit -> work_order_updates.UpdateIndex",
+   "source_table": "BatteryStorageUnits",
+   "source_column": "depth_of_discharge_limit",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 1048,
+   "source_distinct": 1,
+   "target_rows": 198,
+   "score": 2.01,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "90.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BatteryThermalEvents.storage_unit_ref -> BatteryStorageUnits.storage_unit_id",
+   "source_table": "BatteryThermalEvents",
+   "source_column": "storage_unit_ref",
+   "target_table": "BatteryStorageUnits",
+   "target_key": "storage_unit_id",
+   "source_rows": 1739,
+   "source_distinct": 842,
+   "target_rows": 1048,
+   "score": 4.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "BESS-17159D66",
+    "BESS-3B4DC9C8",
+    "BESS-B2A1F834",
+    "BESS-41603CF7",
+    "BESS-39D9041E"
+   ],
+   "target_samples": [
+    "BESS-0048DA56",
+    "BESS-0055AAA7",
+    "BESS-00E32353",
+    "BESS-0108A51D",
+    "BESS-01480DFC"
+   ]
+  },
+  {
+   "id": "ClaimAppealDocuments.claim_ref -> WarrantyClaimFilings.claim_id",
+   "source_table": "ClaimAppealDocuments",
+   "source_column": "claim_ref",
+   "target_table": "WarrantyClaimFilings",
+   "target_key": "claim_id",
+   "source_rows": 84,
+   "source_distinct": 46,
+   "target_rows": 65,
+   "score": 4.14,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CLM-DB4E46B5",
+    "CLM-EDD5C4E8",
+    "CLM-8CC8A0B9",
+    "CLM-247D97A4",
+    "CLM-E5D25DEB"
+   ],
+   "target_samples": [
+    "CLM-00ECD9E4",
+    "CLM-068532CF",
+    "CLM-07416645",
+    "CLM-07C3CC11",
+    "CLM-09D99F66"
+   ]
+  },
+  {
+   "id": "ClaimAppealDocuments.version_number -> work_order_updates.UpdateIndex",
+   "source_table": "ClaimAppealDocuments",
+   "source_column": "version_number",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 84,
+   "source_distinct": 5,
+   "target_rows": 198,
+   "score": 1.07,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "1",
+    "4",
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ClaimAppealDocuments.page_count -> work_order_updates.UpdateIndex",
+   "source_table": "ClaimAppealDocuments",
+   "source_column": "page_count",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 84,
+   "source_distinct": 8,
+   "target_rows": 198,
+   "score": 1.11,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "4",
+    "7",
+    "8",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CleaningRobotTelemetry.site_ref -> plants.sitekey",
+   "source_table": "CleaningRobotTelemetry",
+   "source_column": "site_ref",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 1671,
+   "source_distinct": 792,
+   "target_rows": 939,
+   "score": 4.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SP1626",
+    "SP2040",
+    "SP9865",
+    "SP2787",
+    "SP1483"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "CleaningRobotTelemetry.brush_rpm -> work_order_updates.UpdateIndex",
+   "source_table": "CleaningRobotTelemetry",
+   "source_column": "brush_rpm",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 1671,
+   "source_distinct": 62,
+   "target_rows": 198,
+   "score": 2.58,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "139",
+    "127",
+    "123",
+    "141",
+    "117"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ClientSupportTickets.client_ref -> clients.ClientCode",
+   "source_table": "ClientSupportTickets",
+   "source_column": "client_ref",
+   "target_table": "clients",
+   "target_key": "ClientCode",
+   "source_rows": 149,
+   "source_distinct": 108,
+   "target_rows": 200,
+   "score": 3.95,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "C1015",
+    "C1088",
+    "C1059",
+    "C1174",
+    "C1008"
+   ],
+   "target_samples": [
+    "C1001",
+    "C1002",
+    "C1003",
+    "C1004",
+    "C1005"
+   ]
+  },
+  {
+   "id": "ClientSupportTickets.assigned_tech_ref -> technicians.TechNum",
+   "source_table": "ClientSupportTickets",
+   "source_column": "assigned_tech_ref",
+   "target_table": "technicians",
+   "target_key": "TechNum",
+   "source_rows": 149,
+   "source_distinct": 2,
+   "target_rows": 100,
+   "score": 2.52,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "T-101",
+    "T-102"
+   ],
+   "target_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ]
+  },
+  {
+   "id": "ClientSupportTickets.satisfaction_score -> work_order_updates.UpdateIndex",
+   "source_table": "ClientSupportTickets",
+   "source_column": "satisfaction_score",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 149,
+   "source_distinct": 5,
+   "target_rows": 198,
+   "score": 1.07,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "5",
+    "4",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DroneFlightLogs.site_ref -> plants.sitekey",
+   "source_table": "DroneFlightLogs",
+   "source_column": "site_ref",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 1603,
+   "source_distinct": 771,
+   "target_rows": 939,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SP4322",
+    "SP4838",
+    "SP4241",
+    "SP6544",
+    "SP8165"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "DroneFlightLogs.pilot_ref -> technicians.TechNum",
+   "source_table": "DroneFlightLogs",
+   "source_column": "pilot_ref",
+   "target_table": "technicians",
+   "target_key": "TechNum",
+   "source_rows": 1603,
+   "source_distinct": 3,
+   "target_rows": 100,
+   "score": 1.57,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "T-103",
+    "T-102",
+    "T-101"
+   ],
+   "target_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ]
+  },
+  {
+   "id": "DroneFlightLogs.battery_start_pct -> work_order_updates.UpdateIndex",
+   "source_table": "DroneFlightLogs",
+   "source_column": "battery_start_pct",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 1603,
+   "source_distinct": 9,
+   "target_rows": 198,
+   "score": 2.09,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "97",
+    "94",
+    "98",
+    "96",
+    "100"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DroneInspectionFindings.flight_log_ref -> DroneFlightLogs.flight_log_id",
+   "source_table": "DroneInspectionFindings",
+   "source_column": "flight_log_ref",
+   "target_table": "DroneFlightLogs",
+   "target_key": "flight_log_id",
+   "source_rows": 2839,
+   "source_distinct": 1333,
+   "target_rows": 1603,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FLT-611052DC",
+    "FLT-D24A0CCF",
+    "FLT-C2EA844F",
+    "FLT-C84FFFFE",
+    "FLT-577452B2"
+   ],
+   "target_samples": [
+    "FLT-000B8710",
+    "FLT-00588094",
+    "FLT-00D9725F",
+    "FLT-010EB4AD",
+    "FLT-011A76DE"
+   ]
+  },
+  {
+   "id": "DroneInspectionFindings.severity_score -> work_order_updates.UpdateIndex",
+   "source_table": "DroneInspectionFindings",
+   "source_column": "severity_score",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 2839,
+   "source_distinct": 10,
+   "target_rows": 198,
+   "score": 1.14,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9",
+    "5",
+    "10",
+    "3",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DroneInspectionFindings.location_gps_lat -> work_order_updates.UpdateIndex",
+   "source_table": "DroneInspectionFindings",
+   "source_column": "location_gps_lat",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 2839,
+   "source_distinct": 1,
+   "target_rows": 198,
+   "score": 2.01,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "34.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DroneInspectionFindings.row_number -> work_order_updates.UpdateIndex",
+   "source_table": "DroneInspectionFindings",
+   "source_column": "row_number",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 2839,
+   "source_distinct": 50,
+   "target_rows": 198,
+   "score": 1.75,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "28",
+    "6",
+    "47",
+    "9",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EnergyGenerationForecasts.plant_ref -> plants.sitekey",
+   "source_table": "EnergyGenerationForecasts",
+   "source_column": "plant_ref",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 840,
+   "source_distinct": 547,
+   "target_rows": 939,
+   "score": 4.04,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SP1574",
+    "SP6195",
+    "SP4992",
+    "SP3345",
+    "SP6439"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "EnergyGenerationForecasts.forecast_horizon_hours -> work_order_updates.UpdateIndex",
+   "source_table": "EnergyGenerationForecasts",
+   "source_column": "forecast_horizon_hours",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 840,
+   "source_distinct": 4,
+   "target_rows": 198,
+   "score": 2.58,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "72",
+    "168",
+    "48",
+    "24"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ForecastAccuracyMetrics.forecast_ref -> EnergyGenerationForecasts.forecast_id",
+   "source_table": "ForecastAccuracyMetrics",
+   "source_column": "forecast_ref",
+   "target_table": "EnergyGenerationForecasts",
+   "target_key": "forecast_id",
+   "source_rows": 1654,
+   "source_distinct": 718,
+   "target_rows": 840,
+   "score": 4.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FCST-1B38EE11",
+    "FCST-4A20883D",
+    "FCST-D0FC1C64",
+    "FCST-0F0DE8DD",
+    "FCST-A50018C9"
+   ],
+   "target_samples": [
+    "FCST-00035754",
+    "FCST-00234172",
+    "FCST-002D0931",
+    "FCST-003408D1",
+    "FCST-0057E359"
+   ]
+  },
+  {
+   "id": "GridEventSettlements.event_ref -> GridInterconnectionEvents.event_id",
+   "source_table": "GridEventSettlements",
+   "source_column": "event_ref",
+   "target_table": "GridInterconnectionEvents",
+   "target_key": "event_id",
+   "source_rows": 816,
+   "source_distinct": 392,
+   "target_rows": 488,
+   "score": 4.27,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "GIE-3E509F98",
+    "GIE-4F394181",
+    "GIE-D34EE362",
+    "GIE-0E438164",
+    "GIE-0382732B"
+   ],
+   "target_samples": [
+    "GIE-00B15D48",
+    "GIE-01BFFDFF",
+    "GIE-01D011C5",
+    "GIE-01F488B4",
+    "GIE-026211FF"
+   ]
+  },
+  {
+   "id": "GridInterconnectionEvents.site_ref -> plants.sitekey",
+   "source_table": "GridInterconnectionEvents",
+   "source_column": "site_ref",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 488,
+   "source_distinct": 387,
+   "target_rows": 939,
+   "score": 3.87,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SP7917",
+    "SP5405",
+    "SP2706",
+    "SP7558",
+    "SP3332"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "GridInterconnectionEvents.scada_signal_quality -> work_order_updates.UpdateIndex",
+   "source_table": "GridInterconnectionEvents",
+   "source_column": "scada_signal_quality",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 488,
+   "source_distinct": 5,
+   "target_rows": 198,
+   "score": 2.08,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "97",
+    "100",
+    "98",
+    "99",
+    "96"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RobotPathObstacles.telemetry_ref -> CleaningRobotTelemetry.telemetry_id",
+   "source_table": "RobotPathObstacles",
+   "source_column": "telemetry_ref",
+   "target_table": "CleaningRobotTelemetry",
+   "target_key": "telemetry_id",
+   "source_rows": 2469,
+   "source_distinct": 1288,
+   "target_rows": 1671,
+   "score": 4.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RBT-TLM-BC003C97",
+    "RBT-TLM-7CE950B5",
+    "RBT-TLM-F00D4077",
+    "RBT-TLM-9739D582",
+    "RBT-TLM-C69BC45F"
+   ],
+   "target_samples": [
+    "RBT-TLM-0007282C",
+    "RBT-TLM-0037808E",
+    "RBT-TLM-008C584C",
+    "RBT-TLM-00AB7BEF",
+    "RBT-TLM-00ADFF90"
+   ]
+  },
+  {
+   "id": "RobotPathObstacles.distance_from_robot_cm -> work_order_updates.UpdateIndex",
+   "source_table": "RobotPathObstacles",
+   "source_column": "distance_from_robot_cm",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 2469,
+   "source_distinct": 59,
+   "target_rows": 198,
+   "score": 2.22,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "47",
+    "38",
+    "55",
+    "41",
+    "54"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RobotPathObstacles.gps_lat -> work_order_updates.UpdateIndex",
+   "source_table": "RobotPathObstacles",
+   "source_column": "gps_lat",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 2469,
+   "source_distinct": 1,
+   "target_rows": 198,
+   "score": 2.01,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "34.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SafetyCorrectiveActions.incident_ref -> SafetyIncidentReports.incident_id",
+   "source_table": "SafetyCorrectiveActions",
+   "source_column": "incident_ref",
+   "target_table": "SafetyIncidentReports",
+   "target_key": "incident_id",
+   "source_rows": 89,
+   "source_distinct": 77,
+   "target_rows": 175,
+   "score": 3.85,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SAF-C6ADC2E0",
+    "SAF-910521C3",
+    "SAF-6CDA0101",
+    "SAF-5E5B41F2",
+    "SAF-2A94CF0B"
+   ],
+   "target_samples": [
+    "SAF-033427E4",
+    "SAF-09450759",
+    "SAF-09992BC0",
+    "SAF-0BCA30C1",
+    "SAF-0D12748E"
+   ]
+  },
+  {
+   "id": "SafetyCorrectiveActions.approver_ref -> technicians.TechNum",
+   "source_table": "SafetyCorrectiveActions",
+   "source_column": "approver_ref",
+   "target_table": "technicians",
+   "target_key": "TechNum",
+   "source_rows": 89,
+   "source_distinct": 2,
+   "target_rows": 100,
+   "score": 2.52,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "T-103",
+    "T-101"
+   ],
+   "target_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ]
+  },
+  {
+   "id": "SafetyCorrectiveActions.effectiveness_rating -> work_order_updates.UpdateIndex",
+   "source_table": "SafetyCorrectiveActions",
+   "source_column": "effectiveness_rating",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 89,
+   "source_distinct": 5,
+   "target_rows": 198,
+   "score": 1.07,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "2",
+    "4",
+    "5",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SafetyIncidentReports.site_ref -> plants.sitekey",
+   "source_table": "SafetyIncidentReports",
+   "source_column": "site_ref",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 175,
+   "source_distinct": 3,
+   "target_rows": 939,
+   "score": 2.43,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SP9227",
+    "SP7738",
+    "SP6740"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "SafetyIncidentReports.reporter_ref -> technicians.TechNum",
+   "source_table": "SafetyIncidentReports",
+   "source_column": "reporter_ref",
+   "target_table": "technicians",
+   "target_key": "TechNum",
+   "source_rows": 175,
+   "source_distinct": 85,
+   "target_rows": 100,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "T-181",
+    "T-194",
+    "T-170",
+    "T-182",
+    "T-114"
+   ],
+   "target_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ]
+  },
+  {
+   "id": "ShipmentTrackingUpdates.shipment_ref -> SupplyChainShipments.shipment_id",
+   "source_table": "ShipmentTrackingUpdates",
+   "source_column": "shipment_ref",
+   "target_table": "SupplyChainShipments",
+   "target_key": "shipment_id",
+   "source_rows": 129,
+   "source_distinct": 58,
+   "target_rows": 73,
+   "score": 4.22,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SHP-44796484",
+    "SHP-BD7E925F",
+    "SHP-D0138EA3",
+    "SHP-6C16E06F",
+    "SHP-CB0448EA"
+   ],
+   "target_samples": [
+    "SHP-03264EFD",
+    "SHP-03756E15",
+    "SHP-03A949FA",
+    "SHP-0423D1BC",
+    "SHP-045DF8D9"
+   ]
+  },
+  {
+   "id": "SupplyChainShipments.manufacturer_ref -> asset_manufacturers.MfrCode",
+   "source_table": "SupplyChainShipments",
+   "source_column": "manufacturer_ref",
+   "target_table": "asset_manufacturers",
+   "target_key": "MfrCode",
+   "source_rows": 73,
+   "source_distinct": 40,
+   "target_rows": 50,
+   "score": 4.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MFR-28",
+    "MFR-13",
+    "MFR-09",
+    "MFR-42",
+    "MFR-23"
+   ],
+   "target_samples": [
+    "MFR-01",
+    "MFR-02",
+    "MFR-03",
+    "MFR-04",
+    "MFR-05"
+   ]
+  },
+  {
+   "id": "SupplyChainShipments.destination_plant_ref -> plants.sitekey",
+   "source_table": "SupplyChainShipments",
+   "source_column": "destination_plant_ref",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 73,
+   "source_distinct": 3,
+   "target_rows": 939,
+   "score": 2.43,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SP9227",
+    "SP7738",
+    "SP6740"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "SupplyChainShipments.pallet_count -> work_order_updates.UpdateIndex",
+   "source_table": "SupplyChainShipments",
+   "source_column": "pallet_count",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 73,
+   "source_distinct": 14,
+   "target_rows": 198,
+   "score": 1.24,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "13",
+    "15",
+    "7",
+    "16"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TicketResolutionSteps.ticket_ref -> ClientSupportTickets.ticket_id",
+   "source_table": "TicketResolutionSteps",
+   "source_column": "ticket_ref",
+   "target_table": "ClientSupportTickets",
+   "target_key": "ticket_id",
+   "source_rows": 78,
+   "source_distinct": 62,
+   "target_rows": 149,
+   "score": 3.78,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "TKT-1CE51A39",
+    "TKT-9F0A5D9E",
+    "TKT-3F842EC2",
+    "TKT-A0082660",
+    "TKT-F3CED63F"
+   ],
+   "target_samples": [
+    "TKT-0179C567",
+    "TKT-018C9012",
+    "TKT-03A9F363",
+    "TKT-03D4AADB",
+    "TKT-0503CF8A"
+   ]
+  },
+  {
+   "id": "TicketResolutionSteps.step_sequence -> work_order_updates.UpdateIndex",
+   "source_table": "TicketResolutionSteps",
+   "source_column": "step_sequence",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 78,
+   "source_distinct": 10,
+   "target_rows": 198,
+   "score": 1.14,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "8",
+    "3",
+    "4",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TicketResolutionSteps.time_spent_minutes -> work_order_updates.UpdateIndex",
+   "source_table": "TicketResolutionSteps",
+   "source_column": "time_spent_minutes",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 78,
+   "source_distinct": 19,
+   "target_rows": 198,
+   "score": 1.36,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "9",
+    "19",
+    "13",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VegetationManagementLogs.site_ref -> plants.sitekey",
+   "source_table": "VegetationManagementLogs",
+   "source_column": "site_ref",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 1338,
+   "source_distinct": 716,
+   "target_rows": 939,
+   "score": 4.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SP3778",
+    "SP7889",
+    "SP3142",
+    "SP4662",
+    "SP4873"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "VegetationTaskMaterials.veg_log_ref -> VegetationManagementLogs.veg_log_id",
+   "source_table": "VegetationTaskMaterials",
+   "source_column": "veg_log_ref",
+   "target_table": "VegetationManagementLogs",
+   "target_key": "veg_log_id",
+   "source_rows": 759,
+   "source_distinct": 568,
+   "target_rows": 1338,
+   "score": 3.91,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VEG-8870FC1E",
+    "VEG-DAF2CE83",
+    "VEG-B51ACCF1",
+    "VEG-AE813816",
+    "VEG-FCE468AD"
+   ],
+   "target_samples": [
+    "VEG-0012CB26",
+    "VEG-006186FF",
+    "VEG-006B8400",
+    "VEG-008DA5AF",
+    "VEG-00A3AA6D"
+   ]
+  },
+  {
+   "id": "VegetationTaskMaterials.inventory_deducted -> work_order_updates.UpdateIndex",
+   "source_table": "VegetationTaskMaterials",
+   "source_column": "inventory_deducted",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 759,
+   "source_distinct": 1,
+   "target_rows": 198,
+   "score": 2.01,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WarrantyClaimFilings.work_order_ref -> work_orders.OrderNum",
+   "source_table": "WarrantyClaimFilings",
+   "source_column": "work_order_ref",
+   "target_table": "work_orders",
+   "target_key": "OrderNum",
+   "source_rows": 65,
+   "source_distinct": 46,
+   "target_rows": 80,
+   "score": 4.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WO-1074",
+    "WO-1023",
+    "WO-1031",
+    "WO-1028",
+    "WO-1029"
+   ],
+   "target_samples": [
+    "WO-1001",
+    "WO-1002",
+    "WO-1003",
+    "WO-1004",
+    "WO-1005"
+   ]
+  },
+  {
+   "id": "WarrantyClaimFilings.manufacturer_ref -> asset_manufacturers.MfrCode",
+   "source_table": "WarrantyClaimFilings",
+   "source_column": "manufacturer_ref",
+   "target_table": "asset_manufacturers",
+   "target_key": "MfrCode",
+   "source_rows": 65,
+   "source_distinct": 2,
+   "target_rows": 50,
+   "score": 2.54,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "MFR-02",
+    "MFR-01"
+   ],
+   "target_samples": [
+    "MFR-01",
+    "MFR-02",
+    "MFR-03",
+    "MFR-04",
+    "MFR-05"
+   ]
+  },
+  {
+   "id": "WarrantyClaimFilings.manufacturer_response_days -> work_order_updates.UpdateIndex",
+   "source_table": "WarrantyClaimFilings",
+   "source_column": "manufacturer_response_days",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 65,
+   "source_distinct": 18,
+   "target_rows": 198,
+   "score": 1.35,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "13",
+    "7",
+    "8",
+    "4",
+    "21"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "compliance_audits.PlantRef -> plants.sitekey",
+   "source_table": "compliance_audits",
+   "source_column": "PlantRef",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 40,
+   "source_distinct": 26,
+   "target_rows": 939,
+   "score": 3.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SP9227",
+    "SP6740",
+    "SP7738",
+    "SP8899",
+    "SP1402"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "energy_tariffs.For_Contract_Num -> ppa_contracts.ContractNum",
+   "source_table": "energy_tariffs",
+   "source_column": "For_Contract_Num",
+   "target_table": "ppa_contracts",
+   "target_key": "ContractNum",
+   "source_rows": 48,
+   "source_distinct": 33,
+   "target_rows": 80,
+   "score": 2.71,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PPA-001",
+    "PPA-002",
+    "PPA-003",
+    "PPA-004",
+    "PPA-005"
+   ],
+   "target_samples": [
+    "PPA-001",
+    "PPA-002",
+    "PPA-003",
+    "PPA-004",
+    "PPA-005"
+   ]
+  },
+  {
+   "id": "environmental_reports.FacilityTag -> plants.sitekey",
+   "source_table": "environmental_reports",
+   "source_column": "FacilityTag",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 49,
+   "source_distinct": 13,
+   "target_rows": 939,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SP9227",
+    "SP6740",
+    "SP7738",
+    "SP8899",
+    "SP1402"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "financial_ledger.LinkedSite -> plants.sitekey",
+   "source_table": "financial_ledger",
+   "source_column": "LinkedSite",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 200,
+   "source_distinct": 34,
+   "target_rows": 939,
+   "score": 3.05,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SP9227",
+    "SP6740",
+    "SP7738",
+    "SP7778",
+    "SP9784"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "financial_ledger.LinkedOrder -> work_orders.OrderNum",
+   "source_table": "financial_ledger",
+   "source_column": "LinkedOrder",
+   "target_table": "work_orders",
+   "target_key": "OrderNum",
+   "source_rows": 200,
+   "source_distinct": 24,
+   "target_rows": 80,
+   "score": 2.93,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "WO-1001",
+    "WO-1003",
+    "WO-1004",
+    "WO-1006",
+    "WO-1010"
+   ],
+   "target_samples": [
+    "WO-1001",
+    "WO-1002",
+    "WO-1003",
+    "WO-1004",
+    "WO-1005"
+   ]
+  },
+  {
+   "id": "financial_ledger.LinkedContract -> ppa_contracts.ContractNum",
+   "source_table": "financial_ledger",
+   "source_column": "LinkedContract",
+   "target_table": "ppa_contracts",
+   "target_key": "ContractNum",
+   "source_rows": 200,
+   "source_distinct": 29,
+   "target_rows": 80,
+   "score": 2.59,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PPA-001",
+    "PPA-002",
+    "PPA-003",
+    "PPA-004",
+    "PPA-005"
+   ],
+   "target_samples": [
+    "PPA-001",
+    "PPA-002",
+    "PPA-003",
+    "PPA-004",
+    "PPA-005"
+   ]
+  },
+  {
+   "id": "financial_ledger.LinkedClient -> clients.ClientCode",
+   "source_table": "financial_ledger",
+   "source_column": "LinkedClient",
+   "target_table": "clients",
+   "target_key": "ClientCode",
+   "source_rows": 200,
+   "source_distinct": 29,
+   "target_rows": 200,
+   "score": 1.93,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "C1001",
+    "C1002",
+    "C1003",
+    "C1004",
+    "C1005"
+   ],
+   "target_samples": [
+    "C1001",
+    "C1002",
+    "C1003",
+    "C1004",
+    "C1005"
+   ]
+  },
+  {
+   "id": "financial_ledger.LinkedMFR -> asset_manufacturers.MfrCode",
+   "source_table": "financial_ledger",
+   "source_column": "LinkedMFR",
+   "target_table": "asset_manufacturers",
+   "target_key": "MfrCode",
+   "source_rows": 200,
+   "source_distinct": 15,
+   "target_rows": 50,
+   "score": 2.73,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "MFR-02",
+    "MFR-18",
+    "MFR-11",
+    "MFR-24",
+    "MFR-01"
+   ],
+   "target_samples": [
+    "MFR-01",
+    "MFR-02",
+    "MFR-03",
+    "MFR-04",
+    "MFR-05"
+   ]
+  },
+  {
+   "id": "inverter_models.VendorCode -> asset_manufacturers.MfrCode",
+   "source_table": "inverter_models",
+   "source_column": "VendorCode",
+   "target_table": "asset_manufacturers",
+   "target_key": "MfrCode",
+   "source_rows": 76,
+   "source_distinct": 26,
+   "target_rows": 50,
+   "score": 3.59,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MFR-01",
+    "MFR-02",
+    "MFR-03",
+    "MFR-04",
+    "MFR-13"
+   ],
+   "target_samples": [
+    "MFR-01",
+    "MFR-02",
+    "MFR-03",
+    "MFR-04",
+    "MFR-05"
+   ]
+  },
+  {
+   "id": "inverter_models.mppt_channels -> work_order_updates.UpdateIndex",
+   "source_table": "inverter_models",
+   "source_column": "mppt_channels",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 76,
+   "source_distinct": 10,
+   "target_rows": 198,
+   "score": 1.65,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "6",
+    "8",
+    "1",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "inverters.SiteLocation -> plants.sitekey",
+   "source_table": "inverters",
+   "source_column": "SiteLocation",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 115,
+   "source_distinct": 75,
+   "target_rows": 939,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SP9227",
+    "SP6740",
+    "SP7738",
+    "SP7778",
+    "SP9784"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "inverters.ModelIdentifier -> inverter_models.InverterModelTag",
+   "source_table": "inverters",
+   "source_column": "ModelIdentifier",
+   "target_table": "inverter_models",
+   "target_key": "InverterModelTag",
+   "source_rows": 115,
+   "source_distinct": 60,
+   "target_rows": 76,
+   "score": 4.15,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "INV-M-A1",
+    "INV-M-A2",
+    "INV-M-B2",
+    "INV-M-B4",
+    "INV-M-C3"
+   ],
+   "target_samples": [
+    "INV-M-A1",
+    "INV-M-A2",
+    "INV-M-A3",
+    "INV-M-A4",
+    "INV-M-A5"
+   ]
+  },
+  {
+   "id": "maintenance_procedures.Author_Ref -> technicians.TechNum",
+   "source_table": "maintenance_procedures",
+   "source_column": "Author_Ref",
+   "target_table": "technicians",
+   "target_key": "TechNum",
+   "source_rows": 50,
+   "source_distinct": 22,
+   "target_rows": 100,
+   "score": 3.61,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "T-141",
+    "T-125",
+    "T-158",
+    "T-112",
+    "T-189"
+   ],
+   "target_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ]
+  },
+  {
+   "id": "maintenance_procedures.Approver_Ref -> technicians.TechNum",
+   "source_table": "maintenance_procedures",
+   "source_column": "Approver_Ref",
+   "target_table": "technicians",
+   "target_key": "TechNum",
+   "source_rows": 50,
+   "source_distinct": 8,
+   "target_rows": 100,
+   "score": 1.73,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "T-101",
+    "T-103",
+    "T-106",
+    "T-102",
+    "T-104"
+   ],
+   "target_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ]
+  },
+  {
+   "id": "plant_panel_model.sitelink -> plants.sitekey",
+   "source_table": "plant_panel_model",
+   "source_column": "sitelink",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 1000,
+   "source_distinct": 939,
+   "target_rows": 939,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "plant_panel_model.modlink -> panel_models.modkey",
+   "source_table": "plant_panel_model",
+   "source_column": "modlink",
+   "target_table": "panel_models",
+   "target_key": "modkey",
+   "source_rows": 1000,
+   "source_distinct": 596,
+   "target_rows": 596,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Model-102",
+    "Model-892",
+    "Model-677",
+    "Model-932",
+    "Model-569"
+   ],
+   "target_samples": [
+    "Model-100",
+    "Model-102",
+    "Model-103",
+    "Model-104",
+    "Model-105"
+   ]
+  },
+  {
+   "id": "plant_record.sitetie -> plants.sitekey",
+   "source_table": "plant_record",
+   "source_column": "sitetie",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 998,
+   "source_distinct": 937,
+   "target_rows": 939,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SP9227",
+    "SP6740",
+    "SP7738",
+    "SP7778",
+    "SP9784"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "plants.modhook -> panel_models.modkey",
+   "source_table": "plants",
+   "source_column": "modhook",
+   "target_table": "panel_models",
+   "target_key": "modkey",
+   "source_rows": 939,
+   "source_distinct": 577,
+   "target_rows": 596,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Model-102",
+    "Model-892",
+    "Model-677",
+    "Model-932",
+    "Model-569"
+   ],
+   "target_samples": [
+    "Model-100",
+    "Model-102",
+    "Model-103",
+    "Model-104",
+    "Model-105"
+   ]
+  },
+  {
+   "id": "ppa_contracts.SiteRef -> plants.sitekey",
+   "source_table": "ppa_contracts",
+   "source_column": "SiteRef",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 939,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SP9227",
+    "SP6740",
+    "SP7738",
+    "SP7778",
+    "SP9784"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "ppa_contracts.CustomerCode -> clients.ClientCode",
+   "source_table": "ppa_contracts",
+   "source_column": "CustomerCode",
+   "target_table": "clients",
+   "target_key": "ClientCode",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 200,
+   "score": 2.69,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "C1001",
+    "C1002",
+    "C1003",
+    "C1004",
+    "C1005"
+   ],
+   "target_samples": [
+    "C1001",
+    "C1002",
+    "C1003",
+    "C1004",
+    "C1005"
+   ]
+  },
+  {
+   "id": "session_attendance.AttendeeNum -> technicians.TechNum",
+   "source_table": "session_attendance",
+   "source_column": "AttendeeNum",
+   "target_table": "technicians",
+   "target_key": "TechNum",
+   "source_rows": 228,
+   "source_distinct": 96,
+   "target_rows": 100,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ],
+   "target_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ]
+  },
+  {
+   "id": "session_attendance.CourseRef -> training_sessions.SessionTag",
+   "source_table": "session_attendance",
+   "source_column": "CourseRef",
+   "target_table": "training_sessions",
+   "target_key": "SessionTag",
+   "source_rows": 228,
+   "source_distinct": 41,
+   "target_rows": 60,
+   "score": 3.72,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SESS-03",
+    "SESS-07",
+    "SESS-33",
+    "SESS-01",
+    "SESS-12"
+   ],
+   "target_samples": [
+    "SESS-01",
+    "SESS-02",
+    "SESS-03",
+    "SESS-04",
+    "SESS-05"
+   ]
+  },
+  {
+   "id": "site_inventory.LocationTag -> plants.sitekey",
+   "source_table": "site_inventory",
+   "source_column": "LocationTag",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 133,
+   "source_distinct": 32,
+   "target_rows": 939,
+   "score": 3.05,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SP1937",
+    "SP2601",
+    "SP2948",
+    "SP3459",
+    "SP3483"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "site_inventory.StockItemSKU -> spare_parts.PartSKU",
+   "source_table": "site_inventory",
+   "source_column": "StockItemSKU",
+   "target_table": "spare_parts",
+   "target_key": "PartSKU",
+   "source_rows": 133,
+   "source_distinct": 44,
+   "target_rows": 50,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SP-BR-001",
+    "SP-DM-001",
+    "SP-GS-001",
+    "SP-PV-001",
+    "SP-AF-001"
+   ],
+   "target_samples": [
+    "SP-AC-001",
+    "SP-AF-001",
+    "SP-BA-001",
+    "SP-BL-001",
+    "SP-BR-001"
+   ]
+  },
+  {
+   "id": "spare_parts.Manufacturer_Code -> asset_manufacturers.MfrCode",
+   "source_table": "spare_parts",
+   "source_column": "Manufacturer_Code",
+   "target_table": "asset_manufacturers",
+   "target_key": "MfrCode",
+   "source_rows": 50,
+   "source_distinct": 19,
+   "target_rows": 50,
+   "score": 3.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "MFR-01",
+    "MFR-02",
+    "MFR-03",
+    "MFR-22",
+    "MFR-15"
+   ],
+   "target_samples": [
+    "MFR-01",
+    "MFR-02",
+    "MFR-03",
+    "MFR-04",
+    "MFR-05"
+   ]
+  },
+  {
+   "id": "technician_certifications.TechnicianRef -> technicians.TechNum",
+   "source_table": "technician_certifications",
+   "source_column": "TechnicianRef",
+   "target_table": "technicians",
+   "target_key": "TechNum",
+   "source_rows": 202,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ],
+   "target_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ]
+  },
+  {
+   "id": "technician_certifications.CertificationRef -> certifications.CertCode",
+   "source_table": "technician_certifications",
+   "source_column": "CertificationRef",
+   "target_table": "certifications",
+   "target_key": "CertCode",
+   "source_rows": 202,
+   "source_distinct": 14,
+   "target_rows": 30,
+   "score": 3.02,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "CERT-01",
+    "CERT-02",
+    "CERT-03",
+    "CERT-05",
+    "CERT-12"
+   ],
+   "target_samples": [
+    "CERT-01",
+    "CERT-02",
+    "CERT-03",
+    "CERT-04",
+    "CERT-05"
+   ]
+  },
+  {
+   "id": "training_sessions.MAX_ATTENDEES -> work_order_updates.UpdateIndex",
+   "source_table": "training_sessions",
+   "source_column": "MAX_ATTENDEES",
+   "target_table": "work_order_updates",
+   "target_key": "UpdateIndex",
+   "source_rows": 60,
+   "source_distinct": 10,
+   "target_rows": 198,
+   "score": 2.16,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15",
+    "50",
+    "10",
+    "30",
+    "20"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "training_sessions.Ties_To_Cert -> certifications.CertCode",
+   "source_table": "training_sessions",
+   "source_column": "Ties_To_Cert",
+   "target_table": "certifications",
+   "target_key": "CertCode",
+   "source_rows": 60,
+   "source_distinct": 29,
+   "target_rows": 30,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CERT-01",
+    "CERT-02",
+    "CERT-03",
+    "CERT-04",
+    "CERT-05"
+   ],
+   "target_samples": [
+    "CERT-01",
+    "CERT-02",
+    "CERT-03",
+    "CERT-04",
+    "CERT-05"
+   ]
+  },
+  {
+   "id": "weather_stations.plant_site_ref -> plants.sitekey",
+   "source_table": "weather_stations",
+   "source_column": "plant_site_ref",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 15,
+   "source_distinct": 15,
+   "target_rows": 939,
+   "score": 2.87,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SP9227",
+    "SP6740",
+    "SP7738",
+    "SP7778",
+    "SP9784"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "weather_stations.MakerCode -> asset_manufacturers.MfrCode",
+   "source_table": "weather_stations",
+   "source_column": "MakerCode",
+   "target_table": "asset_manufacturers",
+   "target_key": "MfrCode",
+   "source_rows": 15,
+   "source_distinct": 4,
+   "target_rows": 50,
+   "score": 2.73,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "MFR-16",
+    "MFR-17",
+    "MFR-15",
+    "MFR-29"
+   ],
+   "target_samples": [
+    "MFR-01",
+    "MFR-02",
+    "MFR-03",
+    "MFR-04",
+    "MFR-05"
+   ]
+  },
+  {
+   "id": "work_order_parts_usage.WorkOrderRef -> work_orders.OrderNum",
+   "source_table": "work_order_parts_usage",
+   "source_column": "WorkOrderRef",
+   "target_table": "work_orders",
+   "target_key": "OrderNum",
+   "source_rows": 163,
+   "source_distinct": 50,
+   "target_rows": 80,
+   "score": 3.77,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WO-1001",
+    "WO-1003",
+    "WO-1005",
+    "WO-1006",
+    "WO-1009"
+   ],
+   "target_samples": [
+    "WO-1001",
+    "WO-1002",
+    "WO-1003",
+    "WO-1004",
+    "WO-1005"
+   ]
+  },
+  {
+   "id": "work_order_parts_usage.PartRef -> spare_parts.PartSKU",
+   "source_table": "work_order_parts_usage",
+   "source_column": "PartRef",
+   "target_table": "spare_parts",
+   "target_key": "PartSKU",
+   "source_rows": 163,
+   "source_distinct": 49,
+   "target_rows": 50,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SP-CS-001",
+    "SP-FN-001",
+    "SP-GS-001",
+    "SP-SN-001",
+    "SP-ZT-001"
+   ],
+   "target_samples": [
+    "SP-AC-001",
+    "SP-AF-001",
+    "SP-BA-001",
+    "SP-BL-001",
+    "SP-BR-001"
+   ]
+  },
+  {
+   "id": "work_order_procedures.WorkOrderLink -> work_orders.OrderNum",
+   "source_table": "work_order_procedures",
+   "source_column": "WorkOrderLink",
+   "target_table": "work_orders",
+   "target_key": "OrderNum",
+   "source_rows": 64,
+   "source_distinct": 29,
+   "target_rows": 80,
+   "score": 3.8,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "WO-1002",
+    "WO-1004",
+    "WO-1010",
+    "WO-1013",
+    "WO-1016"
+   ],
+   "target_samples": [
+    "WO-1001",
+    "WO-1002",
+    "WO-1003",
+    "WO-1004",
+    "WO-1005"
+   ]
+  },
+  {
+   "id": "work_order_procedures.ProcedureLink -> maintenance_procedures.ProcedureCode",
+   "source_table": "work_order_procedures",
+   "source_column": "ProcedureLink",
+   "target_table": "maintenance_procedures",
+   "target_key": "ProcedureCode",
+   "source_rows": 64,
+   "source_distinct": 37,
+   "target_rows": 50,
+   "score": 4.14,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PROC-02",
+    "PROC-04",
+    "PROC-06",
+    "PROC-07",
+    "PROC-24"
+   ],
+   "target_samples": [
+    "PROC-01",
+    "PROC-02",
+    "PROC-03",
+    "PROC-04",
+    "PROC-05"
+   ]
+  },
+  {
+   "id": "work_order_updates.ReferenceOrder -> work_orders.OrderNum",
+   "source_table": "work_order_updates",
+   "source_column": "ReferenceOrder",
+   "target_table": "work_orders",
+   "target_key": "OrderNum",
+   "source_rows": 198,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WO-1001",
+    "WO-1002",
+    "WO-1003",
+    "WO-1004",
+    "WO-1005"
+   ],
+   "target_samples": [
+    "WO-1001",
+    "WO-1002",
+    "WO-1003",
+    "WO-1004",
+    "WO-1005"
+   ]
+  },
+  {
+   "id": "work_order_updates.AuthorRef -> technicians.TechNum",
+   "source_table": "work_order_updates",
+   "source_column": "AuthorRef",
+   "target_table": "technicians",
+   "target_key": "TechNum",
+   "source_rows": 198,
+   "source_distinct": 75,
+   "target_rows": 100,
+   "score": 4.05,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "T-101",
+    "T-102",
+    "T-112",
+    "T-103",
+    "T-111"
+   ],
+   "target_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ]
+  },
+  {
+   "id": "work_orders.PlantRef -> plants.sitekey",
+   "source_table": "work_orders",
+   "source_column": "PlantRef",
+   "target_table": "plants",
+   "target_key": "sitekey",
+   "source_rows": 80,
+   "source_distinct": 66,
+   "target_rows": 939,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SP9227",
+    "SP6740",
+    "SP7738",
+    "SP7778",
+    "SP6166"
+   ],
+   "target_samples": [
+    "SP1015",
+    "SP1016",
+    "SP1037",
+    "SP1041",
+    "SP1056"
+   ]
+  },
+  {
+   "id": "work_orders.TriggeringAlert -> alert.snapalrt",
+   "source_table": "work_orders",
+   "source_column": "TriggeringAlert",
+   "target_table": "alert",
+   "target_key": "snapalrt",
+   "source_rows": 80,
+   "source_distinct": 50,
+   "target_rows": 998,
+   "score": 3.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PV937101",
+    "PV227567",
+    "PV504365",
+    "PV190701",
+    "PV817725"
+   ],
+   "target_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ]
+  },
+  {
+   "id": "work_orders.AssignedTechnician -> technicians.TechNum",
+   "source_table": "work_orders",
+   "source_column": "AssignedTechnician",
+   "target_table": "technicians",
+   "target_key": "TechNum",
+   "source_rows": 80,
+   "source_distinct": 66,
+   "target_rows": 100,
+   "score": 4.05,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "T-101",
+    "T-112",
+    "T-103",
+    "T-111",
+    "T-128"
+   ],
+   "target_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ]
+  },
+  {
+   "id": "work_orders.Creator -> technicians.TechNum",
+   "source_table": "work_orders",
+   "source_column": "Creator",
+   "target_table": "technicians",
+   "target_key": "TechNum",
+   "source_rows": 80,
+   "source_distinct": 11,
+   "target_rows": 100,
+   "score": 2.06,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-107",
+    "T-106"
+   ],
+   "target_samples": [
+    "T-101",
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+   ]
+  },
+  {
+   "id": "alert.snapalrt -> electrical_performance.snaplink",
+   "source_table": "alert",
+   "source_column": "snapalrt",
+   "target_table": "electrical_performance",
+   "target_key": "snaplink",
+   "source_rows": 998,
+   "source_distinct": 998,
+   "target_rows": 998,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ],
+   "target_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ]
+  },
+  {
+   "id": "electrical_performance.snaplink -> alert.snapalrt",
+   "source_table": "electrical_performance",
+   "source_column": "snaplink",
+   "target_table": "alert",
+   "target_key": "snapalrt",
+   "source_rows": 998,
+   "source_distinct": 998,
+   "target_rows": 998,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ],
+   "target_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ]
+  },
+  {
+   "id": "environmental_conditions.snapref -> alert.snapalrt",
+   "source_table": "environmental_conditions",
+   "source_column": "snapref",
+   "target_table": "alert",
+   "target_key": "snapalrt",
+   "source_rows": 998,
+   "source_distinct": 998,
+   "target_rows": 998,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ],
+   "target_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ]
+  },
+  {
+   "id": "mechanical_condition.snapmk -> alert.snapalrt",
+   "source_table": "mechanical_condition",
+   "source_column": "snapmk",
+   "target_table": "alert",
+   "target_key": "snapalrt",
+   "source_rows": 998,
+   "source_distinct": 998,
+   "target_rows": 998,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ],
+   "target_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ]
+  },
+  {
+   "id": "operational_metrics.snapops -> alert.snapalrt",
+   "source_table": "operational_metrics",
+   "source_column": "snapops",
+   "target_table": "alert",
+   "target_key": "snapalrt",
+   "source_rows": 998,
+   "source_distinct": 998,
+   "target_rows": 998,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ],
+   "target_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ]
+  },
+  {
+   "id": "plant_record.snapkey -> alert.snapalrt",
+   "source_table": "plant_record",
+   "source_column": "snapkey",
+   "target_table": "alert",
+   "target_key": "snapalrt",
+   "source_rows": 998,
+   "source_distinct": 998,
+   "target_rows": 998,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ],
+   "target_samples": [
+    "PV100420",
+    "PV100779",
+    "PV101736",
+    "PV102216",
+    "PV102283"
+   ]
+  }
+ ]
+}

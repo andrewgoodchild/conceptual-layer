@@ -1,0 +1,6015 @@
+{
+ "database": "sports_events_large",
+ "tables": [
+  "Broadcast_Media_Map",
+  "CFDSimulation",
+  "CarDevelopmentProgram",
+  "CarTelemetrySnapshot",
+  "CostCapTracking",
+  "Development_Technology_Map",
+  "DriverMedicalRecord",
+  "EngineTelemetry",
+  "EquipmentShipment",
+  "FanZoneActivity",
+  "Fan_Race_Attendance",
+  "Financial_Sponsor_Map",
+  "FreightContainer",
+  "Logistics_Circuit_Map",
+  "Medical_Incident_Map",
+  "MerchandiseSales",
+  "RegulatoryComplianceLog",
+  "RevenueStream",
+  "SafetyEquipmentInspection",
+  "SensorConfiguration",
+  "StreamingMetrics",
+  "TVBroadcast",
+  "TeamBudget",
+  "TeamTravelItinerary",
+  "TelemetryAnomalyLog",
+  "TicketSales",
+  "TireTelemetry",
+  "TracksideMedicalFacility",
+  "WindTunnelResult",
+  "circuit_aliases",
+  "circuit_details",
+  "circuit_facilities",
+  "circuits",
+  "constructor_profiles",
+  "constructor_results",
+  "constructor_standings",
+  "constructors",
+  "driver_biometric_metrics",
+  "driver_profiles",
+  "driver_social_media",
+  "driver_standings",
+  "drivers",
+  "innovation_technologies",
+  "lap_times",
+  "media_assets",
+  "pit_stops",
+  "qualifying",
+  "race_incidents",
+  "races",
+  "regulation_technology_links",
+  "sponsor_entities",
+  "sponsor_media_campaigns",
+  "sponsor_technology_agreements",
+  "sprint_results",
+  "staff_directory",
+  "staff_training_enrollments",
+  "strategy_scenarios",
+  "technical_regulations",
+  "training_programs",
+  "weather_observations"
+ ],
+ "candidates": [
+  {
+   "id": "Broadcast_Media_Map.BROADCAST_REF -> Medical_Incident_Map.MIM_ID",
+   "source_table": "Broadcast_Media_Map",
+   "source_column": "BROADCAST_REF",
+   "target_table": "Medical_Incident_Map",
+   "target_key": "MIM_ID",
+   "source_rows": 150,
+   "source_distinct": 79,
+   "target_rows": 100,
+   "score": 4.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13",
+    "82",
+    "6",
+    "92",
+    "50"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Broadcast_Media_Map.media_ref -> media_assets.MediaAssetIndex",
+   "source_table": "Broadcast_Media_Map",
+   "source_column": "media_ref",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 150,
+   "source_distinct": 30,
+   "target_rows": 30,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "23",
+    "3",
+    "6",
+    "22",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Broadcast_Media_Map.airtime_seconds -> EngineTelemetry.ENGINE_TEL_ID",
+   "source_table": "Broadcast_Media_Map",
+   "source_column": "airtime_seconds",
+   "target_table": "EngineTelemetry",
+   "target_key": "ENGINE_TEL_ID",
+   "source_rows": 150,
+   "source_distinct": 135,
+   "target_rows": 600,
+   "score": 3.55,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "471",
+    "85",
+    "410",
+    "96",
+    "340"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Broadcast_Media_Map.REPLAY_COUNT -> training_programs.TRAINING_Identifier",
+   "source_table": "Broadcast_Media_Map",
+   "source_column": "REPLAY_COUNT",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 150,
+   "source_distinct": 5,
+   "target_rows": 10,
+   "score": 2.8,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "5",
+    "3",
+    "4",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CFDSimulation.DEV_PROGRAM_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "CFDSimulation",
+   "source_column": "DEV_PROGRAM_REF",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 200,
+   "source_distinct": 70,
+   "target_rows": 80,
+   "score": 4.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "53",
+    "75",
+    "68",
+    "30"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CFDSimulation.MESH_CELLS_MILLIONS -> regulation_technology_links.RTL_Code",
+   "source_table": "CFDSimulation",
+   "source_column": "MESH_CELLS_MILLIONS",
+   "target_table": "regulation_technology_links",
+   "target_key": "RTL_Code",
+   "source_rows": 200,
+   "source_distinct": 169,
+   "target_rows": 500,
+   "score": 3.77,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "476",
+    "495",
+    "496",
+    "64",
+    "343"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CarDevelopmentProgram.CONSTRUCTOR_REF -> constructor_profiles.Constructor_Profile_no",
+   "source_table": "CarDevelopmentProgram",
+   "source_column": "CONSTRUCTOR_REF",
+   "target_table": "constructor_profiles",
+   "target_key": "Constructor_Profile_no",
+   "source_rows": 80,
+   "source_distinct": 64,
+   "target_rows": 212,
+   "score": 3.72,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "123",
+    "70",
+    "7",
+    "55",
+    "63"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CarDevelopmentProgram.STAFF_ASSIGNED -> regulation_technology_links.RTL_Code",
+   "source_table": "CarDevelopmentProgram",
+   "source_column": "STAFF_ASSIGNED",
+   "target_table": "regulation_technology_links",
+   "target_key": "RTL_Code",
+   "source_rows": 80,
+   "source_distinct": 76,
+   "target_rows": 500,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "220",
+    "468",
+    "158",
+    "195",
+    "442"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CarDevelopmentProgram.wind_tunnel_hours_used -> sponsor_media_campaigns.SMC_serial",
+   "source_table": "CarDevelopmentProgram",
+   "source_column": "wind_tunnel_hours_used",
+   "target_table": "sponsor_media_campaigns",
+   "target_key": "SMC_serial",
+   "source_rows": 80,
+   "source_distinct": 70,
+   "target_rows": 450,
+   "score": 3.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "121",
+    "144",
+    "317",
+    "188",
+    "148"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CarDevelopmentProgram.spec_upgrades_planned -> media_assets.MediaAssetIndex",
+   "source_table": "CarDevelopmentProgram",
+   "source_column": "spec_upgrades_planned",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 80,
+   "source_distinct": 18,
+   "target_rows": 30,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8",
+    "4",
+    "16",
+    "6",
+    "18"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CarTelemetrySnapshot.race_ref -> races.rak_id",
+   "source_table": "CarTelemetrySnapshot",
+   "source_column": "race_ref",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 800,
+   "source_distinct": 572,
+   "target_rows": 1125,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "621",
+    "348",
+    "653",
+    "229",
+    "251"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CarTelemetrySnapshot.DRIVER_REF -> drivers.drv_main",
+   "source_table": "CarTelemetrySnapshot",
+   "source_column": "DRIVER_REF",
+   "target_table": "drivers",
+   "target_key": "drv_main",
+   "source_rows": 800,
+   "source_distinct": 526,
+   "target_rows": 861,
+   "score": 3.57,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "256",
+    "41",
+    "644",
+    "327",
+    "30"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CarTelemetrySnapshot.lap_number -> circuit_aliases.CircuitAlias_Key",
+   "source_table": "CarTelemetrySnapshot",
+   "source_column": "lap_number",
+   "target_table": "circuit_aliases",
+   "target_key": "CircuitAlias_Key",
+   "source_rows": 800,
+   "source_distinct": 70,
+   "target_rows": 77,
+   "score": 4.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "22",
+    "46",
+    "43",
+    "49",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CarTelemetrySnapshot.gear -> training_programs.TRAINING_Identifier",
+   "source_table": "CarTelemetrySnapshot",
+   "source_column": "gear",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 800,
+   "source_distinct": 8,
+   "target_rows": 10,
+   "score": 3.7,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "2",
+    "7",
+    "1",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CostCapTracking.budget_ref -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "CostCapTracking",
+   "source_column": "budget_ref",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 200,
+   "source_distinct": 77,
+   "target_rows": 80,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "75",
+    "6",
+    "55",
+    "48",
+    "57"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Development_Technology_Map.DEV_PROGRAM_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "Development_Technology_Map",
+   "source_column": "DEV_PROGRAM_REF",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 150,
+   "source_distinct": 69,
+   "target_rows": 80,
+   "score": 4.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "41",
+    "61",
+    "72",
+    "75",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Development_Technology_Map.technology_ref -> innovation_technologies.TECHNOLOGY_Index",
+   "source_table": "Development_Technology_Map",
+   "source_column": "technology_ref",
+   "target_table": "innovation_technologies",
+   "target_key": "TECHNOLOGY_Index",
+   "source_rows": 150,
+   "source_distinct": 47,
+   "target_rows": 50,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "26",
+    "45",
+    "47",
+    "13",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Development_Technology_Map.team_size -> media_assets.MediaAssetIndex",
+   "source_table": "Development_Technology_Map",
+   "source_column": "team_size",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 150,
+   "source_distinct": 19,
+   "target_rows": 30,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9",
+    "13",
+    "12",
+    "5",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DriverMedicalRecord.driver_ref -> driver_biometric_metrics.Bio_No",
+   "source_table": "DriverMedicalRecord",
+   "source_column": "driver_ref",
+   "target_table": "driver_biometric_metrics",
+   "target_key": "Bio_No",
+   "source_rows": 80,
+   "source_distinct": 74,
+   "target_rows": 861,
+   "score": 3.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "293",
+    "246",
+    "769",
+    "617",
+    "751"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DriverMedicalRecord.G_FORCE_TOLERANCE -> training_programs.TRAINING_Identifier",
+   "source_table": "DriverMedicalRecord",
+   "source_column": "G_FORCE_TOLERANCE",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 80,
+   "source_distinct": 6,
+   "target_rows": 10,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "10",
+    "6",
+    "7",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EngineTelemetry.TELEMETRY_REF -> CarTelemetrySnapshot.TELEMETRY_ID",
+   "source_table": "EngineTelemetry",
+   "source_column": "TELEMETRY_REF",
+   "target_table": "CarTelemetrySnapshot",
+   "target_key": "TELEMETRY_ID",
+   "source_rows": 600,
+   "source_distinct": 417,
+   "target_rows": 800,
+   "score": 3.98,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "59",
+    "101",
+    "669",
+    "291",
+    "446"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentShipment.constructor_ref -> constructors.cstr_key",
+   "source_table": "EquipmentShipment",
+   "source_column": "constructor_ref",
+   "target_table": "constructors",
+   "target_key": "cstr_key",
+   "source_rows": 150,
+   "source_distinct": 107,
+   "target_rows": 212,
+   "score": 3.44,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "36",
+    "74",
+    "185",
+    "33",
+    "169"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentShipment.CIRCUIT_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "EquipmentShipment",
+   "source_column": "CIRCUIT_REF",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 150,
+   "source_distinct": 69,
+   "target_rows": 80,
+   "score": 4.26,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "80",
+    "29",
+    "44",
+    "37",
+    "47"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentShipment.CONTAINER_COUNT -> innovation_technologies.TECHNOLOGY_Index",
+   "source_table": "EquipmentShipment",
+   "source_column": "CONTAINER_COUNT",
+   "target_table": "innovation_technologies",
+   "target_key": "TECHNOLOGY_Index",
+   "source_rows": 150,
+   "source_distinct": 49,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "35",
+    "14",
+    "2",
+    "31",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FanZoneActivity.race_ref -> races.rak_id",
+   "source_table": "FanZoneActivity",
+   "source_column": "race_ref",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 150,
+   "source_distinct": 145,
+   "target_rows": 1125,
+   "score": 3.04,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "841",
+    "493",
+    "588",
+    "155",
+    "770"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Fan_Race_Attendance.race_ref -> races.rak_id",
+   "source_table": "Fan_Race_Attendance",
+   "source_column": "race_ref",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 200,
+   "source_distinct": 179,
+   "target_rows": 1125,
+   "score": 3.11,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "957",
+    "913",
+    "171",
+    "1054",
+    "702"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Fan_Race_Attendance.CIRCUIT_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "Fan_Race_Attendance",
+   "source_column": "CIRCUIT_REF",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 200,
+   "source_distinct": 67,
+   "target_rows": 80,
+   "score": 4.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "68",
+    "48",
+    "80",
+    "61",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Financial_Sponsor_Map.BUDGET_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "Financial_Sponsor_Map",
+   "source_column": "BUDGET_REF",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 200,
+   "source_distinct": 73,
+   "target_rows": 80,
+   "score": 4.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "36",
+    "10",
+    "5",
+    "79",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Financial_Sponsor_Map.sponsor_ref -> CFDSimulation.CFD_ID",
+   "source_table": "Financial_Sponsor_Map",
+   "source_column": "sponsor_ref",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 125,
+   "target_rows": 200,
+   "score": 4.04,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "110",
+    "150",
+    "12",
+    "36",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FreightContainer.shipment_ref -> Broadcast_Media_Map.BMM_ID",
+   "source_table": "FreightContainer",
+   "source_column": "shipment_ref",
+   "target_table": "Broadcast_Media_Map",
+   "target_key": "BMM_ID",
+   "source_rows": 300,
+   "source_distinct": 132,
+   "target_rows": 150,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "139",
+    "46",
+    "80",
+    "47",
+    "20"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Logistics_Circuit_Map.SHIPMENT_REF -> Broadcast_Media_Map.BMM_ID",
+   "source_table": "Logistics_Circuit_Map",
+   "source_column": "SHIPMENT_REF",
+   "target_table": "Broadcast_Media_Map",
+   "target_key": "BMM_ID",
+   "source_rows": 200,
+   "source_distinct": 108,
+   "target_rows": 150,
+   "score": 4.19,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "71",
+    "36",
+    "52",
+    "108",
+    "75"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Logistics_Circuit_Map.circuit_ref -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "Logistics_Circuit_Map",
+   "source_column": "circuit_ref",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 200,
+   "source_distinct": 71,
+   "target_rows": 80,
+   "score": 4.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "22",
+    "34",
+    "67",
+    "21",
+    "79"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Logistics_Circuit_Map.unloading_time_min -> CFDSimulation.CFD_ID",
+   "source_table": "Logistics_Circuit_Map",
+   "source_column": "unloading_time_min",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 120,
+   "target_rows": 200,
+   "score": 3.95,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "78",
+    "163",
+    "42",
+    "36",
+    "160"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Medical_Incident_Map.MEDICAL_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "Medical_Incident_Map",
+   "source_column": "MEDICAL_REF",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 100,
+   "source_distinct": 55,
+   "target_rows": 80,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "47",
+    "1",
+    "10",
+    "38",
+    "65"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Medical_Incident_Map.incident_ref -> race_incidents.INCIDENT_NUMBER",
+   "source_table": "Medical_Incident_Map",
+   "source_column": "incident_ref",
+   "target_table": "race_incidents",
+   "target_key": "INCIDENT_NUMBER",
+   "source_rows": 100,
+   "source_distinct": 94,
+   "target_rows": 1126,
+   "score": 3.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "13",
+    "1048",
+    "1105",
+    "113",
+    "231"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Medical_Incident_Map.recovery_days -> CFDSimulation.CFD_ID",
+   "source_table": "Medical_Incident_Map",
+   "source_column": "recovery_days",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 100,
+   "source_distinct": 36,
+   "target_rows": 200,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "151",
+    "13",
+    "6",
+    "147",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MerchandiseSales.race_ref -> races.rak_id",
+   "source_table": "MerchandiseSales",
+   "source_column": "race_ref",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 300,
+   "source_distinct": 263,
+   "target_rows": 1125,
+   "score": 3.19,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "680",
+    "266",
+    "950",
+    "463",
+    "460"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MerchandiseSales.CONSTRUCTOR_REF -> constructors.cstr_key",
+   "source_table": "MerchandiseSales",
+   "source_column": "CONSTRUCTOR_REF",
+   "target_table": "constructors",
+   "target_key": "cstr_key",
+   "source_rows": 300,
+   "source_distinct": 163,
+   "target_rows": 212,
+   "score": 3.74,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "159",
+    "125",
+    "14",
+    "89",
+    "204"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MerchandiseSales.QUANTITY_SOLD -> regulation_technology_links.RTL_Code",
+   "source_table": "MerchandiseSales",
+   "source_column": "QUANTITY_SOLD",
+   "target_table": "regulation_technology_links",
+   "target_key": "RTL_Code",
+   "source_rows": 300,
+   "source_distinct": 222,
+   "target_rows": 500,
+   "score": 3.85,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "392",
+    "476",
+    "212",
+    "364",
+    "363"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RevenueStream.constructor_ref -> constructor_profiles.Constructor_Profile_no",
+   "source_table": "RevenueStream",
+   "source_column": "constructor_ref",
+   "target_table": "constructor_profiles",
+   "target_key": "Constructor_Profile_no",
+   "source_rows": 150,
+   "source_distinct": 107,
+   "target_rows": 212,
+   "score": 3.84,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "22",
+    "172",
+    "198",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SafetyEquipmentInspection.constructor_ref -> constructors.cstr_key",
+   "source_table": "SafetyEquipmentInspection",
+   "source_column": "constructor_ref",
+   "target_table": "constructors",
+   "target_key": "cstr_key",
+   "source_rows": 200,
+   "source_distinct": 130,
+   "target_rows": 212,
+   "score": 3.54,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "210",
+    "179",
+    "110",
+    "135",
+    "74"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SafetyEquipmentInspection.REGULATION_REF -> innovation_technologies.TECHNOLOGY_Index",
+   "source_table": "SafetyEquipmentInspection",
+   "source_column": "REGULATION_REF",
+   "target_table": "innovation_technologies",
+   "target_key": "TECHNOLOGY_Index",
+   "source_rows": 200,
+   "source_distinct": 49,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "41",
+    "38",
+    "11",
+    "34",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SensorConfiguration.constructor_ref -> constructors.cstr_key",
+   "source_table": "SensorConfiguration",
+   "source_column": "constructor_ref",
+   "target_table": "constructors",
+   "target_key": "cstr_key",
+   "source_rows": 100,
+   "source_distinct": 84,
+   "target_rows": 212,
+   "score": 3.31,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "40",
+    "176",
+    "80",
+    "31",
+    "128"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SensorConfiguration.calibration_interval_days -> Medical_Incident_Map.MIM_ID",
+   "source_table": "SensorConfiguration",
+   "source_column": "calibration_interval_days",
+   "target_table": "Medical_Incident_Map",
+   "target_key": "MIM_ID",
+   "source_rows": 100,
+   "source_distinct": 58,
+   "target_rows": 100,
+   "score": 3.85,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "21",
+    "71",
+    "11",
+    "42",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "StreamingMetrics.broadcast_ref -> Medical_Incident_Map.MIM_ID",
+   "source_table": "StreamingMetrics",
+   "source_column": "broadcast_ref",
+   "target_table": "Medical_Incident_Map",
+   "target_key": "MIM_ID",
+   "source_rows": 200,
+   "source_distinct": 87,
+   "target_rows": 100,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "67",
+    "60",
+    "84",
+    "80",
+    "50"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TVBroadcast.race_ref -> races.rak_id",
+   "source_table": "TVBroadcast",
+   "source_column": "race_ref",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 100,
+   "source_distinct": 95,
+   "target_rows": 1125,
+   "score": 2.98,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "147",
+    "323",
+    "285",
+    "135",
+    "1031"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TVBroadcast.AVG_VIEWERS_MILLIONS -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "TVBroadcast",
+   "source_column": "AVG_VIEWERS_MILLIONS",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 100,
+   "source_distinct": 56,
+   "target_rows": 80,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "40",
+    "49",
+    "46",
+    "4",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TVBroadcast.TOTAL_AD_SECONDS -> race_incidents.INCIDENT_NUMBER",
+   "source_table": "TVBroadcast",
+   "source_column": "TOTAL_AD_SECONDS",
+   "target_table": "race_incidents",
+   "target_key": "INCIDENT_NUMBER",
+   "source_rows": 100,
+   "source_distinct": 94,
+   "target_rows": 1126,
+   "score": 3.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "56",
+    "851",
+    "344",
+    "451",
+    "392"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TeamBudget.constructor_ref -> constructor_profiles.Constructor_Profile_no",
+   "source_table": "TeamBudget",
+   "source_column": "constructor_ref",
+   "target_table": "constructor_profiles",
+   "target_key": "Constructor_Profile_no",
+   "source_rows": 80,
+   "source_distinct": 60,
+   "target_rows": 212,
+   "score": 3.72,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "134",
+    "132",
+    "25",
+    "93",
+    "60"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TeamTravelItinerary.race_ref -> races.rak_id",
+   "source_table": "TeamTravelItinerary",
+   "source_column": "race_ref",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 200,
+   "source_distinct": 181,
+   "target_rows": 1125,
+   "score": 3.09,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "410",
+    "826",
+    "860",
+    "1115",
+    "452"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TeamTravelItinerary.CONSTRUCTOR_REF -> constructors.cstr_key",
+   "source_table": "TeamTravelItinerary",
+   "source_column": "CONSTRUCTOR_REF",
+   "target_table": "constructors",
+   "target_key": "cstr_key",
+   "source_rows": 200,
+   "source_distinct": 127,
+   "target_rows": 212,
+   "score": 3.51,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "129",
+    "113",
+    "179",
+    "77",
+    "34"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TeamTravelItinerary.TEAM_MEMBERS -> Medical_Incident_Map.MIM_ID",
+   "source_table": "TeamTravelItinerary",
+   "source_column": "TEAM_MEMBERS",
+   "target_table": "Medical_Incident_Map",
+   "target_key": "MIM_ID",
+   "source_rows": 200,
+   "source_distinct": 83,
+   "target_rows": 100,
+   "score": 4.22,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "36",
+    "37",
+    "9",
+    "84",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TeamTravelItinerary.nights -> media_assets.MediaAssetIndex",
+   "source_table": "TeamTravelItinerary",
+   "source_column": "nights",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 200,
+   "source_distinct": 14,
+   "target_rows": 30,
+   "score": 2.83,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11",
+    "9",
+    "2",
+    "8",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TelemetryAnomalyLog.telemetry_ref -> driver_biometric_metrics.Bio_No",
+   "source_table": "TelemetryAnomalyLog",
+   "source_column": "telemetry_ref",
+   "target_table": "driver_biometric_metrics",
+   "target_key": "Bio_No",
+   "source_rows": 200,
+   "source_distinct": 173,
+   "target_rows": 861,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "139",
+    "558",
+    "206",
+    "444",
+    "610"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TicketSales.race_ref -> races.rak_id",
+   "source_table": "TicketSales",
+   "source_column": "race_ref",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 300,
+   "source_distinct": 259,
+   "target_rows": 1125,
+   "score": 3.2,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "679",
+    "615",
+    "999",
+    "370",
+    "1095"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TicketSales.CIRCUIT_REF -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "TicketSales",
+   "source_column": "CIRCUIT_REF",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 300,
+   "source_distinct": 75,
+   "target_rows": 80,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "36",
+    "57",
+    "6",
+    "16",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TireTelemetry.telemetry_ref -> CarTelemetrySnapshot.TELEMETRY_ID",
+   "source_table": "TireTelemetry",
+   "source_column": "telemetry_ref",
+   "target_table": "CarTelemetrySnapshot",
+   "target_key": "TELEMETRY_ID",
+   "source_rows": 600,
+   "source_distinct": 428,
+   "target_rows": 800,
+   "score": 4.01,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "500",
+    "288",
+    "551",
+    "12",
+    "648"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TracksideMedicalFacility.circuit_ref -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "TracksideMedicalFacility",
+   "source_column": "circuit_ref",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 80,
+   "source_distinct": 51,
+   "target_rows": 80,
+   "score": 3.97,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9",
+    "68",
+    "54",
+    "13",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TracksideMedicalFacility.CAPACITY_PATIENTS -> innovation_technologies.TECHNOLOGY_Index",
+   "source_table": "TracksideMedicalFacility",
+   "source_column": "CAPACITY_PATIENTS",
+   "target_table": "innovation_technologies",
+   "target_key": "TECHNOLOGY_Index",
+   "source_rows": 80,
+   "source_distinct": 43,
+   "target_rows": 50,
+   "score": 4.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "46",
+    "5",
+    "15",
+    "37",
+    "16"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TracksideMedicalFacility.staff_count -> media_assets.MediaAssetIndex",
+   "source_table": "TracksideMedicalFacility",
+   "source_column": "staff_count",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 80,
+   "source_distinct": 27,
+   "target_rows": 30,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "28",
+    "18",
+    "9",
+    "4",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TracksideMedicalFacility.HOSPITAL_TRANSFER_MIN -> circuit_aliases.CircuitAlias_Key",
+   "source_table": "TracksideMedicalFacility",
+   "source_column": "HOSPITAL_TRANSFER_MIN",
+   "target_table": "circuit_aliases",
+   "target_key": "CircuitAlias_Key",
+   "source_rows": 80,
+   "source_distinct": 43,
+   "target_rows": 77,
+   "score": 3.66,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "38",
+    "54",
+    "18",
+    "47",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TracksideMedicalFacility.ambulances_on_site -> training_programs.TRAINING_Identifier",
+   "source_table": "TracksideMedicalFacility",
+   "source_column": "ambulances_on_site",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 80,
+   "source_distinct": 5,
+   "target_rows": 10,
+   "score": 2.8,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "2",
+    "1",
+    "5",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WindTunnelResult.dev_program_ref -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "WindTunnelResult",
+   "source_column": "dev_program_ref",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 200,
+   "source_distinct": 71,
+   "target_rows": 80,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "59",
+    "13",
+    "63",
+    "25",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WindTunnelResult.occupancy_hours -> media_assets.MediaAssetIndex",
+   "source_table": "WindTunnelResult",
+   "source_column": "occupancy_hours",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 200,
+   "source_distinct": 16,
+   "target_rows": 30,
+   "score": 3.03,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "8",
+    "14",
+    "9",
+    "16"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "circuit_aliases.cctkeyREF -> circuits.cctkey",
+   "source_table": "circuit_aliases",
+   "source_column": "cctkeyREF",
+   "target_table": "circuits",
+   "target_key": "cctkey",
+   "source_rows": 77,
+   "source_distinct": 77,
+   "target_rows": 77,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "circuit_details.cctRef -> circuits.cctkey",
+   "source_table": "circuit_details",
+   "source_column": "cctRef",
+   "target_table": "circuits",
+   "target_key": "cctkey",
+   "source_rows": 77,
+   "source_distinct": 77,
+   "target_rows": 77,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "36",
+    "51",
+    "11",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "circuit_facilities.CCTKEY_ref -> circuits.cctkey",
+   "source_table": "circuit_facilities",
+   "source_column": "CCTKEY_ref",
+   "target_table": "circuits",
+   "target_key": "cctkey",
+   "source_rows": 77,
+   "source_distinct": 77,
+   "target_rows": 77,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "circuit_facilities.WASTE_SORT_POINTS -> innovation_technologies.TECHNOLOGY_Index",
+   "source_table": "circuit_facilities",
+   "source_column": "WASTE_SORT_POINTS",
+   "target_table": "innovation_technologies",
+   "target_key": "TECHNOLOGY_Index",
+   "source_rows": 77,
+   "source_distinct": 36,
+   "target_rows": 50,
+   "score": 3.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "37",
+    "24",
+    "38",
+    "25",
+    "29"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "circuit_facilities.EV_CHARGERS -> Medical_Incident_Map.MIM_ID",
+   "source_table": "circuit_facilities",
+   "source_column": "EV_CHARGERS",
+   "target_table": "Medical_Incident_Map",
+   "target_key": "MIM_ID",
+   "source_rows": 77,
+   "source_distinct": 56,
+   "target_rows": 100,
+   "score": 3.68,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "51",
+    "100",
+    "90",
+    "40",
+    "36"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructor_profiles.CSTR_ref -> constructors.cstr_key",
+   "source_table": "constructor_profiles",
+   "source_column": "CSTR_ref",
+   "target_table": "constructors",
+   "target_key": "cstr_key",
+   "source_rows": 212,
+   "source_distinct": 212,
+   "target_rows": 212,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructor_profiles.Staff_RaceOps -> CFDSimulation.CFD_ID",
+   "source_table": "constructor_profiles",
+   "source_column": "Staff_RaceOps",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 212,
+   "source_distinct": 66,
+   "target_rows": 200,
+   "score": 3.15,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "105",
+    "109",
+    "120",
+    "94",
+    "110"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructor_profiles.staff_RnD -> regulation_technology_links.RTL_Code",
+   "source_table": "constructor_profiles",
+   "source_column": "staff_RnD",
+   "target_table": "regulation_technology_links",
+   "target_key": "RTL_Code",
+   "source_rows": 212,
+   "source_distinct": 132,
+   "target_rows": 500,
+   "score": 3.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "383",
+    "397",
+    "254",
+    "374",
+    "214"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructor_profiles.STAFF_MANUFACTURING -> sponsor_media_campaigns.SMC_serial",
+   "source_table": "constructor_profiles",
+   "source_column": "STAFF_MANUFACTURING",
+   "target_table": "sponsor_media_campaigns",
+   "target_key": "SMC_serial",
+   "source_rows": 212,
+   "source_distinct": 119,
+   "target_rows": 450,
+   "score": 3.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "289",
+    "224",
+    "277",
+    "287",
+    "211"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructor_profiles.HospitalityCapacity -> EngineTelemetry.ENGINE_TEL_ID",
+   "source_table": "constructor_profiles",
+   "source_column": "HospitalityCapacity",
+   "target_table": "EngineTelemetry",
+   "target_key": "ENGINE_TEL_ID",
+   "source_rows": 212,
+   "source_distinct": 169,
+   "target_rows": 600,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "242",
+    "235",
+    "157",
+    "517",
+    "130"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructor_results.matchref -> races.rak_id",
+   "source_table": "constructor_results",
+   "source_column": "matchref",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 1953,
+   "source_distinct": 905,
+   "target_rows": 1125,
+   "score": 4.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "18",
+    "19",
+    "20",
+    "21",
+    "22"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructor_results.unitnode -> constructors.cstr_key",
+   "source_table": "constructor_results",
+   "source_column": "unitnode",
+   "target_table": "constructors",
+   "target_key": "cstr_key",
+   "source_rows": 1953,
+   "source_distinct": 129,
+   "target_rows": 212,
+   "score": 3.74,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "9",
+    "7",
+    "3",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructor_standings.rref -> races.rak_id",
+   "source_table": "constructor_standings",
+   "source_column": "rref",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 1680,
+   "source_distinct": 856,
+   "target_rows": 1125,
+   "score": 4.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "19",
+    "20",
+    "21",
+    "22",
+    "23"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructor_standings.contunit -> constructors.cstr_key",
+   "source_table": "constructor_standings",
+   "source_column": "contunit",
+   "target_table": "constructors",
+   "target_key": "cstr_key",
+   "source_rows": 1680,
+   "source_distinct": 136,
+   "target_rows": 212,
+   "score": 3.81,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "11",
+    "4",
+    "6",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructor_standings.posno -> media_assets.MediaAssetIndex",
+   "source_table": "constructor_standings",
+   "source_column": "posno",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 1680,
+   "source_distinct": 21,
+   "target_rows": 30,
+   "score": 3.03,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "9",
+    "7",
+    "1",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "driver_biometric_metrics.DRV_REF -> drivers.drv_main",
+   "source_table": "driver_biometric_metrics",
+   "source_column": "DRV_REF",
+   "target_table": "drivers",
+   "target_key": "drv_main",
+   "source_rows": 861,
+   "source_distinct": 861,
+   "target_rows": 861,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "166",
+    "174",
+    "213"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "driver_profiles.drvREF -> drivers.drv_main",
+   "source_table": "driver_profiles",
+   "source_column": "drvREF",
+   "target_table": "drivers",
+   "target_key": "drv_main",
+   "source_rows": 861,
+   "source_distinct": 861,
+   "target_rows": 861,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "driver_social_media.drv_ref -> drivers.drv_main",
+   "source_table": "driver_social_media",
+   "source_column": "drv_ref",
+   "target_table": "drivers",
+   "target_key": "drv_main",
+   "source_rows": 861,
+   "source_distinct": 861,
+   "target_rows": 861,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "driver_social_media.following -> regulation_technology_links.RTL_Code",
+   "source_table": "driver_social_media",
+   "source_column": "following",
+   "target_table": "regulation_technology_links",
+   "target_key": "RTL_Code",
+   "source_rows": 861,
+   "source_distinct": 383,
+   "target_rows": 500,
+   "score": 4.06,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "297",
+    "260",
+    "95",
+    "301",
+    "388"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "driver_standings.rlink -> races.rak_id",
+   "source_table": "driver_standings",
+   "source_column": "rlink",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 2000,
+   "source_distinct": 877,
+   "target_rows": 1125,
+   "score": 4.22,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "19",
+    "21",
+    "22",
+    "23",
+    "24"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "driver_standings.drive_link -> drivers.drv_main",
+   "source_table": "driver_standings",
+   "source_column": "drive_link",
+   "target_table": "drivers",
+   "target_key": "drv_main",
+   "source_rows": 2000,
+   "source_distinct": 537,
+   "target_rows": 861,
+   "score": 3.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "21",
+    "3",
+    "7",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "driver_standings.px -> Broadcast_Media_Map.BMM_ID",
+   "source_table": "driver_standings",
+   "source_column": "px",
+   "target_table": "Broadcast_Media_Map",
+   "target_key": "BMM_ID",
+   "source_rows": 2000,
+   "source_distinct": 84,
+   "target_rows": 150,
+   "score": 2.71,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "10",
+    "15",
+    "3",
+    "11",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "lap_times.rc_index -> races.rak_id",
+   "source_table": "lap_times",
+   "source_column": "rc_index",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 1472,
+   "source_distinct": 507,
+   "target_rows": 1125,
+   "score": 3.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "lap_times.wheel_unit -> drivers.drv_main",
+   "source_table": "lap_times",
+   "source_column": "wheel_unit",
+   "target_table": "drivers",
+   "target_key": "drv_main",
+   "source_rows": 1472,
+   "source_distinct": 128,
+   "target_rows": 861,
+   "score": 2.77,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "9",
+    "20",
+    "22",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "lap_times.lapval -> circuit_aliases.CircuitAlias_Key",
+   "source_table": "lap_times",
+   "source_column": "lapval",
+   "target_table": "circuit_aliases",
+   "target_key": "CircuitAlias_Key",
+   "source_rows": 1472,
+   "source_distinct": 77,
+   "target_rows": 77,
+   "score": 3.97,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "30",
+    "22",
+    "55",
+    "18",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "lap_times.pp -> media_assets.MediaAssetIndex",
+   "source_table": "lap_times",
+   "source_column": "pp",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 1472,
+   "source_distinct": 24,
+   "target_rows": 30,
+   "score": 3.33,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "19",
+    "8",
+    "4",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "media_assets.Duration_Seconds -> sponsor_media_campaigns.SMC_serial",
+   "source_table": "media_assets",
+   "source_column": "Duration_Seconds",
+   "target_table": "sponsor_media_campaigns",
+   "target_key": "SMC_serial",
+   "source_rows": 30,
+   "source_distinct": 27,
+   "target_rows": 450,
+   "score": 2.94,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "274",
+    "289",
+    "241",
+    "243",
+    "176"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "media_assets.ClipCount -> staff_directory.StaffIndex",
+   "source_table": "media_assets",
+   "source_column": "ClipCount",
+   "target_table": "staff_directory",
+   "target_key": "StaffIndex",
+   "source_rows": 30,
+   "source_distinct": 16,
+   "target_rows": 30,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "15",
+    "11",
+    "2",
+    "6",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "media_assets.AudioChannels -> training_programs.TRAINING_Identifier",
+   "source_table": "media_assets",
+   "source_column": "AudioChannels",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 30,
+   "source_distinct": 8,
+   "target_rows": 10,
+   "score": 3.7,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "5",
+    "1",
+    "4",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "media_assets.AvgViewTime_sec -> CFDSimulation.CFD_ID",
+   "source_table": "media_assets",
+   "source_column": "AvgViewTime_sec",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 30,
+   "source_distinct": 28,
+   "target_rows": 200,
+   "score": 3.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "147",
+    "124",
+    "114",
+    "42",
+    "108"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "pit_stops.matchidx -> races.rak_id",
+   "source_table": "pit_stops",
+   "source_column": "matchidx",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 1500,
+   "source_distinct": 283,
+   "target_rows": 1125,
+   "score": 2.26,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "841",
+    "842",
+    "843",
+    "844",
+    "845"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "pit_stops.wunit -> drivers.drv_main",
+   "source_table": "pit_stops",
+   "source_column": "wunit",
+   "target_table": "drivers",
+   "target_key": "drv_main",
+   "source_rows": 1500,
+   "source_distinct": 71,
+   "target_rows": 861,
+   "score": 2.6,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "4",
+    "5",
+    "15",
+    "17"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "pit_stops.pause_no -> training_programs.TRAINING_Identifier",
+   "source_table": "pit_stops",
+   "source_column": "pause_no",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 1500,
+   "source_distinct": 6,
+   "target_rows": 10,
+   "score": 2.6,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "1",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "pit_stops.moment -> circuit_aliases.CircuitAlias_Key",
+   "source_table": "pit_stops",
+   "source_column": "moment",
+   "target_table": "circuit_aliases",
+   "target_key": "CircuitAlias_Key",
+   "source_rows": 1500,
+   "source_distinct": 68,
+   "target_rows": 77,
+   "score": 3.63,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "19",
+    "48",
+    "9",
+    "23",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "qualifying.rbind -> races.rak_id",
+   "source_table": "qualifying",
+   "source_column": "rbind",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 2101,
+   "source_distinct": 486,
+   "target_rows": 1125,
+   "score": 3.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "18",
+    "19",
+    "20",
+    "21",
+    "22"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "qualifying.pilotrec -> drivers.drv_main",
+   "source_table": "qualifying",
+   "source_column": "pilotrec",
+   "target_table": "drivers",
+   "target_key": "drv_main",
+   "source_rows": 2101,
+   "source_distinct": 154,
+   "target_rows": 861,
+   "score": 2.79,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "13",
+    "10",
+    "22",
+    "17"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "qualifying.corptag -> constructors.cstr_key",
+   "source_table": "qualifying",
+   "source_column": "corptag",
+   "target_table": "constructors",
+   "target_key": "cstr_key",
+   "source_rows": 2101,
+   "source_distinct": 46,
+   "target_rows": 212,
+   "score": 2.87,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "6",
+    "7",
+    "11",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "qualifying.px_pos -> media_assets.MediaAssetIndex",
+   "source_table": "qualifying",
+   "source_column": "px_pos",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 2101,
+   "source_distinct": 26,
+   "target_rows": 30,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "4",
+    "9",
+    "11",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "race_incidents.RAK_ref -> races.rak_id",
+   "source_table": "race_incidents",
+   "source_column": "RAK_ref",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 1126,
+   "source_distinct": 723,
+   "target_rows": 1125,
+   "score": 4.11,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "182",
+    "230",
+    "886",
+    "1020",
+    "1112"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "race_incidents.LAP_NUMBER -> circuit_aliases.CircuitAlias_Key",
+   "source_table": "race_incidents",
+   "source_column": "LAP_NUMBER",
+   "target_table": "circuit_aliases",
+   "target_key": "CircuitAlias_Key",
+   "source_rows": 1126,
+   "source_distinct": 70,
+   "target_rows": 77,
+   "score": 4.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "19",
+    "39",
+    "10",
+    "31",
+    "42"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "races.rnum -> media_assets.MediaAssetIndex",
+   "source_table": "races",
+   "source_column": "rnum",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 1125,
+   "source_distinct": 24,
+   "target_rows": 30,
+   "score": 3.33,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "races.trkbind -> circuits.cctkey",
+   "source_table": "races",
+   "source_column": "trkbind",
+   "target_table": "circuits",
+   "target_key": "cctkey",
+   "source_rows": 1125,
+   "source_distinct": 77,
+   "target_rows": 77,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "17",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "regulation_technology_links.REGULATION_REF -> innovation_technologies.TECHNOLOGY_Index",
+   "source_table": "regulation_technology_links",
+   "source_column": "REGULATION_REF",
+   "target_table": "innovation_technologies",
+   "target_key": "TECHNOLOGY_Index",
+   "source_rows": 500,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "19",
+    "11",
+    "33",
+    "31",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "regulation_technology_links.technology_REF -> innovation_technologies.TECHNOLOGY_Index",
+   "source_table": "regulation_technology_links",
+   "source_column": "technology_REF",
+   "target_table": "innovation_technologies",
+   "target_key": "TECHNOLOGY_Index",
+   "source_rows": 500,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "50",
+    "10",
+    "35",
+    "44",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "regulation_technology_links.AuditWindow_Days -> circuit_aliases.CircuitAlias_Key",
+   "source_table": "regulation_technology_links",
+   "source_column": "AuditWindow_Days",
+   "target_table": "circuit_aliases",
+   "target_key": "CircuitAlias_Key",
+   "source_rows": 500,
+   "source_distinct": 51,
+   "target_rows": 77,
+   "score": 3.78,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "31",
+    "32",
+    "30",
+    "55",
+    "56"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "regulation_technology_links.DataPointsRequired -> constructor_profiles.Constructor_Profile_no",
+   "source_table": "regulation_technology_links",
+   "source_column": "DataPointsRequired",
+   "target_table": "constructor_profiles",
+   "target_key": "Constructor_Profile_no",
+   "source_rows": 500,
+   "source_distinct": 147,
+   "target_rows": 212,
+   "score": 3.8,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "147",
+    "148",
+    "185",
+    "161",
+    "82"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsor_entities.PaymentTerms_DAYS -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "sponsor_entities",
+   "source_column": "PaymentTerms_DAYS",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 200,
+   "source_distinct": 3,
+   "target_rows": 80,
+   "score": 3.08,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "30",
+    "60",
+    "45"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsor_entities.ContractTermYears -> training_programs.TRAINING_Identifier",
+   "source_table": "sponsor_entities",
+   "source_column": "ContractTermYears",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 200,
+   "source_distinct": 3,
+   "target_rows": 10,
+   "score": 1.7,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2.0",
+    "1.0",
+    "3.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsor_media_campaigns.Sponsor_ref -> CFDSimulation.CFD_ID",
+   "source_table": "sponsor_media_campaigns",
+   "source_column": "Sponsor_ref",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 450,
+   "source_distinct": 175,
+   "target_rows": 200,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "132",
+    "67",
+    "28",
+    "102",
+    "60"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsor_media_campaigns.Media_Asset_ref -> media_assets.MediaAssetIndex",
+   "source_table": "sponsor_media_campaigns",
+   "source_column": "Media_Asset_ref",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 450,
+   "source_distinct": 30,
+   "target_rows": 30,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "25",
+    "22",
+    "19",
+    "18",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsor_media_campaigns.FrequencyCap -> training_programs.TRAINING_Identifier",
+   "source_table": "sponsor_media_campaigns",
+   "source_column": "FrequencyCap",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 450,
+   "source_distinct": 5,
+   "target_rows": 10,
+   "score": 2.8,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "1",
+    "5",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsor_media_campaigns.InfluencerCount -> media_assets.MediaAssetIndex",
+   "source_table": "sponsor_media_campaigns",
+   "source_column": "InfluencerCount",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 450,
+   "source_distinct": 20,
+   "target_rows": 30,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "10",
+    "6",
+    "8",
+    "15",
+    "16"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsor_technology_agreements.Sponsor_Ref -> CFDSimulation.CFD_ID",
+   "source_table": "sponsor_technology_agreements",
+   "source_column": "Sponsor_Ref",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 500,
+   "source_distinct": 188,
+   "target_rows": 200,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "108",
+    "114",
+    "195",
+    "78",
+    "163"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsor_technology_agreements.Technology_Ref -> innovation_technologies.TECHNOLOGY_Index",
+   "source_table": "sponsor_technology_agreements",
+   "source_column": "Technology_Ref",
+   "target_table": "innovation_technologies",
+   "target_key": "TECHNOLOGY_Index",
+   "source_rows": 500,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "20",
+    "33",
+    "30",
+    "9",
+    "26"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsor_technology_agreements.ReportingFreq_Months -> training_programs.TRAINING_Identifier",
+   "source_table": "sponsor_technology_agreements",
+   "source_column": "ReportingFreq_Months",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 500,
+   "source_distinct": 3,
+   "target_rows": 10,
+   "score": 2.73,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "6",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sprint_results.matchref -> races.rak_id",
+   "source_table": "sprint_results",
+   "source_column": "matchref",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 360,
+   "source_distinct": 18,
+   "target_rows": 1125,
+   "score": 1.65,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1061",
+    "1065",
+    "1071",
+    "1077",
+    "1084"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sprint_results.unitdrive -> race_incidents.INCIDENT_NUMBER",
+   "source_table": "sprint_results",
+   "source_column": "unitdrive",
+   "target_table": "race_incidents",
+   "target_key": "INCIDENT_NUMBER",
+   "source_rows": 360,
+   "source_distinct": 31,
+   "target_rows": 1126,
+   "score": 2.19,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "830",
+    "1",
+    "822",
+    "844",
+    "846"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sprint_results.makeref -> constructors.cstr_key",
+   "source_table": "sprint_results",
+   "source_column": "makeref",
+   "target_table": "constructors",
+   "target_key": "cstr_key",
+   "source_rows": 360,
+   "source_distinct": 12,
+   "target_rows": 212,
+   "score": 2.97,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9",
+    "131",
+    "6",
+    "1",
+    "214"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sprint_results.rno -> Medical_Incident_Map.MIM_ID",
+   "source_table": "sprint_results",
+   "source_column": "rno",
+   "target_table": "Medical_Incident_Map",
+   "target_key": "MIM_ID",
+   "source_rows": 360,
+   "source_distinct": 33,
+   "target_rows": 100,
+   "score": 2.53,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "33",
+    "44",
+    "77",
+    "16",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "staff_directory.OnTrackDaysYear -> Broadcast_Media_Map.BMM_ID",
+   "source_table": "staff_directory",
+   "source_column": "OnTrackDaysYear",
+   "target_table": "Broadcast_Media_Map",
+   "target_key": "BMM_ID",
+   "source_rows": 30,
+   "source_distinct": 27,
+   "target_rows": 150,
+   "score": 3.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "54",
+    "113",
+    "91",
+    "115",
+    "68"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "staff_directory.ShoeSize_EU -> circuit_aliases.CircuitAlias_Key",
+   "source_table": "staff_directory",
+   "source_column": "ShoeSize_EU",
+   "target_table": "circuit_aliases",
+   "target_key": "CircuitAlias_Key",
+   "source_rows": 30,
+   "source_distinct": 6,
+   "target_rows": 77,
+   "score": 2.16,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "39.0",
+    "40.0",
+    "43.0",
+    "42.0",
+    "41.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "staff_training_enrollments.Staff_ref -> media_assets.MediaAssetIndex",
+   "source_table": "staff_training_enrollments",
+   "source_column": "Staff_ref",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 500,
+   "source_distinct": 30,
+   "target_rows": 30,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "15",
+    "10",
+    "8",
+    "27",
+    "23"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "staff_training_enrollments.Training_ref -> training_programs.TRAINING_Identifier",
+   "source_table": "staff_training_enrollments",
+   "source_column": "Training_ref",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 500,
+   "source_distinct": 10,
+   "target_rows": 10,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "8",
+    "3",
+    "7",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "staff_training_enrollments.Attempts -> training_programs.TRAINING_Identifier",
+   "source_table": "staff_training_enrollments",
+   "source_column": "Attempts",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 500,
+   "source_distinct": 3,
+   "target_rows": 10,
+   "score": 2.2,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "staff_training_enrollments.ReminderDaysBefore -> media_assets.MediaAssetIndex",
+   "source_table": "staff_training_enrollments",
+   "source_column": "ReminderDaysBefore",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 500,
+   "source_distinct": 21,
+   "target_rows": 30,
+   "score": 3.66,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "25",
+    "18",
+    "29",
+    "24",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "staff_training_enrollments.MentorSessions -> training_programs.TRAINING_Identifier",
+   "source_table": "staff_training_enrollments",
+   "source_column": "MentorSessions",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 500,
+   "source_distinct": 5,
+   "target_rows": 10,
+   "score": 2.8,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "4",
+    "2",
+    "3",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "strategy_scenarios.RAK_ref -> races.rak_id",
+   "source_table": "strategy_scenarios",
+   "source_column": "RAK_ref",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 1126,
+   "source_distinct": 723,
+   "target_rows": 1125,
+   "score": 4.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "636",
+    "602",
+    "900",
+    "810",
+    "13"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "strategy_scenarios.STOP1_LAP -> media_assets.MediaAssetIndex",
+   "source_table": "strategy_scenarios",
+   "source_column": "STOP1_LAP",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 1126,
+   "source_distinct": 21,
+   "target_rows": 30,
+   "score": 3.66,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "24",
+    "23",
+    "18",
+    "19",
+    "29"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "strategy_scenarios.stop2_lap -> circuit_aliases.CircuitAlias_Key",
+   "source_table": "strategy_scenarios",
+   "source_column": "stop2_lap",
+   "target_table": "circuit_aliases",
+   "target_key": "CircuitAlias_Key",
+   "source_rows": 1126,
+   "source_distinct": 26,
+   "target_rows": 77,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "45",
+    "28",
+    "43",
+    "49",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "strategy_scenarios.Fuel_Save_Laps -> training_programs.TRAINING_Identifier",
+   "source_table": "strategy_scenarios",
+   "source_column": "Fuel_Save_Laps",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 1126,
+   "source_distinct": 5,
+   "target_rows": 10,
+   "score": 2.8,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "5",
+    "4",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "strategy_scenarios.PushLaps_Count -> training_programs.TRAINING_Identifier",
+   "source_table": "strategy_scenarios",
+   "source_column": "PushLaps_Count",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 1126,
+   "source_distinct": 6,
+   "target_rows": 10,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "10",
+    "9",
+    "6",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "strategy_scenarios.Expected_Finish_Pos -> training_programs.TRAINING_Identifier",
+   "source_table": "strategy_scenarios",
+   "source_column": "Expected_Finish_Pos",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 1126,
+   "source_distinct": 5,
+   "target_rows": 10,
+   "score": 2.8,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "5",
+    "1",
+    "2",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "strategy_scenarios.Rival_Undercut_Window -> training_programs.TRAINING_Identifier",
+   "source_table": "strategy_scenarios",
+   "source_column": "Rival_Undercut_Window",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 1126,
+   "source_distinct": 3,
+   "target_rows": 10,
+   "score": 2.2,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "technical_regulations.REVIEW_CYCLE_MONTHS -> media_assets.MediaAssetIndex",
+   "source_table": "technical_regulations",
+   "source_column": "REVIEW_CYCLE_MONTHS",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 50,
+   "source_distinct": 3,
+   "target_rows": 30,
+   "score": 3.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "24",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "technical_regulations.UpdateCount -> training_programs.TRAINING_Identifier",
+   "source_table": "technical_regulations",
+   "source_column": "UpdateCount",
+   "target_table": "training_programs",
+   "target_key": "TRAINING_Identifier",
+   "source_rows": 50,
+   "source_distinct": 5,
+   "target_rows": 10,
+   "score": 2.8,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "4",
+    "3",
+    "2",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "training_programs.Capacity -> media_assets.MediaAssetIndex",
+   "source_table": "training_programs",
+   "source_column": "Capacity",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 10,
+   "source_distinct": 8,
+   "target_rows": 30,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "23",
+    "28",
+    "24",
+    "12",
+    "22"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "training_programs.RetakeWindow_Days -> circuit_aliases.CircuitAlias_Key",
+   "source_table": "training_programs",
+   "source_column": "RetakeWindow_Days",
+   "target_table": "circuit_aliases",
+   "target_key": "CircuitAlias_Key",
+   "source_rows": 10,
+   "source_distinct": 9,
+   "target_rows": 77,
+   "score": 3.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "46",
+    "12",
+    "40",
+    "13",
+    "49"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "training_programs.Feedback_N -> constructor_profiles.Constructor_Profile_no",
+   "source_table": "training_programs",
+   "source_column": "Feedback_N",
+   "target_table": "constructor_profiles",
+   "target_key": "Constructor_Profile_no",
+   "source_rows": 10,
+   "source_distinct": 10,
+   "target_rows": 212,
+   "score": 3.07,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "125",
+    "62",
+    "110",
+    "53",
+    "161"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "training_programs.Expiry_Months -> innovation_technologies.TECHNOLOGY_Index",
+   "source_table": "training_programs",
+   "source_column": "Expiry_Months",
+   "target_table": "innovation_technologies",
+   "target_key": "TECHNOLOGY_Index",
+   "source_rows": 10,
+   "source_distinct": 7,
+   "target_rows": 50,
+   "score": 3.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "33",
+    "18",
+    "15",
+    "23"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "weather_observations.RAK_REF -> races.rak_id",
+   "source_table": "weather_observations",
+   "source_column": "RAK_REF",
+   "target_table": "races",
+   "target_key": "rak_id",
+   "source_rows": 1126,
+   "source_distinct": 720,
+   "target_rows": 1125,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "148",
+    "445",
+    "4",
+    "315",
+    "146"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Broadcast_Media_Map.BMM_ID -> Development_Technology_Map.DTM_ID",
+   "source_table": "Broadcast_Media_Map",
+   "source_column": "BMM_ID",
+   "target_table": "Development_Technology_Map",
+   "target_key": "DTM_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CFDSimulation.CFD_ID -> CostCapTracking.COSTCAP_ID",
+   "source_table": "CFDSimulation",
+   "source_column": "CFD_ID",
+   "target_table": "CostCapTracking",
+   "target_key": "COSTCAP_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CarDevelopmentProgram.DEV_PROGRAM_ID -> DriverMedicalRecord.MEDICAL_ID",
+   "source_table": "CarDevelopmentProgram",
+   "source_column": "DEV_PROGRAM_ID",
+   "target_table": "DriverMedicalRecord",
+   "target_key": "MEDICAL_ID",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CarTelemetrySnapshot.TELEMETRY_ID -> driver_biometric_metrics.Bio_No",
+   "source_table": "CarTelemetrySnapshot",
+   "source_column": "TELEMETRY_ID",
+   "target_table": "driver_biometric_metrics",
+   "target_key": "Bio_No",
+   "source_rows": 800,
+   "source_distinct": 800,
+   "target_rows": 861,
+   "score": 3.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CostCapTracking.COSTCAP_ID -> CFDSimulation.CFD_ID",
+   "source_table": "CostCapTracking",
+   "source_column": "COSTCAP_ID",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Development_Technology_Map.DTM_ID -> Broadcast_Media_Map.BMM_ID",
+   "source_table": "Development_Technology_Map",
+   "source_column": "DTM_ID",
+   "target_table": "Broadcast_Media_Map",
+   "target_key": "BMM_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DriverMedicalRecord.MEDICAL_ID -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "DriverMedicalRecord",
+   "source_column": "MEDICAL_ID",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EngineTelemetry.ENGINE_TEL_ID -> TireTelemetry.TIRE_TEL_ID",
+   "source_table": "EngineTelemetry",
+   "source_column": "ENGINE_TEL_ID",
+   "target_table": "TireTelemetry",
+   "target_key": "TIRE_TEL_ID",
+   "source_rows": 600,
+   "source_distinct": 600,
+   "target_rows": 600,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentShipment.SHIPMENT_ID -> Broadcast_Media_Map.BMM_ID",
+   "source_table": "EquipmentShipment",
+   "source_column": "SHIPMENT_ID",
+   "target_table": "Broadcast_Media_Map",
+   "target_key": "BMM_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FanZoneActivity.ACTIVITY_ID -> Broadcast_Media_Map.BMM_ID",
+   "source_table": "FanZoneActivity",
+   "source_column": "ACTIVITY_ID",
+   "target_table": "Broadcast_Media_Map",
+   "target_key": "BMM_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Fan_Race_Attendance.ATTENDANCE_ID -> CFDSimulation.CFD_ID",
+   "source_table": "Fan_Race_Attendance",
+   "source_column": "ATTENDANCE_ID",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Financial_Sponsor_Map.FSM_ID -> CFDSimulation.CFD_ID",
+   "source_table": "Financial_Sponsor_Map",
+   "source_column": "FSM_ID",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FreightContainer.CONTAINER_ID -> MerchandiseSales.MERCH_ID",
+   "source_table": "FreightContainer",
+   "source_column": "CONTAINER_ID",
+   "target_table": "MerchandiseSales",
+   "target_key": "MERCH_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Logistics_Circuit_Map.LCM_ID -> CFDSimulation.CFD_ID",
+   "source_table": "Logistics_Circuit_Map",
+   "source_column": "LCM_ID",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Medical_Incident_Map.MIM_ID -> SensorConfiguration.SENSOR_CONFIG_ID",
+   "source_table": "Medical_Incident_Map",
+   "source_column": "MIM_ID",
+   "target_table": "SensorConfiguration",
+   "target_key": "SENSOR_CONFIG_ID",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MerchandiseSales.MERCH_ID -> FreightContainer.CONTAINER_ID",
+   "source_table": "MerchandiseSales",
+   "source_column": "MERCH_ID",
+   "target_table": "FreightContainer",
+   "target_key": "CONTAINER_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RegulatoryComplianceLog.COMPLIANCE_LOG_ID -> CFDSimulation.CFD_ID",
+   "source_table": "RegulatoryComplianceLog",
+   "source_column": "COMPLIANCE_LOG_ID",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RevenueStream.REVENUE_ID -> Broadcast_Media_Map.BMM_ID",
+   "source_table": "RevenueStream",
+   "source_column": "REVENUE_ID",
+   "target_table": "Broadcast_Media_Map",
+   "target_key": "BMM_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SafetyEquipmentInspection.INSPECTION_ID -> CFDSimulation.CFD_ID",
+   "source_table": "SafetyEquipmentInspection",
+   "source_column": "INSPECTION_ID",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SensorConfiguration.SENSOR_CONFIG_ID -> Medical_Incident_Map.MIM_ID",
+   "source_table": "SensorConfiguration",
+   "source_column": "SENSOR_CONFIG_ID",
+   "target_table": "Medical_Incident_Map",
+   "target_key": "MIM_ID",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "StreamingMetrics.STREAM_ID -> CFDSimulation.CFD_ID",
+   "source_table": "StreamingMetrics",
+   "source_column": "STREAM_ID",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TVBroadcast.BROADCAST_ID -> Medical_Incident_Map.MIM_ID",
+   "source_table": "TVBroadcast",
+   "source_column": "BROADCAST_ID",
+   "target_table": "Medical_Incident_Map",
+   "target_key": "MIM_ID",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TeamBudget.BUDGET_ID -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "TeamBudget",
+   "source_column": "BUDGET_ID",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TeamTravelItinerary.ITINERARY_ID -> CFDSimulation.CFD_ID",
+   "source_table": "TeamTravelItinerary",
+   "source_column": "ITINERARY_ID",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TelemetryAnomalyLog.ANOMALY_ID -> CFDSimulation.CFD_ID",
+   "source_table": "TelemetryAnomalyLog",
+   "source_column": "ANOMALY_ID",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TicketSales.TICKET_ID -> FreightContainer.CONTAINER_ID",
+   "source_table": "TicketSales",
+   "source_column": "TICKET_ID",
+   "target_table": "FreightContainer",
+   "target_key": "CONTAINER_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TireTelemetry.TIRE_TEL_ID -> EngineTelemetry.ENGINE_TEL_ID",
+   "source_table": "TireTelemetry",
+   "source_column": "TIRE_TEL_ID",
+   "target_table": "EngineTelemetry",
+   "target_key": "ENGINE_TEL_ID",
+   "source_rows": 600,
+   "source_distinct": 600,
+   "target_rows": 600,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TracksideMedicalFacility.FACILITY_ID -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "TracksideMedicalFacility",
+   "source_column": "FACILITY_ID",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WindTunnelResult.WT_RESULT_ID -> CFDSimulation.CFD_ID",
+   "source_table": "WindTunnelResult",
+   "source_column": "WT_RESULT_ID",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "circuit_aliases.CircuitAlias_Key -> circuit_details.CIRCUIT_DETAIL_CODE",
+   "source_table": "circuit_aliases",
+   "source_column": "CircuitAlias_Key",
+   "target_table": "circuit_details",
+   "target_key": "CIRCUIT_DETAIL_CODE",
+   "source_rows": 77,
+   "source_distinct": 77,
+   "target_rows": 77,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "circuit_details.CIRCUIT_DETAIL_CODE -> circuit_aliases.CircuitAlias_Key",
+   "source_table": "circuit_details",
+   "source_column": "CIRCUIT_DETAIL_CODE",
+   "target_table": "circuit_aliases",
+   "target_key": "CircuitAlias_Key",
+   "source_rows": 77,
+   "source_distinct": 77,
+   "target_rows": 77,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "circuit_facilities.CircuitFacilityCode -> circuit_aliases.CircuitAlias_Key",
+   "source_table": "circuit_facilities",
+   "source_column": "CircuitFacilityCode",
+   "target_table": "circuit_aliases",
+   "target_key": "CircuitAlias_Key",
+   "source_rows": 77,
+   "source_distinct": 77,
+   "target_rows": 77,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "circuits.cctkey -> CarDevelopmentProgram.DEV_PROGRAM_ID",
+   "source_table": "circuits",
+   "source_column": "cctkey",
+   "target_table": "CarDevelopmentProgram",
+   "target_key": "DEV_PROGRAM_ID",
+   "source_rows": 77,
+   "source_distinct": 77,
+   "target_rows": 80,
+   "score": 2.91,
+   "signals": [
+    "spread",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructor_profiles.Constructor_Profile_no -> FreightContainer.CONTAINER_ID",
+   "source_table": "constructor_profiles",
+   "source_column": "Constructor_Profile_no",
+   "target_table": "FreightContainer",
+   "target_key": "CONTAINER_ID",
+   "source_rows": 212,
+   "source_distinct": 212,
+   "target_rows": 300,
+   "score": 2.61,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "constructors.cstr_key -> sprint_results.srescode",
+   "source_table": "constructors",
+   "source_column": "cstr_key",
+   "target_table": "sprint_results",
+   "target_key": "srescode",
+   "source_rows": 212,
+   "source_distinct": 212,
+   "target_rows": 360,
+   "score": 2.27,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "driver_biometric_metrics.Bio_No -> driver_profiles.DRIVER_Profile_Code",
+   "source_table": "driver_biometric_metrics",
+   "source_column": "Bio_No",
+   "target_table": "driver_profiles",
+   "target_key": "DRIVER_Profile_Code",
+   "source_rows": 861,
+   "source_distinct": 861,
+   "target_rows": 861,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "driver_profiles.DRIVER_Profile_Code -> driver_biometric_metrics.Bio_No",
+   "source_table": "driver_profiles",
+   "source_column": "DRIVER_Profile_Code",
+   "target_table": "driver_biometric_metrics",
+   "target_key": "Bio_No",
+   "source_rows": 861,
+   "source_distinct": 861,
+   "target_rows": 861,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "driver_social_media.DRIVER_SOCIAL_Code -> driver_biometric_metrics.Bio_No",
+   "source_table": "driver_social_media",
+   "source_column": "DRIVER_SOCIAL_Code",
+   "target_table": "driver_biometric_metrics",
+   "target_key": "Bio_No",
+   "source_rows": 861,
+   "source_distinct": 861,
+   "target_rows": 861,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "drivers.drv_main -> race_incidents.INCIDENT_NUMBER",
+   "source_table": "drivers",
+   "source_column": "drv_main",
+   "target_table": "race_incidents",
+   "target_key": "INCIDENT_NUMBER",
+   "source_rows": 861,
+   "source_distinct": 861,
+   "target_rows": 1126,
+   "score": 2.29,
+   "signals": [
+    "spread",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "innovation_technologies.TECHNOLOGY_Index -> technical_regulations.Regulation_Key",
+   "source_table": "innovation_technologies",
+   "source_column": "TECHNOLOGY_Index",
+   "target_table": "technical_regulations",
+   "target_key": "Regulation_Key",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "media_assets.MediaAssetIndex -> staff_directory.StaffIndex",
+   "source_table": "media_assets",
+   "source_column": "MediaAssetIndex",
+   "target_table": "staff_directory",
+   "target_key": "StaffIndex",
+   "source_rows": 30,
+   "source_distinct": 30,
+   "target_rows": 30,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "race_incidents.INCIDENT_NUMBER -> strategy_scenarios.Strategy_Index",
+   "source_table": "race_incidents",
+   "source_column": "INCIDENT_NUMBER",
+   "target_table": "strategy_scenarios",
+   "target_key": "Strategy_Index",
+   "source_rows": 1126,
+   "source_distinct": 1126,
+   "target_rows": 1126,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "regulation_technology_links.RTL_Code -> sponsor_technology_agreements.STA_tag",
+   "source_table": "regulation_technology_links",
+   "source_column": "RTL_Code",
+   "target_table": "sponsor_technology_agreements",
+   "target_key": "STA_tag",
+   "source_rows": 500,
+   "source_distinct": 500,
+   "target_rows": 500,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsor_entities.Sponsor_Record -> CFDSimulation.CFD_ID",
+   "source_table": "sponsor_entities",
+   "source_column": "Sponsor_Record",
+   "target_table": "CFDSimulation",
+   "target_key": "CFD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsor_media_campaigns.SMC_serial -> regulation_technology_links.RTL_Code",
+   "source_table": "sponsor_media_campaigns",
+   "source_column": "SMC_serial",
+   "target_table": "regulation_technology_links",
+   "target_key": "RTL_Code",
+   "source_rows": 450,
+   "source_distinct": 450,
+   "target_rows": 500,
+   "score": 3.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sponsor_technology_agreements.STA_tag -> regulation_technology_links.RTL_Code",
+   "source_table": "sponsor_technology_agreements",
+   "source_column": "STA_tag",
+   "target_table": "regulation_technology_links",
+   "target_key": "RTL_Code",
+   "source_rows": 500,
+   "source_distinct": 500,
+   "target_rows": 500,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sprint_results.srescode -> sponsor_media_campaigns.SMC_serial",
+   "source_table": "sprint_results",
+   "source_column": "srescode",
+   "target_table": "sponsor_media_campaigns",
+   "target_key": "SMC_serial",
+   "source_rows": 360,
+   "source_distinct": 360,
+   "target_rows": 450,
+   "score": 2.4,
+   "signals": [
+    "spread",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "staff_directory.StaffIndex -> media_assets.MediaAssetIndex",
+   "source_table": "staff_directory",
+   "source_column": "StaffIndex",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 30,
+   "source_distinct": 30,
+   "target_rows": 30,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "staff_training_enrollments.ENROLLMENT_Record -> regulation_technology_links.RTL_Code",
+   "source_table": "staff_training_enrollments",
+   "source_column": "ENROLLMENT_Record",
+   "target_table": "regulation_technology_links",
+   "target_key": "RTL_Code",
+   "source_rows": 500,
+   "source_distinct": 500,
+   "target_rows": 500,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "strategy_scenarios.Strategy_Index -> race_incidents.INCIDENT_NUMBER",
+   "source_table": "strategy_scenarios",
+   "source_column": "Strategy_Index",
+   "target_table": "race_incidents",
+   "target_key": "INCIDENT_NUMBER",
+   "source_rows": 1126,
+   "source_distinct": 1126,
+   "target_rows": 1126,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "technical_regulations.Regulation_Key -> innovation_technologies.TECHNOLOGY_Index",
+   "source_table": "technical_regulations",
+   "source_column": "Regulation_Key",
+   "target_table": "innovation_technologies",
+   "target_key": "TECHNOLOGY_Index",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "training_programs.TRAINING_Identifier -> media_assets.MediaAssetIndex",
+   "source_table": "training_programs",
+   "source_column": "TRAINING_Identifier",
+   "target_table": "media_assets",
+   "target_key": "MediaAssetIndex",
+   "source_rows": 10,
+   "source_distinct": 10,
+   "target_rows": 30,
+   "score": 1.43,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "weather_observations.WeatherObs_Record -> race_incidents.INCIDENT_NUMBER",
+   "source_table": "weather_observations",
+   "source_column": "WeatherObs_Record",
+   "target_table": "race_incidents",
+   "target_key": "INCIDENT_NUMBER",
+   "source_rows": 1126,
+   "source_distinct": 1126,
+   "target_rows": 1126,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

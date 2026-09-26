@@ -1,0 +1,9 @@
+{"at": 1789256785.207618, "query": "LIST st, ci, zp, sta FROM Satscore has SatscoreNumGE1500 g AND ALSO has SatscoreNumTstTakr t AND ALSO (g / t) AS r AND ALSO has SchoolStreet st AND ALSO has SchoolCity ci AND ALSO has SchoolZip zp AND ALSO has SchoolState sta ORDERED WITH r ASCENDING THE FIRST 1"}
+{"at": 1789256814.9422011, "query": "LIST n FROM Frpm [has SchoolDOC: '31'] has SchoolSchool n AND ALSO has FrpmEnrollmentK12 e ORDERED WITH e DESCENDING THE FIRST 1"}
+{"at": 1789256816.3974679, "query": "LIST g FROM School has SchoolGSoffered g AND ALSO has SchoolLongitude lo ORDERED WITH abs(lo) DESCENDING THE FIRST 1"}
+{"at": 1789256823.2363951, "query": "LIST g FROM School has SchoolLongitude lo AND ALSO OPTIONALLY has SchoolGSoffered g ORDERED WITH abs(lo) DESCENDING THE FIRST 1"}
+{"at": 1789256825.5454788, "query": "LIST n, d FROM Frpm [has SchoolFundingType: 'Locally funded'] has SchoolSchool n AND ALSO has SchoolDOC d AND ALSO has FrpmEnrollmentK12 k AND ALSO has FrpmEnrollmentAges517 a WHERE (k - a) > THE AVERAGE x IN (Frpm [has SchoolFundingType: 'Locally funded'] has FrpmEnrollmentK12 k2 AND ALSO has FrpmEnrollmentAges517 a2 AND ALSO (k2 - a2) AS x)"}
+{"at": 1789256831.343512, "query": "LIST n FROM Frpm has FrpmSchoolName n AND ALSO has FrpmPercentEligibleFreeK12 p AND ALSO has Satscore has SatscoreNumGE1500 g WHERE p > 0.1 AND g > 0"}
+{"at": 1789256856.5293581, "query": "LIST n FROM School Frpm has FrpmSchoolName n AND ALSO Frpm has FrpmPercentEligibleFreeK12 p AND ALSO Satscore has SatscoreNumGE1500 g WHERE p > 0.1 AND g > 0"}
+{"at": 1789256871.86003, "query": "LIST n FROM Satscore has FrpmSchoolName n AND ALSO has FrpmPercentEligibleFreeK12 p AND ALSO has SatscoreNumGE1500 g WHERE p > 0.1 AND g > 0"}
+{"at": 1789256880.1317902, "query": "LIST c, n FROM School s [has SchoolVirtual: 'F'] has SchoolCounty c AND ALSO THE COUNT OF s GROUPED BY c AS n WHERE c = 'San Diego' OR c = 'Santa Barbara' ORDERED WITH n DESCENDING THE FIRST 1"}

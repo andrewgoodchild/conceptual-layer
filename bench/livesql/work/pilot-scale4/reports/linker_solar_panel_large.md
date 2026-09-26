@@ -1,0 +1,1 @@
+Links for 10 questions; least sure of _5 (the view hid 8 of elec_perf_snapshot's fields -- 'and 8 more fields' -- so the energy-yield paths are guesses; fixed in annotate.py before any writer ran), panel-model routes, voltage reading, gross power.

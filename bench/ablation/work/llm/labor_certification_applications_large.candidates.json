@@ -1,0 +1,1203 @@
+{
+ "database": "labor_certification_applications_large",
+ "tables": [
+  "AttorneyPerformanceMetric",
+  "AttorneyTrainingRecord",
+  "BenefitClaimDetail",
+  "CaseCorrespondenceLog",
+  "CaseDecisionAudit",
+  "CaseFraudIndicator",
+  "CertificationVerificationLog",
+  "ComplianceScoreHistory",
+  "CorrespondenceResponseTracking",
+  "DecisionAuditAppeal",
+  "EmployerComplianceScore",
+  "EmployerLaborCondition",
+  "FraudInvestigationAction",
+  "InspectionRemediationTask",
+  "LaborConditionAmendment",
+  "RecruitmentSourceAnalytic",
+  "SourceChannelPerformance",
+  "VisaExtensionOutcome",
+  "WorkerHealthBenefit",
+  "WorkerSkillCertification",
+  "WorksiteInspection",
+  "attorney",
+  "attorney_case_specialization",
+  "case_attorney",
+  "case_processing_timeline",
+  "case_rfe_details",
+  "case_worksite",
+  "cases",
+  "data_quality_log",
+  "emp_compliance_audit",
+  "emp_diversity_metrics",
+  "emp_financials_details",
+  "employer",
+  "employer_benefit_package",
+  "employer_poc",
+  "preparer",
+  "prevailing_wage",
+  "recruitment_campaign",
+  "recruitment_campaign_case_link",
+  "recruitment_campaign_worksite_link",
+  "training_program",
+  "visa_extension_request",
+  "wage_history",
+  "worker_dependent",
+  "worker_education",
+  "worker_position_history",
+  "worker_profile",
+  "worksite",
+  "worksite_environmental_metrics"
+ ],
+ "candidates": [
+  {
+   "id": "AttorneyPerformanceMetric.law_ref -> attorney.lawmail",
+   "source_table": "AttorneyPerformanceMetric",
+   "source_column": "law_ref",
+   "target_table": "attorney",
+   "target_key": "lawmail",
+   "source_rows": 1532,
+   "source_distinct": 383,
+   "target_rows": 386,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>"
+   ],
+   "target_samples": [
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>"
+   ]
+  },
+  {
+   "id": "AttorneyTrainingRecord.perf_metric_ref -> AttorneyPerformanceMetric.APM_code",
+   "source_table": "AttorneyTrainingRecord",
+   "source_column": "perf_metric_ref",
+   "target_table": "AttorneyPerformanceMetric",
+   "target_key": "APM_code",
+   "source_rows": 3781,
+   "source_distinct": 1406,
+   "target_rows": 1532,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "APM-A0F6A10F19C8",
+    "APM-04EAB05F820A",
+    "APM-AB21449DE6CD",
+    "APM-0C000E6A1BC1",
+    "APM-F171507AA970"
+   ],
+   "target_samples": [
+    "APM-00CF5B84D709",
+    "APM-015FF29852C9",
+    "APM-01D215031802",
+    "APM-01E5A937B07B",
+    "APM-02108DEB4734"
+   ]
+  },
+  {
+   "id": "BenefitClaimDetail.benefit_ref -> WorkerHealthBenefit.WHB_code",
+   "source_table": "BenefitClaimDetail",
+   "source_column": "benefit_ref",
+   "target_table": "WorkerHealthBenefit",
+   "target_key": "WHB_code",
+   "source_rows": 2917,
+   "source_distinct": 1103,
+   "target_rows": 1197,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WHB-30D27EF261F4",
+    "WHB-044AF306F561",
+    "WHB-FA98788770C6",
+    "WHB-EED5579EC794",
+    "WHB-ED186BFC49F9"
+   ],
+   "target_samples": [
+    "WHB-000822632BB7",
+    "WHB-00491928D222",
+    "WHB-004BF2866BC5",
+    "WHB-0062C2289442",
+    "WHB-00951EA9A254"
+   ]
+  },
+  {
+   "id": "CaseCorrespondenceLog.file_ref -> cases.filekey",
+   "source_table": "CaseCorrespondenceLog",
+   "source_column": "file_ref",
+   "target_table": "cases",
+   "target_key": "filekey",
+   "source_rows": 4495,
+   "source_distinct": 977,
+   "target_rows": 981,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "I-200-23355-584221",
+    "I-200-23355-583962",
+    "I-200-23355-584044",
+    "I-200-23355-586934",
+    "I-200-23355-586513"
+   ],
+   "target_samples": [
+    "I-200-23355-583660",
+    "I-200-23355-583661",
+    "I-200-23355-583662",
+    "I-200-23355-583668",
+    "I-200-23355-583669"
+   ]
+  },
+  {
+   "id": "CaseDecisionAudit.file_ref -> cases.filekey",
+   "source_table": "CaseDecisionAudit",
+   "source_column": "file_ref",
+   "target_table": "cases",
+   "target_key": "filekey",
+   "source_rows": 2276,
+   "source_distinct": 887,
+   "target_rows": 981,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "I-200-23355-583809",
+    "I-200-23355-584810",
+    "I-200-23355-584738",
+    "I-200-23356-587313",
+    "I-200-23356-587360"
+   ],
+   "target_samples": [
+    "I-200-23355-583660",
+    "I-200-23355-583661",
+    "I-200-23355-583662",
+    "I-200-23355-583668",
+    "I-200-23355-583669"
+   ]
+  },
+  {
+   "id": "CaseFraudIndicator.file_ref -> cases.filekey",
+   "source_table": "CaseFraudIndicator",
+   "source_column": "file_ref",
+   "target_table": "cases",
+   "target_key": "filekey",
+   "source_rows": 3421,
+   "source_distinct": 955,
+   "target_rows": 981,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "I-200-23355-584801",
+    "I-200-23355-585332",
+    "I-200-23356-587404",
+    "I-200-23355-584044",
+    "I-201-23355-585850"
+   ],
+   "target_samples": [
+    "I-200-23355-583660",
+    "I-200-23355-583661",
+    "I-200-23355-583662",
+    "I-200-23355-583668",
+    "I-200-23355-583669"
+   ]
+  },
+  {
+   "id": "CertificationVerificationLog.cert_ref -> WorkerSkillCertification.WSC_code",
+   "source_table": "CertificationVerificationLog",
+   "source_column": "cert_ref",
+   "target_table": "WorkerSkillCertification",
+   "target_key": "WSC_code",
+   "source_rows": 3847,
+   "source_distinct": 936,
+   "target_rows": 944,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WSC-7AE99347910E",
+    "WSC-44019F229F0B",
+    "WSC-0B20953D3AFB",
+    "WSC-34B8E20846F8",
+    "WSC-CCE026E4F2D7"
+   ],
+   "target_samples": [
+    "WSC-002AEF2B2592",
+    "WSC-00342911B8B1",
+    "WSC-0121BBD43123",
+    "WSC-016C74CFDBEE",
+    "WSC-01F47B8BD7B0"
+   ]
+  },
+  {
+   "id": "ComplianceScoreHistory.score_ref -> EmployerComplianceScore.ECS_code",
+   "source_table": "ComplianceScoreHistory",
+   "source_column": "score_ref",
+   "target_table": "EmployerComplianceScore",
+   "target_key": "ECS_code",
+   "source_rows": 6512,
+   "source_distinct": 1748,
+   "target_rows": 1791,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ECS-6A2B560D1CBD",
+    "ECS-8D77CB03F292",
+    "ECS-4F69883E0AE2",
+    "ECS-EAA22B1EA79E",
+    "ECS-BFD08CA73538"
+   ],
+   "target_samples": [
+    "ECS-00011A24BFD1",
+    "ECS-008EDCC8FCFB",
+    "ECS-00DFC324F30D",
+    "ECS-013DC3E7ADA0",
+    "ECS-01628FB632EC"
+   ]
+  },
+  {
+   "id": "CorrespondenceResponseTracking.correspondence_ref -> CaseCorrespondenceLog.CCL_code",
+   "source_table": "CorrespondenceResponseTracking",
+   "source_column": "correspondence_ref",
+   "target_table": "CaseCorrespondenceLog",
+   "target_key": "CCL_code",
+   "source_rows": 17012,
+   "source_distinct": 4391,
+   "target_rows": 4495,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CCL-35EF57B3B5D2",
+    "CCL-D14125EE36D4",
+    "CCL-8692C3877082",
+    "CCL-862577F717D5",
+    "CCL-F52A229584F6"
+   ],
+   "target_samples": [
+    "CCL-000F61E33706",
+    "CCL-00193141A39C",
+    "CCL-001A3DDE112F",
+    "CCL-001C83E3FE17",
+    "CCL-00219DEA9C28"
+   ]
+  },
+  {
+   "id": "DecisionAuditAppeal.audit_ref -> CaseDecisionAudit.CDA_code",
+   "source_table": "DecisionAuditAppeal",
+   "source_column": "audit_ref",
+   "target_table": "CaseDecisionAudit",
+   "target_key": "CDA_code",
+   "source_rows": 8927,
+   "source_distinct": 2234,
+   "target_rows": 2276,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CDA-EF522FBFFA77",
+    "CDA-D5BEC14D1BE3",
+    "CDA-B9313A4751F0",
+    "CDA-7DEF16B21BF9",
+    "CDA-9BD3728589F9"
+   ],
+   "target_samples": [
+    "CDA-0001D91CA2F5",
+    "CDA-00096D181AA6",
+    "CDA-0039A287277A",
+    "CDA-00454ED556D7",
+    "CDA-007903D37765"
+   ]
+  },
+  {
+   "id": "EmployerComplianceScore.poc_ref -> employer_poc.contactmail",
+   "source_table": "EmployerComplianceScore",
+   "source_column": "poc_ref",
+   "target_table": "employer_poc",
+   "target_key": "contactmail",
+   "source_rows": 1791,
+   "source_distinct": 547,
+   "target_rows": 578,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>"
+   ],
+   "target_samples": [
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>"
+   ]
+  },
+  {
+   "id": "EmployerLaborCondition.track_ref -> prevailing_wage.trackno",
+   "source_table": "EmployerLaborCondition",
+   "source_column": "track_ref",
+   "target_table": "prevailing_wage",
+   "target_key": "trackno",
+   "source_rows": 2147,
+   "source_distinct": 880,
+   "target_rows": 981,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "371",
+    "438",
+    "473",
+    "101",
+    "216"
+   ],
+   "target_samples": [
+    "1",
+    "10",
+    "100",
+    "1000",
+    "101"
+   ]
+  },
+  {
+   "id": "FraudInvestigationAction.fraud_ref -> CaseFraudIndicator.CFI_code",
+   "source_table": "FraudInvestigationAction",
+   "source_column": "fraud_ref",
+   "target_table": "CaseFraudIndicator",
+   "target_key": "CFI_code",
+   "source_rows": 7331,
+   "source_distinct": 2987,
+   "target_rows": 3421,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CFI-29260EDC585F",
+    "CFI-03E49ED923FD",
+    "CFI-9D0F1A5C010B",
+    "CFI-F2174F8A439D",
+    "CFI-9929592B3611"
+   ],
+   "target_samples": [
+    "CFI-0013A304CDB4",
+    "CFI-002259A0B1F2",
+    "CFI-0028D9B0F734",
+    "CFI-002C8DD09CB1",
+    "CFI-006BA9C85775"
+   ]
+  },
+  {
+   "id": "InspectionRemediationTask.inspection_ref -> WorksiteInspection.WSI_code",
+   "source_table": "InspectionRemediationTask",
+   "source_column": "inspection_ref",
+   "target_table": "WorksiteInspection",
+   "target_key": "WSI_code",
+   "source_rows": 19080,
+   "source_distinct": 4548,
+   "target_rows": 4618,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WI-7D1C9769EC24",
+    "WI-90F04833F2DC",
+    "WI-DC8A88B869F8",
+    "WI-2387D039EEBE",
+    "WI-7C6A0D4A5888"
+   ],
+   "target_samples": [
+    "WI-0001236D607C",
+    "WI-0011A0DCC862",
+    "WI-001277656F66",
+    "WI-00180E0CB1F5",
+    "WI-002E4926E02B"
+   ]
+  },
+  {
+   "id": "LaborConditionAmendment.elc_ref -> EmployerLaborCondition.ELC_code",
+   "source_table": "LaborConditionAmendment",
+   "source_column": "elc_ref",
+   "target_table": "EmployerLaborCondition",
+   "target_key": "ELC_code",
+   "source_rows": 7525,
+   "source_distinct": 2082,
+   "target_rows": 2147,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ELC-3B833CC134B6",
+    "ELC-5501AFE9ED23",
+    "ELC-01592819A29B",
+    "ELC-D94ABA7BA6EB",
+    "ELC-4297507605B7"
+   ],
+   "target_samples": [
+    "ELC-00173ECB4320",
+    "ELC-003E7762F40A",
+    "ELC-005A145B7C34",
+    "ELC-005B578382A2",
+    "ELC-006DA225EB34"
+   ]
+  },
+  {
+   "id": "RecruitmentSourceAnalytic.camp_ref -> recruitment_campaign.CAMP_code",
+   "source_table": "RecruitmentSourceAnalytic",
+   "source_column": "camp_ref",
+   "target_table": "recruitment_campaign",
+   "target_key": "CAMP_code",
+   "source_rows": 726,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CAMP00031",
+    "CAMP00053",
+    "CAMP00044",
+    "CAMP00080",
+    "CAMP00084"
+   ],
+   "target_samples": [
+    "CAMP00001",
+    "CAMP00002",
+    "CAMP00003",
+    "CAMP00004",
+    "CAMP00005"
+   ]
+  },
+  {
+   "id": "SourceChannelPerformance.analytic_ref -> RecruitmentSourceAnalytic.RSA_code",
+   "source_table": "SourceChannelPerformance",
+   "source_column": "analytic_ref",
+   "target_table": "RecruitmentSourceAnalytic",
+   "target_key": "RSA_code",
+   "source_rows": 2444,
+   "source_distinct": 702,
+   "target_rows": 726,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "RSA-FF96FD98C397",
+    "RSA-ABBE85A0BEE8",
+    "RSA-8C03F8D16A41",
+    "RSA-A9E256F6267A",
+    "RSA-14443FCC81D9"
+   ],
+   "target_samples": [
+    "RSA-004EAADF8015",
+    "RSA-00A57525D1F0",
+    "RSA-0112E432DF12",
+    "RSA-01322E3BF1EF",
+    "RSA-013263C2C5AA"
+   ]
+  },
+  {
+   "id": "VisaExtensionOutcome.extension_ref -> visa_extension_request.EXT_code",
+   "source_table": "VisaExtensionOutcome",
+   "source_column": "extension_ref",
+   "target_table": "visa_extension_request",
+   "target_key": "EXT_code",
+   "source_rows": 4576,
+   "source_distinct": 972,
+   "target_rows": 981,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EXT00902",
+    "EXT00367",
+    "EXT00147",
+    "EXT00469",
+    "EXT00118"
+   ],
+   "target_samples": [
+    "EXT00001",
+    "EXT00002",
+    "EXT00003",
+    "EXT00004",
+    "EXT00005"
+   ]
+  },
+  {
+   "id": "WorkerHealthBenefit.worker_ref -> worker_profile.worker_CODE",
+   "source_table": "WorkerHealthBenefit",
+   "source_column": "worker_ref",
+   "target_table": "worker_profile",
+   "target_key": "worker_CODE",
+   "source_rows": 1197,
+   "source_distinct": 295,
+   "target_rows": 300,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "W000119",
+    "W000095",
+    "W000073",
+    "W000192",
+    "W000048"
+   ],
+   "target_samples": [
+    "W000001",
+    "W000002",
+    "W000003",
+    "W000004",
+    "W000005"
+   ]
+  },
+  {
+   "id": "WorkerSkillCertification.worker_ref -> worker_profile.worker_CODE",
+   "source_table": "WorkerSkillCertification",
+   "source_column": "worker_ref",
+   "target_table": "worker_profile",
+   "target_key": "worker_CODE",
+   "source_rows": 944,
+   "source_distinct": 289,
+   "target_rows": 300,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "W000269",
+    "W000132",
+    "W000128",
+    "W000238",
+    "W000261"
+   ],
+   "target_samples": [
+    "W000001",
+    "W000002",
+    "W000003",
+    "W000004",
+    "W000005"
+   ]
+  },
+  {
+   "id": "WorksiteInspection.file_ref -> cases.filekey",
+   "source_table": "WorksiteInspection",
+   "source_column": "file_ref",
+   "target_table": "cases",
+   "target_key": "filekey",
+   "source_rows": 4618,
+   "source_distinct": 971,
+   "target_rows": 981,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "I-200-23355-584479",
+    "I-200-23355-585161",
+    "I-200-23355-583943",
+    "I-200-23355-584296",
+    "I-203-23355-585470"
+   ],
+   "target_samples": [
+    "I-200-23355-583660",
+    "I-200-23355-583661",
+    "I-200-23355-583662",
+    "I-200-23355-583668",
+    "I-200-23355-583669"
+   ]
+  },
+  {
+   "id": "attorney_case_specialization.law_code_ref -> attorney.lawmail",
+   "source_table": "attorney_case_specialization",
+   "source_column": "law_code_ref",
+   "target_table": "attorney",
+   "target_key": "lawmail",
+   "source_rows": 1002,
+   "source_distinct": 386,
+   "target_rows": 386,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>"
+   ],
+   "target_samples": [
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>"
+   ]
+  },
+  {
+   "id": "case_attorney.docketkey -> cases.filekey",
+   "source_table": "case_attorney",
+   "source_column": "docketkey",
+   "target_table": "cases",
+   "target_key": "filekey",
+   "source_rows": 727,
+   "source_distinct": 727,
+   "target_rows": 981,
+   "score": 4.06,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "I-200-23355-583660",
+    "I-200-23355-583661",
+    "I-200-23355-583662",
+    "I-200-23355-583669",
+    "I-200-23355-583670"
+   ],
+   "target_samples": [
+    "I-200-23355-583660",
+    "I-200-23355-583661",
+    "I-200-23355-583662",
+    "I-200-23355-583668",
+    "I-200-23355-583669"
+   ]
+  },
+  {
+   "id": "case_attorney.counselmail -> attorney.lawmail",
+   "source_table": "case_attorney",
+   "source_column": "counselmail",
+   "target_table": "attorney",
+   "target_key": "lawmail",
+   "source_rows": 727,
+   "source_distinct": 386,
+   "target_rows": 386,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "certified.labor_certification_applicatio",
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>"
+   ],
+   "target_samples": [
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>"
+   ]
+  },
+  {
+   "id": "case_processing_timeline.file_ref -> cases.filekey",
+   "source_table": "case_processing_timeline",
+   "source_column": "file_ref",
+   "target_table": "cases",
+   "target_key": "filekey",
+   "source_rows": 981,
+   "source_distinct": 981,
+   "target_rows": 981,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "I-200-23355-584296",
+    "I-203-23355-583713",
+    "I-200-23355-584402",
+    "I-200-23355-585360",
+    "I-200-23355-584372"
+   ],
+   "target_samples": [
+    "I-200-23355-583660",
+    "I-200-23355-583661",
+    "I-200-23355-583662",
+    "I-200-23355-583668",
+    "I-200-23355-583669"
+   ]
+  },
+  {
+   "id": "case_rfe_details.file_ref -> cases.filekey",
+   "source_table": "case_rfe_details",
+   "source_column": "file_ref",
+   "target_table": "cases",
+   "target_key": "filekey",
+   "source_rows": 981,
+   "source_distinct": 981,
+   "target_rows": 981,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "I-200-23355-584296",
+    "I-203-23355-583713",
+    "I-200-23355-584402",
+    "I-200-23355-585360",
+    "I-200-23355-584372"
+   ],
+   "target_samples": [
+    "I-200-23355-583660",
+    "I-200-23355-583661",
+    "I-200-23355-583662",
+    "I-200-23355-583668",
+    "I-200-23355-583669"
+   ]
+  },
+  {
+   "id": "case_worksite.dockkey -> cases.filekey",
+   "source_table": "case_worksite",
+   "source_column": "dockkey",
+   "target_table": "cases",
+   "target_key": "filekey",
+   "source_rows": 980,
+   "source_distinct": 980,
+   "target_rows": 981,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "I-200-23355-583660",
+    "I-200-23355-583661",
+    "I-200-23355-583662",
+    "I-200-23355-583668",
+    "I-200-23355-583669"
+   ],
+   "target_samples": [
+    "I-200-23355-583660",
+    "I-200-23355-583661",
+    "I-200-23355-583662",
+    "I-200-23355-583668",
+    "I-200-23355-583669"
+   ]
+  },
+  {
+   "id": "case_worksite.wagetrack -> prevailing_wage.trackno",
+   "source_table": "case_worksite",
+   "source_column": "wagetrack",
+   "target_table": "prevailing_wage",
+   "target_key": "trackno",
+   "source_rows": 980,
+   "source_distinct": 980,
+   "target_rows": 981,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "10",
+    "100",
+    "1000",
+    "101"
+   ]
+  },
+  {
+   "id": "cases.preplink -> preparer.prepmail",
+   "source_table": "cases",
+   "source_column": "preplink",
+   "target_table": "preparer",
+   "target_key": "prepmail",
+   "source_rows": 981,
+   "source_distinct": 290,
+   "target_rows": 290,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>"
+   ],
+   "target_samples": [
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>",
+    "<email address>"
+   ]
+  },
+  {
+   "id": "recruitment_campaign_case_link.camp_code_ref -> recruitment_campaign.CAMP_code",
+   "source_table": "recruitment_campaign_case_link",
+   "source_column": "camp_code_ref",
+   "target_table": "recruitment_campaign",
+   "target_key": "CAMP_code",
+   "source_rows": 766,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CAMP00001",
+    "CAMP00002",
+    "CAMP00003",
+    "CAMP00004",
+    "CAMP00005"
+   ],
+   "target_samples": [
+    "CAMP00001",
+    "CAMP00002",
+    "CAMP00003",
+    "CAMP00004",
+    "CAMP00005"
+   ]
+  },
+  {
+   "id": "recruitment_campaign_case_link.FILE_ref -> cases.filekey",
+   "source_table": "recruitment_campaign_case_link",
+   "source_column": "FILE_ref",
+   "target_table": "cases",
+   "target_key": "filekey",
+   "source_rows": 766,
+   "source_distinct": 546,
+   "target_rows": 981,
+   "score": 4.03,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "I-200-23355-583683",
+    "I-200-23355-584699",
+    "I-200-23355-584810",
+    "I-200-23355-586099",
+    "I-200-23355-586572"
+   ],
+   "target_samples": [
+    "I-200-23355-583660",
+    "I-200-23355-583661",
+    "I-200-23355-583662",
+    "I-200-23355-583668",
+    "I-200-23355-583669"
+   ]
+  },
+  {
+   "id": "recruitment_campaign_worksite_link.camp_code_ref -> recruitment_campaign.CAMP_code",
+   "source_table": "recruitment_campaign_worksite_link",
+   "source_column": "camp_code_ref",
+   "target_table": "recruitment_campaign",
+   "target_key": "CAMP_code",
+   "source_rows": 536,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CAMP00001",
+    "CAMP00002",
+    "CAMP00003",
+    "CAMP00004",
+    "CAMP00005"
+   ],
+   "target_samples": [
+    "CAMP00001",
+    "CAMP00002",
+    "CAMP00003",
+    "CAMP00004",
+    "CAMP00005"
+   ]
+  },
+  {
+   "id": "visa_extension_request.FILE_ref -> cases.filekey",
+   "source_table": "visa_extension_request",
+   "source_column": "FILE_ref",
+   "target_table": "cases",
+   "target_key": "filekey",
+   "source_rows": 981,
+   "source_distinct": 981,
+   "target_rows": 981,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "I-200-23355-584296",
+    "I-203-23355-583713",
+    "I-200-23355-584402",
+    "I-200-23355-585360",
+    "I-200-23355-584372"
+   ],
+   "target_samples": [
+    "I-200-23355-583660",
+    "I-200-23355-583661",
+    "I-200-23355-583662",
+    "I-200-23355-583668",
+    "I-200-23355-583669"
+   ]
+  },
+  {
+   "id": "wage_history.track_ref -> prevailing_wage.trackno",
+   "source_table": "wage_history",
+   "source_column": "track_ref",
+   "target_table": "prevailing_wage",
+   "target_key": "trackno",
+   "source_rows": 981,
+   "source_distinct": 981,
+   "target_rows": 981,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "457",
+    "823",
+    "250",
+    "264",
+    "251"
+   ],
+   "target_samples": [
+    "1",
+    "10",
+    "100",
+    "1000",
+    "101"
+   ]
+  },
+  {
+   "id": "worker_dependent.worker_ref -> worker_profile.worker_CODE",
+   "source_table": "worker_dependent",
+   "source_column": "worker_ref",
+   "target_table": "worker_profile",
+   "target_key": "worker_CODE",
+   "source_rows": 609,
+   "source_distinct": 240,
+   "target_rows": 300,
+   "score": 4.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "W000004",
+    "W000007",
+    "W000008",
+    "W000009",
+    "W000010"
+   ],
+   "target_samples": [
+    "W000001",
+    "W000002",
+    "W000003",
+    "W000004",
+    "W000005"
+   ]
+  },
+  {
+   "id": "worker_education.worker_ref -> worker_profile.worker_CODE",
+   "source_table": "worker_education",
+   "source_column": "worker_ref",
+   "target_table": "worker_profile",
+   "target_key": "worker_CODE",
+   "source_rows": 603,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "W000001",
+    "W000002",
+    "W000003",
+    "W000004",
+    "W000005"
+   ],
+   "target_samples": [
+    "W000001",
+    "W000002",
+    "W000003",
+    "W000004",
+    "W000005"
+   ]
+  },
+  {
+   "id": "worker_position_history.worker_ref -> worker_profile.worker_CODE",
+   "source_table": "worker_position_history",
+   "source_column": "worker_ref",
+   "target_table": "worker_profile",
+   "target_key": "worker_CODE",
+   "source_rows": 580,
+   "source_distinct": 299,
+   "target_rows": 300,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "W000001",
+    "W000057",
+    "W000101",
+    "W000185",
+    "W000261"
+   ],
+   "target_samples": [
+    "W000001",
+    "W000002",
+    "W000003",
+    "W000004",
+    "W000005"
+   ]
+  }
+ ]
+}

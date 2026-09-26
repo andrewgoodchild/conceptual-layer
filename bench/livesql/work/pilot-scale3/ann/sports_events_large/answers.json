@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": "sports_events_8",
+  "answer": "SELECT r.yr AS race_year, r.event_schedule->>'event_name' AS race_name,\n  concat_ws(' ', d.driver_identity->'name'->>'first_name', d.driver_identity->'name'->>'surname') AS driver_name,\n  (s.sprint_performance->>'final_position')::int AS podium_position,\n  floor((to_date(r.event_schedule->>'date_set','YYYY/MM/DD') - (d.driver_identity->>'birth_date')::date) / 365.25)::int AS age_at_race\nFROM sprint_results s JOIN races r ON r.rak_id = s.matchref JOIN drivers d ON d.drv_main = s.unitdrive\nWHERE (s.sprint_performance->>'final_position')::int BETWEEN 1 AND 3\n  AND floor((to_date(r.event_schedule->>'date_set','YYYY/MM/DD') - (d.driver_identity->>'birth_date')::date) / 365.25) >= 35\nORDER BY age_at_race DESC, race_year DESC",
+  "note": "unverified: ./try was blocked by the permission classifier, so this was written from the schema output only"
+ },
+ {
+  "question_id": "sports_events_13",
+  "answer": "WITH c AS (SELECT cr.unitnode, COUNT(*) AS starts, COUNT(*) FILTER (WHERE cr.st_mark IS NULL) AS finishes\n  FROM constructor_results cr GROUP BY cr.unitnode)\nSELECT ROUND(MAX(finishes * 100.0 / starts), 2) AS max_reliability_rate FROM c WHERE starts >= 5",
+  "note": "unverified: ./try was blocked by the permission classifier, so this was written from the schema output only"
+ },
+ {
+  "question_id": "sports_events_3",
+  "answer": "WITH c AS (SELECT cr.unitnode, COUNT(*) AS starts, COUNT(*) FILTER (WHERE cr.st_mark IS NULL) AS finishes\n  FROM constructor_results cr GROUP BY cr.unitnode)\nSELECT k.namelabel AS constructor_name, c.starts AS races_started, c.finishes AS races_finished,\n  c.finishes * 100.0 / c.starts AS reliability_rate,\n  RANK() OVER (ORDER BY c.finishes * 100.0 / c.starts DESC) AS reliability_rank\nFROM c JOIN constructors k ON k.cstr_key = c.unitnode\nWHERE c.starts > 10\nORDER BY reliability_rate DESC",
+  "note": "unverified: ./try was blocked by the permission classifier, so this was written from the schema output only"
+ },
+ {
+  "question_id": "sports_events_7",
+  "answer": "WITH per_race AS (SELECT wheel_unit, rc_index, STDDEV_POP(msec_val / 1000.0) AS ltc\n  FROM lap_times GROUP BY wheel_unit, rc_index)\nSELECT json_build_object('surname', d.driver_identity->'name'->>'surname', 'first_name', d.driver_identity->'name'->>'first_name') AS driver_name,\n  AVG(p.ltc) AS avg_consistency, COUNT(DISTINCT p.rc_index) AS races_analyzed\nFROM per_race p JOIN drivers d ON d.drv_main = p.wheel_unit\nGROUP BY d.drv_main, d.driver_identity\nHAVING COUNT(DISTINCT p.rc_index) > 5\nORDER BY avg_consistency ASC",
+  "note": "unverified: ./try was blocked by the permission classifier, so this was written from the schema output only"
+ },
+ {
+  "question_id": "sports_events_6",
+  "answer": "WITH h AS (SELECT ds.rlink AS race_id, ds.acc_pt, r.yr, r.rnum, to_date(r.event_schedule->>'date_set','YYYY/MM/DD') AS rdate, (d.driver_identity->>'birth_date')::date AS bdate\n  FROM driver_standings ds JOIN races r ON r.rak_id = ds.rlink JOIN drivers d ON d.drv_main = ds.drive_link\n  WHERE d.driver_identity->>'reference' = 'hamilton'),\np AS (SELECT race_id, rdate, bdate,\n  acc_pt / ROW_NUMBER() OVER (PARTITION BY yr ORDER BY rnum) AS ppr FROM h)\nSELECT race_id, ppr / floor((rdate - bdate) / 365.25) AS dpv FROM p ORDER BY race_id",
+  "note": "unverified: ./try was blocked by the permission classifier, so this was written from the schema output only"
+ },
+ {
+  "question_id": "sports_events_11",
+  "answer": "SELECT ROUND(AVG(0.35 * 0.25), 4) AS avg_hat_trick_probability FROM qualifying WHERE px_pos = 1",
+  "note": "unverified: ./try was blocked by the permission classifier, so this was written from the schema output only"
+ },
+ {
+  "question_id": "sports_events_15",
+  "answer": "SELECT MIN(msec_val) / 1000.0 AS fastest_lap_seconds FROM lap_times WHERE msec_val > 0",
+  "note": "unverified: ./try was blocked by the permission classifier, so this was written from the schema output only"
+ },
+ {
+  "question_id": "sports_events_20",
+  "answer": "WITH s AS (SELECT matchidx, COUNT(*)::numeric / COUNT(DISTINCT wunit) AS avg_stops FROM pit_stops GROUP BY matchidx)\nSELECT COUNT(*) AS single_stop_races FROM s WHERE avg_stops < 1.5",
+  "note": "unverified: ./try was blocked by the permission classifier, so this was written from the schema output only"
+ },
+ {
+  "question_id": "sports_events_4",
+  "answer": "WITH p AS (SELECT matchref, (sprint_performance->>'final_position')::int AS pos,\n  (sprint_performance->'timing'->>'duration_ms')::bigint AS ms FROM sprint_results)\nSELECT COUNT(*) AS dominant_victories FROM p w JOIN p s ON s.matchref = w.matchref AND s.pos = 2\nWHERE w.pos = 1 AND (s.ms - w.ms) / 1000.0 > 5",
+  "note": "unverified: ./try was blocked by the permission classifier, so this was written from the schema output only"
+ },
+ {
+  "question_id": "sports_events_1",
+  "answer": "SELECT AVG(floor((to_date(r.event_schedule->>'date_set','YYYY/MM/DD') - (d.driver_identity->>'birth_date')::date) / 365.25)) AS avg_sprint_winner_age\nFROM sprint_results s JOIN races r ON r.rak_id = s.matchref JOIN drivers d ON d.drv_main = s.unitdrive\nWHERE (s.sprint_performance->>'final_position')::int = 1",
+  "note": "unverified: ./try was blocked by the permission classifier, so this was written from the schema output only"
+ }
+]

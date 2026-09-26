@@ -1,0 +1,845 @@
+{
+ "database": "planets_data_large",
+ "verdicts": [
+  {
+   "id": "CalibrationRecord.PIPELINE_REF -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "yes",
+   "reason": "PIPELINE_REF names the target's own PIPELINE_ID and uses 49 of the 50 pipelines across 200 calibration records."
+  },
+  {
+   "id": "CalibrationRecord.instrument_ref -> instruments_surveys.instrumentref",
+   "verdict": "yes",
+   "reason": "instrument_ref spans exactly the 5 rows of the instruments_surveys lookup, the shared instrument dimension of this schema."
+  },
+  {
+   "id": "CalibrationRecord.frames_combined -> Dataset_Publication_Map.DPM_ID",
+   "verdict": "no",
+   "reason": "frames_combined is a count of combined frames, not a pointer; overlap with the 200-row DPM_ID range is coincidence."
+  },
+  {
+   "id": "CalibrationRecord.BAD_PIXELS_COUNT -> stars.stellarref",
+   "verdict": "no",
+   "reason": "BAD_PIXELS_COUNT is a count; nesting inside stars' 2509-row id range is coincidence."
+  },
+  {
+   "id": "ChemicalAbundanceAnalysis.stellar_ref -> stars.stellarref",
+   "verdict": "yes",
+   "reason": "stellar_ref matches stars.stellarref by name and role: 237 distinct stars over 250 abundance analyses."
+  },
+  {
+   "id": "ChemicalAbundanceAnalysis.lines_used -> Pipeline_Instrument_Map.PIM_ID",
+   "verdict": "no",
+   "reason": "lines_used counts spectral lines used; it is not a pointer into a pipeline/instrument map."
+  },
+  {
+   "id": "CitationRecord.publication_ref -> Pipeline_Instrument_Map.PIM_ID",
+   "verdict": "no",
+   "reason": "publication_ref means ScientificPublication (also 100 rows); Pipeline_Instrument_Map is an unrelated same-sized sequence."
+  },
+  {
+   "id": "CitationRecord.CITATION_YEAR -> data_quality_tracking.qualityref",
+   "verdict": "no",
+   "reason": "CITATION_YEAR is a year (2011-2023), not an identifier."
+  },
+  {
+   "id": "CitationRecord.citing_author_count -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "citing_author_count is a count of authors."
+  },
+  {
+   "id": "DataReductionPipeline.PROCESSING_STEPS -> SpaceMission.mission_id",
+   "verdict": "no",
+   "reason": "PROCESSING_STEPS is a count of steps, not a mission id."
+  },
+  {
+   "id": "Dataset_Publication_Map.PUBLICATION_REF -> Pipeline_Instrument_Map.PIM_ID",
+   "verdict": "no",
+   "reason": "PUBLICATION_REF belongs to ScientificPublication; PIM_ID merely has the same 100-value range."
+  },
+  {
+   "id": "Dataset_Publication_Map.catalog_ref -> astronomical_catalogs.CATALOGREF",
+   "verdict": "yes",
+   "reason": "catalog_ref carries astronomical_catalogs' distinctive 23001-23005 ids, exactly its 5 rows."
+  },
+  {
+   "id": "EmissionAbsorptionFeature.spectral_line_ref -> CitationRecord.CITATION_ID",
+   "verdict": "no",
+   "reason": "spectral_line_ref belongs to SpectralLineMeasurement; CitationRecord only happens to share the 400-row range."
+  },
+  {
+   "id": "MissionDataProduct.instrument_ref -> MissionInstrument.INSTRUMENT_ID",
+   "verdict": "yes",
+   "reason": "instrument_ref -> MissionInstrument.INSTRUMENT_ID: 113 of 120 instruments used by 300 data products."
+  },
+  {
+   "id": "MissionDataProduct.CITATION_COUNT -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "verdict": "no",
+   "reason": "CITATION_COUNT is a count, not a weather-log id."
+  },
+  {
+   "id": "MissionInstrument.mission_ref -> SpaceMission.mission_id",
+   "verdict": "yes",
+   "reason": "mission_ref -> SpaceMission.mission_id; an instrument belongs to a mission, 60 of 80 missions used."
+  },
+  {
+   "id": "MissionTarget.MISSION_REF -> SpaceMission.mission_id",
+   "verdict": "yes",
+   "reason": "MISSION_REF -> SpaceMission.mission_id, 75 of 80 missions covered by 200 targets."
+  },
+  {
+   "id": "MissionTarget.planet_ref -> physical_properties.physref",
+   "verdict": "no",
+   "reason": "planet_ref means the planets table; physical_properties.physref is that table's own surrogate (it links to planets via objectlink)."
+  },
+  {
+   "id": "MissionTarget.PRIORITY_RANK -> stars.stellarref",
+   "verdict": "no",
+   "reason": "PRIORITY_RANK is a rank, not a star identifier."
+  },
+  {
+   "id": "MissionTarget.visits_planned -> Pipeline_Instrument_Map.PIM_ID",
+   "verdict": "no",
+   "reason": "visits_planned is a count of planned visits."
+  },
+  {
+   "id": "Mission_Planet_Map.MISSION_REF -> SpaceMission.mission_id",
+   "verdict": "yes",
+   "reason": "MISSION_REF -> SpaceMission.mission_id in a mission/planet map table; 79 of 80 missions."
+  },
+  {
+   "id": "Mission_Planet_Map.planet_ref -> data_quality_tracking.qualityref",
+   "verdict": "no",
+   "reason": "planet_ref means planets.planetref; data_quality_tracking's own key just runs in the same range."
+  },
+  {
+   "id": "NearbyStarSurvey.stellar_ref -> stars.stellarref",
+   "verdict": "yes",
+   "reason": "stellar_ref -> stars.stellarref; a nearby-star survey entry per star, 196 distinct stars."
+  },
+  {
+   "id": "Neighborhood_Catalog_Map.SURVEY_REF -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "SURVEY_REF points at NearbyStarSurvey (also 200 rows); CalibrationRecord is an unrelated sequence of the same length."
+  },
+  {
+   "id": "Neighborhood_Catalog_Map.catalog_ref -> astronomical_catalogs.CATALOGREF",
+   "verdict": "yes",
+   "reason": "catalog_ref carries the 23001-23005 catalog ids of astronomical_catalogs."
+  },
+  {
+   "id": "ObservationProposal.program_ref -> research_programs.programRef",
+   "verdict": "yes",
+   "reason": "program_ref carries research_programs' 25001-25005 ids exactly."
+  },
+  {
+   "id": "ObservationProposal.target_count -> stars.stellarref",
+   "verdict": "no",
+   "reason": "target_count is a count of targets."
+  },
+  {
+   "id": "Observer_Team_Map.PROPOSAL_REF -> MissionInstrument.INSTRUMENT_ID",
+   "verdict": "no",
+   "reason": "PROPOSAL_REF belongs to ObservationProposal; MissionInstrument coincidentally also has 120 ids."
+  },
+  {
+   "id": "Observer_Team_Map.team_ref -> discovery_teams.TEAMREF",
+   "verdict": "yes",
+   "reason": "team_ref carries discovery_teams' distinctive 13001-13007 ids."
+  },
+  {
+   "id": "PipelineQualityMetric.PIPELINE_REF -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "yes",
+   "reason": "PIPELINE_REF -> DataReductionPipeline.PIPELINE_ID, all 50 pipelines covered by 300 metrics."
+  },
+  {
+   "id": "Pipeline_Instrument_Map.PIPELINE_REF -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "yes",
+   "reason": "PIPELINE_REF -> PIPELINE_ID; one half of a pipeline/instrument map table."
+  },
+  {
+   "id": "Pipeline_Instrument_Map.instrument_ref -> instruments_surveys.instrumentref",
+   "verdict": "yes",
+   "reason": "instrument_ref covers the whole 5-row instruments_surveys lookup, the other half of this map table."
+  },
+  {
+   "id": "PlanetCharacterizationSummary.planet_ref -> orbital_characteristics.orbitalref",
+   "verdict": "no",
+   "reason": "planet_ref means planets; orbital_characteristics.orbitalref is that table's own surrogate key."
+  },
+  {
+   "id": "ProperMotionCatalog.STELLAR_REF -> stars.stellarref",
+   "verdict": "yes",
+   "reason": "STELLAR_REF -> stars.stellarref; proper-motion entries per star, 277 distinct."
+  },
+  {
+   "id": "ProperMotionCatalog.NUM_OBSERVATIONS -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "verdict": "no",
+   "reason": "NUM_OBSERVATIONS is a count."
+  },
+  {
+   "id": "ScheduledObservation.allocation_ref -> Pipeline_Instrument_Map.PIM_ID",
+   "verdict": "no",
+   "reason": "allocation_ref belongs to TelescopeAllocation (also 100 rows); PIM_ID is an unrelated same-sized sequence."
+  },
+  {
+   "id": "ScheduledObservation.PLANET_REF -> orbital_characteristics.orbitalref",
+   "verdict": "no",
+   "reason": "PLANET_REF means planets, not orbital_characteristics' own key."
+  },
+  {
+   "id": "ScheduledObservation.exposures_count -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "exposures_count is a count of exposures."
+  },
+  {
+   "id": "ScientificPublication.program_ref -> research_programs.programRef",
+   "verdict": "yes",
+   "reason": "program_ref carries research_programs' 25001-25005 ids exactly."
+  },
+  {
+   "id": "ScientificPublication.year -> data_quality_tracking.qualityref",
+   "verdict": "no",
+   "reason": "year is a publication year, not an identifier."
+  },
+  {
+   "id": "ScientificPublication.VOLUME -> stars.stellarref",
+   "verdict": "no",
+   "reason": "VOLUME is a journal volume number."
+  },
+  {
+   "id": "ScientificPublication.author_count -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "author_count is a count of authors."
+  },
+  {
+   "id": "ScientificPublication.reference_count -> Pipeline_Instrument_Map.PIM_ID",
+   "verdict": "no",
+   "reason": "reference_count is a count of references."
+  },
+  {
+   "id": "SpaceMission.INSTRUMENTS_COUNT -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "INSTRUMENTS_COUNT is a count (1-8) that nests in the pipeline id range by chance."
+  },
+  {
+   "id": "SpectralCalibration.instrument_ref -> instruments_surveys.instrumentref",
+   "verdict": "yes",
+   "reason": "instrument_ref covers all 5 rows of the instruments_surveys lookup."
+  },
+  {
+   "id": "SpectralCalibration.CALIBRATION_FRAMES -> Pipeline_Instrument_Map.PIM_ID",
+   "verdict": "no",
+   "reason": "CALIBRATION_FRAMES is a count of frames."
+  },
+  {
+   "id": "SpectralLineMeasurement.stellar_ref -> stars.stellarref",
+   "verdict": "yes",
+   "reason": "stellar_ref -> stars.stellarref; 364 distinct stars over 400 line measurements."
+  },
+  {
+   "id": "Spectral_Instrument_Map.SPECTRAL_LINE_REF -> CitationRecord.CITATION_ID",
+   "verdict": "no",
+   "reason": "SPECTRAL_LINE_REF belongs to SpectralLineMeasurement; CitationRecord shares only the 400-row range."
+  },
+  {
+   "id": "Spectral_Instrument_Map.instrument_ref -> instruments_surveys.instrumentref",
+   "verdict": "yes",
+   "reason": "instrument_ref covers the whole 5-row instrument lookup in a spectral/instrument map."
+  },
+  {
+   "id": "Spectral_Instrument_Map.SPECTRA_EXTRACTED -> Pipeline_Instrument_Map.PIM_ID",
+   "verdict": "no",
+   "reason": "SPECTRA_EXTRACTED is a count of extracted spectra."
+  },
+  {
+   "id": "StellarMultiplicityRecord.stellar_ref -> planet_instrument_observations.obsref",
+   "verdict": "no",
+   "reason": "stellar_ref means stars.stellarref; planet_instrument_observations' own key merely contains the values."
+  },
+  {
+   "id": "StellarMultiplicityRecord.BINARY_REF -> binary_star_systems.binaryRef",
+   "verdict": "yes",
+   "reason": "BINARY_REF carries binary_star_systems' 11001-11006 ids, all 6 rows."
+  },
+  {
+   "id": "StellarMultiplicityRecord.COMPONENT_COUNT -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "COMPONENT_COUNT is a count of components (1-5)."
+  },
+  {
+   "id": "TelescopeAllocation.instrument_ref -> instruments_surveys.instrumentref",
+   "verdict": "yes",
+   "reason": "instrument_ref covers all 5 instruments_surveys rows for telescope allocations."
+  },
+  {
+   "id": "TelescopeAllocation.RANK -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "RANK is a ranking value, not a calibration-record id."
+  },
+  {
+   "id": "TransitLightCurve.planet_ref -> data_quality_tracking.qualityref",
+   "verdict": "no",
+   "reason": "planet_ref means planets; data_quality_tracking's own key only shares the range."
+  },
+  {
+   "id": "TransitLightCurve.INSTRUMENT_REF -> instruments_surveys.instrumentref",
+   "verdict": "yes",
+   "reason": "INSTRUMENT_REF spans the 5-row instrument lookup across 500 light curves."
+  },
+  {
+   "id": "TransitLightCurve.BASELINE_FLUX -> instruments_surveys.instrumentref",
+   "verdict": "no",
+   "reason": "BASELINE_FLUX is a normalised flux, constant 1.0; not an identifier."
+  },
+  {
+   "id": "TransmissionSpectrum.planet_ref -> data_quality_tracking.qualityref",
+   "verdict": "no",
+   "reason": "planet_ref means planets, not data_quality_tracking's own surrogate."
+  },
+  {
+   "id": "astronomical_catalogs.MagnitudeLimit_mag -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "MagnitudeLimit_mag is a limiting magnitude (21.0), not an id."
+  },
+  {
+   "id": "atmospheric_escape_rates.planetLink -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "planetLink means the planets table; DataReductionPipeline is unrelated and merely longer."
+  },
+  {
+   "id": "atmospheric_escape_rates.solar_euv_flux_received_W/m\u00b2 -> stars.stellarref",
+   "verdict": "no",
+   "reason": "a flux measurement in W/m^2, not an identifier."
+  },
+  {
+   "id": "binary_star_systems.PRIMARY_STAR_LINK -> planet_instrument_observations.obsref",
+   "verdict": "no",
+   "reason": "PRIMARY_STAR_LINK means stars; the observations table's own key just contains the values."
+  },
+  {
+   "id": "binary_star_systems.secondary_star_link -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "secondary_star_link means stars, not data-reduction pipelines."
+  },
+  {
+   "id": "binary_star_systems.DiscoveryYear -> data_quality_tracking.qualityref",
+   "verdict": "no",
+   "reason": "DiscoveryYear is a year."
+  },
+  {
+   "id": "data_quality_tracking.targetlink -> planets.planetref",
+   "verdict": "yes",
+   "reason": "targetlink gives exactly one quality-tracking row per planet: the 1:1 planet reference."
+  },
+  {
+   "id": "discovery_teams.co_investigator_count -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "co_investigator_count is a count of people."
+  },
+  {
+   "id": "discovery_teams.PostdocCount -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "PostdocCount is a count of people."
+  },
+  {
+   "id": "discovery_teams.GRADUATE_STUDENT_COUNT -> Pipeline_Instrument_Map.PIM_ID",
+   "verdict": "no",
+   "reason": "GRADUATE_STUDENT_COUNT is a count of people."
+  },
+  {
+   "id": "discovery_teams.active_since_year -> data_quality_tracking.qualityref",
+   "verdict": "no",
+   "reason": "active_since_year is a year."
+  },
+  {
+   "id": "discovery_teams.TOTAL_PUBLICATIONS_COUNT -> stars.stellarref",
+   "verdict": "no",
+   "reason": "TOTAL_PUBLICATIONS_COUNT is a count."
+  },
+  {
+   "id": "discovery_teams.h_index_team -> MissionInstrument.INSTRUMENT_ID",
+   "verdict": "no",
+   "reason": "h_index_team is a bibliometric score, not an instrument id."
+  },
+  {
+   "id": "exomoons.PLANETLINK -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "PLANETLINK means planets, not data-reduction pipelines."
+  },
+  {
+   "id": "exomoons.SurfaceTemperature_K -> stars.stellarref",
+   "verdict": "no",
+   "reason": "SurfaceTemperature_K is a temperature."
+  },
+  {
+   "id": "exomoons.DiscoveryYear -> data_quality_tracking.qualityref",
+   "verdict": "no",
+   "reason": "DiscoveryYear is a year."
+  },
+  {
+   "id": "gravitational_microlensing_events.PLANETLINK -> SpaceMission.mission_id",
+   "verdict": "no",
+   "reason": "PLANETLINK means planets; SpaceMission ids are unrelated."
+  },
+  {
+   "id": "gravitational_microlensing_events.lensing_star_link -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "lensing_star_link means stars, not pipelines."
+  },
+  {
+   "id": "habitability_metrics.planetLink -> instruments_surveys.instrumentref",
+   "verdict": "no",
+   "reason": "planetLink means planets; the 5-row instrument lookup just happens to cover values 1-4."
+  },
+  {
+   "id": "habitability_metrics.surface_temperature_estimate_K -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "verdict": "no",
+   "reason": "surface_temperature_estimate_K is a temperature."
+  },
+  {
+   "id": "habitability_metrics.stellar_flux_received_W/m\u00b2 -> stars.stellarref",
+   "verdict": "no",
+   "reason": "a stellar flux measurement, not an id."
+  },
+  {
+   "id": "instrument_specifications.instrumentLink -> instruments_surveys.instrumentref",
+   "verdict": "yes",
+   "reason": "instrumentLink -> instruments_surveys: one specification row per instrument, all 5 covered."
+  },
+  {
+   "id": "instrument_specifications.OperatingTemperature_Kelvin -> EmissionAbsorptionFeature.FEATURE_ID",
+   "verdict": "no",
+   "reason": "OperatingTemperature_Kelvin is a temperature."
+  },
+  {
+   "id": "instrument_specifications.PhotometricPrecision_ppm -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "PhotometricPrecision_ppm is a precision measurement."
+  },
+  {
+   "id": "multi_planet_system_dynamics.STELLARLINK -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "STELLARLINK means stars, not pipelines."
+  },
+  {
+   "id": "multi_planet_system_dynamics.PlanetCount -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "PlanetCount is a count of planets."
+  },
+  {
+   "id": "multi_planet_system_dynamics.EccentricityDampingTimescale_Myr -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "verdict": "no",
+   "reason": "a damping timescale in Myr, not an id."
+  },
+  {
+   "id": "observation_conditions.OBSERVATIONLINK -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "OBSERVATIONLINK means the observations table, not data-reduction pipelines."
+  },
+  {
+   "id": "observation_conditions.DataQualityFlags -> instruments_surveys.instrumentref",
+   "verdict": "no",
+   "reason": "DataQualityFlags is a flag code (1-5), not an instrument reference."
+  },
+  {
+   "id": "orbital_characteristics.bodylink -> data_quality_tracking.qualityref",
+   "verdict": "no",
+   "reason": "bodylink means planets; data_quality_tracking's own key merely runs in parallel over the same range."
+  },
+  {
+   "id": "photometric_variations.STELLARLINK -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "STELLARLINK means stars, not calibration records."
+  },
+  {
+   "id": "photometric_variations.ExposureTime_seconds -> stars.stellarref",
+   "verdict": "no",
+   "reason": "ExposureTime_seconds is a duration."
+  },
+  {
+   "id": "physical_properties.objectlink -> data_quality_tracking.qualityref",
+   "verdict": "no",
+   "reason": "objectlink means planets; data_quality_tracking's key is a parallel surrogate, not the referent."
+  },
+  {
+   "id": "planet_discovery_teams.PLANETLINK -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "PLANETLINK means planets, not pipelines."
+  },
+  {
+   "id": "planet_discovery_teams.team_link -> discovery_teams.TEAMREF",
+   "verdict": "yes",
+   "reason": "team_link carries discovery_teams' 13001-13007 ids in a planet/team link table."
+  },
+  {
+   "id": "planet_discovery_teams.CONTRIBUTION_PERCENTAGE -> MissionInstrument.INSTRUMENT_ID",
+   "verdict": "no",
+   "reason": "CONTRIBUTION_PERCENTAGE is a percentage."
+  },
+  {
+   "id": "planet_discovery_teams.citation_count -> physical_properties.physref",
+   "verdict": "no",
+   "reason": "citation_count is a count."
+  },
+  {
+   "id": "planet_discovery_teams.FollowUpStudiesEnabled -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "FollowUpStudiesEnabled is a count of studies, not a pipeline id."
+  },
+  {
+   "id": "planet_instrument_observations.subjectlink -> physical_properties.physref",
+   "verdict": "no",
+   "reason": "subjectlink points at the observed body (planets); physical_properties has its own objectlink and physref is a separate surrogate."
+  },
+  {
+   "id": "planet_instrument_observations.facilitylink -> instruments_surveys.instrumentref",
+   "verdict": "yes",
+   "reason": "facilitylink -> instruments_surveys, the instrument/survey facility lookup; 3 of its 5 facilities used."
+  },
+  {
+   "id": "planet_research_programs.planetLink -> SpaceMission.mission_id",
+   "verdict": "no",
+   "reason": "planetLink means planets, not missions."
+  },
+  {
+   "id": "planet_research_programs.program_link -> research_programs.programRef",
+   "verdict": "yes",
+   "reason": "program_link carries research_programs' 25001-25005 ids, all 5 programs."
+  },
+  {
+   "id": "planet_research_programs.PersonnelAssigned -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "PersonnelAssigned is a count of people."
+  },
+  {
+   "id": "planet_system_membership.PLANETLINK -> SpaceMission.mission_id",
+   "verdict": "no",
+   "reason": "PLANETLINK means planets, not missions."
+  },
+  {
+   "id": "planet_system_membership.system_dynamics_link -> multi_planet_system_dynamics.systemDynamicsRef",
+   "verdict": "yes",
+   "reason": "system_dynamics_link carries multi_planet_system_dynamics' distinctive 20001-20005 ids."
+  },
+  {
+   "id": "planet_system_membership.DISCOVERY_ORDER -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "DISCOVERY_ORDER is an ordinal within a system."
+  },
+  {
+   "id": "planet_system_membership.orbital_rank -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "orbital_rank is an ordinal within a system."
+  },
+  {
+   "id": "planet_system_membership.MassRank -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "MassRank is an ordinal within a system."
+  },
+  {
+   "id": "planetary_atmospheres.PLANETLINK -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "PLANETLINK means planets, not pipelines."
+  },
+  {
+   "id": "planetary_atmospheres.GreenhouseEffectStrength_K -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "verdict": "no",
+   "reason": "GreenhouseEffectStrength_K is a temperature difference."
+  },
+  {
+   "id": "planetary_atmospheres.emission_temperature_K -> stars.stellarref",
+   "verdict": "no",
+   "reason": "emission_temperature_K is a temperature."
+  },
+  {
+   "id": "planetary_atmospheres.EquilibriumTemperature_K -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "verdict": "no",
+   "reason": "EquilibriumTemperature_K is a temperature."
+  },
+  {
+   "id": "planetary_atmospheres.DataQualityFlag -> instruments_surveys.instrumentref",
+   "verdict": "no",
+   "reason": "DataQualityFlag is a flag code (1-3), not an instrument reference."
+  },
+  {
+   "id": "planetary_formation_models.planetLink -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "planetLink means planets, not pipelines."
+  },
+  {
+   "id": "planetary_formation_models.MAGMA_OCEAN_DURATION_Myr -> stars.stellarref",
+   "verdict": "no",
+   "reason": "MAGMA_OCEAN_DURATION_Myr is a duration."
+  },
+  {
+   "id": "planetary_formation_models.WaterOceanFormationTime_Myr -> EmissionAbsorptionFeature.FEATURE_ID",
+   "verdict": "no",
+   "reason": "WaterOceanFormationTime_Myr is a duration."
+  },
+  {
+   "id": "planets.hostlink -> stars.stellarref",
+   "verdict": "yes",
+   "reason": "hostlink covers exactly all 2509 stars across 3372 planets: the host-star reference."
+  },
+  {
+   "id": "radial_velocity_measurements.stellarLink -> instruments_surveys.instrumentref",
+   "verdict": "no",
+   "reason": "stellarLink means stars; instruments_surveys' 5 ids only happen to cover the low values used."
+  },
+  {
+   "id": "radial_velocity_measurements.SIGNAL_TO_NOISE_RATIO -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "SIGNAL_TO_NOISE_RATIO is a measurement."
+  },
+  {
+   "id": "research_programs.StudentTrainingOpportunities -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "StudentTrainingOpportunities is a count."
+  },
+  {
+   "id": "star_catalog_entries.STELLARLINK -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "STELLARLINK means stars, not pipelines."
+  },
+  {
+   "id": "star_catalog_entries.catalog_link -> astronomical_catalogs.CATALOGREF",
+   "verdict": "yes",
+   "reason": "catalog_link carries astronomical_catalogs' 23001-23005 ids in a star/catalog entry table."
+  },
+  {
+   "id": "star_catalog_entries.SPECTRAL_TYPE_AGREEMENT -> instruments_surveys.instrumentref",
+   "verdict": "no",
+   "reason": "SPECTRAL_TYPE_AGREEMENT is an agreement flag, constant 1."
+  },
+  {
+   "id": "star_catalog_entries.parallax_agreement -> instruments_surveys.instrumentref",
+   "verdict": "no",
+   "reason": "parallax_agreement is an agreement flag, constant 1."
+  },
+  {
+   "id": "stars.compcount -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "compcount is a count of components (1-5)."
+  },
+  {
+   "id": "stellar_evolution_phases.STELLARLINK -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "STELLARLINK means stars, not pipelines."
+  },
+  {
+   "id": "stellar_evolution_phases.RedGiantBranchTipLuminosity_solar_luminosities -> stars.stellarref",
+   "verdict": "no",
+   "reason": "a luminosity value, not an id."
+  },
+  {
+   "id": "stellar_spectroscopy.stellarLink -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "stellarLink means stars, not pipelines."
+  },
+  {
+   "id": "stellar_spectroscopy.SignalToNoiseRatio -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "SignalToNoiseRatio is a measurement."
+  },
+  {
+   "id": "tidal_forces_effects.PLANETLINK -> instruments_surveys.instrumentref",
+   "verdict": "no",
+   "reason": "PLANETLINK means planets; the 5-row instrument lookup merely covers values 1-3."
+  },
+  {
+   "id": "tidal_forces_effects.tidal_quality_factor -> stars.stellarref",
+   "verdict": "no",
+   "reason": "tidal_quality_factor is a physical quantity."
+  },
+  {
+   "id": "tidal_forces_effects.TIDAL_BULGE_HEIGHT_meters -> stars.stellarref",
+   "verdict": "no",
+   "reason": "TIDAL_BULGE_HEIGHT_meters is a measurement."
+  },
+  {
+   "id": "CalibrationRecord.CAL_RECORD_ID -> Dataset_Publication_Map.DPM_ID",
+   "verdict": "no",
+   "reason": "CAL_RECORD_ID is this table's own primary key; Dataset_Publication_Map.DPM_ID is an unrelated surrogate sequence of the same length (200 vs 200 rows)."
+  },
+  {
+   "id": "ChemicalAbundanceAnalysis.ABUNDANCE_ID -> Observer_Team_Map.OTM_ID",
+   "verdict": "no",
+   "reason": "ABUNDANCE_ID is this table's own primary key; Observer_Team_Map.OTM_ID is an unrelated surrogate sequence of the same length (250 vs 250 rows)."
+  },
+  {
+   "id": "CitationRecord.CITATION_ID -> ScheduledObservation.SCHED_OBS_ID",
+   "verdict": "no",
+   "reason": "CITATION_ID is this table's own primary key; ScheduledObservation.SCHED_OBS_ID is an unrelated surrogate sequence of the same length (400 vs 400 rows)."
+  },
+  {
+   "id": "DataReductionPipeline.PIPELINE_ID -> SpaceMission.mission_id",
+   "verdict": "no",
+   "reason": "PIPELINE_ID is this table's own primary key; SpaceMission.mission_id is an unrelated surrogate sequence of the same length (50 vs 80 rows)."
+  },
+  {
+   "id": "Dataset_Publication_Map.DPM_ID -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "DPM_ID is this table's own primary key; CalibrationRecord.CAL_RECORD_ID is an unrelated surrogate sequence of the same length (200 vs 200 rows)."
+  },
+  {
+   "id": "EmissionAbsorptionFeature.FEATURE_ID -> MissionDataProduct.DATA_PRODUCT_ID",
+   "verdict": "no",
+   "reason": "FEATURE_ID is this table's own primary key; MissionDataProduct.DATA_PRODUCT_ID is an unrelated surrogate sequence of the same length (300 vs 300 rows)."
+  },
+  {
+   "id": "MissionDataProduct.DATA_PRODUCT_ID -> EmissionAbsorptionFeature.FEATURE_ID",
+   "verdict": "no",
+   "reason": "DATA_PRODUCT_ID is this table's own primary key; EmissionAbsorptionFeature.FEATURE_ID is an unrelated surrogate sequence of the same length (300 vs 300 rows)."
+  },
+  {
+   "id": "MissionInstrument.INSTRUMENT_ID -> ObservationProposal.PROPOSAL_ID",
+   "verdict": "no",
+   "reason": "INSTRUMENT_ID is this table's own primary key; ObservationProposal.PROPOSAL_ID is an unrelated surrogate sequence of the same length (120 vs 120 rows)."
+  },
+  {
+   "id": "MissionTarget.TARGET_ID -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "TARGET_ID is this table's own primary key; CalibrationRecord.CAL_RECORD_ID is an unrelated surrogate sequence of the same length (200 vs 200 rows)."
+  },
+  {
+   "id": "Mission_Planet_Map.MPM_ID -> EmissionAbsorptionFeature.FEATURE_ID",
+   "verdict": "no",
+   "reason": "MPM_ID is this table's own primary key; EmissionAbsorptionFeature.FEATURE_ID is an unrelated surrogate sequence of the same length (300 vs 300 rows)."
+  },
+  {
+   "id": "NearbyStarSurvey.SURVEY_ENTRY_ID -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "SURVEY_ENTRY_ID is this table's own primary key; CalibrationRecord.CAL_RECORD_ID is an unrelated surrogate sequence of the same length (200 vs 200 rows)."
+  },
+  {
+   "id": "Neighborhood_Catalog_Map.NCM_ID -> CalibrationRecord.CAL_RECORD_ID",
+   "verdict": "no",
+   "reason": "NCM_ID is this table's own primary key; CalibrationRecord.CAL_RECORD_ID is an unrelated surrogate sequence of the same length (200 vs 200 rows)."
+  },
+  {
+   "id": "ObservationProposal.PROPOSAL_ID -> MissionInstrument.INSTRUMENT_ID",
+   "verdict": "no",
+   "reason": "PROPOSAL_ID is this table's own primary key; MissionInstrument.INSTRUMENT_ID is an unrelated surrogate sequence of the same length (120 vs 120 rows)."
+  },
+  {
+   "id": "ObservatoryWeatherLog.WEATHER_LOG_ID -> TransitLightCurve.LIGHTCURVE_ID",
+   "verdict": "no",
+   "reason": "WEATHER_LOG_ID is this table's own primary key; TransitLightCurve.LIGHTCURVE_ID is an unrelated surrogate sequence of the same length (500 vs 500 rows)."
+  },
+  {
+   "id": "Observer_Team_Map.OTM_ID -> ChemicalAbundanceAnalysis.ABUNDANCE_ID",
+   "verdict": "no",
+   "reason": "OTM_ID is this table's own primary key; ChemicalAbundanceAnalysis.ABUNDANCE_ID is an unrelated surrogate sequence of the same length (250 vs 250 rows)."
+  },
+  {
+   "id": "PipelineQualityMetric.QM_ID -> EmissionAbsorptionFeature.FEATURE_ID",
+   "verdict": "no",
+   "reason": "QM_ID is this table's own primary key; EmissionAbsorptionFeature.FEATURE_ID is an unrelated surrogate sequence of the same length (300 vs 300 rows)."
+  },
+  {
+   "id": "Pipeline_Instrument_Map.PIM_ID -> ScientificPublication.PUBLICATION_ID",
+   "verdict": "no",
+   "reason": "PIM_ID is this table's own primary key; ScientificPublication.PUBLICATION_ID is an unrelated surrogate sequence of the same length (100 vs 100 rows)."
+  },
+  {
+   "id": "PlanetCharacterizationSummary.CHAR_SUMMARY_ID -> SpectralCalibration.CALIBRATION_ID",
+   "verdict": "no",
+   "reason": "CHAR_SUMMARY_ID is this table's own primary key; SpectralCalibration.CALIBRATION_ID is an unrelated surrogate sequence of the same length (150 vs 150 rows)."
+  },
+  {
+   "id": "ProperMotionCatalog.PM_ENTRY_ID -> EmissionAbsorptionFeature.FEATURE_ID",
+   "verdict": "no",
+   "reason": "PM_ENTRY_ID is this table's own primary key; EmissionAbsorptionFeature.FEATURE_ID is an unrelated surrogate sequence of the same length (300 vs 300 rows)."
+  },
+  {
+   "id": "ScheduledObservation.SCHED_OBS_ID -> CitationRecord.CITATION_ID",
+   "verdict": "no",
+   "reason": "SCHED_OBS_ID is this table's own primary key; CitationRecord.CITATION_ID is an unrelated surrogate sequence of the same length (400 vs 400 rows)."
+  },
+  {
+   "id": "ScientificPublication.PUBLICATION_ID -> Pipeline_Instrument_Map.PIM_ID",
+   "verdict": "no",
+   "reason": "PUBLICATION_ID is this table's own primary key; Pipeline_Instrument_Map.PIM_ID is an unrelated surrogate sequence of the same length (100 vs 100 rows)."
+  },
+  {
+   "id": "SpaceMission.mission_id -> Pipeline_Instrument_Map.PIM_ID",
+   "verdict": "no",
+   "reason": "mission_id is this table's own primary key; Pipeline_Instrument_Map.PIM_ID is an unrelated surrogate sequence of the same length (80 vs 100 rows)."
+  },
+  {
+   "id": "SpectralCalibration.CALIBRATION_ID -> PlanetCharacterizationSummary.CHAR_SUMMARY_ID",
+   "verdict": "no",
+   "reason": "CALIBRATION_ID is this table's own primary key; PlanetCharacterizationSummary.CHAR_SUMMARY_ID is an unrelated surrogate sequence of the same length (150 vs 150 rows)."
+  },
+  {
+   "id": "SpectralLineMeasurement.SPECTRAL_LINE_ID -> CitationRecord.CITATION_ID",
+   "verdict": "no",
+   "reason": "SPECTRAL_LINE_ID is this table's own primary key; CitationRecord.CITATION_ID is an unrelated surrogate sequence of the same length (400 vs 400 rows)."
+  },
+  {
+   "id": "Spectral_Instrument_Map.SIM_ID -> EmissionAbsorptionFeature.FEATURE_ID",
+   "verdict": "no",
+   "reason": "SIM_ID is this table's own primary key; EmissionAbsorptionFeature.FEATURE_ID is an unrelated surrogate sequence of the same length (300 vs 300 rows)."
+  },
+  {
+   "id": "StellarMultiplicityRecord.MULTIPLICITY_ID -> PlanetCharacterizationSummary.CHAR_SUMMARY_ID",
+   "verdict": "no",
+   "reason": "MULTIPLICITY_ID is this table's own primary key; PlanetCharacterizationSummary.CHAR_SUMMARY_ID is an unrelated surrogate sequence of the same length (150 vs 150 rows)."
+  },
+  {
+   "id": "TelescopeAllocation.ALLOCATION_ID -> Pipeline_Instrument_Map.PIM_ID",
+   "verdict": "no",
+   "reason": "ALLOCATION_ID is this table's own primary key; Pipeline_Instrument_Map.PIM_ID is an unrelated surrogate sequence of the same length (100 vs 100 rows)."
+  },
+  {
+   "id": "TransitLightCurve.LIGHTCURVE_ID -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "verdict": "no",
+   "reason": "LIGHTCURVE_ID is this table's own primary key; ObservatoryWeatherLog.WEATHER_LOG_ID is an unrelated surrogate sequence of the same length (500 vs 500 rows)."
+  },
+  {
+   "id": "TransmissionSpectrum.SPECTRUM_ID -> EmissionAbsorptionFeature.FEATURE_ID",
+   "verdict": "no",
+   "reason": "SPECTRUM_ID is this table's own primary key; EmissionAbsorptionFeature.FEATURE_ID is an unrelated surrogate sequence of the same length (300 vs 300 rows)."
+  },
+  {
+   "id": "data_quality_tracking.qualityref -> planets.planetref",
+   "verdict": "no",
+   "reason": "data_quality_tracking already points at planets via targetlink; its own key running 1..3372 in parallel is not a reference."
+  },
+  {
+   "id": "instruments_surveys.instrumentref -> DataReductionPipeline.PIPELINE_ID",
+   "verdict": "no",
+   "reason": "instruments_surveys' own 5-row key nests in the 50 pipeline ids purely by size."
+  },
+  {
+   "id": "orbital_characteristics.orbitalref -> data_quality_tracking.qualityref",
+   "verdict": "no",
+   "reason": "orbital_characteristics links to planets via bodylink; its own key paralleling qualityref is coincidence."
+  },
+  {
+   "id": "physical_properties.physref -> orbital_characteristics.orbitalref",
+   "verdict": "no",
+   "reason": "two parallel surrogate sequences; physical_properties reaches planets through objectlink, not through orbitalref."
+  },
+  {
+   "id": "planet_instrument_observations.obsref -> physical_properties.physref",
+   "verdict": "no",
+   "reason": "the observations table's own key nesting in a longer unrelated surrogate sequence."
+  },
+  {
+   "id": "planets.planetref -> data_quality_tracking.qualityref",
+   "verdict": "no",
+   "reason": "planets is the parent here: data_quality_tracking points at it via targetlink, not the reverse."
+  },
+  {
+   "id": "stars.stellarref -> planet_instrument_observations.obsref",
+   "verdict": "no",
+   "reason": "stars' own key nesting inside the observations table's id range is coincidence."
+  },
+  {
+   "id": "stellar_spectroscopy.SPECTROSCOPYREF -> stars.stellarref",
+   "verdict": "no",
+   "reason": "SPECTROSCOPYREF is this table's own 1001+ key; containment in stars' 1..2509 range is accidental."
+  }
+ ]
+}

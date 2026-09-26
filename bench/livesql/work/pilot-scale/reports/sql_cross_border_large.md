@@ -1,0 +1,4 @@
+Writer's report (sql arm, cross_border_large), as returned.
+
+- Hardest: cb_10 ("within the next 5 days" vs "slow remediation", read as overdue 1-5 days per the knowledge windows; ACP request count as the sum of four counts); cb_12 no threshold for "high RES / low DFRS" (used Critical Data Flow Risk thresholds); cb_7 output shape; cb_6 no audit date (used REMED_DUE); cb_1 "include flows even if data is missing" conflicts with the high-risk filter.
+- Material: sample rows exposed the JSONB layouts (`DataFlow.flow_overview`, `RiskManagement.risk_management_profile`) -- without them the knowledge formulas could not be mapped to columns. Missing: the vendor rating scale (A-D stored, 4/3/2/1 documented), 'Critical' sensitivity not in the knowledge scale, join paths (confirmed by querying), status labels ('Failed', 'Full', 'Strong') found by querying; cryptic column names undocumented.

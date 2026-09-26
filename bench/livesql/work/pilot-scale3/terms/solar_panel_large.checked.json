@@ -1,0 +1,502 @@
+[
+ {
+  "id": 0,
+  "kind": "measure",
+  "expression": "(e.elec_perf_snapshot->'energy_yield'->>'energy_yield_kwh')::float / (p.cap_mw * 1000)",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, (e.elec_perf_snapshot->'energy_yield'->>'energy_yield_kwh')::float / (p.cap_mw * 1000) AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "note": "Per plant_record snapshot. E_out = elec_perf_snapshot->'energy_yield'->>'energy_yield_kwh' (kWh); P_rated = plants.cap_mw, converted to kW (*1000), so the result is kWh/kW. Values are tiny (~1e-5 to 0.8, median ~0.004). The JSON also holds a precomputed 'specific_yield_kwh_kw' (3-6), which does NOT agree with this formula (correlation ~0); use it only if the question asks for the stored value.",
+  "knowledge": "Specific Yield",
+  "checked": "ran, 998 rows, from 0.0 to 0.95"
+ },
+ {
+  "id": 1,
+  "kind": "measure",
+  "expression": "(e.elec_perf_snapshot->'energy_yield'->>'capacity_factor_pct')::float",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, (e.elec_perf_snapshot->'energy_yield'->>'capacity_factor_pct')::float AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "note": "Per snapshot, already a percentage (15-30). No column holds T_period (the hours in the period), so the formula E_out/(P_rated*T_period)*100 cannot be computed from the rows; the stored field elec_perf_snapshot->'energy_yield'->>'capacity_factor_pct' is used. If a period is given, the formula would be energy_yield_kwh / (cap_mw*1000 * hours) * 100.",
+  "knowledge": "Power Capacity Factor",
+  "checked": "ran, 998 rows, from 15.01 to 29.99"
+ },
+ {
+  "id": 2,
+  "kind": "measure",
+  "expression": "(e.elec_perf_snapshot->'efficiency'->>'soil_loss_pct')::float",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, (e.elec_perf_snapshot->'efficiency'->>'soil_loss_pct')::float AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "note": "Per snapshot, percent (0.02-14.99). JSON field elec_perf_snapshot->'efficiency'->>'soil_loss_pct'.",
+  "knowledge": "Soiling Loss Index",
+  "checked": "ran, 998 rows, from 0.02 to 14.99"
+ },
+ {
+  "id": 3,
+  "kind": "measure",
+  "expression": "((c.env_snapshot->'temperatures'->>'cell_temp_c')::float - 25) * abs(pm.tempcoeff)",
+  "from": "environmental_conditions c JOIN plant_record r ON r.snapkey = c.snapref JOIN plants p ON p.sitekey = r.sitetie JOIN panel_models pm ON pm.modkey = p.modhook",
+  "check": "SELECT r.snapkey, pm.modkey, ((c.env_snapshot->'temperatures'->>'cell_temp_c')::float - 25) * abs(pm.tempcoeff) AS value FROM environmental_conditions c JOIN plant_record r ON r.snapkey = c.snapref JOIN plants p ON p.sitekey = r.sitetie JOIN panel_models pm ON pm.modkey = p.modhook",
+  "note": "Per snapshot, in percentage points of efficiency (tempcoeff is in %/degC, e.g. -0.39). T_cell = env_snapshot->'temperatures'->>'cell_temp_c'; T_ref = 25 degC; gamma = panel_models.tempcoeff reached via plants.modhook (the plant_panel_model bridge lists 61 extra models for some plants; plants.modhook is the one-per-plant route). Null for ~40% of snapshots (cell_temp_c null) and where tempcoeff is null.",
+  "knowledge": "Thermal Loss Factor",
+  "checked": "ran, 998 rows, 64% of them null, from 0.04 to 21.96"
+ },
+ {
+  "id": 4,
+  "kind": "measure",
+  "expression": "o.mttrh / (o.mtbfh + o.mttrh)",
+  "from": "operational_metrics o",
+  "check": "SELECT o.snapops, o.mttrh / (o.mtbfh + o.mttrh) AS value FROM operational_metrics o",
+  "note": "Per snapshot (operational_metrics row). MTTR = mttrh, MTBF = mtbfh, both hours. Fraction 0-1 (values ~0.0001-0.05). mtbfh is null for 400 of 998 rows, so U is null there.",
+  "knowledge": "System Unavailability",
+  "checked": "ran, 998 rows, 40% of them null, from 0.0 to 0.04"
+ },
+ {
+  "id": 5,
+  "kind": "measure",
+  "expression": "(e.elec_perf_snapshot->'iv_curve'->>'fill_factor_initial')::float - (e.elec_perf_snapshot->'iv_curve'->>'fill_factor_now')::float",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, (e.elec_perf_snapshot->'iv_curve'->>'fill_factor_initial')::float - (e.elec_perf_snapshot->'iv_curve'->>'fill_factor_now')::float AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "note": "Per snapshot; fill factors are fractions (0.70-0.85), so the result is an absolute fraction. JSON fields iv_curve.fill_factor_initial and iv_curve.fill_factor_now.",
+  "knowledge": "Fill Factor Degradation",
+  "checked": "ran, 998 rows, from -0.05 to 0.15"
+ },
+ {
+  "id": 6,
+  "kind": "measure",
+  "expression": "(o.maintcost + o.cleancost + o.replcost) / p.cap_mw",
+  "from": "operational_metrics o JOIN plant_record r ON r.snapkey = o.snapops JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, (o.maintcost + o.cleancost + o.replcost) / p.cap_mw AS value FROM operational_metrics o JOIN plant_record r ON r.snapkey = o.snapops JOIN plants p ON p.sitekey = r.sitetie",
+  "note": "Per snapshot. C_maint = maintcost, C_clean = cleancost, C_replace = replcost (operational_metrics, currency unspecified); P_rated = plants.cap_mw (MW), so the index is cost per MW.",
+  "knowledge": "Operational Expenditure Index",
+  "checked": "ran, 998 rows, from 7.09 to 18565.01"
+ },
+ {
+  "id": 7,
+  "kind": "measure",
+  "expression": "((e.elec_perf_snapshot->'efficiency'->>'cumulative_deg_pct')::float / ((CURRENT_DATE - p.goliveon) / 365.25))",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, ((e.elec_perf_snapshot->'efficiency'->>'cumulative_deg_pct')::float / ((CURRENT_DATE - p.goliveon) / 365.25)) AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "note": "Per snapshot, percent per year. Cumulative Degradation Pct = efficiency.cumulative_deg_pct (0-15 %). Age in years = (CURRENT_DATE - plants.goliveon)/365.25 (goliveon = commissioning/go-live date). Snapshot time was not used for age because 445 of 998 snapshots (plant_record.snapts) predate the plant's goliveon, giving negative ages.",
+  "knowledge": "Annual Degradation Rate (ADR)",
+  "checked": "ran, 998 rows, from 0.0 to 5.17"
+ },
+ {
+  "id": 8,
+  "kind": "measure",
+  "expression": "(1 - o.mttrh / (o.mtbfh + o.mttrh))",
+  "from": "operational_metrics o",
+  "check": "SELECT o.snapops, (1 - o.mttrh / (o.mtbfh + o.mttrh)) AS value FROM operational_metrics o",
+  "note": "1 - [4], a fraction (0.95-1.0). Null where mtbfh is null. The JSON also stores energy_yield.availability_pct (95-99.99 %) which is a different, independent number; the definition's formula uses MTTR/MTBF.",
+  "knowledge": "System Availability",
+  "checked": "ran, 998 rows, 40% of them null, from 0.96 to 1.0"
+ },
+ {
+  "id": 9,
+  "kind": "measure",
+  "expression": "((e.elec_perf_snapshot->'energy_yield'->>'energy_yield_kwh')::float / (p.cap_mw * 1000)) / ((c.env_snapshot->'irradiance'->>'poa_irr_w_m2')::float / 1000.0)",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie JOIN environmental_conditions c ON c.snapref = r.snapkey",
+  "check": "SELECT r.snapkey, p.sitekey, ((e.elec_perf_snapshot->'energy_yield'->>'energy_yield_kwh')::float / (p.cap_mw * 1000)) / ((c.env_snapshot->'irradiance'->>'poa_irr_w_m2')::float / 1000.0) AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie JOIN environmental_conditions c ON c.snapref = r.snapkey",
+  "note": "Per snapshot: [0] divided by (H_POA / G_ref). Nothing holds a period total in-plane irradiation in kWh/m2; the only in-plane quantity is env_snapshot->'irradiance'->>'poa_irr_w_m2' (instantaneous W/m2); dividing by G_ref = 1000 W/m2 makes it kW/m2-equivalent. The resulting values are implausible for a PR (median ~0.008, not ~0.8). The JSON field energy_yield.performance_ratio holds a plausible stored PR (0.70-0.90, null for 400 of 998 rows) that does not follow from this formula; use it if a question means the recorded PR.",
+  "knowledge": "Performance Ratio (PR)",
+  "checked": "ran, 998 rows, from 0.0 to 9.96"
+ },
+ {
+  "id": 10,
+  "kind": "measure",
+  "expression": "(e.elec_perf_snapshot->'power'->>'power_now_w')::float / (1 - (((c.env_snapshot->'temperatures'->>'cell_temp_c')::float - 25) * abs(pm.tempcoeff)) / 100.0)",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie JOIN environmental_conditions c ON c.snapref = r.snapkey JOIN panel_models pm ON pm.modkey = p.modhook",
+  "check": "SELECT r.snapkey, (e.elec_perf_snapshot->'power'->>'power_now_w')::float AS p_actual, (e.elec_perf_snapshot->'power'->>'power_now_w')::float / (1 - (((c.env_snapshot->'temperatures'->>'cell_temp_c')::float - 25) * abs(pm.tempcoeff)) / 100.0) AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie JOIN environmental_conditions c ON c.snapref = r.snapkey JOIN panel_models pm ON pm.modkey = p.modhook",
+  "note": "Per snapshot, watts. P_actual = elec_perf_snapshot->'power'->>'power_now_w' (W, null for 400 rows). Thermal Loss Factor from [3] is in percent, so it is divided by 100 before 1 - L_T. Null wherever power_now_w, cell_temp_c or tempcoeff is null.",
+  "knowledge": "Temperature-Corrected Performance",
+  "checked": "ran, 998 rows, 79% of them null, from 409.06 to 757.83"
+ },
+ {
+  "id": 11,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Needs ADR ([7]) x Annual Energy Production x Energy Price x Remaining Lifetime. No column holds a plant's expected or remaining lifetime. Partial stand-ins exist only for the 80 plants with a PPA: ppa_contracts.guaranteed_yield_kwh_yr (text, e.g. '386,370,000 kWh/yr') as annual production, energy_tariffs.\"PRICE_KWH\" (text '$0.155', several tariffs per contract via \"For_Contract_Num\") as price, and ppa_contracts.\"END_DATE\" for the remaining contract (not asset) life. A writer given a lifetime value could use those.",
+  "knowledge": "Lifetime Revenue Loss Projection",
+  "checked": "not derived"
+ },
+ {
+  "id": 12,
+  "kind": "measure",
+  "expression": "100 - (e.elec_perf_snapshot->'inverter'->>'inverter_eff_pct')::float",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, 100 - (e.elec_perf_snapshot->'inverter'->>'inverter_eff_pct')::float AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "note": "Per snapshot, percent (1-5 %). JSON field inverter.inverter_eff_pct.",
+  "knowledge": "Inverter Efficiency Loss",
+  "checked": "ran, 998 rows, from 1.01 to 5.0"
+ },
+ {
+  "id": 13,
+  "kind": "measure",
+  "expression": "(e.elec_perf_snapshot->'power'->>'power_loss_w')::float / ((e.elec_perf_snapshot->'power'->>'power_now_w')::float + (e.elec_perf_snapshot->'power'->>'power_loss_w')::float)",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, (e.elec_perf_snapshot->'power'->>'power_loss_w')::float / ((e.elec_perf_snapshot->'power'->>'power_now_w')::float + (e.elec_perf_snapshot->'power'->>'power_loss_w')::float) AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "note": "Per snapshot, fraction 0-1. P_loss = power.power_loss_w, P_output = power.power_now_w (both W). Null for ~40% of rows where either is null.",
+  "knowledge": "System Power Loss Ratio",
+  "checked": "ran, 998 rows, 64% of them null, from 0.0 to 0.15"
+ },
+ {
+  "id": 14,
+  "kind": "measure",
+  "expression": "((e.elec_perf_snapshot->'iv_curve'->>'vmp_initial_v')::float - (e.elec_perf_snapshot->'iv_curve'->>'vmp_now_v')::float) / (e.elec_perf_snapshot->'iv_curve'->>'vmp_initial_v')::float",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, ((e.elec_perf_snapshot->'iv_curve'->>'vmp_initial_v')::float - (e.elec_perf_snapshot->'iv_curve'->>'vmp_now_v')::float) / (e.elec_perf_snapshot->'iv_curve'->>'vmp_initial_v')::float AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "note": "Per snapshot, fraction. iv_curve.vmp_initial_v and iv_curve.vmp_now_v (volts). Can be negative where now > initial.",
+  "knowledge": "Voltage Degradation Factor",
+  "checked": "ran, 998 rows, from -0.08 to 0.17"
+ },
+ {
+  "id": 15,
+  "kind": "measure",
+  "expression": "((e.elec_perf_snapshot->'iv_curve'->>'imp_initial_a')::float - (e.elec_perf_snapshot->'iv_curve'->>'imp_now_a')::float) / (e.elec_perf_snapshot->'iv_curve'->>'imp_initial_a')::float",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, ((e.elec_perf_snapshot->'iv_curve'->>'imp_initial_a')::float - (e.elec_perf_snapshot->'iv_curve'->>'imp_now_a')::float) / (e.elec_perf_snapshot->'iv_curve'->>'imp_initial_a')::float AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "note": "Per snapshot, fraction. iv_curve.imp_initial_a and iv_curve.imp_now_a (amps); imp_now_a is null for 399 rows.",
+  "knowledge": "Current Degradation Factor",
+  "checked": "ran, 998 rows, 40% of them null, from -0.12 to 0.29"
+ },
+ {
+  "id": 16,
+  "kind": "measure",
+  "expression": "(e.elec_perf_snapshot->'power'->>'power_now_w')::float * (1 - (e.elec_perf_snapshot->'power'->>'power_loss_w')::float / ((e.elec_perf_snapshot->'power'->>'power_now_w')::float + (e.elec_perf_snapshot->'power'->>'power_loss_w')::float))",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, (e.elec_perf_snapshot->'power'->>'power_now_w')::float * (1 - (e.elec_perf_snapshot->'power'->>'power_loss_w')::float / ((e.elec_perf_snapshot->'power'->>'power_now_w')::float + (e.elec_perf_snapshot->'power'->>'power_loss_w')::float)) AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "note": "Per snapshot, watts. P_gross taken as power.power_now_w (the only output figure) and System Power Loss Ratio from [13]. Reading choice: if gross is meant as power_now_w + power_loss_w, the result collapses to power_now_w.",
+  "knowledge": "Effective Power Output",
+  "checked": "ran, 998 rows, 64% of them null, from 325.43 to 646.11"
+ },
+ {
+  "id": 17,
+  "kind": "measure",
+  "expression": "p.cap_mw * (1 - (((e.elec_perf_snapshot->'efficiency'->>'cumulative_deg_pct')::float / ((CURRENT_DATE - p.goliveon) / 365.25)) / 100.0) * ((CURRENT_DATE - p.goliveon) / 365.25))",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, p.cap_mw * (1 - (((e.elec_perf_snapshot->'efficiency'->>'cumulative_deg_pct')::float / ((CURRENT_DATE - p.goliveon) / 365.25)) / 100.0) * ((CURRENT_DATE - p.goliveon) / 365.25)) AS value FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "note": "Per snapshot, MW. P_rated = plants.cap_mw; ADR from [7] is in percent so it is divided by 100; Age = (CURRENT_DATE - goliveon)/365.25, the same age used in [7] (so ADR*Age equals cumulative_deg_pct/100).",
+  "knowledge": "Degradation-Adjusted Capacity",
+  "checked": "ran, 998 rows, from 1.33 to 494.28"
+ },
+ {
+  "id": 18,
+  "kind": "measure",
+  "expression": "o.maintcost / NULLIF(regexp_replace(o.revloss, '[^0-9.]', '', 'g')::numeric, 0)",
+  "from": "operational_metrics o",
+  "check": "SELECT o.snapops, o.maintcost / NULLIF(regexp_replace(o.revloss, '[^0-9.]', '', 'g')::numeric, 0) AS value FROM operational_metrics o",
+  "note": "Per snapshot. Total Maintenance Cost = operational_metrics.maintcost; Total Revenue Loss = operational_metrics.revloss, stored as text with '$' and thousands commas (e.g. '$13,375.59'), so non-numeric characters are stripped before casting. No negatives found.",
+  "knowledge": "Maintenance Cost to Revenue Impact Ratio",
+  "checked": "ran, 998 rows, from 0.0 to 333.95"
+ },
+ {
+  "id": 19,
+  "kind": "none",
+  "expression": "",
+  "from": "",
+  "check": "",
+  "note": "Needs Total Time / MTBF (number of failures). MTBF is operational_metrics.mtbfh (hours) and total maintenance cost is maintcost, but no column holds the total operational time covered by a snapshot. Plant age in hours ((CURRENT_DATE - plants.goliveon)*24) is the nearest stand-in if a writer chooses: maintcost / ((CURRENT_DATE - p.goliveon)*24.0 / mtbfh).",
+  "knowledge": "Mean Repair Cost",
+  "checked": "not derived"
+ },
+ {
+  "id": 20,
+  "kind": "condition",
+  "expression": "pm.degyrrate > 0.7",
+  "from": "panel_models pm",
+  "check": "SELECT pm.modkey, pm.degyrrate FROM panel_models pm WHERE pm.degyrrate > 0.7",
+  "note": "panel_models.degyrrate is the specified annual degradation in percent (0.3-1.2), so 0.7% is 0.7. 0.7 is the definition's example threshold.",
+  "knowledge": "High Degradation Panel Model",
+  "checked": "ran, 335 rows, from 0.71 to 1.2"
+ },
+ {
+  "id": 21,
+  "kind": "condition",
+  "expression": "(m.mech_health_snapshot->'tracker'->>'tracker_state') IN ('Error', 'Maintenance')",
+  "from": "mechanical_condition m",
+  "check": "SELECT m.snapmk FROM mechanical_condition m WHERE (m.mech_health_snapshot->'tracker'->>'tracker_state') IN ('Error', 'Maintenance')",
+  "note": "Per snapshot. JSON field mech_health_snapshot->'tracker'->>'tracker_state'; values Error/Maintenance/Normal (no 'Stow' rows).",
+  "knowledge": "Tracker Malfunction",
+  "checked": "ran, 684 rows"
+ },
+ {
+  "id": 22,
+  "kind": "condition",
+  "expression": "i.dqscore < 50",
+  "from": "inspection i",
+  "check": "SELECT i.inspectmode, i.dqscore FROM inspection i WHERE i.dqscore < 50",
+  "note": "inspection.dqscore (0-100). The inspection table has only 4 rows, one per inspection mode, and no key linking it to plants or snapshots; only 'IR Thermal' (19.9) qualifies.",
+  "knowledge": "Data Quality Concern",
+  "checked": "ran, 1 row, from 19.9 to 19.9"
+ },
+ {
+  "id": 23,
+  "kind": "condition",
+  "expression": "(m.mech_health_snapshot->'mount_cleaning'->>'mount_structure_status') IN ('Unstable', 'Check Required')",
+  "from": "mechanical_condition m",
+  "check": "SELECT m.snapmk FROM mechanical_condition m WHERE (m.mech_health_snapshot->'mount_cleaning'->>'mount_structure_status') IN ('Unstable', 'Check Required')",
+  "note": "Per snapshot. JSON field mech_health_snapshot->'mount_cleaning'->>'mount_structure_status'.",
+  "knowledge": "Structural Integrity Warning",
+  "checked": "ran, 658 rows"
+ },
+ {
+  "id": 24,
+  "kind": "condition",
+  "expression": "a.maintprio = 'High'",
+  "from": "alert a",
+  "check": "SELECT a.snapalrt FROM alert a WHERE a.maintprio = 'High'",
+  "note": "Per snapshot (alert keyed by snapalrt = plant_record.snapkey). maintprio is null for ~40% of rows.",
+  "knowledge": "High Maintenance Priority",
+  "checked": "ran, 201 rows"
+ },
+ {
+  "id": 25,
+  "kind": "condition",
+  "expression": "a.replprio = 'High'",
+  "from": "alert a",
+  "check": "SELECT a.snapalrt FROM alert a WHERE a.replprio = 'High'",
+  "note": "Per snapshot. alert.replprio.",
+  "knowledge": "High Replacement Priority",
+  "checked": "ran, 328 rows"
+ },
+ {
+  "id": 26,
+  "kind": "condition",
+  "expression": "(e.elec_perf_snapshot->'efficiency'->>'soil_loss_pct')::float > 15",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie WHERE (e.elec_perf_snapshot->'efficiency'->>'soil_loss_pct')::float > 15",
+  "note": "Uses [2] with the definition's example threshold 15%. soil_loss_pct maxes at 14.99 in the data, so no row qualifies.",
+  "knowledge": "Severe Soiling Condition",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 27,
+  "kind": "condition",
+  "expression": "p.envtag = 'High'",
+  "from": "plants p",
+  "check": "SELECT p.sitekey FROM plants p WHERE p.envtag = 'High'",
+  "note": "plants.envtag (High/Medium/Low).",
+  "knowledge": "High Environmental Risk Site",
+  "checked": "ran, 313 rows"
+ },
+ {
+  "id": 28,
+  "kind": "condition",
+  "expression": "p.warrstate = 'Claimed' AND p.warrclaims > 2",
+  "from": "plants p",
+  "check": "SELECT p.sitekey, p.warrclaims FROM plants p WHERE p.warrstate = 'Claimed' AND p.warrclaims > 2",
+  "note": "plants.warrstate and plants.warrclaims (integer 0-5); 2 is the definition's example threshold.",
+  "knowledge": "Warranty Claim Risk",
+  "checked": "ran, 51 rows, from 3.0 to 5.0"
+ },
+ {
+  "id": 29,
+  "kind": "condition",
+  "expression": "a.maintprio = 'High' AND a.replprio = 'High'",
+  "from": "alert a",
+  "check": "SELECT a.snapalrt FROM alert a WHERE a.maintprio = 'High' AND a.replprio = 'High'",
+  "note": "[24] AND [25] on the same alert row (per snapshot).",
+  "knowledge": "Critical Alert",
+  "checked": "ran, 66 rows"
+ },
+ {
+  "id": 30,
+  "kind": "condition",
+  "expression": "(m.mech_health_snapshot->'electrical_integrity'->>'grounding_status') = 'Failed' OR (m.mech_health_snapshot->'electrical_integrity'->>'bypass_diode_status') <> 'Normal'",
+  "from": "mechanical_condition m",
+  "check": "SELECT m.snapmk FROM mechanical_condition m WHERE (m.mech_health_snapshot->'electrical_integrity'->>'grounding_status') = 'Failed' OR (m.mech_health_snapshot->'electrical_integrity'->>'bypass_diode_status') <> 'Normal'",
+  "note": "Per snapshot. grounding_status values Failed/Check Required/Normal (only 'Failed' counts); bypass_diode_status values Failed/Partial/Normal (non-normal = Failed or Partial). No nulls.",
+  "knowledge": "Electrical Integrity Failure",
+  "checked": "ran, 790 rows"
+ },
+ {
+  "id": 31,
+  "kind": "condition",
+  "expression": "(m.mech_health_snapshot->'module_surface'->>'busbar_corrosion') = 'Severe' AND (m.mech_health_snapshot->'module_surface'->>'delamination_status') = 'Major' AND (m.mech_health_snapshot->'module_surface'->>'microcrack_count')::int > 5",
+  "from": "mechanical_condition m",
+  "check": "SELECT m.snapmk FROM mechanical_condition m WHERE (m.mech_health_snapshot->'module_surface'->>'busbar_corrosion') = 'Severe' AND (m.mech_health_snapshot->'module_surface'->>'delamination_status') = 'Major' AND (m.mech_health_snapshot->'module_surface'->>'microcrack_count')::int > 5",
+  "note": "Per snapshot. module_surface.busbar_corrosion = 'Severe', module_surface.delamination_status = 'Major', module_surface.microcrack_count (integer in JSON) > 5, all required.",
+  "knowledge": "Major Module Degradation",
+  "checked": "ran, 89 rows"
+ },
+ {
+  "id": 32,
+  "kind": "condition",
+  "expression": "((e.elec_perf_snapshot->'energy_yield'->>'energy_yield_kwh')::float / (p.cap_mw * 1000)) / ((c.env_snapshot->'irradiance'->>'poa_irr_w_m2')::float / 1000.0) < 0.75",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie JOIN environmental_conditions c ON c.snapref = r.snapkey",
+  "check": "SELECT r.snapkey, p.sitekey FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie JOIN environmental_conditions c ON c.snapref = r.snapkey WHERE ((e.elec_perf_snapshot->'energy_yield'->>'energy_yield_kwh')::float / (p.cap_mw * 1000)) / ((c.env_snapshot->'irradiance'->>'poa_irr_w_m2')::float / 1000.0) < 0.75",
+  "note": "Uses [9]. Because the formula PR is implausibly small, almost every row (987/998) qualifies; with the stored energy_yield.performance_ratio instead, 130 rows qualify.",
+  "knowledge": "Underperforming Asset",
+  "checked": "ran, 987 rows"
+ },
+ {
+  "id": 33,
+  "kind": "condition",
+  "expression": "(1 - o.mttrh / (o.mtbfh + o.mttrh)) < 0.95",
+  "from": "operational_metrics o",
+  "check": "SELECT o.snapops FROM operational_metrics o WHERE (1 - o.mttrh / (o.mtbfh + o.mttrh)) < 0.95",
+  "note": "Uses [8] (fraction). Computed availability ranges 0.96-1.0, so no row qualifies at 95%; rows with null mtbfh never qualify. (The stored energy_yield.availability_pct is also >= 95 everywhere.)",
+  "knowledge": "Chronic Downtime Asset",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 34,
+  "kind": "condition",
+  "expression": "(o.maintcost + o.cleancost + o.replcost) / p.cap_mw > 1000",
+  "from": "operational_metrics o JOIN plant_record r ON r.snapkey = o.snapops JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, p.sitekey, (o.maintcost + o.cleancost + o.replcost) / p.cap_mw AS oei FROM operational_metrics o JOIN plant_record r ON r.snapkey = o.snapops JOIN plants p ON p.sitekey = r.sitetie WHERE (o.maintcost + o.cleancost + o.replcost) / p.cap_mw > 1000",
+  "note": "Uses [6]. The definition gives no threshold ('a predefined value'); 1000 (cost per MW) is a placeholder to replace with the question's value. OEI ranges 7 to ~18,600 per MW, median ~128; 59 snapshots exceed 1000.",
+  "knowledge": "High-Cost Asset",
+  "checked": "ran, 59 rows, from 1034.45 to 18565.01"
+ },
+ {
+  "id": 35,
+  "kind": "condition",
+  "expression": "(m.mech_health_snapshot->'mount_cleaning'->>'mount_structure_status') IN ('Unstable', 'Check Required') AND (m.mech_health_snapshot->'tracker'->>'tracker_state') IN ('Error', 'Maintenance')",
+  "from": "mechanical_condition m",
+  "check": "SELECT m.snapmk FROM mechanical_condition m WHERE (m.mech_health_snapshot->'mount_cleaning'->>'mount_structure_status') IN ('Unstable', 'Check Required') AND (m.mech_health_snapshot->'tracker'->>'tracker_state') IN ('Error', 'Maintenance')",
+  "note": "[23] AND [21] on the same mechanical_condition snapshot.",
+  "knowledge": "Critical Mechanical Health",
+  "checked": "ran, 451 rows"
+ },
+ {
+  "id": 36,
+  "kind": "condition",
+  "expression": "((e.elec_perf_snapshot->'efficiency'->>'cumulative_deg_pct')::float / ((CURRENT_DATE - p.goliveon) / 365.25)) > 0.7 AND (m.mech_health_snapshot->'module_surface'->>'busbar_corrosion') = 'Severe' AND (m.mech_health_snapshot->'module_surface'->>'delamination_status') = 'Major' AND (m.mech_health_snapshot->'module_surface'->>'microcrack_count')::int > 5",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie JOIN mechanical_condition m ON m.snapmk = r.snapkey",
+  "check": "SELECT r.snapkey, p.sitekey, ((e.elec_perf_snapshot->'efficiency'->>'cumulative_deg_pct')::float / ((CURRENT_DATE - p.goliveon) / 365.25)) AS adr FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie JOIN mechanical_condition m ON m.snapmk = r.snapkey WHERE ((e.elec_perf_snapshot->'efficiency'->>'cumulative_deg_pct')::float / ((CURRENT_DATE - p.goliveon) / 365.25)) > 0.7 AND (m.mech_health_snapshot->'module_surface'->>'busbar_corrosion') = 'Severe' AND (m.mech_health_snapshot->'module_surface'->>'delamination_status') = 'Major' AND (m.mech_health_snapshot->'module_surface'->>'microcrack_count')::int > 5",
+  "note": "[7] AND [31] on the same snapshot. The definition does not say what a 'high' ADR is; 0.7 %/yr (the industry-average figure from [20]) is a placeholder to replace with the question's value.",
+  "knowledge": "Accelerated Aging Asset",
+  "checked": "ran, 65 rows, from 0.73 to 3.94"
+ },
+ {
+  "id": 37,
+  "kind": "condition",
+  "expression": "i.inspectres = 'Major Issues' AND i.maintsched = 'Overdue'",
+  "from": "inspection i",
+  "check": "SELECT i.inspectmode FROM inspection i WHERE i.inspectres = 'Major Issues' AND i.maintsched = 'Overdue'",
+  "note": "inspection.inspectres and inspection.maintsched. inspection has 4 rows (one per mode) with no link to plants/snapshots; only 'IR Thermal' qualifies.",
+  "knowledge": "Overdue Critical Maintenance",
+  "checked": "ran, 1 row, values 'IR Thermal'"
+ },
+ {
+  "id": 38,
+  "kind": "condition",
+  "expression": "a.maintprio = 'High' AND a.replprio = 'High' AND EXISTS (SELECT 1 FROM inspection i WHERE i.inspectres = 'Major Issues' AND i.maintsched = 'Overdue' AND i.dqscore < 50)",
+  "from": "alert a",
+  "check": "SELECT a.snapalrt FROM alert a WHERE a.maintprio = 'High' AND a.replprio = 'High' AND EXISTS (SELECT 1 FROM inspection i WHERE i.inspectres = 'Major Issues' AND i.maintsched = 'Overdue' AND i.dqscore < 50)",
+  "note": "[29] on alert AND [37] AND [22]. Because inspection cannot be joined to an asset, [37] and [22] are tested as the existence of an inspection row with Major Issues, Overdue and dqscore < 50 (the 'IR Thermal' row satisfies all three), so in practice this equals [29].",
+  "knowledge": "Neglected Asset",
+  "checked": "ran, 66 rows"
+ },
+ {
+  "id": 39,
+  "kind": "condition",
+  "expression": "a.maintprio = 'High' AND a.replprio = 'High' AND EXISTS (SELECT 1 FROM inspection i WHERE i.inspectres = 'Major Issues' AND i.maintsched = 'Overdue' AND i.dqscore < 50) AND (o.maintcost + o.cleancost + o.replcost) / p.cap_mw > 1000",
+  "from": "alert a JOIN operational_metrics o ON o.snapops = a.snapalrt JOIN plant_record r ON r.snapkey = a.snapalrt JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT p.sitekey, a.snapalrt, (o.maintcost + o.cleancost + o.replcost) / p.cap_mw AS oei FROM alert a JOIN operational_metrics o ON o.snapops = a.snapalrt JOIN plant_record r ON r.snapkey = a.snapalrt JOIN plants p ON p.sitekey = r.sitetie WHERE a.maintprio = 'High' AND a.replprio = 'High' AND EXISTS (SELECT 1 FROM inspection i WHERE i.inspectres = 'Major Issues' AND i.maintsched = 'Overdue' AND i.dqscore < 50) AND (o.maintcost + o.cleancost + o.replcost) / p.cap_mw > 1000",
+  "note": "[38] AND [34] on the same snapshot, reported per plant. [34]'s threshold 1000 is a placeholder.",
+  "knowledge": "Decommissioning Candidate",
+  "checked": "ran, 4 rows, from 1895.44 to 5890.99"
+ },
+ {
+  "id": 40,
+  "kind": "value",
+  "expression": "(e.elec_perf_snapshot->'inverter'->>'power_factor')::float BETWEEN -1 AND 1",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, (e.elec_perf_snapshot->'inverter'->>'power_factor')::float AS pf FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie WHERE (e.elec_perf_snapshot->'inverter'->>'power_factor')::float BETWEEN -1 AND 1",
+  "note": "Power factor lives in elec_perf_snapshot->'inverter'->>'power_factor' (0.90-1.00 in the data, null for 400 rows). 1.0 = perfect, >= 0.95 typical of high-efficiency systems.",
+  "knowledge": "Power Factor",
+  "checked": "ran, 598 rows, from 0.9 to 1.0"
+ },
+ {
+  "id": 41,
+  "kind": "value",
+  "expression": "pm.tempcoeff < 0",
+  "from": "panel_models pm",
+  "check": "SELECT pm.modkey, pm.tempcoeff FROM panel_models pm WHERE pm.tempcoeff < 0",
+  "note": "panel_models.tempcoeff in %/degC (-0.45 to -0.35; null for 237 of 596 models). Negative = power drops per degree above 25 degC; use abs() for the magnitude.",
+  "knowledge": "Temperature Coefficient of Power",
+  "checked": "ran, 359 rows, from -0.45 to -0.35"
+ },
+ {
+  "id": 42,
+  "kind": "value",
+  "expression": "(e.elec_perf_snapshot->'iv_curve'->>'fill_factor_now')::float > 0.8",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, (e.elec_perf_snapshot->'iv_curve'->>'fill_factor_now')::float AS ff FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie WHERE (e.elec_perf_snapshot->'iv_curve'->>'fill_factor_now')::float > 0.8",
+  "note": "iv_curve.fill_factor_now (0.70-0.80) and iv_curve.fill_factor_initial (0.75-0.85); > 0.8 marks a high-quality cell. fill_factor_now never exceeds 0.80, so this test finds no rows; fill_factor_initial does reach 0.85.",
+  "knowledge": "IV Curve Fill Factor",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 43,
+  "kind": "value",
+  "expression": "(c.env_snapshot->'atmospheric'->>'uv_index')::float >= 11",
+  "from": "environmental_conditions c",
+  "check": "SELECT c.snapref, (c.env_snapshot->'atmospheric'->>'uv_index')::float AS uv FROM environmental_conditions c WHERE (c.env_snapshot->'atmospheric'->>'uv_index')::float >= 11",
+  "note": "env_snapshot->'atmospheric'->>'uv_index' (0-12). Bands: 1-2 Low, 3-5 Moderate, 6-7 High, 8-10 Very High, >= 11 Extreme (condition shown is Extreme).",
+  "knowledge": "UV Index",
+  "checked": "ran, 74 rows, from 11.0 to 12.0"
+ },
+ {
+  "id": 44,
+  "kind": "value",
+  "expression": "(m.mech_health_snapshot->'tracker'->>'tracker_state') IN ('Normal', 'Maintenance', 'Error', 'Stow')",
+  "from": "mechanical_condition m",
+  "check": "SELECT m.snapmk, (m.mech_health_snapshot->'tracker'->>'tracker_state') AS state FROM mechanical_condition m WHERE (m.mech_health_snapshot->'tracker'->>'tracker_state') IN ('Normal', 'Maintenance', 'Error', 'Stow')",
+  "note": "mech_health_snapshot->'tracker'->>'tracker_state'. Data holds Normal, Maintenance, Error only; 'Stow' never occurs.",
+  "knowledge": "Tracker System State",
+  "checked": "ran, 998 rows, values 'Error', 'Maintenance', 'Normal'"
+ },
+ {
+  "id": 45,
+  "kind": "value",
+  "expression": "i.dqscore >= 95",
+  "from": "inspection i",
+  "check": "SELECT i.inspectmode, i.dqscore FROM inspection i WHERE i.dqscore >= 95",
+  "note": "inspection.dqscore on 0-100; >= 95 high quality, < 50 unreliable. Only 4 inspection rows, not linked to assets.",
+  "knowledge": "Data Quality Score (DQS)",
+  "checked": "ran, 1 row, from 97.7 to 97.7"
+ },
+ {
+  "id": 46,
+  "kind": "value",
+  "expression": "(m.mech_health_snapshot->'module_surface'->>'busbar_corrosion') = 'Severe'",
+  "from": "mechanical_condition m",
+  "check": "SELECT m.snapmk, (m.mech_health_snapshot->'module_surface'->>'busbar_corrosion') AS busbar FROM mechanical_condition m WHERE (m.mech_health_snapshot->'module_surface'->>'busbar_corrosion') = 'Severe'",
+  "note": "module_surface.busbar_corrosion holds only 'Severe', 'Visible' and JSON null (~1/3); null most likely stands for 'None'. 'Light' never occurs.",
+  "knowledge": "Busbar Corrosion Severity",
+  "checked": "ran, 366 rows, values 'Severe'"
+ },
+ {
+  "id": 47,
+  "kind": "value",
+  "expression": "o.mtbfh > 8000",
+  "from": "operational_metrics o",
+  "check": "SELECT o.snapops, o.mtbfh FROM operational_metrics o WHERE o.mtbfh > 8000",
+  "note": "operational_metrics.mtbfh in hours (1000-9987; null for 400 rows). > 8000 highly reliable, < 1000 fails frequently.",
+  "knowledge": "Mean Time Between Failures (MTBF)",
+  "checked": "ran, 109 rows, from 8013.6 to 9986.7"
+ },
+ {
+  "id": 48,
+  "kind": "value",
+  "expression": "split_part(pm.nomoptempc, ' ', 1)::float > 45",
+  "from": "panel_models pm",
+  "check": "SELECT pm.modkey, pm.nomoptempc FROM panel_models pm WHERE split_part(pm.nomoptempc, ' ', 1)::float > 45",
+  "note": "panel_models.nomoptempc is text with unit, e.g. '45.7 degC' ('45.7 \u00b0C'); extract the number before comparing. Typical ~45 degC.",
+  "knowledge": "Nominal Operating Cell Temperature (NOCT)",
+  "checked": "ran, 283 rows"
+ },
+ {
+  "id": 49,
+  "kind": "value",
+  "expression": "(e.elec_perf_snapshot->'grid'->>'harmonic_distortion_pct')::float < 5",
+  "from": "electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie",
+  "check": "SELECT r.snapkey, (e.elec_perf_snapshot->'grid'->>'harmonic_distortion_pct')::float AS thd FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie WHERE (e.elec_perf_snapshot->'grid'->>'harmonic_distortion_pct')::float < 5",
+  "note": "elec_perf_snapshot->'grid'->>'harmonic_distortion_pct', percent (0-5). < 5 desirable.",
+  "knowledge": "Total Harmonic Distortion (THD)",
+  "checked": "ran, 997 rows, from 0.0 to 4.99"
+ }
+]

@@ -1,0 +1,562 @@
+[
+ {
+  "id": 0,
+  "kind": "value",
+  "expression": "ARRAY(SELECT k FROM jsonb_each(r.event_schedule->'sessions') AS e(k, v) WHERE v->>'date' IS NOT NULL OR v->>'time' IS NOT NULL ORDER BY k) || CASE WHEN r.event_schedule->>'date_set' IS NOT NULL THEN ARRAY['race'] ELSE ARRAY[]::text[] END",
+  "from": "races r",
+  "check": "SELECT r.rak_id, r.yr, r.rnum, ARRAY(SELECT k FROM jsonb_each(r.event_schedule->'sessions') AS e(k, v) WHERE v->>'date' IS NOT NULL OR v->>'time' IS NOT NULL ORDER BY k) || CASE WHEN r.event_schedule->>'date_set' IS NOT NULL THEN ARRAY['race'] ELSE ARRAY[]::text[] END AS sessions FROM races r ORDER BY r.rak_id LIMIT 20",
+  "note": "One row per race weekend in races. Sessions live in JSON races.event_schedule->'sessions' with keys 'fp1','fp2','fp3','qualifying','sprint', each {'date':'YYYY/MM/DD','time':'HH:MM:SS'}; the Grand Prix race itself is event_schedule->>'date_set' (YYYY/MM/DD) and ->>'start_time'. The expression lists the sessions that have a date or time. Schedules are very sparse (fp1 date on 45 of 1125 races, qualifying date on 40), so a missing session usually means unpublished, not absent (see [7]). Session results exist only for qualifying (table qualifying) and sprint (table sprint_results); lap_times and pit_stops are race-level samples.",
+  "knowledge": "Race Weekend Structure",
+  "checked": "ran, 1,125 rows"
+ },
+ {
+  "id": 1,
+  "kind": "value",
+  "expression": "q.q3_r IS NOT NULL",
+  "from": "qualifying q",
+  "check": "SELECT q.rbind, q.pilotrec, q.px_pos, q.q1_r, q.q2_r, q.q3_r, q.q3_r IS NOT NULL AS reached_q3 FROM qualifying q ORDER BY q.rbind, q.px_pos LIMIT 20",
+  "note": "qualifying has one row per driver per race (rbind = race, pilotrec = driver, corptag = constructor, px_pos = qualifying position). q1_r, q2_r, q3_r are the lap times of each stage as text 'm:ss.sss' (NULL when the driver did not run that stage). Stage reached: q3_r IS NOT NULL = made Q3; q2_r IS NOT NULL AND q3_r IS NULL = eliminated in Q2; q2_r IS NULL = eliminated in Q1. Older races may have only q1_r. Convert with split_part(x,':',1)::numeric*60 + split_part(x,':',2)::numeric. The table is a sample: about 4 drivers per race on 486 races.",
+  "knowledge": "Qualifying Format Explained",
+  "checked": "ran, 2,101 rows, values False, True"
+ },
+ {
+  "id": 2,
+  "kind": "condition",
+  "expression": "EXISTS (SELECT 1 FROM sprint_results sr WHERE sr.matchref = r.rak_id)",
+  "from": "races r",
+  "check": "SELECT r.rak_id, r.yr, r.event_schedule->>'event_name' AS ev FROM races r WHERE EXISTS (SELECT 1 FROM sprint_results sr WHERE sr.matchref = r.rak_id) ORDER BY r.rak_id",
+  "note": "A sprint weekend is a race with rows in sprint_results (matchref = races.rak_id): 18 weekends, 2021-2024. The schedule field event_schedule->'sessions'->'sprint' has a date/time on only 12 of these 18, so test sprint_results rather than the schedule. The sprint's own qualifying is not held; the qualifying table is Grand Prix qualifying.",
+  "knowledge": "Sprint Session Explained",
+  "checked": "ran, 18 rows, 22% of them null"
+ },
+ {
+  "id": 3,
+  "kind": "value",
+  "expression": "c.location_metadata->'location'->>'city' IS NULL OR c.location_metadata->'coordinates'->>'latitude' IS NULL OR c.location_metadata->'coordinates'->>'longitude' IS NULL",
+  "from": "circuits c",
+  "check": "SELECT c.cctkey, c.location_metadata->>'name' AS name, c.location_metadata->'location'->>'city' AS city, c.location_metadata->'coordinates'->>'latitude' AS lat, c.location_metadata->'coordinates'->>'longitude' AS lon FROM circuits c WHERE c.location_metadata->'location'->>'city' IS NULL OR c.location_metadata->'coordinates'->>'latitude' IS NULL OR c.location_metadata->'coordinates'->>'longitude' IS NULL",
+  "note": "Stored as JSON null inside circuits.location_metadata (keys present, value null), so ->> returns SQL NULL. City is missing on 19 of 77 circuits, latitude/longitude on 23. Test each field separately if only one is meant.",
+  "knowledge": "Data Unavailability for Circuit Location",
+  "checked": "ran, 35 rows, 66% of them null"
+ },
+ {
+  "id": 4,
+  "kind": "value",
+  "expression": "c.location_metadata->'coordinates'->>'elevation_m' IS NULL",
+  "from": "circuits c",
+  "check": "SELECT c.cctkey, c.location_metadata->>'name' AS name FROM circuits c WHERE c.location_metadata->'coordinates'->>'elevation_m' IS NULL",
+  "note": "Elevation is circuits.location_metadata->'coordinates'->>'elevation_m' (integer metres); JSON null on 38 of 77 circuits.",
+  "knowledge": "Data Unavailability for Circuit Elevation",
+  "checked": "ran, 38 rows"
+ },
+ {
+  "id": 5,
+  "kind": "value",
+  "expression": "d.driver_identity->>'racing_number' IS NULL OR d.driver_identity->>'code' IS NULL",
+  "from": "drivers d",
+  "check": "SELECT d.drv_main, d.driver_identity->>'reference' AS ref, d.driver_identity->>'racing_number' AS num, d.driver_identity->>'code' AS code FROM drivers d WHERE d.driver_identity->>'racing_number' IS NULL OR d.driver_identity->>'code' IS NULL LIMIT 20",
+  "note": "Permanent number is drivers.driver_identity->>'racing_number' (text), three-letter code is driver_identity->>'code'. Both are JSON null when unavailable: number missing on 835 of 861 drivers, code on 804. Test each separately if only one is meant.",
+  "knowledge": "Data Unavailability for Driver Identification",
+  "checked": "ran, 846 rows, 95% of them null"
+ },
+ {
+  "id": 6,
+  "kind": "value",
+  "expression": "co.naty IS NULL",
+  "from": "constructors co",
+  "check": "SELECT co.cstr_key, co.namelabel, co.naty FROM constructors co WHERE co.naty IS NULL LIMIT 20",
+  "note": "Constructor nationality is constructors.naty (demonym text, e.g. 'British'); SQL NULL on 128 of 212 constructors. (constructor_profiles.HQ_COUNTRY is a separate, synthetic headquarters code, not nationality.)",
+  "knowledge": "Data Unavailability for Constructor Nationality",
+  "checked": "ran, 128 rows, 100% of them null, values "
+ },
+ {
+  "id": 7,
+  "kind": "value",
+  "expression": "r.event_schedule->'sessions'->'qualifying'->>'date' IS NULL OR r.event_schedule->'sessions'->'qualifying'->>'time' IS NULL",
+  "from": "races r",
+  "check": "SELECT r.rak_id, count(*) FILTER (WHERE r.event_schedule->'sessions'->'qualifying'->>'date' IS NULL OR r.event_schedule->'sessions'->'qualifying'->>'time' IS NULL) OVER () AS tbd_quali, r.event_schedule->>'date_set' AS race_date, r.event_schedule->>'start_time' AS race_time FROM races r LIMIT 5",
+  "note": "Shown for qualifying; substitute the session key: event_schedule->'sessions'->'<fp1|fp2|fp3|qualifying|sprint>'->>'date' / ->>'time'. For the race itself use event_schedule->>'date_set' (YYYY/MM/DD; null on 6 races) and ->>'start_time' (null on 854 of 1125). All are JSON null when TBD / not applicable; most session dates are null.",
+  "knowledge": "Indeterminate Event Timings",
+  "checked": "ran, 1,125 rows, 76% of them null"
+ },
+ {
+  "id": 8,
+  "kind": "measure",
+  "expression": "CASE (sr.sprint_performance->>'final_position')::int WHEN 1 THEN 25 WHEN 2 THEN 18 WHEN 3 THEN 15 WHEN 4 THEN 12 WHEN 5 THEN 10 WHEN 6 THEN 8 WHEN 7 THEN 6 WHEN 8 THEN 4 WHEN 9 THEN 2 WHEN 10 THEN 1 ELSE 0 END",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive, (sr.sprint_performance->>'final_position')::int AS pos, CASE (sr.sprint_performance->>'final_position')::int WHEN 1 THEN 25 WHEN 2 THEN 18 WHEN 3 THEN 15 WHEN 4 THEN 12 WHEN 5 THEN 10 WHEN 6 THEN 8 WHEN 7 THEN 6 WHEN 8 THEN 4 WHEN 9 THEN 2 WHEN 10 THEN 1 ELSE 0 END AS race_scale_pts, sr.sprint_performance->>'points' AS stored_pts FROM sprint_results sr ORDER BY sr.matchref, (sr.sprint_performance->>'final_position')::int LIMIT 12",
+  "note": "Points for a finishing position under the Grand Prix scale. The database has no main Grand Prix results table (no per-driver race grid, finishing position, race points, race time or race fastest lap). The only per-driver race classification is sprint_results, one row per driver per sprint (18 sprint weekends, 2021-2024, 20 drivers each), with JSON sprint_performance: 'grid', 'final_position' (NULL when not classified; 'position_label' then holds R/N/W), 'points', 'timing'->'duration_ms', 'fastest_lap'->'lap_time' (text m:ss.sss). This entry is realised on that table. No stored points follow this 25-18-15 scale: sprint_results 'points' follows [9], and constructor_results.scoreval / driver_standings.acc_pt are already-summed points. Apply the CASE to whatever finishing position is used; unclassified (final_position NULL) gets 0.",
+  "knowledge": "Championship Points System (Race)",
+  "checked": "ran, 360 rows"
+ },
+ {
+  "id": 9,
+  "kind": "measure",
+  "expression": "CASE (sr.sprint_performance->>'final_position')::int WHEN 1 THEN 8 WHEN 2 THEN 7 WHEN 3 THEN 6 WHEN 4 THEN 5 WHEN 5 THEN 4 WHEN 6 THEN 3 WHEN 7 THEN 2 WHEN 8 THEN 1 ELSE 0 END",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, (sr.sprint_performance->>'final_position')::int AS pos, CASE (sr.sprint_performance->>'final_position')::int WHEN 1 THEN 8 WHEN 2 THEN 7 WHEN 3 THEN 6 WHEN 4 THEN 5 WHEN 5 THEN 4 WHEN 6 THEN 3 WHEN 7 THEN 2 WHEN 8 THEN 1 ELSE 0 END AS pts_scale, (sr.sprint_performance->>'points')::int AS stored FROM sprint_results sr ORDER BY sr.matchref, (sr.sprint_performance->>'final_position')::int LIMIT 10",
+  "note": "Sprint position is (sr.sprint_performance->>'final_position')::int. The stored points are (sr.sprint_performance->>'points')::int; they match this 8-7-...-1 scale for all 2022-2024 sprints but the three 2021 sprints (matchref 1061, 1065, 1071) stored the old 3-2-1 scale, so the CASE and the stored field differ there.",
+  "knowledge": "Championship Points System (Sprint)",
+  "checked": "ran, 360 rows, from 0.0 to 8.0"
+ },
+ {
+  "id": 10,
+  "kind": "condition",
+  "expression": "q.px_pos = 1",
+  "from": "qualifying q",
+  "check": "SELECT q.rbind, q.pilotrec, q.q3_r FROM qualifying q WHERE q.px_pos = 1 ORDER BY q.rbind LIMIT 10",
+  "note": "Pole = qualifying position 1 (qualifying.px_pos = 1) for that race (rbind) and driver (pilotrec). qualifying is a sample: only 86 of 486 races have their pole-sitter's row.",
+  "knowledge": "Pole Position",
+  "checked": "ran, 86 rows, 28% of them null"
+ },
+ {
+  "id": 11,
+  "kind": "condition",
+  "expression": "(sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 3",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive, (sr.sprint_performance->>'final_position')::int AS pos FROM sprint_results sr WHERE (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 3 ORDER BY 1,3",
+  "note": "The database has no main Grand Prix results table (no per-driver race grid, finishing position, race points, race time or race fastest lap). The only per-driver race classification is sprint_results, one row per driver per sprint (18 sprint weekends, 2021-2024, 20 drivers each), with JSON sprint_performance: 'grid', 'final_position' (NULL when not classified; 'position_label' then holds R/N/W), 'points', 'timing'->'duration_ms', 'fastest_lap'->'lap_time' (text m:ss.sss). This entry is realised on that table. For a season rank instead, the championship position after a race is driver_standings.px (with driver_standings.px_desc holding the same value as text where px is null): COALESCE(ds.px, ds.px_desc::numeric::int) BETWEEN 1 AND 3.",
+  "knowledge": "Podium Finish",
+  "checked": "ran, 54 rows, from 1.0 to 3.0"
+ },
+ {
+  "id": 12,
+  "kind": "condition",
+  "expression": "(sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 10",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive, (sr.sprint_performance->>'final_position')::int AS pos, sr.sprint_performance->>'points' AS pts FROM sprint_results sr WHERE (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 10 ORDER BY 1,3 LIMIT 12",
+  "note": "Top 10 per the race scale [8]. The database has no main Grand Prix results table (no per-driver race grid, finishing position, race points, race time or race fastest lap). The only per-driver race classification is sprint_results, one row per driver per sprint (18 sprint weekends, 2021-2024, 20 drivers each), with JSON sprint_performance: 'grid', 'final_position' (NULL when not classified; 'position_label' then holds R/N/W), 'points', 'timing'->'duration_ms', 'fastest_lap'->'lap_time' (text m:ss.sss). This entry is realised on that table. Note in sprint_results only the top 8 (top 3 in 2021) have points > 0 stored; a points-earned reading would be (sr.sprint_performance->>'points')::int > 0.",
+  "knowledge": "Points Finish",
+  "checked": "ran, 180 rows"
+ },
+ {
+  "id": 13,
+  "kind": "condition",
+  "expression": "(split_part(sr.sprint_performance->'fastest_lap'->>'lap_time',':',1)::numeric*60 + split_part(sr.sprint_performance->'fastest_lap'->>'lap_time',':',2)::numeric) = (SELECT min((split_part(s2.sprint_performance->'fastest_lap'->>'lap_time',':',1)::numeric*60 + split_part(s2.sprint_performance->'fastest_lap'->>'lap_time',':',2)::numeric)) FROM sprint_results s2 WHERE s2.matchref = sr.matchref) AND (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 10",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive, (sr.sprint_performance->>'final_position')::int AS pos, sr.sprint_performance->'fastest_lap'->>'lap_time' AS fl FROM sprint_results sr WHERE (split_part(sr.sprint_performance->'fastest_lap'->>'lap_time',':',1)::numeric*60 + split_part(sr.sprint_performance->'fastest_lap'->>'lap_time',':',2)::numeric) = (SELECT min((split_part(s2.sprint_performance->'fastest_lap'->>'lap_time',':',1)::numeric*60 + split_part(s2.sprint_performance->'fastest_lap'->>'lap_time',':',2)::numeric)) FROM sprint_results s2 WHERE s2.matchref = sr.matchref) AND (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 10 ORDER BY 1",
+  "note": "The database has no main Grand Prix results table (no per-driver race grid, finishing position, race points, race time or race fastest lap). The only per-driver race classification is sprint_results, one row per driver per sprint (18 sprint weekends, 2021-2024, 20 drivers each), with JSON sprint_performance: 'grid', 'final_position' (NULL when not classified; 'position_label' then holds R/N/W), 'points', 'timing'->'duration_ms', 'fastest_lap'->'lap_time' (text m:ss.sss). This entry is realised on that table. Each driver's best lap is sprint_performance->'fastest_lap'->>'lap_time' (text m:ss.sss, converted to seconds); the award goes to the race-minimum lap if that driver is a Points Finish [12] (final_position 1-10). 17 of 18 sprints have an award. lap_times cannot be used: it holds only 1-3 sampled laps per driver per race.",
+  "knowledge": "Fastest Lap Award",
+  "checked": "ran, 18 rows"
+ },
+ {
+  "id": 14,
+  "kind": "condition",
+  "expression": "(c.location_metadata->'coordinates'->>'elevation_m')::numeric > 800",
+  "from": "circuits c",
+  "check": "SELECT c.cctkey, c.location_metadata->>'name' AS name, c.location_metadata->'coordinates'->>'elevation_m' AS elev FROM circuits c WHERE (c.location_metadata->'coordinates'->>'elevation_m')::numeric > 800",
+  "note": "Elevation is circuits.location_metadata->'coordinates'->>'elevation_m' in metres. Two circuits qualify: Kyalami (1460) and Autodromo Hermanos Rodriguez (2227). Elevation is null on 38 of 77 circuits, so those are never high-altitude. Races reach circuits by races.trkbind = circuits.cctkey.",
+  "knowledge": "High-Altitude Circuit",
+  "checked": "ran, 2 rows, values '1460', '2227'"
+ },
+ {
+  "id": 15,
+  "kind": "condition",
+  "expression": "(sr.sprint_performance->>'final_position')::int = 1",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive FROM sprint_results sr WHERE (sr.sprint_performance->>'final_position')::int = 1 ORDER BY 1",
+  "note": "sprint_performance->>'final_position' = 1 (equivalently ->>'ranking_order' = 1 or ->>'position_label' = '1'). One winner in each of the 18 sprints.",
+  "knowledge": "Sprint Winner",
+  "checked": "ran, 18 rows, from 815.0 to 857.0"
+ },
+ {
+  "id": 16,
+  "kind": "condition",
+  "expression": "(sr.sprint_performance->>'final_position')::int = 1",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive FROM sprint_results sr WHERE (sr.sprint_performance->>'final_position')::int = 1 ORDER BY 1",
+  "note": "The database has no main Grand Prix results table (no per-driver race grid, finishing position, race points, race time or race fastest lap). The only per-driver race classification is sprint_results, one row per driver per sprint (18 sprint weekends, 2021-2024, 20 drivers each), with JSON sprint_performance: 'grid', 'final_position' (NULL when not classified; 'position_label' then holds R/N/W), 'points', 'timing'->'duration_ms', 'fastest_lap'->'lap_time' (text m:ss.sss). This entry is realised on that table. So the only classification that has a 1st place is the sprint, and this expression coincides with Sprint Winner [15]. The main-race winner of an arbitrary Grand Prix is not held; driver_standings.topmark holds a driver's season-to-date count of wins after a race (sparse sample), which can count wins but not identify the race won.",
+  "knowledge": "Race Winner",
+  "checked": "ran, 18 rows, from 815.0 to 857.0"
+ },
+ {
+  "id": 17,
+  "kind": "condition",
+  "expression": "ps.ms_count < 2500",
+  "from": "pit_stops ps",
+  "check": "SELECT count(*) AS n, count(*) FILTER (WHERE ps.ms_count < 2500) AS efficient, min(ps.ms_count) FROM pit_stops ps",
+  "note": "The time the car is stationary is not held. pit_stops.ms_count (ms, = durtxt) is the whole pit-stop duration as timed in the pit lane (median 23.5 s, min 13.2 s), so this test returns no rows: no stop in the data is 'efficient'. Keys: matchidx = race, wunit = driver, pause_no = stop number.",
+  "knowledge": "Efficient Pit Stop",
+  "checked": "ran, 1 row, from 13206.0 to 13206.0"
+ },
+ {
+  "id": 18,
+  "kind": "condition",
+  "expression": "EXISTS (SELECT 1 FROM qualifying q WHERE q.rbind = sr.matchref AND q.pilotrec = sr.unitdrive AND q.px_pos = 1) AND (sr.sprint_performance->>'final_position')::int = 1 AND (split_part(sr.sprint_performance->'fastest_lap'->>'lap_time',':',1)::numeric*60 + split_part(sr.sprint_performance->'fastest_lap'->>'lap_time',':',2)::numeric) = (SELECT min((split_part(s2.sprint_performance->'fastest_lap'->>'lap_time',':',1)::numeric*60 + split_part(s2.sprint_performance->'fastest_lap'->>'lap_time',':',2)::numeric)) FROM sprint_results s2 WHERE s2.matchref = sr.matchref) AND (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 10",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive FROM sprint_results sr WHERE EXISTS (SELECT 1 FROM qualifying q WHERE q.rbind = sr.matchref AND q.pilotrec = sr.unitdrive AND q.px_pos = 1) AND (sr.sprint_performance->>'final_position')::int = 1 AND (split_part(sr.sprint_performance->'fastest_lap'->>'lap_time',':',1)::numeric*60 + split_part(sr.sprint_performance->'fastest_lap'->>'lap_time',':',2)::numeric) = (SELECT min((split_part(s2.sprint_performance->'fastest_lap'->>'lap_time',':',1)::numeric*60 + split_part(s2.sprint_performance->'fastest_lap'->>'lap_time',':',2)::numeric)) FROM sprint_results s2 WHERE s2.matchref = sr.matchref) AND (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 10",
+  "note": "Pole [10] from qualifying (px_pos = 1, same race and driver) + winner [16] and fastest-lap award [13] from sprint_results (the only race classification held; see [16]). Returns no rows: only 5 sprint races have the pole-sitter's qualifying row, and none of those pole-sitters both won the sprint and set its fastest lap.",
+  "knowledge": "Hat Trick",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 19,
+  "kind": "condition",
+  "expression": "count(*) FILTER (WHERE (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 3) >= 2",
+  "from": "sprint_results sr  -- GROUP BY sr.matchref, sr.makeref",
+  "check": "SELECT sr.matchref, sr.makeref FROM sprint_results sr GROUP BY sr.matchref, sr.makeref HAVING count(*) FILTER (WHERE (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 3) >= 2",
+  "note": "A HAVING condition per (race, constructor): group sprint_results by matchref and makeref (constructor). Podium [11] on sprint_results; see [16] for why sprint.",
+  "knowledge": "Constructor's Double Podium",
+  "checked": "ran, 13 rows, from 1.0 to 131.0"
+ },
+ {
+  "id": 20,
+  "kind": "measure",
+  "expression": "floor((CURRENT_DATE - (d.driver_identity->>'birth_date')::date) / 365.25)",
+  "from": "drivers d",
+  "check": "SELECT d.drv_main, d.driver_identity->>'birth_date' AS b, floor((CURRENT_DATE - (d.driver_identity->>'birth_date')::date) / 365.25) AS age FROM drivers d WHERE d.driver_identity->>'birth_date' IS NOT NULL ORDER BY age LIMIT 5",
+  "note": "Birth date is drivers.driver_identity->>'birth_date' (text 'YYYY-MM-DD'; null on 260 of 861 drivers). Age in whole years as of CURRENT_DATE per the formula.",
+  "knowledge": "Driver Age",
+  "checked": "ran, 601 rows, from 23.0 to 129.0"
+ },
+ {
+  "id": 21,
+  "kind": "measure",
+  "expression": "lt.msec_val / 1000.0",
+  "from": "lap_times lt",
+  "check": "SELECT lt.rc_index, lt.wheel_unit, lt.lapval, lt.tmdesc, lt.msec_val / 1000.0 AS lap_s FROM lap_times lt LIMIT 5",
+  "note": "lap_times.msec_val is the lap time in ms (tmdesc is the same as text m:ss.sss). Keys rc_index = race, wheel_unit = driver, lapval = lap number, pp = position on that lap. For qualifying times (text) and sprint fastest laps (text) convert via split_part(x,':',1)::numeric*60 + split_part(x,':',2)::numeric.",
+  "knowledge": "Lap Time in Seconds",
+  "checked": "ran, 1,472 rows, from 57.48 to 1998.72"
+ },
+ {
+  "id": 22,
+  "kind": "measure",
+  "expression": "ps.ms_count / 1000.0",
+  "from": "pit_stops ps",
+  "check": "SELECT ps.matchidx, ps.wunit, ps.pause_no, ps.durtxt, ps.ms_count / 1000.0 AS dur_s FROM pit_stops ps LIMIT 5",
+  "note": "pit_stops.ms_count is the stop duration in ms (durtxt the same as text, seconds or m:ss.sss for long stops). It is pit-lane time, not stationary time (see [17]).",
+  "knowledge": "Pit Stop Duration in Seconds",
+  "checked": "ran, 1,500 rows, from 13.21 to 3037.32"
+ },
+ {
+  "id": 23,
+  "kind": "measure",
+  "expression": "avg(lt.msec_val / 1000.0)",
+  "from": "lap_times lt  -- GROUP BY lt.rc_index, lt.wheel_unit",
+  "check": "SELECT lt.rc_index, lt.wheel_unit, count(*) AS n, avg(lt.msec_val / 1000.0) AS avg_lap_s FROM lap_times lt GROUP BY lt.rc_index, lt.wheel_unit ORDER BY n DESC LIMIT 5",
+  "note": "Per driver per race (group by rc_index, wheel_unit). lap_times is a sample: 1472 laps over 507 races, mostly 1 lap per driver per race (max 3), so n is the laps recorded, not the laps completed; some laps include pit/SC laps (max 1998.7 s).",
+  "knowledge": "Driver's Average Lap Time",
+  "checked": "ran, 1,381 rows, from 57.48 to 1998.72"
+ },
+ {
+  "id": 24,
+  "kind": "measure",
+  "expression": "(sr.sprint_performance->>'grid')::int - (sr.sprint_performance->>'final_position')::int",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive, (sr.sprint_performance->>'grid')::int AS grid, (sr.sprint_performance->>'final_position')::int AS pos, (sr.sprint_performance->>'grid')::int - (sr.sprint_performance->>'final_position')::int AS gain FROM sprint_results sr ORDER BY gain DESC NULLS LAST LIMIT 5",
+  "note": "The database has no main Grand Prix results table (no per-driver race grid, finishing position, race points, race time or race fastest lap). The only per-driver race classification is sprint_results, one row per driver per sprint (18 sprint weekends, 2021-2024, 20 drivers each), with JSON sprint_performance: 'grid', 'final_position' (NULL when not classified; 'position_label' then holds R/N/W), 'points', 'timing'->'duration_ms', 'fastest_lap'->'lap_time' (text m:ss.sss). This entry is realised on that table. P_start = 'grid', P_finish = 'final_position'; NULL for unclassified drivers. grid = 0 (11 rows) means a pit-lane start and gives a misleading negative gain; exclude or treat as 21 if needed.",
+  "knowledge": "Position Gain / Loss",
+  "checked": "ran, 360 rows, 4% of them null, from -20.0 to 15.0"
+ },
+ {
+  "id": 25,
+  "kind": "measure",
+  "expression": "cr.scoreval",
+  "from": "constructor_results cr",
+  "check": "SELECT cr.matchref, cr.unitnode, cr.scoreval FROM constructor_results cr ORDER BY cr.scoreval DESC LIMIT 5",
+  "note": "constructor_results holds one row per constructor (unitnode) per race (matchref) with scoreval = the constructor's points in that race (already the sum over its drivers; 0-57). 1953 rows over 905 races. No per-driver Grand Prix points are held to re-sum.",
+  "knowledge": "Constructor's Total Race Points",
+  "checked": "ran, 1,953 rows, from 0.0 to 57.0"
+ },
+ {
+  "id": 26,
+  "kind": "measure",
+  "expression": "(ds.acc_pt / NULLIF(r.rnum, 0))",
+  "from": "driver_standings ds JOIN races r ON r.rak_id = ds.rlink",
+  "check": "SELECT ds.drive_link, r.yr, r.rnum, ds.acc_pt, (ds.acc_pt / NULLIF(r.rnum, 0)) AS ppr FROM driver_standings ds JOIN races r ON r.rak_id = ds.rlink WHERE ds.acc_pt IS NOT NULL ORDER BY ppr DESC LIMIT 5",
+  "note": "Per driver_standings row (driver drive_link after race rlink). P_total = driver_standings.acc_pt, the driver's cumulative championship points in that season up to that race (resets each season; null on 600 of 2000 rows). The number of races the driver participated in is not held (no race results table); the round number races.rnum (races held in the season so far) is used, which assumes the driver entered every round. For one figure per driver take their latest row (max yr, rnum), or per season the last row of that season.",
+  "knowledge": "Driver's Points Per Race (PPR)",
+  "checked": "ran, 1,400 rows, from 0.0 to 26.0"
+ },
+ {
+  "id": 27,
+  "kind": "measure",
+  "expression": "100.0 * count(*) FILTER (WHERE cr.st_mark IS NULL) / count(*)",
+  "from": "constructor_results cr  -- GROUP BY cr.unitnode",
+  "check": "SELECT cr.unitnode, count(*) AS starts, 100.0 * count(*) FILTER (WHERE cr.st_mark IS NULL) / count(*) AS reliability FROM constructor_results cr GROUP BY cr.unitnode ORDER BY reliability, starts DESC LIMIT 5",
+  "note": "Per constructor (unitnode): starts = its constructor_results rows (one per race entered), finishes = rows whose st_mark IS NULL. st_mark is 'D' on exactly 1 of 1953 rows, so almost every constructor scores 100%. Per car counts are not held; this counts constructor-race entries.",
+  "knowledge": "Constructor Reliability Rate",
+  "checked": "ran, 129 rows, from 99.33 to 100.0"
+ },
+ {
+  "id": 28,
+  "kind": "measure",
+  "expression": "dq.best_s - pq.best_s",
+  "from": "(SELECT q.*, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS best_s FROM qualifying q) dq JOIN (SELECT q.*, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS best_s FROM qualifying q) pq ON pq.rbind = dq.rbind AND pq.px_pos = 1",
+  "check": "SELECT dq.rbind, dq.pilotrec, dq.px_pos, dq.best_s, pq.best_s AS pole_s, dq.best_s - pq.best_s AS deficit FROM (SELECT q.*, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS best_s FROM qualifying q) dq JOIN (SELECT q.*, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS best_s FROM qualifying q) pq ON pq.rbind = dq.rbind AND pq.px_pos = 1 ORDER BY dq.rbind, dq.px_pos LIMIT 10",
+  "note": "Per driver per race. best_s = LEAST of the driver's q1_r, q2_r, q3_r converted to seconds (LEAST ignores NULLs); T_pole = the same for the race's px_pos = 1 row. Only 86 races have the pole-sitter's row in the (sampled) qualifying table; 435 driver rows get a deficit (median 1.0 s). 5 rows are slightly negative (a Q1/Q2 lap quicker than the pole-sitter's best). Using the pole-sitter's Q3 time alone gives 67 negatives, so best-of-stages is used for both.",
+  "knowledge": "Qualifying Time Deficit to Pole",
+  "checked": "ran, 435 rows, 1% of them null, from -0.29 to 26.55"
+ },
+ {
+  "id": 29,
+  "kind": "measure",
+  "expression": "(((sr.sprint_performance->'timing'->>'duration_ms')::numeric/1000) - (SELECT ((w.sprint_performance->'timing'->>'duration_ms')::numeric/1000) FROM sprint_results w WHERE w.matchref = sr.matchref AND ((w.sprint_performance->>'final_position')::int) = 1))",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive, (sr.sprint_performance->>'final_position')::int AS pos, (((sr.sprint_performance->'timing'->>'duration_ms')::numeric/1000) - (SELECT ((w.sprint_performance->'timing'->>'duration_ms')::numeric/1000) FROM sprint_results w WHERE w.matchref = sr.matchref AND ((w.sprint_performance->>'final_position')::int) = 1)) AS delta_s FROM sprint_results sr ORDER BY sr.matchref, (sr.sprint_performance->>'final_position')::int LIMIT 10",
+  "note": "The database has no main Grand Prix results table (no per-driver race grid, finishing position, race points, race time or race fastest lap). The only per-driver race classification is sprint_results, one row per driver per sprint (18 sprint weekends, 2021-2024, 20 drivers each), with JSON sprint_performance: 'grid', 'final_position' (NULL when not classified; 'position_label' then holds R/N/W), 'points', 'timing'->'duration_ms', 'fastest_lap'->'lap_time' (text m:ss.sss). This entry is realised on that table. Total race time = sprint_performance->'timing'->>'duration_ms' / 1000 (seconds; 'final_time' is text, e.g. '+24.111' for non-winners). Winner = final_position 1 in the same sprint. Null for drivers without a time (lapped/retired, 20 rows).",
+  "knowledge": "Race Time Delta to Winner",
+  "checked": "ran, 360 rows, 6% of them null, from 0.0 to 77.65"
+ },
+ {
+  "id": 30,
+  "kind": "measure",
+  "expression": "((21 - (sr.sprint_performance->>'final_position')::int) + ((sr.sprint_performance->>'grid')::int - (sr.sprint_performance->>'final_position')::int))",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive, (sr.sprint_performance->>'final_position')::int AS pos, ((21 - (sr.sprint_performance->>'final_position')::int) + ((sr.sprint_performance->>'grid')::int - (sr.sprint_performance->>'final_position')::int)) AS rpi FROM sprint_results sr ORDER BY rpi DESC NULLS LAST LIMIT 5",
+  "note": "The database has no main Grand Prix results table (no per-driver race grid, finishing position, race points, race time or race fastest lap). The only per-driver race classification is sprint_results, one row per driver per sprint (18 sprint weekends, 2021-2024, 20 drivers each), with JSON sprint_performance: 'grid', 'final_position' (NULL when not classified; 'position_label' then holds R/N/W), 'points', 'timing'->'duration_ms', 'fastest_lap'->'lap_time' (text m:ss.sss). This entry is realised on that table. RPI = (21 - final_position) + (grid - final_position); NULL for unclassified drivers; grid 0 = pit-lane start (see [24]).",
+  "knowledge": "Race Performance Index (RPI)",
+  "checked": "ran, 360 rows, 4% of them null, from -19.0 to 31.0"
+ },
+ {
+  "id": 31,
+  "kind": "measure",
+  "expression": "s.season_pts * s.reliability / 100",
+  "from": "(SELECT cr.unitnode, r.yr, sum(cr.scoreval) AS season_pts, 100.0 * count(*) FILTER (WHERE cr.st_mark IS NULL) / count(*) AS reliability FROM constructor_results cr JOIN races r ON r.rak_id = cr.matchref GROUP BY cr.unitnode, r.yr) s",
+  "check": "SELECT s.unitnode, s.yr, s.season_pts, s.reliability, s.season_pts * s.reliability / 100 AS cps FROM (SELECT cr.unitnode, r.yr, sum(cr.scoreval) AS season_pts, 100.0 * count(*) FILTER (WHERE cr.st_mark IS NULL) / count(*) AS reliability FROM constructor_results cr JOIN races r ON r.rak_id = cr.matchref GROUP BY cr.unitnode, r.yr) s WHERE s.yr = 2020 ORDER BY cps DESC LIMIT 5",
+  "note": "Per constructor per season (races.yr). Season total points = sum of constructor_results.scoreval [25] over the season; reliability [27] computed over the same season's rows. Because st_mark is almost always null, CPS is in practice the season points total. constructor_results is sampled (about 2 constructors per race), so season totals are partial; constructor_standings.scr_tot is the official cumulative total after a race if that reading is wanted.",
+  "knowledge": "Constructor's Performance Score (CPS)",
+  "checked": "ran, 9 rows, from 0.0 to 68.0"
+ },
+ {
+  "id": 32,
+  "kind": "measure",
+  "expression": "stddev_pop(lt.msec_val / 1000.0)",
+  "from": "lap_times lt  -- GROUP BY lt.rc_index, lt.wheel_unit",
+  "check": "SELECT lt.rc_index, lt.wheel_unit, count(*) AS n, stddev_pop(lt.msec_val / 1000.0) AS ltc FROM lap_times lt GROUP BY lt.rc_index, lt.wheel_unit ORDER BY n DESC LIMIT 5",
+  "note": "Population standard deviation (divides by n) of lap time in seconds, per driver per race. With only 1-3 recorded laps per driver per race it is 0 for 1298 of 1381 driver-races.",
+  "knowledge": "Lap Time Consistency",
+  "checked": "ran, 1,381 rows, from 0.0 to 36.38"
+ },
+ {
+  "id": 33,
+  "kind": "measure",
+  "expression": "(((sr.sprint_performance->'timing'->>'duration_ms')::numeric/1000) - (SELECT ((w.sprint_performance->'timing'->>'duration_ms')::numeric/1000) FROM sprint_results w WHERE w.matchref = sr.matchref AND ((w.sprint_performance->>'final_position')::int) = 1)) - (SELECT COALESCE(sum(ps.ms_count), 0)/1000.0 FROM pit_stops ps WHERE ps.matchidx = sr.matchref AND ps.wunit = sr.unitdrive)",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive, (((sr.sprint_performance->'timing'->>'duration_ms')::numeric/1000) - (SELECT ((w.sprint_performance->'timing'->>'duration_ms')::numeric/1000) FROM sprint_results w WHERE w.matchref = sr.matchref AND ((w.sprint_performance->>'final_position')::int) = 1)) AS delta_s, (SELECT COALESCE(sum(ps.ms_count), 0)/1000.0 FROM pit_stops ps WHERE ps.matchidx = sr.matchref AND ps.wunit = sr.unitdrive) AS pit_s, (((sr.sprint_performance->'timing'->>'duration_ms')::numeric/1000) - (SELECT ((w.sprint_performance->'timing'->>'duration_ms')::numeric/1000) FROM sprint_results w WHERE w.matchref = sr.matchref AND ((w.sprint_performance->>'final_position')::int) = 1)) - (SELECT COALESCE(sum(ps.ms_count), 0)/1000.0 FROM pit_stops ps WHERE ps.matchidx = sr.matchref AND ps.wunit = sr.unitdrive) AS adj FROM sprint_results sr ORDER BY sr.matchref, (sr.sprint_performance->>'final_position')::int LIMIT 10",
+  "note": "Race Time Delta [29] (sprint_results; see [16]) minus the driver's summed pit_stops.ms_count/1000 in the same race (pit_stops.matchidx = sprint_results.matchref, wunit = unitdrive; 0 when no stops recorded). Pit-stop durations are pit-lane times, and some recorded stops last 30-50 minutes (red-flag suspensions), which makes the adjusted delta strongly negative; pit_stops is a sample.",
+  "knowledge": "Adjusted Race Time Delta",
+  "checked": "ran, 360 rows, 6% of them null, from -2045.16 to 77.65"
+ },
+ {
+  "id": 34,
+  "kind": "measure",
+  "expression": "la.avg_lap_s - LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric))",
+  "from": "(SELECT lt.rc_index, lt.wheel_unit, avg(lt.msec_val/1000.0) AS avg_lap_s, stddev_pop(lt.msec_val/1000.0) AS ltc, count(*) AS n_laps FROM lap_times lt GROUP BY lt.rc_index, lt.wheel_unit) la JOIN qualifying q ON q.rbind = la.rc_index AND q.pilotrec = la.wheel_unit",
+  "check": "SELECT la.rc_index, la.wheel_unit, la.avg_lap_s, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS q_best, la.avg_lap_s - LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS qrd FROM (SELECT lt.rc_index, lt.wheel_unit, avg(lt.msec_val/1000.0) AS avg_lap_s, stddev_pop(lt.msec_val/1000.0) AS ltc, count(*) AS n_laps FROM lap_times lt GROUP BY lt.rc_index, lt.wheel_unit) la JOIN qualifying q ON q.rbind = la.rc_index AND q.pilotrec = la.wheel_unit LIMIT 10",
+  "note": "Per driver per race: average recorded lap time [23] minus the driver's best qualifying lap (LEAST of q1_r,q2_r,q3_r in seconds, as in [28]). Only driver-races present in both sampled tables get a value (few dozen).",
+  "knowledge": "Qualifying to Race Pace Differential",
+  "checked": "ran, 232 rows, 2% of them null, from -18.79 to 1921.31"
+ },
+ {
+  "id": 35,
+  "kind": "measure",
+  "expression": "avg(lt.msec_val / 1000.0) FILTER (WHERE (c.location_metadata->'coordinates'->>'elevation_m')::numeric > 800) / avg(lt.msec_val / 1000.0)",
+  "from": "lap_times lt JOIN races r ON r.rak_id = lt.rc_index JOIN circuits c ON c.cctkey = r.trkbind  -- GROUP BY lt.wheel_unit, r.yr",
+  "check": "SELECT lt.wheel_unit, r.yr, avg(lt.msec_val / 1000.0) FILTER (WHERE (c.location_metadata->'coordinates'->>'elevation_m')::numeric > 800) / avg(lt.msec_val / 1000.0) AS hapf FROM lap_times lt JOIN races r ON r.rak_id = lt.rc_index JOIN circuits c ON c.cctkey = r.trkbind GROUP BY lt.wheel_unit, r.yr HAVING count(*) FILTER (WHERE (c.location_metadata->'coordinates'->>'elevation_m')::numeric > 800) > 0",
+  "note": "Per driver per season (races.yr): mean lap time at High-Altitude Circuits [14] divided by mean lap time over all that season's races. Averages are over recorded laps (pooled), not an average of per-race averages. Only Mexico City (circuit 32) has lap_times at a high-altitude circuit, in 8 races.",
+  "knowledge": "High-Altitude Performance Factor",
+  "checked": "ran, 27 rows, from 0.78 to 1.08"
+ },
+ {
+  "id": 36,
+  "kind": "measure",
+  "expression": "(9 - (sr.sprint_performance->>'final_position')::int) + CASE (sr.sprint_performance->>'final_position')::int WHEN 1 THEN 8 WHEN 2 THEN 7 WHEN 3 THEN 6 WHEN 4 THEN 5 WHEN 5 THEN 4 WHEN 6 THEN 3 WHEN 7 THEN 2 WHEN 8 THEN 1 ELSE 0 END",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive, (sr.sprint_performance->>'final_position')::int AS pos, (9 - (sr.sprint_performance->>'final_position')::int) + CASE (sr.sprint_performance->>'final_position')::int WHEN 1 THEN 8 WHEN 2 THEN 7 WHEN 3 THEN 6 WHEN 4 THEN 5 WHEN 5 THEN 4 WHEN 6 THEN 3 WHEN 7 THEN 2 WHEN 8 THEN 1 ELSE 0 END AS spi FROM sprint_results sr ORDER BY sr.matchref, (sr.sprint_performance->>'final_position')::int LIMIT 10",
+  "note": "S_pts per the [9] scale; the stored sprint_performance->>'points' equals it except in the three 2021 sprints (3-2-1). NULL for unclassified drivers. Positions below 9 give negative first terms (by formula).",
+  "knowledge": "Sprint Performance Index",
+  "checked": "ran, 360 rows, 4% of them null, from -11.0 to 16.0"
+ },
+ {
+  "id": 37,
+  "kind": "measure",
+  "expression": "(ds.acc_pt / NULLIF(r.rnum, 0)) / NULLIF(floor((CURRENT_DATE - (d.driver_identity->>'birth_date')::date) / 365.25), 0)",
+  "from": "driver_standings ds JOIN races r ON r.rak_id = ds.rlink JOIN drivers d ON d.drv_main = ds.drive_link",
+  "check": "SELECT ds.drive_link, r.yr, r.rnum, (ds.acc_pt / NULLIF(r.rnum, 0)) AS ppr, floor((CURRENT_DATE - (d.driver_identity->>'birth_date')::date) / 365.25) AS age, (ds.acc_pt / NULLIF(r.rnum, 0)) / NULLIF(floor((CURRENT_DATE - (d.driver_identity->>'birth_date')::date) / 365.25), 0) AS dpv FROM driver_standings ds JOIN races r ON r.rak_id = ds.rlink JOIN drivers d ON d.drv_main = ds.drive_link WHERE ds.acc_pt IS NOT NULL ORDER BY dpv DESC NULLS LAST LIMIT 5",
+  "note": "PPR [26] (per standings row, acc_pt / round number) divided by current Driver Age [20]. Null when acc_pt or birth_date is missing.",
+  "knowledge": "Driver Performance Value",
+  "checked": "ran, 1,400 rows, 33% of them null, from 0.0 to 0.6"
+ },
+ {
+  "id": 38,
+  "kind": "measure",
+  "expression": "sum((sr.sprint_performance->>'final_position')::int)",
+  "from": "sprint_results sr  -- GROUP BY sr.matchref, sr.makeref",
+  "check": "SELECT sr.matchref, sr.makeref, count(*) AS cars, sum((sr.sprint_performance->>'final_position')::int) AS tcrr FROM sprint_results sr GROUP BY sr.matchref, sr.makeref ORDER BY tcrr LIMIT 5",
+  "note": "Per (race, constructor): sum of the team's drivers' final positions in sprint_results (see [16]); minimum 3 (1st + 2nd). sum() skips unclassified drivers (e.g. race 1061 team 9 scores 1 because its second car was not classified), so check count(*) FILTER (WHERE final_position IS NOT NULL) = 2 if both must be classified.",
+  "knowledge": "Team's Combined Race Result",
+  "checked": "ran, 180 rows, from 1.0 to 39.0"
+ },
+ {
+  "id": 39,
+  "kind": "measure",
+  "expression": "1 / NULLIF(la.ltc * (1 + COALESCE(np.n_stops, 0)), 0)",
+  "from": "(SELECT lt.rc_index, lt.wheel_unit, avg(lt.msec_val/1000.0) AS avg_lap_s, stddev_pop(lt.msec_val/1000.0) AS ltc, count(*) AS n_laps FROM lap_times lt GROUP BY lt.rc_index, lt.wheel_unit) la LEFT JOIN (SELECT ps.matchidx, ps.wunit, count(*) AS n_stops FROM pit_stops ps GROUP BY ps.matchidx, ps.wunit) np ON np.matchidx = la.rc_index AND np.wunit = la.wheel_unit",
+  "check": "SELECT la.rc_index, la.wheel_unit, la.ltc, np.n_stops, 1 / NULLIF(la.ltc * (1 + COALESCE(np.n_stops, 0)), 0) AS tmi FROM (SELECT lt.rc_index, lt.wheel_unit, avg(lt.msec_val/1000.0) AS avg_lap_s, stddev_pop(lt.msec_val/1000.0) AS ltc, count(*) AS n_laps FROM lap_times lt GROUP BY lt.rc_index, lt.wheel_unit) la LEFT JOIN (SELECT ps.matchidx, ps.wunit, count(*) AS n_stops FROM pit_stops ps GROUP BY ps.matchidx, ps.wunit) np ON np.matchidx = la.rc_index AND np.wunit = la.wheel_unit WHERE la.n_laps > 1 ORDER BY tmi DESC LIMIT 5",
+  "note": "Per driver per race: Lap Time Consistency [32] from lap_times, N_stops = count of that driver's pit_stops rows in the race (0 if none). LTC is 0 (TMI undefined, NULL) wherever only one lap is recorded, i.e. most driver-races; both tables are samples.",
+  "knowledge": "Tyre Management Index",
+  "checked": "ran, 83 rows, from 0.03 to 17.39"
+ },
+ {
+  "id": 40,
+  "kind": "condition",
+  "expression": "((sr.sprint_performance->>'grid')::int - (sr.sprint_performance->>'final_position')::int) > 5 AND (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 3",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive, (sr.sprint_performance->>'grid')::int AS grid, (sr.sprint_performance->>'final_position')::int AS pos FROM sprint_results sr WHERE ((sr.sprint_performance->>'grid')::int - (sr.sprint_performance->>'final_position')::int) > 5 AND (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 3",
+  "note": "Position Gain [24] > 5 and Podium [11], both on sprint_results (see [16]). Returns no rows in this data (largest gain to a podium is 5 places, grid 8 to 3).",
+  "knowledge": "Clutch Performer",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 41,
+  "kind": "condition",
+  "expression": "dq.best_s - pq.best_s < 0.2",
+  "from": "(SELECT q.*, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS best_s FROM qualifying q) dq JOIN (SELECT q.*, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS best_s FROM qualifying q) pq ON pq.rbind = dq.rbind AND pq.px_pos = 1",
+  "check": "SELECT dq.rbind, dq.pilotrec, dq.px_pos, dq.best_s - pq.best_s AS deficit FROM (SELECT q.*, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS best_s FROM qualifying q) dq JOIN (SELECT q.*, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS best_s FROM qualifying q) pq ON pq.rbind = dq.rbind AND pq.px_pos = 1 WHERE dq.best_s - pq.best_s < 0.2 ORDER BY dq.rbind LIMIT 10",
+  "note": "Per driver per race using [28]. Includes the pole-sitter (deficit 0) and the few negative deficits; add dq.px_pos <> 1 to exclude the pole-sitter. For a driver-level label, apply to avg(deficit).",
+  "knowledge": "Qualifying Specialist",
+  "checked": "ran, 107 rows, from -0.29 to 0.18"
+ },
+ {
+  "id": 42,
+  "kind": "condition",
+  "expression": "(sr.sprint_performance->>'final_position')::int = 1 AND (SELECT ((s2.sprint_performance->'timing'->>'duration_ms')::numeric/1000) FROM sprint_results s2 WHERE s2.matchref = sr.matchref AND (s2.sprint_performance->>'final_position')::int = 2) - ((sr.sprint_performance->'timing'->>'duration_ms')::numeric/1000) > 5",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive, (SELECT ((s2.sprint_performance->'timing'->>'duration_ms')::numeric/1000) FROM sprint_results s2 WHERE s2.matchref = sr.matchref AND (s2.sprint_performance->>'final_position')::int = 2) - ((sr.sprint_performance->'timing'->>'duration_ms')::numeric/1000) AS margin_s FROM sprint_results sr WHERE (sr.sprint_performance->>'final_position')::int = 1 ORDER BY margin_s DESC",
+  "note": "Winner's margin = second-place driver's Race Time Delta [29] (their duration_ms minus the winner's, in seconds) > 5, on sprint_results (see [16]).",
+  "knowledge": "Dominant Victory",
+  "checked": "ran, 18 rows, from 0.14 to 21.05"
+ },
+ {
+  "id": 43,
+  "kind": "condition",
+  "expression": "(sr.sprint_performance->>'final_position')::int = 1 AND EXISTS (SELECT 1 FROM pit_stops ps WHERE ps.matchidx = sr.matchref AND ps.wunit = sr.unitdrive AND ps.ms_count < 2500)",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive FROM sprint_results sr WHERE (sr.sprint_performance->>'final_position')::int = 1 AND EXISTS (SELECT 1 FROM pit_stops ps WHERE ps.matchidx = sr.matchref AND ps.wunit = sr.unitdrive AND ps.ms_count < 2500)",
+  "note": "Race Winner [16] (sprint_results) with an Efficient Pit Stop [17] in the same race. Always empty: no recorded stop is under 2.5 s because ms_count is pit-lane time, not stationary time.",
+  "knowledge": "Strategic Masterclass",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 44,
+  "kind": "condition",
+  "expression": "EXISTS (SELECT 1 FROM qualifying q WHERE q.rbind = sr.matchref AND q.pilotrec = sr.unitdrive AND q.px_pos = 1) AND (sr.sprint_performance->>'final_position')::int = 1 AND (split_part(sr.sprint_performance->'fastest_lap'->>'lap_time',':',1)::numeric*60 + split_part(sr.sprint_performance->'fastest_lap'->>'lap_time',':',2)::numeric) = (SELECT min((split_part(s2.sprint_performance->'fastest_lap'->>'lap_time',':',1)::numeric*60 + split_part(s2.sprint_performance->'fastest_lap'->>'lap_time',':',2)::numeric)) FROM sprint_results s2 WHERE s2.matchref = sr.matchref) AND (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 10 AND EXISTS (SELECT 1 FROM lap_times lt WHERE lt.rc_index = sr.matchref AND lt.wheel_unit = sr.unitdrive) AND NOT EXISTS (SELECT 1 FROM lap_times lt WHERE lt.rc_index = sr.matchref AND lt.wheel_unit = sr.unitdrive AND lt.pp <> 1)",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive FROM sprint_results sr WHERE EXISTS (SELECT 1 FROM qualifying q WHERE q.rbind = sr.matchref AND q.pilotrec = sr.unitdrive AND q.px_pos = 1) AND (sr.sprint_performance->>'final_position')::int = 1 AND (split_part(sr.sprint_performance->'fastest_lap'->>'lap_time',':',1)::numeric*60 + split_part(sr.sprint_performance->'fastest_lap'->>'lap_time',':',2)::numeric) = (SELECT min((split_part(s2.sprint_performance->'fastest_lap'->>'lap_time',':',1)::numeric*60 + split_part(s2.sprint_performance->'fastest_lap'->>'lap_time',':',2)::numeric)) FROM sprint_results s2 WHERE s2.matchref = sr.matchref) AND (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 10 AND EXISTS (SELECT 1 FROM lap_times lt WHERE lt.rc_index = sr.matchref AND lt.wheel_unit = sr.unitdrive) AND NOT EXISTS (SELECT 1 FROM lap_times lt WHERE lt.rc_index = sr.matchref AND lt.wheel_unit = sr.unitdrive AND lt.pp <> 1)",
+  "note": "Hat Trick [18] plus leading every lap: lap_times.pp = 1 on every recorded lap for that driver and race. Laps led are not held; lap_times keeps only 1-3 sampled laps per driver per race, so 'every lap' can only be tested on the recorded ones. Returns no rows.",
+  "knowledge": "Grand Chelem",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 45,
+  "kind": "condition",
+  "expression": "s.reliability > 95 AND rank() OVER (PARTITION BY s.yr ORDER BY s.season_pts * s.reliability / 100 DESC) <= 3",
+  "from": "(SELECT cr.unitnode, r.yr, sum(cr.scoreval) AS season_pts, 100.0 * count(*) FILTER (WHERE cr.st_mark IS NULL) / count(*) AS reliability FROM constructor_results cr JOIN races r ON r.rak_id = cr.matchref GROUP BY cr.unitnode, r.yr) s",
+  "check": "SELECT * FROM (SELECT s.unitnode, s.yr, s.reliability, s.season_pts * s.reliability / 100 AS cps, rank() OVER (PARTITION BY s.yr ORDER BY s.season_pts * s.reliability / 100 DESC) AS rk FROM (SELECT cr.unitnode, r.yr, sum(cr.scoreval) AS season_pts, 100.0 * count(*) FILTER (WHERE cr.st_mark IS NULL) / count(*) AS reliability FROM constructor_results cr JOIN races r ON r.rak_id = cr.matchref GROUP BY cr.unitnode, r.yr) s) x WHERE x.reliability > 95 AND x.rk <= 3 ORDER BY x.yr DESC, x.rk LIMIT 10",
+  "note": "Per constructor per season over [31]'s subquery. The window must be computed in a subquery before filtering (the check shows how). Rank is over all constructors of the season; reliability > 95 is almost always true (see [27]). If reliability is meant over the constructor's whole history rather than the season, compute [27] ungrouped by year.",
+  "knowledge": "Reliable and Performing Constructor",
+  "checked": "ran, 219 rows, from 1.0 to 3.0"
+ },
+ {
+  "id": 46,
+  "kind": "condition",
+  "expression": "((21 - (sr.sprint_performance->>'final_position')::int) + ((sr.sprint_performance->>'grid')::int - (sr.sprint_performance->>'final_position')::int)) >= 1.2 * avg(((21 - (sr.sprint_performance->>'final_position')::int) + ((sr.sprint_performance->>'grid')::int - (sr.sprint_performance->>'final_position')::int))) OVER (PARTITION BY sr.unitdrive, r.yr) AND (c.location_metadata->'coordinates'->>'elevation_m')::numeric > 800",
+  "from": "sprint_results sr JOIN races r ON r.rak_id = sr.matchref JOIN circuits c ON c.cctkey = r.trkbind",
+  "check": "SELECT * FROM (SELECT sr.matchref, sr.unitdrive, r.yr, ((21 - (sr.sprint_performance->>'final_position')::int) + ((sr.sprint_performance->>'grid')::int - (sr.sprint_performance->>'final_position')::int)) AS rpi, avg(((21 - (sr.sprint_performance->>'final_position')::int) + ((sr.sprint_performance->>'grid')::int - (sr.sprint_performance->>'final_position')::int))) OVER (PARTITION BY sr.unitdrive, r.yr) AS season_avg, (c.location_metadata->'coordinates'->>'elevation_m')::numeric > 800 AS high FROM sprint_results sr JOIN races r ON r.rak_id = sr.matchref JOIN circuits c ON c.cctkey = r.trkbind) x WHERE x.high AND x.rpi >= 1.2 * x.season_avg",
+  "note": "RPI [30] (sprint_results; see [16]) at a High-Altitude Circuit [14] vs the driver's average RPI over that season (races.yr); compute the window in a subquery first. Returns no rows: no sprint was held at Kyalami or Mexico City (and elevation is null for Interlagos and Red Bull Ring).",
+  "knowledge": "High-Altitude Ace",
+  "checked": "ran, returned no rows"
+ },
+ {
+  "id": 47,
+  "kind": "condition",
+  "expression": "(sr.sprint_performance->>'final_position')::int = 1 AND prev.ppr < 5",
+  "from": "sprint_results sr JOIN races r ON r.rak_id = sr.matchref LEFT JOIN LATERAL (SELECT ds.acc_pt / NULLIF(r2.rnum, 0) AS ppr FROM driver_standings ds JOIN races r2 ON r2.rak_id = ds.rlink WHERE ds.drive_link = sr.unitdrive AND ds.acc_pt IS NOT NULL AND (r2.yr, r2.rnum) < (r.yr, r.rnum) ORDER BY r2.yr DESC, r2.rnum DESC LIMIT 1) prev ON true",
+  "check": "SELECT sr.matchref, sr.unitdrive, prev.ppr FROM sprint_results sr JOIN races r ON r.rak_id = sr.matchref LEFT JOIN LATERAL (SELECT ds.acc_pt / NULLIF(r2.rnum, 0) AS ppr FROM driver_standings ds JOIN races r2 ON r2.rak_id = ds.rlink WHERE ds.drive_link = sr.unitdrive AND ds.acc_pt IS NOT NULL AND (r2.yr, r2.rnum) < (r.yr, r.rnum) ORDER BY r2.yr DESC, r2.rnum DESC LIMIT 1) prev ON true WHERE (sr.sprint_performance->>'final_position')::int = 1",
+  "note": "Race Winner [16] (sprint_results) whose PPR [26] from their latest driver_standings row strictly before the event (by yr, rnum; may be a previous season since standings are sparse) is < 5. A winner with no earlier standings row gets NULL and is not counted.",
+  "knowledge": "Underdog Win",
+  "checked": "ran, 18 rows, from 1.7 to 25.0"
+ },
+ {
+  "id": 48,
+  "kind": "condition",
+  "expression": "EXISTS (SELECT 1 FROM qualifying q WHERE q.rbind = sr.matchref AND q.pilotrec = sr.unitdrive AND q.px_pos = 1) AND (sr.sprint_performance->>'final_position')::int = 1 AND NOT EXISTS (SELECT 1 FROM pit_stops ps WHERE ps.matchidx = sr.matchref AND ps.wunit = sr.unitdrive AND NOT (ps.ms_count < 2500))",
+  "from": "sprint_results sr",
+  "check": "SELECT sr.matchref, sr.unitdrive, (SELECT count(*) FROM pit_stops ps WHERE ps.matchidx = sr.matchref AND ps.wunit = sr.unitdrive) AS stops FROM sprint_results sr WHERE EXISTS (SELECT 1 FROM qualifying q WHERE q.rbind = sr.matchref AND q.pilotrec = sr.unitdrive AND q.px_pos = 1) AND (sr.sprint_performance->>'final_position')::int = 1 AND NOT EXISTS (SELECT 1 FROM pit_stops ps WHERE ps.matchidx = sr.matchref AND ps.wunit = sr.unitdrive AND NOT (ps.ms_count < 2500))",
+  "note": "Pole [10] (qualifying) + Race Winner [16] (sprint_results) + no pit stop of that driver in that race that is not Efficient [17]. Since no recorded stop is under 2.5 s, only winners with no recorded stops pass (vacuously). Add EXISTS (a stop) if at least one stop is required, which makes it always empty.",
+  "knowledge": "Flawless Team Weekend",
+  "checked": "ran, 2 rows, from 0.0 to 0.0"
+ },
+ {
+  "id": 49,
+  "kind": "condition",
+  "expression": "floor((CURRENT_DATE - (d.driver_identity->>'birth_date')::date) / 365.25) >= 35 AND (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 3",
+  "from": "sprint_results sr JOIN drivers d ON d.drv_main = sr.unitdrive",
+  "check": "SELECT sr.matchref, sr.unitdrive, floor((CURRENT_DATE - (d.driver_identity->>'birth_date')::date) / 365.25) AS age, (sr.sprint_performance->>'final_position')::int AS pos FROM sprint_results sr JOIN drivers d ON d.drv_main = sr.unitdrive WHERE floor((CURRENT_DATE - (d.driver_identity->>'birth_date')::date) / 365.25) >= 35 AND (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 3",
+  "note": "Driver Age [20] is current age (CURRENT_DATE), as defined; age at the race would use races.event_schedule->>'date_set' instead. Podium [11] on sprint_results (or season rank driver_standings.px <= 3, see [11]).",
+  "knowledge": "Veteran's Podium",
+  "checked": "ran, 7 rows, from 1.0 to 3.0"
+ },
+ {
+  "id": 50,
+  "kind": "condition",
+  "expression": "count(DISTINCT cr.matchref) > 10",
+  "from": "constructor_results cr  -- GROUP BY cr.unitnode",
+  "check": "SELECT cr.unitnode, count(DISTINCT cr.matchref) AS races FROM constructor_results cr GROUP BY cr.unitnode HAVING count(DISTINCT cr.matchref) > 10 ORDER BY races DESC LIMIT 5",
+  "note": "Races started = distinct races (matchref) in which the constructor (unitnode) has a constructor_results row, the same base as [27]. 44 of 129 constructors qualify.",
+  "knowledge": "Constructors with Significant Participation",
+  "checked": "ran, 44 rows, from 11.0 to 150.0"
+ },
+ {
+  "id": 51,
+  "kind": "measure",
+  "expression": "CASE WHEN q.px_pos = 1 THEN 0.35 ELSE 0.05 END",
+  "from": "qualifying q",
+  "check": "SELECT q.rbind, q.pilotrec, q.px_pos, CASE WHEN q.px_pos = 1 THEN 0.35 ELSE 0.05 END AS p_win FROM qualifying q ORDER BY q.rbind, q.px_pos LIMIT 5",
+  "note": "Per driver per race in qualifying; pole = px_pos = 1 [10]. Drivers without a qualifying row get no value (use a LEFT JOIN and COALESCE to 0.05 if they should count as non-pole).",
+  "knowledge": "Pole-Based Race Win Probability",
+  "checked": "ran, 2,101 rows, from 0.05 to 0.35"
+ },
+ {
+  "id": 52,
+  "kind": "measure",
+  "expression": "CASE WHEN q.px_pos = 1 THEN 0.25 ELSE 0.08 END",
+  "from": "qualifying q",
+  "check": "SELECT q.rbind, q.pilotrec, q.px_pos, CASE WHEN q.px_pos = 1 THEN 0.25 ELSE 0.08 END AS p_fl FROM qualifying q ORDER BY q.rbind, q.px_pos LIMIT 5",
+  "note": "As [51], with 25% / 8%.",
+  "knowledge": "Pole-Based Fastest Lap Probability",
+  "checked": "ran, 2,101 rows, from 0.08 to 0.25"
+ },
+ {
+  "id": 53,
+  "kind": "value",
+  "expression": "CASE WHEN avg(dq.best_s - pq.best_s) < 0.15 THEN 'Pole Threat' WHEN avg(dq.best_s - pq.best_s) < 0.4 THEN 'Mid Gap' ELSE 'Backmarker' END",
+  "from": "(SELECT q.*, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS best_s FROM qualifying q) dq JOIN (SELECT q.*, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS best_s FROM qualifying q) pq ON pq.rbind = dq.rbind AND pq.px_pos = 1  -- GROUP BY dq.pilotrec",
+  "check": "SELECT dq.pilotrec, count(*) AS n, avg(dq.best_s - pq.best_s) AS avg_def, CASE WHEN avg(dq.best_s - pq.best_s) < 0.15 THEN 'Pole Threat' WHEN avg(dq.best_s - pq.best_s) < 0.4 THEN 'Mid Gap' ELSE 'Backmarker' END AS tier FROM (SELECT q.*, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS best_s FROM qualifying q) dq JOIN (SELECT q.*, LEAST((split_part(q.q1_r,':',1)::numeric*60 + split_part(q.q1_r,':',2)::numeric), (split_part(q.q2_r,':',1)::numeric*60 + split_part(q.q2_r,':',2)::numeric), (split_part(q.q3_r,':',1)::numeric*60 + split_part(q.q3_r,':',2)::numeric)) AS best_s FROM qualifying q) pq ON pq.rbind = dq.rbind AND pq.px_pos = 1 WHERE dq.best_s IS NOT NULL GROUP BY dq.pilotrec ORDER BY avg_def LIMIT 10",
+  "note": "Per driver: average Qualifying Time Deficit to Pole [28] over the races where both the driver's and the pole-sitter's rows exist. Boundaries: 0.15 goes to Mid Gap, 0.4 to Backmarker. Filter dq.best_s IS NOT NULL so drivers with no time are not tiered Backmarker by the ELSE on a NULL average. Includes pole-sitters' own 0 deficits unless px_pos <> 1 is added.",
+  "knowledge": "Qualifying Performance Cluster",
+  "checked": "ran, 107 rows, values 'Backmarker', 'Mid Gap', 'Pole Threat'"
+ },
+ {
+  "id": 54,
+  "kind": "measure",
+  "expression": "count(*)::numeric / count(DISTINCT ps.wunit)",
+  "from": "pit_stops ps  -- GROUP BY ps.matchidx",
+  "check": "SELECT ps.matchidx, count(*) AS stops, count(DISTINCT ps.wunit) AS cars, count(*)::numeric / count(DISTINCT ps.wunit) AS avg_stops FROM pit_stops ps GROUP BY ps.matchidx ORDER BY avg_stops DESC LIMIT 5",
+  "note": "Per race (matchidx): pit_stops rows / distinct drivers (wunit; one car per driver) with a stop. pit_stops is a sample (1500 stops over 283 races), so most races average 1.0.",
+  "knowledge": "Average Stops Per Car",
+  "checked": "ran, 283 rows, from 1.0 to 2.0"
+ },
+ {
+  "id": 55,
+  "kind": "value",
+  "expression": "CASE WHEN count(*)::numeric / count(DISTINCT ps.wunit) < 1.5 THEN 'Single-Stop Race' WHEN count(*)::numeric / count(DISTINCT ps.wunit) < 2.5 THEN 'Standard Two-Stop' ELSE 'High-Strategy Event' END",
+  "from": "pit_stops ps  -- GROUP BY ps.matchidx",
+  "check": "SELECT ps.matchidx, count(*)::numeric / count(DISTINCT ps.wunit) AS avg_stops, CASE WHEN count(*)::numeric / count(DISTINCT ps.wunit) < 1.5 THEN 'Single-Stop Race' WHEN count(*)::numeric / count(DISTINCT ps.wunit) < 2.5 THEN 'Standard Two-Stop' ELSE 'High-Strategy Event' END AS cluster FROM pit_stops ps GROUP BY ps.matchidx ORDER BY avg_stops DESC LIMIT 5",
+  "note": "Per race over [54]. In this data no race reaches High-Strategy Event (max average 2.0); 269 races are Single-Stop and 14 Standard Two-Stop, low because pit_stops is sampled. Boundaries: 1.5 goes to Standard Two-Stop, 2.5 to High-Strategy Event. Races with no pit_stops rows get no cluster.",
+  "knowledge": "Pit Strategy Cluster",
+  "checked": "ran, 283 rows, values 'Single-Stop Race', 'Standard Two-Stop'"
+ }
+]

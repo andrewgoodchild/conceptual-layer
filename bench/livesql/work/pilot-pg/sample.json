@@ -1,0 +1,62 @@
+{
+ "solar_panel_large": [
+  "solar_panel_17",
+  "solar_panel_15",
+  "solar_panel_16",
+  "solar_panel_13",
+  "solar_panel_11",
+  "solar_panel_1",
+  "solar_panel_8",
+  "solar_panel_7"
+ ],
+ "sports_events_large": [
+  "sports_events_6",
+  "sports_events_5",
+  "sports_events_2",
+  "sports_events_9",
+  "sports_events_1",
+  "sports_events_12",
+  "sports_events_10",
+  "sports_events_4"
+ ],
+ "labor_certification_applications_large": [
+  "labor_certification_applications_2",
+  "labor_certification_applications_19",
+  "labor_certification_applications_16",
+  "labor_certification_applications_11",
+  "labor_certification_applications_13",
+  "labor_certification_applications_15",
+  "labor_certification_applications_14",
+  "labor_certification_applications_1"
+ ],
+ "planets_data_large": [
+  "planets_data_11",
+  "planets_data_4",
+  "planets_data_15",
+  "planets_data_6",
+  "planets_data_9",
+  "planets_data_13",
+  "planets_data_19",
+  "planets_data_14"
+ ],
+ "exchange_traded_funds_large": [
+  "exchange_traded_funds_13",
+  "exchange_traded_funds_12",
+  "exchange_traded_funds_8",
+  "exchange_traded_funds_14",
+  "exchange_traded_funds_9",
+  "exchange_traded_funds_1",
+  "exchange_traded_funds_10",
+  "exchange_traded_funds_2"
+ ],
+ "museum_artifact_large": [
+  "museum_artifact_4",
+  "museum_artifact_2",
+  "museum_artifact_1",
+  "museum_artifact_9",
+  "museum_artifact_3",
+  "museum_artifact_5",
+  "museum_artifact_6",
+  "museum_artifact_7"
+ ]
+}

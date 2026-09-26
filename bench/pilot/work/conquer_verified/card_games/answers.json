@@ -1,0 +1,79 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST n FROM ForeignData [has ForeignDataMultiverseid: '149934'] has ForeignDataLanguage n",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Card itself has no language attribute in the schema, so the only path to 'language' is through ForeignData, which also holds multiverseid. The draft looks up the ForeignData row directly by ForeignDataMultiverseid and projects its language -- a single-row lookup, no extra joins, matches evidence exactly. Returns 'French' (1 row)."
+ },
+ {
+  "question_id": 346,
+  "answer": "LIST id, a FROM Legality [has LegalityFormat: 'commander'] [has LegalityStatus: 'Legal'] has Card has CardId id AND ALSO has Card OPTIONALLY has CardArtist a AND ALSO has Card has CardUuid u WHERE THE COUNT OF Card [has CardUuid: !u] [has CardPower <> '*'] = 0",
+  "attempts": 2,
+  "verdict": "revised",
+  "reason": "The draft's structure (start from Legality, correlated count-equals-zero subquery to capture 'power is NULL or power = *') is sound and correctly interpreted. But it read CardArtist as a required role, and CardArtist is genuinely absent for a few cards in this database. I found one of them, 'Teferi, Hero of Dominaria' (a planeswalker, so power is null -- exactly the target set), IS legal for commander, and its printing missing an artist (uuid 4e643f84...) was silently dropped: the draft's own restricted-to-Teferi test returned 4 of its 5 commander-legal printings instead of 5. Changing 'has Card has CardArtist a' to 'has Card OPTIONALLY has CardArtist a' recovers that row -- full result goes from 29935 to 29936 rows, and the 'Card must actually have a CardArtist' warning disappears."
+ },
+ {
+  "question_id": 473,
+  "answer": "LIST f FROM Set has SetCode c AND ALSO has SetIsForeignOnly f WHERE c = 'C14' OR c = 'C18' OR c = 'CSP' OR c = 'MMA' OR c = 'PLIST'",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "Confirmed the schema truly has no fact type between Card and Set (Card only carries the plain value CardSetCode; Set only carries SetCode; no reading joins them), so the two-step approach (find Adarkar Valkyrie's set codes from Card, then query Set directly by those literal codes) is the only way to answer this. Re-ran both steps: Adarkar Valkyrie is printed in C14, C18, CSP, MMA, PLIST, and all five sets have SetIsForeignOnly = 0. Answer is No."
+ },
+ {
+  "question_id": 424,
+  "answer": "THE COUNT OF Card [has CardIsTextless: 1] [has CardLayout: 'normal'] * 100 / THE COUNT OF Card",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Matches the evidence formula literally (numerator = textless AND normal-layout cards, denominator = all cards, *100). Returns 0.202%, a small but plausible intersection of two fairly restrictive filters."
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST n FROM Legality [has LegalityFormat: 'gladiator'] [has LegalityStatus: 'Banned'] has Card [has CardRarity: 'mythic'] has CardName n",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Filters match the evidence (format='gladiator', status='Banned', rarity='mythic') and only CardName is projected. Legality rows are per-printing, so a card banned across several mythic printings legitimately appears more than once (5 rows: Oko x4 printings, Nexus of Fate x1) -- that's a property of the data (one row per printing), not a query bug."
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes <> 'Angel']",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "CardSubtypes is a single scalar string column (not a fanned-out list), so '<> Angel' is a literal string inequality exactly as the evidence specifies. Count = 3."
+ },
+ {
+  "question_id": 352,
+  "answer": "THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF ForeignData",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Evidence's formula uses 'id' and 'language' together, both of which live only on ForeignData, so this is a single-table computation, not a Card-level percentage -- no join, no distinct-card dedup needed. Draft matches that exactly: 8.77%."
+ },
+ {
+  "question_id": 518,
+  "answer": "LIST f, n FROM Legality [has LegalityFormat: 'legacy'] [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO has Card has CardName n",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "Re-ran the grouped discovery query (format, count of bans, grouped, ordered desc) myself and checked the top 5: legacy leads with 546 banned, clearly ahead of duel (488) -- no tie, so embedding 'legacy' as a literal in the final listing query is safe. The final query lists both the format and every banned card's name, as asked."
+ },
+ {
+  "question_id": 416,
+  "answer": "(THE DISTINCT COUNT OF u IN ForeignData [has ForeignDataLanguage: 'French'] has Card has CardUuid u - THE DISTINCT COUNT OF u IN ForeignData [has ForeignDataLanguage: 'French'] has Card [has CardPower <> '*'] has CardUuid u) * 100 / (THE COUNT OF Card - THE COUNT OF Card [has CardPower <> '*'])",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Evidence's denominator (count of cards with unknown power) is a pure Card-table condition, matching the draft's Card-only denominator. The numerator needs both language (ForeignData) and power (Card), so it's built as (French cards) minus (French cards with real power) = French cards with unknown power; since the language filter already limits to one row per card, DISTINCT COUNT vs plain COUNT is immaterial here. No IS-NULL support in WHERE forced this subtraction form, which correctly captures null-or-'*' without ever testing for null directly. Returns 47.96%."
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST n, a, p FROM Ruling r has Card has CardUuid u AND ALSO has Card has CardName n AND ALSO has Card has CardArtist a AND ALSO has Card has CardIsPromo p AND ALSO THE COUNT OF r GROUPED BY u AS c ORDERED WITH c DESCENDING THE FIRST 1",
+  "attempts": 3,
+  "verdict": "accepted",
+  "reason": "Grouping by card uuid and counting rulings matches the evidence (Max(count(rulings.uuid))). Checked the top 5 grouped rows: 'Teferi's Protection' leads at 27 rulings (tied across its own 4 printings, next card 'Rowan Kenrith' is at 25 -- no cross-card tie). Also checked whether the CardArtist-required join could silently drop the winning row (as it did for question 346) by re-running with OPTIONALLY added: output is identical (Teferi's Protection / Chase Stone / isPromo=1), so the required-role read isn't costing this particular answer any rows. Left the draft as written since the result doesn't change."
+ },
+ {
+  "question_id": 462,
+  "answer": "LIST t FROM SetTranslation [has SetTranslationLanguage: 'Italian'] has SetTranslationTranslation t AND ALSO has Set has SetCode c WHERE c = '10E' OR c = 'JUD' OR c = 'UMA'",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "Same Card-Set gap as question 473, worked around the same way. Ancestor's Chosen is printed in 10E, JUD and UMA; querying SetTranslation directly by those codes for Italian returns 'Set Base Decima Edizione' (10E) and 'Sentenza' (JUD) -- UMA has no Italian translation row at all (Masters-series sets are English-only), which is the expected outcome of an inner join, not a dropped row."
+ }
+]

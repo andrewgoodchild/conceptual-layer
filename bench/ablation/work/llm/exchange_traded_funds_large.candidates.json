@@ -1,0 +1,3984 @@
+{
+ "database": "exchange_traded_funds_large",
+ "tables": [
+  "AlternativeDataQuality",
+  "AlternativeDataSignals",
+  "AnalystEstimateRevisions",
+  "AnalystResearchConsensus",
+  "CorporateActionEvents",
+  "CorporateActionImpactAnalysis",
+  "DistributionPlatformMetrics",
+  "ExecutionQualityMetrics",
+  "FundTaxEfficiencyMetrics",
+  "FundWholesaleDistribution",
+  "MarketSentimentScores",
+  "OperationalRiskEvents",
+  "PortfolioStressTestResults",
+  "RiskEventRemediation",
+  "SentimentTradingSignals",
+  "ShareholderVotingOutcomes",
+  "StressScenarioParameters",
+  "TaxLotManagement",
+  "TradeExecutionAudit",
+  "VotingPolicyAlignment",
+  "annual_returns",
+  "bond_allocations",
+  "bond_rating_market_data",
+  "bond_ratings",
+  "categories",
+  "competitive_positioning_analytics",
+  "daily_nav_history",
+  "esg_integration_analytics",
+  "exchange_extended_info",
+  "exchanges",
+  "expense_evolution_history",
+  "families",
+  "family_business_metrics",
+  "family_categories",
+  "family_exchanges",
+  "fund_flow_history",
+  "fund_manager_assignments",
+  "fund_operations_details",
+  "fund_regulatory_compliance",
+  "fund_strategy_implementations",
+  "funds",
+  "holdings",
+  "holdings_changes_history",
+  "investment_strategies",
+  "liquidity_risk_analytics",
+  "performance",
+  "performance_benchmark_history",
+  "portfolio_managers",
+  "regulatory_authorities",
+  "risk_attribution_analytics",
+  "risk_metrics",
+  "sector_allocations",
+  "sector_market_intelligence",
+  "sectors",
+  "securities",
+  "security_detailed_analytics",
+  "style_factor_analytics"
+ ],
+ "candidates": [
+  {
+   "id": "AlternativeDataQuality.alt_data_signal_ref -> AlternativeDataSignals.AlternativeDataSignals_id",
+   "source_table": "AlternativeDataQuality",
+   "source_column": "alt_data_signal_ref",
+   "target_table": "AlternativeDataSignals",
+   "target_key": "AlternativeDataSignals_id",
+   "source_rows": 62653,
+   "source_distinct": 14062,
+   "target_rows": 14240,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ADS-238C84EB5612",
+    "ADS-C3C3D3D940D2",
+    "ADS-F563227E27D4",
+    "ADS-1CF0083CB794",
+    "ADS-48B8B091B01C"
+   ],
+   "target_samples": [
+    "ADS-0004A07F8435",
+    "ADS-00109EC90A86",
+    "ADS-001BE20F0EA0",
+    "ADS-001FC5387773",
+    "ADS-001FFD2F6EFA"
+   ]
+  },
+  {
+   "id": "AlternativeDataQuality.historical_backtest_months -> portfolio_managers.ManagerID",
+   "source_table": "AlternativeDataQuality",
+   "source_column": "historical_backtest_months",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 62653,
+   "source_distinct": 114,
+   "target_rows": 150,
+   "score": 3.39,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "98",
+    "102",
+    "109",
+    "27",
+    "75"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AlternativeDataQuality.decay_halflife_days -> portfolio_managers.ManagerID",
+   "source_table": "AlternativeDataQuality",
+   "source_column": "decay_halflife_days",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 62653,
+   "source_distinct": 59,
+   "target_rows": 150,
+   "score": 2.17,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "32",
+    "34",
+    "26",
+    "29",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AlternativeDataSignals.security_ref -> securities.securityref",
+   "source_table": "AlternativeDataSignals",
+   "source_column": "security_ref",
+   "target_table": "securities",
+   "target_key": "securityref",
+   "source_rows": 14240,
+   "source_distinct": 3296,
+   "target_rows": 3330,
+   "score": 3.99,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "54",
+    "19736",
+    "1281",
+    "8",
+    "14129"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AnalystEstimateRevisions.consensus_ref -> AnalystResearchConsensus.AnalystResearchConsensus_id",
+   "source_table": "AnalystEstimateRevisions",
+   "source_column": "consensus_ref",
+   "target_table": "AnalystResearchConsensus",
+   "target_key": "AnalystResearchConsensus_id",
+   "source_rows": 34395,
+   "source_distinct": 8005,
+   "target_rows": 8122,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ARC-56885B768A82",
+    "ARC-24871807FA50",
+    "ARC-528E6F36ECA0",
+    "ARC-FE156C262ECB",
+    "ARC-69DDD908A8AF"
+   ],
+   "target_samples": [
+    "ARC-00018AAD6457",
+    "ARC-0006FA6DA783",
+    "ARC-000981603F20",
+    "ARC-000A2F2241D8",
+    "ARC-0019CADDCC23"
+   ]
+  },
+  {
+   "id": "AnalystEstimateRevisions.estimate_period_quarters_ahead -> risk_attribution_analytics.riskattributionid",
+   "source_table": "AnalystEstimateRevisions",
+   "source_column": "estimate_period_quarters_ahead",
+   "target_table": "risk_attribution_analytics",
+   "target_key": "riskattributionid",
+   "source_rows": 34395,
+   "source_distinct": 7,
+   "target_rows": 8,
+   "score": 3.38,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "7",
+    "2",
+    "5",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AnalystEstimateRevisions.days_since_earnings -> portfolio_managers.ManagerID",
+   "source_table": "AnalystEstimateRevisions",
+   "source_column": "days_since_earnings",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 34395,
+   "source_distinct": 89,
+   "target_rows": 150,
+   "score": 2.77,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "54",
+    "5",
+    "45",
+    "7",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AnalystResearchConsensus.security_ref -> securities.securityref",
+   "source_table": "AnalystResearchConsensus",
+   "source_column": "security_ref",
+   "target_table": "securities",
+   "target_key": "securityref",
+   "source_rows": 8122,
+   "source_distinct": 3041,
+   "target_rows": 3330,
+   "score": 3.9,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4739",
+    "15161",
+    "16467",
+    "3856",
+    "8170"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AnalystResearchConsensus.total_analysts_covering -> portfolio_managers.ManagerID",
+   "source_table": "AnalystResearchConsensus",
+   "source_column": "total_analysts_covering",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 8122,
+   "source_distinct": 49,
+   "target_rows": 150,
+   "score": 1.97,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "1",
+    "35",
+    "23",
+    "17"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CorporateActionEvents.security_ref -> securities.securityref",
+   "source_table": "CorporateActionEvents",
+   "source_column": "security_ref",
+   "target_table": "securities",
+   "target_key": "securityref",
+   "source_rows": 9061,
+   "source_distinct": 3125,
+   "target_rows": 3330,
+   "score": 3.93,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "26",
+    "294",
+    "1228",
+    "2364",
+    "19737"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CorporateActionImpactAnalysis.corporate_action_ref -> CorporateActionEvents.CorporateActionEvents_id",
+   "source_table": "CorporateActionImpactAnalysis",
+   "source_column": "corporate_action_ref",
+   "target_table": "CorporateActionEvents",
+   "target_key": "CorporateActionEvents_id",
+   "source_rows": 28079,
+   "source_distinct": 8652,
+   "target_rows": 9061,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CAE-450238089D3A",
+    "CAE-6CFA4B7C9411",
+    "CAE-C945A12A98B0",
+    "CAE-ABDBE883553C",
+    "CAE-073F7A470CB4"
+   ],
+   "target_samples": [
+    "CAE-00011B11070E",
+    "CAE-000649E4D0CE",
+    "CAE-003170907834",
+    "CAE-003C7BAEE1EE",
+    "CAE-00575AF6D7C1"
+   ]
+  },
+  {
+   "id": "CorporateActionImpactAnalysis.affected_fund_count -> annual_returns.yearlyid",
+   "source_table": "CorporateActionImpactAnalysis",
+   "source_column": "affected_fund_count",
+   "target_table": "annual_returns",
+   "target_key": "yearlyid",
+   "source_rows": 28079,
+   "source_distinct": 499,
+   "target_rows": 28676,
+   "score": 1.05,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "112",
+    "435",
+    "9",
+    "77",
+    "111"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CorporateActionImpactAnalysis.market_reaction_window_hours -> portfolio_managers.ManagerID",
+   "source_table": "CorporateActionImpactAnalysis",
+   "source_column": "market_reaction_window_hours",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 28079,
+   "source_distinct": 71,
+   "target_rows": 150,
+   "score": 2.41,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "49",
+    "51",
+    "53",
+    "38",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DistributionPlatformMetrics.distribution_ref -> FundWholesaleDistribution.FundWholesaleDistribution_id",
+   "source_table": "DistributionPlatformMetrics",
+   "source_column": "distribution_ref",
+   "target_table": "FundWholesaleDistribution",
+   "target_key": "FundWholesaleDistribution_id",
+   "source_rows": 40458,
+   "source_distinct": 9925,
+   "target_rows": 10100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FWD-A630C4CA4DDD",
+    "FWD-B21843F8CA2C",
+    "FWD-D062F59FE813",
+    "FWD-64F38BE69565",
+    "FWD-578E1374FE94"
+   ],
+   "target_samples": [
+    "FWD-00001AD4BC11",
+    "FWD-0010220D4C22",
+    "FWD-001064FFA683",
+    "FWD-001176025E93",
+    "FWD-0013D62A1C10"
+   ]
+  },
+  {
+   "id": "DistributionPlatformMetrics.competitive_rank -> portfolio_managers.ManagerID",
+   "source_table": "DistributionPlatformMetrics",
+   "source_column": "competitive_rank",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 40458,
+   "source_distinct": 99,
+   "target_rows": 150,
+   "score": 2.97,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "1",
+    "73",
+    "5",
+    "64"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DistributionPlatformMetrics.search_visibility_rank -> annual_returns.yearlyid",
+   "source_table": "DistributionPlatformMetrics",
+   "source_column": "search_visibility_rank",
+   "target_table": "annual_returns",
+   "target_key": "yearlyid",
+   "source_rows": 40458,
+   "source_distinct": 499,
+   "target_rows": 28676,
+   "score": 1.05,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "334",
+    "35",
+    "380",
+    "107",
+    "309"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ExecutionQualityMetrics.execution_audit_ref -> TradeExecutionAudit.TradeExecutionAudit_id",
+   "source_table": "ExecutionQualityMetrics",
+   "source_column": "execution_audit_ref",
+   "target_table": "TradeExecutionAudit",
+   "target_key": "TradeExecutionAudit_id",
+   "source_rows": 52,
+   "source_distinct": 12,
+   "target_rows": 12,
+   "score": 4.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TEA-4688FD6DAF63",
+    "TEA-7E917B727431",
+    "TEA-D8DCA41668E8",
+    "TEA-F56A7ABF049E",
+    "TEA-50D733EE2325"
+   ],
+   "target_samples": [
+    "TEA-3AFF0707A298",
+    "TEA-44F32ABB1DB6",
+    "TEA-4688FD6DAF63",
+    "TEA-50D733EE2325",
+    "TEA-57C286D585B2"
+   ]
+  },
+  {
+   "id": "FundTaxEfficiencyMetrics.product_ref -> funds.productnum",
+   "source_table": "FundTaxEfficiencyMetrics",
+   "source_column": "product_ref",
+   "target_table": "funds",
+   "target_key": "productnum",
+   "source_rows": 6405,
+   "source_distinct": 2172,
+   "target_rows": 2306,
+   "score": 3.94,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1986",
+    "1364",
+    "305",
+    "1557",
+    "1800"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FundWholesaleDistribution.product_ref -> funds.productnum",
+   "source_table": "FundWholesaleDistribution",
+   "source_column": "product_ref",
+   "target_table": "funds",
+   "target_key": "productnum",
+   "source_rows": 10100,
+   "source_distinct": 2270,
+   "target_rows": 2306,
+   "score": 3.98,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1863",
+    "1154",
+    "254",
+    "362",
+    "807"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FundWholesaleDistribution.platform_fee_bps -> portfolio_managers.ManagerID",
+   "source_table": "FundWholesaleDistribution",
+   "source_column": "platform_fee_bps",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 10100,
+   "source_distinct": 45,
+   "target_rows": 150,
+   "score": 1.99,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "18",
+    "25",
+    "49",
+    "22",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FundWholesaleDistribution.data_sharing_score -> bond_ratings.ratekey",
+   "source_table": "FundWholesaleDistribution",
+   "source_column": "data_sharing_score",
+   "target_table": "bond_ratings",
+   "target_key": "ratekey",
+   "source_rows": 10100,
+   "source_distinct": 9,
+   "target_rows": 9,
+   "score": 3.78,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "8",
+    "1",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MarketSentimentScores.security_ref -> securities.securityref",
+   "source_table": "MarketSentimentScores",
+   "source_column": "security_ref",
+   "target_table": "securities",
+   "target_key": "securityref",
+   "source_rows": 11585,
+   "source_distinct": 3233,
+   "target_rows": 3330,
+   "score": 3.97,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3032",
+    "5789",
+    "977",
+    "2658",
+    "17304"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "OperationalRiskEvents.fund_ref -> funds.productnum",
+   "source_table": "OperationalRiskEvents",
+   "source_column": "fund_ref",
+   "target_table": "funds",
+   "target_key": "productnum",
+   "source_rows": 4628,
+   "source_distinct": 1994,
+   "target_rows": 2306,
+   "score": 3.85,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1108",
+    "4",
+    "1129",
+    "1747",
+    "1386"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "OperationalRiskEvents.reputational_damage_score -> bond_ratings.ratekey",
+   "source_table": "OperationalRiskEvents",
+   "source_column": "reputational_damage_score",
+   "target_table": "bond_ratings",
+   "target_key": "ratekey",
+   "source_rows": 4628,
+   "source_distinct": 9,
+   "target_rows": 9,
+   "score": 3.78,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "5",
+    "1",
+    "2",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PortfolioStressTestResults.fund_ref -> funds.productnum",
+   "source_table": "PortfolioStressTestResults",
+   "source_column": "fund_ref",
+   "target_table": "funds",
+   "target_key": "productnum",
+   "source_rows": 11509,
+   "source_distinct": 2288,
+   "target_rows": 2306,
+   "score": 3.99,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1539",
+    "833",
+    "554",
+    "1379",
+    "884"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskEventRemediation.risk_event_ref -> OperationalRiskEvents.OperationalRiskEvents_id",
+   "source_table": "RiskEventRemediation",
+   "source_column": "risk_event_ref",
+   "target_table": "OperationalRiskEvents",
+   "target_key": "OperationalRiskEvents_id",
+   "source_rows": 19220,
+   "source_distinct": 4546,
+   "target_rows": 4628,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ORE-D2B0EA9AA615",
+    "ORE-EE19053B6F42",
+    "ORE-8ED0E18B0E9A",
+    "ORE-8A586FB2726F",
+    "ORE-F83020643C7F"
+   ],
+   "target_samples": [
+    "ORE-000B27955431",
+    "ORE-0019E85599A6",
+    "ORE-00587D0C5B3E",
+    "ORE-008736F2B6A7",
+    "ORE-008CE4418DA2"
+   ]
+  },
+  {
+   "id": "RiskEventRemediation.estimated_completion_days -> investment_strategies.StrategyID",
+   "source_table": "RiskEventRemediation",
+   "source_column": "estimated_completion_days",
+   "target_table": "investment_strategies",
+   "target_key": "StrategyID",
+   "source_rows": 19220,
+   "source_distinct": 179,
+   "target_rows": 400,
+   "score": 2.34,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "126",
+    "134",
+    "16",
+    "71",
+    "30"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskEventRemediation.actual_completion_days -> investment_strategies.StrategyID",
+   "source_table": "RiskEventRemediation",
+   "source_column": "actual_completion_days",
+   "target_table": "investment_strategies",
+   "target_key": "StrategyID",
+   "source_rows": 19220,
+   "source_distinct": 249,
+   "target_rows": 400,
+   "score": 2.86,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "168",
+    "74",
+    "77",
+    "91",
+    "118"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskEventRemediation.resources_assigned_count -> portfolio_managers.ManagerID",
+   "source_table": "RiskEventRemediation",
+   "source_column": "resources_assigned_count",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 19220,
+   "source_distinct": 49,
+   "target_rows": 150,
+   "score": 1.97,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "21",
+    "26",
+    "19",
+    "41",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskEventRemediation.control_enhancements_count -> fund_flow_history.flow_id",
+   "source_table": "RiskEventRemediation",
+   "source_column": "control_enhancements_count",
+   "target_table": "fund_flow_history",
+   "target_key": "flow_id",
+   "source_rows": 19220,
+   "source_distinct": 19,
+   "target_rows": 19,
+   "score": 3.89,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "14",
+    "8",
+    "12",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskEventRemediation.process_changes_count -> style_factor_analytics.styleanalyticsid",
+   "source_table": "RiskEventRemediation",
+   "source_column": "process_changes_count",
+   "target_table": "style_factor_analytics",
+   "target_key": "styleanalyticsid",
+   "source_rows": 19220,
+   "source_distinct": 14,
+   "target_rows": 15,
+   "score": 3.67,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "10",
+    "12",
+    "2",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SentimentTradingSignals.sentiment_score_ref -> MarketSentimentScores.MarketSentimentScores_id",
+   "source_table": "SentimentTradingSignals",
+   "source_column": "sentiment_score_ref",
+   "target_table": "MarketSentimentScores",
+   "target_key": "MarketSentimentScores_id",
+   "source_rows": 56890,
+   "source_distinct": 11498,
+   "target_rows": 11585,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MSS-83E7BD039DCD",
+    "MSS-47C1706FC8DE",
+    "MSS-A54E3F47F7BC",
+    "MSS-03C7DE30F92F",
+    "MSS-C7F70D0F833F"
+   ],
+   "target_samples": [
+    "MSS-0010F77F42EE",
+    "MSS-0014A276BF34",
+    "MSS-0014E0985DCC",
+    "MSS-001899150BBF",
+    "MSS-0019182B75C7"
+   ]
+  },
+  {
+   "id": "SentimentTradingSignals.holding_period_days -> portfolio_managers.ManagerID",
+   "source_table": "SentimentTradingSignals",
+   "source_column": "holding_period_days",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 56890,
+   "source_distinct": 89,
+   "target_rows": 150,
+   "score": 2.77,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "76",
+    "23",
+    "53",
+    "85",
+    "72"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SentimentTradingSignals.signal_decay_hours -> investment_strategies.StrategyID",
+   "source_table": "SentimentTradingSignals",
+   "source_column": "signal_decay_hours",
+   "target_table": "investment_strategies",
+   "target_key": "StrategyID",
+   "source_rows": 56890,
+   "source_distinct": 164,
+   "target_rows": 400,
+   "score": 2.25,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "91",
+    "146",
+    "8",
+    "160",
+    "81"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShareholderVotingOutcomes.security_ref -> securities.securityref",
+   "source_table": "ShareholderVotingOutcomes",
+   "source_column": "security_ref",
+   "target_table": "securities",
+   "target_key": "securityref",
+   "source_rows": 8509,
+   "source_distinct": 3062,
+   "target_rows": 3330,
+   "score": 3.91,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8777",
+    "2741",
+    "19410",
+    "15497",
+    "5036"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "StressScenarioParameters.stress_test_ref -> PortfolioStressTestResults.PortfolioStressTestResults_id",
+   "source_table": "StressScenarioParameters",
+   "source_column": "stress_test_ref",
+   "target_table": "PortfolioStressTestResults",
+   "target_key": "PortfolioStressTestResults_id",
+   "source_rows": 47273,
+   "source_distinct": 11328,
+   "target_rows": 11509,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PST-99BBC5AF2CEC",
+    "PST-42AFDDB1F277",
+    "PST-8AB58E999A4F",
+    "PST-6BA195AB119A",
+    "PST-5E95F2A39F66"
+   ],
+   "target_samples": [
+    "PST-00142FB3A993",
+    "PST-00189D39AF4F",
+    "PST-0018D2602890",
+    "PST-001A9ACE13DA",
+    "PST-001FF148995A"
+   ]
+  },
+  {
+   "id": "StressScenarioParameters.scenario_duration_days -> investment_strategies.StrategyID",
+   "source_table": "StressScenarioParameters",
+   "source_column": "scenario_duration_days",
+   "target_table": "investment_strategies",
+   "target_key": "StrategyID",
+   "source_rows": 47273,
+   "source_distinct": 251,
+   "target_rows": 400,
+   "score": 2.88,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "232",
+    "99",
+    "206",
+    "22",
+    "125"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "StressScenarioParameters.historical_precedent_year -> fund_regulatory_compliance.ComplianceID",
+   "source_table": "StressScenarioParameters",
+   "source_column": "historical_precedent_year",
+   "target_table": "fund_regulatory_compliance",
+   "target_key": "ComplianceID",
+   "source_rows": 47273,
+   "source_distinct": 36,
+   "target_rows": 3457,
+   "score": 2.0,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2013",
+    "2011",
+    "1996",
+    "1990",
+    "2016"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TaxLotManagement.tax_efficiency_ref -> FundTaxEfficiencyMetrics.FundTaxEfficiencyMetrics_id",
+   "source_table": "TaxLotManagement",
+   "source_column": "tax_efficiency_ref",
+   "target_table": "FundTaxEfficiencyMetrics",
+   "target_key": "FundTaxEfficiencyMetrics_id",
+   "source_rows": 31058,
+   "source_distinct": 6361,
+   "target_rows": 6405,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FTE-3504ADA16F67",
+    "FTE-03863CEA4FB4",
+    "FTE-290326678475",
+    "FTE-B4DB763C07CA",
+    "FTE-49770335CDFD"
+   ],
+   "target_samples": [
+    "FTE-000857F32430",
+    "FTE-00090F5094BC",
+    "FTE-000F00A726AC",
+    "FTE-001C4950E233",
+    "FTE-002A1915EF80"
+   ]
+  },
+  {
+   "id": "TradeExecutionAudit.exchange_ref -> exchanges.xchgnum",
+   "source_table": "TradeExecutionAudit",
+   "source_column": "exchange_ref",
+   "target_table": "exchanges",
+   "target_key": "xchgnum",
+   "source_rows": 12,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "2",
+    "2122",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "6",
+    "2122"
+   ]
+  },
+  {
+   "id": "TradeExecutionAudit.average_latency_micros -> risk_metrics.riskid",
+   "source_table": "TradeExecutionAudit",
+   "source_column": "average_latency_micros",
+   "target_table": "risk_metrics",
+   "target_key": "riskid",
+   "source_rows": 12,
+   "source_distinct": 12,
+   "target_rows": 1504,
+   "score": 2.27,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "868",
+    "568",
+    "589",
+    "372",
+    "650"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TradeExecutionAudit.average_order_size -> fund_manager_assignments.AssignmentID",
+   "source_table": "TradeExecutionAudit",
+   "source_column": "average_order_size",
+   "target_table": "fund_manager_assignments",
+   "target_key": "AssignmentID",
+   "source_rows": 12,
+   "source_distinct": 12,
+   "target_rows": 5613,
+   "score": 2.58,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4448",
+    "3072",
+    "1174",
+    "2755",
+    "3579"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "VotingPolicyAlignment.voting_outcome_ref -> ShareholderVotingOutcomes.ShareholderVotingOutcomes_id",
+   "source_table": "VotingPolicyAlignment",
+   "source_column": "voting_outcome_ref",
+   "target_table": "ShareholderVotingOutcomes",
+   "target_key": "ShareholderVotingOutcomes_id",
+   "source_rows": 32276,
+   "source_distinct": 8327,
+   "target_rows": 8509,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SVO-26F106B94283",
+    "SVO-93DBA6DF6414",
+    "SVO-0C064A0E8C2A",
+    "SVO-BD3C8E6831C7",
+    "SVO-53FC27CADB65"
+   ],
+   "target_samples": [
+    "SVO-000DB5BA6026",
+    "SVO-000FB6ABF056",
+    "SVO-0012719108B5",
+    "SVO-001B4AE0AAA9",
+    "SVO-001D03C0AD06"
+   ]
+  },
+  {
+   "id": "annual_returns.portfolioref -> funds.tickersym",
+   "source_table": "annual_returns",
+   "source_column": "portfolioref",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 28676,
+   "source_distinct": 2076,
+   "target_rows": 2306,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ",
+    "ACES"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "annual_returns.calendaryear -> fund_regulatory_compliance.ComplianceID",
+   "source_table": "annual_returns",
+   "source_column": "calendaryear",
+   "target_table": "fund_regulatory_compliance",
+   "target_key": "ComplianceID",
+   "source_rows": 28676,
+   "source_distinct": 21,
+   "target_rows": 3457,
+   "score": 2.49,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2019",
+    "2020",
+    "2006",
+    "2007",
+    "2008"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "bond_allocations.fundlink -> funds.tickersym",
+   "source_table": "bond_allocations",
+   "source_column": "fundlink",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 3429,
+   "source_distinct": 381,
+   "target_rows": 2306,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ADFI",
+    "AEMB",
+    "AGGP",
+    "AGZ",
+    "ANGL"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "bond_allocations.ratinglink -> bond_ratings.ratekey",
+   "source_table": "bond_allocations",
+   "source_column": "ratinglink",
+   "target_table": "bond_ratings",
+   "target_key": "ratekey",
+   "source_rows": 3429,
+   "source_distinct": 9,
+   "target_rows": 9,
+   "score": 4.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "bond_rating_market_data.rating_id -> competitive_positioning_analytics.competitiveid",
+   "source_table": "bond_rating_market_data",
+   "source_column": "rating_id",
+   "target_table": "competitive_positioning_analytics",
+   "target_key": "competitiveid",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "competitive_positioning_analytics.fundticker -> funds.tickersym",
+   "source_table": "competitive_positioning_analytics",
+   "source_column": "fundticker",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 2306,
+   "score": 3.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ACES",
+    "DIVA",
+    "GRN",
+    "QQQ",
+    "SPY"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "competitive_positioning_analytics.expensepercentile -> portfolio_managers.ManagerID",
+   "source_table": "competitive_positioning_analytics",
+   "source_column": "expensepercentile",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 150,
+   "score": 2.7,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "85",
+    "72",
+    "62",
+    "71",
+    "75"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "competitive_positioning_analytics.peergroupsize -> risk_metrics.riskid",
+   "source_table": "competitive_positioning_analytics",
+   "source_column": "peergroupsize",
+   "target_table": "risk_metrics",
+   "target_key": "riskid",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 1504,
+   "score": 2.48,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1247",
+    "342",
+    "45",
+    "89",
+    "125"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "competitive_positioning_analytics.competitorlaunches -> holdings_changes_history.holding_change_id",
+   "source_table": "competitive_positioning_analytics",
+   "source_column": "competitorlaunches",
+   "target_table": "holdings_changes_history",
+   "target_key": "holding_change_id",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 20,
+   "score": 3.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "18",
+    "15",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "competitive_positioning_analytics.pricingchanges -> bond_ratings.ratekey",
+   "source_table": "competitive_positioning_analytics",
+   "source_column": "pricingchanges",
+   "target_table": "bond_ratings",
+   "target_key": "ratekey",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 9,
+   "score": 3.82,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "8",
+    "9",
+    "4",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "daily_nav_history.fund_ticker -> funds.tickersym",
+   "source_table": "daily_nav_history",
+   "source_column": "fund_ticker",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 9,
+   "source_distinct": 9,
+   "target_rows": 2306,
+   "score": 3.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "AVMU",
+    "FALN",
+    "FTGC",
+    "IBHD",
+    "IBMJ"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "daily_nav_history.number_of_trades -> sector_allocations.allockey",
+   "source_table": "daily_nav_history",
+   "source_column": "number_of_trades",
+   "target_table": "sector_allocations",
+   "target_key": "allockey",
+   "source_rows": 9,
+   "source_distinct": 9,
+   "target_rows": 17743,
+   "score": 1.84,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "45",
+    "67",
+    "1245",
+    "156",
+    "895"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "esg_integration_analytics.fundticker -> funds.tickersym",
+   "source_table": "esg_integration_analytics",
+   "source_column": "fundticker",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 2306,
+   "score": 3.19,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "DIVA",
+    "QQQ",
+    "SPY"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "esg_integration_analytics.esgdialogueparticipation -> investment_strategies.StrategyID",
+   "source_table": "esg_integration_analytics",
+   "source_column": "esgdialogueparticipation",
+   "target_table": "investment_strategies",
+   "target_key": "StrategyID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 400,
+   "score": 2.67,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "145",
+    "203",
+    "132"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "esg_integration_analytics.esgpercentilerank -> portfolio_managers.ManagerID",
+   "source_table": "esg_integration_analytics",
+   "source_column": "esgpercentilerank",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 150,
+   "score": 2.8,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "72",
+    "88",
+    "65"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "exchange_extended_info.exchange_code -> exchanges.marketcode",
+   "source_table": "exchange_extended_info",
+   "source_column": "exchange_code",
+   "target_table": "exchanges",
+   "target_key": "marketcode",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PCX",
+    "NGM",
+    "BTS",
+    "PNK"
+   ],
+   "target_samples": [
+    "BTS",
+    "NGM",
+    "PCX",
+    "PNK"
+   ]
+  },
+  {
+   "id": "exchange_extended_info.delayed_data_available -> esg_integration_analytics.esganalyticsid",
+   "source_table": "exchange_extended_info",
+   "source_column": "delayed_data_available",
+   "target_table": "esg_integration_analytics",
+   "target_key": "esganalyticsid",
+   "source_rows": 4,
+   "source_distinct": 1,
+   "target_rows": 3,
+   "score": 2.33,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "expense_evolution_history.fund_ticker -> funds.tickersym",
+   "source_table": "expense_evolution_history",
+   "source_column": "fund_ticker",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 11,
+   "source_distinct": 11,
+   "target_rows": 2306,
+   "score": 3.15,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "AAXJ",
+    "AGGP",
+    "AVMU",
+    "FALN",
+    "FTGC"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "family_business_metrics.family_name -> families.groupname",
+   "source_table": "family_business_metrics",
+   "source_column": "family_name",
+   "target_table": "families",
+   "target_key": "groupname",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 150,
+   "score": 2.93,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "American Beacon",
+    "DWS",
+    "Virtus",
+    "American Century Investments",
+    "Thrivent Funds"
+   ],
+   "target_samples": [
+    "361 Funds",
+    "AAM",
+    "AAMA",
+    "ABR",
+    "ACM"
+   ]
+  },
+  {
+   "id": "family_categories.familylink -> families.groupname",
+   "source_table": "family_categories",
+   "source_column": "familylink",
+   "target_table": "families",
+   "target_key": "groupname",
+   "source_rows": 923,
+   "source_distinct": 130,
+   "target_rows": 150,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "361 Funds",
+    "AAM",
+    "AAMA",
+    "ACM",
+    "AGF Investments"
+   ],
+   "target_samples": [
+    "361 Funds",
+    "AAM",
+    "AAMA",
+    "ABR",
+    "ACM"
+   ]
+  },
+  {
+   "id": "family_categories.categorylink -> categories.classtype",
+   "source_table": "family_categories",
+   "source_column": "categorylink",
+   "target_table": "categories",
+   "target_key": "classtype",
+   "source_rows": 923,
+   "source_distinct": 83,
+   "target_rows": 83,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Foreign Large Blend",
+    "Large Blend",
+    "Mid-Cap Blend",
+    "Trading--Inverse Equity",
+    "Trading--Miscellaneous"
+   ],
+   "target_samples": [
+    "Allocation--15% to 30% Equity",
+    "Allocation--30% to 50% Equity",
+    "Allocation--50% to 70% Equity",
+    "Allocation--70% to 85% Equity",
+    "Allocation--85%+ Equity"
+   ]
+  },
+  {
+   "id": "family_exchanges.familyref -> families.groupname",
+   "source_table": "family_exchanges",
+   "source_column": "familyref",
+   "target_table": "families",
+   "target_key": "groupname",
+   "source_rows": 280,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "361 Funds",
+    "AAM",
+    "AAMA",
+    "ABR",
+    "ACM"
+   ],
+   "target_samples": [
+    "361 Funds",
+    "AAM",
+    "AAMA",
+    "ABR",
+    "ACM"
+   ]
+  },
+  {
+   "id": "family_exchanges.exchangeref -> exchanges.marketcode",
+   "source_table": "family_exchanges",
+   "source_column": "exchangeref",
+   "target_table": "exchanges",
+   "target_key": "marketcode",
+   "source_rows": 280,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "BTS",
+    "PCX",
+    "NGM",
+    "PNK"
+   ],
+   "target_samples": [
+    "BTS",
+    "NGM",
+    "PCX",
+    "PNK"
+   ]
+  },
+  {
+   "id": "fund_flow_history.fund_ticker -> funds.tickersym",
+   "source_table": "fund_flow_history",
+   "source_column": "fund_ticker",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 19,
+   "source_distinct": 19,
+   "target_rows": 2306,
+   "score": 2.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "AAXJ",
+    "AGGP",
+    "AVMU",
+    "BALT",
+    "BKHY"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "fund_flow_history.media_mentions -> investment_strategies.StrategyID",
+   "source_table": "fund_flow_history",
+   "source_column": "media_mentions",
+   "target_table": "investment_strategies",
+   "target_key": "StrategyID",
+   "source_rows": 19,
+   "source_distinct": 19,
+   "target_rows": 400,
+   "score": 2.07,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15",
+    "28",
+    "42",
+    "8",
+    "22"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fund_manager_assignments.FundTicker -> funds.productnum",
+   "source_table": "fund_manager_assignments",
+   "source_column": "FundTicker",
+   "target_table": "funds",
+   "target_key": "productnum",
+   "source_rows": 5613,
+   "source_distinct": 149,
+   "target_rows": 2306,
+   "score": 1.82,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fund_manager_assignments.ManagerID -> portfolio_managers.ManagerID",
+   "source_table": "fund_manager_assignments",
+   "source_column": "ManagerID",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 5613,
+   "source_distinct": 149,
+   "target_rows": 150,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "29",
+    "72",
+    "76",
+    "19",
+    "128"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fund_operations_details.fund_ticker -> funds.tickersym",
+   "source_table": "fund_operations_details",
+   "source_column": "fund_ticker",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 2306,
+   "score": 3.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "AVMU",
+    "QQD",
+    "FALN",
+    "USTB",
+    "FTGC"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "fund_operations_details.minimum_investment -> esg_integration_analytics.esganalyticsid",
+   "source_table": "fund_operations_details",
+   "source_column": "minimum_investment",
+   "target_table": "esg_integration_analytics",
+   "target_key": "esganalyticsid",
+   "source_rows": 6,
+   "source_distinct": 1,
+   "target_rows": 3,
+   "score": 2.33,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "fund_operations_details.reporting_currency -> risk_metrics.investmentref",
+   "source_table": "fund_operations_details",
+   "source_column": "reporting_currency",
+   "target_table": "risk_metrics",
+   "target_key": "investmentref",
+   "source_rows": 6,
+   "source_distinct": 1,
+   "target_rows": 1504,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "USD"
+   ],
+   "target_samples": [
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ACES",
+    "ACSI"
+   ]
+  },
+  {
+   "id": "fund_regulatory_compliance.FundTicker -> funds.productnum",
+   "source_table": "fund_regulatory_compliance",
+   "source_column": "FundTicker",
+   "target_table": "funds",
+   "target_key": "productnum",
+   "source_rows": 3457,
+   "source_distinct": 2306,
+   "target_rows": 2306,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fund_regulatory_compliance.AuthorityID -> regulatory_authorities.AuthorityID",
+   "source_table": "fund_regulatory_compliance",
+   "source_column": "AuthorityID",
+   "target_table": "regulatory_authorities",
+   "target_key": "AuthorityID",
+   "source_rows": 3457,
+   "source_distinct": 35,
+   "target_rows": 35,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "19",
+    "31",
+    "22",
+    "12",
+    "20"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fund_strategy_implementations.FundTicker -> funds.productnum",
+   "source_table": "fund_strategy_implementations",
+   "source_column": "FundTicker",
+   "target_table": "funds",
+   "target_key": "productnum",
+   "source_rows": 6912,
+   "source_distinct": 2306,
+   "target_rows": 2306,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fund_strategy_implementations.StrategyID -> investment_strategies.StrategyID",
+   "source_table": "fund_strategy_implementations",
+   "source_column": "StrategyID",
+   "target_table": "investment_strategies",
+   "target_key": "StrategyID",
+   "source_rows": 6912,
+   "source_distinct": 400,
+   "target_rows": 400,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "87",
+    "230",
+    "346",
+    "392",
+    "44"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "funds.tickersym -> performance.productref",
+   "source_table": "funds",
+   "source_column": "tickersym",
+   "target_table": "performance",
+   "target_key": "productref",
+   "source_rows": 2306,
+   "source_distinct": 2306,
+   "target_rows": 2306,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "funds.parentgroup -> families.groupname",
+   "source_table": "funds",
+   "source_column": "parentgroup",
+   "target_table": "families",
+   "target_key": "groupname",
+   "source_rows": 2306,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "American Century Investments",
+    "Alger",
+    "DWS",
+    "Virtus",
+    "Thrivent Funds"
+   ],
+   "target_samples": [
+    "361 Funds",
+    "AAM",
+    "AAMA",
+    "ABR",
+    "ACM"
+   ]
+  },
+  {
+   "id": "funds.listingvenue -> exchanges.marketcode",
+   "source_table": "funds",
+   "source_column": "listingvenue",
+   "target_table": "exchanges",
+   "target_key": "marketcode",
+   "source_rows": 2306,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "NGM",
+    "PCX",
+    "BTS",
+    "PNK"
+   ],
+   "target_samples": [
+    "BTS",
+    "NGM",
+    "PCX",
+    "PNK"
+   ]
+  },
+  {
+   "id": "funds.productclass -> categories.classtype",
+   "source_table": "funds",
+   "source_column": "productclass",
+   "target_table": "categories",
+   "target_key": "classtype",
+   "source_rows": 2306,
+   "source_distinct": 83,
+   "target_rows": 83,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Pacific/Asia ex-Japan Stk",
+    "Corporate Bond",
+    "Ultrashort Bond",
+    "Foreign Large Growth",
+    "Large Value"
+   ],
+   "target_samples": [
+    "Allocation--15% to 30% Equity",
+    "Allocation--30% to 50% Equity",
+    "Allocation--50% to 70% Equity",
+    "Allocation--70% to 85% Equity",
+    "Allocation--85%+ Equity"
+   ]
+  },
+  {
+   "id": "holdings.instrumentref -> funds.tickersym",
+   "source_table": "holdings",
+   "source_column": "instrumentref",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 21623,
+   "source_distinct": 2293,
+   "target_rows": 2306,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "holdings.securitykey -> securities.securityref",
+   "source_table": "holdings",
+   "source_column": "securitykey",
+   "target_table": "securities",
+   "target_key": "securityref",
+   "source_rows": 21623,
+   "source_distinct": 3325,
+   "target_rows": 3330,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1503",
+    "2383",
+    "9536",
+    "13976",
+    "14665"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "holdings.positionrank -> expense_evolution_history.expense_history_id",
+   "source_table": "holdings",
+   "source_column": "positionrank",
+   "target_table": "expense_evolution_history",
+   "target_key": "expense_history_id",
+   "source_rows": 21623,
+   "source_distinct": 10,
+   "target_rows": 11,
+   "score": 4.05,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "holdings_changes_history.fund_ticker -> funds.tickersym",
+   "source_table": "holdings_changes_history",
+   "source_column": "fund_ticker",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 20,
+   "source_distinct": 20,
+   "target_rows": 2306,
+   "score": 2.97,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "AAXJ",
+    "AGGP",
+    "AVMU",
+    "BALT",
+    "BKHY"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "holdings_changes_history.previous_rank -> regulatory_authorities.AuthorityID",
+   "source_table": "holdings_changes_history",
+   "source_column": "previous_rank",
+   "target_table": "regulatory_authorities",
+   "target_key": "AuthorityID",
+   "source_rows": 20,
+   "source_distinct": 8,
+   "target_rows": 35,
+   "score": 2.86,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15",
+    "8",
+    "2",
+    "3",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "holdings_changes_history.new_rank -> portfolio_managers.ManagerID",
+   "source_table": "holdings_changes_history",
+   "source_column": "new_rank",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 20,
+   "source_distinct": 9,
+   "target_rows": 150,
+   "score": 2.02,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "5",
+    "2",
+    "3",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "liquidity_risk_analytics.fundticker -> funds.tickersym",
+   "source_table": "liquidity_risk_analytics",
+   "source_column": "fundticker",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 13,
+   "source_distinct": 13,
+   "target_rows": 2306,
+   "score": 2.94,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "AAXJ",
+    "AGGP",
+    "AVMU",
+    "BALT",
+    "BKHY"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "liquidity_risk_analytics.daystoliquidate5percent -> regulatory_authorities.AuthorityID",
+   "source_table": "liquidity_risk_analytics",
+   "source_column": "daystoliquidate5percent",
+   "target_table": "regulatory_authorities",
+   "target_key": "AuthorityID",
+   "source_rows": 13,
+   "source_distinct": 8,
+   "target_rows": 35,
+   "score": 2.57,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "4",
+    "3",
+    "5",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "liquidity_risk_analytics.daystoliquidate10percent -> portfolio_managers.ManagerID",
+   "source_table": "liquidity_risk_analytics",
+   "source_column": "daystoliquidate10percent",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 13,
+   "source_distinct": 10,
+   "target_rows": 150,
+   "score": 1.99,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "9",
+    "7",
+    "5",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "liquidity_risk_analytics.daystoliquidate25percent -> portfolio_managers.ManagerID",
+   "source_table": "liquidity_risk_analytics",
+   "source_column": "daystoliquidate25percent",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 13,
+   "source_distinct": 12,
+   "target_rows": 150,
+   "score": 2.6,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "25",
+    "18",
+    "14",
+    "32"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "performance.productref -> funds.tickersym",
+   "source_table": "performance",
+   "source_column": "productref",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 2306,
+   "source_distinct": 2306,
+   "target_rows": 2306,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "performance_benchmark_history.fund_ticker -> funds.tickersym",
+   "source_table": "performance_benchmark_history",
+   "source_column": "fund_ticker",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 2306,
+   "score": 3.26,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "AVMU",
+    "FALN",
+    "FTGC",
+    "QQD",
+    "USTB"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "portfolio_managers.YearsExperience -> regulatory_authorities.AuthorityID",
+   "source_table": "portfolio_managers",
+   "source_column": "YearsExperience",
+   "target_table": "regulatory_authorities",
+   "target_key": "AuthorityID",
+   "source_rows": 150,
+   "source_distinct": 31,
+   "target_rows": 35,
+   "score": 4.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "25",
+    "12",
+    "34",
+    "24",
+    "17"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "portfolio_managers.NumberOfFundsManaged -> expense_evolution_history.expense_history_id",
+   "source_table": "portfolio_managers",
+   "source_column": "NumberOfFundsManaged",
+   "target_table": "expense_evolution_history",
+   "target_key": "expense_history_id",
+   "source_rows": 150,
+   "source_distinct": 10,
+   "target_rows": 11,
+   "score": 4.05,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "5",
+    "6",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "regulatory_authorities.EntitiesUnderSupervision -> fund_manager_assignments.AssignmentID",
+   "source_table": "regulatory_authorities",
+   "source_column": "EntitiesUnderSupervision",
+   "target_table": "fund_manager_assignments",
+   "target_key": "AssignmentID",
+   "source_rows": 35,
+   "source_distinct": 35,
+   "target_rows": 5613,
+   "score": 3.07,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3967",
+    "4749",
+    "1629",
+    "4084",
+    "398"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "regulatory_authorities.AnnualExaminations -> risk_metrics.riskid",
+   "source_table": "regulatory_authorities",
+   "source_column": "AnnualExaminations",
+   "target_table": "risk_metrics",
+   "target_key": "riskid",
+   "source_rows": 35,
+   "source_distinct": 35,
+   "target_rows": 1504,
+   "score": 2.57,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "623",
+    "277",
+    "83",
+    "651",
+    "670"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "regulatory_authorities.EnforcementActionsAnnual -> portfolio_managers.ManagerID",
+   "source_table": "regulatory_authorities",
+   "source_column": "EnforcementActionsAnnual",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 35,
+   "source_distinct": 28,
+   "target_rows": 150,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12",
+    "30",
+    "78",
+    "80",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "risk_attribution_analytics.fundticker -> funds.tickersym",
+   "source_table": "risk_attribution_analytics",
+   "source_column": "fundticker",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 2306,
+   "score": 3.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ACES",
+    "AGGP",
+    "DIVA",
+    "GRN",
+    "LD"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "risk_attribution_analytics.riskpercentilerank -> portfolio_managers.ManagerID",
+   "source_table": "risk_attribution_analytics",
+   "source_column": "riskpercentilerank",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 150,
+   "score": 3.07,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "25",
+    "72",
+    "68",
+    "88",
+    "78"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "risk_metrics.investmentref -> funds.tickersym",
+   "source_table": "risk_metrics",
+   "source_column": "investmentref",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 1504,
+   "source_distinct": 1504,
+   "target_rows": 2306,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ACES",
+    "ACSI"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "sector_allocations.productlink -> funds.tickersym",
+   "source_table": "sector_allocations",
+   "source_column": "productlink",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 17743,
+   "source_distinct": 1613,
+   "target_rows": 2306,
+   "score": 4.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AADR",
+    "AAXJ",
+    "ABEQ",
+    "ACES",
+    "ACIO"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "sector_allocations.sectorlink -> expense_evolution_history.expense_history_id",
+   "source_table": "sector_allocations",
+   "source_column": "sectorlink",
+   "target_table": "expense_evolution_history",
+   "target_key": "expense_history_id",
+   "source_rows": 17743,
+   "source_distinct": 11,
+   "target_rows": 11,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sector_market_intelligence.sector_id -> bond_rating_market_data.bond_market_id",
+   "source_table": "sector_market_intelligence",
+   "source_column": "sector_id",
+   "target_table": "bond_rating_market_data",
+   "target_key": "bond_market_id",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "security_detailed_analytics.security_id -> securities.securityref",
+   "source_table": "security_detailed_analytics",
+   "source_column": "security_id",
+   "target_table": "securities",
+   "target_key": "securityref",
+   "source_rows": 3330,
+   "source_distinct": 3330,
+   "target_rows": 3330,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "12970",
+    "12971",
+    "12972",
+    "12973"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "style_factor_analytics.fundticker -> funds.tickersym",
+   "source_table": "style_factor_analytics",
+   "source_column": "fundticker",
+   "target_table": "funds",
+   "target_key": "tickersym",
+   "source_rows": 15,
+   "source_distinct": 15,
+   "target_rows": 2306,
+   "score": 2.83,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "AAXJ",
+    "AGGP",
+    "AVMU",
+    "BALT",
+    "BKHY"
+   ],
+   "target_samples": [
+    "AAA",
+    "AAAU",
+    "AADR",
+    "AAXJ",
+    "ABEQ"
+   ]
+  },
+  {
+   "id": "bond_rating_market_data.bond_market_id -> competitive_positioning_analytics.competitiveid",
+   "source_table": "bond_rating_market_data",
+   "source_column": "bond_market_id",
+   "target_table": "competitive_positioning_analytics",
+   "target_key": "competitiveid",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 3.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "bond_ratings.ratekey -> daily_nav_history.nav_id",
+   "source_table": "bond_ratings",
+   "source_column": "ratekey",
+   "target_table": "daily_nav_history",
+   "target_key": "nav_id",
+   "source_rows": 9,
+   "source_distinct": 9,
+   "target_rows": 9,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "categories.catref -> family_categories.linkid",
+   "source_table": "categories",
+   "source_column": "catref",
+   "target_table": "family_categories",
+   "target_key": "linkid",
+   "source_rows": 83,
+   "source_distinct": 83,
+   "target_rows": 923,
+   "score": 1.24,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "competitive_positioning_analytics.competitiveid -> bond_rating_market_data.bond_market_id",
+   "source_table": "competitive_positioning_analytics",
+   "source_column": "competitiveid",
+   "target_table": "bond_rating_market_data",
+   "target_key": "bond_market_id",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 3.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "daily_nav_history.nav_id -> bond_ratings.ratekey",
+   "source_table": "daily_nav_history",
+   "source_column": "nav_id",
+   "target_table": "bond_ratings",
+   "target_key": "ratekey",
+   "source_rows": 9,
+   "source_distinct": 9,
+   "target_rows": 9,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "esg_integration_analytics.esganalyticsid -> exchange_extended_info.exchange_info_id",
+   "source_table": "esg_integration_analytics",
+   "source_column": "esganalyticsid",
+   "target_table": "exchange_extended_info",
+   "target_key": "exchange_info_id",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 4,
+   "score": 2.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "exchange_extended_info.exchange_info_id -> bond_rating_market_data.bond_market_id",
+   "source_table": "exchange_extended_info",
+   "source_column": "exchange_info_id",
+   "target_table": "bond_rating_market_data",
+   "target_key": "bond_market_id",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 5,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "exchanges.xchgnum -> family_exchanges.connectref",
+   "source_table": "exchanges",
+   "source_column": "xchgnum",
+   "target_table": "family_exchanges",
+   "target_key": "connectref",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 280,
+   "score": 1.34,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "6",
+    "2122"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "expense_evolution_history.expense_history_id -> sectors.secid",
+   "source_table": "expense_evolution_history",
+   "source_column": "expense_history_id",
+   "target_table": "sectors",
+   "target_key": "secid",
+   "source_rows": 11,
+   "source_distinct": 11,
+   "target_rows": 11,
+   "score": 3.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "families.famcode -> family_exchanges.connectref",
+   "source_table": "families",
+   "source_column": "famcode",
+   "target_table": "family_exchanges",
+   "target_key": "connectref",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 280,
+   "score": 2.97,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "family_business_metrics.business_metric_id -> bond_rating_market_data.bond_market_id",
+   "source_table": "family_business_metrics",
+   "source_column": "business_metric_id",
+   "target_table": "bond_rating_market_data",
+   "target_key": "bond_market_id",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 3.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "family_exchanges.connectref -> fund_regulatory_compliance.ComplianceID",
+   "source_table": "family_exchanges",
+   "source_column": "connectref",
+   "target_table": "fund_regulatory_compliance",
+   "target_key": "ComplianceID",
+   "source_rows": 280,
+   "source_distinct": 280,
+   "target_rows": 3457,
+   "score": 1.85,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fund_flow_history.flow_id -> holdings_changes_history.holding_change_id",
+   "source_table": "fund_flow_history",
+   "source_column": "flow_id",
+   "target_table": "holdings_changes_history",
+   "target_key": "holding_change_id",
+   "source_rows": 19,
+   "source_distinct": 19,
+   "target_rows": 20,
+   "score": 3.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "fund_operations_details.operation_id -> risk_attribution_analytics.riskattributionid",
+   "source_table": "fund_operations_details",
+   "source_column": "operation_id",
+   "target_table": "risk_attribution_analytics",
+   "target_key": "riskattributionid",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 8,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "funds.productnum -> performance.perfid",
+   "source_table": "funds",
+   "source_column": "productnum",
+   "target_table": "performance",
+   "target_key": "perfid",
+   "source_rows": 2306,
+   "source_distinct": 2306,
+   "target_rows": 2306,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "holdings_changes_history.holding_change_id -> regulatory_authorities.AuthorityID",
+   "source_table": "holdings_changes_history",
+   "source_column": "holding_change_id",
+   "target_table": "regulatory_authorities",
+   "target_key": "AuthorityID",
+   "source_rows": 20,
+   "source_distinct": 20,
+   "target_rows": 35,
+   "score": 2.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "investment_strategies.StrategyID -> annual_returns.yearlyid",
+   "source_table": "investment_strategies",
+   "source_column": "StrategyID",
+   "target_table": "annual_returns",
+   "target_key": "yearlyid",
+   "source_rows": 400,
+   "source_distinct": 400,
+   "target_rows": 28676,
+   "score": 0.54,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "liquidity_risk_analytics.liquidityid -> style_factor_analytics.styleanalyticsid",
+   "source_table": "liquidity_risk_analytics",
+   "source_column": "liquidityid",
+   "target_table": "style_factor_analytics",
+   "target_key": "styleanalyticsid",
+   "source_rows": 13,
+   "source_distinct": 13,
+   "target_rows": 15,
+   "score": 2.97,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "performance.perfid -> funds.productnum",
+   "source_table": "performance",
+   "source_column": "perfid",
+   "target_table": "funds",
+   "target_key": "productnum",
+   "source_rows": 2306,
+   "source_distinct": 2306,
+   "target_rows": 2306,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "performance_benchmark_history.benchmark_history_id -> bond_rating_market_data.bond_market_id",
+   "source_table": "performance_benchmark_history",
+   "source_column": "benchmark_history_id",
+   "target_table": "bond_rating_market_data",
+   "target_key": "bond_market_id",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 3.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "portfolio_managers.ManagerID -> investment_strategies.StrategyID",
+   "source_table": "portfolio_managers",
+   "source_column": "ManagerID",
+   "target_table": "investment_strategies",
+   "target_key": "StrategyID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 400,
+   "score": 1.62,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "regulatory_authorities.AuthorityID -> portfolio_managers.ManagerID",
+   "source_table": "regulatory_authorities",
+   "source_column": "AuthorityID",
+   "target_table": "portfolio_managers",
+   "target_key": "ManagerID",
+   "source_rows": 35,
+   "source_distinct": 35,
+   "target_rows": 150,
+   "score": 1.19,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "risk_attribution_analytics.riskattributionid -> bond_ratings.ratekey",
+   "source_table": "risk_attribution_analytics",
+   "source_column": "riskattributionid",
+   "target_table": "bond_ratings",
+   "target_key": "ratekey",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 9,
+   "score": 2.94,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sector_market_intelligence.sector_intelligence_id -> bond_rating_market_data.bond_market_id",
+   "source_table": "sector_market_intelligence",
+   "source_column": "sector_intelligence_id",
+   "target_table": "bond_rating_market_data",
+   "target_key": "bond_market_id",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 3.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sectors.secid -> expense_evolution_history.expense_history_id",
+   "source_table": "sectors",
+   "source_column": "secid",
+   "target_table": "expense_evolution_history",
+   "target_key": "expense_history_id",
+   "source_rows": 11,
+   "source_distinct": 11,
+   "target_rows": 11,
+   "score": 3.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "style_factor_analytics.styleanalyticsid -> fund_flow_history.flow_id",
+   "source_table": "style_factor_analytics",
+   "source_column": "styleanalyticsid",
+   "target_table": "fund_flow_history",
+   "target_key": "flow_id",
+   "source_rows": 15,
+   "source_distinct": 15,
+   "target_rows": 19,
+   "score": 2.76,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

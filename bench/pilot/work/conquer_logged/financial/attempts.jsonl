@@ -1,0 +1,6 @@
+{"at": 1789256899.5516338, "query": "THE COUNT OF Account [has District: 1] [is of Loan has LoanStatus s] WHERE s = 'C' OR s = 'D'"}
+{"at": 1789256904.361237, "query": "LIST f, k FROM Account [has AccountId: 3] has AccountFrequency f AND ALSO is of Order [has OrderAmount: 3539] has OrderKSymbol k"}
+{"at": 1789256908.430763, "query": "THE COUNT OF Client [has ClientGender: 'F'] [has District has DistrictA11 a] WHERE a > 6000 AND a < 10000"}
+{"at": 1789256913.470119, "query": "LIST aid FROM Disp has Account has AccountId aid AND ALSO has Client [has ClientGender: 'F'] has ClientBirthDate b AND ALSO has Client has District has DistrictA11 sal ORDERED WITH b ASCENDING, sal ASCENDING THE FIRST 1"}
+{"at": 1789256941.870375, "query": "LIST d FROM Client c [has ClientGender: 'F'] has District has DistrictA2 d AND ALSO THE COUNT OF c GROUPED BY d AS n ORDERED WITH n DESCENDING THE FIRST 9"}
+{"at": 1789256946.830919, "query": "THE COUNT OF Account [has AccountFrequency: 'POPLATEK PO OBRATU'] [has District has DistrictA3: 'east Bohemia']"}

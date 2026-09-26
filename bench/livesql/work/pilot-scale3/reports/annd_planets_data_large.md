@@ -1,0 +1,5 @@
+All ten answers written and run.
+
+Hardest: planets_data_4 Kepler check on the outermost planet (filter before or after choosing it; 115 stars without mass kept, sorted last); _1 surface gravity ("larger than Earth but no more than ten times its mass": mass or radius); _2 retrograde hot Jupiters (correctly 0 rows); _15 a planet with no mass counted as not a gas giant; _10 missing flags counted as not upper limit, not blended.
+
+What mattered: "knowledge.md did most of the work" -- a working SQL fragment for every term, with the stellarprops JSON paths, join keys and constants; notes that mattered: masssource = 'Msini' and 'Msin(i)/sin(i)' is not minimum mass; upper-limit flags in data_quality_tracking.limitflags; 'k2' separate from 'kep'; adjacency by period. The schema tool helped less: its view for `planets` left out most columns and `instruments_surveys` was not shown; the writer queried information_schema. No guidance on a planet's full name, or on how missing values count against "not X" conditions.

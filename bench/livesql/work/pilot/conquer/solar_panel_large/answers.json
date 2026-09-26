@@ -1,0 +1,42 @@
+[
+ {
+  "instance_id": "solar_panel_1",
+  "answer": "LIST round(THE AVERAGE u IN (OperationalMetric has Plant has PlantSitelabel l AND ALSO has OperationalMetricMttrh mt AND ALSO has OperationalMetricMtbfh mb AND ALSO (mt / (mb + mt)) AS u WHERE lower(l) = 'solar plant west davidport'), 4)",
+  "note": "Returns NULL on this database, not a number. That plant has exactly one operational-metric snapshot (PV937101) and its MTBF is missing, so MTTR/(MTBF+MTTR) is undefined; 400 of the 998 snapshots have no MTBF. The formula itself is verified - on plants that do have MTBF the same expression gives values like 0.0098."
+ },
+ {
+  "instance_id": "solar_panel_11",
+  "answer": "LIST round(THE AVERAGE mt IN (PlantRecord has PlantRecordSnapts ts AND ALSO has Plant has PlantGoliveon g AND ALSO has ElectricalPerformanceEfficiencyCumulativeDegPct cd AND ALSO has OperationalMetricMttrh mt AND ALSO (year(ts) - year(g)) AS a AND ALSO if(a = 0, 0, cd / a) AS adr WHERE adr > 0.5), 2)",
+  "note": "24.2 over 436 qualifying snapshots. Age in years is taken as year(snapshot ts) - year(go-live), which is what makes the 'age is zero' guard the question asks for actually bite (101 snapshots have age 0 and 395 are negative, because the synthetic data has snapshots predating go-live). If the gold instead ages the plant against the current date the answer is 24.85, and against a fractional days/365.25 age from the snapshot it is 24.3 - all three cluster, so the risk is only in the second decimal."
+ },
+ {
+  "instance_id": "solar_panel_13",
+  "answer": "LIST l, w FROM Plant has PlantSitelabel l AND ALSO has PlantWarrclaims w AND ALSO has PlantWarrstate s WHERE w > 2 AND lower(s) = 'claimed' ORDERED WITH w DESCENDING",
+  "note": "51 rows. 'Exceeds the typical initial one or two filings' taken from the Warranty Claim Risk definition in knowledge.md: more than 2 claims."
+ },
+ {
+  "instance_id": "solar_panel_15",
+  "answer": "LIST THE SUM OF v IN (Plant has PanelModel has PanelModelDegyrrate d AND ALSO (d * 400000 * 50 * 15) AS v WHERE d * 20 > 14)",
+  "note": "Returns 159690000000.0 over 565 qualifying plants. Two judgement calls. (1) 'projected to lose more than 14% over 20 years' is read as the panel model's specified annual degradation rate (PanelModelDegyrrate, held in percent, range up to 1.2) times 20 > 14. (2) The ADR in the Lifetime Revenue Loss formula is taken to be that same specified annual rate, and the formula is applied literally (rate * 400000 * 50 * 15) without dividing the percentage by 100. If the gold divides by 100 the answer is 1596900000.0; if the gold instead derives ADR from cumulative degradation and age the number changes again."
+ },
+ {
+  "instance_id": "solar_panel_16",
+  "answer": "LIST k, f FROM PlantRecord r has ElectricalPerformanceIvCurveVmpInitialV vi AND ALSO has ElectricalPerformanceIvCurveVmpNowV vn AND ALSO has Plant has PanelModel has PanelModelPnlkind pk AND ALSO lower(pk) AS k AND ALSO ((vi - vn) / vi) AS v WHERE vi > 0 AND ALSO THE AVERAGE v GROUPED BY k AS f ORDERED WITH f DESCENDING",
+  "note": "Five rows: bifacial 0.0573, poly-perc 0.0557, hjt 0.0511, mono-perc 0.0495, topcon 0.0479. 'All the necessary voltage data' is enforced by the required steps on Vmp initial and Vmp now (a missing value drops the snapshot); the positive check is vi > 0."
+ },
+ {
+  "instance_id": "solar_panel_17",
+  "answer": "LIST THE AVERAGE v IN (PlantRecord has PlantRecordSnapts ts AND ALSO has Plant has PlantGoliveon g AND ALSO has OperationalMetricMtbfh mb AND ALSO has OperationalMetricMttrh mt AND ALSO has OperationalMetricMaintcost mc AND ALSO (days_between(ts, g) * 24) AS th AND ALSO (mc / (th / mb)) AS v WHERE mb > 0 AND th > 0 AND mt / (mb + mt) > 0.05)",
+  "note": "Compiles and runs but returns NULL on this database: 'offline more than 5% of the time' is read as System Unavailability = MTTR/(MTBF+MTTR) > 0.05, and no snapshot reaches that (max is 0.040; MTBF is 1000-9987 h, MTTR 1-48 h). The stored availability_pct is also floored at exactly 95.0, so 100-availability > 5 selects nothing either. With the threshold relaxed to 0.02 the same query returns 1110.55, so the machinery is right and only the population is empty. Total time in service = days_between(snapshot ts, go-live) * 24 hours, as the question directs; 'average mean repair cost' read as AVG over snapshots of maintcost / (total hours / MTBF)."
+ },
+ {
+  "instance_id": "solar_panel_7",
+  "answer": "LIST round(THE AVERAGE v IN (PlantRecord has MechanicalConditionModuleSurfaceBusbarCorrosion bc AND ALSO has ElectricalPerformanceIvCurveFillFactorInitial fi AND ALSO has ElectricalPerformanceIvCurveFillFactorNow fn AND ALSO (fi - fn) AS v WHERE lower(bc) = 'severe'), 3)",
+  "note": "0.051. Only 'Severe' and 'Visible' occur in the data, so the highest severity is 'Severe'."
+ },
+ {
+  "instance_id": "solar_panel_8",
+  "answer": "LIST round((THE SUM OF mc IN (OperationalMetric has OperationalMetricMaintcost mc AND ALSO has OperationalMetricMtbfh mb AND ALSO has Plant has PanelModel has PanelModelPnlkind k WHERE lower(k) = 'hjt' AND mb > 0)) / (THE SUM OF f IN (OperationalMetric has OperationalMetricMtbfh mb2 AND ALSO has Plant has PanelModel has PanelModelPnlkind k2 WHERE lower(k2) = 'hjt' AND mb2 > 0 AND ALSO (17520 / mb2) AS f)), 0)",
+  "note": "1103. Aggregation is the ambiguity: this is total maintenance cost over total inferred failure events (SUM(maintcost) / SUM(17520/MTBF)), which is the definition applied to the whole population. If the gold instead averages the per-snapshot ratio the answer is 1551. I chose the pooled form because question 17, whose gold plainly does average, says 'average mean repair cost' while this one says only 'the mean repair cost'. All 143 qualifying hjt snapshots have a maintenance cost, so the two sums cover the same rows."
+ }
+]

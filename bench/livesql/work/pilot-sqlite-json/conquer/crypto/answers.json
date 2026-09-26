@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "crypto_6",
+  "answer": "LIST mc, sp, mf, bf, avgsp, pr FROM Analyticsindicator i has Marketdata d AND ALSO d has MarketdataMetadataMktcombo mc AND ALSO d has MarketdataQuotesAskquote a AND ALSO d has MarketdataQuotesBidquote b AND ALSO d has MarketdataQuotesMidquote m AND ALSO ((a - b) / m * 100) AS sp AND ALSO has AnalyticsindicatorMomentumMktfeel mf AND ALSO has AnalyticsindicatorMomentumBuyforce bf AND ALSO THE AVERAGE sp WITHIN mf AS avgsp AND ALSO 1 AS one AND ALSO (0 - sp) AS nsp AND ALSO THE RANK OF nsp WITHIN one AS rk AND ALSO THE COUNT OF i WITHIN one AS n AND ALSO ((rk - 1) / (n - 1)) AS pr"
+ },
+ {
+  "question_id": "crypto_9",
+  "answer": "LIST rsi, macd, bb, tm, tss FROM Analyticsindicator has AnalyticsindicatorOscillatorsRsi14spot rsi AND ALSO has AnalyticsindicatorOscillatorsMacdtrail macd AND ALSO has AnalyticsindicatorOscillatorsBbandspan bb AND ALSO has AnalyticsindicatorMomentumTechmeter tm AND ALSO (((abs(rsi - 50) + abs(macd) + (bb * 0.01)) / 3) * if(tm = 'Buy', 1, if(tm = 'Sell', -1, 0))) AS tss"
+ },
+ {
+  "question_id": "crypto_2",
+  "answer": "LIST rv, dc, rc, fr FROM Orderexecution has Order o AND ALSO o has OrderRecordvault rv AND ALSO o has OrderDealcount dc AND ALSO has OrderexecutionRemaincount rc AND ALSO has OrderexecutionOrderexecmark m AND ALSO ((dc - rc) / dc * 100) AS fr ORDERED WITH m DESCENDING THE FIRST 1 PER rv"
+ },
+ {
+  "question_id": "crypto_7",
+  "answer": "DEFINE NextMid ::= LIST d, nm FROM Marketdata d has MarketdataQuotesMidquote m AND ALSO has MarketdataMetadataMktcombo mp AND ALSO has MarketdataMetadataTimetrack tt AND ALSO (0 - castNumber(substr(concat(tt, '000000'), 21, 6))) AS rt AND ALSO THE PREVIOUS m BY rt WITHIN mp AS nm\nLIST fd, wa, mp, a1, a4, a24, acc FROM Analyticsindicator i has Marketdata d AND ALSO d has MarketdataMetadataMktcombo mp AND ALSO d has MarketdataQuotesMidquote m AND ALSO d OPTIONALLY has NextMid NextMidNm nm AND ALSO i has AnalyticsindicatorFlowSmartforce sf AND ALSO i has AnalyticsindicatorFlowRetailflow rf AND ALSO i has AnalyticsindicatorFlowInstflow nf AND ALSO i has AnalyticsindicatorBigPlayersWhalemotion wa AND ALSO i has Marketstat has MarketstatPriceShiftDay p24 AND ALSO if(sf > rf * 1.2 AND sf > nf * 1.2, 'Smart Money Dominant', if(rf > sf * 1.2 AND rf > nf * 1.2, 'Retail Dominant', if(nf > sf * 1.2 AND nf > rf * 1.2, 'Institutional Dominant', 'Mixed'))) AS fd AND ALSO ((nm - m) / m * 100) AS pc AND ALSO if((sf > rf AND sf > nf AND nm > m) OR (sf < rf AND sf < nf AND nm < m), 1, 0) AS hit AND ALSO THE AVERAGE pc GROUPED BY fd, wa, mp AS a1 AND ALSO THE AVERAGE pc GROUPED BY fd, wa, mp AS a4 AND ALSO THE AVERAGE p24 GROUPED BY fd, wa, mp AS a24 AND ALSO THE AVERAGE hit GROUPED BY fd, wa, mp AS acc ORDERED WITH acc DESCENDING"
+ },
+ {
+  "question_id": "crypto_5",
+  "answer": "LIST THE SUM OF r IN Accountbalance has AccountbalanceRealline r WHERE r > 0, THE SUM OF r2 IN Accountbalance has AccountbalanceRealline r2 WHERE r2 < 0, (THE SUM OF r3 IN Accountbalance has AccountbalanceRealline r3 WHERE r3 > 0) / abs(THE SUM OF r4 IN Accountbalance has AccountbalanceRealline r4 WHERE r4 < 0)"
+ },
+ {
+  "question_id": "crypto_4",
+  "answer": "LIST p, rv, ab, ih, ms, mu FROM Riskandmargin has RiskandmarginPivot p AND ALSO has Order has OrderRecordvault rv AND ALSO has Order has User is of Accountbalance a AND ALSO a has AccountbalanceSnode ab AND ALSO a has AccountbalanceMargsum ms AND ALSO has RiskandmarginMarginThresholdsInithold ih AND ALSO (ih / ms * 100) AS mu"
+ },
+ {
+  "question_id": "crypto_10",
+  "answer": "LIST rv, se, dc, dep FROM Order has OrderRecordvault rv AND ALSO has OrderDealedge se AND ALSO has OrderDealcount dc AND ALSO (THE MAXIMUM bu IN Marketstat [has MarketstatSmark m WHERE m = THE MAXIMUM MarketstatSmark] has Marketdata has MarketdataDepthBidunits bu) AS bidu AND ALSO (THE MAXIMUM au IN Marketstat [has MarketstatSmark m2 WHERE m2 = THE MAXIMUM MarketstatSmark] has Marketdata has MarketdataDepthAskunits au) AS asku AND ALSO if(se = 'Buy', bidu, asku) AS dep WHERE dc > 0.1 * dep"
+ },
+ {
+  "question_id": "crypto_1",
+  "answer": "LIST e, t, sp FROM Marketdata has MarketdataMetadataExchnote e AND ALSO has MarketdataMetadataTimetrack t AND ALSO has MarketdataQuotesAskquote a AND ALSO has MarketdataQuotesBidquote b AND ALSO has MarketdataQuotesMidquote m AND ALSO ((a - b) / m * 100) AS sp ORDERED WITH t DESCENDING THE FIRST 1"
+ },
+ {
+  "question_id": "crypto_8",
+  "answer": "LIST p, ps, pm, ws, el FROM Riskandmargin has RiskandmarginPivot p AND ALSO has RiskandmarginPositionPossum ps AND ALSO has RiskandmarginPositionPosmagn pm AND ALSO has Order has User is of Accountbalance has AccountbalanceWalletsum ws AND ALSO (castNumber(pm) * (ps / ws)) AS el"
+ },
+ {
+  "question_id": "crypto_3",
+  "answer": "LIST p, ps, v, pv FROM Riskandmargin has RiskandmarginPivot p AND ALSO has RiskandmarginPositionPossum ps AND ALSO (THE MAXIMUM v2 IN Marketstat [has MarketstatSmark m WHERE m = THE MAXIMUM MarketstatSmark] has MarketstatVolmeter v2) AS v AND ALSO (ps * v * 0.01) AS pv ORDERED WITH pv DESCENDING THE FIRST 5"
+ }
+]

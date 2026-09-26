@@ -1,0 +1,551 @@
+{
+ "database": "superhero",
+ "tables": [
+  "alignment",
+  "attribute",
+  "colour",
+  "gender",
+  "hero_attribute",
+  "hero_power",
+  "publisher",
+  "race",
+  "superhero",
+  "superpower"
+ ],
+ "candidates": [
+  {
+   "id": "hero_attribute.hero_id -> superhero.id",
+   "source_table": "hero_attribute",
+   "source_column": "hero_id",
+   "target_table": "superhero",
+   "target_key": "id",
+   "source_rows": 3738,
+   "source_distinct": 623,
+   "target_rows": 750,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "hero_attribute.attribute_id -> attribute.id",
+   "source_table": "hero_attribute",
+   "source_column": "attribute_id",
+   "target_table": "attribute",
+   "target_key": "id",
+   "source_rows": 3738,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "hero_attribute.attribute_value -> superpower.id",
+   "source_table": "hero_attribute",
+   "source_column": "attribute_value",
+   "target_table": "superpower",
+   "target_key": "id",
+   "source_rows": 3738,
+   "source_distinct": 20,
+   "target_rows": 167,
+   "score": 2.85,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "80",
+    "75",
+    "95",
+    "85",
+    "100"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "hero_power.hero_id -> superhero.id",
+   "source_table": "hero_power",
+   "source_column": "hero_id",
+   "target_table": "superhero",
+   "target_key": "id",
+   "source_rows": 5825,
+   "source_distinct": 652,
+   "target_rows": 750,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "hero_power.power_id -> superpower.id",
+   "source_table": "hero_power",
+   "source_column": "power_id",
+   "target_table": "superpower",
+   "target_key": "id",
+   "source_rows": 5825,
+   "source_distinct": 167,
+   "target_rows": 167,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "18",
+    "26",
+    "31",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "superhero.gender_id -> gender.id",
+   "source_table": "superhero",
+   "source_column": "gender_id",
+   "target_table": "gender",
+   "target_key": "id",
+   "source_rows": 750,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "superhero.eye_colour_id -> colour.id",
+   "source_table": "superhero",
+   "source_column": "eye_colour_id",
+   "target_table": "colour",
+   "target_key": "id",
+   "source_rows": 750,
+   "source_distinct": 21,
+   "target_rows": 35,
+   "score": 3.95,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9",
+    "33",
+    "7",
+    "14",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "superhero.hair_colour_id -> colour.id",
+   "source_table": "superhero",
+   "source_column": "hair_colour_id",
+   "target_table": "colour",
+   "target_key": "id",
+   "source_rows": 750,
+   "source_distinct": 26,
+   "target_rows": 35,
+   "score": 4.04,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13",
+    "1",
+    "4",
+    "6",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "superhero.skin_colour_id -> colour.id",
+   "source_table": "superhero",
+   "source_column": "skin_colour_id",
+   "target_table": "colour",
+   "target_key": "id",
+   "source_rows": 750,
+   "source_distinct": 16,
+   "target_rows": 35,
+   "score": 3.79,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "7",
+    "23",
+    "4",
+    "13"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "superhero.race_id -> race.id",
+   "source_table": "superhero",
+   "source_column": "race_id",
+   "target_table": "race",
+   "target_key": "id",
+   "source_rows": 750,
+   "source_distinct": 61,
+   "target_rows": 61,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "24",
+    "33",
+    "55",
+    "28"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "superhero.publisher_id -> publisher.id",
+   "source_table": "superhero",
+   "source_column": "publisher_id",
+   "target_table": "publisher",
+   "target_key": "id",
+   "source_rows": 750,
+   "source_distinct": 25,
+   "target_rows": 25,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13",
+    "3",
+    "4",
+    "15",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "superhero.alignment_id -> gender.id",
+   "source_table": "superhero",
+   "source_column": "alignment_id",
+   "target_table": "gender",
+   "target_key": "id",
+   "source_rows": 750,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "alignment.id -> attribute.id",
+   "source_table": "alignment",
+   "source_column": "id",
+   "target_table": "attribute",
+   "target_key": "id",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 6,
+   "score": 2.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "attribute.id -> publisher.id",
+   "source_table": "attribute",
+   "source_column": "id",
+   "target_table": "publisher",
+   "target_key": "id",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 25,
+   "score": 1.14,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "colour.id -> race.id",
+   "source_table": "colour",
+   "source_column": "id",
+   "target_table": "race",
+   "target_key": "id",
+   "source_rows": 35,
+   "source_distinct": 35,
+   "target_rows": 61,
+   "score": 2.19,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "gender.id -> alignment.id",
+   "source_table": "gender",
+   "source_column": "id",
+   "target_table": "alignment",
+   "target_key": "id",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 4,
+   "score": 2.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "publisher.id -> colour.id",
+   "source_table": "publisher",
+   "source_column": "id",
+   "target_table": "colour",
+   "target_key": "id",
+   "source_rows": 25,
+   "source_distinct": 25,
+   "target_rows": 35,
+   "score": 2.59,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "race.id -> superpower.id",
+   "source_table": "race",
+   "source_column": "id",
+   "target_table": "superpower",
+   "target_key": "id",
+   "source_rows": 61,
+   "source_distinct": 61,
+   "target_rows": 167,
+   "score": 1.58,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

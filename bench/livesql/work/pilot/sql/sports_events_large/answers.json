@@ -1,0 +1,42 @@
+[
+ {
+  "instance_id": "sports_events_1",
+  "answer": "SELECT AVG(CAST((julianday(replace(json_extract(r.event_schedule, '$.date_set'), '/', '-')) - julianday(json_extract(d.driver_identity, '$.birth_date'))) / 365.25 AS INTEGER)) AS avg_sprint_winner_age\nFROM sprint_results s\nJOIN races r ON r.rak_id = s.matchref\nJOIN drivers d ON d.drv_main = s.unitdrive\nWHERE json_extract(s.sprint_performance, '$.final_position') = 1",
+  "note": "18 sprint winners, but 12 of them (all Verstappen plus Perez) have a NULL birth_date in this DB, so AVG is over the 6 computable ages (= 26.1667). Event date taken from date_set because the sessions.sprint.date is NULL for half the sprint weekends."
+ },
+ {
+  "instance_id": "sports_events_10",
+  "answer": "WITH q AS (\n  SELECT rbind,\n         NULLIF(MIN(\n           COALESCE(CAST(substr(q1_r, 1, instr(q1_r, ':') - 1) AS REAL) * 60 + CAST(substr(q1_r, instr(q1_r, ':') + 1) AS REAL), 1e9),\n           COALESCE(CAST(substr(q2_r, 1, instr(q2_r, ':') - 1) AS REAL) * 60 + CAST(substr(q2_r, instr(q2_r, ':') + 1) AS REAL), 1e9),\n           COALESCE(CAST(substr(q3_r, 1, instr(q3_r, ':') - 1) AS REAL) * 60 + CAST(substr(q3_r, instr(q3_r, ':') + 1) AS REAL), 1e9)\n         ), 1e9) AS best_s,\n         CASE WHEN q3_r IS NOT NULL\n              THEN CAST(substr(q3_r, 1, instr(q3_r, ':') - 1) AS REAL) * 60 + CAST(substr(q3_r, instr(q3_r, ':') + 1) AS REAL)\n         END AS q3_s\n  FROM qualifying\n  GROUP BY qualkey\n), pole AS (\n  SELECT rbind, MIN(q3_s) AS pole_s\n  FROM q\n  GROUP BY rbind\n  HAVING MIN(q3_s) IS NOT NULL\n), pct AS (\n  SELECT q.rbind,\n         100.0 * SUM(CASE WHEN q.best_s - pole.pole_s < 0.2 THEN 1 ELSE 0 END) / COUNT(*) AS spec_pct\n  FROM q\n  JOIN pole ON pole.rbind = q.rbind\n  GROUP BY q.rbind\n)\nSELECT ROUND(AVG(spec_pct), 2) AS avg_qualifying_specialist_pct\nFROM pct",
+  "note": "Pole time = fastest Q3 in the session (per the Pole Position definition), so only the 334 sessions that have any Q3 time are averaged; denominator is every qualifying row for the session, including the 26 rows with no time at all (they can never qualify as specialists). Answer 43.89. Excluding no-time rows gives 44.12, and defining pole as the fastest time of any stage gives 35.24, so this one is sensitive to interpretation."
+ },
+ {
+  "instance_id": "sports_events_12",
+  "answer": "SELECT ROUND(AVG((9 - json_extract(sprint_performance, '$.final_position')) + json_extract(sprint_performance, '$.points')), 2) AS avg_spi\nFROM sprint_results\nWHERE json_extract(sprint_performance, '$.final_position') BETWEEN 1 AND 8",
+  "note": "Uses the stored sprint points column (= 8.38). If S_pts were instead hard-coded from the knowledge points table (8,7,...,1) the answer would be exactly 9.00 for any data, which looks like a degenerate result, so the stored points seem the intended reading."
+ },
+ {
+  "instance_id": "sports_events_2",
+  "answer": "SELECT json_extract(location_metadata, '$.name') AS circuit_name,\n       json_extract(location_metadata, '$.coordinates.elevation_m') AS elevation_m\nFROM circuits\nWHERE json_extract(location_metadata, '$.coordinates.elevation_m') > 800\nORDER BY elevation_m DESC",
+  "note": ""
+ },
+ {
+  "instance_id": "sports_events_4",
+  "answer": "WITH sp AS (\n  SELECT matchref,\n         json_extract(sprint_performance, '$.final_position') AS fp,\n         json_extract(sprint_performance, '$.timing.duration_ms') AS dms\n  FROM sprint_results\n)\nSELECT COUNT(*) AS dominant_victory_count\nFROM (\n  SELECT matchref\n  FROM sp\n  GROUP BY matchref\n  HAVING (MAX(CASE WHEN fp = 2 THEN dms END) - MAX(CASE WHEN fp = 1 THEN dms END)) / 1000.0 > 5.0\n)",
+  "note": "Gap taken from timing.duration_ms, which is cumulative (2nd place = winner ms + gap), verified against the '+x.xxx' final_time strings. 4 of the 18 sprints qualify."
+ },
+ {
+  "instance_id": "sports_events_5",
+  "answer": "SELECT r.yr AS year,\n       cr.matchref AS race_id,\n       c.namelabel AS constructor_name,\n       SUM(cr.scoreval) OVER w * 1.0\n         * (SUM(CASE WHEN cr.st_mark IS NULL THEN 1 ELSE 0 END) OVER w * 100.0 / COUNT(*) OVER w) / 100.0 AS cumulative_cps\nFROM constructor_results cr\nJOIN races r ON r.rak_id = cr.matchref\nJOIN constructors c ON c.cstr_key = cr.unitnode\nWHERE c.namelabel = 'McLaren'\nWINDOW w AS (PARTITION BY r.yr ORDER BY r.rnum, cr.matchref ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)\nORDER BY r.yr, r.rnum, cr.matchref",
+  "note": "CPS = cumulative season points x (cumulative reliability rate / 100), both accumulated race by race within the season. Reliability counts a start as a finish when st_mark IS NULL (only one 'D' row exists in the whole table, so McLaren's rate is 100% throughout and CPS tracks cumulative points). 'McLaren' matched on namelabel exactly, excluding McLaren-Ford / McLaren-BRM etc."
+ },
+ {
+  "instance_id": "sports_events_6",
+  "answer": "SELECT ds.rlink AS race_id,\n       (ds.acc_pt / r.rnum) / CAST((julianday(replace(json_extract(r.event_schedule, '$.date_set'), '/', '-')) - julianday(json_extract(d.driver_identity, '$.birth_date'))) / 365.25 AS INTEGER) AS dpv\nFROM driver_standings ds\nJOIN races r ON r.rak_id = ds.rlink\nJOIN drivers d ON d.drv_main = ds.drive_link\nWHERE json_extract(d.driver_identity, '$.name.first_name') = 'Lewis'\n  AND json_extract(d.driver_identity, '$.name.surname') = 'Hamilton'\nORDER BY r.yr, r.rnum",
+  "note": "There is no per-race results table, so points come from driver_standings.acc_pt (season-cumulative). PPR = acc_pt / races completed, taken as the season round number rnum; a running count of the driver's standings rows would differ because this DB is heavily subsampled (only 19 Hamilton standings rows, several with NULL acc_pt, which yield NULL DPV). Age = floor((race date - birth date)/365.25) using the race date_set, since sprint/session dates are mostly NULL."
+ },
+ {
+  "instance_id": "sports_events_9",
+  "answer": "SELECT json_extract(r.event_schedule, '$.event_name') AS event_name,\n       json_extract(d.driver_identity, '$.reference') AS driver_reference,\n       (9 - json_extract(s.sprint_performance, '$.final_position')) + json_extract(s.sprint_performance, '$.points') AS sprint_performance_index\nFROM sprint_results s\nJOIN races r ON r.rak_id = s.matchref\nJOIN drivers d ON d.drv_main = s.unitdrive\nWHERE json_extract(s.sprint_performance, '$.final_position') IS NOT NULL\nORDER BY sprint_performance_index DESC",
+  "note": "'Completed' taken as a classified result (final_position IS NOT NULL) = 345 rows; restricting to status_code = 1 would give 340, but no status lookup table exists so the code meanings are not knowable from the data. S_pts taken from the stored sprint points column rather than hard-coding the 8-7-6-5-4-3-2-1 table, because the 2021 sprints in this DB legitimately award 3/2/1. 'Reference code' read as driver_identity.reference ('hamilton'); the three-letter .code field is NULL for 125 of the 360 sprint rows."
+ }
+]

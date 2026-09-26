@@ -1,0 +1,3862 @@
+{
+ "database": "archeology_scan_large",
+ "tables": [
+  "ArtifactConditionAssessments",
+  "ArtifactPhotography",
+  "CalibrationVerificationTests",
+  "ConservationTreatments",
+  "EnvironmentAlertEvents",
+  "EquipmentMaintenance",
+  "ExcavationFindings",
+  "ExcavationSessions",
+  "ExpenseReceipts",
+  "FieldNoteAttachments",
+  "FieldNotes",
+  "LabSampleProcessing",
+  "MaintenancePartsUsage",
+  "PhotoProcessingQueue",
+  "ProjectExpenses",
+  "SampleContaminationLog",
+  "ScanCalibration",
+  "SiteEnvironmentMonitoring",
+  "TransportConditionReadings",
+  "TransportLogistics",
+  "TreatmentChemicalApplications",
+  "artifacts",
+  "conservation",
+  "data_access_logs",
+  "environment",
+  "equipment",
+  "equipment_manufacturers",
+  "features",
+  "geological_surveys",
+  "mesh",
+  "permits",
+  "personnel",
+  "personnel_certifications",
+  "personnel_skills",
+  "pointcloud",
+  "processing",
+  "project_budgets",
+  "project_institution_partnership",
+  "project_milestones",
+  "project_stakeholders",
+  "projects",
+  "qualitycontrol",
+  "registration",
+  "research_institutions",
+  "sample_analysis",
+  "scans",
+  "shipping_log",
+  "sites",
+  "skills",
+  "software_licenses",
+  "spatial"
+ ],
+ "candidates": [
+  {
+   "id": "ArtifactConditionAssessments.artifact_ref -> artifacts.ArtifactTag",
+   "source_table": "ArtifactConditionAssessments",
+   "source_column": "artifact_ref",
+   "target_table": "artifacts",
+   "target_key": "ArtifactTag",
+   "source_rows": 173,
+   "source_distinct": 62,
+   "target_rows": 68,
+   "score": 3.87,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8022",
+    "8070",
+    "8067",
+    "8017",
+    "8025"
+   ],
+   "target_samples": [
+    "8001",
+    "8002",
+    "8003",
+    "8007",
+    "8011"
+   ]
+  },
+  {
+   "id": "ArtifactConditionAssessments.photo_documentation_count -> spatial.domainregistry",
+   "source_table": "ArtifactConditionAssessments",
+   "source_column": "photo_documentation_count",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 173,
+   "source_distinct": 26,
+   "target_rows": 342,
+   "score": 1.26,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "21",
+    "15",
+    "19",
+    "22",
+    "27"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactConditionAssessments.assessment_duration_minutes -> spatial.domainregistry",
+   "source_table": "ArtifactConditionAssessments",
+   "source_column": "assessment_duration_minutes",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 173,
+   "source_distinct": 106,
+   "target_rows": 342,
+   "score": 2.43,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "98",
+    "96",
+    "75",
+    "143",
+    "44"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactConditionAssessments.next_assessment_recommended_days -> registration.logregistry",
+   "source_table": "ArtifactConditionAssessments",
+   "source_column": "next_assessment_recommended_days",
+   "target_table": "registration",
+   "target_key": "logregistry",
+   "source_rows": 173,
+   "source_distinct": 156,
+   "target_rows": 729,
+   "score": 3.04,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "376",
+    "690",
+    "294",
+    "684",
+    "711"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactPhotography.artifact_ref -> artifacts.ArtifactTag",
+   "source_table": "ArtifactPhotography",
+   "source_column": "artifact_ref",
+   "target_table": "artifacts",
+   "target_key": "ArtifactTag",
+   "source_rows": 298,
+   "source_distinct": 66,
+   "target_rows": 68,
+   "score": 3.94,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8051",
+    "8068",
+    "8048",
+    "8028",
+    "8054"
+   ],
+   "target_samples": [
+    "8001",
+    "8002",
+    "8003",
+    "8007",
+    "8011"
+   ]
+  },
+  {
+   "id": "ArtifactPhotography.image_resolution_megapixels -> spatial.domainregistry",
+   "source_table": "ArtifactPhotography",
+   "source_column": "image_resolution_megapixels",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 298,
+   "source_distinct": 5,
+   "target_rows": 342,
+   "score": 1.42,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "45.0",
+    "36.0",
+    "24.0",
+    "61.0",
+    "12.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactPhotography.focal_length_mm -> spatial.domainregistry",
+   "source_table": "ArtifactPhotography",
+   "source_column": "focal_length_mm",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 298,
+   "source_distinct": 5,
+   "target_rows": 342,
+   "score": 1.88,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "100.0",
+    "35.0",
+    "85.0",
+    "105.0",
+    "50.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactPhotography.focus_stacking_layers -> spatial.domainregistry",
+   "source_table": "ArtifactPhotography",
+   "source_column": "focus_stacking_layers",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 298,
+   "source_distinct": 47,
+   "target_rows": 342,
+   "score": 1.41,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "31",
+    "24",
+    "33",
+    "19",
+    "38"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CalibrationVerificationTests.calibration_ref -> ScanCalibration.ScanCalibration_id",
+   "source_table": "CalibrationVerificationTests",
+   "source_column": "calibration_ref",
+   "target_table": "ScanCalibration",
+   "target_key": "ScanCalibration_id",
+   "source_rows": 5828,
+   "source_distinct": 2154,
+   "target_rows": 2348,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SC-E12F1E0525DF",
+    "SC-84BD4839DEE5",
+    "SC-C0DAEDD72EE3",
+    "SC-61EE80E39014",
+    "SC-8D07761C1236"
+   ],
+   "target_samples": [
+    "SC-00080652ABED",
+    "SC-0030A169184D",
+    "SC-003CD157DED0",
+    "SC-004E698D11D6",
+    "SC-009A893AB3B4"
+   ]
+  },
+  {
+   "id": "CalibrationVerificationTests.iterations_performed -> spatial.domainregistry",
+   "source_table": "CalibrationVerificationTests",
+   "source_column": "iterations_performed",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 5828,
+   "source_distinct": 19,
+   "target_rows": 342,
+   "score": 1.16,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "3",
+    "19",
+    "13",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CalibrationVerificationTests.test_duration_minutes -> spatial.domainregistry",
+   "source_table": "CalibrationVerificationTests",
+   "source_column": "test_duration_minutes",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 5828,
+   "source_distinct": 115,
+   "target_rows": 342,
+   "score": 2.05,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "100",
+    "79",
+    "21",
+    "46",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CalibrationVerificationTests.next_verification_days -> conservation.cureregistry",
+   "source_table": "CalibrationVerificationTests",
+   "source_column": "next_verification_days",
+   "target_table": "conservation",
+   "target_key": "cureregistry",
+   "source_rows": 5828,
+   "source_distinct": 358,
+   "target_rows": 455,
+   "score": 3.41,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "327",
+    "233",
+    "124",
+    "291",
+    "42"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationTreatments.conservation_ref -> conservation.cureregistry",
+   "source_table": "ConservationTreatments",
+   "source_column": "conservation_ref",
+   "target_table": "conservation",
+   "target_key": "cureregistry",
+   "source_rows": 1949,
+   "source_distinct": 449,
+   "target_rows": 455,
+   "score": 3.98,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "91",
+    "64",
+    "300",
+    "217",
+    "384"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationTreatments.photo_documentation_count -> spatial.domainregistry",
+   "source_table": "ConservationTreatments",
+   "source_column": "photo_documentation_count",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 1949,
+   "source_distinct": 95,
+   "target_rows": 342,
+   "score": 1.87,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "63",
+    "38",
+    "80",
+    "33",
+    "97"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationTreatments.follow_up_required_months -> spatial.domainregistry",
+   "source_table": "ConservationTreatments",
+   "source_column": "follow_up_required_months",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 1949,
+   "source_distinct": 4,
+   "target_rows": 342,
+   "score": 1.13,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "6",
+    "12",
+    "24"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EnvironmentAlertEvents.monitoring_ref -> SiteEnvironmentMonitoring.SiteEnvironmentMonitoring_id",
+   "source_table": "EnvironmentAlertEvents",
+   "source_column": "monitoring_ref",
+   "target_table": "SiteEnvironmentMonitoring",
+   "target_key": "SiteEnvironmentMonitoring_id",
+   "source_rows": 10324,
+   "source_distinct": 3841,
+   "target_rows": 4190,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SEM-D4CC9E2CE09F",
+    "SEM-98B25EC52A73",
+    "SEM-F4FAC8F6F851",
+    "SEM-07FBABE77BD6",
+    "SEM-8C9A591946BA"
+   ],
+   "target_samples": [
+    "SEM-002492F37BAF",
+    "SEM-002834EE89B6",
+    "SEM-003B046F9E49",
+    "SEM-005201377714",
+    "SEM-005646EEFB05"
+   ]
+  },
+  {
+   "id": "EnvironmentAlertEvents.alert_duration_minutes -> features.traitregistry",
+   "source_table": "EnvironmentAlertEvents",
+   "source_column": "alert_duration_minutes",
+   "target_table": "features",
+   "target_key": "traitregistry",
+   "source_rows": 10324,
+   "source_distinct": 479,
+   "target_rows": 539,
+   "score": 3.66,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "377",
+    "180",
+    "290",
+    "407",
+    "132"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EnvironmentAlertEvents.personnel_notified_count -> spatial.domainregistry",
+   "source_table": "EnvironmentAlertEvents",
+   "source_column": "personnel_notified_count",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 10324,
+   "source_distinct": 14,
+   "target_rows": 342,
+   "score": 1.12,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "1",
+    "4",
+    "12",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EnvironmentAlertEvents.response_time_minutes -> spatial.domainregistry",
+   "source_table": "EnvironmentAlertEvents",
+   "source_column": "response_time_minutes",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 10324,
+   "source_distinct": 119,
+   "target_rows": 342,
+   "score": 2.04,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "36",
+    "68",
+    "67",
+    "86",
+    "62"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentMaintenance.equipment_ref -> equipment.equipregistry",
+   "source_table": "EquipmentMaintenance",
+   "source_column": "equipment_ref",
+   "target_table": "equipment",
+   "target_key": "equipregistry",
+   "source_rows": 4175,
+   "source_distinct": 927,
+   "target_rows": 944,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SN10636",
+    "SN57090",
+    "SN25786",
+    "SN25680",
+    "SN85453"
+   ],
+   "target_samples": [
+    "SN10024",
+    "SN10100",
+    "SN10271",
+    "SN10282",
+    "SN10368"
+   ]
+  },
+  {
+   "id": "EquipmentMaintenance.technician_count -> spatial.domainregistry",
+   "source_table": "EquipmentMaintenance",
+   "source_column": "technician_count",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 4175,
+   "source_distinct": 4,
+   "target_rows": 342,
+   "score": 1.03,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "1",
+    "2",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EquipmentMaintenance.next_maintenance_interval_days -> conservation.cureregistry",
+   "source_table": "EquipmentMaintenance",
+   "source_column": "next_maintenance_interval_days",
+   "target_table": "conservation",
+   "target_key": "cureregistry",
+   "source_rows": 4175,
+   "source_distinct": 4,
+   "target_rows": 455,
+   "score": 2.46,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "180",
+    "90",
+    "365",
+    "30"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ExcavationFindings.session_ref -> ExcavationSessions.ExcavationSessions_id",
+   "source_table": "ExcavationFindings",
+   "source_column": "session_ref",
+   "target_table": "ExcavationSessions",
+   "target_key": "ExcavationSessions_id",
+   "source_rows": 14034,
+   "source_distinct": 3072,
+   "target_rows": 3101,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ES-B70FFDF16CDF",
+    "ES-619EC8DFC719",
+    "ES-E6FD921EEC52",
+    "ES-4F97DA6B7FCD",
+    "ES-5D0F9EEFD660"
+   ],
+   "target_samples": [
+    "ES-0006CA181458",
+    "ES-00170F834C6C",
+    "ES-00379E842555",
+    "ES-00384112C93B",
+    "ES-0047E3E4D902"
+   ]
+  },
+  {
+   "id": "ExcavationFindings.photo_count -> spatial.domainregistry",
+   "source_table": "ExcavationFindings",
+   "source_column": "photo_count",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 14034,
+   "source_distinct": 19,
+   "target_rows": 342,
+   "score": 1.16,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "9",
+    "2",
+    "1",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ExcavationSessions.site_ref -> sites.zoneregistry",
+   "source_table": "ExcavationSessions",
+   "source_column": "site_ref",
+   "target_table": "sites",
+   "target_key": "zoneregistry",
+   "source_rows": 3101,
+   "source_distinct": 868,
+   "target_rows": 900,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SC6252",
+    "SC2275",
+    "SC7365",
+    "SC6019",
+    "SC6696"
+   ],
+   "target_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ]
+  },
+  {
+   "id": "ExcavationSessions.crew_count -> spatial.domainregistry",
+   "source_table": "ExcavationSessions",
+   "source_column": "crew_count",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 3101,
+   "source_distinct": 13,
+   "target_rows": 342,
+   "score": 1.12,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "2",
+    "9",
+    "10",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ExcavationSessions.sieve_mesh_size_mm -> spatial.domainregistry",
+   "source_table": "ExcavationSessions",
+   "source_column": "sieve_mesh_size_mm",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 3101,
+   "source_distinct": 4,
+   "target_rows": 342,
+   "score": 1.06,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4.0",
+    "2.0",
+    "10.0",
+    "6.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ExcavationSessions.photos_taken_count -> spatial.domainregistry",
+   "source_table": "ExcavationSessions",
+   "source_column": "photos_taken_count",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 3101,
+   "source_distinct": 195,
+   "target_rows": 342,
+   "score": 2.75,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "185",
+    "195",
+    "98",
+    "115",
+    "120"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ExpenseReceipts.expense_ref -> ProjectExpenses.ProjectExpenses_id",
+   "source_table": "ExpenseReceipts",
+   "source_column": "expense_ref",
+   "target_table": "ProjectExpenses",
+   "target_key": "ProjectExpenses_id",
+   "source_rows": 10842,
+   "source_distinct": 3105,
+   "target_rows": 3237,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PE-5A9D235F417D",
+    "PE-6DC165667BCB",
+    "PE-C602E56069E6",
+    "PE-EBD517577138",
+    "PE-FAC5CFBE5B17"
+   ],
+   "target_samples": [
+    "PE-00170D15E083",
+    "PE-002052219E6D",
+    "PE-0062886CF6D2",
+    "PE-0075BD1A77BD",
+    "PE-007A4E91543C"
+   ]
+  },
+  {
+   "id": "ExpenseReceipts.vendor_name_length -> spatial.domainregistry",
+   "source_table": "ExpenseReceipts",
+   "source_column": "vendor_name_length",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 10842,
+   "source_distinct": 75,
+   "target_rows": 342,
+   "score": 1.7,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "41",
+    "69",
+    "56",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ExpenseReceipts.line_item_count -> spatial.domainregistry",
+   "source_table": "ExpenseReceipts",
+   "source_column": "line_item_count",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 10842,
+   "source_distinct": 24,
+   "target_rows": 342,
+   "score": 1.2,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "20",
+    "23",
+    "22",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FieldNoteAttachments.note_ref -> FieldNotes.FieldNotes_id",
+   "source_table": "FieldNoteAttachments",
+   "source_column": "note_ref",
+   "target_table": "FieldNotes",
+   "target_key": "FieldNotes_id",
+   "source_rows": 4406,
+   "source_distinct": 1755,
+   "target_rows": 1984,
+   "score": 4.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FN-EB6005B133F1",
+    "FN-7FFBA57E3B81",
+    "FN-8BF7208AD2E3",
+    "FN-5F90EAA66A3B",
+    "FN-8210221EC850"
+   ],
+   "target_samples": [
+    "FN-0003ABC06005",
+    "FN-00160DF74393",
+    "FN-00249C30C636",
+    "FN-00299AE52871",
+    "FN-005C85114496"
+   ]
+  },
+  {
+   "id": "FieldNoteAttachments.audio_duration_seconds -> qualitycontrol.qualregistry",
+   "source_table": "FieldNoteAttachments",
+   "source_column": "audio_duration_seconds",
+   "target_table": "qualitycontrol",
+   "target_key": "qualregistry",
+   "source_rows": 4406,
+   "source_distinct": 459,
+   "target_rows": 667,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "378",
+    "359",
+    "109",
+    "360",
+    "460"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FieldNoteAttachments.video_duration_seconds -> spatial.domainregistry",
+   "source_table": "FieldNoteAttachments",
+   "source_column": "video_duration_seconds",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 4406,
+   "source_distinct": 256,
+   "target_rows": 342,
+   "score": 3.55,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "98",
+    "127",
+    "111",
+    "228",
+    "137"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FieldNotes.personnel_ref -> personnel.crewregistry",
+   "source_table": "FieldNotes",
+   "source_column": "personnel_ref",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 1984,
+   "source_distinct": 804,
+   "target_rows": 900,
+   "score": 4.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OP3075",
+    "OP5100",
+    "OP8147",
+    "OP1984",
+    "OP9727"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "LabSampleProcessing.analysis_ref -> sample_analysis.AnalysisIndex",
+   "source_table": "LabSampleProcessing",
+   "source_column": "analysis_ref",
+   "target_table": "sample_analysis",
+   "target_key": "AnalysisIndex",
+   "source_rows": 30,
+   "source_distinct": 14,
+   "target_rows": 15,
+   "score": 4.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OP8249",
+    "OP7855",
+    "OP1431",
+    "OP4015",
+    "OP9667"
+   ],
+   "target_samples": [
+    "OP1431",
+    "OP1941",
+    "OP3123",
+    "OP4015",
+    "OP4206"
+   ]
+  },
+  {
+   "id": "LabSampleProcessing.batch_size -> spatial.domainregistry",
+   "source_table": "LabSampleProcessing",
+   "source_column": "batch_size",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 30,
+   "source_distinct": 23,
+   "target_rows": 342,
+   "score": 1.33,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "18",
+    "28",
+    "31",
+    "47",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MaintenancePartsUsage.maintenance_ref -> EquipmentMaintenance.EquipmentMaintenance_id",
+   "source_table": "MaintenancePartsUsage",
+   "source_column": "maintenance_ref",
+   "target_table": "EquipmentMaintenance",
+   "target_key": "EquipmentMaintenance_id",
+   "source_rows": 9627,
+   "source_distinct": 3783,
+   "target_rows": 4175,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EM-EB43CAD8C75B",
+    "EM-51F3E9BC9283",
+    "EM-788095C4C219",
+    "EM-E84E86DA09C9",
+    "EM-A29F1B7091D9"
+   ],
+   "target_samples": [
+    "EM-00029762976F",
+    "EM-000487D57500",
+    "EM-00079AF4E835",
+    "EM-00087B07F4B6",
+    "EM-00427658E510"
+   ]
+  },
+  {
+   "id": "MaintenancePartsUsage.quantity_used -> spatial.domainregistry",
+   "source_table": "MaintenancePartsUsage",
+   "source_column": "quantity_used",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 9627,
+   "source_distinct": 9,
+   "target_rows": 342,
+   "score": 1.07,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "2",
+    "1",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MaintenancePartsUsage.installation_time_minutes -> spatial.domainregistry",
+   "source_table": "MaintenancePartsUsage",
+   "source_column": "installation_time_minutes",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 9627,
+   "source_distinct": 175,
+   "target_rows": 342,
+   "score": 2.58,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "25",
+    "144",
+    "53",
+    "72",
+    "168"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PhotoProcessingQueue.photography_ref -> ArtifactPhotography.ArtifactPhotography_id",
+   "source_table": "PhotoProcessingQueue",
+   "source_column": "photography_ref",
+   "target_table": "ArtifactPhotography",
+   "target_key": "ArtifactPhotography_id",
+   "source_rows": 781,
+   "source_distinct": 277,
+   "target_rows": 298,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AP-61A59DBF4451",
+    "AP-DD55266CB3B9",
+    "AP-212DF2874B3C",
+    "AP-B7252FD1F1E2",
+    "AP-D1801EEA00A8"
+   ],
+   "target_samples": [
+    "AP-0041F03AFA83",
+    "AP-0204D857192A",
+    "AP-0354DAC9B34A",
+    "AP-03DDCA1CAA53",
+    "AP-04421494B319"
+   ]
+  },
+  {
+   "id": "PhotoProcessingQueue.processing_priority -> spatial.domainregistry",
+   "source_table": "PhotoProcessingQueue",
+   "source_column": "processing_priority",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 781,
+   "source_distinct": 9,
+   "target_rows": 342,
+   "score": 1.07,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "5",
+    "4",
+    "2",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PhotoProcessingQueue.compression_quality_percent -> spatial.domainregistry",
+   "source_table": "PhotoProcessingQueue",
+   "source_column": "compression_quality_percent",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 781,
+   "source_distinct": 30,
+   "target_rows": 342,
+   "score": 1.89,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "70",
+    "96",
+    "75",
+    "79",
+    "98"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProjectExpenses.project_ref -> projects.arcregistry",
+   "source_table": "ProjectExpenses",
+   "source_column": "project_ref",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 3237,
+   "source_distinct": 872,
+   "target_rows": 905,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PR8991",
+    "PR2924",
+    "PR9096",
+    "PR4532",
+    "PR3276"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "ProjectExpenses.processing_days -> spatial.domainregistry",
+   "source_table": "ProjectExpenses",
+   "source_column": "processing_days",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 3237,
+   "source_distinct": 44,
+   "target_rows": 342,
+   "score": 1.38,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "2",
+    "15",
+    "9",
+    "26"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProjectExpenses.expense_justification_length -> features.traitregistry",
+   "source_table": "ProjectExpenses",
+   "source_column": "expense_justification_length",
+   "target_table": "features",
+   "target_key": "traitregistry",
+   "source_rows": 3237,
+   "source_distinct": 480,
+   "target_rows": 539,
+   "score": 3.77,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "415",
+    "307",
+    "152",
+    "337",
+    "21"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SampleContaminationLog.processing_ref -> LabSampleProcessing.LabSampleProcessing_id",
+   "source_table": "SampleContaminationLog",
+   "source_column": "processing_ref",
+   "target_table": "LabSampleProcessing",
+   "target_key": "LabSampleProcessing_id",
+   "source_rows": 97,
+   "source_distinct": 29,
+   "target_rows": 30,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "LSP-7A2EF8A0EC26",
+    "LSP-A6E8B9AED61C",
+    "LSP-079FD0ED855E",
+    "LSP-1C1C3ED3289A",
+    "LSP-47C5893903C0"
+   ],
+   "target_samples": [
+    "LSP-03CEC522916D",
+    "LSP-079FD0ED855E",
+    "LSP-0E9E543F4726",
+    "LSP-0FB24EF5CBBB",
+    "LSP-14FDDDBFF1FA"
+   ]
+  },
+  {
+   "id": "ScanCalibration.scan_ref -> scans.questregistry",
+   "source_table": "ScanCalibration",
+   "source_column": "scan_ref",
+   "target_table": "scans",
+   "target_key": "questregistry",
+   "source_rows": 2348,
+   "source_distinct": 908,
+   "target_rows": 1000,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ASD211159",
+    "ASD644331",
+    "ASD774755",
+    "ASD544178",
+    "ASD378083"
+   ],
+   "target_samples": [
+    "ASD100419",
+    "ASD101098",
+    "ASD102149",
+    "ASD102430",
+    "ASD103243"
+   ]
+  },
+  {
+   "id": "ScanCalibration.reference_target_count -> spatial.domainregistry",
+   "source_table": "ScanCalibration",
+   "source_column": "reference_target_count",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 2348,
+   "source_distinct": 22,
+   "target_rows": 342,
+   "score": 1.21,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "22",
+    "3",
+    "18",
+    "13",
+    "24"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScanCalibration.iterations_required -> spatial.domainregistry",
+   "source_table": "ScanCalibration",
+   "source_column": "iterations_required",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 2348,
+   "source_distinct": 9,
+   "target_rows": 342,
+   "score": 1.07,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "6",
+    "9",
+    "4",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScanCalibration.validity_period_days -> spatial.domainregistry",
+   "source_table": "ScanCalibration",
+   "source_column": "validity_period_days",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 2348,
+   "source_distinct": 4,
+   "target_rows": 342,
+   "score": 1.41,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "30",
+    "14",
+    "90",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SiteEnvironmentMonitoring.site_ref -> sites.zoneregistry",
+   "source_table": "SiteEnvironmentMonitoring",
+   "source_column": "site_ref",
+   "target_table": "sites",
+   "target_key": "zoneregistry",
+   "source_rows": 4190,
+   "source_distinct": 887,
+   "target_rows": 900,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SC3954",
+    "SC6176",
+    "SC4934",
+    "SC6155",
+    "SC7640"
+   ],
+   "target_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ]
+  },
+  {
+   "id": "TransportConditionReadings.logistics_ref -> TransportLogistics.TransportLogistics_id",
+   "source_table": "TransportConditionReadings",
+   "source_column": "logistics_ref",
+   "target_table": "TransportLogistics",
+   "target_key": "TransportLogistics_id",
+   "source_rows": 543,
+   "source_distinct": 132,
+   "target_rows": 133,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TL-80D5E258865A",
+    "TL-1F987DBF487C",
+    "TL-9DA59503DF7C",
+    "TL-DA209A505DC4",
+    "TL-ACF6614E44D3"
+   ],
+   "target_samples": [
+    "TL-02569F8F17F8",
+    "TL-048C001AA192",
+    "TL-05CBDE791571",
+    "TL-08BB53483953",
+    "TL-09CCA98907ED"
+   ]
+  },
+  {
+   "id": "TransportLogistics.shipment_ref -> shipping_log.ShipmentTag",
+   "source_table": "TransportLogistics",
+   "source_column": "shipment_ref",
+   "target_table": "shipping_log",
+   "target_key": "ShipmentTag",
+   "source_rows": 133,
+   "source_distinct": 48,
+   "target_rows": 49,
+   "score": 3.94,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "55045",
+    "55036",
+    "55050",
+    "55010",
+    "55021"
+   ],
+   "target_samples": [
+    "55001",
+    "55002",
+    "55003",
+    "55004",
+    "55005"
+   ]
+  },
+  {
+   "id": "TransportLogistics.package_count -> spatial.domainregistry",
+   "source_table": "TransportLogistics",
+   "source_column": "package_count",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 133,
+   "source_distinct": 46,
+   "target_rows": 342,
+   "score": 1.41,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "21",
+    "2",
+    "43",
+    "42",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransportLogistics.handler_count -> spatial.domainregistry",
+   "source_table": "TransportLogistics",
+   "source_column": "handler_count",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 133,
+   "source_distinct": 7,
+   "target_rows": 342,
+   "score": 1.06,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "4",
+    "1",
+    "3",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransportLogistics.delay_minutes -> features.traitregistry",
+   "source_table": "TransportLogistics",
+   "source_column": "delay_minutes",
+   "target_table": "features",
+   "target_key": "traitregistry",
+   "source_rows": 133,
+   "source_distinct": 122,
+   "target_rows": 539,
+   "score": 2.91,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "29",
+    "469",
+    "382",
+    "212",
+    "96"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TreatmentChemicalApplications.treatment_ref -> ConservationTreatments.ConservationTreatments_id",
+   "source_table": "TreatmentChemicalApplications",
+   "source_column": "treatment_ref",
+   "target_table": "ConservationTreatments",
+   "target_key": "ConservationTreatments_id",
+   "source_rows": 9192,
+   "source_distinct": 1929,
+   "target_rows": 1949,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CT-20C482A9AB68",
+    "CT-273B33FB410C",
+    "CT-E5A44DE00F1D",
+    "CT-4D8720511855",
+    "CT-4A73A7F33C1A"
+   ],
+   "target_samples": [
+    "CT-0009253CAC81",
+    "CT-000DC1921B4A",
+    "CT-003971509171",
+    "CT-004B8F9BF468",
+    "CT-006372EA10CB"
+   ]
+  },
+  {
+   "id": "TreatmentChemicalApplications.layers_applied -> spatial.domainregistry",
+   "source_table": "TreatmentChemicalApplications",
+   "source_column": "layers_applied",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 9192,
+   "source_distinct": 9,
+   "target_rows": 342,
+   "score": 1.07,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "9",
+    "3",
+    "5",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "artifacts.site_loc_ref -> sites.zoneregistry",
+   "source_table": "artifacts",
+   "source_column": "site_loc_ref",
+   "target_table": "sites",
+   "target_key": "zoneregistry",
+   "source_rows": 68,
+   "source_distinct": 68,
+   "target_rows": 900,
+   "score": 1.72,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ],
+   "target_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ]
+  },
+  {
+   "id": "artifacts.discovered_by_personnel_fk -> personnel.crewregistry",
+   "source_table": "artifacts",
+   "source_column": "discovered_by_personnel_fk",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 68,
+   "source_distinct": 68,
+   "target_rows": 900,
+   "score": 3.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP4641",
+    "OP8435",
+    "OP7199",
+    "OP5563",
+    "OP4778"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "artifacts.inspector_personnel_ref -> personnel.crewregistry",
+   "source_table": "artifacts",
+   "source_column": "inspector_personnel_ref",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 68,
+   "source_distinct": 68,
+   "target_rows": 900,
+   "score": 3.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP1309",
+    "OP8437",
+    "OP1492",
+    "OP9016",
+    "OP7469"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "conservation.arcref -> projects.arcregistry",
+   "source_table": "conservation",
+   "source_column": "arcref",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 455,
+   "source_distinct": 433,
+   "target_rows": 905,
+   "score": 3.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PR7509",
+    "PR8078",
+    "PR3991",
+    "PR3061",
+    "PR9095"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "conservation.zoneref -> sites.zoneregistry",
+   "source_table": "conservation",
+   "source_column": "zoneref",
+   "target_table": "sites",
+   "target_key": "zoneregistry",
+   "source_rows": 455,
+   "source_distinct": 429,
+   "target_rows": 900,
+   "score": 3.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SC9016",
+    "SC9081",
+    "SC4460",
+    "SC2917",
+    "SC5714"
+   ],
+   "target_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ]
+  },
+  {
+   "id": "data_access_logs.user_tag -> personnel.crewregistry",
+   "source_table": "data_access_logs",
+   "source_column": "user_tag",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 149,
+   "source_distinct": 149,
+   "target_rows": 900,
+   "score": 3.59,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP9911",
+    "OP2445",
+    "OP8052",
+    "OP8722",
+    "OP5589"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "data_access_logs.ProjectContextCode -> projects.arcregistry",
+   "source_table": "data_access_logs",
+   "source_column": "ProjectContextCode",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 149,
+   "source_distinct": 149,
+   "target_rows": 905,
+   "score": 3.56,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PR7509",
+    "PR8078",
+    "PR9973",
+    "PR8865",
+    "PR8235"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "environment.zoneref -> sites.zoneregistry",
+   "source_table": "environment",
+   "source_column": "zoneref",
+   "target_table": "sites",
+   "target_key": "zoneregistry",
+   "source_rows": 908,
+   "source_distinct": 825,
+   "target_rows": 900,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SC1896",
+    "SC1426",
+    "SC9016",
+    "SC9081",
+    "SC4817"
+   ],
+   "target_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ]
+  },
+  {
+   "id": "environment.equipref -> equipment.equipregistry",
+   "source_table": "environment",
+   "source_column": "equipref",
+   "target_table": "equipment",
+   "target_key": "equipregistry",
+   "source_rows": 908,
+   "source_distinct": 861,
+   "target_rows": 944,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SN93781",
+    "SN63826",
+    "SN20065",
+    "SN29799",
+    "SN83019"
+   ],
+   "target_samples": [
+    "SN10024",
+    "SN10100",
+    "SN10271",
+    "SN10282",
+    "SN10368"
+   ]
+  },
+  {
+   "id": "features.zoneref -> sites.zoneregistry",
+   "source_table": "features",
+   "source_column": "zoneref",
+   "target_table": "sites",
+   "target_key": "zoneregistry",
+   "source_rows": 539,
+   "source_distinct": 504,
+   "target_rows": 900,
+   "score": 4.01,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SC9016",
+    "SC4817",
+    "SC4082",
+    "SC1822",
+    "SC2917"
+   ],
+   "target_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ]
+  },
+  {
+   "id": "features.equipref -> equipment.equipregistry",
+   "source_table": "features",
+   "source_column": "equipref",
+   "target_table": "equipment",
+   "target_key": "equipregistry",
+   "source_rows": 539,
+   "source_distinct": 520,
+   "target_rows": 944,
+   "score": 4.02,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SN20065",
+    "SN83019",
+    "SN60801",
+    "SN83581",
+    "SN34587"
+   ],
+   "target_samples": [
+    "SN10024",
+    "SN10100",
+    "SN10271",
+    "SN10282",
+    "SN10368"
+   ]
+  },
+  {
+   "id": "geological_surveys.location_ref -> sites.zoneregistry",
+   "source_table": "geological_surveys",
+   "source_column": "location_ref",
+   "target_table": "sites",
+   "target_key": "zoneregistry",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 900,
+   "score": 1.66,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ],
+   "target_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ]
+  },
+  {
+   "id": "geological_surveys.SURVEYED_BY_CREW_REF -> personnel.crewregistry",
+   "source_table": "geological_surveys",
+   "source_column": "SURVEYED_BY_CREW_REF",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 900,
+   "score": 3.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP6953",
+    "OP5392",
+    "OP2446",
+    "OP4131",
+    "OP3591"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "geological_surveys.EQUIPMENT_USED_FK -> equipment.equipregistry",
+   "source_table": "geological_surveys",
+   "source_column": "EQUIPMENT_USED_FK",
+   "target_table": "equipment",
+   "target_key": "equipregistry",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 944,
+   "score": 1.66,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SN10024",
+    "SN10100",
+    "SN10271",
+    "SN10282",
+    "SN10368"
+   ],
+   "target_samples": [
+    "SN10024",
+    "SN10100",
+    "SN10271",
+    "SN10282",
+    "SN10368"
+   ]
+  },
+  {
+   "id": "geological_surveys.data_analyst_ref -> personnel.crewregistry",
+   "source_table": "geological_surveys",
+   "source_column": "data_analyst_ref",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 900,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP6661",
+    "OP8603",
+    "OP8404",
+    "OP5730",
+    "OP2066"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "geological_surveys.report_author_ref -> personnel.crewregistry",
+   "source_table": "geological_surveys",
+   "source_column": "report_author_ref",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 900,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP7224",
+    "OP2441",
+    "OP1078",
+    "OP2036",
+    "OP1805"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "mesh.zoneref -> sites.zoneregistry",
+   "source_table": "mesh",
+   "source_column": "zoneref",
+   "target_table": "sites",
+   "target_key": "zoneregistry",
+   "source_rows": 839,
+   "source_distinct": 767,
+   "target_rows": 900,
+   "score": 4.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SC9081",
+    "SC4817",
+    "SC4082",
+    "SC3155",
+    "SC6676"
+   ],
+   "target_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ]
+  },
+  {
+   "id": "mesh.equipref -> equipment.equipregistry",
+   "source_table": "mesh",
+   "source_column": "equipref",
+   "target_table": "equipment",
+   "target_key": "equipregistry",
+   "source_rows": 839,
+   "source_distinct": 796,
+   "target_rows": 944,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SN29799",
+    "SN83019",
+    "SN60801",
+    "SN64520",
+    "SN41462"
+   ],
+   "target_samples": [
+    "SN10024",
+    "SN10100",
+    "SN10271",
+    "SN10282",
+    "SN10368"
+   ]
+  },
+  {
+   "id": "permits.project_assignment -> projects.arcregistry",
+   "source_table": "permits",
+   "source_column": "project_assignment",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 27,
+   "source_distinct": 27,
+   "target_rows": 905,
+   "score": 3.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PR7509",
+    "PR8078",
+    "PR3991",
+    "PR3090",
+    "PR9973"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "permits.ApplicantTag -> personnel.crewregistry",
+   "source_table": "permits",
+   "source_column": "ApplicantTag",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 27,
+   "source_distinct": 27,
+   "target_rows": 900,
+   "score": 3.15,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP6953",
+    "OP5392",
+    "OP5575",
+    "OP6321",
+    "OP2446"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "personnel_certifications.personnel_ref -> personnel.crewregistry",
+   "source_table": "personnel_certifications",
+   "source_column": "personnel_ref",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 900,
+   "score": 3.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP6953",
+    "OP5392",
+    "OP2446",
+    "OP4131",
+    "OP3591"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "personnel_certifications.VERIFIED_BY -> personnel.crewregistry",
+   "source_table": "personnel_certifications",
+   "source_column": "VERIFIED_BY",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 900,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP5885",
+    "OP4112",
+    "OP3187",
+    "OP4625",
+    "OP2248"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "personnel_certifications.RelatedSkillCode -> skills.SkillCode",
+   "source_table": "personnel_certifications",
+   "source_column": "RelatedSkillCode",
+   "target_table": "skills",
+   "target_key": "SkillCode",
+   "source_rows": 50,
+   "source_distinct": 20,
+   "target_rows": 30,
+   "score": 3.69,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "301",
+    "302",
+    "305",
+    "304",
+    "309"
+   ],
+   "target_samples": [
+    "301",
+    "302",
+    "303",
+    "304",
+    "305"
+   ]
+  },
+  {
+   "id": "personnel_skills.personnel_fk -> personnel.crewregistry",
+   "source_table": "personnel_skills",
+   "source_column": "personnel_fk",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 30,
+   "source_distinct": 30,
+   "target_rows": 900,
+   "score": 3.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP1399",
+    "OP1431",
+    "OP1437",
+    "OP1941",
+    "OP2435"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "personnel_skills.skill_ref -> skills.SkillCode",
+   "source_table": "personnel_skills",
+   "source_column": "skill_ref",
+   "target_table": "skills",
+   "target_key": "SkillCode",
+   "source_rows": 30,
+   "source_distinct": 24,
+   "target_rows": 30,
+   "score": 4.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "321",
+    "327",
+    "301",
+    "322",
+    "304"
+   ],
+   "target_samples": [
+    "301",
+    "302",
+    "303",
+    "304",
+    "305"
+   ]
+  },
+  {
+   "id": "personnel_skills.VerifiedBySupervisorRef -> personnel.crewregistry",
+   "source_table": "personnel_skills",
+   "source_column": "VerifiedBySupervisorRef",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 30,
+   "source_distinct": 30,
+   "target_rows": 900,
+   "score": 3.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP4641",
+    "OP8435",
+    "OP7199",
+    "OP5563",
+    "OP4778"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "pointcloud.crewref -> personnel.crewregistry",
+   "source_table": "pointcloud",
+   "source_column": "crewref",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 697,
+   "source_distinct": 646,
+   "target_rows": 900,
+   "score": 4.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OP4641",
+    "OP7199",
+    "OP5563",
+    "OP4778",
+    "OP2782"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "pointcloud.arcref -> projects.arcregistry",
+   "source_table": "pointcloud",
+   "source_column": "arcref",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 697,
+   "source_distinct": 658,
+   "target_rows": 905,
+   "score": 4.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PR7509",
+    "PR9973",
+    "PR8865",
+    "PR8235",
+    "PR2658"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "processing.equipref -> equipment.equipregistry",
+   "source_table": "processing",
+   "source_column": "equipref",
+   "target_table": "equipment",
+   "target_key": "equipregistry",
+   "source_rows": 821,
+   "source_distinct": 778,
+   "target_rows": 944,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SN20065",
+    "SN83019",
+    "SN60801",
+    "SN64520",
+    "SN41462"
+   ],
+   "target_samples": [
+    "SN10024",
+    "SN10100",
+    "SN10271",
+    "SN10282",
+    "SN10368"
+   ]
+  },
+  {
+   "id": "processing.zoneref -> sites.zoneregistry",
+   "source_table": "processing",
+   "source_column": "zoneref",
+   "target_table": "sites",
+   "target_key": "zoneregistry",
+   "source_rows": 821,
+   "source_distinct": 754,
+   "target_rows": 900,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SC9016",
+    "SC4817",
+    "SC4082",
+    "SC3155",
+    "SC6676"
+   ],
+   "target_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ]
+  },
+  {
+   "id": "project_budgets.ProjectRef -> projects.arcregistry",
+   "source_table": "project_budgets",
+   "source_column": "ProjectRef",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 70,
+   "source_distinct": 70,
+   "target_rows": 905,
+   "score": 3.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PR7509",
+    "PR8078",
+    "PR9973",
+    "PR8865",
+    "PR8235"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "project_budgets.Approver_Crew_Tag -> personnel.crewregistry",
+   "source_table": "project_budgets",
+   "source_column": "Approver_Crew_Tag",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 70,
+   "source_distinct": 70,
+   "target_rows": 900,
+   "score": 3.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP4641",
+    "OP8435",
+    "OP7199",
+    "OP5563",
+    "OP4778"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "project_institution_partnership.project_fk -> projects.arcregistry",
+   "source_table": "project_institution_partnership",
+   "source_column": "project_fk",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 20,
+   "source_distinct": 20,
+   "target_rows": 905,
+   "score": 3.19,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PR2146",
+    "PR2333",
+    "PR2658",
+    "PR3061",
+    "PR3095"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "project_institution_partnership.institution_code -> research_institutions.InstitutionCode",
+   "source_table": "project_institution_partnership",
+   "source_column": "institution_code",
+   "target_table": "research_institutions",
+   "target_key": "InstitutionCode",
+   "source_rows": 20,
+   "source_distinct": 16,
+   "target_rows": 20,
+   "score": 3.99,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "207",
+    "202",
+    "206",
+    "214",
+    "204"
+   ],
+   "target_samples": [
+    "201",
+    "202",
+    "203",
+    "204",
+    "205"
+   ]
+  },
+  {
+   "id": "project_milestones.project_id_link -> projects.arcregistry",
+   "source_table": "project_milestones",
+   "source_column": "project_id_link",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 22,
+   "source_distinct": 22,
+   "target_rows": 905,
+   "score": 3.19,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PR7509",
+    "PR8078",
+    "PR9973",
+    "PR8865",
+    "PR3095"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "project_milestones.OwnerRef -> personnel.crewregistry",
+   "source_table": "project_milestones",
+   "source_column": "OwnerRef",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 22,
+   "source_distinct": 22,
+   "target_rows": 900,
+   "score": 2.81,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP8108",
+    "OP5101",
+    "OP3155",
+    "OP7865",
+    "OP4216"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "project_milestones.ApprovedByRef -> personnel.crewregistry",
+   "source_table": "project_milestones",
+   "source_column": "ApprovedByRef",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 22,
+   "source_distinct": 22,
+   "target_rows": 900,
+   "score": 2.81,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP8108",
+    "OP5101",
+    "OP3155",
+    "OP7865",
+    "OP4216"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "project_stakeholders.project_association -> projects.arcregistry",
+   "source_table": "project_stakeholders",
+   "source_column": "project_association",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 48,
+   "source_distinct": 48,
+   "target_rows": 905,
+   "score": 3.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PR7509",
+    "PR8078",
+    "PR9973",
+    "PR8865",
+    "PR8235"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "project_stakeholders.site_association -> sites.zoneregistry",
+   "source_table": "project_stakeholders",
+   "source_column": "site_association",
+   "target_table": "sites",
+   "target_key": "zoneregistry",
+   "source_rows": 48,
+   "source_distinct": 48,
+   "target_rows": 900,
+   "score": 1.66,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ],
+   "target_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ]
+  },
+  {
+   "id": "project_stakeholders.AddedByUserTag -> personnel.crewregistry",
+   "source_table": "project_stakeholders",
+   "source_column": "AddedByUserTag",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 48,
+   "source_distinct": 48,
+   "target_rows": 900,
+   "score": 3.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP8108",
+    "OP5101",
+    "OP3155",
+    "OP7865",
+    "OP2991"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "qualitycontrol.arcref -> projects.arcregistry",
+   "source_table": "qualitycontrol",
+   "source_column": "arcref",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 667,
+   "source_distinct": 618,
+   "target_rows": 905,
+   "score": 4.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PR7509",
+    "PR8078",
+    "PR8865",
+    "PR2658",
+    "PR5905"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "qualitycontrol.crewref -> personnel.crewregistry",
+   "source_table": "qualitycontrol",
+   "source_column": "crewref",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 667,
+   "source_distinct": 624,
+   "target_rows": 900,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OP4641",
+    "OP8435",
+    "OP5563",
+    "OP2782",
+    "OP2517"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "registration.crewref -> personnel.crewregistry",
+   "source_table": "registration",
+   "source_column": "crewref",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 729,
+   "source_distinct": 677,
+   "target_rows": 900,
+   "score": 4.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OP4641",
+    "OP8435",
+    "OP5563",
+    "OP4778",
+    "OP2782"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "registration.arcref -> projects.arcregistry",
+   "source_table": "registration",
+   "source_column": "arcref",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 729,
+   "source_distinct": 678,
+   "target_rows": 905,
+   "score": 4.22,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PR7509",
+    "PR8078",
+    "PR8865",
+    "PR8235",
+    "PR2658"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "sample_analysis.artifact_fk -> artifacts.ArtifactTag",
+   "source_table": "sample_analysis",
+   "source_column": "artifact_fk",
+   "target_table": "artifacts",
+   "target_key": "ArtifactTag",
+   "source_rows": 15,
+   "source_distinct": 14,
+   "target_rows": 68,
+   "score": 3.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8042",
+    "8043",
+    "8044",
+    "8012",
+    "8046"
+   ],
+   "target_samples": [
+    "8001",
+    "8002",
+    "8003",
+    "8007",
+    "8011"
+   ]
+  },
+  {
+   "id": "sample_analysis.AnalystRef -> personnel.crewregistry",
+   "source_table": "sample_analysis",
+   "source_column": "AnalystRef",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 15,
+   "source_distinct": 15,
+   "target_rows": 900,
+   "score": 2.85,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP8108",
+    "OP5101",
+    "OP3155",
+    "OP7865",
+    "OP2991"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "scans.arcref -> projects.arcregistry",
+   "source_table": "scans",
+   "source_column": "arcref",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 1000,
+   "source_distinct": 905,
+   "target_rows": 905,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PR7509",
+    "PR8078",
+    "PR9973",
+    "PR8865",
+    "PR8235"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "scans.crewref -> personnel.crewregistry",
+   "source_table": "scans",
+   "source_column": "crewref",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 1000,
+   "source_distinct": 900,
+   "target_rows": 900,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OP4641",
+    "OP8435",
+    "OP7199",
+    "OP5563",
+    "OP4778"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "scans.zoneref -> sites.zoneregistry",
+   "source_table": "scans",
+   "source_column": "zoneref",
+   "target_table": "sites",
+   "target_key": "zoneregistry",
+   "source_rows": 1000,
+   "source_distinct": 900,
+   "target_rows": 900,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SC9016",
+    "SC9081",
+    "SC4817",
+    "SC4082",
+    "SC3155"
+   ],
+   "target_samples": [
+    "SC1017",
+    "SC1024",
+    "SC1025",
+    "SC1028",
+    "SC1031"
+   ]
+  },
+  {
+   "id": "shipping_log.related_project -> projects.arcregistry",
+   "source_table": "shipping_log",
+   "source_column": "related_project",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 49,
+   "source_distinct": 49,
+   "target_rows": 905,
+   "score": 3.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PR2309",
+    "PR8937",
+    "PR2252",
+    "PR2344",
+    "PR9026"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "shipping_log.PackedByCrewRef -> personnel.crewregistry",
+   "source_table": "shipping_log",
+   "source_column": "PackedByCrewRef",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 49,
+   "source_distinct": 49,
+   "target_rows": 900,
+   "score": 3.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP8108",
+    "OP5101",
+    "OP3155",
+    "OP7865",
+    "OP2991"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "shipping_log.RECEIVED_BY_CREW_REF -> personnel.crewregistry",
+   "source_table": "shipping_log",
+   "source_column": "RECEIVED_BY_CREW_REF",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 49,
+   "source_distinct": 49,
+   "target_rows": 900,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP3541",
+    "OP1625",
+    "OP9295",
+    "OP1220",
+    "OP5695"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "software_licenses.AssignedProjectCode -> projects.arcregistry",
+   "source_table": "software_licenses",
+   "source_column": "AssignedProjectCode",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 40,
+   "source_distinct": 40,
+   "target_rows": 905,
+   "score": 3.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PR2309",
+    "PR8937",
+    "PR2252",
+    "PR2344",
+    "PR9026"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "software_licenses.AssignedUserTag -> personnel.crewregistry",
+   "source_table": "software_licenses",
+   "source_column": "AssignedUserTag",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 40,
+   "source_distinct": 40,
+   "target_rows": 900,
+   "score": 3.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP3541",
+    "OP1625",
+    "OP9295",
+    "OP1220",
+    "OP5695"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "spatial.arcref -> projects.arcregistry",
+   "source_table": "spatial",
+   "source_column": "arcref",
+   "target_table": "projects",
+   "target_key": "arcregistry",
+   "source_rows": 342,
+   "source_distinct": 330,
+   "target_rows": 905,
+   "score": 3.8,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PR7509",
+    "PR8865",
+    "PR5905",
+    "PR3061",
+    "PR9095"
+   ],
+   "target_samples": [
+    "PR1003",
+    "PR1007",
+    "PR1013",
+    "PR1021",
+    "PR1024"
+   ]
+  },
+  {
+   "id": "spatial.crewref -> personnel.crewregistry",
+   "source_table": "spatial",
+   "source_column": "crewref",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 342,
+   "source_distinct": 331,
+   "target_rows": 900,
+   "score": 3.77,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "OP4641",
+    "OP5563",
+    "OP2517",
+    "OP5384",
+    "OP4209"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "conservation.cureregistry -> features.traitregistry",
+   "source_table": "conservation",
+   "source_column": "cureregistry",
+   "target_table": "features",
+   "target_key": "traitregistry",
+   "source_rows": 455,
+   "source_distinct": 455,
+   "target_rows": 539,
+   "score": 3.03,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "equipment_manufacturers.ManufacturerTag -> spatial.domainregistry",
+   "source_table": "equipment_manufacturers",
+   "source_column": "ManufacturerTag",
+   "target_table": "spatial",
+   "target_key": "domainregistry",
+   "source_rows": 14,
+   "source_distinct": 14,
+   "target_rows": 342,
+   "score": 1.43,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "101",
+    "102",
+    "103",
+    "104",
+    "105"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "features.traitregistry -> qualitycontrol.qualregistry",
+   "source_table": "features",
+   "source_column": "traitregistry",
+   "target_table": "qualitycontrol",
+   "target_key": "qualregistry",
+   "source_rows": 539,
+   "source_distinct": 539,
+   "target_rows": 667,
+   "score": 2.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "geological_surveys.SurveyTag -> environment.airregistry",
+   "source_table": "geological_surveys",
+   "source_column": "SurveyTag",
+   "target_table": "environment",
+   "target_key": "airregistry",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 908,
+   "score": 1.58,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "501",
+    "502",
+    "503",
+    "504",
+    "505"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "mesh.facetregistry -> environment.airregistry",
+   "source_table": "mesh",
+   "source_column": "facetregistry",
+   "target_table": "environment",
+   "target_key": "airregistry",
+   "source_rows": 839,
+   "source_distinct": 839,
+   "target_rows": 908,
+   "score": 3.27,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "pointcloud.cloudregistry -> registration.logregistry",
+   "source_table": "pointcloud",
+   "source_column": "cloudregistry",
+   "target_table": "registration",
+   "target_key": "logregistry",
+   "source_rows": 697,
+   "source_distinct": 697,
+   "target_rows": 729,
+   "score": 3.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "processing.flowregistry -> mesh.facetregistry",
+   "source_table": "processing",
+   "source_column": "flowregistry",
+   "target_table": "mesh",
+   "target_key": "facetregistry",
+   "source_rows": 821,
+   "source_distinct": 821,
+   "target_rows": 839,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "qualitycontrol.qualregistry -> pointcloud.cloudregistry",
+   "source_table": "qualitycontrol",
+   "source_column": "qualregistry",
+   "target_table": "pointcloud",
+   "target_key": "cloudregistry",
+   "source_rows": 667,
+   "source_distinct": 667,
+   "target_rows": 697,
+   "score": 3.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "registration.logregistry -> processing.flowregistry",
+   "source_table": "registration",
+   "source_column": "logregistry",
+   "target_table": "processing",
+   "target_key": "flowregistry",
+   "source_rows": 729,
+   "source_distinct": 729,
+   "target_rows": 821,
+   "score": 3.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "research_institutions.InstitutionCode -> conservation.cureregistry",
+   "source_table": "research_institutions",
+   "source_column": "InstitutionCode",
+   "target_table": "conservation",
+   "target_key": "cureregistry",
+   "source_rows": 20,
+   "source_distinct": 20,
+   "target_rows": 455,
+   "score": 1.58,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "201",
+    "202",
+    "203",
+    "204",
+    "205"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "sample_analysis.AnalysisIndex -> personnel.crewregistry",
+   "source_table": "sample_analysis",
+   "source_column": "AnalysisIndex",
+   "target_table": "personnel",
+   "target_key": "crewregistry",
+   "source_rows": 15,
+   "source_distinct": 15,
+   "target_rows": 900,
+   "score": 2.25,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "OP1431",
+    "OP1941",
+    "OP3123",
+    "OP4015",
+    "OP4206"
+   ],
+   "target_samples": [
+    "OP1005",
+    "OP1008",
+    "OP1014",
+    "OP1022",
+    "OP1030"
+   ]
+  },
+  {
+   "id": "skills.SkillCode -> qualitycontrol.qualregistry",
+   "source_table": "skills",
+   "source_column": "SkillCode",
+   "target_table": "qualitycontrol",
+   "target_key": "qualregistry",
+   "source_rows": 30,
+   "source_distinct": 30,
+   "target_rows": 667,
+   "score": 1.59,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "301",
+    "302",
+    "303",
+    "304",
+    "305"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "spatial.domainregistry -> conservation.cureregistry",
+   "source_table": "spatial",
+   "source_column": "domainregistry",
+   "target_table": "conservation",
+   "target_key": "cureregistry",
+   "source_rows": 342,
+   "source_distinct": 342,
+   "target_rows": 455,
+   "score": 2.75,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

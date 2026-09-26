@@ -1,0 +1,35 @@
+[
+ {
+  "question_id": 37,
+  "answer": null,
+  "attempts": 2,
+  "note": "Needs the school's excellence rate (Satscore's NumGE1500/NumTstTakr) matched to the school's street/city/zip/state (School). The model has no fact type connecting School to Satscore in either direction (confirmed: 'has'/'is of' from School reaches no Satscore reading, and 'is of' from Satscore reaches no School reading), so this join cannot be expressed."
+ },
+ {
+  "question_id": 46,
+  "answer": "LIST n FROM Frpm [has FrpmSchoolType: 'State Special Schools'] has FrpmSchoolName n AND ALSO has FrpmEnrollmentK12 v1 ORDERED WITH v1 DESCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 82,
+  "answer": "LIST g FROM School has SchoolLongitude v1 AND ALSO OPTIONALLY has SchoolGSoffered g ORDERED WITH v1 DESCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 28,
+  "answer": null,
+  "attempts": 2,
+  "note": "Needs Frpm's enrollment fields and charter-funding filter combined with School's DOC type on the same school. The model has no fact type connecting Frpm to School (confirmed: 'has'/'is of' from School reaches no Frpm reading, and 'is of' from Frpm reaches no School reading), so this join cannot be expressed."
+ },
+ {
+  "question_id": 24,
+  "answer": null,
+  "attempts": 2,
+  "note": "Needs Frpm's percent-eligible-free-K12 combined with Satscore's NumGE1500 for the same school. The model has no fact type connecting Frpm to Satscore in either direction, so this join cannot be expressed."
+ },
+ {
+  "question_id": 79,
+  "answer": "LIST co, c FROM School e [has SchoolVirtual: 'F'] has SchoolCounty co AND ALSO THE COUNT OF e GROUPED BY co AS c WHERE co = 'San Diego' OR co = 'Santa Barbara' ORDERED WITH c DESCENDING THE FIRST 1",
+  "attempts": 1
+ }
+]

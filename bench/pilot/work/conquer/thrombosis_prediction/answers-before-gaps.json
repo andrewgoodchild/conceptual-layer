@@ -1,0 +1,57 @@
+[
+  {
+    "question_id": 1256,
+    "answer": "THE COUNT OF Patient [is of Laboratory has LaboratoryCRP: '+'] - THE COUNT OF Patient [is of Laboratory has LaboratoryCRP: '+'] [has PatientDescription d]",
+    "attempts": 5
+  },
+  {
+    "question_id": 1189,
+    "answer": null,
+    "note": "Requires Thrombosis level, ANA pattern and aCL IgM (anti-Cardiolipin antibody), all columns of the BIRD 'Examination' table. The schema for this model contains only Laboratory and Patient entity types; there is no Examination type and none of these value types (Thrombosis, ANA, aCL IgM) appear anywhere in the schema listing. The question cannot be expressed against this model.",
+    "attempts": 0
+  },
+  {
+    "question_id": 1267,
+    "answer": null,
+    "note": "The anti-SM part (SM IN ('-','+-')) is expressible via LaboratorySM, but 'does not have thrombosis' requires the Thrombosis column from the BIRD 'Examination' table, which has no corresponding type in this schema (only Laboratory and Patient exist). The question cannot be fully expressed against this model.",
+    "attempts": 0
+  },
+  {
+    "question_id": 1157,
+    "answer": null,
+    "note": "'Severe degree of thrombosis' requires the Thrombosis column from the BIRD 'Examination' table. That table/type is not present in this schema (only Laboratory and Patient entity types exist, and no Thrombosis value type appears in the listing). The question cannot be expressed against this model.",
+    "attempts": 0
+  },
+  {
+    "question_id": 1162,
+    "answer": "THE COUNT OF Patient [has PatientSEX: 'F'] [has PatientAdmission: '-'] [has PatientDescription d] WHERE year(d) = 1997",
+    "attempts": 1
+  },
+  {
+    "question_id": 1164,
+    "answer": null,
+    "note": "'Most serious thrombosis' requires the Thrombosis column from the BIRD 'Examination' table, which has no corresponding type in this schema (only Laboratory and Patient exist, no Thrombosis value type). The question cannot be expressed against this model.",
+    "attempts": 0
+  },
+  {
+    "question_id": 1179,
+    "answer": null,
+    "note": "Requires 'aCL IgM' (anti-Cardiolipin antibody) and Examination Date, columns of the BIRD 'Examination' table. That type is not present in this schema (only Laboratory and Patient exist); LaboratoryIGM is a different, unrelated immunoglobulin measurement, not the Examination table's aCL IgM antibody level. The question cannot be expressed against this model.",
+    "attempts": 0
+  },
+  {
+    "question_id": 1192,
+    "answer": "LIST id FROM DISTINCT Patient [has PatientAdmission: '-'] is of Laboratory [has LaboratoryDate dt] has LaboratoryTBIL t AND ALSO has PatientID id WHERE like(dt, '1991-10%') AND t < 2.0",
+    "attempts": 2
+  },
+  {
+    "question_id": 1232,
+    "answer": "LIST id, sex, year(today()) - year(b) FROM DISTINCT Patient is of Laboratory [has LaboratoryGLU g] has LaboratoryTCHO c AND ALSO has PatientID id AND ALSO has PatientSEX sex AND ALSO has PatientBirthday b WHERE g >= 180 AND c < 250",
+    "attempts": 2
+  },
+  {
+    "question_id": 1187,
+    "answer": "LIST id FROM DISTINCT Patient is of Laboratory [has LaboratoryDate dt] [has LaboratoryGPT g] has LaboratoryALB a AND ALSO has PatientID id WHERE dt >= '1987-07-06' AND dt <= '1996-01-31' AND g > 30 AND a < 4 ORDERED WITH id ASCENDING",
+    "attempts": 1
+  }
+]

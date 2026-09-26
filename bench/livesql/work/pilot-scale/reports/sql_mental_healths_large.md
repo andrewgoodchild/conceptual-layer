@@ -1,0 +1,5 @@
+Writer's report (sql arm, mental_healths_large), as returned.
+
+- Scratchpad clash: the session scratchpad was shared with concurrent writers; this writer's first `answers.json` was built from query files there, and the mental_healths_1 file had been overwritten by another writer's. It rebuilt every answer from inline SQL and re-ran them; it opened only a directory listing and the first lines of two query files there.
+- Hardest: mh_5 SSE mapping does not match the data (Moderate/NULL), "most recent" undeterminable (all 351 encounters share a time_mark); mh_1 same, plus ambiguous rounding and output column; mh_4/mh_6 join-path dependent (facility 85 disagreements; diagnosis path counts differ); mh_17 stored vs rounded rate.
+- Material: sample rows showed JSON-held metrics (`txprogmet`, `funcassess`), unit-suffixed text, random case. Missing: how facility metrics connect to a facility, whether 'Non-compliant' counts in TES, mappings the data does not fully use, that timestamps cannot order records.

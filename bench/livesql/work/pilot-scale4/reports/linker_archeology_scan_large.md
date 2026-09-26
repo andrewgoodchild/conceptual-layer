@@ -1,0 +1,1 @@
+Links for 10 questions; least sure of pointcloud/registration/spatial routes to scans (routes disagree for 270 of 890), file size and points for processing, which weather table, the Stable/Unstable match, grain.

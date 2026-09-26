@@ -1,0 +1,435 @@
+<title>BIRD Head-to-Head</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;450;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --paper:#FAFBFC; --panel:#F1F4F8; --sunk:#E9EEF4;
+    --ink:#12161C; --ink-2:#4C5563; --ink-3:#798395;
+    --rule:#E1E6EE; --hair:#EDF1F6;
+    --data:#2a78d6; --data-soft:#DCE9F9;
+    --flag:#8A4B2A;
+  }
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+    --paper:#15181D; --panel:#1D222A; --sunk:#232935;
+    --ink:#E7EBF2; --ink-2:#A8B2C2; --ink-3:#7C8698;
+    --rule:#2A303A; --hair:#232833;
+    --data:#3987e5; --data-soft:#1E3350; --flag:#D99A78;
+  }}
+  :root[data-theme="dark"]{
+    --paper:#15181D; --panel:#1D222A; --sunk:#232935;
+    --ink:#E7EBF2; --ink-2:#A8B2C2; --ink-3:#7C8698;
+    --rule:#2A303A; --hair:#232833;
+    --data:#3987e5; --data-soft:#1E3350; --flag:#D99A78;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:15px; line-height:1.62; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1000px; margin:0 auto; padding:52px 28px 90px}
+  @media (max-width:640px){ .wrap{padding:32px 18px 64px} }
+
+  h1{
+    font-family:Spectral,Georgia,serif; font-weight:600; font-size:clamp(30px,5vw,44px);
+    line-height:1.12; letter-spacing:-.015em; margin:0; text-wrap:balance;
+  }
+  .standfirst{
+    font-family:Spectral,Georgia,serif; font-size:clamp(17px,2.4vw,20px); font-style:italic;
+    color:var(--ink-2); margin:14px 0 0; max-width:60ch; line-height:1.5;
+  }
+  .meta{
+    margin-top:22px; padding-top:14px; border-top:1px solid var(--rule);
+    display:flex; flex-wrap:wrap; gap:8px 26px;
+    font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11.5px;
+    color:var(--ink-3); text-transform:uppercase; letter-spacing:.06em;
+  }
+
+  h2{
+    font-family:Spectral,Georgia,serif; font-weight:600; font-size:23px; letter-spacing:-.01em;
+    margin:56px 0 4px; padding-top:20px; border-top:1px solid var(--rule); text-wrap:balance;
+    display:flex; gap:14px; align-items:baseline;
+  }
+  h2 .n{
+    font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--data);
+    font-weight:500; letter-spacing:.04em; flex:none;
+  }
+  h3{font-size:15px; font-weight:600; margin:30px 0 6px; letter-spacing:-.005em}
+  p{margin:11px 0; max-width:68ch}
+  strong{font-weight:600}
+  code, .mono{font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:.88em}
+  code{background:var(--sunk); padding:.1em .34em; border-radius:3px}
+  .lede{font-size:16.5px}
+
+  /* ---- headline ---- */
+  .result{
+    margin-top:34px; background:var(--panel); border:1px solid var(--rule); border-radius:10px;
+    padding:26px 28px;
+  }
+  .arms{display:grid; grid-template-columns:1fr auto 1fr; gap:22px; align-items:center}
+  @media (max-width:560px){ .arms{grid-template-columns:1fr; gap:14px} }
+  .arm .label{
+    font-family:"IBM Plex Mono",monospace; font-size:11px; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--ink-3);
+  }
+  .arm .big{
+    font-family:Spectral,Georgia,serif; font-size:44px; font-weight:600; line-height:1.05;
+    letter-spacing:-.02em; font-variant-numeric:tabular-nums; margin-top:2px;
+  }
+  .arm .sub{font-size:13px; color:var(--ink-2); margin-top:3px}
+  .eq{
+    font-family:Spectral,Georgia,serif; font-size:30px; color:var(--ink-3); text-align:center;
+  }
+  @media (max-width:560px){ .eq{text-align:left; font-size:20px} }
+  .verdict{
+    margin-top:22px; padding-top:18px; border-top:1px solid var(--rule);
+    font-size:15.5px; max-width:none;
+  }
+
+  /* ---- strip ---- */
+  figure{margin:26px 0 0}
+  figcaption{font-size:13px; color:var(--ink-2); margin-top:12px; max-width:74ch}
+  .strip{
+    overflow-x:auto; padding:18px 0 6px; background:var(--panel);
+    border:1px solid var(--rule); border-radius:10px;
+  }
+  .strip-inner{min-width:760px; padding:0 20px}
+  .grid{display:grid; gap:3px; grid-auto-flow:column; align-items:center}
+  .rowlab{
+    font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--ink-3); padding-right:12px; white-space:nowrap;
+    text-align:right;
+  }
+  .band{display:flex; gap:3px; align-items:center}
+  .cell{
+    width:13px; height:13px; border-radius:3px; flex:none; cursor:default;
+    border:1.5px solid var(--data); background:transparent;
+  }
+  .cell.ok{background:var(--data)}
+  .cell.na{border-color:var(--rule); border-style:dashed; background:transparent}
+  .cell:hover{outline:2px solid var(--ink); outline-offset:1px}
+  .rowline{display:flex; align-items:center; margin-bottom:5px}
+  .split{
+    width:3px; align-self:stretch; margin:0 7px; background:var(--ink-3); opacity:.45;
+    border-radius:2px; flex:none;
+  }
+  .zonelabels{display:flex; margin-top:9px; font-size:11.5px; color:var(--ink-3)}
+  .legend{
+    display:flex; flex-wrap:wrap; gap:16px; margin-top:14px; padding-top:12px;
+    border-top:1px solid var(--rule); font-size:12.5px; color:var(--ink-2);
+  }
+  .legend span{display:flex; align-items:center; gap:7px}
+  #tip{
+    position:fixed; z-index:9; pointer-events:none; opacity:0; transition:opacity .1s;
+    background:var(--ink); color:var(--paper); font-size:12px; line-height:1.45;
+    padding:8px 11px; border-radius:6px; max-width:330px;
+    box-shadow:0 4px 14px rgba(0,0,0,.22);
+  }
+  #tip b{font-family:"IBM Plex Mono",monospace; font-weight:500; font-size:11px; opacity:.75}
+
+  /* ---- bars ---- */
+  .bars{margin-top:18px; display:flex; flex-direction:column; gap:9px}
+  .bar{display:grid; grid-template-columns:1fr 46px; gap:14px; align-items:center}
+  .bar .track{position:relative; height:26px; background:var(--sunk); border-radius:4px; overflow:hidden}
+  .bar .fill{position:absolute; inset:0 auto 0 0; background:var(--data); border-radius:4px}
+  .bar .name{
+    position:absolute; left:11px; top:50%; transform:translateY(-50%); font-size:12.5px;
+    white-space:nowrap; color:var(--ink); mix-blend-mode:normal;
+  }
+  .bar .val{
+    font-family:"IBM Plex Mono",monospace; font-size:13px; text-align:right;
+    font-variant-numeric:tabular-nums; color:var(--ink-2);
+  }
+
+  /* ---- tables ---- */
+  .tw{overflow-x:auto; margin:18px 0}
+  table{border-collapse:collapse; width:100%; font-size:13.5px; min-width:560px}
+  th{
+    text-align:left; font-weight:600; font-size:11px; text-transform:uppercase;
+    letter-spacing:.07em; color:var(--ink-3); padding:0 14px 8px 0;
+    border-bottom:1px solid var(--rule); vertical-align:bottom;
+  }
+  td{padding:11px 14px 11px 0; border-bottom:1px solid var(--hair); vertical-align:top}
+  tr:last-child td{border-bottom:0}
+  td.num{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; white-space:nowrap}
+  .qid{
+    font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--ink-3);
+    white-space:nowrap;
+  }
+
+  .callout{
+    margin:24px 0; padding:16px 20px; background:var(--panel);
+    border-left:3px solid var(--flag); border-radius:0 8px 8px 0;
+  }
+  .callout p{margin:6px 0} .callout p:first-child{margin-top:0} .callout p:last-child{margin-bottom:0}
+  .callout .tag{
+    font-family:"IBM Plex Mono",monospace; font-size:10.5px; text-transform:uppercase;
+    letter-spacing:.08em; color:var(--flag); font-weight:500;
+  }
+  ul{margin:11px 0; padding-left:19px; max-width:68ch} li{margin:6px 0}
+  .foot{
+    margin-top:56px; padding-top:18px; border-top:1px solid var(--rule);
+    font-size:12.5px; color:var(--ink-3);
+  }
+  .foot a{color:var(--data)}
+</style>
+
+<div class="wrap">
+  <h1>Does a conceptual model help an LLM write queries?</h1>
+  <p class="standfirst">A controlled run on BIRD: the same questions answered twice &mdash; once as SQL
+  straight from the DDL, once as ConQuer&#8209;92 over a reverse&#8209;engineered ORM model.</p>
+  <div class="meta">
+    <span>7 September 2026</span><span>BIRD mini-dev</span><span>n = 70 questions</span>
+    <span>2 databases</span><span>execution accuracy</span>
+  </div>
+
+  <div class="result">
+    <div class="arms">
+      <div class="arm">
+        <div class="label">Arm A &middot; direct SQL</div>
+        <div class="big">17<span style="color:var(--ink-3);font-size:26px">/30</span></div>
+        <div class="sub">written from the DDL and the question</div>
+      </div>
+      <div class="eq">=</div>
+      <div class="arm">
+        <div class="label">Arm B &middot; conceptual model</div>
+        <div class="big">17<span style="color:var(--ink-3);font-size:26px">/30</span></div>
+        <div class="sub">ConQuer&#8209;92 over the derived ORM model, transpiled</div>
+      </div>
+    </div>
+    <p class="verdict"><strong>Not merely equal in total &mdash; identical question by question.</strong>
+    Both arms answered the same 17 correctly and the same 13 wrongly, across two databases of
+    opposite character. Zero disagreements. The conceptual model neither helped nor hurt.</p>
+    <p class="verdict" style="border:0;padding-top:8px;margin-top:8px">
+    <strong>The cost is coverage.</strong> Those 30 are all that ConQuer&rsquo;s implemented subset can
+    express, out of 70. Over the whole 500-question benchmark the picture is the same: analytical
+    questions are mostly <em>computation over</em> a result set, and this language navigates and
+    filters but does not compute.</p>
+  </div>
+
+  <figure>
+    <div class="strip">
+      <div class="strip-inner">
+        <div id="rows"></div>
+        <div class="zonelabels" id="zones"></div>
+      </div>
+    </div>
+    <div class="legend">
+      <span><i class="cell ok"></i> answered correctly</span>
+      <span><i class="cell"></i> answered, wrong result</span>
+      <span><i class="cell na"></i> cannot be expressed in ConQuer</span>
+      <span style="color:var(--ink-3)">hover a cell for the question</span>
+    </div>
+    <figcaption>All 70 questions, ordered by database then id. In the left zone &mdash; everything
+    ConQuer can express &mdash; the two rows are the same shape cell for cell. In the right zone Arm B
+    has nothing to say.</figcaption>
+  </figure>
+
+  <h2><span class="n">01</span> What was being tested</h2>
+  <p class="lede">The project builds a ConQuer&#8209;92 &rarr; SQL compiler that reads an ORM conceptual
+  schema. Reverse engineering derives that schema from an existing database. The open question
+  was whether the conceptual layer earns its place: does routing a natural-language question
+  through a named, typed, fact-oriented model produce better queries than writing SQL against
+  the raw DDL?</p>
+  <p>BIRD is the standard benchmark for this &mdash; 500 questions in the mini-dev split, each with a
+  hand-written gold SQL query and an expert &ldquo;evidence&rdquo; note, over 11 SQLite databases. Scoring is
+  execution accuracy: run the candidate and the gold query, compare result sets.</p>
+
+  <h3>Protocol</h3>
+  <ul>
+    <li>Two databases, chosen for opposite character: <code>california_schools</code> (3 tables,
+      wide and denormalised, questions dominated by arithmetic) and <code>toxicology</code>
+      (4 tables, molecules/atoms/bonds, questions dominated by structural navigation).</li>
+    <li>Arm A written first, from the DDL and the question, without consulting the conceptual
+      model. Arm B written afterwards, from the model&rsquo;s vocabulary. Gold SQL was not read before
+      either arm.</li>
+    <li>Every question ConQuer could not express was recorded with a <em>reason</em> rather than
+      skipped, so coverage is measured rather than assumed.</li>
+  </ul>
+
+  <h2><span class="n">02</span> Coverage is the whole difference</h2>
+  <p>Forty of the seventy questions cannot be written in ConQuer&rsquo;s implemented subset at all.
+  The reasons cluster tightly:</p>
+  <div class="bars" id="bars"></div>
+  <p style="margin-top:18px">This is not an artefact of the two databases. Across all 500 mini-dev
+  questions the gold queries need the same things: <strong>20%</strong> use <code>LIMIT</code>,
+  <strong>19%</strong> <code>CAST</code>, <strong>18%</strong> <code>CASE</code>/<code>IIF</code>,
+  <strong>14%</strong> arithmetic in the projection, <strong>11%</strong> <code>GROUP BY</code>,
+  <strong>10%</strong> date functions.</p>
+  <p>ConQuer&#8209;92 is a <em>navigational</em> language: it walks fact types, filters, and compares.
+  The report&rsquo;s grammar does define scalar expressions, and the Common Core Model has an open
+  function table &mdash; so this is a limit of the implementation, not of the language on paper. But it
+  is the limit that decides the score.</p>
+
+  <h2><span class="n">03</span> Why the thirteen shared failures failed</h2>
+  <p>Not one is attributable to the query language. Every failure is upstream &mdash; reading the
+  question, reading the schema, or a convention of the benchmark itself.</p>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Cause</th><th style="width:88px">Questions</th><th>What happened</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Stored column vs. the evidence&rsquo;s formula</strong></td><td class="qid">62, 77, 85</td>
+          <td><code>Percent (%) Eligible Free (K-12)</code> holds a <em>fraction</em>; the evidence
+          defines the value as <code>Free Meal Count &times; 100 / Enrollment</code>, a <em>percent</em>.
+          A factor of 100 &mdash; so <code>&lt; 0.18</code> selects 201 rows where gold selects 1.</td></tr>
+        <tr><td><strong>Gold projects columns the question never asked for</strong></td><td class="qid">17, 87, 215</td>
+          <td>Q17 asks for charter numbers; gold returns the number, the score <em>and</em> a
+          <code>RANK()</code>. Same rows, different arity, scored wrong.</td></tr>
+        <tr><td><strong>Ambiguity resolved differently</strong></td><td class="qid">26, 213, 247</td>
+          <td>&ldquo;between atoms A and B&rdquo; is symmetric, and gold ORs both stored directions.
+          &ldquo;elements of atoms that cannot bond&rdquo; &mdash; gold excludes <em>elements</em> seen bonded
+          anywhere, not <em>atoms</em>.</td></tr>
+        <tr><td><strong>Benchmark identifier conventions</strong></td><td class="qid">239, 242</td>
+          <td>&ldquo;atom 19&rdquo; means <code>SUBSTR(atom_id,-2) = '19'</code> across every molecule &mdash; not
+          the atom <code>TR000_19</code>.</td></tr>
+        <tr><td><strong>Join-path choice</strong></td><td class="qid">27, 207</td>
+          <td>Gold uses <code>LEFT JOIN</code> where nothing in the question says so; and for Q207
+          joins atoms by <em>molecule</em> rather than through the bond named in the question.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Three of these five categories are properties of the benchmark rather than of either method.
+  That is worth stating plainly: a meaningful part of the 43% error rate in both arms is the cost
+  of guessing a convention, not of writing a query.</p>
+
+  <h2><span class="n">04</span> Two gaps the run exposed</h2>
+  <div class="callout">
+    <p class="tag">Fixed during the run</p>
+    <p><strong>Ring fact types were unreachable.</strong> The first toxicology pass scored
+    <strong>3/17</strong>. Eleven of the twelve failures were one cause: <code>connected(atom_id,
+    atom_id2)</code> derives as <code>Connected: Atom | Atom</code>, and nothing in the query text
+    could say <em>which</em> of the two roles was meant.</p>
+    <p>Appendix B.2 of the transcribed grammar has <code>&lt;role reference&gt; ::= [&lt;postfix&gt;]
+    &lt;role name&gt;</code> for exactly this. It had never been implemented, and the reverse
+    engineer was not naming roles at all. Implementing it took toxicology from 3/17 to
+    <strong>11/17</strong>.</p>
+  </div>
+  <div class="callout">
+    <p class="tag">Still open</p>
+    <p><strong>There is no syntax for an optional traversal.</strong> Reading a role asserts the
+    fact exists, so a question about schools that have <em>no</em> closing date returns zero rows.
+    The Common Core Model supports it &mdash; a step carries <code>join: "outer"</code> &mdash; but the
+    surface language cannot ask for it. This changed no score here only because the direct arm
+    failed the same question for an unrelated reason.</p>
+  </div>
+
+  <h2><span class="n">05</span> What reverse engineering made of these schemas</h2>
+  <p>BIRD&rsquo;s databases are better keyed than the legacy schemas this tool was built against: all
+  eleven declare foreign keys, and only three tables anywhere lack a primary key. The rule that
+  fails silently on undeclared keys never fired.</p>
+  <p>One derivation is worth recording. In <code>california_schools</code> both foreign keys run
+  primary&#8209;key to primary&#8209;key, so the heuristic reads <code>frpm</code> and <code>satscores</code>
+  as <em>subtypes</em> of <code>School</code> &mdash; the vertical-partitioning trap, and it reports
+  itself as a guess. It happens to be harmless for querying: sibling subtypes join on the shared
+  identifier, so paths cross between them correctly. In <code>toxicology</code> the recursive
+  many-to-many came out exactly right, as an objectified ring fact type.</p>
+
+  <h2><span class="n">06</span> Threats to validity</h2>
+  <ul>
+    <li><strong>One model wrote both arms</strong> &mdash; and it is the author of the ConQuer
+      implementation. There is no cross-model variance here. The clean per-question agreement is
+      evidence against that biasing the result, but does not eliminate it.</li>
+    <li><strong>The toxicology second pass was not blind.</strong> Arm B was revised after seeing
+      which queries failed to <em>compile</em>; Arm A was written once and never revised. No query
+      was changed after seeing a wrong result &mdash; only after a parse error &mdash; but the asymmetry is
+      real, and <strong>3/17</strong> is the honest blind figure for that database.</li>
+    <li><strong>n = 70, two databases.</strong> The coverage figure is corroborated by the feature
+      profile over all 500 questions; the accuracy figure is not.</li>
+    <li><strong>Arm A is not a serious text-to-SQL baseline.</strong> Published BIRD systems use
+      schema linking, retrieval and self-correction. 57% overall is plausible for a single pass,
+      but this is a comparison of two arms, not a leaderboard entry.</li>
+  </ul>
+
+  <h2><span class="n">07</span> What this settles, and what it doesn&rsquo;t</h2>
+  <p class="lede">On analytical text-to-SQL, the conceptual layer does not earn its place. Given a
+  question the language can express, routing through a named fact-oriented model produced exactly
+  the same answers as writing SQL directly &mdash; and the model&rsquo;s vocabulary cost 57% of the questions
+  outright.</p>
+  <p>That is a narrow verdict, and it should not be read as a verdict on conceptual modelling. The
+  errors that remained were about <em>understanding the domain</em> &mdash; that a column called
+  &ldquo;Percent&rdquo; holds a fraction, that &ldquo;atom 19&rdquo; is a suffix convention, that &ldquo;between A and B&rdquo; is
+  symmetric. A conceptual model with real predicate readings, value constraints and verbalisation
+  is aimed squarely at those, and every reading in these models was the placeholder
+  <code>{0} has {1}</code>, generated from column names, because a relational catalog records no
+  verbs.</p>
+  <p>The test that would actually be informative: take a <em>hand-refined</em> model &mdash; predicates
+  renamed, constraints added, units recorded &mdash; and re-run. That isolates the thing being claimed.
+  This run only shows that a machine-derived model, on its own, adds nothing.</p>
+
+  <div class="foot">
+    Sources: <a href="https://bird-bench.github.io/">BIRD</a> &middot;
+    <a href="https://huggingface.co/datasets/birdsql/bird_mini_dev">mini-dev questions</a> &middot;
+    <a href="https://github.com/bird-bench/mini_dev">mini_dev repository</a>.
+    Harness, both arms&rsquo; answers and scored output are in <code>bench/</code>; reproduce with
+    <code>bench/fetch.sh &amp;&amp; bench/run.sh</code>.
+  </div>
+</div>
+<div id="tip" role="status"></div>
+
+<script>
+const DATA = [{"id":5,"db":"CA","d":"simple","s":true,"a":true,"b":true,"w":null},{"id":11,"db":"CA","d":"simple","s":false,"a":true,"b":false,"w":"arithmetic in a comparison: Enrollment(K-12) + Enrollment(Ages 5-17) > 500"},{"id":12,"db":"CA","d":"moderate","s":false,"a":true,"b":false,"w":"arithmetic in a projection and in a comparison (two ratios)"},{"id":17,"db":"CA","d":"simple","s":true,"a":false,"b":false,"w":null},{"id":23,"db":"CA","d":"moderate","s":false,"a":true,"b":false,"w":"arithmetic in a comparison: Enrollment(K-12) - Enrollment(Ages 5-17) > 30"},{"id":24,"db":"CA","d":"moderate","s":false,"a":false,"b":false,"w":"arithmetic in a comparison: Free Meal Count / Enrollment > 0.1"},{"id":25,"db":"CA","d":"moderate","s":false,"a":false,"b":false,"w":"GROUP BY with HAVING over an aggregate"},{"id":26,"db":"CA","d":"moderate","s":true,"a":false,"b":false,"w":null},{"id":27,"db":"CA","d":"moderate","s":true,"a":false,"b":false,"w":null},{"id":28,"db":"CA","d":"challenging","s":false,"a":false,"b":false,"w":"arithmetic in a comparison, against a correlated average of the same arithmetic"},{"id":31,"db":"CA","d":"moderate","s":false,"a":true,"b":false,"w":"ORDER BY with LIMIT/OFFSET (the 10th and 11th rows), plus a ratio projection"},{"id":32,"db":"CA","d":"moderate","s":false,"a":true,"b":false,"w":"ORDER BY with LIMIT (top 5), plus a ratio projection"},{"id":36,"db":"CA","d":"challenging","s":false,"a":false,"b":false,"w":"ORDER BY with LIMIT 1"},{"id":37,"db":"CA","d":"moderate","s":false,"a":false,"b":false,"w":"ORDER BY a computed ratio with LIMIT 1"},{"id":39,"db":"CA","d":"simple","s":true,"a":true,"b":true,"w":null},{"id":40,"db":"CA","d":"moderate","s":true,"a":true,"b":true,"w":null},{"id":41,"db":"CA","d":"simple","s":false,"a":false,"b":false,"w":"window function: ROW_NUMBER() OVER (PARTITION BY county)"},{"id":45,"db":"CA","d":"moderate","s":true,"a":true,"b":true,"w":null},{"id":46,"db":"CA","d":"simple","s":true,"a":true,"b":true,"w":null},{"id":47,"db":"CA","d":"moderate","s":false,"a":true,"b":false,"w":"arithmetic on an aggregate: count(...) / 12"},{"id":48,"db":"CA","d":"moderate","s":false,"a":true,"b":false,"w":"ratio of two conditional counts (CASE inside SUM)"},{"id":50,"db":"CA","d":"simple","s":false,"a":true,"b":false,"w":"ORDER BY with LIMIT/OFFSET (the 7th row)"},{"id":62,"db":"CA","d":"challenging","s":true,"a":false,"b":false,"w":null},{"id":72,"db":"CA","d":"moderate","s":true,"a":true,"b":true,"w":null},{"id":77,"db":"CA","d":"moderate","s":true,"a":false,"b":false,"w":null},{"id":79,"db":"CA","d":"moderate","s":false,"a":true,"b":false,"w":"GROUP BY county with an ordered aggregate and LIMIT 1"},{"id":82,"db":"CA","d":"simple","s":false,"a":true,"b":false,"w":"ORDER BY abs(longitude) with LIMIT 1"},{"id":83,"db":"CA","d":"challenging","s":false,"a":false,"b":false,"w":"multi-part question: a count plus a GROUP BY city with per-city counts"},{"id":85,"db":"CA","d":"moderate","s":true,"a":false,"b":false,"w":null},{"id":87,"db":"CA","d":"challenging","s":true,"a":false,"b":false,"w":null},{"id":195,"db":"TOX","d":"simple","s":false,"a":true,"b":false,"w":"GROUP BY bond_type with ORDER BY count and LIMIT 1"},{"id":197,"db":"TOX","d":"moderate","s":false,"a":true,"b":false,"w":"ratio of two aggregates in the projection"},{"id":198,"db":"TOX","d":"challenging","s":false,"a":false,"b":false,"w":"ratio of two aggregates in the projection"},{"id":200,"db":"TOX","d":"simple","s":true,"a":true,"b":true,"w":null},{"id":201,"db":"TOX","d":"moderate","s":false,"a":false,"b":false,"w":"conditional count over total, as a percentage"},{"id":206,"db":"TOX","d":"challenging","s":true,"a":true,"b":true,"w":null},{"id":207,"db":"TOX","d":"challenging","s":true,"a":false,"b":false,"w":null},{"id":208,"db":"TOX","d":"moderate","s":false,"a":true,"b":false,"w":"GROUP BY label with ORDER BY count and LIMIT 1"},{"id":212,"db":"TOX","d":"challenging","s":false,"a":true,"b":false,"w":"GROUP BY element with ORDER BY count and LIMIT 1"},{"id":213,"db":"TOX","d":"moderate","s":true,"a":false,"b":false,"w":null},{"id":215,"db":"TOX","d":"challenging","s":true,"a":false,"b":false,"w":null},{"id":218,"db":"TOX","d":"challenging","s":false,"a":false,"b":false,"w":"conditional count over total, as a percentage"},{"id":219,"db":"TOX","d":"challenging","s":false,"a":true,"b":false,"w":"conditional count over total, as a percentage"},{"id":220,"db":"TOX","d":"challenging","s":false,"a":true,"b":false,"w":"ORDER BY with LIMIT 3"},{"id":226,"db":"TOX","d":"moderate","s":false,"a":false,"b":false,"w":"conditional count over total, as a percentage"},{"id":227,"db":"TOX","d":"simple","s":false,"a":false,"b":false,"w":"conditional count over total, as a percentage"},{"id":228,"db":"TOX","d":"moderate","s":false,"a":false,"b":false,"w":"conditional count over total, as a percentage"},{"id":230,"db":"TOX","d":"challenging","s":true,"a":true,"b":true,"w":null},{"id":231,"db":"TOX","d":"challenging","s":false,"a":false,"b":false,"w":"GROUP BY with ORDER BY count and LIMIT 1"},{"id":232,"db":"TOX","d":"moderate","s":false,"a":true,"b":false,"w":"ORDER BY with LIMIT 3"},{"id":234,"db":"TOX","d":"moderate","s":false,"a":false,"b":false,"w":"counts bonds whose id encodes atom 12; matching that needs a LIKE pattern on the identifier"},{"id":236,"db":"TOX","d":"moderate","s":true,"a":true,"b":true,"w":null},{"id":239,"db":"TOX","d":"simple","s":true,"a":false,"b":false,"w":null},{"id":240,"db":"TOX","d":"challenging","s":true,"a":true,"b":true,"w":null},{"id":242,"db":"TOX","d":"moderate","s":true,"a":false,"b":false,"w":null},{"id":243,"db":"TOX","d":"moderate","s":true,"a":true,"b":true,"w":null},{"id":244,"db":"TOX","d":"moderate","s":false,"a":true,"b":false,"w":"GROUP BY molecule with ORDER BY count and LIMIT 1"},{"id":245,"db":"TOX","d":"moderate","s":false,"a":true,"b":false,"w":"ratio of two aggregates in the projection"},{"id":247,"db":"TOX","d":"challenging","s":true,"a":false,"b":false,"w":null},{"id":248,"db":"TOX","d":"simple","s":true,"a":true,"b":true,"w":null},{"id":249,"db":"TOX","d":"challenging","s":true,"a":true,"b":true,"w":null},{"id":253,"db":"TOX","d":"challenging","s":true,"a":true,"b":true,"w":null},{"id":255,"db":"TOX","d":"moderate","s":false,"a":false,"b":false,"w":"conditional count over total, as a percentage"},{"id":260,"db":"TOX","d":"moderate","s":true,"a":true,"b":true,"w":null},{"id":263,"db":"TOX","d":"challenging","s":false,"a":true,"b":false,"w":"conditional count over total, as a percentage"},{"id":268,"db":"TOX","d":"challenging","s":true,"a":true,"b":true,"w":null},{"id":273,"db":"TOX","d":"moderate","s":false,"a":true,"b":false,"w":"conditional count over total, as a percentage"},{"id":281,"db":"TOX","d":"challenging","s":false,"a":false,"b":false,"w":"selects the 4th atom of each molecule by a pattern on the identifier"},{"id":282,"db":"TOX","d":"challenging","s":false,"a":true,"b":false,"w":"ratio of two counts in the projection"},{"id":327,"db":"TOX","d":"moderate","s":false,"a":true,"b":false,"w":"GROUP BY molecule with HAVING count > 5"}];
+const BARS = {"Arithmetic in a projection or comparison": 20, "ORDER BY + LIMIT / OFFSET": 11, "GROUP BY / HAVING": 3, "ORDER BY + LIMIT, with arithmetic": 3, "Pattern-matching on identifiers": 2, "Window function": 1};
+
+const inScope = DATA.filter(d => d.s), outScope = DATA.filter(d => !d.s);
+const ordered = inScope.concat(outScope);
+
+function cell(d, arm) {
+  const el = document.createElement("i");
+  const ok = arm === "a" ? d.a : d.b;
+  el.className = "cell" + (!d.s && arm === "b" ? " na" : (ok ? " ok" : ""));
+  el.dataset.i = ordered.indexOf(d);
+  el.dataset.arm = arm;
+  return el;
+}
+function row(label, arm) {
+  const line = document.createElement("div");
+  line.className = "rowline";
+  const lab = document.createElement("div");
+  lab.className = "rowlab"; lab.style.width = "132px"; lab.textContent = label;
+  const band = document.createElement("div"); band.className = "band";
+  inScope.forEach(d => band.appendChild(cell(d, arm)));
+  const sp = document.createElement("div"); sp.className = "split"; band.appendChild(sp);
+  outScope.forEach(d => band.appendChild(cell(d, arm)));
+  line.appendChild(lab); line.appendChild(band);
+  return line;
+}
+const rows = document.getElementById("rows");
+rows.appendChild(row("A · direct SQL", "a"));
+rows.appendChild(row("B · conceptual", "b"));
+
+const zones = document.getElementById("zones");
+zones.innerHTML =
+  '<div style="width:132px"></div>' +
+  '<div style="width:' + (inScope.length * 16) + 'px">' + inScope.length +
+  ' expressible in ConQuer</div>' +
+  '<div style="margin-left:13px">' + outScope.length + ' not expressible</div>';
+
+const tip = document.getElementById("tip");
+rows.addEventListener("mouseover", e => {
+  const c = e.target.closest(".cell"); if (!c) return;
+  const d = ordered[+c.dataset.i], arm = c.dataset.arm;
+  const ok = arm === "a" ? d.a : d.b;
+  const verdict = (!d.s && arm === "b") ? "cannot be expressed — " + d.w
+    : (ok ? "correct" : "wrong result");
+  tip.innerHTML = "<b>" + d.db + " " + d.id + " · " + d.d + "</b><br>" +
+    (arm === "a" ? "Arm A" : "Arm B") + ": " + verdict;
+  tip.style.opacity = "1";
+});
+rows.addEventListener("mousemove", e => {
+  const x = Math.min(e.clientX + 14, window.innerWidth - 346);
+  tip.style.left = x + "px";
+  tip.style.top = Math.min(e.clientY + 16, window.innerHeight - 130) + "px";
+});
+rows.addEventListener("mouseleave", () => { tip.style.opacity = "0"; });
+
+const bars = document.getElementById("bars");
+const entries = Object.entries(BARS).sort((a, b) => b[1] - a[1]);
+const max = entries[0][1];
+entries.forEach(([name, n]) => {
+  const d = document.createElement("div"); d.className = "bar";
+  d.innerHTML = '<div class="track"><div class="fill" style="width:' +
+    (100 * n / max).toFixed(1) + '%"></div><div class="name">' + name + '</div></div>' +
+    '<div class="val">' + n + '</div>';
+  bars.appendChild(d);
+});
+</script>

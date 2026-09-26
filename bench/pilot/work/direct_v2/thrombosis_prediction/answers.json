@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 1256,
+  "answer": "SELECT COUNT(DISTINCT T1.ID) FROM Patient T1 JOIN Laboratory T2 ON T1.ID = T2.ID WHERE T2.CRP = '+' AND T1.Description IS NULL;",
+  "attempts": 1
+ },
+ {
+  "question_id": 1189,
+  "answer": "SELECT COUNT(DISTINCT ID) FROM Examination WHERE Thrombosis = 2 AND [ANA Pattern] = 'S' AND [aCL IgM] > (SELECT AVG([aCL IgM]) * 1.2 FROM Examination);",
+  "attempts": 2
+ },
+ {
+  "question_id": 1267,
+  "answer": "SELECT COUNT(DISTINCT T1.ID) FROM Laboratory T1 JOIN Examination T2 ON T1.ID = T2.ID WHERE T1.SM IN ('negative', '0') AND T2.Thrombosis = 0;",
+  "attempts": 1
+ },
+ {
+  "question_id": 1157,
+  "answer": "SELECT DISTINCT T2.ID, T2.SEX, T2.Diagnosis FROM Examination T1 JOIN Patient T2 ON T1.ID = T2.ID WHERE T1.Thrombosis = 2;",
+  "attempts": 2
+ },
+ {
+  "question_id": 1162,
+  "answer": "SELECT COUNT(*) FROM Patient WHERE SEX = 'F' AND strftime('%Y', Description) = '1997' AND Admission = '-';",
+  "attempts": 1
+ },
+ {
+  "question_id": 1164,
+  "answer": "SELECT COUNT(DISTINCT T1.ID) FROM Examination T1 JOIN Patient T2 ON T1.ID = T2.ID WHERE T1.Thrombosis = 1 AND strftime('%Y', T1.[Examination Date]) = '1997' AND T2.SEX = 'F';",
+  "attempts": 1
+ },
+ {
+  "question_id": 1179,
+  "answer": "SELECT T2.[aCL IgM] FROM Patient T1 JOIN Examination T2 ON T1.ID = T2.ID WHERE T1.Diagnosis = 'SLE' AND T1.Description = '1994-02-19' AND T2.[Examination Date] = '1993-11-12';",
+  "attempts": 1
+ },
+ {
+  "question_id": 1192,
+  "answer": "SELECT DISTINCT T1.ID FROM Patient T1 JOIN Laboratory T2 ON T1.ID = T2.ID WHERE T1.Admission = '-' AND T2.Date LIKE '1991-10%' AND T2.[T-BIL] < 2.0;",
+  "attempts": 1
+ },
+ {
+  "question_id": 1232,
+  "answer": "SELECT DISTINCT T1.ID, T1.SEX, (CAST(strftime('%Y', CURRENT_TIMESTAMP) AS INTEGER) - CAST(strftime('%Y', T1.Birthday) AS INTEGER)) AS age FROM Patient T1 JOIN Laboratory T2 ON T1.ID = T2.ID WHERE T2.GLU >= 180 AND T2.[T-CHO] < 250;",
+  "attempts": 1
+ },
+ {
+  "question_id": 1187,
+  "answer": "SELECT COUNT(DISTINCT ID) FROM Laboratory WHERE Date BETWEEN '1987-07-06' AND '1996-01-31' AND GPT > 30 AND ALB < 4;",
+  "attempts": 2
+ }
+]

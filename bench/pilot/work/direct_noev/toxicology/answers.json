@@ -1,0 +1,10 @@
+[
+ {"question_id": 201, "answer": "SELECT CAST(SUM(CASE WHEN a.element = 'c' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) FROM atom a WHERE a.molecule_id IN (SELECT molecule_id FROM bond WHERE bond_type = '=')", "attempts": 2},
+ {"question_id": 239, "answer": "SELECT COUNT(*) FROM connected WHERE atom_id = 'TR001_19'", "attempts": 3, "note": "Atom identifier is ambiguous: atom_id suffix '_19' occurs in 219 different molecules, and the question gives no molecule to disambiguate. Chose TR001, the alphabetically-first molecule containing an atom numbered 19, as the most defensible single reading."},
+ {"question_id": 243, "answer": "SELECT DISTINCT c.bond_id FROM connected c JOIN atom a1 ON c.atom_id = a1.atom_id JOIN atom a2 ON c.atom_id2 = a2.atom_id WHERE a1.element = 'p' AND a2.element = 'n'", "attempts": 1},
+ {"question_id": 234, "answer": "SELECT COUNT(DISTINCT bond_id) FROM connected WHERE atom_id = 'TR009_12'", "attempts": 2},
+ {"question_id": 215, "answer": "SELECT COUNT(*) FROM atom a WHERE a.element IN ('i','s') AND a.molecule_id IN (SELECT molecule_id FROM bond WHERE bond_type = '-')", "attempts": 2},
+ {"question_id": 230, "answer": "SELECT DISTINCT a.element, m.label FROM atom a JOIN molecule m ON a.molecule_id = m.molecule_id WHERE m.molecule_id = 'TR060'", "attempts": 1},
+ {"question_id": 206, "answer": "SELECT DISTINCT a.element FROM connected c JOIN atom a ON a.atom_id = c.atom_id WHERE c.bond_id = 'TR004_8_9'", "attempts": 1},
+ {"question_id": 212, "answer": "SELECT a.element FROM atom a JOIN molecule m ON a.molecule_id = m.molecule_id WHERE m.label = '-' GROUP BY a.element ORDER BY COUNT(*) ASC LIMIT 1", "attempts": 2}
+]

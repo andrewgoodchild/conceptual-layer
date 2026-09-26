@@ -1,0 +1,850 @@
+{
+ "database": "virtual_idol_large",
+ "verdicts": [
+  {
+   "id": "AlgorithmRecommendationFeeds.fan_user_ref -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "fan_user_ref holds FAN-prefixed fan registry ids; a feed row points at the fan it was built for"
+  },
+  {
+   "id": "AlgorithmRecommendationFeeds.position_in_feed -> interest_tags.TAG_ID",
+   "verdict": "no",
+   "reason": "position_in_feed is an ordinal slot number; overlap with 50 tag ids is coincidence"
+  },
+  {
+   "id": "AlgorithmRecommendationFeeds.latency_inference_ms -> preferencesandsettings.pref_reg",
+   "verdict": "no",
+   "reason": "an inference latency in ms is a measurement, not a preferences row id"
+  },
+  {
+   "id": "AuctionPaymentSettlements.winning_bid_ref -> FanArtAuctionBidLogs.bid_id",
+   "verdict": "yes",
+   "reason": "winning_bid_ref holds BID- ids of the bid log; a settlement names its winning bid"
+  },
+  {
+   "id": "AuctionPaymentSettlements.currency_conversion_rate -> physics_simulation_data.SimulationID",
+   "verdict": "no",
+   "reason": "a constant 1.0 conversion rate is not a simulation id"
+  },
+  {
+   "id": "CoCreationRoyaltySplits.session_ref -> CollaborativeSongWritingSessions.collab_session_id",
+   "verdict": "yes",
+   "reason": "session_ref holds SONG- session ids; royalty splits hang off a songwriting session"
+  },
+  {
+   "id": "CoCreationRoyaltySplits.min_payout_threshold_usd -> designers.DESIGNER_ID",
+   "verdict": "no",
+   "reason": "a constant 20.0 USD payout threshold is not a designer id"
+  },
+  {
+   "id": "CollaborativeSongWritingSessions.idol_host_ref -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "idol_host_ref holds VI- idol ids; the session names its hosting idol"
+  },
+  {
+   "id": "CollaborativeSongWritingSessions.lyric_lines_contributed -> fan_interest_tags_map.fan_interest_tag_id",
+   "verdict": "no",
+   "reason": "a count of lyric lines contributed is a measure, not a map-table id"
+  },
+  {
+   "id": "CollaborativeSongWritingSessions.bpm_tempo -> idol_content_platforms_map.idol_platform_id",
+   "verdict": "no",
+   "reason": "bpm tempo is a musical measurement, not a platform-map id"
+  },
+  {
+   "id": "CopyrightInfringementReports.idol_entity_ref -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "idol_entity_ref holds VI- idol ids; the report names the idol infringed"
+  },
+  {
+   "id": "CopyrightInfringementReports.severity_score -> physics_simulation_data.SimulationID",
+   "verdict": "no",
+   "reason": "a 1-5 severity score coinciding with 10 simulation ids is small-integer overlap"
+  },
+  {
+   "id": "CopyrightTakedownAppeals.report_ref -> CopyrightInfringementReports.report_id",
+   "verdict": "yes",
+   "reason": "report_ref holds CPR- report ids; an appeal names the report it appeals"
+  },
+  {
+   "id": "CopyrightTakedownAppeals.escalation_level -> physics_simulation_data.SimulationID",
+   "verdict": "no",
+   "reason": "escalation level 1-3 is an ordinal, not a simulation id"
+  },
+  {
+   "id": "DigitalSkinTransactionHistory.buyer_fan_ref -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "buyer_fan_ref holds FAN- registry ids; the transaction names its buyer"
+  },
+  {
+   "id": "DigitalSkinTransactionHistory.platform_fee_pct -> club_roles.RoleID",
+   "verdict": "no",
+   "reason": "a constant 15.0 percent platform fee is not a club role id"
+  },
+  {
+   "id": "FanArtAuctionBidLogs.bidder_fan_ref -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "bidder_fan_ref holds FAN- registry ids; the bid names its bidder"
+  },
+  {
+   "id": "FanArtAuctionBidLogs.auction_round -> physics_simulation_data.SimulationID",
+   "verdict": "no",
+   "reason": "auction round 1-3 is an ordinal, not a simulation id"
+  },
+  {
+   "id": "FanArtAuctionBidLogs.bid_increment_step -> physics_simulation_data.SimulationID",
+   "verdict": "no",
+   "reason": "a constant 5.0 bid increment is not a simulation id"
+  },
+  {
+   "id": "GlobalServerLatencyStats.event_ref -> eventsandclub.events_reg",
+   "verdict": "yes",
+   "reason": "event_ref sits inside the 1-117 event key range; latency is recorded per event"
+  },
+  {
+   "id": "GlobalServerLatencyStats.packet_loss_pct -> preferencesandsettings.pref_reg",
+   "verdict": "no",
+   "reason": "packet loss percentage is a measurement, not a preferences row id"
+  },
+  {
+   "id": "GlobalServerLatencyStats.rebuffering_ratio -> preferencesandsettings.pref_reg",
+   "verdict": "no",
+   "reason": "rebuffering ratio is a measurement, not a preferences row id"
+  },
+  {
+   "id": "GlobalServerLatencyStats.auto_scaling_group_size -> interest_tags.TAG_ID",
+   "verdict": "no",
+   "reason": "auto-scaling group size is a count; overlap with 50 tag ids is coincidence"
+  },
+  {
+   "id": "HologramProjectorMaintenance.event_venue_ref -> eventsandclub.events_reg",
+   "verdict": "yes",
+   "reason": "event_venue_ref names the event whose venue the projector serves"
+  },
+  {
+   "id": "ProjectorBulbReplacementHistory.maintenance_ref -> HologramProjectorMaintenance.maintenance_id",
+   "verdict": "yes",
+   "reason": "maintenance_ref holds HPM- maintenance ids; bulb replacements hang off a maintenance record"
+  },
+  {
+   "id": "RecommendationClickstream.feed_ref -> AlgorithmRecommendationFeeds.feed_event_id",
+   "verdict": "yes",
+   "reason": "feed_ref holds FEED- feed event ids; a click belongs to a feed impression"
+  },
+  {
+   "id": "RecommendationClickstream.battery_level_pct -> preferencesandsettings.pref_reg",
+   "verdict": "no",
+   "reason": "battery level percent is a device measurement, not a preferences row id"
+  },
+  {
+   "id": "SentimentKeywordTrends.snapshot_ref -> SocialSentimentTrendSnapshots.snapshot_id",
+   "verdict": "yes",
+   "reason": "snapshot_ref holds SNT- snapshot ids; keyword trends belong to a snapshot"
+  },
+  {
+   "id": "SentimentKeywordTrends.frequency_count -> engagement.engage_reg",
+   "verdict": "no",
+   "reason": "a keyword frequency count is a measure, not an engagement row id"
+  },
+  {
+   "id": "SentimentKeywordTrends.keyword_length -> club_roles.RoleID",
+   "verdict": "no",
+   "reason": "keyword length in characters is a measure, not a club role id"
+  },
+  {
+   "id": "ServerRegionalOutageLogs.stat_trigger_ref -> GlobalServerLatencyStats.stat_id",
+   "verdict": "yes",
+   "reason": "stat_trigger_ref holds LAT- latency stat ids; the outage names the stat that triggered it"
+  },
+  {
+   "id": "ServerRegionalOutageLogs.resolution_time_minutes -> eventsandclub.events_reg",
+   "verdict": "no",
+   "reason": "resolution time in minutes is a duration, not an event id"
+  },
+  {
+   "id": "ServerRegionalOutageLogs.customer_tickets_generated -> fan_sentiment_analysis.SentimentID",
+   "verdict": "no",
+   "reason": "a count of customer tickets is a measure, not a sentiment id"
+  },
+  {
+   "id": "SkinOwnershipCertificates.origin_txn_ref -> DigitalSkinTransactionHistory.transaction_id",
+   "verdict": "yes",
+   "reason": "origin_txn_ref holds TXN- transaction ids; the certificate names its originating sale"
+  },
+  {
+   "id": "SocialSentimentTrendSnapshots.idol_entity_ref -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "idol_entity_ref holds VI- idol ids; the sentiment snapshot is taken per idol"
+  },
+  {
+   "id": "SocialSentimentTrendSnapshots.influencer_mention_count -> designers.DESIGNER_ID",
+   "verdict": "no",
+   "reason": "an influencer mention count is a measure, not a designer id"
+  },
+  {
+   "id": "SocialSentimentTrendSnapshots.brand_safety_score -> streaming_session_logs.session_log_id",
+   "verdict": "no",
+   "reason": "a 0-100 brand safety score is a measure, not a session log id"
+  },
+  {
+   "id": "SynthesizedVoiceFeedback.voice_log_ref -> VoiceSynthesisQualityLogs.voice_log_id",
+   "verdict": "yes",
+   "reason": "voice_log_ref holds VC-LOG- ids; feedback attaches to a synthesis quality log"
+  },
+  {
+   "id": "SynthesizedVoiceFeedback.user_rating_stars -> physics_simulation_data.SimulationID",
+   "verdict": "no",
+   "reason": "a 1-5 star rating coinciding with 10 simulation ids is small-integer overlap"
+  },
+  {
+   "id": "SynthesizedVoiceFeedback.playback_volume_level -> preferencesandsettings.pref_reg",
+   "verdict": "no",
+   "reason": "playback volume level is a setting value, not a preferences row id"
+  },
+  {
+   "id": "VREyeTrackingHeatmaps.session_ref -> VirtualRealitySessionTelemetry.vr_session_id",
+   "verdict": "yes",
+   "reason": "session_ref holds VRS- session ids; heatmaps belong to a VR session"
+  },
+  {
+   "id": "VREyeTrackingHeatmaps.saccade_count -> streaming_session_logs.session_log_id",
+   "verdict": "no",
+   "reason": "a saccade count is a measure, not a session log id"
+  },
+  {
+   "id": "VREyeTrackingHeatmaps.raw_sample_rate_hz -> virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID",
+   "verdict": "no",
+   "reason": "sample rate in Hz takes three fixed device values, not metric ids"
+  },
+  {
+   "id": "VirtualRealitySessionTelemetry.fan_user_ref -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "fan_user_ref holds FAN- registry ids; telemetry is captured per fan"
+  },
+  {
+   "id": "VirtualRealitySessionTelemetry.motion_sickness_score -> physics_simulation_data.SimulationID",
+   "verdict": "no",
+   "reason": "a 1-10 motion sickness score coinciding with 10 simulation ids is small-integer overlap"
+  },
+  {
+   "id": "VirtualRealitySessionTelemetry.haptic_feedback_events -> fan_sentiment_analysis.SentimentID",
+   "verdict": "no",
+   "reason": "a count of haptic events is a measure, not a sentiment id"
+  },
+  {
+   "id": "VirtualRealitySessionTelemetry.controller_battery_start_pct -> preferencesandsettings.pref_reg",
+   "verdict": "no",
+   "reason": "controller battery percent is a measurement, not a preferences row id"
+  },
+  {
+   "id": "VoiceSynthesisQualityLogs.idol_entity_ref -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "idol_entity_ref holds VI- idol ids; the voice log is per idol"
+  },
+  {
+   "id": "VoiceSynthesisQualityLogs.latency_ms -> virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID",
+   "verdict": "no",
+   "reason": "latency in ms is a measurement, not a performance metric id"
+  },
+  {
+   "id": "additionalnotes.notes_retain_pivot -> retentionandinfluence.ret_reg",
+   "verdict": "yes",
+   "reason": "a named retain pivot, 52 distinct against a 52-row target: the intended one-to-one link"
+  },
+  {
+   "id": "commerceandcollection.commerce_engage_pivot -> engagement.engage_reg",
+   "verdict": "yes",
+   "reason": "commerce_engage_pivot is the named link from each commerce row to its engagement row"
+  },
+  {
+   "id": "commerceandcollection.commerce_member_pivot -> membershipandspending.member_reg",
+   "verdict": "yes",
+   "reason": "commerce_member_pivot is the named link from each commerce row to its membership row"
+  },
+  {
+   "id": "engagement.engage_activity_pivot -> interactions.activity_reg",
+   "verdict": "yes",
+   "reason": "engage_activity_pivot holds FI- interaction ids: the intended link to interactions"
+  },
+  {
+   "id": "engagement.engage_member_pivot -> membershipandspending.member_reg",
+   "verdict": "yes",
+   "reason": "engage_member_pivot is one-to-one onto membership registry ids: the intended link"
+  },
+  {
+   "id": "engagement.avg_sess_count -> designers.DESIGNER_ID",
+   "verdict": "no",
+   "reason": "an average session count is a measure, not a designer id"
+  },
+  {
+   "id": "event_logistics_and_planning.Event_Club_Record_ID -> eventsandclub.events_reg",
+   "verdict": "yes",
+   "reason": "Event_Club_Record_ID names the eventsandclub row this logistics record plans"
+  },
+  {
+   "id": "event_logistics_and_planning.security_personnel_count -> virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID",
+   "verdict": "no",
+   "reason": "a security personnel headcount is a measure, not a performance metric id"
+  },
+  {
+   "id": "event_logistics_and_planning.TechnicalCrewCount -> interest_tags.TAG_ID",
+   "verdict": "no",
+   "reason": "a technical crew headcount is a measure, not a tag id"
+  },
+  {
+   "id": "event_logistics_and_planning.LiveStreamPlatform -> platforms.PlatformName",
+   "verdict": "yes",
+   "reason": "the live stream platform name is drawn from the platforms lookup"
+  },
+  {
+   "id": "event_sponsors.Event_Identifier -> eventsandclub.events_reg",
+   "verdict": "yes",
+   "reason": "Event_Identifier names the event a sponsorship row attaches to"
+  },
+  {
+   "id": "event_sponsors.Sponsor_Identifier -> fan_club_roles_map.fan_club_role_id",
+   "verdict": "no",
+   "reason": "a sponsor identifier should reach sponsors; the 30-row role map matches only by size"
+  },
+  {
+   "id": "event_sponsors.NumberOfComplimentaryTickets -> designers.DESIGNER_ID",
+   "verdict": "no",
+   "reason": "a count of complimentary tickets is a measure, not a designer id"
+  },
+  {
+   "id": "event_sponsors.SOCIAL_MEDIA_MENTIONS_COUNT -> preferencesandsettings.pref_reg",
+   "verdict": "no",
+   "reason": "a social media mention count is a measure, not a preferences row id"
+  },
+  {
+   "id": "event_sponsors.LEAD_GENERATION_COUNT -> engagement.engage_reg",
+   "verdict": "no",
+   "reason": "a lead generation count is a measure, not an engagement row id"
+  },
+  {
+   "id": "event_sponsors.DURATION_OF_SPONSORSHIP_days -> engagement.engage_reg",
+   "verdict": "no",
+   "reason": "a sponsorship duration in days is a measure, not an engagement row id"
+  },
+  {
+   "id": "eventsandclub.events_social_pivot -> socialcommunity.social_reg",
+   "verdict": "yes",
+   "reason": "events_social_pivot is the named link from an event to its social community row"
+  },
+  {
+   "id": "eventsandclub.events_member_pivot -> membershipandspending.member_reg",
+   "verdict": "yes",
+   "reason": "events_member_pivot is the named link from an event to its membership row"
+  },
+  {
+   "id": "fan_club_roles_map.Fan_Member_Identifier -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "Fan_Member_Identifier holds FAN- registry ids: the role map's fan side"
+  },
+  {
+   "id": "fan_club_roles_map.Club_Role_Identifier -> club_roles.RoleID",
+   "verdict": "yes",
+   "reason": "Club_Role_Identifier onto the 15-row club_roles lookup: the role map's role side"
+  },
+  {
+   "id": "fan_club_roles_map.ASSIGNED_BY_USER_REGISTRY -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "a second FAN- registry column recording which fan assigned the role"
+  },
+  {
+   "id": "fan_club_roles_map.TermLength_months -> designers.DESIGNER_ID",
+   "verdict": "no",
+   "reason": "a term length in months (6/12/24) is a measure, not a designer id"
+  },
+  {
+   "id": "fan_club_roles_map.MentorshipPairID -> virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID",
+   "verdict": "no",
+   "reason": "a mentorship pair id has nothing to do with idol performance metric ids"
+  },
+  {
+   "id": "fan_collaboration_projects.Project_Lead_Fan_ID -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "Project_Lead_Fan_ID holds FAN- registry ids: the project's lead fan"
+  },
+  {
+   "id": "fan_collaboration_projects.NUMBER_OF_PARTICIPANTS -> additionalnotes.notes_reg",
+   "verdict": "no",
+   "reason": "a participant count is a measure, not a notes row id"
+  },
+  {
+   "id": "fan_collaboration_projects.Associated_Idol_Record -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Associated_Idol_Record holds VI- idol ids"
+  },
+  {
+   "id": "fan_collaboration_projects.RELATED_EVENT_ID -> eventsandclub.events_reg",
+   "verdict": "yes",
+   "reason": "RELATED_EVENT_ID sits inside the event key range: the project's related event"
+  },
+  {
+   "id": "fan_collaboration_projects.Moderator_Fan_ID -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "Moderator_Fan_ID holds FAN- registry ids: a second reference to fans"
+  },
+  {
+   "id": "fan_content_submission_details.Fan_Identifier -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "Fan_Identifier holds FAN- registry ids: the submitting fan"
+  },
+  {
+   "id": "fan_content_submission_details.MODERATOR_ID -> physics_simulation_data.SimulationID",
+   "verdict": "no",
+   "reason": "a moderator id coinciding with 10 physics simulation ids is small-integer overlap"
+  },
+  {
+   "id": "fan_content_submission_details.CommentCount -> engagement.engage_reg",
+   "verdict": "no",
+   "reason": "a comment count is a measure, not an engagement row id"
+  },
+  {
+   "id": "fan_content_submission_details.Associated_Idol_Ref -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Associated_Idol_Ref holds VI- idol ids"
+  },
+  {
+   "id": "fan_content_submission_details.ASSOCIATED_EVENT_ID -> eventsandclub.events_reg",
+   "verdict": "yes",
+   "reason": "ASSOCIATED_EVENT_ID sits inside the event key range"
+  },
+  {
+   "id": "fan_interest_tags_map.Fan_Account_Identifier -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "Fan_Account_Identifier holds FAN- registry ids: the map's fan side"
+  },
+  {
+   "id": "fan_interest_tags_map.Interest_Tag_Identifier -> interest_tags.TAG_ID",
+   "verdict": "yes",
+   "reason": "Interest_Tag_Identifier onto the 50-row tag lookup: the map's tag side"
+  },
+  {
+   "id": "fan_interest_tags_map.RelatedContentConsumedCount -> idol_content_platforms_map.idol_platform_id",
+   "verdict": "no",
+   "reason": "a count of related content consumed is a measure, not a platform-map id"
+  },
+  {
+   "id": "fan_sentiment_analysis.Interaction_Activity_ID -> interactions.activity_reg",
+   "verdict": "yes",
+   "reason": "Interaction_Activity_ID holds FI- interaction ids: the analysed interaction"
+  },
+  {
+   "id": "fan_sentiment_analysis.Fan_Account_ID -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "Fan_Account_ID holds FAN- registry ids"
+  },
+  {
+   "id": "fan_sentiment_analysis.source_platform -> platforms.PlatformName",
+   "verdict": "yes",
+   "reason": "source_platform holds a platform name from the platforms lookup, though only one value occurs"
+  },
+  {
+   "id": "fan_technical_profile.Fan_User_ID -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "Fan_User_ID holds FAN- registry ids: a per-fan technical profile"
+  },
+  {
+   "id": "fans.tier_step -> preferencesandsettings.pref_reg",
+   "verdict": "no",
+   "reason": "a tier step number is an attribute of the fan, not a preferences row id"
+  },
+  {
+   "id": "idol_asset_management.Virtual_Idol_ID -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Virtual_Idol_ID holds VI- idol ids; assets belong to an idol"
+  },
+  {
+   "id": "idol_content_platforms_map.Idol_Account_Identifier -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Idol_Account_Identifier holds VI- idol ids: the map's idol side"
+  },
+  {
+   "id": "idol_content_platforms_map.Platform_Service_Identifier -> club_roles.RoleID",
+   "verdict": "no",
+   "reason": "a platform service id belongs to platforms; club_roles matches only because both have 15 rows"
+  },
+  {
+   "id": "idol_fan_collaborations.Idol_Ref -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Idol_Ref holds VI- idol ids even though only two idols appear"
+  },
+  {
+   "id": "idol_fan_collaborations.Fan_Ref -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "Fan_Ref holds FAN- registry ids"
+  },
+  {
+   "id": "idol_fan_collaborations.PROJECT_REFERENCE_ID -> fan_collaboration_projects.PROJECT_ID",
+   "verdict": "yes",
+   "reason": "PROJECT_REFERENCE_ID sits inside the 9001+ project key range"
+  },
+  {
+   "id": "idol_genre_map.Virtual_Idol_Identifier -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Virtual_Idol_Identifier holds VI- idol ids: the map's idol side"
+  },
+  {
+   "id": "idol_genre_map.Music_Genre_Identifier -> designers.DESIGNER_ID",
+   "verdict": "no",
+   "reason": "a music genre id belongs to genres; designers matches only because both have 25 rows"
+  },
+  {
+   "id": "idol_merchandise_details.Commerce_Record_ID -> commerceandcollection.commerce_reg",
+   "verdict": "yes",
+   "reason": "Commerce_Record_ID names the commerce row this merchandise detail extends"
+  },
+  {
+   "id": "idol_merchandise_details.EditionSize -> engagement.engage_reg",
+   "verdict": "no",
+   "reason": "an edition size is a quantity, not an engagement row id"
+  },
+  {
+   "id": "idol_merchandise_details.Autograph_Idol_Ref -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Autograph_Idol_Ref holds VI- idol ids; only three idols autograph merchandise"
+  },
+  {
+   "id": "idol_merchandise_details.NUMBER_OF_REVIEWS -> engagement.engage_reg",
+   "verdict": "no",
+   "reason": "a review count is a measure, not an engagement row id"
+  },
+  {
+   "id": "idol_merchandise_details.SUPPLIER_ID -> virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID",
+   "verdict": "no",
+   "reason": "a supplier id has nothing to do with idol performance metric ids"
+  },
+  {
+   "id": "idol_skill_sets_map.Idol_Record_Identifier -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Idol_Record_Identifier holds VI- idol ids: the skill map's idol side"
+  },
+  {
+   "id": "idol_skill_sets_map.Skill_Definition_Identifier -> skills.skill_id",
+   "verdict": "yes",
+   "reason": "Skill_Definition_Identifier covers all 40 skills: the skill map's skill side"
+  },
+  {
+   "id": "idol_skill_sets_map.TrainingHours_hr -> engagement.engage_reg",
+   "verdict": "no",
+   "reason": "training hours is a measure, not an engagement row id"
+  },
+  {
+   "id": "idol_skill_sets_map.self_assessment_score -> physics_simulation_data.SimulationID",
+   "verdict": "no",
+   "reason": "a 1-10 self-assessment score coinciding with 10 simulation ids is small-integer overlap"
+  },
+  {
+   "id": "idol_training_and_development.Idol_Identifier -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Idol_Identifier holds VI- idol ids; training records belong to an idol"
+  },
+  {
+   "id": "interactions.interact_fan_pivot -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "interact_fan_pivot holds FAN- registry ids"
+  },
+  {
+   "id": "interactions.interact_idol_pivot -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "interact_idol_pivot holds VI- idol ids"
+  },
+  {
+   "id": "interactions.sess_dur_min -> socialcommunity.social_reg",
+   "verdict": "no",
+   "reason": "a session duration in minutes is a measure, not a social community id"
+  },
+  {
+   "id": "loyaltyandachievements.loyalty_events_pivot -> eventsandclub.events_reg",
+   "verdict": "yes",
+   "reason": "loyalty_events_pivot is the named link from a loyalty row to its event"
+  },
+  {
+   "id": "loyaltyandachievements.loyalty_engage_pivot -> engagement.engage_reg",
+   "verdict": "yes",
+   "reason": "loyalty_engage_pivot is the named link from a loyalty row to its engagement row"
+  },
+  {
+   "id": "market_analysis_and_trends.ForecastHorizon_years -> physics_simulation_data.SimulationID",
+   "verdict": "no",
+   "reason": "a forecast horizon in years (2/5/10) is a measure, not a simulation id"
+  },
+  {
+   "id": "membershipandspending.member_fan_pivot -> fans.user_registry",
+   "verdict": "yes",
+   "reason": "member_fan_pivot holds FAN- registry ids; a membership belongs to a fan"
+  },
+  {
+   "id": "merchandise_designers_map.Merchandise_Item_Identifier -> idol_merchandise_details.MerchItemID",
+   "verdict": "yes",
+   "reason": "Merchandise_Item_Identifier sits inside the 2001+ merchandise key range"
+  },
+  {
+   "id": "merchandise_designers_map.Creator_Identifier -> designers.DESIGNER_ID",
+   "verdict": "yes",
+   "reason": "Creator_Identifier onto the designers lookup: the map's designer side"
+  },
+  {
+   "id": "moderationandcompliance.moderation_interact_pivot -> interactions.activity_reg",
+   "verdict": "yes",
+   "reason": "moderation_interact_pivot holds FI- interaction ids"
+  },
+  {
+   "id": "moderationandcompliance.moderation_social_pivot -> socialcommunity.social_reg",
+   "verdict": "yes",
+   "reason": "moderation_social_pivot is the named link to the social community row"
+  },
+  {
+   "id": "physics_simulation_data.IDOL_ID -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "IDOL_ID holds VI- idol ids; a simulation is run for an idol"
+  },
+  {
+   "id": "preferencesandsettings.preferences_member_pivot -> membershipandspending.member_reg",
+   "verdict": "yes",
+   "reason": "preferences_member_pivot is the named one-to-one link to the membership row"
+  },
+  {
+   "id": "preferencesandsettings.preferences_social_pivot -> socialcommunity.social_reg",
+   "verdict": "yes",
+   "reason": "preferences_social_pivot is the named link to the social community row"
+  },
+  {
+   "id": "preferencesandsettings.dev_count -> physics_simulation_data.SimulationID",
+   "verdict": "no",
+   "reason": "a device count of 1-5 coinciding with 10 simulation ids is small-integer overlap"
+  },
+  {
+   "id": "retentionandinfluence.retain_engage_pivot -> engagement.engage_reg",
+   "verdict": "yes",
+   "reason": "retain_engage_pivot is the named link from a retention row to its engagement row"
+  },
+  {
+   "id": "retentionandinfluence.retain_loyalty_pivot -> loyaltyandachievements.loyalty_reg",
+   "verdict": "yes",
+   "reason": "retain_loyalty_pivot is the named one-to-one link to the loyalty row"
+  },
+  {
+   "id": "socialcommunity.social_engage_pivot -> engagement.engage_reg",
+   "verdict": "yes",
+   "reason": "social_engage_pivot is the named link from a social row to its engagement row"
+  },
+  {
+   "id": "socialcommunity.social_commerce_pivot -> commerceandcollection.commerce_reg",
+   "verdict": "yes",
+   "reason": "social_commerce_pivot is the named link from a social row to its commerce row"
+  },
+  {
+   "id": "streaming_session_logs.Idol_Ref_ID -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Idol_Ref_ID holds VI- idol ids; a stream belongs to an idol"
+  },
+  {
+   "id": "streaming_session_logs.Platform -> platforms.PlatformName",
+   "verdict": "yes",
+   "reason": "Platform holds platform names drawn from the platforms lookup"
+  },
+  {
+   "id": "supportandfeedback.support_interact_pivot -> interactions.activity_reg",
+   "verdict": "yes",
+   "reason": "support_interact_pivot holds FI- interaction ids"
+  },
+  {
+   "id": "supportandfeedback.support_pref_pivot -> preferencesandsettings.pref_reg",
+   "verdict": "yes",
+   "reason": "support_pref_pivot is the named link to the preferences row"
+  },
+  {
+   "id": "virtual_idol_lore_and_storylines.Idol_Registration_ID -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Idol_Registration_ID holds VI- idol ids; lore belongs to an idol"
+  },
+  {
+   "id": "virtual_idol_performance_metrics.Idol_Entity_Identifier -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Idol_Entity_Identifier holds VI- idol ids; metrics are recorded per idol"
+  },
+  {
+   "id": "virtual_idol_performance_metrics.streaming_platform -> platforms.PlatformName",
+   "verdict": "yes",
+   "reason": "streaming_platform holds platform names from the platforms lookup"
+  },
+  {
+   "id": "virtual_idol_performance_metrics.fan_art_submissions_per_day -> interest_tags.TAG_ID",
+   "verdict": "no",
+   "reason": "fan art submissions per day is a rate, not a tag id"
+  },
+  {
+   "id": "virtual_idol_sponsorships.Idol_Record_ID -> virtualidols.entity_reg",
+   "verdict": "yes",
+   "reason": "Idol_Record_ID holds VI- idol ids; a sponsorship names its idol"
+  },
+  {
+   "id": "virtual_idol_sponsorships.SponsorCompanyName -> sponsors.SponsorName",
+   "verdict": "yes",
+   "reason": "SponsorCompanyName holds sponsor names from the sponsors lookup"
+  },
+  {
+   "id": "additionalnotes.notes_reg -> retentionandinfluence.ret_reg",
+   "verdict": "no",
+   "reason": "both tables' own 1-52 key sequences nest; the real link is the notes_retain_pivot column"
+  },
+  {
+   "id": "club_roles.RoleID -> platforms.platform_id",
+   "verdict": "no",
+   "reason": "two unrelated 15-row lookups that both happen to be keyed 1-15"
+  },
+  {
+   "id": "commerceandcollection.commerce_reg -> engagement.engage_reg",
+   "verdict": "no",
+   "reason": "two unrelated surrogate sequences, the shorter nesting inside the longer"
+  },
+  {
+   "id": "designers.DESIGNER_ID -> genres.GenreID",
+   "verdict": "no",
+   "reason": "designers and genres are unrelated lookups both keyed 1-25"
+  },
+  {
+   "id": "engagement.engage_reg -> membershipandspending.member_reg",
+   "verdict": "no",
+   "reason": "surrogate sequence nesting; engagement already carries engage_member_pivot for this link"
+  },
+  {
+   "id": "eventsandclub.events_reg -> streaming_session_logs.session_log_id",
+   "verdict": "no",
+   "reason": "the event key sequence nests inside the session log sequence by accident"
+  },
+  {
+   "id": "fan_club_roles_map.fan_club_role_id -> sponsors.SPONSOR_ID",
+   "verdict": "no",
+   "reason": "the role map's own key nesting in the sponsor key range is coincidence"
+  },
+  {
+   "id": "fan_interest_tags_map.fan_interest_tag_id -> idol_training_and_development.TrainingModuleID",
+   "verdict": "no",
+   "reason": "two unrelated 70-row tables sharing a 1-70 key sequence"
+  },
+  {
+   "id": "fan_sentiment_analysis.SentimentID -> idol_asset_management.ASSET_ID",
+   "verdict": "no",
+   "reason": "two unrelated 80-row tables sharing a 1-80 key sequence"
+  },
+  {
+   "id": "fan_technical_profile.technical_profile_id -> loyaltyandachievements.loyalty_reg",
+   "verdict": "no",
+   "reason": "a technical profile key nesting in the loyalty key sequence is coincidence"
+  },
+  {
+   "id": "genres.GenreID -> designers.DESIGNER_ID",
+   "verdict": "no",
+   "reason": "genres and designers are unrelated lookups both keyed 1-25"
+  },
+  {
+   "id": "idol_asset_management.ASSET_ID -> fan_sentiment_analysis.SentimentID",
+   "verdict": "no",
+   "reason": "the mirror of the same 80-row coincidence between unrelated tables"
+  },
+  {
+   "id": "idol_content_platforms_map.idol_platform_id -> idol_skill_sets_map.idol_skill_id",
+   "verdict": "no",
+   "reason": "two unrelated map tables whose surrogate sequences merely nest"
+  },
+  {
+   "id": "idol_genre_map.idol_genre_id -> fan_sentiment_analysis.SentimentID",
+   "verdict": "no",
+   "reason": "a genre map key nesting in the sentiment key sequence is coincidence"
+  },
+  {
+   "id": "idol_skill_sets_map.idol_skill_id -> virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID",
+   "verdict": "no",
+   "reason": "surrogate sequence nesting between unrelated tables"
+  },
+  {
+   "id": "idol_training_and_development.TrainingModuleID -> fan_interest_tags_map.fan_interest_tag_id",
+   "verdict": "no",
+   "reason": "the mirror of the same 70-row coincidence between unrelated tables"
+  },
+  {
+   "id": "interest_tags.TAG_ID -> virtual_idol_lore_and_storylines.lore_id",
+   "verdict": "no",
+   "reason": "interest tags and lore are unrelated lookups both keyed 1-50"
+  },
+  {
+   "id": "loyaltyandachievements.loyalty_reg -> fan_interest_tags_map.fan_interest_tag_id",
+   "verdict": "no",
+   "reason": "loyalty rows and the interest tag map are unrelated; the sequences merely nest"
+  },
+  {
+   "id": "market_analysis_and_trends.AnalysisID -> event_logistics_and_planning.EventLogisticsID",
+   "verdict": "no",
+   "reason": "analysis ids 3001+ nest in event logistics ids 3000+ by accident; unrelated entities"
+  },
+  {
+   "id": "moderationandcompliance.mod_reg -> designers.DESIGNER_ID",
+   "verdict": "no",
+   "reason": "moderation rows and designers are unrelated; both keyed 1-25"
+  },
+  {
+   "id": "physics_simulation_data.SimulationID -> club_roles.RoleID",
+   "verdict": "no",
+   "reason": "10 simulation ids nesting in 15 club role ids is coincidence"
+  },
+  {
+   "id": "platforms.platform_id -> club_roles.RoleID",
+   "verdict": "no",
+   "reason": "platforms and club roles are unrelated lookups both keyed 1-15"
+  },
+  {
+   "id": "preferencesandsettings.pref_reg -> eventsandclub.events_reg",
+   "verdict": "no",
+   "reason": "preferences keys nesting in the event key sequence is coincidence"
+  },
+  {
+   "id": "retentionandinfluence.ret_reg -> additionalnotes.notes_reg",
+   "verdict": "no",
+   "reason": "the mirror of the notes/retention 1-52 coincidence"
+  },
+  {
+   "id": "skills.skill_id -> interest_tags.TAG_ID",
+   "verdict": "no",
+   "reason": "skills and interest tags are unrelated lookups; 40 nests in 50"
+  },
+  {
+   "id": "socialcommunity.social_reg -> idol_content_platforms_map.idol_platform_id",
+   "verdict": "no",
+   "reason": "unrelated surrogate sequences, 185 nesting in 199"
+  },
+  {
+   "id": "sponsors.SPONSOR_ID -> fan_club_roles_map.fan_club_role_id",
+   "verdict": "no",
+   "reason": "the mirror of the sponsor/role-map 1-30 coincidence"
+  },
+  {
+   "id": "streaming_session_logs.session_log_id -> socialcommunity.social_reg",
+   "verdict": "no",
+   "reason": "session log keys nesting in social community keys is coincidence"
+  },
+  {
+   "id": "supportandfeedback.support_reg -> skills.skill_id",
+   "verdict": "no",
+   "reason": "support rows and skills are unrelated; 39 nests in 40"
+  },
+  {
+   "id": "virtual_idol_lore_and_storylines.lore_id -> interest_tags.TAG_ID",
+   "verdict": "no",
+   "reason": "lore and interest tags are unrelated lookups both keyed 1-50"
+  },
+  {
+   "id": "virtual_idol_performance_metrics.PERFORMANCE_METRIC_ID -> commerceandcollection.commerce_reg",
+   "verdict": "no",
+   "reason": "unrelated surrogate sequences, 280 nesting in 356"
+  },
+  {
+   "id": "virtual_idol_sponsorships.sponsorship_id -> interest_tags.TAG_ID",
+   "verdict": "no",
+   "reason": "sponsorships and interest tags are unrelated; both keyed 1-50"
+  }
+ ]
+}

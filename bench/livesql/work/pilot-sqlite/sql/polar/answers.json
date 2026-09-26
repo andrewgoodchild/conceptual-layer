@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "polar_9",
+  "answer": "SELECT equipmentcode,\n       (performanceindex + reliabilityindex) / 2.0 * (1 - environmentalimpactindex / 10.0) AS equipment_efficiency_rating,\n       safetyindex * ((performanceindex + reliabilityindex) / 2.0 * (1 - environmentalimpactindex / 10.0)) * 0.8 AS ospi\nFROM equipment\nWHERE safetyindex * ((performanceindex + reliabilityindex) / 2.0 * (1 - environmentalimpactindex / 10.0)) * 0.8 > 0.75"
+ },
+ {
+  "question_id": "polar_7",
+  "answer": "SELECT pwrbatteqref AS equipmentcode,\n       energyefficiencypercent,\n       powersource,\n       energyefficiencypercent * CASE WHEN powersource IN ('Solar', 'Wind') THEN 1.5\n                                      WHEN powersource = 'Hybrid' THEN 1.2\n                                      WHEN powersource = 'Battery' THEN 1.0\n                                      WHEN powersource = 'Diesel' THEN 0.7\n                                      ELSE 0 END AS esi\nFROM powerbattery"
+ },
+ {
+  "question_id": "polar_3",
+  "answer": "WITH s AS (\n  SELECT e.equipmentcode, e.equipmenttype, ls.lifesupportstatus,\n         ls.oxygensupplystatus, ls.medicalequipmentstatus, ls.safetysystemstatus,\n         CASE om.operationalstatus\n              WHEN 'Active'  THEN 10.0 * (1 - om.operationhours / om.maintenancecyclehours)\n              WHEN 'Standby' THEN  5.0 * (1 - om.operationhours / om.maintenancecyclehours)\n              ELSE 0 END AS ors,\n         CASE t.insulationstatus\n              WHEN 'Good' THEN 0.9 - t.heatlossratekwh / 10.0\n              WHEN 'Fair' THEN 0.6 - t.heatlossratekwh / 10.0\n              WHEN 'Poor' THEN 0.3 - t.heatlossratekwh / 10.0\n              END AS tie\n  FROM equipment e\n  JOIN lightingandsafety ls ON ls.lighteqref = e.equipmentcode\n  JOIN operationmaintenance om ON om.opmainteqref = e.equipmentcode\n  JOIN thermalsolarwindandgrid t ON t.thermaleqref = e.equipmentcode\n  WHERE e.equipmenttype = 'Safety'\n)\nSELECT equipmentcode,\n       equipmenttype,\n       lifesupportstatus,\n       ROUND(0.7 * ors + 0.3 * tie, 2) AS lssr,\n       CASE WHEN 0.7 * ors + 0.3 * tie >= 0.8 THEN 'High Reliability'\n            WHEN 0.7 * ors + 0.3 * tie >= 0.6 THEN 'Moderate Reliability'\n            ELSE 'Low Reliability' END AS reliability_classification,\n       json_object('oxygen_status', oxygensupplystatus,\n                   'medical_status', medicalequipmentstatus,\n                   'safety_system_status', safetysystemstatus) AS support_systems_status\nFROM s\nORDER BY lssr DESC"
+ },
+ {
+  "question_id": "polar_8",
+  "answer": "WITH c AS (\n  SELECT commregistry,\n         antennastatus,\n         json_extract(signalmetrics, '$.radio_strength_dbm') AS radio_strength_dbm,\n         json_extract(signalmetrics, '$.latency_ms') AS latency_ms\n  FROM communication\n), d AS (\n  SELECT commregistry, antennastatus, radio_strength_dbm, latency_ms,\n         CASE antennastatus WHEN 'Error' THEN 0\n                            WHEN 'Warning' THEN 5\n                            WHEN 'Normal' THEN 10\n                            ELSE 0 END * (1 - latency_ms / 1000.0) AS cri\n  FROM c\n)\nSELECT commregistry,\n       antennastatus,\n       ROUND(radio_strength_dbm, 2) AS radio_strength_dbm,\n       ROUND(latency_ms, 2) AS latency_ms,\n       ROUND(cri, 2) AS cri,\n       ROUND(cri * (1 + 0.2 * radio_strength_dbm / 100.0) * (1 - 0.01 * (1000 - latency_ms)), 2) AS bscsi\nFROM d"
+ },
+ {
+  "question_id": "polar_2",
+  "answer": "SELECT e.equipmentcode,\n       e.equipmenttype,\n       ce.heaterstatus,\n       t.insulationstatus,\n       ls.emergencylightstatus,\n       ROUND((100 - ws.structuralloadpercent) / 100.0\n             * CASE WHEN ws.snowloadkgm2 > 100 OR ws.windspeedms > 20 THEN 0.5\n                    WHEN ws.snowloadkgm2 > 50  OR ws.windspeedms > 10 THEN 0.8\n                    ELSE 1.0 END, 2) AS ssf,\n       CASE WHEN (100 - ws.structuralloadpercent) / 100.0\n                 * CASE WHEN ws.snowloadkgm2 > 100 OR ws.windspeedms > 20 THEN 0.5\n                        WHEN ws.snowloadkgm2 > 50  OR ws.windspeedms > 10 THEN 0.8\n                        ELSE 1.0 END > 0.7\n             AND ce.heaterstatus <> 'Off'\n             AND t.insulationstatus <> 'Poor'\n             AND ls.emergencylightstatus IN ('On', 'Testing')\n            THEN 'Extreme Weather Ready'\n            ELSE 'Not Ready' END AS extreme_weather_readiness_status\nFROM weatherandstructure ws\nJOIN location l ON l.locationregistry = ws.weatherlocref\nJOIN equipment e ON e.equipmentcode = l.loceqref\nLEFT JOIN cabinenvironment ce ON ce.cabineqref = e.equipmentcode\nLEFT JOIN lightingandsafety ls ON ls.lighteqref = e.equipmentcode\nLEFT JOIN thermalsolarwindandgrid t ON t.thermaleqref = e.equipmentcode"
+ },
+ {
+  "question_id": "polar_4",
+  "answer": "WITH r AS (\n  SELECT l.locationtype, l.stationname,\n         json_extract(t.renewablemetrics, '$.solar.output_w') AS solar_w,\n         json_extract(t.renewablemetrics, '$.wind.output_w')  AS wind_w,\n         t.fuelcelloutputw AS fuelcell_w\n  FROM thermalsolarwindandgrid t\n  JOIN location l ON l.loceqref = t.thermaleqref\n  WHERE json_extract(t.renewablemetrics, '$.solar.output_w') IS NOT NULL\n     OR json_extract(t.renewablemetrics, '$.wind.output_w')  IS NOT NULL\n)\nSELECT locationtype,\n       stationname,\n       COUNT(*) AS equipment_count,\n       ROUND(SUM(solar_w + wind_w) * 100.0 / SUM(fuelcell_w + solar_w + wind_w), 2) AS rec,\n       ROUND(SUM(solar_w + wind_w), 2) AS total_renewable_output_w,\n       CASE WHEN SUM(solar_w + wind_w) * 100.0 / SUM(fuelcell_w + solar_w + wind_w) > 70 THEN 'Energy-Sustainable'\n            WHEN SUM(solar_w + wind_w) * 100.0 / SUM(fuelcell_w + solar_w + wind_w) > 50 THEN 'Moderately Sustainable'\n            ELSE 'Low Sustainability' END AS sustainability_classification\nFROM r\nGROUP BY locationtype, stationname\nORDER BY rec DESC"
+ },
+ {
+  "question_id": "polar_1",
+  "answer": "WITH e AS (\n  SELECT equipmenttype, equipmentcode, safetyindex,\n         (performanceindex + reliabilityindex) / 2.0 * (1 - environmentalimpactindex / 10.0) AS eer\n  FROM equipment\n)\nSELECT equipmenttype,\n       equipmentcode,\n       ROUND(eer, 2) AS equipment_efficiency_rating,\n       safetyindex,\n       RANK() OVER (PARTITION BY equipmenttype ORDER BY eer DESC) AS efficiency_rank,\n       RANK() OVER (PARTITION BY equipmenttype ORDER BY safetyindex DESC) AS safety_rank,\n       ABS(RANK() OVER (PARTITION BY equipmenttype ORDER BY eer DESC)\n           - RANK() OVER (PARTITION BY equipmenttype ORDER BY safetyindex DESC)) AS rank_difference\nFROM e\nORDER BY equipmenttype, eer DESC"
+ },
+ {
+  "question_id": "polar_10",
+  "answer": "SELECT c.chassisregistry,\n       (1 - (c.brakepadwearpercent + c.trackwearpercent) / 200.0)\n       * (c.vehiclespeedkmh / 50.0)\n       * (ef.engineloadpercent / 100.0) AS vpc\nFROM chassisandvehicle c\nLEFT JOIN engineandfluids ef ON ef.engineregistry = c.chassisengref"
+ },
+ {
+  "question_id": "polar_5",
+  "answer": "WITH w AS (\n  SELECT l.stationname, l.locationtype,\n         ww.waterqualityindex AS wqi,\n         ww.waterlevelpercent * (ww.waterqualityindex / 100.0)\n           * (1 - ww.wastetanklevelpercent / 100.0) AS wrmi\n  FROM waterandwaste ww\n  JOIN location l ON l.loceqref = ww.watereqref\n)\nSELECT stationname,\n       locationtype,\n       ROUND(AVG(wqi), 2) AS avg_water_quality_index,\n       ROUND(AVG(wrmi), 2) AS avg_wrmi,\n       SUM(CASE WHEN wrmi < 0.5 THEN 1 ELSE 0 END) AS conservation_required_count,\n       CASE WHEN AVG(wqi) >= 91 THEN 'High-Quality'\n            WHEN AVG(wqi) >= 71 THEN 'Good'\n            WHEN AVG(wqi) >= 51 THEN 'Moderate'\n            WHEN AVG(wqi) >= 26 THEN 'Poor'\n            ELSE 'Unsafe' END AS water_quality_classification,\n       CASE WHEN AVG(wrmi) < 0.5 THEN 'Conservation Needed'\n            WHEN AVG(wrmi) < 0.7 THEN 'Monitoring Advised'\n            ELSE 'Sustainable Management' END AS water_management_status\nFROM w\nGROUP BY stationname, locationtype\nORDER BY avg_wrmi DESC, avg_water_quality_index DESC"
+ },
+ {
+  "question_id": "polar_6",
+  "answer": "SELECT opmaintregistry,\n       operationhours,\n       maintenancecyclehours,\n       operationalstatus,\n       CASE operationalstatus\n            WHEN 'Active'  THEN 10.0 * (1 - operationhours / maintenancecyclehours)\n            WHEN 'Standby' THEN  5.0 * (1 - operationhours / maintenancecyclehours)\n            ELSE 0 END AS ors\nFROM operationmaintenance"
+ }
+]

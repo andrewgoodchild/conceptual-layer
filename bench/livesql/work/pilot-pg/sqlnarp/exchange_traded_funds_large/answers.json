@@ -1,0 +1,34 @@
+[
+ {
+  "question_id": "exchange_traded_funds_13",
+  "answer": "WITH top AS (SELECT instrumentref, MAX(holdingpct) AS top_weight FROM holdings GROUP BY instrumentref)\nSELECT COUNT(*) AS focused_alpha_leaders\nFROM funds f JOIN risk_metrics r ON r.investmentref = f.tickersym\nJOIN top t ON t.instrumentref = f.tickersym\nWHERE r.alpha5y > 0 AND t.top_weight > 0.08"
+ },
+ {
+  "question_id": "exchange_traded_funds_12",
+  "answer": "WITH a AS (\n  SELECT f.tickersym,\n         ((p.r3y - p.benchr3y)::float8 / r.volatility3y) - ((f.expensenet - f.benchmarkexp)::float8 * 10) AS amv\n  FROM funds f JOIN performance p ON p.productref = f.tickersym\n  JOIN risk_metrics r ON r.investmentref = f.tickersym\n  WHERE p.r3y IS NOT NULL AND p.benchr3y IS NOT NULL AND r.volatility3y IS NOT NULL AND r.volatility3y <> 0\n    AND f.expensenet IS NOT NULL AND f.benchmarkexp IS NOT NULL),\ns AS (SELECT 100.0 * COUNT(*) FILTER (WHERE amv > 0) / COUNT(*) AS pct_positive_amv FROM a)\nSELECT a.tickersym, ROUND(a.amv::numeric, 4) AS amv, ROUND(s.pct_positive_amv::numeric, 4) AS pct_positive_amv\nFROM a CROSS JOIN s ORDER BY a.amv DESC LIMIT 10"
+ },
+ {
+  "question_id": "exchange_traded_funds_8",
+  "answer": "SELECT f.productclass, COUNT(*) AS fund_count,\n       ROUND(REGR_SLOPE(r.alpha3y, f.turnoverratio)::numeric, 4) AS alpha_turnover_slope,\n       ROUND(REGR_R2(r.alpha3y, f.turnoverratio)::numeric, 4) AS r_squared\nFROM funds f JOIN risk_metrics r ON r.investmentref = f.tickersym\nWHERE f.productclass IS NOT NULL AND r.alpha3y IS NOT NULL AND f.turnoverratio IS NOT NULL\nGROUP BY f.productclass HAVING COUNT(*) > 25\nORDER BY alpha_turnover_slope DESC NULLS LAST LIMIT 100"
+ },
+ {
+  "question_id": "exchange_traded_funds_14",
+  "answer": "SELECT ROUND(AVG(((p.r3y - p.benchr3y)::float8 / r.volatility3y)\n             * (p.positiveyears::float8 / (p.positiveyears + p.negativeyears) * 100) / 100)::numeric, 2) AS avg_cair\nFROM performance p JOIN risk_metrics r ON r.investmentref = p.productref\nWHERE p.r3y IS NOT NULL AND p.benchr3y IS NOT NULL AND r.volatility3y IS NOT NULL AND r.volatility3y <> 0\n  AND p.positiveyears IS NOT NULL AND p.negativeyears IS NOT NULL AND (p.positiveyears + p.negativeyears) > 0"
+ },
+ {
+  "question_id": "exchange_traded_funds_9",
+  "answer": "WITH x AS (\n  SELECT f.tickersym, f.shortlabel,\n         ((p.low52w + p.lowdelta) - p.low52w)::float8 / NULLIF(p.high52w - p.low52w, 0) * 100 AS price_position\n  FROM funds f JOIN performance p ON p.productref = f.tickersym\n  WHERE f.turnoverratio < 0.3 AND (f.expensenet - f.benchmarkexp) < 0)\nSELECT tickersym, shortlabel, ROUND(price_position::numeric, 8) AS price_position\nFROM x WHERE price_position < 25\nORDER BY price_position ASC LIMIT 100"
+ },
+ {
+  "question_id": "exchange_traded_funds_1",
+  "answer": "WITH hq AS (\n  SELECT b.fundlink,\n         SUM(b.allocationpct) FILTER (WHERE r.credit_scoringmark IN ('us_government', 'aaa', 'aa'))::float8 AS hq_alloc,\n         SUM(b.allocationpct)::float8 AS total_alloc\n  FROM bond_allocations b JOIN bond_ratings r ON r.ratekey = b.ratinglink\n  GROUP BY b.fundlink),\nx AS (\n  SELECT f.tickersym, f.shortlabel, f.yieldrate::float8 / f.expensenet AS yter, hq.hq_alloc\n  FROM funds f JOIN hq ON hq.fundlink = f.tickersym\n  WHERE f.expensenet > 0 AND f.yieldrate::float8 / f.expensenet > 15\n    AND hq.hq_alloc / NULLIF(hq.total_alloc, 0) > 0.6)\nSELECT tickersym, shortlabel, RANK() OVER (ORDER BY yter * hq_alloc DESC) AS premier_rank, yter * hq_alloc AS sies\nFROM x ORDER BY sies DESC"
+ },
+ {
+  "question_id": "exchange_traded_funds_10",
+  "answer": "SELECT CASE WHEN f.pe_ratio IS NOT NULL AND f.pb_ratio IS NOT NULL THEN 'Transparent' ELSE 'Opaque' END AS valuation_group,\n       COUNT(*) AS fund_count,\n       ROUND(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY p.r1y)::numeric, 4) AS median_1y_return\nFROM funds f LEFT JOIN performance p ON p.productref = f.tickersym\nGROUP BY 1"
+ },
+ {
+  "question_id": "exchange_traded_funds_2",
+  "answer": "WITH o AS (\n  SELECT calendaryear, fundperf - categoryperf AS outperformance\n  FROM annual_returns\n  WHERE portfolioref = 'AADR' AND fundperf IS NOT NULL AND categoryperf IS NOT NULL)\nSELECT calendaryear, outperformance,\n       LAG(outperformance) OVER (ORDER BY calendaryear) AS prev_outperformance,\n       outperformance - LAG(outperformance) OVER (ORDER BY calendaryear) AS yoy_change\nFROM o ORDER BY calendaryear"
+ }
+]

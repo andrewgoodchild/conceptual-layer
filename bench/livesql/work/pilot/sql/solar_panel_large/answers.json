@@ -1,0 +1,42 @@
+[
+ {
+  "instance_id": "solar_panel_1",
+  "answer": "SELECT ROUND(o.mttrh / (o.mtbfh + o.mttrh), 4) AS system_unavailability FROM plants p JOIN plant_record r ON r.sitetie = p.sitekey JOIN operational_metrics o ON o.snapops = r.snapkey WHERE LOWER(p.sitelabel) = 'solar plant west davidport'",
+  "note": "Unsure. The plant (SP9227, snapshot PV937101) has mtbfh = nan/NULL and mttrh = 8.8, so U = MTTR/(MTBF+MTTR) per knowledge.md evaluates to NULL. There is exactly one such plant and one snapshot, so no aggregation could avoid it. If the intended source was instead the reported availability_pct (97.73) the answer would be 0.0227."
+ },
+ {
+  "instance_id": "solar_panel_11",
+  "answer": "SELECT ROUND(AVG(o.mttrh), 2) AS avg_mttr FROM plant_record r JOIN plants p ON p.sitekey = r.sitetie JOIN operational_metrics o ON o.snapops = r.snapkey JOIN electrical_performance e ON e.snaplink = r.snapkey WHERE json_extract(e.elec_perf_snapshot, '$.efficiency.cumulative_deg_pct') / NULLIF((julianday(r.snapts) - julianday(p.goliveon)) / 365.25, 0) > 0.5",
+  "note": "ADR = cumulative_deg_pct / age in years, age = snapts - goliveon over 365.25, NULLIF guarding age 0. 488 snapshots qualify, answer 24.3. Mildly sensitive to the age convention: truncating age to whole years gives 24.35 and a calendar-year difference gives 24.2."
+ },
+ {
+  "instance_id": "solar_panel_13",
+  "answer": "SELECT sitelabel, warrclaims FROM plants WHERE LOWER(warrstate) = 'claimed' AND warrclaims > 2 ORDER BY warrclaims DESC",
+  "note": "'exceeds the typical initial one or two filings' read as warrclaims > 2 (matches the Warranty Claim Risk definition); 51 plants, claim counts 3-5. Used plants.warrclaims rather than counting rows in WarrantyClaimFilings."
+ },
+ {
+  "instance_id": "solar_panel_15",
+  "answer": "SELECT SUM((pm.degyrrate / 100.0) * 400000 * 50 * 15) AS total_lifetime_revenue_loss FROM plants p JOIN panel_models pm ON pm.modkey = p.modhook WHERE pm.degyrrate * 20 > 14",
+  "note": "Filter is degyrrate * 20 > 14 (i.e. > 0.7%/yr); 535 plants qualify. Result 1507500000.0. Ambiguity: degyrrate is stored as a percentage number, so I divided by 100 to make ADR a fraction before LRL = ADR * 400000 MWh * $50 * 15 yr; if the intended gold multiplies degyrrate directly the answer is 100x larger (150750000000). Plants joined to their model via plants.modhook; the plant_panel_model bridge holds 61 extra secondary models and would give a larger sum."
+ },
+ {
+  "instance_id": "solar_panel_16",
+  "answer": "SELECT LOWER(pm.pnlkind) AS panel_kind, AVG((json_extract(e.elec_perf_snapshot, '$.iv_curve.vmp_initial_v') - json_extract(e.elec_perf_snapshot, '$.iv_curve.vmp_now_v')) / json_extract(e.elec_perf_snapshot, '$.iv_curve.vmp_initial_v')) AS avg_voltage_degradation_factor FROM electrical_performance e JOIN plant_record r ON r.snapkey = e.snaplink JOIN plants p ON p.sitekey = r.sitetie JOIN panel_models pm ON pm.modkey = p.modhook WHERE json_extract(e.elec_perf_snapshot, '$.iv_curve.vmp_initial_v') IS NOT NULL AND json_extract(e.elec_perf_snapshot, '$.iv_curve.vmp_now_v') IS NOT NULL AND json_extract(e.elec_perf_snapshot, '$.iv_curve.vmp_initial_v') > 0 GROUP BY LOWER(pm.pnlkind) ORDER BY avg_voltage_degradation_factor DESC",
+  "note": "5 kinds returned, bifacial 0.0565 > poly-perc 0.0561 > hjt 0.0533 > mono-perc 0.0499 > topcon 0.0493. Joined via plants.modhook; going through plant_panel_model instead shifts the averages slightly (bifacial 0.0573 ... topcon 0.0479) but keeps the same ordering."
+ },
+ {
+  "instance_id": "solar_panel_17",
+  "answer": "SELECT AVG(o.maintcost / (((julianday(r.snapts) - julianday(p.goliveon)) * 24.0) / o.mtbfh)) AS avg_mean_repair_cost FROM plant_record r JOIN plants p ON p.sitekey = r.sitetie JOIN operational_metrics o ON o.snapops = r.snapkey WHERE o.mtbfh IS NOT NULL AND o.mtbfh > 0 AND (julianday(r.snapts) - julianday(p.goliveon)) * 24.0 > 0 AND o.mttrh / (o.mtbfh + o.mttrh) > 0.05",
+  "note": "Unsure. Mean Repair Cost = maintcost / (time_in_service_hours / mtbf), with time in service = snapts - goliveon (many snapshots predate go-live, hence the >0 filter; 359 snapshots survive). 'Offline more than 5% of the time' applied as System Unavailability = MTTR/(MTBF+MTTR) > 0.05 per knowledge.md, but NO row in the database reaches 5%: max MTTR/(MTBF+MTTR) is 0.0400 and max MTTR/MTBF is 0.0417, and reported availability_pct is bounded at 95-99.99, so every sensible reading of 'offline >5%' selects zero rows and the query returns NULL. Only mttrh/time_in_service > 0.05 gives a non-empty set (2 rows), which seems unintended."
+ },
+ {
+  "instance_id": "solar_panel_7",
+  "answer": "SELECT ROUND(AVG(json_extract(e.elec_perf_snapshot, '$.iv_curve.fill_factor_initial') - json_extract(e.elec_perf_snapshot, '$.iv_curve.fill_factor_now')), 3) AS avg_fill_factor_degradation FROM electrical_performance e JOIN mechanical_condition m ON m.snapmk = e.snaplink WHERE LOWER(json_extract(m.mech_health_snapshot, '$.module_surface.busbar_corrosion')) = 'severe' AND json_extract(e.elec_perf_snapshot, '$.iv_curve.fill_factor_initial') IS NOT NULL AND json_extract(e.elec_perf_snapshot, '$.iv_curve.fill_factor_now') IS NOT NULL",
+  "note": "busbar_corrosion only ever holds 'Severe', 'Visible' or null, so 'Severe' is the highest level; 366 snapshots, answer 0.051."
+ },
+ {
+  "instance_id": "solar_panel_8",
+  "answer": "SELECT ROUND(AVG(o.maintcost / (17520.0 / o.mtbfh)), 0) AS mean_repair_cost FROM operational_metrics o JOIN plant_record r ON r.snapkey = o.snapops JOIN plants p ON p.sitekey = r.sitetie JOIN panel_models pm ON pm.modkey = p.modhook WHERE LOWER(pm.pnlkind) = 'hjt' AND o.mtbfh IS NOT NULL AND o.mtbfh > 0",
+  "note": "128 snapshots; answer 1541. Read as the average of the per-snapshot repair cost maintcost/(17520/mtbf); pooling instead (SUM(maintcost)/SUM(17520/mtbf)) would give 1124."
+ }
+]

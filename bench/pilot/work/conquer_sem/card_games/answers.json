@@ -1,0 +1,61 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST lang FROM ForeignData [has ForeignDataMultiverseid: 149934] has ForeignDataLanguage lang",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": "LIST id, artist FROM (Card BUT NOT [has CardPower] OR OTHERWISE Card [has CardPower: '*']) has CardId id AND ALSO has CardArtist artist AND ALSO is of LegalForCommanderLegality",
+  "attempts": 4,
+  "note": "UnknownPowerCard is defined as Card BUT NOT (Card [has CardPower] BUT NOT [has CardPower: '*']) i.e. no power recorded or power is '*'. Using the derived type UnknownPowerCard itself as the path head and then 'is of Legality' produced 0 rows: --sql-only showed the compiler joins the Legality CTE on the derived-type's surrogate id column instead of cards.uuid when the head is a Card-derived subtype, which is wrong. Worked around by writing the same filter inline on plain Card (BUT NOT ... OR OTHERWISE ...), which compiles to a correct uuid join."
+ },
+ {
+  "question_id": 473,
+  "answer": "LIST fo FROM (Set [has SetCode: 'C14'] OR OTHERWISE Set [has SetCode: 'C18'] OR OTHERWISE Set [has SetCode: 'CSP'] OR OTHERWISE Set [has SetCode: 'MMA'] OR OTHERWISE Set [has SetCode: 'PLIST']) has SetIsForeignOnly fo",
+  "attempts": 6,
+  "note": "All 5 rows are fo=0, i.e. no printing's set is foreign-only, so the answer is No. The model has no fact type directly relating Card to Set as entities (CardSetCode and SetCode are separate value types); denotations Set:!csc and bracket filters Set[has SetCode: !csc] correlated to Card's CardSetCode compiled to SQL with a spurious extra join condition matching Set's internal id to the Card's id (a compiler bug, confirmed via --sql-only), always returning 0 rows. Worked around by first finding the 5 set codes carrying 'Adarkar Valkyrie' printings with a plain, correct query (Card[has CardName:'Adarkar Valkyrie'] has CardSetCode), then substituting those as literals to query Set directly."
+ },
+ {
+  "question_id": 424,
+  "answer": "LIST TextlessNormalLayoutProportion()",
+  "attempts": 1
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST n FROM DISTINCT Card [has CardRarity: 'mythic'] has CardName n AND ALSO is of Legality [has LegalityFormat: 'gladiator'] [has LegalityStatus: 'Banned']",
+  "attempts": 2
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF SubtypeOtherThanAngelCard [has CardOriginalType: 'Summon - Angel']",
+  "attempts": 1
+ },
+ {
+  "question_id": 352,
+  "answer": "LIST PercentChineseSimplifiedSetTranslation()",
+  "attempts": 1
+ },
+ {
+  "question_id": 518,
+  "answer": "LIST f, n FROM DISTINCT Legality [has LegalityFormat: 'legacy'] [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO has Card has CardName n",
+  "attempts": 3,
+  "note": "First found the leading format with LIST f, c FROM Legality l [has LegalityStatus:'Banned'] has LegalityFormat f AND ALSO THE COUNT OF l GROUPED BY f AS c ORDERED WITH c DESCENDING THE FIRST 5 -- 'legacy' leads with 546, well clear of the runner-up (488), so no tie. A fully self-contained version using WHERE (THE COUNT OF Legality[...][has LegalityFormat:!f]) = HighestNumberOfBannedStatus() compiles and is correct (checked with --sql-only) but did not finish in several minutes against this large table, so the leading format was substituted as a literal instead."
+ },
+ {
+  "question_id": 416,
+  "answer": "LIST PercentUnknownPowerFrenchForeignData()",
+  "attempts": 1
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST n, a, promo FROM Card x has CardName n AND ALSO has CardArtist a AND ALSO has CardIsPromo promo AND ALSO is of Ruling r AND ALSO THE COUNT OF r GROUPED BY x AS c ORDERED WITH c DESCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 462,
+  "answer": "LIST t FROM (Set [has SetCode: '10E'] OR OTHERWISE Set [has SetCode: 'JUD'] OR OTHERWISE Set [has SetCode: 'UMA']) is of SetTranslation [has SetTranslationLanguage: 'Italian'] has SetTranslationTranslation t",
+  "attempts": 3,
+  "note": "Same Card/Set join limitation as question 473. 'Ancestor's Chosen' has 3 printings (10E, JUD, UMA); found those codes first with a plain query on Card, then substituted them as literals. Of the 3 sets, 10E and JUD have an Italian SetTranslation row (2 results returned); UMA has none, so it is correctly dropped rather than padded with a null."
+ }
+]

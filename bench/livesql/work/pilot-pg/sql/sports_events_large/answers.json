@@ -1,0 +1,34 @@
+[
+  {
+    "question_id": "sports_events_6",
+    "answer": "WITH h AS (SELECT drv_main, (driver_identity->>'birth_date')::date AS bd FROM drivers WHERE driver_identity->>'reference' = 'hamilton') SELECT ds.rlink AS race_id, (ds.acc_pt::numeric / COUNT(*) OVER (ORDER BY r.yr, r.rnum)) / FLOOR((to_date(r.event_schedule->>'date_set', 'YYYY/MM/DD') - h.bd) / 365.25) AS dpv FROM driver_standings ds JOIN h ON h.drv_main = ds.drive_link JOIN races r ON r.rak_id = ds.rlink ORDER BY r.yr, r.rnum"
+  },
+  {
+    "question_id": "sports_events_5",
+    "answer": "WITH mc AS (SELECT r.yr, r.rak_id, r.rnum, c.namelabel, cr.scoreval, cr.st_mark FROM constructor_results cr JOIN races r ON r.rak_id = cr.matchref JOIN constructors c ON c.cstr_key = cr.unitnode WHERE c.namelabel = 'McLaren') SELECT yr, rak_id, namelabel, SUM(scoreval) OVER w * (100.0 * SUM(CASE WHEN st_mark IS NULL THEN 1 ELSE 0 END) OVER w / COUNT(*) OVER w) / 100 AS cumulative_cps FROM mc WINDOW w AS (PARTITION BY yr ORDER BY rnum, rak_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) ORDER BY yr, rnum, rak_id"
+  },
+  {
+    "question_id": "sports_events_2",
+    "answer": "SELECT location_metadata->>'name' AS circuit_name, (location_metadata->'coordinates'->>'elevation_m')::numeric AS elevation FROM circuits WHERE (location_metadata->'coordinates'->>'elevation_m')::numeric > 800 ORDER BY elevation DESC"
+  },
+  {
+    "question_id": "sports_events_9",
+    "answer": "SELECT r.event_schedule->>'event_name' AS event_name, d.driver_identity->>'reference' AS driver_ref, (9 - (sr.sprint_performance->>'final_position')::int) + (sr.sprint_performance->>'points')::numeric AS sprint_performance_index FROM sprint_results sr JOIN races r ON r.rak_id = sr.matchref JOIN drivers d ON d.drv_main = sr.unitdrive WHERE sr.sprint_performance->>'final_position' IS NOT NULL ORDER BY sprint_performance_index DESC"
+  },
+  {
+    "question_id": "sports_events_1",
+    "answer": "SELECT AVG(FLOOR((to_date(r.event_schedule->>'date_set', 'YYYY/MM/DD') - (d.driver_identity->>'birth_date')::date) / 365.25)) AS avg_age FROM sprint_results sr JOIN races r ON r.rak_id = sr.matchref JOIN drivers d ON d.drv_main = sr.unitdrive WHERE (sr.sprint_performance->>'final_position')::int = 1"
+  },
+  {
+    "question_id": "sports_events_12",
+    "answer": "SELECT ROUND(AVG(spi), 2) AS avg_spi FROM (SELECT (9 - (sr.sprint_performance->>'final_position')::int) + (sr.sprint_performance->>'points')::numeric AS spi FROM sprint_results sr WHERE (sr.sprint_performance->>'final_position')::int BETWEEN 1 AND 8) t"
+  },
+  {
+    "question_id": "sports_events_10",
+    "answer": "WITH q AS (SELECT rbind, qualkey, LEAST(NULLIF(split_part(q1_r, ':', 1), '')::numeric * 60 + split_part(q1_r, ':', 2)::numeric, NULLIF(split_part(q2_r, ':', 1), '')::numeric * 60 + split_part(q2_r, ':', 2)::numeric, NULLIF(split_part(q3_r, ':', 1), '')::numeric * 60 + split_part(q3_r, ':', 2)::numeric) AS best FROM qualifying), p AS (SELECT rbind, MIN(best) AS pole_time FROM q GROUP BY rbind), s AS (SELECT q.rbind, 100.0 * COUNT(*) FILTER (WHERE q.best - p.pole_time < 0.2) / COUNT(*) AS pct FROM q JOIN p ON p.rbind = q.rbind GROUP BY q.rbind) SELECT ROUND(AVG(pct), 2) AS avg_pct_qualifying_specialists FROM s"
+  },
+  {
+    "question_id": "sports_events_4",
+    "answer": "SELECT COUNT(*) AS dominant_victory_count FROM (SELECT sr.matchref, MAX(CASE WHEN (sr.sprint_performance->>'final_position')::int = 1 THEN (sr.sprint_performance->'timing'->>'duration_ms')::numeric END) AS winner_ms, MAX(CASE WHEN (sr.sprint_performance->>'final_position')::int = 2 THEN (sr.sprint_performance->'timing'->>'duration_ms')::numeric END) AS second_ms FROM sprint_results sr WHERE (sr.sprint_performance->>'final_position')::int IN (1, 2) GROUP BY sr.matchref) t WHERE (second_ms - winner_ms) / 1000.0 > 5"
+  }
+]

@@ -1,0 +1,176 @@
+{
+  "ccmVersion": "0.1",
+  "id": "presidents",
+  "name": "Presidents and hobbies",
+
+  "_comment": [
+    "The report's own running example, so it can be checked against the source.",
+    "Query: 'A president who has a hobby WHICH ARE ALL IN hobby of president: \"Clinton\"'",
+    "  -- Proper, ConQuer-92, section 6.2, the underlined-subset operator.",
+    "Demonstrates: enter/exit steps with an explicit fact-instance node (G1); setCompare as a",
+    "first-class condition rather than a negation encoding (G4); correlation by Unification",
+    "across nesting levels; and invariant 7.1.1 -- the denotation president:\"Clinton\" is",
+    "expanded into real reference-scheme steps rather than left as an abbreviation.",
+    "The mapping absorbs both name fact types into the entity tables, so those extra steps",
+    "cost zero joins (binding-sql92.md section 3)."
+  ],
+
+  "concepts": [
+    { "id": "vt.PresidentName", "name": "PresidentName", "kind": "value",
+      "dataType": { "name": "varchar", "length": 64 } },
+    { "id": "vt.HobbyName", "name": "HobbyName", "kind": "value",
+      "dataType": { "name": "varchar", "length": 64 } },
+
+    { "id": "et.President", "name": "President", "kind": "entity",
+      "referenceMode": "name", "identifier": ["r.pn.president"] },
+    { "id": "et.Hobby", "name": "Hobby", "kind": "entity",
+      "referenceMode": "name", "identifier": ["r.hn.hobby"] },
+
+    { "id": "ft.PresidentHasName", "name": "PresidentHasName", "kind": "fact",
+      "roles": [
+        { "id": "r.pn.president", "player": "et.President", "ordinal": 0, "isMandatory": true },
+        { "id": "r.pn.name", "player": "vt.PresidentName", "ordinal": 1, "isMandatory": true }
+      ],
+      "readings": [
+        { "id": "rd.pn", "text": "{0} has {1}", "roleSequence": ["r.pn.president", "r.pn.name"] }
+      ] },
+
+    { "id": "ft.HobbyHasName", "name": "HobbyHasName", "kind": "fact",
+      "roles": [
+        { "id": "r.hn.hobby", "player": "et.Hobby", "ordinal": 0, "isMandatory": true },
+        { "id": "r.hn.name", "player": "vt.HobbyName", "ordinal": 1, "isMandatory": true }
+      ],
+      "readings": [
+        { "id": "rd.hn", "text": "{0} has {1}", "roleSequence": ["r.hn.hobby", "r.hn.name"] }
+      ] },
+
+    { "id": "ft.PresidentHasHobby", "name": "PresidentHasHobby", "kind": "fact",
+      "roles": [
+        { "id": "r.ph.president", "player": "et.President", "ordinal": 0 },
+        { "id": "r.ph.hobby", "player": "et.Hobby", "ordinal": 1 }
+      ],
+      "readings": [
+        { "id": "rd.ph", "text": "{0} has {1}", "roleSequence": ["r.ph.president", "r.ph.hobby"] },
+        { "id": "rd.ph2", "text": "{0} is a hobby of {1}", "roleSequence": ["r.ph.hobby", "r.ph.president"] }
+      ] }
+  ],
+
+  "constraints": [
+    { "id": "uc.pn", "kind": "uniqueness", "isPreferredIdentifier": true,
+      "roleSequences": [["r.pn.president"]] },
+    { "id": "uc.pn.inv", "kind": "uniqueness", "roleSequences": [["r.pn.name"]] },
+    { "id": "uc.hn", "kind": "uniqueness", "isPreferredIdentifier": true,
+      "roleSequences": [["r.hn.hobby"]] },
+    { "id": "uc.hn.inv", "kind": "uniqueness", "roleSequences": [["r.hn.name"]] },
+    { "id": "uc.ph", "kind": "uniqueness", "roleSequences": [["r.ph.president", "r.ph.hobby"]] }
+  ],
+
+  "queries": [
+    {
+      "id": "q.hobbiesAllInClintons",
+      "name": "PresidentsWhoseHobbiesAreAllClintons",
+      "body": {
+        "nodeType": "block",
+        "id": "b.main",
+        "nodes": [
+          { "id": "n.p",  "concept": "et.President", "name": "president" },
+          { "id": "n.f",  "concept": "ft.PresidentHasHobby" },
+          { "id": "n.h",  "concept": "et.Hobby", "name": "hobby" }
+        ],
+        "steps": [
+          { "id": "s.1", "kind": "enter", "role": "r.ph.president", "from": "n.p", "to": "n.f" },
+          { "id": "s.2", "kind": "exit",  "role": "r.ph.hobby",     "from": "n.f", "to": "n.h" }
+        ],
+        "conditions": [
+          {
+            "kind": "setCompare",
+            "op": "subset",
+            "left": {
+              "node": "n.lh",
+              "block": {
+                "nodeType": "block",
+                "id": "b.left",
+                "nodes": [
+                  { "id": "n.lp", "concept": "et.President" },
+                  { "id": "n.lf", "concept": "ft.PresidentHasHobby" },
+                  { "id": "n.lh", "concept": "et.Hobby" }
+                ],
+                "steps": [
+                  { "id": "s.l1", "kind": "enter", "role": "r.ph.president", "from": "n.lp", "to": "n.lf" },
+                  { "id": "s.l2", "kind": "exit",  "role": "r.ph.hobby",     "from": "n.lf", "to": "n.lh" }
+                ],
+                "unifications": [
+                  { "id": "u.correlate", "nodes": ["n.lp", "n.p"] }
+                ]
+              }
+            },
+            "right": {
+              "node": "n.rh",
+              "block": {
+                "nodeType": "block",
+                "id": "b.right",
+                "nodes": [
+                  { "id": "n.rp",   "concept": "et.President" },
+                  { "id": "n.rf",   "concept": "ft.PresidentHasHobby" },
+                  { "id": "n.rh",   "concept": "et.Hobby" },
+                  { "id": "n.rnf",  "concept": "ft.PresidentHasName" },
+                  { "id": "n.rnm",  "concept": "vt.PresidentName" }
+                ],
+                "steps": [
+                  { "id": "s.r1", "kind": "enter", "role": "r.ph.president", "from": "n.rp",  "to": "n.rf" },
+                  { "id": "s.r2", "kind": "exit",  "role": "r.ph.hobby",     "from": "n.rf",  "to": "n.rh" },
+                  { "id": "s.r3", "kind": "enter", "role": "r.pn.president", "from": "n.rp",  "to": "n.rnf" },
+                  { "id": "s.r4", "kind": "exit",  "role": "r.pn.name",      "from": "n.rnf", "to": "n.rnm" }
+                ],
+                "conditions": [
+                  { "kind": "compare", "op": "=",
+                    "left":  { "kind": "node", "node": "n.rnm" },
+                    "right": { "kind": "constant", "dataType": { "name": "varchar", "length": 64 },
+                               "lexical": "Clinton" } }
+                ]
+              }
+            }
+          }
+        ],
+        "projections": [
+          { "id": "pj.president", "name": "president", "source": { "kind": "node", "node": "n.p" } },
+          { "id": "pj.hobby",     "name": "hobby",     "source": { "kind": "node", "node": "n.h" } }
+        ]
+      }
+    }
+  ],
+
+  "mapping": {
+    "tables": [
+      { "id": "t.PRESIDENT", "name": "PRESIDENT" },
+      { "id": "t.HOBBY", "name": "HOBBY" },
+      { "id": "t.PRESIDENT_HOBBY", "name": "PRESIDENT_HOBBY" }
+    ],
+    "columns": [
+      { "id": "c.P.NAME",   "table": "t.PRESIDENT", "name": "PRESIDENT_NAME",
+        "dataType": { "name": "varchar", "length": 64 }, "nullable": false },
+      { "id": "c.H.NAME",   "table": "t.HOBBY", "name": "HOBBY_NAME",
+        "dataType": { "name": "varchar", "length": 64 }, "nullable": false },
+      { "id": "c.PH.PNAME", "table": "t.PRESIDENT_HOBBY", "name": "PRESIDENT_NAME",
+        "dataType": { "name": "varchar", "length": 64 }, "nullable": false },
+      { "id": "c.PH.HNAME", "table": "t.PRESIDENT_HOBBY", "name": "HOBBY_NAME",
+        "dataType": { "name": "varchar", "length": 64 }, "nullable": false }
+    ],
+    "conceptMap": [
+      { "concept": "et.President", "table": "t.PRESIDENT", "identifyingColumns": ["c.P.NAME"] },
+      { "concept": "et.Hobby", "table": "t.HOBBY", "identifyingColumns": ["c.H.NAME"] },
+      { "concept": "ft.PresidentHasName", "table": "t.PRESIDENT", "identifyingColumns": ["c.P.NAME"] },
+      { "concept": "ft.HobbyHasName", "table": "t.HOBBY", "identifyingColumns": ["c.H.NAME"] },
+      { "concept": "ft.PresidentHasHobby", "table": "t.PRESIDENT_HOBBY",
+        "identifyingColumns": ["c.PH.PNAME", "c.PH.HNAME"] }
+    ],
+    "roleMap": [
+      { "role": "r.pn.president", "table": "t.PRESIDENT", "columns": ["c.P.NAME"] },
+      { "role": "r.pn.name",      "table": "t.PRESIDENT", "columns": ["c.P.NAME"] },
+      { "role": "r.hn.hobby",     "table": "t.HOBBY", "columns": ["c.H.NAME"] },
+      { "role": "r.hn.name",      "table": "t.HOBBY", "columns": ["c.H.NAME"] },
+      { "role": "r.ph.president", "table": "t.PRESIDENT_HOBBY", "columns": ["c.PH.PNAME"] },
+      { "role": "r.ph.hobby",     "table": "t.PRESIDENT_HOBBY", "columns": ["c.PH.HNAME"] }
+    ]
+  }
+}

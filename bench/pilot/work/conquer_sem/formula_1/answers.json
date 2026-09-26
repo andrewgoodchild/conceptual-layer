@@ -1,0 +1,68 @@
+[
+ {
+  "question_id": 930,
+  "answer": "LIST rn FROM Driver [has DriverForename: 'Lewis'] [has DriverSurname: 'Hamilton'] is of Result [has ResultRank rk] has Race has RaceName rn ORDERED WITH rk ASCENDING THE FIRST 1",
+  "attempts": 3
+ },
+ {
+  "question_id": 1011,
+  "answer": "LIST f, s FROM LapTime has LapTimeMilliseconds m AND ALSO has Driver has DriverForename f AND ALSO has Driver has DriverSurname s ORDERED WITH m ASCENDING THE FIRST 1",
+  "attempts": 3,
+  "note": "'top 20' in the question does not map to anything in the model for LapTime or Driver (no rank/standing of drivers by count is meaningful here); treated it as noise and returned the driver holding the single shortest recorded lap time."
+ },
+ {
+  "question_id": 909,
+  "answer": "LIST THE COUNT OF EuropeanGrandPrixRace [has Circuit has CircuitCountry: 'Germany'] * 100.0 / THE COUNT OF EuropeanGrandPrixRace",
+  "attempts": 1
+ },
+ {
+  "question_id": 892,
+  "answer": "LIST f, s, p FROM Result has ResultPoints p AND ALSO has Driver has DriverForename f AND ALSO has Driver has DriverSurname s ORDERED WITH p DESCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 854,
+  "answer": "LIST la, lo FROM DISTINCT AustralianGrandPrixCircuit has CircuitLat la AND ALSO has CircuitLng lo",
+  "attempts": 2
+ },
+ {
+  "question_id": 898,
+  "answer": "LIST f, s, a FROM JapaneseDriver has Age a AND ALSO has DriverForename f AND ALSO has DriverSurname s ORDERED WITH a ASCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 877,
+  "answer": "LIST f, s FROM FinishedResult [has Race: '872'] has Driver has DriverForename f AND ALSO has Driver has DriverSurname s AND ALSO has Driver has DriverDob b ORDERED WITH b DESCENDING THE FIRST 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 906,
+  "answer": "LIST rn, p FROM Driver [has DriverForename: 'Lewis'] [has DriverSurname: 'Hamilton'] is of Result [has ResultPoints p] has Race [has RaceDate d] has RaceName rn ORDERED WITH d ASCENDING THE FIRST 1",
+  "attempts": 3
+ },
+ {
+  "question_id": 988,
+  "answer": "LIST f, s, a FROM BornBetween1980And1985Driver dr [has DriverNationality: 'German'] has DriverForename f AND ALSO has DriverSurname s AND ALSO THE AVERAGE pd IN dr is of PitStop has PitStopDuration pd GROUPED BY dr AS a ORDERED WITH a ASCENDING THE FIRST 3",
+  "attempts": 1
+ },
+ {
+  "question_id": 881,
+  "answer": "LIST THE COUNT OF FinishedResult [has Race has RaceDate: '1983-07-16'] * 100.0 / THE COUNT OF Result [has Race has RaceDate: '1983-07-16']",
+  "attempts": 1
+ },
+ {
+  "question_id": 977,
+  "answer": "THE COUNT OF DisqualifiedResult [has Race has RaceId r] WHERE r >= 50 AND r <= 100",
+  "attempts": 1
+ },
+ {
+  "question_id": 915,
+  "answer": "LIST nat FROM Driver has DriverNationality nat AND ALSO has DriverDob b ORDERED WITH b ASCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 868,
+  "answer": "LIST la, lo FROM DISTINCT MalaysianGrandPrixRace has Circuit has CircuitLat la AND ALSO has Circuit has CircuitLng lo",
+  "attempts": 2
+ }
+]

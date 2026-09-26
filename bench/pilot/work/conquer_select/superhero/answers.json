@@ -1,0 +1,72 @@
+[
+ {
+  "question_id": 739,
+  "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has Superpower has SuperpowerPowerName: 'Death Touch'",
+  "attempts": 2,
+  "chosen": 1,
+  "reason": "All three candidates agree: 7 names (Black Flash, Blackwulf, Hela, Living Tribunal, One-Above-All, Poison Ivy, Spectre). Candidates 2/3 add a redundant filter bracket around the same terminal denotation; semantics and result are identical. Projects just the name, no extra ordering, matches evidence (SuperheroName, SuperpowerPowerName = 'Death Touch')."
+ },
+ {
+  "question_id": 785,
+  "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has Alignment has AlignmentAlignment: 'Neutral'",
+  "attempts": 2,
+  "chosen": 1,
+  "reason": "All three candidates agree: same 28 names. Candidates 2/3's bracket form is equivalent. Projects only the name as asked, uses AlignmentAlignment = 'Neutral' per evidence, no unwanted ordering."
+ },
+ {
+  "question_id": 794,
+  "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has HeroAttribute [has Attribute has AttributeName: 'Speed'] has HeroAttributeAttributeValue v ORDERED WITH v DESCENDING THE FIRST 1",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree on the single result 'Air-Walker', each ordering by the Speed attribute value descending and taking THE FIRST 1, matching evidence's MAX(attribute_value) WHERE attribute_name='Speed'. Candidate 1's single-level filter bracket is the cleanest equivalent form; candidate 2 reaches Superhero via 'is of' from HeroAttribute (same result), candidate 3 double-nests the bracket unnecessarily."
+ },
+ {
+  "question_id": 796,
+  "answer": "LIST an, v FROM HeroAttribute [is of Superhero has SuperheroName: '3-D Man'] has Attribute has AttributeName an AND ALSO has HeroAttributeAttributeValue v",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "Candidates 1 and 2 both cleanly return 6 rows (Intelligence 80, Strength 35, Speed 45, Durability 45, Power 45, Combat 45) with well-formed normalised queries and glosses. Candidate 3's continuation 'AND ALSO ha has HeroAttributeAttributeValue v' off a mid-path variable produced a truncated gloss ('...and also ha has') and a normalised query that dropped the value clause entirely, even though the displayed rows happened to match -- too fragile to trust. Chose candidate 1, which filters HeroAttribute by 3-D Man via 'is of' and branches cleanly to attribute name and value from the head."
+ },
+ {
+  "question_id": 788,
+  "answer": "THE COUNT OF Superhero [has Publisher has PublisherName: 'Marvel Comics'] [has Gender has GenderGender: 'Female'] * 100 / THE COUNT OF Superhero [has Publisher has PublisherName: 'Marvel Comics']",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree: 28.68217054263566. Matches evidence formula exactly: COUNT(Marvel AND Female)/COUNT(Marvel)*100, i.e. what fraction of Marvel-published heroes are female. Candidates 2/3 just add redundant nested brackets or a 100.0 literal; no effect on result given ConQuer's real division."
+ },
+ {
+  "question_id": 737,
+  "answer": "LIST r FROM Superhero [has SuperheroName: 'Copycat'] has Race has RaceRace r",
+  "attempts": 1,
+  "chosen": 1,
+  "reason": "All three candidates are byte-for-byte identical. Returns Copycat's race, 'Mutant'. Exactly what the question asks for."
+ },
+ {
+  "question_id": 824,
+  "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has Superpower has SuperpowerPowerName: 'Wind Control' ORDERED WITH n ASCENDING",
+  "attempts": 2,
+  "chosen": 1,
+  "reason": "All three candidates agree: Crystal, Red Tornado, Tempest, ordered ascending as the question requires. Candidates 2/3's bracket form is equivalent."
+ },
+ {
+  "question_id": 765,
+  "answer": "THE COUNT OF Superhero [has Superpower has SuperpowerPowerName: 'Stealth']",
+  "attempts": 2,
+  "chosen": 1,
+  "reason": "All three candidates agree: count = 127. Candidates 2/3's extra nested bracket makes no difference. HeroPower is a hero-power junction with one row per pair, so THE COUNT OF here equals the number of distinct heroes with the Stealth power, matching the question's 'how many heroes'."
+ },
+ {
+  "question_id": 775,
+  "answer": "THE COUNT OF Superhero [has Gender has GenderGender: 'Female'] [has skin Colour has ColourColour: 'Blue'] * 100 / THE COUNT OF Superhero [has Gender has GenderGender: 'Female']",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree: 2.4630541871921183. All correctly use 'skin Colour' per the evidence's skin_colour_id join, and compute COUNT(Female AND blue-skinned)/COUNT(Female)*100. Candidates 2/3 only differ in redundant bracket nesting or a 100.0 literal, no effect on the result."
+ },
+ {
+  "question_id": 753,
+  "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has SuperheroHeightCm h AND ALSO has eye Colour has ColourColour: 'No Colour' WHERE h >= 170 AND h <= 190",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree: same 15 names (Chuck Norris, Destroyer, Flash III, Goku, ... Two-Face). Correctly uses 'eye Colour' (not skin/hair) per evidence, height filter BETWEEN 170 and 190 inclusive, and projects only the name. Candidates 2/3 reorder the branches or add a redundant bracket, no effect on result."
+ }
+]

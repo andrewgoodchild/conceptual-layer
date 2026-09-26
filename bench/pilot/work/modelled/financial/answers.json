@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 137,
+  "answer": "SELECT COUNT(*) FROM loan l JOIN account a ON l.account_id = a.account_id WHERE a.district_id = 1 AND l.status IN ('C','D');",
+  "attempts": 1
+ },
+ {
+  "question_id": 173,
+  "answer": "SELECT DISTINCT a.frequency AS how_often, t.k_symbol AS aim FROM account a JOIN trans t ON t.account_id = a.account_id WHERE a.account_id = 3 AND t.amount = 3539;",
+  "attempts": 2
+ },
+ {
+  "question_id": 92,
+  "answer": "SELECT COUNT(*) FROM district WHERE A11 > 6000 AND A11 < 10000;",
+  "attempts": 1
+ },
+ {
+  "question_id": 189,
+  "answer": "SELECT t3.account_id FROM client t1 JOIN disp t2 ON t1.client_id = t2.client_id JOIN account t3 ON t2.account_id = t3.account_id JOIN district t4 ON t1.district_id = t4.district_id WHERE t1.gender = 'F' ORDER BY t1.birth_date ASC, t4.A11 ASC LIMIT 1;",
+  "attempts": 1
+ },
+ {
+  "question_id": 128,
+  "answer": "SELECT d.A2 FROM client c JOIN district d ON c.district_id = d.district_id WHERE c.gender = 'F' GROUP BY d.A2 ORDER BY COUNT(*) DESC LIMIT 9;",
+  "attempts": 1
+ },
+ {
+  "question_id": 89,
+  "answer": "SELECT COUNT(*) FROM account a JOIN district d ON a.district_id = d.district_id WHERE a.frequency = 'POPLATEK PO OBRATU' AND d.A3 = 'east Bohemia';",
+  "attempts": 1
+ }
+]

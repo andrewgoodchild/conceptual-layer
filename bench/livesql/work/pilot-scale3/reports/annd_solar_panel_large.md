@@ -1,0 +1,5 @@
+All ten answers written and run; Q17, Q12, Q5 and Q15 carry notes on the reading chosen.
+
+Hardest: Q17 mean repair cost for assets offline over 5% (no SQL in the knowledge base for Mean Repair Cost; total time taken as snapts - goliveon; returns NULL since unavailability tops out at 0.040); Q15 lifetime revenue loss (the per-snapshot degradation rate against the panel model's rated rate; the writer used panel_models.degyrrate); Q5 and Q12 return 0 by construction (availability never below 0.96, soiling never above 14.99%); Q10 order of filtering and latest-snapshot.
+
+What mattered: ready-made SQL for Effective Power Output, Voltage Degradation Factor, Electrical Integrity Failure and Warranty Claim Risk, and the JSON paths; plants.modhook as the one-per-plant route to panel models; advance warning that several answers would be empty. Missing: SQL for Mean Repair Cost and Lifetime Revenue Loss. Traps: snapshot keys stored upper-case while a question uses lower-case; 'nan' in ./try output for real NULLs.

@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 1115,
+  "answer": "((THE MAXIMUM r IN Player [has PlayerName: 'Landon Donovan'] is api of PlayerAttribute [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r) - (THE MAXIMUM r IN Player [has PlayerName: 'Jordan Bowery'] is api of PlayerAttribute [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r)) * 100 / (THE MAXIMUM r IN Player [has PlayerName: 'Landon Donovan'] is api of PlayerAttribute [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r)",
+  "attempts": 6
+ },
+ {
+  "question_id": 1134,
+  "answer": "(THE MAXIMUM j IN PlayerAttribute [has PlayerAttributeId: '6'] has PlayerAttributeJumping j) - (THE MAXIMUM j IN PlayerAttribute [has PlayerAttributeId: '23'] has PlayerAttributeJumping j)",
+  "attempts": 3
+ },
+ {
+  "question_id": 1135,
+  "answer": "LIST p FROM PlayerAttribute [has PlayerAttributePreferredFoot: 'right'] has PlayerAttributePotential pot AND ALSO has api Player has PlayerApiId p ORDERED WITH pot ASCENDING THE FIRST 4",
+  "attempts": 2
+ },
+ {
+  "question_id": 1124,
+  "answer": "LIST n FROM DISTINCT Player has PlayerName n AND ALSO is api of PlayerAttribute [has PlayerAttributeAttackingWorkRate: 'high']",
+  "attempts": 2
+ },
+ {
+  "question_id": 1107,
+  "answer": "LIST d FROM Player [has PlayerName: 'Kevin Constant'] is api of PlayerAttribute [has PlayerAttributeCrossing c] has PlayerAttributeDate d WHERE c = THE MAXIMUM Player [has PlayerName: 'Kevin Constant'] is api of PlayerAttribute has PlayerAttributeCrossing ORDERED WITH d ASCENDING THE FIRST 1",
+  "attempts": 3
+ },
+ {
+  "question_id": 1094,
+  "answer": "((THE MAXIMUM r IN Player [has PlayerName: 'Ariel Borysiuk'] is api of PlayerAttribute [has PlayerAttributeDate d] has PlayerAttributeOverallRating r WHERE d = THE MAXIMUM Player [has PlayerName: 'Ariel Borysiuk'] is api of PlayerAttribute has PlayerAttributeDate) - (THE MAXIMUM r IN Player [has PlayerName: 'Paulin Puel'] is api of PlayerAttribute [has PlayerAttributeDate d] has PlayerAttributeOverallRating r WHERE d = THE MAXIMUM Player [has PlayerName: 'Paulin Puel'] is api of PlayerAttribute has PlayerAttributeDate)) * 100 / (THE MAXIMUM r IN Player [has PlayerName: 'Paulin Puel'] is api of PlayerAttribute [has PlayerAttributeDate d] has PlayerAttributeOverallRating r WHERE d = THE MAXIMUM Player [has PlayerName: 'Paulin Puel'] is api of PlayerAttribute has PlayerAttributeDate)",
+  "attempts": 5
+ },
+ {
+  "question_id": 1110,
+  "answer": "LIST c FROM Team [has TeamLongName: 'FC Lorient'] is api of TeamAttribute [has TeamAttributeDate: '2010-02-22 00:00:00'] has TeamAttributeBuildUpPlayPassingClass c",
+  "attempts": 3
+ },
+ {
+  "question_id": 1130,
+  "answer": "LIST s FROM DISTINCT Team has TeamShortName s AND ALSO is api of TeamAttribute [has TeamAttributeChanceCreationPassingClass: 'Safe']",
+  "attempts": 1
+ },
+ {
+  "question_id": 1116,
+  "answer": "LIST n FROM DISTINCT Player has PlayerName n AND ALSO has PlayerHeight h WHERE h = THE MAXIMUM Player has PlayerHeight",
+  "attempts": 1
+ },
+ {
+  "question_id": 1044,
+  "answer": "LIST n FROM Player has PlayerName n AND ALSO has PlayerBirthday b WHERE year(b) = 1970 AND month(b) = 10",
+  "attempts": 1
+ }
+]

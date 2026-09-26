@@ -1,0 +1,191 @@
+{
+ "database": "debit_card_specializing",
+ "tables": [
+  "customers",
+  "gasstations",
+  "products",
+  "transactions_1k",
+  "yearmonth"
+ ],
+ "candidates": [
+  {
+   "id": "gasstations.ChainID -> products.ProductID",
+   "source_table": "gasstations",
+   "source_column": "ChainID",
+   "target_table": "products",
+   "target_key": "ProductID",
+   "source_rows": 5716,
+   "source_distinct": 233,
+   "target_rows": 591,
+   "score": 2.82,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "13",
+    "6",
+    "23",
+    "33",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "transactions_1k.CustomerID -> customers.CustomerID",
+   "source_table": "transactions_1k",
+   "source_column": "CustomerID",
+   "target_table": "customers",
+   "target_key": "CustomerID",
+   "source_rows": 1000,
+   "source_distinct": 517,
+   "target_rows": 32461,
+   "score": 3.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "31543",
+    "46707",
+    "7654",
+    "17373",
+    "7881"
+   ],
+   "target_samples": [
+    "3",
+    "5",
+    "6",
+    "7",
+    "9"
+   ]
+  },
+  {
+   "id": "transactions_1k.GasStationID -> gasstations.GasStationID",
+   "source_table": "transactions_1k",
+   "source_column": "GasStationID",
+   "target_table": "gasstations",
+   "target_key": "GasStationID",
+   "source_rows": 1000,
+   "source_distinct": 437,
+   "target_rows": 5716,
+   "score": 3.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3704",
+    "656",
+    "741",
+    "1152",
+    "636"
+   ],
+   "target_samples": [
+    "44",
+    "45",
+    "46",
+    "47",
+    "48"
+   ]
+  },
+  {
+   "id": "transactions_1k.ProductID -> products.ProductID",
+   "source_table": "transactions_1k",
+   "source_column": "ProductID",
+   "target_table": "products",
+   "target_key": "ProductID",
+   "source_rows": 1000,
+   "source_distinct": 28,
+   "target_rows": 591,
+   "score": 2.15,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "23",
+    "5",
+    "11",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "yearmonth.CustomerID -> customers.CustomerID",
+   "source_table": "yearmonth",
+   "source_column": "CustomerID",
+   "target_table": "customers",
+   "target_key": "CustomerID",
+   "source_rows": 383282,
+   "source_distinct": 30566,
+   "target_rows": 32461,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "39",
+    "63",
+    "172",
+    "603",
+    "1492"
+   ],
+   "target_samples": [
+    "3",
+    "5",
+    "6",
+    "7",
+    "9"
+   ]
+  },
+  {
+   "id": "products.ProductID -> transactions_1k.TransactionID",
+   "source_table": "products",
+   "source_column": "ProductID",
+   "target_table": "transactions_1k",
+   "target_key": "TransactionID",
+   "source_rows": 591,
+   "source_distinct": 591,
+   "target_rows": 1000,
+   "score": 2.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

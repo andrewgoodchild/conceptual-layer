@@ -1,0 +1,13 @@
+[
+ {"question_id": 422, "answer": "LIST lang FROM ForeignData [has ForeignDataMultiverseid: 149934] has ForeignDataLanguage lang", "attempts": 1},
+ {"question_id": 346, "answer": "LIST id, a FROM Card [has CardPower: '*'] has CardId id AND ALSO has CardArtist a AND ALSO is of Legality [has LegalityFormat: 'commander'] [has LegalityStatus: 'Legal']", "attempts": 1},
+ {"question_id": 473, "answer": "LIST f FROM DISTINCT Set has SetCode code AND ALSO has SetIsForeignOnly f WHERE SOME Card [has CardName: 'Adarkar Valkyrie'] [has CardSetCode: !code]", "attempts": 3},
+ {"question_id": 424, "answer": "LIST THE COUNT OF Card [has CardLayout: 'normal'] BUT NOT has CardText * 100 / THE COUNT OF Card [has CardLayout: 'normal']", "attempts": 1},
+ {"question_id": 344, "answer": "LIST n FROM Card [has CardRarity: 'mythic'] has CardName n AND ALSO is of Legality [has LegalityFormat: 'gladiator'] [has LegalityStatus: 'Banned']", "attempts": 1},
+ {"question_id": 377, "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes s] WHERE s <> 'Angel'", "attempts": 1},
+ {"question_id": 352, "answer": "LIST THE DISTINCT COUNT OF u IN ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] has Card has CardUuid u * 100 / THE COUNT OF Card", "attempts": 2},
+ {"question_id": 518, "answer": "LIST fmt, n FROM Legality [has LegalityFormat: 'legacy'] [has LegalityStatus: 'Banned'] has LegalityFormat fmt AND ALSO has Card has CardName n", "attempts": 2},
+ {"question_id": 416, "answer": "LIST (THE DISTINCT COUNT OF u IN ForeignData [has ForeignDataLanguage: 'French'] has Card has CardUuid u WHERE NOT SOME Card [has CardUuid: !u] has CardPower) * 100 / THE COUNT OF Card BUT NOT has CardPower", "attempts": 2},
+ {"question_id": 349, "answer": "LIST n, a, promo FROM Card has CardId id AND ALSO has CardName n AND ALSO has CardArtist a AND ALSO OPTIONALLY has CardIsPromo promo AND ALSO THE COUNT OF r IN Card is of Ruling r GROUPED BY id AS c ORDERED WITH c DESCENDING THE FIRST 1", "attempts": 3},
+ {"question_id": 462, "answer": "LIST t FROM SetTranslation [has SetTranslationLanguage: 'Italian'] has SetTranslationTranslation t AND ALSO has Set has SetCode code WHERE SOME Card [has CardName: \"Ancestor's Chosen\"] [has CardSetCode: !code]", "attempts": 2}
+]

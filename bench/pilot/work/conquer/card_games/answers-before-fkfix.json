@@ -1,0 +1,64 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST lang FROM ForeignData [has ForeignDataMultiverseid: 149934] has ForeignDataLanguage lang",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": null,
+  "attempts": 6,
+  "note": "Needs Card AND ALSO is of Legality [has LegalityFormat: 'commander'] has LegalityStatus: 'Legal', restricted to cards with unknown power (power = '*' OR power absent). Two separate problems block this: (1) the LegalityHasUu fact type's join is broken in this model/database -- 'THE COUNT OF Legality [has Card has CardId]' (a forced real join, not the lazy not-null shortcut) returns 0 out of 427907 Legality rows, i.e. Card and Legality never actually join on this data (looks like the model wired the join to cards.id instead of cards.uuid, which is what card_games' legalities.uuid really references). Same problem hits ForeignData and Ruling. (2) Independently, the 'power is null or power = star' condition needs BUT NOT ... OR OTHERWISE, and this compiler cannot combine that union with more than one other AND ALSO branch: it either fails to compile ('cannot compile: node n10 has no anchor') or, when it does compile, the OR OTHERWISE branch is scoped to the whole query rather than ANDed with the other conditions, giving wrong (too broad) results. Verified both failure modes directly with ./try. No query I could construct is both correct and executes non-empty rows."
+ },
+ {
+  "question_id": 473,
+  "answer": null,
+  "attempts": 2,
+  "note": "Needs Card's Set (to read SetIsForeignOnly), but there is no fact type linking Card to Set in this schema -- only CardSetCode (a Card value type) and SetCode (a separate Set value type) exist, with no reading between them. Confirmed: 'has'/'is of' from Card is ambiguous among the listed Card fact types and none reaches Set (compiler's own ambiguity message). The model has no path from Card to Set."
+ },
+ {
+  "question_id": 424,
+  "answer": "THE COUNT OF Card [has CardIsTextless: 1] [has CardLayout: 'normal'] * 100 / THE COUNT OF Card has CardIsTextless",
+  "attempts": 3
+ },
+ {
+  "question_id": 344,
+  "answer": null,
+  "attempts": 4,
+  "note": "Needs Card [has CardRarity: 'mythic'] AND is of Legality [has LegalityFormat: 'gladiator'] has LegalityStatus: 'Banned'. The query compiles fine (verified with --sql-only, correct-looking SQL: EXISTS (... legalities WHERE legali2.uuid = cards1.id AND status='Banned' AND format='gladiator')) but executes to 0 rows, because the Legality<->Card join never matches on this database (see question 346's note -- confirmed independently with 'THE COUNT OF Legality [has Card has CardId]' = 0 of 427907). This is a broken fact-type join in the model, not a phrasing problem."
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes s] WHERE s <> 'Angel'",
+  "attempts": 1
+ },
+ {
+  "question_id": 352,
+  "answer": "THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF ForeignData",
+  "attempts": 1
+ },
+ {
+  "question_id": 518,
+  "answer": null,
+  "attempts": 5,
+  "note": "Two-part question: which format has the most Banned legalities, and the names of the cards banned in it. The first part is answerable and was verified: 'LIST fmt, c FROM Legality l [has LegalityStatus: 'Banned'] has LegalityFormat fmt AND ALSO THE COUNT OF l GROUPED BY fmt AS c ORDERED WITH c DESCENDING THE FIRST 1' returns fmt='legacy', c=546 (this query stays entirely within the Legality table, so it is unaffected by the broken join). The second part needs those Legality rows' Card names, which requires the Legality->Card join that is confirmed broken in this model (see question 346's note; 'THE COUNT OF Legality [has Card has CardId]' = 0 of 427907 rows). Since the question wants both the format and the card names as one answer, and the card-name half cannot be produced, I could not give a single correct query for the whole question."
+ },
+ {
+  "question_id": 416,
+  "answer": null,
+  "attempts": 5,
+  "note": "Needs, for cards with unknown power (power IS NULL OR power = '*'), what fraction have a ForeignData row with language='French'. This requires the Card<->ForeignData join (ForeignDataHasUu), which is confirmed broken in this model/database: 'THE COUNT OF ForeignData [has Card has CardId]' (a forced real join) returns 0 of the ForeignData rows -- Card and ForeignData never actually match on this data (same underlying issue as Legality in question 346, apparently cards.id vs cards.uuid). Even setting that aside, the null-or-star power condition needed BUT NOT/OR OTHERWISE combined with the cross-table filter, which independently hit the same union-scoping problems described in question 346's note. No correct, non-empty query was achievable."
+ },
+ {
+  "question_id": 349,
+  "answer": null,
+  "attempts": 4,
+  "note": "Needs, for each Card, THE COUNT OF its Ruling rows (to find the card with the most ruling information), plus that card's artist and whether it is promotional. This requires the Card<->Ruling join (RulingHasUu), which is confirmed broken in this model/database exactly like Legality and ForeignData: 'THE COUNT OF Ruling [has Card has CardId]' (a forced real join) returns 0 of 427907-scale Ruling rows -- Card and Ruling never actually match on this data. No query using this fact type can return correct (non-empty) results."
+ },
+ {
+  "question_id": 462,
+  "answer": null,
+  "attempts": 2,
+  "note": "Needs the Set that 'Ancestor's Chosen' is in, then that Set's Italian SetTranslation. Same problem as question 473: there is no fact type linking Card to Set in this schema (only the separate value types CardSetCode and SetCode, with no reading between them), so there is no way to get from a Card to its Set at all, even though Set->SetTranslation itself is a fine, working path."
+ }
+]

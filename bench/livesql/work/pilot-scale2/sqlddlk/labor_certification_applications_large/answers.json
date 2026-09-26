@@ -1,0 +1,43 @@
+[
+ {
+  "question_id": "labor_certification_applications_2",
+  "answer": "SELECT COUNT(*) FILTER (WHERE UPPER(statustag) = 'CERTIFIED') * 100.0 / COUNT(*) AS approval_rate FROM cases WHERE visacls = 'H-1B'"
+ },
+ {
+  "question_id": "labor_certification_applications_19",
+  "answer": "SELECT CASE WHEN EXISTS (SELECT 1 FROM case_attorney ca WHERE ca.docketkey = c.filekey) THEN 'Attorney Represented' ELSE 'Self-Represented' END AS representation_type, COUNT(*) AS total_applications, COUNT(*) FILTER (WHERE UPPER(c.statustag) = 'CERTIFIED') AS certified_applications, ROUND(COUNT(*) FILTER (WHERE UPPER(c.statustag) = 'CERTIFIED') * 100.0 / COUNT(*), 2) AS approval_rate FROM cases c GROUP BY 1"
+ },
+ {
+  "question_id": "labor_certification_applications_16",
+  "answer": "SELECT a.attorney_profile->'highest_court'->>'state' AS jurisdiction_state, COUNT(*) AS total_cases, COUNT(*) FILTER (WHERE UPPER(c.statustag) = 'CERTIFIED') AS certified_cases, ROUND(COUNT(*) FILTER (WHERE UPPER(c.statustag) = 'CERTIFIED') * 100.0 / COUNT(*), 2) AS success_rate FROM case_attorney ca JOIN attorney a ON a.lawmail = ca.counselmail JOIN cases c ON c.filekey = ca.docketkey GROUP BY 1 HAVING COUNT(*) >= 3 ORDER BY success_rate DESC, total_cases DESC LIMIT 3"
+ },
+ {
+  "question_id": "labor_certification_applications_11",
+  "answer": "WITH d AS (SELECT to_date(recvday, 'YYYY/MM/DD') AS r, to_date(beginday, 'DD/MM/YYYY') AS b FROM cases), m AS (SELECT r, b, (EXTRACT(YEAR FROM b) - EXTRACT(YEAR FROM r)) * 12 + EXTRACT(MONTH FROM b) - EXTRACT(MONTH FROM r) AS md FROM d), cat AS (SELECT CASE WHEN b < r THEN 'After Start Date' WHEN md = 0 THEN 'Same Month' WHEN md BETWEEN 1 AND 3 THEN '1-3 Months Before' WHEN md BETWEEN 4 AND 6 THEN 'Optimal Window (4-6 Months)' ELSE 'Early Filing' END AS filing_window FROM m) SELECT filing_window, COUNT(*) AS application_count, ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS percentage FROM cat GROUP BY filing_window ORDER BY application_count DESC"
+ },
+ {
+  "question_id": "labor_certification_applications_8",
+  "answer": "WITH w AS (SELECT c.headct, (regexp_replace(pw.wage_details->'offered_wage'->>'from', '[^0-9.]', '', 'g')::numeric - regexp_replace(pw.wage_details->'prevailing_wage'->>'value', '[^0-9.]', '', 'g')::numeric) / NULLIF(regexp_replace(pw.wage_details->'prevailing_wage'->>'value', '[^0-9.]', '', 'g')::numeric, 0) * 100 AS wdr FROM cases c JOIN case_worksite cw ON cw.dockkey = c.filekey JOIN prevailing_wage pw ON pw.trackno = cw.wagetrack WHERE c.soccd = '15-1253.00' AND pw.wage_details->'offered_wage'->>'unit' = 'Year' AND pw.wage_details->'prevailing_wage'->>'unit' = 'Year') SELECT CASE WHEN wdr < 0 THEN 'Below-Market' WHEN wdr <= 10 THEN 'Market-Competitive' ELSE 'Premium' END AS wage_tier, SUM(headct) AS total_positions FROM w GROUP BY 1 ORDER BY total_positions DESC"
+ },
+ {
+  "question_id": "labor_certification_applications_13",
+  "answer": "WITH s AS (SELECT wsstate, COUNT(*) AS n FROM case_worksite GROUP BY wsstate), h AS (SELECT wsstate, n FROM s WHERE n > 1.5 * (SELECT AVG(n) FROM s)) SELECT wsstate AS hotspot_state, COUNT(*) OVER () AS hotspot_state_count FROM h ORDER BY n DESC, wsstate",
+  "note": "Output shape ambiguous (list of states + total count); returned one row per hotspot state with the total count repeated. Uses worksite state and a plain per-state average (no population data)."
+ },
+ {
+  "question_id": "labor_certification_applications_15",
+  "answer": "WITH t AS (SELECT ca.counselmail AS atty, c.visacls, COUNT(*) AS n FROM case_attorney ca JOIN cases c ON c.filekey = ca.docketkey GROUP BY 1, 2), a AS (SELECT atty, SUM(n) AS total, COUNT(*) AS n_types, MAX(n) * 100.0 / SUM(n) AS dominant_pct FROM t GROUP BY atty HAVING SUM(n) >= 5), k AS (SELECT atty, 1 - n_types::numeric / (SELECT COUNT(*) FROM unnest(enum_range(NULL::enum_visa_class))) AS asi, dominant_pct, CASE WHEN dominant_pct > 80 THEN 'Specialist' WHEN n_types BETWEEN 2 AND 3 THEN 'Hybrid Practitioner' ELSE 'Generalist' END AS category FROM a) SELECT category, COUNT(*) AS attorney_count, ROUND(AVG(asi), 2) AS avg_asi, ROUND(AVG(dominant_pct), 2) AS avg_dominant_pct FROM k GROUP BY category ORDER BY attorney_count DESC"
+ },
+ {
+  "question_id": "labor_certification_applications_14",
+  "answer": "WITH i AS (SELECT e.employer_contact_info->>'naics_code' AS naics_code, COUNT(*) AS total_applications, COUNT(*) * 100.0 / SUM(COUNT(*)) OVER () AS pct FROM cases c JOIN employer e ON e.corphandle = c.homefirm AND e.zipref = c.homezip GROUP BY 1) SELECT naics_code, total_applications, ROUND(pct, 2) AS percentage FROM i WHERE pct > 15 ORDER BY pct DESC"
+ },
+ {
+  "question_id": "labor_certification_applications_1",
+  "answer": "SELECT visacls AS visa_class, AVG(to_date(NULLIF(decisionday, ''), 'YYYY-MM-DD') - to_date(recvday, 'YYYY/MM/DD')) AS avg_processing_days FROM cases WHERE UPPER(statustag) = 'CERTIFIED' GROUP BY visacls ORDER BY avg_processing_days DESC NULLS LAST"
+ },
+ {
+  "question_id": "labor_certification_applications_3",
+  "answer": "WITH e AS (SELECT homefirm, homezip, COUNT(*) AS n, COUNT(*) FILTER (WHERE UPPER(statustag) = 'CERTIFIED') * 100.0 / COUNT(*) AS asr FROM cases GROUP BY homefirm, homezip) SELECT CASE WHEN n < 5 THEN 'Small-scale' WHEN n <= 25 THEN 'Medium-scale' ELSE 'Large-scale' END AS size_category, COUNT(*) AS employer_count, AVG(asr) AS avg_success_rate FROM e GROUP BY 1 ORDER BY avg_success_rate DESC"
+ }
+]

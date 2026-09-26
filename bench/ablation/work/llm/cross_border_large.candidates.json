@@ -1,0 +1,4445 @@
+{
+ "database": "cross_border_large",
+ "tables": [
+  "API_Control_Map",
+  "API_Endpoint",
+  "AuditAndCompliance",
+  "Compliance",
+  "Compliance_Detail",
+  "ConsentRecord",
+  "Control_Scenario_Map",
+  "DPIAAssessmentCriteria",
+  "DPIARecommendation",
+  "DPIARecord",
+  "DPIAStakeholderConsultation",
+  "DPIA_Dataset_Map",
+  "DataField_Catalog",
+  "DataFlow",
+  "DataFlow_Detail",
+  "DataProfile",
+  "DataProfile_Lineage",
+  "DataSubjectRequest",
+  "Dataset_Catalog",
+  "Dataset_Legal_Map",
+  "DisposalRecord",
+  "DueDiligenceAssessment",
+  "EmployeeCertification",
+  "ErasureRequest",
+  "ForensicInvestigation",
+  "Geo_Jurisdiction",
+  "GovernanceDecision",
+  "IncidentNotification",
+  "IncidentRegister",
+  "IncidentResponsePlan",
+  "Incident_Control_Map",
+  "Jurisdiction_Mechanism_Map",
+  "Legal_Article",
+  "PolicyAcknowledgment",
+  "PolicyVersion",
+  "PortabilityRequest",
+  "PrivacyTrainingProgram",
+  "RemediationAction",
+  "RetentionSchedule",
+  "Retention_Dataset_Map",
+  "Rights_Compliance_Map",
+  "RiskManagement",
+  "RiskManagement_Detail",
+  "Risk_Scenario",
+  "SLAMonitoring",
+  "SecurityProfile",
+  "SecurityProfile_CipherDetail",
+  "SubprocessorRegistry",
+  "Subprocessor_Vendor_Map",
+  "System_Inventory",
+  "TrainingCompletionLog",
+  "TrainingMaterial",
+  "Transfer_Mechanism",
+  "VendorManagement",
+  "Vendor_Contract_Detail"
+ ],
+ "candidates": [
+  {
+   "id": "API_Control_Map.api_code -> API_Endpoint.Api_code",
+   "source_table": "API_Control_Map",
+   "source_column": "api_code",
+   "target_table": "API_Endpoint",
+   "target_key": "Api_code",
+   "source_rows": 150,
+   "source_distinct": 39,
+   "target_rows": 40,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "API_Control_Map.control_number -> Legal_Article.ARTICLE_NO",
+   "source_table": "API_Control_Map",
+   "source_column": "control_number",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 150,
+   "source_distinct": 25,
+   "target_rows": 30,
+   "score": 3.93,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "21",
+    "20",
+    "24",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "API_Control_Map.log_retention_days -> EmployeeCertification.CERT_ID",
+   "source_table": "API_Control_Map",
+   "source_column": "log_retention_days",
+   "target_table": "EmployeeCertification",
+   "target_key": "CERT_ID",
+   "source_rows": 150,
+   "source_distinct": 4,
+   "target_rows": 400,
+   "score": 3.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "90",
+    "365",
+    "30",
+    "180"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "API_Endpoint.endpoint_security_code -> Legal_Article.ARTICLE_NO",
+   "source_table": "API_Endpoint",
+   "source_column": "endpoint_security_code",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 40,
+   "source_distinct": 22,
+   "target_rows": 30,
+   "score": 3.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "5",
+    "19",
+    "10",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Compliance_Detail.compliance_code -> Vendor_Contract_Detail.VCONTRACT_DETAIL_NO",
+   "source_table": "Compliance_Detail",
+   "source_column": "compliance_code",
+   "target_table": "Vendor_Contract_Detail",
+   "target_key": "VCONTRACT_DETAIL_NO",
+   "source_rows": 240,
+   "source_distinct": 240,
+   "target_rows": 240,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Compliance_Detail.consent_renewal_days -> EmployeeCertification.CERT_ID",
+   "source_table": "Compliance_Detail",
+   "source_column": "consent_renewal_days",
+   "target_table": "EmployeeCertification",
+   "target_key": "CERT_ID",
+   "source_rows": 240,
+   "source_distinct": 173,
+   "target_rows": 400,
+   "score": 3.74,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "309",
+    "206",
+    "341",
+    "165",
+    "358"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Compliance_Detail.storage_limitation_days -> DataProfile_Lineage.LINEAGE_NO",
+   "source_table": "Compliance_Detail",
+   "source_column": "storage_limitation_days",
+   "target_table": "DataProfile_Lineage",
+   "target_key": "LINEAGE_NO",
+   "source_rows": 240,
+   "source_distinct": 194,
+   "target_rows": 870,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "36",
+    "111",
+    "440",
+    "186",
+    "233"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConsentRecord.dsr_ref -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "source_table": "ConsentRecord",
+   "source_column": "dsr_ref",
+   "target_table": "DPIAStakeholderConsultation",
+   "target_key": "CONSULTATION_ID",
+   "source_rows": 300,
+   "source_distinct": 129,
+   "target_rows": 150,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "132",
+    "68",
+    "101",
+    "26",
+    "42"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConsentRecord.DATASET_REF -> Dataset_Catalog.dataset_code",
+   "source_table": "ConsentRecord",
+   "source_column": "DATASET_REF",
+   "target_table": "Dataset_Catalog",
+   "target_key": "dataset_code",
+   "source_rows": 300,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "10",
+    "24",
+    "13",
+    "19",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Control_Scenario_Map.control_no -> Legal_Article.ARTICLE_NO",
+   "source_table": "Control_Scenario_Map",
+   "source_column": "control_no",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 149,
+   "source_distinct": 25,
+   "target_rows": 30,
+   "score": 3.93,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Control_Scenario_Map.scenario_code -> API_Endpoint.Api_code",
+   "source_table": "Control_Scenario_Map",
+   "source_column": "scenario_code",
+   "target_table": "API_Endpoint",
+   "target_key": "Api_code",
+   "source_rows": 149,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "16",
+    "19",
+    "24",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Control_Scenario_Map.test_frequency_days -> EmployeeCertification.CERT_ID",
+   "source_table": "Control_Scenario_Map",
+   "source_column": "test_frequency_days",
+   "target_table": "EmployeeCertification",
+   "target_key": "CERT_ID",
+   "source_rows": 149,
+   "source_distinct": 4,
+   "target_rows": 400,
+   "score": 3.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "90",
+    "30",
+    "180",
+    "365"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DPIAAssessmentCriteria.dpia_ref -> DPIARecord.DPIA_ID",
+   "source_table": "DPIAAssessmentCriteria",
+   "source_column": "dpia_ref",
+   "target_table": "DPIARecord",
+   "target_key": "DPIA_ID",
+   "source_rows": 300,
+   "source_distinct": 96,
+   "target_rows": 100,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "82",
+    "51",
+    "67",
+    "39",
+    "55"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DPIARecommendation.DPIA_REF -> DPIARecord.DPIA_ID",
+   "source_table": "DPIARecommendation",
+   "source_column": "DPIA_REF",
+   "target_table": "DPIARecord",
+   "target_key": "DPIA_ID",
+   "source_rows": 200,
+   "source_distinct": 81,
+   "target_rows": 100,
+   "score": 4.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "63",
+    "39",
+    "11",
+    "12",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DPIARecord.compliance_trace_ref -> DPIA_Dataset_Map.DPIA_DATASET_MAP_ID",
+   "source_table": "DPIARecord",
+   "source_column": "compliance_trace_ref",
+   "target_table": "DPIA_Dataset_Map",
+   "target_key": "DPIA_DATASET_MAP_ID",
+   "source_rows": 100,
+   "source_distinct": 80,
+   "target_rows": 250,
+   "score": 3.67,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "93",
+    "205",
+    "187",
+    "207",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DPIARecord.PROCESSING_PURPOSES_COUNT -> System_Inventory.SYSTEM_CODE",
+   "source_table": "DPIARecord",
+   "source_column": "PROCESSING_PURPOSES_COUNT",
+   "target_table": "System_Inventory",
+   "target_key": "SYSTEM_CODE",
+   "source_rows": 100,
+   "source_distinct": 8,
+   "target_rows": 20,
+   "score": 2.6,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "5",
+    "2",
+    "1",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DPIAStakeholderConsultation.DPIA_REF -> DPIARecord.DPIA_ID",
+   "source_table": "DPIAStakeholderConsultation",
+   "source_column": "DPIA_REF",
+   "target_table": "DPIARecord",
+   "target_key": "DPIA_ID",
+   "source_rows": 150,
+   "source_distinct": 71,
+   "target_rows": 100,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "100",
+    "1",
+    "91",
+    "61",
+    "38"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DPIA_Dataset_Map.dpia_ref -> DPIARecord.DPIA_ID",
+   "source_table": "DPIA_Dataset_Map",
+   "source_column": "dpia_ref",
+   "target_table": "DPIARecord",
+   "target_key": "DPIA_ID",
+   "source_rows": 250,
+   "source_distinct": 93,
+   "target_rows": 100,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "5",
+    "71",
+    "84",
+    "19"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DPIA_Dataset_Map.DATASET_REF -> Dataset_Catalog.dataset_code",
+   "source_table": "DPIA_Dataset_Map",
+   "source_column": "DATASET_REF",
+   "target_table": "Dataset_Catalog",
+   "target_key": "dataset_code",
+   "source_rows": 250,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "26",
+    "4",
+    "42",
+    "40",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataField_Catalog.dataset_code -> Dataset_Catalog.dataset_code",
+   "source_table": "DataField_Catalog",
+   "source_column": "dataset_code",
+   "target_table": "Dataset_Catalog",
+   "target_key": "dataset_code",
+   "source_rows": 45,
+   "source_distinct": 30,
+   "target_rows": 50,
+   "score": 4.01,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "34",
+    "33",
+    "22",
+    "49",
+    "44"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataField_Catalog.NULL_COUNT -> DataFlow_Detail.FLOWDETAIL_CODE",
+   "source_table": "DataField_Catalog",
+   "source_column": "NULL_COUNT",
+   "target_table": "DataFlow_Detail",
+   "target_key": "FLOWDETAIL_CODE",
+   "source_rows": 45,
+   "source_distinct": 43,
+   "target_rows": 999,
+   "score": 3.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "733",
+    "396",
+    "639",
+    "293",
+    "207"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataFlow_Detail.detail_flow_code -> DataFlow.RecordRegistry",
+   "source_table": "DataFlow_Detail",
+   "source_column": "detail_flow_code",
+   "target_table": "DataFlow",
+   "target_key": "RecordRegistry",
+   "source_rows": 999,
+   "source_distinct": 999,
+   "target_rows": 999,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CB932064",
+    "CB339111",
+    "CB899685",
+    "CB891187",
+    "CB879069"
+   ],
+   "target_samples": [
+    "CB100138",
+    "CB100432",
+    "CB100698",
+    "CB102232",
+    "CB102272"
+   ]
+  },
+  {
+   "id": "DataProfile_Lineage.lineage_flow_code -> RiskManagement_Detail.RISK_DETAIL_CODE",
+   "source_table": "DataProfile_Lineage",
+   "source_column": "lineage_flow_code",
+   "target_table": "RiskManagement_Detail",
+   "target_key": "RISK_DETAIL_CODE",
+   "source_rows": 870,
+   "source_distinct": 727,
+   "target_rows": 870,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataSubjectRequest.COMPLIANCE_REF -> Compliance_Detail.COMPLIANCE_DETAIL_NO",
+   "source_table": "DataSubjectRequest",
+   "source_column": "COMPLIANCE_REF",
+   "target_table": "Compliance_Detail",
+   "target_key": "COMPLIANCE_DETAIL_NO",
+   "source_rows": 150,
+   "source_distinct": 110,
+   "target_rows": 240,
+   "score": 3.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "50",
+    "180",
+    "2",
+    "55",
+    "215"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataSubjectRequest.jurisdiction_ref -> API_Endpoint.Api_code",
+   "source_table": "DataSubjectRequest",
+   "source_column": "jurisdiction_ref",
+   "target_table": "API_Endpoint",
+   "target_key": "Api_code",
+   "source_rows": 150,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "39",
+    "1",
+    "14",
+    "21",
+    "29"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataSubjectRequest.systems_searched -> Legal_Article.ARTICLE_NO",
+   "source_table": "DataSubjectRequest",
+   "source_column": "systems_searched",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 150,
+   "source_distinct": 25,
+   "target_rows": 30,
+   "score": 3.93,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "11",
+    "7",
+    "8",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataSubjectRequest.EXTENSION_DAYS -> PolicyVersion.POLICY_VERSION_ID",
+   "source_table": "DataSubjectRequest",
+   "source_column": "EXTENSION_DAYS",
+   "target_table": "PolicyVersion",
+   "target_key": "POLICY_VERSION_ID",
+   "source_rows": 150,
+   "source_distinct": 18,
+   "target_rows": 60,
+   "score": 3.63,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "23",
+    "27",
+    "4",
+    "43",
+    "51"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Dataset_Catalog.retention_days -> EmployeeCertification.CERT_ID",
+   "source_table": "Dataset_Catalog",
+   "source_column": "retention_days",
+   "target_table": "EmployeeCertification",
+   "target_key": "CERT_ID",
+   "source_rows": 50,
+   "source_distinct": 43,
+   "target_rows": 400,
+   "score": 3.26,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "46",
+    "206",
+    "219",
+    "138",
+    "227"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Dataset_Catalog.BKP_FREQUENCY_DAYS -> Legal_Article.ARTICLE_NO",
+   "source_table": "Dataset_Catalog",
+   "source_column": "BKP_FREQUENCY_DAYS",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 50,
+   "source_distinct": 21,
+   "target_rows": 30,
+   "score": 3.87,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "20",
+    "18",
+    "12",
+    "25",
+    "17"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Dataset_Legal_Map.dataset_code -> Dataset_Catalog.dataset_code",
+   "source_table": "Dataset_Legal_Map",
+   "source_column": "dataset_code",
+   "target_table": "Dataset_Catalog",
+   "target_key": "dataset_code",
+   "source_rows": 95,
+   "source_distinct": 45,
+   "target_rows": 50,
+   "score": 4.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Dataset_Legal_Map.article_number -> Legal_Article.ARTICLE_NO",
+   "source_table": "Dataset_Legal_Map",
+   "source_column": "article_number",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 95,
+   "source_distinct": 30,
+   "target_rows": 30,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "29",
+    "1",
+    "15",
+    "26"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Dataset_Legal_Map.consent_renewal_days -> EmployeeCertification.CERT_ID",
+   "source_table": "Dataset_Legal_Map",
+   "source_column": "consent_renewal_days",
+   "target_table": "EmployeeCertification",
+   "target_key": "CERT_ID",
+   "source_rows": 95,
+   "source_distinct": 88,
+   "target_rows": 400,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "203",
+    "51",
+    "219",
+    "281",
+    "92"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Dataset_Legal_Map.RETENTION_DAYS -> DataProfile_Lineage.LINEAGE_NO",
+   "source_table": "Dataset_Legal_Map",
+   "source_column": "RETENTION_DAYS",
+   "target_table": "DataProfile_Lineage",
+   "target_key": "LINEAGE_NO",
+   "source_rows": 95,
+   "source_distinct": 79,
+   "target_rows": 870,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "391",
+    "410",
+    "234",
+    "235",
+    "507"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DisposalRecord.retention_ref -> Dataset_Catalog.dataset_code",
+   "source_table": "DisposalRecord",
+   "source_column": "retention_ref",
+   "target_table": "Dataset_Catalog",
+   "target_key": "dataset_code",
+   "source_rows": 200,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "37",
+    "39",
+    "33",
+    "19",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DisposalRecord.DATASET_REF -> Dataset_Catalog.dataset_code",
+   "source_table": "DisposalRecord",
+   "source_column": "DATASET_REF",
+   "target_table": "Dataset_Catalog",
+   "target_key": "dataset_code",
+   "source_rows": 200,
+   "source_distinct": 49,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "25",
+    "39",
+    "32",
+    "42",
+    "31"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DisposalRecord.SYSTEMS_AFFECTED -> System_Inventory.SYSTEM_CODE",
+   "source_table": "DisposalRecord",
+   "source_column": "SYSTEMS_AFFECTED",
+   "target_table": "System_Inventory",
+   "target_key": "SYSTEM_CODE",
+   "source_rows": 200,
+   "source_distinct": 15,
+   "target_rows": 20,
+   "score": 3.65,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9",
+    "5",
+    "12",
+    "2",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DueDiligenceAssessment.SUBPROCESSOR_REF -> ForensicInvestigation.forensic_id",
+   "source_table": "DueDiligenceAssessment",
+   "source_column": "SUBPROCESSOR_REF",
+   "target_table": "ForensicInvestigation",
+   "target_key": "forensic_id",
+   "source_rows": 150,
+   "source_distinct": 68,
+   "target_rows": 80,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "37",
+    "8",
+    "27",
+    "63",
+    "62"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmployeeCertification.training_prog_ref -> PolicyVersion.POLICY_VERSION_ID",
+   "source_table": "EmployeeCertification",
+   "source_column": "training_prog_ref",
+   "target_table": "PolicyVersion",
+   "target_key": "POLICY_VERSION_ID",
+   "source_rows": 400,
+   "source_distinct": 60,
+   "target_rows": 60,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8",
+    "42",
+    "11",
+    "10",
+    "24"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmployeeCertification.attempts -> System_Inventory.SYSTEM_CODE",
+   "source_table": "EmployeeCertification",
+   "source_column": "attempts",
+   "target_table": "System_Inventory",
+   "target_key": "SYSTEM_CODE",
+   "source_rows": 400,
+   "source_distinct": 4,
+   "target_rows": 20,
+   "score": 2.0,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "4",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ErasureRequest.dsr_ref -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "source_table": "ErasureRequest",
+   "source_column": "dsr_ref",
+   "target_table": "DPIAStakeholderConsultation",
+   "target_key": "CONSULTATION_ID",
+   "source_rows": 120,
+   "source_distinct": 90,
+   "target_rows": 150,
+   "score": 4.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "12",
+    "24",
+    "106",
+    "23",
+    "39"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ErasureRequest.systems_to_erase -> System_Inventory.SYSTEM_CODE",
+   "source_table": "ErasureRequest",
+   "source_column": "systems_to_erase",
+   "target_table": "System_Inventory",
+   "target_key": "SYSTEM_CODE",
+   "source_rows": 120,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "9",
+    "7",
+    "12",
+    "20"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ForensicInvestigation.INCIDENT_REF -> ErasureRequest.ERASURE_ID",
+   "source_table": "ForensicInvestigation",
+   "source_column": "INCIDENT_REF",
+   "target_table": "ErasureRequest",
+   "target_key": "ERASURE_ID",
+   "source_rows": 80,
+   "source_distinct": 60,
+   "target_rows": 120,
+   "score": 3.84,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "25",
+    "20",
+    "58",
+    "101",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ForensicInvestigation.evidence_items_collected -> DPIARecommendation.recommendation_id",
+   "source_table": "ForensicInvestigation",
+   "source_column": "evidence_items_collected",
+   "target_table": "DPIARecommendation",
+   "target_key": "recommendation_id",
+   "source_rows": 80,
+   "source_distinct": 63,
+   "target_rows": 200,
+   "score": 3.66,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "133",
+    "189",
+    "156",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Geo_Jurisdiction.AGE_OF_CONSENT_YEARS -> Legal_Article.ARTICLE_NO",
+   "source_table": "Geo_Jurisdiction",
+   "source_column": "AGE_OF_CONSENT_YEARS",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 40,
+   "source_distinct": 5,
+   "target_rows": 30,
+   "score": 2.87,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "18",
+    "14",
+    "15",
+    "13",
+    "16"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Geo_Jurisdiction.BREACH_NOTIFY_HOURS -> DPIARecord.DPIA_ID",
+   "source_table": "Geo_Jurisdiction",
+   "source_column": "BREACH_NOTIFY_HOURS",
+   "target_table": "DPIARecord",
+   "target_key": "DPIA_ID",
+   "source_rows": 40,
+   "source_distinct": 3,
+   "target_rows": 100,
+   "score": 3.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "48",
+    "24",
+    "72"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Geo_Jurisdiction.electric_standard_v -> Incident_Control_Map.ICM_ID",
+   "source_table": "Geo_Jurisdiction",
+   "source_column": "electric_standard_v",
+   "target_table": "Incident_Control_Map",
+   "target_key": "ICM_ID",
+   "source_rows": 40,
+   "source_distinct": 5,
+   "target_rows": 350,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "240.0",
+    "230.0",
+    "120.0",
+    "220.0",
+    "110.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "GovernanceDecision.policy_ref -> PolicyVersion.POLICY_VERSION_ID",
+   "source_table": "GovernanceDecision",
+   "source_column": "policy_ref",
+   "target_table": "PolicyVersion",
+   "target_key": "POLICY_VERSION_ID",
+   "source_rows": 80,
+   "source_distinct": 47,
+   "target_rows": 60,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "19",
+    "36",
+    "49",
+    "48",
+    "27"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "GovernanceDecision.SCENARIO_REF -> API_Endpoint.Api_code",
+   "source_table": "GovernanceDecision",
+   "source_column": "SCENARIO_REF",
+   "target_table": "API_Endpoint",
+   "target_key": "Api_code",
+   "source_rows": 80,
+   "source_distinct": 35,
+   "target_rows": 40,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8",
+    "9",
+    "20",
+    "37",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "IncidentNotification.incident_id_ref -> ErasureRequest.ERASURE_ID",
+   "source_table": "IncidentNotification",
+   "source_column": "incident_id_ref",
+   "target_table": "ErasureRequest",
+   "target_key": "ERASURE_ID",
+   "source_rows": 200,
+   "source_distinct": 105,
+   "target_rows": 120,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "99",
+    "83",
+    "45",
+    "94"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "IncidentNotification.JURISDICTION_REF -> API_Endpoint.Api_code",
+   "source_table": "IncidentNotification",
+   "source_column": "JURISDICTION_REF",
+   "target_table": "API_Endpoint",
+   "target_key": "Api_code",
+   "source_rows": 200,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "14",
+    "6",
+    "23",
+    "21",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "IncidentNotification.DEADLINE_HOURS -> ForensicInvestigation.forensic_id",
+   "source_table": "IncidentNotification",
+   "source_column": "DEADLINE_HOURS",
+   "target_table": "ForensicInvestigation",
+   "target_key": "forensic_id",
+   "source_rows": 200,
+   "source_distinct": 47,
+   "target_rows": 80,
+   "score": 3.64,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "39",
+    "65",
+    "55",
+    "52",
+    "36"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "IncidentRegister.risk_trace_ref -> DataProfile_Lineage.LINEAGE_NO",
+   "source_table": "IncidentRegister",
+   "source_column": "risk_trace_ref",
+   "target_table": "DataProfile_Lineage",
+   "target_key": "LINEAGE_NO",
+   "source_rows": 120,
+   "source_distinct": 114,
+   "target_rows": 870,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "654",
+    "159",
+    "464",
+    "735",
+    "610"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "IncidentRegister.compliance_ref -> Compliance_Detail.COMPLIANCE_DETAIL_NO",
+   "source_table": "IncidentRegister",
+   "source_column": "compliance_ref",
+   "target_table": "Compliance_Detail",
+   "target_key": "COMPLIANCE_DETAIL_NO",
+   "source_rows": 120,
+   "source_distinct": 96,
+   "target_rows": 240,
+   "score": 3.84,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "29",
+    "56",
+    "163",
+    "81",
+    "120"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "IncidentRegister.SLA_NOTIFICATION_HOURS -> ForensicInvestigation.forensic_id",
+   "source_table": "IncidentRegister",
+   "source_column": "SLA_NOTIFICATION_HOURS",
+   "target_table": "ForensicInvestigation",
+   "target_key": "forensic_id",
+   "source_rows": 120,
+   "source_distinct": 45,
+   "target_rows": 80,
+   "score": 3.59,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "72",
+    "29",
+    "49",
+    "67",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "IncidentResponsePlan.incident_ref -> ErasureRequest.ERASURE_ID",
+   "source_table": "IncidentResponsePlan",
+   "source_column": "incident_ref",
+   "target_table": "ErasureRequest",
+   "target_key": "ERASURE_ID",
+   "source_rows": 80,
+   "source_distinct": 57,
+   "target_rows": 120,
+   "score": 3.8,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "57",
+    "44",
+    "53",
+    "11",
+    "35"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "IncidentResponsePlan.team_size -> Legal_Article.ARTICLE_NO",
+   "source_table": "IncidentResponsePlan",
+   "source_column": "team_size",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 80,
+   "source_distinct": 24,
+   "target_rows": 30,
+   "score": 3.96,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13",
+    "12",
+    "14",
+    "23",
+    "19"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "IncidentResponsePlan.ACTION_ITEMS_TOTAL -> Dataset_Catalog.dataset_code",
+   "source_table": "IncidentResponsePlan",
+   "source_column": "ACTION_ITEMS_TOTAL",
+   "target_table": "Dataset_Catalog",
+   "target_key": "dataset_code",
+   "source_rows": 80,
+   "source_distinct": 40,
+   "target_rows": 50,
+   "score": 4.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "23",
+    "15",
+    "17",
+    "7",
+    "41"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Incident_Control_Map.INCIDENT_REF -> ErasureRequest.ERASURE_ID",
+   "source_table": "Incident_Control_Map",
+   "source_column": "INCIDENT_REF",
+   "target_table": "ErasureRequest",
+   "target_key": "ERASURE_ID",
+   "source_rows": 350,
+   "source_distinct": 115,
+   "target_rows": 120,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "25",
+    "53",
+    "9",
+    "30",
+    "60"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Incident_Control_Map.control_ref -> Legal_Article.ARTICLE_NO",
+   "source_table": "Incident_Control_Map",
+   "source_column": "control_ref",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 350,
+   "source_distinct": 25,
+   "target_rows": 30,
+   "score": 3.93,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "23",
+    "17",
+    "16",
+    "19",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Jurisdiction_Mechanism_Map.jurisdiction_number -> API_Endpoint.Api_code",
+   "source_table": "Jurisdiction_Mechanism_Map",
+   "source_column": "jurisdiction_number",
+   "target_table": "API_Endpoint",
+   "target_key": "Api_code",
+   "source_rows": 131,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Jurisdiction_Mechanism_Map.mechanism_no -> System_Inventory.SYSTEM_CODE",
+   "source_table": "Jurisdiction_Mechanism_Map",
+   "source_column": "mechanism_no",
+   "target_table": "System_Inventory",
+   "target_key": "SYSTEM_CODE",
+   "source_rows": 131,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "10",
+    "16",
+    "12",
+    "19"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Legal_Article.BREACH_NOTIFY_HOURS -> ForensicInvestigation.forensic_id",
+   "source_table": "Legal_Article",
+   "source_column": "BREACH_NOTIFY_HOURS",
+   "target_table": "ForensicInvestigation",
+   "target_key": "forensic_id",
+   "source_rows": 30,
+   "source_distinct": 19,
+   "target_rows": 80,
+   "score": 3.15,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "35",
+    "47",
+    "52",
+    "57",
+    "44"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PolicyAcknowledgment.POLICY_REF -> PolicyVersion.POLICY_VERSION_ID",
+   "source_table": "PolicyAcknowledgment",
+   "source_column": "POLICY_REF",
+   "target_table": "PolicyVersion",
+   "target_key": "POLICY_VERSION_ID",
+   "source_rows": 500,
+   "source_distinct": 60,
+   "target_rows": 60,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "49",
+    "54",
+    "46",
+    "19",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PolicyVersion.pages -> Dataset_Catalog.dataset_code",
+   "source_table": "PolicyVersion",
+   "source_column": "pages",
+   "target_table": "Dataset_Catalog",
+   "target_key": "dataset_code",
+   "source_rows": 60,
+   "source_distinct": 39,
+   "target_rows": 50,
+   "score": 4.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "23",
+    "24",
+    "17",
+    "13",
+    "30"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PolicyVersion.review_cycle_months -> Legal_Article.ARTICLE_NO",
+   "source_table": "PolicyVersion",
+   "source_column": "review_cycle_months",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 60,
+   "source_distinct": 19,
+   "target_rows": 30,
+   "score": 3.75,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "14",
+    "11",
+    "22",
+    "8",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PortabilityRequest.DSR_REF -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "source_table": "PortabilityRequest",
+   "source_column": "DSR_REF",
+   "target_table": "DPIAStakeholderConsultation",
+   "target_key": "CONSULTATION_ID",
+   "source_rows": 100,
+   "source_distinct": 76,
+   "target_rows": 150,
+   "score": 3.95,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "96",
+    "22",
+    "109",
+    "58",
+    "23"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PortabilityRequest.data_categories_included -> System_Inventory.SYSTEM_CODE",
+   "source_table": "PortabilityRequest",
+   "source_column": "data_categories_included",
+   "target_table": "System_Inventory",
+   "target_key": "SYSTEM_CODE",
+   "source_rows": 100,
+   "source_distinct": 15,
+   "target_rows": 20,
+   "score": 3.65,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13",
+    "3",
+    "1",
+    "5",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PrivacyTrainingProgram.PASS_MARK_PCT -> ErasureRequest.ERASURE_ID",
+   "source_table": "PrivacyTrainingProgram",
+   "source_column": "PASS_MARK_PCT",
+   "target_table": "ErasureRequest",
+   "target_key": "ERASURE_ID",
+   "source_rows": 60,
+   "source_distinct": 27,
+   "target_rows": 120,
+   "score": 2.87,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "90",
+    "66",
+    "69",
+    "86",
+    "76"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PrivacyTrainingProgram.VALIDITY_MONTHS -> API_Endpoint.Api_code",
+   "source_table": "PrivacyTrainingProgram",
+   "source_column": "VALIDITY_MONTHS",
+   "target_table": "API_Endpoint",
+   "target_key": "Api_code",
+   "source_rows": 60,
+   "source_distinct": 29,
+   "target_rows": 40,
+   "score": 3.99,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "34",
+    "6",
+    "9",
+    "26",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PrivacyTrainingProgram.renewal_reminder_days -> DPIARecord.DPIA_ID",
+   "source_table": "PrivacyTrainingProgram",
+   "source_column": "renewal_reminder_days",
+   "target_table": "DPIARecord",
+   "target_key": "DPIA_ID",
+   "source_rows": 60,
+   "source_distinct": 48,
+   "target_rows": 100,
+   "score": 3.68,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "35",
+    "29",
+    "18",
+    "55",
+    "60"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PrivacyTrainingProgram.total_modules -> System_Inventory.SYSTEM_CODE",
+   "source_table": "PrivacyTrainingProgram",
+   "source_column": "total_modules",
+   "target_table": "System_Inventory",
+   "target_key": "SYSTEM_CODE",
+   "source_rows": 60,
+   "source_distinct": 18,
+   "target_rows": 20,
+   "score": 4.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "10",
+    "13",
+    "17",
+    "9",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RemediationAction.incident_ref -> ErasureRequest.ERASURE_ID",
+   "source_table": "RemediationAction",
+   "source_column": "incident_ref",
+   "target_table": "ErasureRequest",
+   "target_key": "ERASURE_ID",
+   "source_rows": 250,
+   "source_distinct": 108,
+   "target_rows": 120,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "69",
+    "118",
+    "91",
+    "54",
+    "83"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RemediationAction.DOWNTIME_MINUTES -> PolicyAcknowledgment.ACK_ID",
+   "source_table": "RemediationAction",
+   "source_column": "DOWNTIME_MINUTES",
+   "target_table": "PolicyAcknowledgment",
+   "target_key": "ACK_ID",
+   "source_rows": 250,
+   "source_distinct": 65,
+   "target_rows": 500,
+   "score": 3.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "418",
+    "413",
+    "290",
+    "472",
+    "358"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RetentionSchedule.jurisdiction_ref -> API_Endpoint.Api_code",
+   "source_table": "RetentionSchedule",
+   "source_column": "jurisdiction_ref",
+   "target_table": "API_Endpoint",
+   "target_key": "Api_code",
+   "source_rows": 50,
+   "source_distinct": 29,
+   "target_rows": 40,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "24",
+    "40",
+    "38",
+    "18",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RetentionSchedule.systems_covered -> System_Inventory.SYSTEM_CODE",
+   "source_table": "RetentionSchedule",
+   "source_column": "systems_covered",
+   "target_table": "System_Inventory",
+   "target_key": "SYSTEM_CODE",
+   "source_rows": 50,
+   "source_distinct": 19,
+   "target_rows": 20,
+   "score": 4.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "4",
+    "6",
+    "3",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Retention_Dataset_Map.RETENTION_REF -> Dataset_Catalog.dataset_code",
+   "source_table": "Retention_Dataset_Map",
+   "source_column": "RETENTION_REF",
+   "target_table": "Dataset_Catalog",
+   "target_key": "dataset_code",
+   "source_rows": 150,
+   "source_distinct": 47,
+   "target_rows": 50,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "15",
+    "34",
+    "37",
+    "31",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Retention_Dataset_Map.dataset_ref -> Dataset_Catalog.dataset_code",
+   "source_table": "Retention_Dataset_Map",
+   "source_column": "dataset_ref",
+   "target_table": "Dataset_Catalog",
+   "target_key": "dataset_code",
+   "source_rows": 150,
+   "source_distinct": 47,
+   "target_rows": 50,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "34",
+    "9",
+    "43",
+    "39",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Retention_Dataset_Map.fields_covered -> DPIARecord.DPIA_ID",
+   "source_table": "Retention_Dataset_Map",
+   "source_column": "fields_covered",
+   "target_table": "DPIARecord",
+   "target_key": "DPIA_ID",
+   "source_rows": 150,
+   "source_distinct": 81,
+   "target_rows": 100,
+   "score": 4.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "58",
+    "28",
+    "9",
+    "84",
+    "54"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Rights_Compliance_Map.DSR_REF -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "source_table": "Rights_Compliance_Map",
+   "source_column": "DSR_REF",
+   "target_table": "DPIAStakeholderConsultation",
+   "target_key": "CONSULTATION_ID",
+   "source_rows": 300,
+   "source_distinct": 131,
+   "target_rows": 150,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "150",
+    "91",
+    "120",
+    "48",
+    "102"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Rights_Compliance_Map.article_ref -> Legal_Article.ARTICLE_NO",
+   "source_table": "Rights_Compliance_Map",
+   "source_column": "article_ref",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 300,
+   "source_distinct": 30,
+   "target_rows": 30,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "4",
+    "22",
+    "25",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Rights_Compliance_Map.RESPONSE_TIME_DAYS -> DPIARecord.DPIA_ID",
+   "source_table": "Rights_Compliance_Map",
+   "source_column": "RESPONSE_TIME_DAYS",
+   "target_table": "DPIARecord",
+   "target_key": "DPIA_ID",
+   "source_rows": 300,
+   "source_distinct": 85,
+   "target_rows": 100,
+   "score": 4.13,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "88",
+    "42",
+    "82",
+    "53",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskManagement_Detail.risk_flow_code -> DataProfile_Lineage.LINEAGE_NO",
+   "source_table": "RiskManagement_Detail",
+   "source_column": "risk_flow_code",
+   "target_table": "DataProfile_Lineage",
+   "target_key": "LINEAGE_NO",
+   "source_rows": 870,
+   "source_distinct": 870,
+   "target_rows": 870,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskManagement_Detail.risk_velocity_Days -> DPIARecommendation.recommendation_id",
+   "source_table": "RiskManagement_Detail",
+   "source_column": "risk_velocity_Days",
+   "target_table": "DPIARecommendation",
+   "target_key": "recommendation_id",
+   "source_rows": 870,
+   "source_distinct": 174,
+   "target_rows": 200,
+   "score": 4.19,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "31",
+    "44",
+    "22",
+    "102",
+    "148"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskManagement_Detail.Review_frequency_days -> EmployeeCertification.CERT_ID",
+   "source_table": "RiskManagement_Detail",
+   "source_column": "Review_frequency_days",
+   "target_table": "EmployeeCertification",
+   "target_key": "CERT_ID",
+   "source_rows": 870,
+   "source_distinct": 4,
+   "target_rows": 400,
+   "score": 3.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "30",
+    "90",
+    "180",
+    "365"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskManagement_Detail.Sim_runs -> DataFlow_Detail.FLOWDETAIL_CODE",
+   "source_table": "RiskManagement_Detail",
+   "source_column": "Sim_runs",
+   "target_table": "DataFlow_Detail",
+   "target_key": "FLOWDETAIL_CODE",
+   "source_rows": 870,
+   "source_distinct": 568,
+   "target_rows": 999,
+   "score": 3.82,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "338",
+    "967",
+    "384",
+    "132",
+    "621"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SLAMonitoring.subprocessor_ref -> ForensicInvestigation.forensic_id",
+   "source_table": "SLAMonitoring",
+   "source_column": "subprocessor_ref",
+   "target_table": "ForensicInvestigation",
+   "target_key": "forensic_id",
+   "source_rows": 300,
+   "source_distinct": 78,
+   "target_rows": 80,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "59",
+    "22",
+    "47",
+    "50",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SecurityProfile_CipherDetail.security_code -> PolicyAcknowledgment.ACK_ID",
+   "source_table": "SecurityProfile_CipherDetail",
+   "source_column": "security_code",
+   "target_table": "PolicyAcknowledgment",
+   "target_key": "ACK_ID",
+   "source_rows": 430,
+   "source_distinct": 430,
+   "target_rows": 500,
+   "score": 4.08,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "27",
+    "241",
+    "30"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SubprocessorRegistry.vendor_ref -> DPIA_Dataset_Map.DPIA_DATASET_MAP_ID",
+   "source_table": "SubprocessorRegistry",
+   "source_column": "vendor_ref",
+   "target_table": "DPIA_Dataset_Map",
+   "target_key": "DPIA_DATASET_MAP_ID",
+   "source_rows": 80,
+   "source_distinct": 68,
+   "target_rows": 250,
+   "score": 3.7,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "223",
+    "33",
+    "221",
+    "200",
+    "132"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SubprocessorRegistry.JURISDICTION_REF -> API_Endpoint.Api_code",
+   "source_table": "SubprocessorRegistry",
+   "source_column": "JURISDICTION_REF",
+   "target_table": "API_Endpoint",
+   "target_key": "Api_code",
+   "source_rows": 80,
+   "source_distinct": 34,
+   "target_rows": 40,
+   "score": 4.23,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "11",
+    "8",
+    "18",
+    "39"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Subprocessor_Vendor_Map.SUBPROCESSOR_REF -> ForensicInvestigation.forensic_id",
+   "source_table": "Subprocessor_Vendor_Map",
+   "source_column": "SUBPROCESSOR_REF",
+   "target_table": "ForensicInvestigation",
+   "target_key": "forensic_id",
+   "source_rows": 200,
+   "source_distinct": 77,
+   "target_rows": 80,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "44",
+    "68",
+    "51",
+    "32",
+    "52"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Subprocessor_Vendor_Map.vendor_ref -> DPIA_Dataset_Map.DPIA_DATASET_MAP_ID",
+   "source_table": "Subprocessor_Vendor_Map",
+   "source_column": "vendor_ref",
+   "target_table": "DPIA_Dataset_Map",
+   "target_key": "DPIA_DATASET_MAP_ID",
+   "source_rows": 200,
+   "source_distinct": 130,
+   "target_rows": 250,
+   "score": 3.93,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "56",
+    "152",
+    "240",
+    "219",
+    "198"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingCompletionLog.cert_ref -> EmployeeCertification.CERT_ID",
+   "source_table": "TrainingCompletionLog",
+   "source_column": "cert_ref",
+   "target_table": "EmployeeCertification",
+   "target_key": "CERT_ID",
+   "source_rows": 500,
+   "source_distinct": 292,
+   "target_rows": 400,
+   "score": 4.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "370",
+    "274",
+    "237",
+    "179",
+    "332"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingCompletionLog.PROGRAM_REF -> PolicyVersion.POLICY_VERSION_ID",
+   "source_table": "TrainingCompletionLog",
+   "source_column": "PROGRAM_REF",
+   "target_table": "PolicyVersion",
+   "target_key": "POLICY_VERSION_ID",
+   "source_rows": 500,
+   "source_distinct": 60,
+   "target_rows": 60,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "41",
+    "3",
+    "25",
+    "51",
+    "34"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingCompletionLog.module_number -> System_Inventory.SYSTEM_CODE",
+   "source_table": "TrainingCompletionLog",
+   "source_column": "module_number",
+   "target_table": "System_Inventory",
+   "target_key": "SYSTEM_CODE",
+   "source_rows": 500,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "6",
+    "14",
+    "20",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingCompletionLog.questions_total -> Legal_Article.ARTICLE_NO",
+   "source_table": "TrainingCompletionLog",
+   "source_column": "questions_total",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 500,
+   "source_distinct": 26,
+   "target_rows": 30,
+   "score": 4.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13",
+    "26",
+    "30",
+    "22",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingCompletionLog.QUESTIONS_CORRECT -> Legal_Article.ARTICLE_NO",
+   "source_table": "TrainingCompletionLog",
+   "source_column": "QUESTIONS_CORRECT",
+   "target_table": "Legal_Article",
+   "target_key": "ARTICLE_NO",
+   "source_rows": 500,
+   "source_distinct": 28,
+   "target_rows": 30,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8",
+    "18",
+    "27",
+    "13",
+    "24"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingMaterial.program_ref -> PolicyVersion.POLICY_VERSION_ID",
+   "source_table": "TrainingMaterial",
+   "source_column": "program_ref",
+   "target_table": "PolicyVersion",
+   "target_key": "POLICY_VERSION_ID",
+   "source_rows": 150,
+   "source_distinct": 56,
+   "target_rows": 60,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "37",
+    "58",
+    "52",
+    "44",
+    "48"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingMaterial.duration_minutes -> ErasureRequest.ERASURE_ID",
+   "source_table": "TrainingMaterial",
+   "source_column": "duration_minutes",
+   "target_table": "ErasureRequest",
+   "target_key": "ERASURE_ID",
+   "source_rows": 150,
+   "source_distinct": 60,
+   "target_rows": 120,
+   "score": 3.81,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "17",
+    "100",
+    "91",
+    "40",
+    "61"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingMaterial.MODULE_ORDER -> System_Inventory.SYSTEM_CODE",
+   "source_table": "TrainingMaterial",
+   "source_column": "MODULE_ORDER",
+   "target_table": "System_Inventory",
+   "target_key": "SYSTEM_CODE",
+   "source_rows": 150,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "20",
+    "12",
+    "9",
+    "16",
+    "13"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Transfer_Mechanism.RE_EVALUATION_CYCLE_DAYS -> DataProfile_Lineage.LINEAGE_NO",
+   "source_table": "Transfer_Mechanism",
+   "source_column": "RE_EVALUATION_CYCLE_DAYS",
+   "target_table": "DataProfile_Lineage",
+   "target_key": "LINEAGE_NO",
+   "source_rows": 20,
+   "source_distinct": 3,
+   "target_rows": 870,
+   "score": 3.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "365",
+    "730",
+    "180"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Vendor_Contract_Detail.vendor_code -> Compliance_Detail.COMPLIANCE_DETAIL_NO",
+   "source_table": "Vendor_Contract_Detail",
+   "source_column": "vendor_code",
+   "target_table": "Compliance_Detail",
+   "target_key": "COMPLIANCE_DETAIL_NO",
+   "source_rows": 240,
+   "source_distinct": 240,
+   "target_rows": 240,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "API_Endpoint.Api_code -> Geo_Jurisdiction.JURISDICTION_CODE",
+   "source_table": "API_Endpoint",
+   "source_column": "Api_code",
+   "target_table": "Geo_Jurisdiction",
+   "target_key": "JURISDICTION_CODE",
+   "source_rows": 40,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 3.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Compliance_Detail.COMPLIANCE_DETAIL_NO -> Vendor_Contract_Detail.VCONTRACT_DETAIL_NO",
+   "source_table": "Compliance_Detail",
+   "source_column": "COMPLIANCE_DETAIL_NO",
+   "target_table": "Vendor_Contract_Detail",
+   "target_key": "VCONTRACT_DETAIL_NO",
+   "source_rows": 240,
+   "source_distinct": 240,
+   "target_rows": 240,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConsentRecord.CONSENT_ID -> DPIAAssessmentCriteria.CRITERIA_ID",
+   "source_table": "ConsentRecord",
+   "source_column": "CONSENT_ID",
+   "target_table": "DPIAAssessmentCriteria",
+   "target_key": "CRITERIA_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DPIAAssessmentCriteria.CRITERIA_ID -> ConsentRecord.CONSENT_ID",
+   "source_table": "DPIAAssessmentCriteria",
+   "source_column": "CRITERIA_ID",
+   "target_table": "ConsentRecord",
+   "target_key": "CONSENT_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DPIARecommendation.recommendation_id -> DisposalRecord.DISPOSAL_ID",
+   "source_table": "DPIARecommendation",
+   "source_column": "recommendation_id",
+   "target_table": "DisposalRecord",
+   "target_key": "DISPOSAL_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DPIARecord.DPIA_ID -> PortabilityRequest.PORTABILITY_ID",
+   "source_table": "DPIARecord",
+   "source_column": "DPIA_ID",
+   "target_table": "PortabilityRequest",
+   "target_key": "PORTABILITY_ID",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DPIAStakeholderConsultation.CONSULTATION_ID -> DataSubjectRequest.DSR_ID",
+   "source_table": "DPIAStakeholderConsultation",
+   "source_column": "CONSULTATION_ID",
+   "target_table": "DataSubjectRequest",
+   "target_key": "DSR_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DPIA_Dataset_Map.DPIA_DATASET_MAP_ID -> RemediationAction.REMEDIATION_ID",
+   "source_table": "DPIA_Dataset_Map",
+   "source_column": "DPIA_DATASET_MAP_ID",
+   "target_table": "RemediationAction",
+   "target_key": "REMEDIATION_ID",
+   "source_rows": 250,
+   "source_distinct": 250,
+   "target_rows": 250,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataField_Catalog.FIELD_CODE -> Dataset_Catalog.dataset_code",
+   "source_table": "DataField_Catalog",
+   "source_column": "FIELD_CODE",
+   "target_table": "Dataset_Catalog",
+   "target_key": "dataset_code",
+   "source_rows": 45,
+   "source_distinct": 45,
+   "target_rows": 50,
+   "score": 3.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataProfile_Lineage.LINEAGE_NO -> RiskManagement_Detail.RISK_DETAIL_CODE",
+   "source_table": "DataProfile_Lineage",
+   "source_column": "LINEAGE_NO",
+   "target_table": "RiskManagement_Detail",
+   "target_key": "RISK_DETAIL_CODE",
+   "source_rows": 870,
+   "source_distinct": 870,
+   "target_rows": 870,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataSubjectRequest.DSR_ID -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "source_table": "DataSubjectRequest",
+   "source_column": "DSR_ID",
+   "target_table": "DPIAStakeholderConsultation",
+   "target_key": "CONSULTATION_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Dataset_Catalog.dataset_code -> RetentionSchedule.RETENTION_ID",
+   "source_table": "Dataset_Catalog",
+   "source_column": "dataset_code",
+   "target_table": "RetentionSchedule",
+   "target_key": "RETENTION_ID",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DisposalRecord.DISPOSAL_ID -> DPIARecommendation.recommendation_id",
+   "source_table": "DisposalRecord",
+   "source_column": "DISPOSAL_ID",
+   "target_table": "DPIARecommendation",
+   "target_key": "recommendation_id",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DueDiligenceAssessment.DDA_ID -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "source_table": "DueDiligenceAssessment",
+   "source_column": "DDA_ID",
+   "target_table": "DPIAStakeholderConsultation",
+   "target_key": "CONSULTATION_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmployeeCertification.CERT_ID -> SecurityProfile_CipherDetail.CIPHER_DETAIL_NO",
+   "source_table": "EmployeeCertification",
+   "source_column": "CERT_ID",
+   "target_table": "SecurityProfile_CipherDetail",
+   "target_key": "CIPHER_DETAIL_NO",
+   "source_rows": 400,
+   "source_distinct": 400,
+   "target_rows": 430,
+   "score": 3.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ErasureRequest.ERASURE_ID -> IncidentRegister.INCIDENT_ID",
+   "source_table": "ErasureRequest",
+   "source_column": "ERASURE_ID",
+   "target_table": "IncidentRegister",
+   "target_key": "INCIDENT_ID",
+   "source_rows": 120,
+   "source_distinct": 120,
+   "target_rows": 120,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ForensicInvestigation.forensic_id -> GovernanceDecision.DECISION_ID",
+   "source_table": "ForensicInvestigation",
+   "source_column": "forensic_id",
+   "target_table": "GovernanceDecision",
+   "target_key": "DECISION_ID",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Geo_Jurisdiction.JURISDICTION_CODE -> API_Endpoint.Api_code",
+   "source_table": "Geo_Jurisdiction",
+   "source_column": "JURISDICTION_CODE",
+   "target_table": "API_Endpoint",
+   "target_key": "Api_code",
+   "source_rows": 40,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 3.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "GovernanceDecision.DECISION_ID -> ForensicInvestigation.forensic_id",
+   "source_table": "GovernanceDecision",
+   "source_column": "DECISION_ID",
+   "target_table": "ForensicInvestigation",
+   "target_key": "forensic_id",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "IncidentNotification.NOTIFICATION_ID -> DPIARecommendation.recommendation_id",
+   "source_table": "IncidentNotification",
+   "source_column": "NOTIFICATION_ID",
+   "target_table": "DPIARecommendation",
+   "target_key": "recommendation_id",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "IncidentRegister.INCIDENT_ID -> ErasureRequest.ERASURE_ID",
+   "source_table": "IncidentRegister",
+   "source_column": "INCIDENT_ID",
+   "target_table": "ErasureRequest",
+   "target_key": "ERASURE_ID",
+   "source_rows": 120,
+   "source_distinct": 120,
+   "target_rows": 120,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "IncidentResponsePlan.RESPONSE_PLAN_ID -> ForensicInvestigation.forensic_id",
+   "source_table": "IncidentResponsePlan",
+   "source_column": "RESPONSE_PLAN_ID",
+   "target_table": "ForensicInvestigation",
+   "target_key": "forensic_id",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Incident_Control_Map.ICM_ID -> EmployeeCertification.CERT_ID",
+   "source_table": "Incident_Control_Map",
+   "source_column": "ICM_ID",
+   "target_table": "EmployeeCertification",
+   "target_key": "CERT_ID",
+   "source_rows": 350,
+   "source_distinct": 350,
+   "target_rows": 400,
+   "score": 3.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Legal_Article.ARTICLE_NO -> API_Endpoint.Api_code",
+   "source_table": "Legal_Article",
+   "source_column": "ARTICLE_NO",
+   "target_table": "API_Endpoint",
+   "target_key": "Api_code",
+   "source_rows": 30,
+   "source_distinct": 30,
+   "target_rows": 40,
+   "score": 2.7,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PolicyAcknowledgment.ACK_ID -> TrainingCompletionLog.LOG_ID",
+   "source_table": "PolicyAcknowledgment",
+   "source_column": "ACK_ID",
+   "target_table": "TrainingCompletionLog",
+   "target_key": "LOG_ID",
+   "source_rows": 500,
+   "source_distinct": 500,
+   "target_rows": 500,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PolicyVersion.POLICY_VERSION_ID -> PrivacyTrainingProgram.TRAINING_PROG_ID",
+   "source_table": "PolicyVersion",
+   "source_column": "POLICY_VERSION_ID",
+   "target_table": "PrivacyTrainingProgram",
+   "target_key": "TRAINING_PROG_ID",
+   "source_rows": 60,
+   "source_distinct": 60,
+   "target_rows": 60,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PortabilityRequest.PORTABILITY_ID -> DPIARecord.DPIA_ID",
+   "source_table": "PortabilityRequest",
+   "source_column": "PORTABILITY_ID",
+   "target_table": "DPIARecord",
+   "target_key": "DPIA_ID",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PrivacyTrainingProgram.TRAINING_PROG_ID -> PolicyVersion.POLICY_VERSION_ID",
+   "source_table": "PrivacyTrainingProgram",
+   "source_column": "TRAINING_PROG_ID",
+   "target_table": "PolicyVersion",
+   "target_key": "POLICY_VERSION_ID",
+   "source_rows": 60,
+   "source_distinct": 60,
+   "target_rows": 60,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RemediationAction.REMEDIATION_ID -> DPIA_Dataset_Map.DPIA_DATASET_MAP_ID",
+   "source_table": "RemediationAction",
+   "source_column": "REMEDIATION_ID",
+   "target_table": "DPIA_Dataset_Map",
+   "target_key": "DPIA_DATASET_MAP_ID",
+   "source_rows": 250,
+   "source_distinct": 250,
+   "target_rows": 250,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RetentionSchedule.RETENTION_ID -> Dataset_Catalog.dataset_code",
+   "source_table": "RetentionSchedule",
+   "source_column": "RETENTION_ID",
+   "target_table": "Dataset_Catalog",
+   "target_key": "dataset_code",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Retention_Dataset_Map.RDM_ID -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "source_table": "Retention_Dataset_Map",
+   "source_column": "RDM_ID",
+   "target_table": "DPIAStakeholderConsultation",
+   "target_key": "CONSULTATION_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Rights_Compliance_Map.RCM_ID -> ConsentRecord.CONSENT_ID",
+   "source_table": "Rights_Compliance_Map",
+   "source_column": "RCM_ID",
+   "target_table": "ConsentRecord",
+   "target_key": "CONSENT_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskManagement_Detail.RISK_DETAIL_CODE -> DataProfile_Lineage.LINEAGE_NO",
+   "source_table": "RiskManagement_Detail",
+   "source_column": "RISK_DETAIL_CODE",
+   "target_table": "DataProfile_Lineage",
+   "target_key": "LINEAGE_NO",
+   "source_rows": 870,
+   "source_distinct": 870,
+   "target_rows": 870,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Risk_Scenario.Scenario_Code -> API_Endpoint.Api_code",
+   "source_table": "Risk_Scenario",
+   "source_column": "Scenario_Code",
+   "target_table": "API_Endpoint",
+   "target_key": "Api_code",
+   "source_rows": 40,
+   "source_distinct": 40,
+   "target_rows": 40,
+   "score": 3.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SLAMonitoring.SLA_MON_ID -> ConsentRecord.CONSENT_ID",
+   "source_table": "SLAMonitoring",
+   "source_column": "SLA_MON_ID",
+   "target_table": "ConsentRecord",
+   "target_key": "CONSENT_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SecurityProfile_CipherDetail.CIPHER_DETAIL_NO -> PolicyAcknowledgment.ACK_ID",
+   "source_table": "SecurityProfile_CipherDetail",
+   "source_column": "CIPHER_DETAIL_NO",
+   "target_table": "PolicyAcknowledgment",
+   "target_key": "ACK_ID",
+   "source_rows": 430,
+   "source_distinct": 430,
+   "target_rows": 500,
+   "score": 3.08,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SubprocessorRegistry.SUBPROCESSOR_ID -> ForensicInvestigation.forensic_id",
+   "source_table": "SubprocessorRegistry",
+   "source_column": "SUBPROCESSOR_ID",
+   "target_table": "ForensicInvestigation",
+   "target_key": "forensic_id",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 80,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Subprocessor_Vendor_Map.SVM_ID -> DPIARecommendation.recommendation_id",
+   "source_table": "Subprocessor_Vendor_Map",
+   "source_column": "SVM_ID",
+   "target_table": "DPIARecommendation",
+   "target_key": "recommendation_id",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "System_Inventory.SYSTEM_CODE -> Transfer_Mechanism.mechanism_no",
+   "source_table": "System_Inventory",
+   "source_column": "SYSTEM_CODE",
+   "target_table": "Transfer_Mechanism",
+   "target_key": "mechanism_no",
+   "source_rows": 20,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 3.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingCompletionLog.LOG_ID -> PolicyAcknowledgment.ACK_ID",
+   "source_table": "TrainingCompletionLog",
+   "source_column": "LOG_ID",
+   "target_table": "PolicyAcknowledgment",
+   "target_key": "ACK_ID",
+   "source_rows": 500,
+   "source_distinct": 500,
+   "target_rows": 500,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TrainingMaterial.MATERIAL_ID -> DPIAStakeholderConsultation.CONSULTATION_ID",
+   "source_table": "TrainingMaterial",
+   "source_column": "MATERIAL_ID",
+   "target_table": "DPIAStakeholderConsultation",
+   "target_key": "CONSULTATION_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Transfer_Mechanism.mechanism_no -> System_Inventory.SYSTEM_CODE",
+   "source_table": "Transfer_Mechanism",
+   "source_column": "mechanism_no",
+   "target_table": "System_Inventory",
+   "target_key": "SYSTEM_CODE",
+   "source_rows": 20,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 3.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Vendor_Contract_Detail.VCONTRACT_DETAIL_NO -> Compliance_Detail.COMPLIANCE_DETAIL_NO",
+   "source_table": "Vendor_Contract_Detail",
+   "source_column": "VCONTRACT_DETAIL_NO",
+   "target_table": "Compliance_Detail",
+   "target_key": "COMPLIANCE_DETAIL_NO",
+   "source_rows": 240,
+   "source_distinct": 240,
+   "target_rows": 240,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

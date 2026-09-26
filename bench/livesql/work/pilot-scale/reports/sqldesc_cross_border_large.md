@@ -1,0 +1,4 @@
+Writer's report (sqldesc arm, cross_border_large), as returned.
+
+- Hardest: cb_10 contradictory "slow remediation" / "next 5 days" (read as 1-5 days overdue); cb_1 missing-data vs high-risk filter; cb_6 no audit date (used REMED_DUE); cb_7 breakdown format (JSON object); cb_2 tier labels guessed; cb_9 used the question's failure-type labels over knowledge.md's; 'Critical' sensitivity scored as Low.
+- Material: useful for the paths inside the JSON columns and the joins, and it showed the record-registry columns all point one-to-one at `DataFlow.RecordRegistry`. **Missing: no value lists for the main tables**, so the writer profiled them by hand (ratings A-D, 'Failed', 'Full'/'Strong', 'Non-compliant', null FINDTALLY). **Blocked: the full `./schema` output was too big for the terminal**; used narrower calls and `information_schema` instead. Not covered: whether `control_effectiveness_pct` is a raw percentage.

@@ -1,0 +1,36 @@
+[
+ {
+  "question_id": 1506,
+  "answer": null,
+  "attempts": 3,
+  "note": "Requires joining Transactions1k to Gasstation (for country) and to Product (for description). The schema has no fact type connecting Transactions1k to Gasstation, Product, or Customer -- Transactions1kGasStationID/Transactions1kProductID/Transactions1kCustomerID are separate, unlinked value types from GasstationID/ProductID/CustomerID (only Yearmonth has an entity-to-entity link, to Customer). Confirmed with ./try: 'is of'/'has' from Gasstation or Transactions1k toward the other type resolves to no fact type ('no fact type reads is of starting from Gasstation and reaching Transactions1k'; 'has' from Transactions1k is ambiguous ... and none of them reaches Gasstation/Product/Customer). Likely because the underlying SQLite schema lacks FK constraints on transactions_1k, so reverse-engineering left these as plain attributes rather than entity references."
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE DISTINCT COUNT OF cust IN Customer cust [has CustomerCurrency: 'EUR'] is of Yearmonth has YearmonthConsumption c WHERE c > 1000",
+  "attempts": 3
+ },
+ {
+  "question_id": 1481,
+  "answer": null,
+  "attempts": 4,
+  "note": "The evidence's 'total consumption per year / number of customers with lowest consumption' always mathematically reduces to just MIN(YearmonthConsumption) for the segment (since averaging a set of tied-minimum values returns that value), so each segment's figure is expressible individually, e.g. THE MINIMUM c IN Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate d] has YearmonthConsumption c WHERE starts_with(d, '2013') (tested: SME=-14896.12, LAM=-2458.05, KAM=-582092.86). But the question wants three differences (SME-LAM, LAM-KAM, KAM-SME) returned together, and ConQuer has no way to combine three independently-computed whole-query aggregates into one result: LIST requires a single FROM path to produce columns, bare aggregate arithmetic produces only one scalar (confirmed two aggregates joined by ',' or 'OR OTHERWISE' both fail to parse/compile), and there is no multi-statement (semicolon) support. No single query returns exactly what was asked."
+ },
+ {
+  "question_id": 1486,
+  "answer": "THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] - THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR']",
+  "attempts": 1
+ },
+ {
+  "question_id": 1525,
+  "answer": null,
+  "attempts": 2,
+  "note": "Needs customers who transacted on the specific day 2012-08-25, which requires joining Customer to Transactions1k (for Transactions1kDate at day granularity) via CustomerID. No such fact type exists in the schema -- Transactions1kCustomerID is a separate, unlinked value type from CustomerID, and Yearmonth (the only type linked to Customer) only carries year-month granularity, not individual days. Same root-cause gap as question 1506."
+ },
+ {
+  "question_id": 1501,
+  "answer": null,
+  "attempts": 2,
+  "note": "Needs Gasstation joined to Transactions1k (filtered to June 2013) to get the country of stations with transactions that month. No fact type connects Transactions1k to Gasstation in this schema (confirmed via ./try: 'no fact type reads is of starting from Gasstation and reaching Transactions1k'). Same root-cause gap as question 1506."
+ }
+]

@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 37,
+  "answer": "LIST st, ci, zi, sta FROM Satscore has SatscoreNumGE1500 g AND ALSO has SatscoreNumTstTakr t AND ALSO (g / t) AS r AND ALSO has SchoolStreet st AND ALSO has SchoolCity ci AND ALSO has SchoolZip zi AND ALSO has SchoolState sta ORDERED WITH r ASCENDING THE FIRST 1",
+  "attempts": 4
+ },
+ {
+  "question_id": 46,
+  "answer": "LIST n FROM Frpm [has SchoolDOC: '31'] has FrpmSchoolName n AND ALSO has FrpmEnrollmentK12 e ORDERED WITH e DESCENDING THE FIRST 1",
+  "attempts": 4
+ },
+ {
+  "question_id": 82,
+  "answer": "LIST g FROM School has SchoolLongitude lo AND ALSO abs(lo) AS a AND ALSO OPTIONALLY has SchoolGSoffered g ORDERED WITH a DESCENDING THE FIRST 1",
+  "attempts": 3
+ },
+ {
+  "question_id": 28,
+  "answer": "LIST n, doc FROM Frpm [has SchoolFundingType: 'Locally funded'] has SchoolSchool n AND ALSO has SchoolDOC doc AND ALSO has FrpmEnrollmentK12 k AND ALSO has FrpmEnrollmentAges517 a AND ALSO (k - a) AS d WHERE d > THE AVERAGE d2 IN (Frpm [has SchoolFundingType: 'Locally funded'] has FrpmEnrollmentK12 k2 AND ALSO has FrpmEnrollmentAges517 a2 AND ALSO (k2 - a2) AS d2)",
+  "attempts": 4
+ },
+ {
+  "question_id": 24,
+  "answer": "LIST n FROM Satscore has FrpmSchoolName n AND ALSO has FrpmFreeMealCountK12 f AND ALSO has FrpmEnrollmentK12 e AND ALSO has SatscoreNumGE1500 g WHERE (f / e) > 0.1 AND g > 0",
+  "attempts": 3
+ },
+ {
+  "question_id": 79,
+  "answer": "LIST c, n FROM School s [has SchoolVirtual: 'F'] has SchoolCounty c AND ALSO THE COUNT OF s GROUPED BY c AS n WHERE c = 'San Diego' OR c = 'Santa Barbara' ORDERED WITH n DESCENDING THE FIRST 1",
+  "attempts": 3
+ }
+]

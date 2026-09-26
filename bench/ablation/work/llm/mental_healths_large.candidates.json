@@ -1,0 +1,3085 @@
+{
+ "database": "mental_healths_large",
+ "tables": [
+  "AmbulanceMaintenanceLogs",
+  "AmbulanceTransport",
+  "ClaimsAppealRecords",
+  "ClinicalPathwayAdherence",
+  "DeviceAlertHistory",
+  "DeviceTelemetry",
+  "DietaryLogs",
+  "FacilityOccupancyLog",
+  "FacilityStaffingLogs",
+  "FeedbackActionItems",
+  "GenomicSequencing",
+  "GenomicVariantAnalysis",
+  "InsuranceClaimsProcessing",
+  "NutritionConsultations",
+  "PatientFeedbackSurveys",
+  "PharmacyInventoryTracking",
+  "PostSurgicalRecovery",
+  "PrescriptionFulfillment",
+  "SurgicalProcedures",
+  "TelehealthQualityMetrics",
+  "TelehealthSessions",
+  "appointments",
+  "assessmentbasics",
+  "assessmentsocialanddiagnosis",
+  "assessmentsymptomsandrisk",
+  "billingrecords",
+  "caregivers",
+  "careplans",
+  "clinicaltrials",
+  "clinicians",
+  "clinicianteams",
+  "communityresources",
+  "compliancerecords",
+  "emergencyevents",
+  "encounters",
+  "facilities",
+  "facilitysuppliers",
+  "imagingstudies",
+  "insuranceplans",
+  "labresults",
+  "medicaldevices",
+  "medicalrecords",
+  "medicalteams",
+  "medications",
+  "patientcaregivers",
+  "patientclinicaltrials",
+  "patientmedications",
+  "patients",
+  "qualitymetrics",
+  "rehabprograms",
+  "suppliers",
+  "systemlogs",
+  "trainingprograms",
+  "treatmentbasics",
+  "treatmentoutcomes"
+ ],
+ "candidates": [
+  {
+   "id": "AmbulanceMaintenanceLogs.ambulance_ref -> AmbulanceTransport.AmbulanceTransport_id",
+   "source_table": "AmbulanceMaintenanceLogs",
+   "source_column": "ambulance_ref",
+   "target_table": "AmbulanceTransport",
+   "target_key": "AmbulanceTransport_id",
+   "source_rows": 49,
+   "source_distinct": 17,
+   "target_rows": 18,
+   "score": 4.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AT-F2E6C1CD97AF",
+    "AT-E1908D59D923",
+    "AT-052878BB616D",
+    "AT-2172618E8009",
+    "AT-321722688536"
+   ],
+   "target_samples": [
+    "AT-052878BB616D",
+    "AT-059C0AE0DF2D",
+    "AT-073490F8FCBB",
+    "AT-150C7FFCD2FE",
+    "AT-2172618E8009"
+   ]
+  },
+  {
+   "id": "AmbulanceMaintenanceLogs.passed_safety_inspection -> treatmentoutcomes.tx_out_key",
+   "source_table": "AmbulanceMaintenanceLogs",
+   "source_column": "passed_safety_inspection",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 49,
+   "source_distinct": 1,
+   "target_rows": 316,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AmbulanceTransport.emer_ref -> emergencyevents.emer_key",
+   "source_table": "AmbulanceTransport",
+   "source_column": "emer_ref",
+   "target_table": "emergencyevents",
+   "target_key": "emer_key",
+   "source_rows": 18,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EMER-003",
+    "EMER-001",
+    "EMER-004",
+    "EMER-002"
+   ],
+   "target_samples": [
+    "EMER-001",
+    "EMER-002",
+    "EMER-003",
+    "EMER-004"
+   ]
+  },
+  {
+   "id": "AmbulanceTransport.crew_size -> treatmentoutcomes.tx_out_key",
+   "source_table": "AmbulanceTransport",
+   "source_column": "crew_size",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 18,
+   "source_distinct": 3,
+   "target_rows": 316,
+   "score": 1.03,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "2",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ClaimsAppealRecords.claim_processing_ref -> InsuranceClaimsProcessing.InsuranceClaimsProcessing_id",
+   "source_table": "ClaimsAppealRecords",
+   "source_column": "claim_processing_ref",
+   "target_table": "InsuranceClaimsProcessing",
+   "target_key": "InsuranceClaimsProcessing_id",
+   "source_rows": 62,
+   "source_distinct": 13,
+   "target_rows": 13,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ICP-7B1B76D74153",
+    "ICP-A43DA79E838F",
+    "ICP-0B4F2D0BEFB5",
+    "ICP-5CACD200B2BD",
+    "ICP-4310A7C8850D"
+   ],
+   "target_samples": [
+    "ICP-0B4F2D0BEFB5",
+    "ICP-10C4B679E3A3",
+    "ICP-1267162B4CBE",
+    "ICP-314A00B37DAF",
+    "ICP-32815C1B3965"
+   ]
+  },
+  {
+   "id": "ClaimsAppealRecords.appeal_filed_days_from_denial -> treatmentoutcomes.tx_out_key",
+   "source_table": "ClaimsAppealRecords",
+   "source_column": "appeal_filed_days_from_denial",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 62,
+   "source_distinct": 40,
+   "target_rows": 316,
+   "score": 1.48,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "54",
+    "33",
+    "27",
+    "10",
+    "30"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ClaimsAppealRecords.supporting_docs_count -> treatmentoutcomes.tx_out_key",
+   "source_table": "ClaimsAppealRecords",
+   "source_column": "supporting_docs_count",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 62,
+   "source_distinct": 14,
+   "target_rows": 316,
+   "score": 1.13,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "6",
+    "1",
+    "7",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ClaimsAppealRecords.processing_time_days -> treatmentoutcomes.tx_out_key",
+   "source_table": "ClaimsAppealRecords",
+   "source_column": "processing_time_days",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 62,
+   "source_distinct": 40,
+   "target_rows": 316,
+   "score": 1.72,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "43",
+    "78",
+    "15",
+    "47",
+    "55"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ClinicalPathwayAdherence.encounter_ref -> encounters.enc_key",
+   "source_table": "ClinicalPathwayAdherence",
+   "source_column": "encounter_ref",
+   "target_table": "encounters",
+   "target_key": "enc_key",
+   "source_rows": 1262,
+   "source_distinct": 345,
+   "target_rows": 351,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MH589996",
+    "MH199026",
+    "MH429750",
+    "MH568327",
+    "MH903939"
+   ],
+   "target_samples": [
+    "MH105640",
+    "MH113729",
+    "MH115939",
+    "MH116568",
+    "MH117455"
+   ]
+  },
+  {
+   "id": "ClinicalPathwayAdherence.total_steps -> treatmentoutcomes.tx_out_key",
+   "source_table": "ClinicalPathwayAdherence",
+   "source_column": "total_steps",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 1262,
+   "source_distinct": 17,
+   "target_rows": 316,
+   "score": 1.24,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "17",
+    "20",
+    "23",
+    "10",
+    "24"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ClinicalPathwayAdherence.steps_completed -> treatmentoutcomes.tx_out_key",
+   "source_table": "ClinicalPathwayAdherence",
+   "source_column": "steps_completed",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 1262,
+   "source_distinct": 22,
+   "target_rows": 316,
+   "score": 1.23,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "16",
+    "12",
+    "13",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DeviceAlertHistory.telemetry_ref -> DeviceTelemetry.DeviceTelemetry_id",
+   "source_table": "DeviceAlertHistory",
+   "source_column": "telemetry_ref",
+   "target_table": "DeviceTelemetry",
+   "target_key": "DeviceTelemetry_id",
+   "source_rows": 112,
+   "source_distinct": 29,
+   "target_rows": 29,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "DT-BCCC6759DF73",
+    "DT-E1491FE38AF7",
+    "DT-336978482504",
+    "DT-5EBA9BF68DDD",
+    "DT-A4B2860FA9DA"
+   ],
+   "target_samples": [
+    "DT-05E5EEA29B00",
+    "DT-06ED7DEF90F7",
+    "DT-072F64C51542",
+    "DT-1BD922CF1D85",
+    "DT-25D2C2F2C74A"
+   ]
+  },
+  {
+   "id": "DeviceAlertHistory.repeat_alert_count -> treatmentoutcomes.tx_out_key",
+   "source_table": "DeviceAlertHistory",
+   "source_column": "repeat_alert_count",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 112,
+   "source_distinct": 14,
+   "target_rows": 316,
+   "score": 1.13,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "12",
+    "9",
+    "11",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DeviceAlertHistory.priority_score -> treatmentoutcomes.tx_out_key",
+   "source_table": "DeviceAlertHistory",
+   "source_column": "priority_score",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 112,
+   "source_distinct": 64,
+   "target_rows": 316,
+   "score": 1.84,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "92",
+    "83",
+    "40",
+    "6",
+    "29"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DeviceTelemetry.device_ref -> medicaldevices.dev_key",
+   "source_table": "DeviceTelemetry",
+   "source_column": "device_ref",
+   "target_table": "medicaldevices",
+   "target_key": "dev_key",
+   "source_rows": 29,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "DEV-001",
+    "DEV-004",
+    "DEV-002",
+    "DEV-006",
+    "DEV-005"
+   ],
+   "target_samples": [
+    "DEV-001",
+    "DEV-002",
+    "DEV-003",
+    "DEV-004",
+    "DEV-005"
+   ]
+  },
+  {
+   "id": "DeviceTelemetry.data_packet_size_kb -> treatmentbasics.tx_key",
+   "source_table": "DeviceTelemetry",
+   "source_column": "data_packet_size_kb",
+   "target_table": "treatmentbasics",
+   "target_key": "tx_key",
+   "source_rows": 29,
+   "source_distinct": 25,
+   "target_rows": 453,
+   "score": 2.4,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "234",
+    "244",
+    "279",
+    "206",
+    "276"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DietaryLogs.pat_ref -> patients.pat_key",
+   "source_table": "DietaryLogs",
+   "source_column": "pat_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 4350,
+   "source_distinct": 885,
+   "target_rows": 893,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "P547791",
+    "P640711",
+    "P939178",
+    "P477966",
+    "P453340"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "DietaryLogs.hunger_level_pre -> treatmentoutcomes.tx_out_key",
+   "source_table": "DietaryLogs",
+   "source_column": "hunger_level_pre",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 4350,
+   "source_distinct": 9,
+   "target_rows": 316,
+   "score": 1.08,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "7",
+    "3",
+    "6",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DietaryLogs.satiety_level_post -> treatmentoutcomes.tx_out_key",
+   "source_table": "DietaryLogs",
+   "source_column": "satiety_level_post",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 4350,
+   "source_distinct": 9,
+   "target_rows": 316,
+   "score": 1.08,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "5",
+    "4",
+    "1",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FacilityOccupancyLog.fac_ref -> facilities.fac_key",
+   "source_table": "FacilityOccupancyLog",
+   "source_column": "fac_ref",
+   "target_table": "facilities",
+   "target_key": "fac_key",
+   "source_rows": 1526,
+   "source_distinct": 499,
+   "target_rows": 541,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "F643",
+    "F665",
+    "F740",
+    "F287",
+    "F538"
+   ],
+   "target_samples": [
+    "F100",
+    "F104",
+    "F105",
+    "F107",
+    "F109"
+   ]
+  },
+  {
+   "id": "FacilityOccupancyLog.bed_capacity_total -> treatmentbasics.tx_key",
+   "source_table": "FacilityOccupancyLog",
+   "source_column": "bed_capacity_total",
+   "target_table": "treatmentbasics",
+   "target_key": "tx_key",
+   "source_rows": 1526,
+   "source_distinct": 244,
+   "target_rows": 453,
+   "score": 3.08,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "164",
+    "197",
+    "152",
+    "225",
+    "244"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FacilityOccupancyLog.beds_occupied -> treatmentoutcomes.tx_out_key",
+   "source_table": "FacilityOccupancyLog",
+   "source_column": "beds_occupied",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 1526,
+   "source_distinct": 201,
+   "target_rows": 316,
+   "score": 3.3,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "160",
+    "166",
+    "178",
+    "105",
+    "133"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FacilityOccupancyLog.staff_on_duty_count -> treatmentoutcomes.tx_out_key",
+   "source_table": "FacilityOccupancyLog",
+   "source_column": "staff_on_duty_count",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 1526,
+   "source_distinct": 112,
+   "target_rows": 316,
+   "score": 2.28,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "83",
+    "63",
+    "70",
+    "108",
+    "68"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FacilityStaffingLogs.occupancy_ref -> FacilityOccupancyLog.FacilityOccupancyLog_id",
+   "source_table": "FacilityStaffingLogs",
+   "source_column": "occupancy_ref",
+   "target_table": "FacilityOccupancyLog",
+   "target_key": "FacilityOccupancyLog_id",
+   "source_rows": 4561,
+   "source_distinct": 1453,
+   "target_rows": 1526,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "FOL-6E0A1D581EDC",
+    "FOL-9B7D8D45D35C",
+    "FOL-8A09BAED5AFA",
+    "FOL-8C8BFB53C8DA",
+    "FOL-FC2B0739FADE"
+   ],
+   "target_samples": [
+    "FOL-003915D036D7",
+    "FOL-0044CB2AF06B",
+    "FOL-005458E13D70",
+    "FOL-006DAA1AADC6",
+    "FOL-0076D1A03F16"
+   ]
+  },
+  {
+   "id": "FacilityStaffingLogs.rn_count_scheduled -> treatmentoutcomes.tx_out_key",
+   "source_table": "FacilityStaffingLogs",
+   "source_column": "rn_count_scheduled",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 4561,
+   "source_distinct": 45,
+   "target_rows": 316,
+   "score": 1.47,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11",
+    "27",
+    "46",
+    "45",
+    "44"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FacilityStaffingLogs.rn_count_actual -> treatmentoutcomes.tx_out_key",
+   "source_table": "FacilityStaffingLogs",
+   "source_column": "rn_count_actual",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 4561,
+   "source_distinct": 46,
+   "target_rows": 316,
+   "score": 1.47,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "20",
+    "25",
+    "33",
+    "40",
+    "45"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FacilityStaffingLogs.physician_count -> treatmentoutcomes.tx_out_key",
+   "source_table": "FacilityStaffingLogs",
+   "source_column": "physician_count",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 4561,
+   "source_distinct": 18,
+   "target_rows": 316,
+   "score": 1.18,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "11",
+    "10",
+    "9",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FacilityStaffingLogs.support_staff_count -> treatmentoutcomes.tx_out_key",
+   "source_table": "FacilityStaffingLogs",
+   "source_column": "support_staff_count",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 4561,
+   "source_distinct": 27,
+   "target_rows": 316,
+   "score": 1.28,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11",
+    "9",
+    "18",
+    "27",
+    "23"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "FeedbackActionItems.survey_ref -> PatientFeedbackSurveys.PatientFeedbackSurveys_id",
+   "source_table": "FeedbackActionItems",
+   "source_column": "survey_ref",
+   "target_table": "PatientFeedbackSurveys",
+   "target_key": "PatientFeedbackSurveys_id",
+   "source_rows": 2195,
+   "source_distinct": 905,
+   "target_rows": 1034,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PFS-5804D144AB4D",
+    "PFS-88BF2ABB97F3",
+    "PFS-CB018EB976CA",
+    "PFS-E4CC8FA18710",
+    "PFS-B212ECAD6406"
+   ],
+   "target_samples": [
+    "PFS-002777E6C65C",
+    "PFS-0028DFCC0933",
+    "PFS-003CA4CD58F3",
+    "PFS-0042386DF4E0",
+    "PFS-005CE18229E5"
+   ]
+  },
+  {
+   "id": "FeedbackActionItems.days_to_resolution -> treatmentoutcomes.tx_out_key",
+   "source_table": "FeedbackActionItems",
+   "source_column": "days_to_resolution",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 2195,
+   "source_distinct": 59,
+   "target_rows": 316,
+   "score": 1.55,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "42",
+    "16",
+    "48",
+    "8",
+    "55"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "GenomicSequencing.lab_ref -> labresults.lab_key",
+   "source_table": "GenomicSequencing",
+   "source_column": "lab_ref",
+   "target_table": "labresults",
+   "target_key": "lab_key",
+   "source_rows": 12,
+   "source_distinct": 4,
+   "target_rows": 6,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "LAB-002",
+    "LAB-006",
+    "LAB-003",
+    "LAB-001"
+   ],
+   "target_samples": [
+    "LAB-001",
+    "LAB-002",
+    "LAB-003",
+    "LAB-004",
+    "LAB-005"
+   ]
+  },
+  {
+   "id": "GenomicVariantAnalysis.sequencing_ref -> GenomicSequencing.GenomicSequencing_id",
+   "source_table": "GenomicVariantAnalysis",
+   "source_column": "sequencing_ref",
+   "target_table": "GenomicSequencing",
+   "target_key": "GenomicSequencing_id",
+   "source_rows": 38,
+   "source_distinct": 12,
+   "target_rows": 12,
+   "score": 4.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "GS-0CE35B132D48",
+    "GS-508FB0BA7E3B",
+    "GS-431C7E80ED8C",
+    "GS-8036377BA5E1",
+    "GS-DF266B6325EA"
+   ],
+   "target_samples": [
+    "GS-0CE35B132D48",
+    "GS-18E44DE0C283",
+    "GS-431C7E80ED8C",
+    "GS-4D086AB628CE",
+    "GS-508FB0BA7E3B"
+   ]
+  },
+  {
+   "id": "GenomicVariantAnalysis.evidence_citations_count -> treatmentoutcomes.tx_out_key",
+   "source_table": "GenomicVariantAnalysis",
+   "source_column": "evidence_citations_count",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 38,
+   "source_distinct": 28,
+   "target_rows": 316,
+   "score": 1.36,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "38",
+    "9",
+    "6",
+    "27",
+    "46"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "InsuranceClaimsProcessing.bill_ref -> billingrecords.bill_key",
+   "source_table": "InsuranceClaimsProcessing",
+   "source_column": "bill_ref",
+   "target_table": "billingrecords",
+   "target_key": "bill_key",
+   "source_rows": 13,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "BILL-003",
+    "BILL-001",
+    "BILL-002"
+   ],
+   "target_samples": [
+    "BILL-001",
+    "BILL-002",
+    "BILL-003"
+   ]
+  },
+  {
+   "id": "NutritionConsultations.dietary_ref -> DietaryLogs.DietaryLogs_id",
+   "source_table": "NutritionConsultations",
+   "source_column": "dietary_ref",
+   "target_table": "DietaryLogs",
+   "target_key": "DietaryLogs_id",
+   "source_rows": 11955,
+   "source_distinct": 4085,
+   "target_rows": 4350,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "DL-1C40D20A9240",
+    "DL-AE15E7C40A73",
+    "DL-E4DB7688D424",
+    "DL-87B9E1642EC1",
+    "DL-AADA1CAD0284"
+   ],
+   "target_samples": [
+    "DL-0002EC77E41D",
+    "DL-0009D5BF64D2",
+    "DL-000AAFEA265A",
+    "DL-000EF640BCA3",
+    "DL-0010A1D9F5A1"
+   ]
+  },
+  {
+   "id": "NutritionConsultations.duration_minutes -> treatmentoutcomes.tx_out_key",
+   "source_table": "NutritionConsultations",
+   "source_column": "duration_minutes",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 11955,
+   "source_distinct": 75,
+   "target_rows": 316,
+   "score": 1.87,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "16",
+    "44",
+    "86",
+    "77",
+    "66"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "NutritionConsultations.protein_goal_grams -> treatmentoutcomes.tx_out_key",
+   "source_table": "NutritionConsultations",
+   "source_column": "protein_goal_grams",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 11955,
+   "source_distinct": 160,
+   "target_rows": 316,
+   "score": 2.89,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "159",
+    "64",
+    "91",
+    "196",
+    "166"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "NutritionConsultations.carb_goal_grams -> treatmentbasics.tx_key",
+   "source_table": "NutritionConsultations",
+   "source_column": "carb_goal_grams",
+   "target_table": "treatmentbasics",
+   "target_key": "tx_key",
+   "source_rows": 11955,
+   "source_distinct": 350,
+   "target_rows": 453,
+   "score": 3.54,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "278",
+    "371",
+    "266",
+    "223",
+    "296"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "NutritionConsultations.fat_goal_grams -> treatmentoutcomes.tx_out_key",
+   "source_table": "NutritionConsultations",
+   "source_column": "fat_goal_grams",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 11955,
+   "source_distinct": 120,
+   "target_rows": 316,
+   "score": 2.45,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "60",
+    "102",
+    "107",
+    "103",
+    "126"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "NutritionConsultations.patient_satisfaction_score -> treatmentoutcomes.tx_out_key",
+   "source_table": "NutritionConsultations",
+   "source_column": "patient_satisfaction_score",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 11955,
+   "source_distinct": 9,
+   "target_rows": 316,
+   "score": 1.08,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "9",
+    "6",
+    "1",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PatientFeedbackSurveys.enc_ref -> encounters.enc_key",
+   "source_table": "PatientFeedbackSurveys",
+   "source_column": "enc_ref",
+   "target_table": "encounters",
+   "target_key": "enc_key",
+   "source_rows": 1034,
+   "source_distinct": 331,
+   "target_rows": 351,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MH946473",
+    "MH948831",
+    "MH113729",
+    "MH120392",
+    "MH682421"
+   ],
+   "target_samples": [
+    "MH105640",
+    "MH113729",
+    "MH115939",
+    "MH116568",
+    "MH117455"
+   ]
+  },
+  {
+   "id": "PatientFeedbackSurveys.wait_time_rating -> treatmentoutcomes.tx_out_key",
+   "source_table": "PatientFeedbackSurveys",
+   "source_column": "wait_time_rating",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 1034,
+   "source_distinct": 5,
+   "target_rows": 316,
+   "score": 1.04,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "5",
+    "2",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PatientFeedbackSurveys.doctor_listen_rating -> treatmentoutcomes.tx_out_key",
+   "source_table": "PatientFeedbackSurveys",
+   "source_column": "doctor_listen_rating",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 1034,
+   "source_distinct": 2,
+   "target_rows": 316,
+   "score": 2.01,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PatientFeedbackSurveys.explanation_rating -> treatmentoutcomes.tx_out_key",
+   "source_table": "PatientFeedbackSurveys",
+   "source_column": "explanation_rating",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 1034,
+   "source_distinct": 5,
+   "target_rows": 316,
+   "score": 1.04,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "2",
+    "4",
+    "3",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PatientFeedbackSurveys.staff_courtesy_rating -> treatmentoutcomes.tx_out_key",
+   "source_table": "PatientFeedbackSurveys",
+   "source_column": "staff_courtesy_rating",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 1034,
+   "source_distinct": 5,
+   "target_rows": 316,
+   "score": 1.04,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "3",
+    "4",
+    "1",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PatientFeedbackSurveys.cleanliness_rating -> treatmentoutcomes.tx_out_key",
+   "source_table": "PatientFeedbackSurveys",
+   "source_column": "cleanliness_rating",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 1034,
+   "source_distinct": 5,
+   "target_rows": 316,
+   "score": 1.04,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "1",
+    "4",
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PatientFeedbackSurveys.billing_clarity_rating -> treatmentoutcomes.tx_out_key",
+   "source_table": "PatientFeedbackSurveys",
+   "source_column": "billing_clarity_rating",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 1034,
+   "source_distinct": 5,
+   "target_rows": 316,
+   "score": 1.04,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "2",
+    "5",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PharmacyInventoryTracking.fulfillment_ref -> PrescriptionFulfillment.PrescriptionFulfillment_id",
+   "source_table": "PharmacyInventoryTracking",
+   "source_column": "fulfillment_ref",
+   "target_table": "PrescriptionFulfillment",
+   "target_key": "PrescriptionFulfillment_id",
+   "source_rows": 132,
+   "source_distinct": 35,
+   "target_rows": 36,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PF-D15A36403926",
+    "PF-DA62D617A37A",
+    "PF-36AA9ACAD09D",
+    "PF-4EF1076421D6",
+    "PF-41E028937D06"
+   ],
+   "target_samples": [
+    "PF-08CDA7CBE1F3",
+    "PF-1A27CC204173",
+    "PF-294F329F5EAC",
+    "PF-2FE28F47763A",
+    "PF-36AA9ACAD09D"
+   ]
+  },
+  {
+   "id": "PharmacyInventoryTracking.storage_temp_celsius -> treatmentoutcomes.tx_out_key",
+   "source_table": "PharmacyInventoryTracking",
+   "source_column": "storage_temp_celsius",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 132,
+   "source_distinct": 5,
+   "target_rows": 316,
+   "score": 1.19,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "25.0",
+    "2.0",
+    "22.0",
+    "15.0",
+    "8.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PharmacyInventoryTracking.supplier_lead_days -> treatmentoutcomes.tx_out_key",
+   "source_table": "PharmacyInventoryTracking",
+   "source_column": "supplier_lead_days",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 132,
+   "source_distinct": 13,
+   "target_rows": 316,
+   "score": 1.12,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "7",
+    "13",
+    "6",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PostSurgicalRecovery.surgery_ref -> SurgicalProcedures.SurgicalProcedures_id",
+   "source_table": "PostSurgicalRecovery",
+   "source_column": "surgery_ref",
+   "target_table": "SurgicalProcedures",
+   "target_key": "SurgicalProcedures_id",
+   "source_rows": 4457,
+   "source_distinct": 1568,
+   "target_rows": 1679,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SP-7FB0F172AA4E",
+    "SP-B35384FDAC9D",
+    "SP-B45EA127F7AF",
+    "SP-C3DD244D4C9D",
+    "SP-5BBECC0F5DD8"
+   ],
+   "target_samples": [
+    "SP-0017A80CDAD1",
+    "SP-0046953A9E1B",
+    "SP-009963FCCA6A",
+    "SP-00C02B70DA79",
+    "SP-00D3FEB1D6EC"
+   ]
+  },
+  {
+   "id": "PostSurgicalRecovery.pacu_duration_min -> treatmentoutcomes.tx_out_key",
+   "source_table": "PostSurgicalRecovery",
+   "source_column": "pacu_duration_min",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 4457,
+   "source_distinct": 150,
+   "target_rows": 316,
+   "score": 2.72,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "62",
+    "56",
+    "84",
+    "150",
+    "169"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PrescriptionFulfillment.pm_ref -> patientmedications.pm_key",
+   "source_table": "PrescriptionFulfillment",
+   "source_column": "pm_ref",
+   "target_table": "patientmedications",
+   "target_key": "pm_key",
+   "source_rows": 36,
+   "source_distinct": 9,
+   "target_rows": 9,
+   "score": 4.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PM-007",
+    "PM-006",
+    "PM-003",
+    "PM-004",
+    "PM-008"
+   ],
+   "target_samples": [
+    "PM-001",
+    "PM-002",
+    "PM-003",
+    "PM-004",
+    "PM-005"
+   ]
+  },
+  {
+   "id": "PrescriptionFulfillment.quantity_dispensed -> treatmentoutcomes.tx_out_key",
+   "source_table": "PrescriptionFulfillment",
+   "source_column": "quantity_dispensed",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 36,
+   "source_distinct": 5,
+   "target_rows": 316,
+   "score": 1.51,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "30",
+    "7",
+    "14",
+    "60",
+    "90"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PrescriptionFulfillment.days_supply -> treatmentoutcomes.tx_out_key",
+   "source_table": "PrescriptionFulfillment",
+   "source_column": "days_supply",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 36,
+   "source_distinct": 4,
+   "target_rows": 316,
+   "score": 1.45,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "30",
+    "90",
+    "7",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PrescriptionFulfillment.signature_captured -> treatmentoutcomes.tx_out_key",
+   "source_table": "PrescriptionFulfillment",
+   "source_column": "signature_captured",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 36,
+   "source_distinct": 1,
+   "target_rows": 316,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SurgicalProcedures.enc_ref -> encounters.enc_key",
+   "source_table": "SurgicalProcedures",
+   "source_column": "enc_ref",
+   "target_table": "encounters",
+   "target_key": "enc_key",
+   "source_rows": 1679,
+   "source_distinct": 348,
+   "target_rows": 351,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MH939339",
+    "MH420279",
+    "MH193746",
+    "MH572575",
+    "MH568327"
+   ],
+   "target_samples": [
+    "MH105640",
+    "MH113729",
+    "MH115939",
+    "MH116568",
+    "MH117455"
+   ]
+  },
+  {
+   "id": "SurgicalProcedures.instrument_count_correct -> treatmentoutcomes.tx_out_key",
+   "source_table": "SurgicalProcedures",
+   "source_column": "instrument_count_correct",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 1679,
+   "source_distinct": 1,
+   "target_rows": 316,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SurgicalProcedures.postop_pain_score -> treatmentoutcomes.tx_out_key",
+   "source_table": "SurgicalProcedures",
+   "source_column": "postop_pain_score",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 1679,
+   "source_distinct": 9,
+   "target_rows": 316,
+   "score": 1.08,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "8",
+    "3",
+    "2",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TelehealthQualityMetrics.telehealth_ref -> TelehealthSessions.TelehealthSessions_id",
+   "source_table": "TelehealthQualityMetrics",
+   "source_column": "telehealth_ref",
+   "target_table": "TelehealthSessions",
+   "target_key": "TelehealthSessions_id",
+   "source_rows": 51,
+   "source_distinct": 11,
+   "target_rows": 11,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TS-9079AA04B42A",
+    "TS-A026320D35D5",
+    "TS-F38ACC063318",
+    "TS-35AD29291C3C",
+    "TS-45666F9232A7"
+   ],
+   "target_samples": [
+    "TS-1C4D42812FF5",
+    "TS-35AD29291C3C",
+    "TS-45666F9232A7",
+    "TS-815CEEBF7870",
+    "TS-9079AA04B42A"
+   ]
+  },
+  {
+   "id": "TelehealthSessions.appt_ref -> appointments.appt_key",
+   "source_table": "TelehealthSessions",
+   "source_column": "appt_ref",
+   "target_table": "appointments",
+   "target_key": "appt_key",
+   "source_rows": 11,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "APPT-002",
+    "APPT-003",
+    "APPT-001"
+   ],
+   "target_samples": [
+    "APPT-001",
+    "APPT-002",
+    "APPT-003"
+   ]
+  },
+  {
+   "id": "TelehealthSessions.chat_messages_count -> treatmentoutcomes.tx_out_key",
+   "source_table": "TelehealthSessions",
+   "source_column": "chat_messages_count",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 11,
+   "source_distinct": 10,
+   "target_rows": 316,
+   "score": 1.21,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "26",
+    "6",
+    "7",
+    "10",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TelehealthSessions.patient_rating -> treatmentoutcomes.tx_out_key",
+   "source_table": "TelehealthSessions",
+   "source_column": "patient_rating",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 11,
+   "source_distinct": 4,
+   "target_rows": 316,
+   "score": 1.04,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "4",
+    "3",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TelehealthSessions.reconnect_success -> treatmentoutcomes.tx_out_key",
+   "source_table": "TelehealthSessions",
+   "source_column": "reconnect_success",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 11,
+   "source_distinct": 1,
+   "target_rows": 316,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TelehealthSessions.encryption_verified -> treatmentoutcomes.tx_out_key",
+   "source_table": "TelehealthSessions",
+   "source_column": "encryption_verified",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 11,
+   "source_distinct": 1,
+   "target_rows": 316,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "appointments.pat_ref -> patients.pat_key",
+   "source_table": "appointments",
+   "source_column": "pat_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 893,
+   "score": 3.18,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "P425079",
+    "P747481",
+    "P228409"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "appointments.clin_ref -> clinicians.clin_key",
+   "source_table": "appointments",
+   "source_column": "clin_ref",
+   "target_table": "clinicians",
+   "target_key": "clin_key",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 753,
+   "score": 3.04,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "C8738",
+    "C6539",
+    "C4463"
+   ],
+   "target_samples": [
+    "C1014",
+    "C1050",
+    "C1080",
+    "C1094",
+    "C1100"
+   ]
+  },
+  {
+   "id": "assessmentbasics.a_dur_min -> treatmentoutcomes.tx_out_key",
+   "source_table": "assessmentbasics",
+   "source_column": "a_dur_min",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 921,
+   "source_distinct": 106,
+   "target_rows": 316,
+   "score": 2.67,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "93",
+    "112",
+    "81",
+    "102",
+    "18"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "assessmentbasics.pat_owner_ref -> patients.pat_key",
+   "source_table": "assessmentbasics",
+   "source_column": "pat_owner_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 921,
+   "source_distinct": 845,
+   "target_rows": 893,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "P425079",
+    "P883117",
+    "P871358",
+    "P106395",
+    "P534274"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "assessmentsocialanddiagnosis.qol_scr -> treatmentoutcomes.tx_out_key",
+   "source_table": "assessmentsocialanddiagnosis",
+   "source_column": "qol_scr",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 652,
+   "source_distinct": 100,
+   "target_rows": 316,
+   "score": 2.44,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "42",
+    "63",
+    "33",
+    "29"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "billingrecords.pat_ref -> patients.pat_key",
+   "source_table": "billingrecords",
+   "source_column": "pat_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 893,
+   "score": 2.73,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "P425079",
+    "P883117",
+    "P871358"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "billingrecords.ins_ref -> insuranceplans.ins_key",
+   "source_table": "billingrecords",
+   "source_column": "ins_ref",
+   "target_table": "insuranceplans",
+   "target_key": "ins_key",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 8,
+   "score": 2.75,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "INS-001",
+    "INS-002"
+   ],
+   "target_samples": [
+    "INS-001",
+    "INS-002",
+    "INS-003",
+    "INS-004",
+    "INS-005"
+   ]
+  },
+  {
+   "id": "careplans.pat_ref -> patients.pat_key",
+   "source_table": "careplans",
+   "source_column": "pat_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 893,
+   "score": 3.06,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "P425079",
+    "P883117",
+    "P871358",
+    "P232109",
+    "P747481"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "careplans.clin_ref -> clinicians.clin_key",
+   "source_table": "careplans",
+   "source_column": "clin_ref",
+   "target_table": "clinicians",
+   "target_key": "clin_key",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 753,
+   "score": 2.82,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "C8738",
+    "C6837",
+    "C6539",
+    "C8094",
+    "C4487"
+   ],
+   "target_samples": [
+    "C1014",
+    "C1050",
+    "C1080",
+    "C1094",
+    "C1100"
+   ]
+  },
+  {
+   "id": "clinicians.fac_connect -> facilities.fac_key",
+   "source_table": "clinicians",
+   "source_column": "fac_connect",
+   "target_table": "facilities",
+   "target_key": "fac_key",
+   "source_rows": 753,
+   "source_distinct": 465,
+   "target_rows": 541,
+   "score": 4.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "F801",
+    "F533",
+    "F392",
+    "F912",
+    "F241"
+   ],
+   "target_samples": [
+    "F100",
+    "F104",
+    "F105",
+    "F107",
+    "F109"
+   ]
+  },
+  {
+   "id": "clinicianteams.clin_ref -> clinicians.clin_key",
+   "source_table": "clinicianteams",
+   "source_column": "clin_ref",
+   "target_table": "clinicians",
+   "target_key": "clin_key",
+   "source_rows": 11,
+   "source_distinct": 8,
+   "target_rows": 753,
+   "score": 3.08,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "C9931",
+    "C8144",
+    "C3118",
+    "C6673",
+    "C4458"
+   ],
+   "target_samples": [
+    "C1014",
+    "C1050",
+    "C1080",
+    "C1094",
+    "C1100"
+   ]
+  },
+  {
+   "id": "clinicianteams.team_ref -> medicalteams.team_key",
+   "source_table": "clinicianteams",
+   "source_column": "team_ref",
+   "target_table": "medicalteams",
+   "target_key": "team_key",
+   "source_rows": 11,
+   "source_distinct": 6,
+   "target_rows": 7,
+   "score": 3.79,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TEAM-001",
+    "TEAM-002",
+    "TEAM-003",
+    "TEAM-004",
+    "TEAM-005"
+   ],
+   "target_samples": [
+    "TEAM-001",
+    "TEAM-002",
+    "TEAM-003",
+    "TEAM-004",
+    "TEAM-005"
+   ]
+  },
+  {
+   "id": "clinicianteams.case_load_patients_month -> treatmentoutcomes.tx_out_key",
+   "source_table": "clinicianteams",
+   "source_column": "case_load_patients_month",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 11,
+   "source_distinct": 11,
+   "target_rows": 316,
+   "score": 1.4,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "45.0",
+    "32.0",
+    "28.0",
+    "25.0",
+    "15.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "emergencyevents.pat_ref -> patients.pat_key",
+   "source_table": "emergencyevents",
+   "source_column": "pat_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 893,
+   "score": 2.66,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "P425079",
+    "P883117",
+    "P871358",
+    "P760435"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "encounters.ab_ref -> assessmentbasics.ab_key",
+   "source_table": "encounters",
+   "source_column": "ab_ref",
+   "target_table": "assessmentbasics",
+   "target_key": "ab_key",
+   "source_rows": 351,
+   "source_distinct": 342,
+   "target_rows": 921,
+   "score": 3.81,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "A981114",
+    "A599516",
+    "A515871",
+    "A663195",
+    "A668638"
+   ],
+   "target_samples": [
+    "A100700",
+    "A101440",
+    "A101789",
+    "A101817",
+    "A103555"
+   ]
+  },
+  {
+   "id": "encounters.pat_ref -> patients.pat_key",
+   "source_table": "encounters",
+   "source_column": "pat_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 351,
+   "source_distinct": 335,
+   "target_rows": 893,
+   "score": 3.81,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "P883117",
+    "P292211",
+    "P136511",
+    "P871358",
+    "P690510"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "encounters.clin_id -> clinicians.clin_key",
+   "source_table": "encounters",
+   "source_column": "clin_id",
+   "target_table": "clinicians",
+   "target_key": "clin_key",
+   "source_rows": 351,
+   "source_distinct": 310,
+   "target_rows": 753,
+   "score": 3.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "C6837",
+    "C8094",
+    "C8691",
+    "C6496",
+    "C4845"
+   ],
+   "target_samples": [
+    "C1014",
+    "C1050",
+    "C1080",
+    "C1094",
+    "C1100"
+   ]
+  },
+  {
+   "id": "encounters.fac_id -> facilities.fac_key",
+   "source_table": "encounters",
+   "source_column": "fac_id",
+   "target_table": "facilities",
+   "target_key": "fac_key",
+   "source_rows": 351,
+   "source_distinct": 273,
+   "target_rows": 541,
+   "score": 3.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "F533",
+    "F770",
+    "F402",
+    "F979",
+    "F912"
+   ],
+   "target_samples": [
+    "F100",
+    "F104",
+    "F105",
+    "F107",
+    "F109"
+   ]
+  },
+  {
+   "id": "facilitysuppliers.fac_ref -> facilities.fac_key",
+   "source_table": "facilitysuppliers",
+   "source_column": "fac_ref",
+   "target_table": "facilities",
+   "target_key": "fac_key",
+   "source_rows": 10,
+   "source_distinct": 7,
+   "target_rows": 541,
+   "score": 3.26,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "F397",
+    "F523",
+    "F354",
+    "F841",
+    "F758"
+   ],
+   "target_samples": [
+    "F100",
+    "F104",
+    "F105",
+    "F107",
+    "F109"
+   ]
+  },
+  {
+   "id": "facilitysuppliers.sup_ref -> suppliers.sup_key",
+   "source_table": "facilitysuppliers",
+   "source_column": "sup_ref",
+   "target_table": "suppliers",
+   "target_key": "sup_key",
+   "source_rows": 10,
+   "source_distinct": 6,
+   "target_rows": 9,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SUP-001",
+    "SUP-002",
+    "SUP-003",
+    "SUP-004",
+    "SUP-005"
+   ],
+   "target_samples": [
+    "SUP-001",
+    "SUP-002",
+    "SUP-003",
+    "SUP-004",
+    "SUP-005"
+   ]
+  },
+  {
+   "id": "imagingstudies.pat_ref -> patients.pat_key",
+   "source_table": "imagingstudies",
+   "source_column": "pat_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 893,
+   "score": 2.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "P425079",
+    "P871358",
+    "P760435"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "labresults.pat_ref -> patients.pat_key",
+   "source_table": "labresults",
+   "source_column": "pat_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 893,
+   "score": 2.96,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "P425079",
+    "P883117",
+    "P871358",
+    "P760435",
+    "P232109"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "medicalrecords.pat_ref -> patients.pat_key",
+   "source_table": "medicalrecords",
+   "source_column": "pat_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 9,
+   "source_distinct": 9,
+   "target_rows": 893,
+   "score": 3.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "P425079",
+    "P883117",
+    "P871358",
+    "P760435",
+    "P232109"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "patientcaregivers.pat_ref -> patients.pat_key",
+   "source_table": "patientcaregivers",
+   "source_column": "pat_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 9,
+   "source_distinct": 8,
+   "target_rows": 893,
+   "score": 2.95,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "P425079",
+    "P883117",
+    "P534274",
+    "P470383",
+    "P394626"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "patientcaregivers.care_ref -> caregivers.care_key",
+   "source_table": "patientcaregivers",
+   "source_column": "care_ref",
+   "target_table": "caregivers",
+   "target_key": "care_key",
+   "source_rows": 9,
+   "source_distinct": 6,
+   "target_rows": 8,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CARE-001",
+    "CARE-002",
+    "CARE-003",
+    "CARE-004",
+    "CARE-005"
+   ],
+   "target_samples": [
+    "CARE-001",
+    "CARE-002",
+    "CARE-003",
+    "CARE-004",
+    "CARE-005"
+   ]
+  },
+  {
+   "id": "patientclinicaltrials.pat_ref -> patients.pat_key",
+   "source_table": "patientclinicaltrials",
+   "source_column": "pat_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 11,
+   "source_distinct": 10,
+   "target_rows": 893,
+   "score": 3.15,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "P425079",
+    "P883117",
+    "P871358",
+    "P106395",
+    "P534274"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "patientclinicaltrials.trial_ref -> clinicaltrials.trial_key",
+   "source_table": "patientclinicaltrials",
+   "source_column": "trial_ref",
+   "target_table": "clinicaltrials",
+   "target_key": "trial_key",
+   "source_rows": 11,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "TRIAL-001",
+    "TRIAL-002",
+    "TRIAL-003",
+    "TRIAL-004",
+    "TRIAL-005"
+   ],
+   "target_samples": [
+    "TRIAL-001",
+    "TRIAL-002",
+    "TRIAL-003",
+    "TRIAL-004",
+    "TRIAL-005"
+   ]
+  },
+  {
+   "id": "patientmedications.pat_ref -> patients.pat_key",
+   "source_table": "patientmedications",
+   "source_column": "pat_ref",
+   "target_table": "patients",
+   "target_key": "pat_key",
+   "source_rows": 9,
+   "source_distinct": 8,
+   "target_rows": 893,
+   "score": 3.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "P425079",
+    "P883117",
+    "P871358",
+    "P760435",
+    "P232109"
+   ],
+   "target_samples": [
+    "P100972",
+    "P102311",
+    "P103814",
+    "P105181",
+    "P106395"
+   ]
+  },
+  {
+   "id": "patientmedications.med_ref -> medications.med_key",
+   "source_table": "patientmedications",
+   "source_column": "med_ref",
+   "target_table": "medications",
+   "target_key": "med_key",
+   "source_rows": 9,
+   "source_distinct": 7,
+   "target_rows": 7,
+   "score": 4.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MED-001",
+    "MED-003",
+    "MED-005",
+    "MED-002",
+    "MED-004"
+   ],
+   "target_samples": [
+    "MED-001",
+    "MED-002",
+    "MED-003",
+    "MED-004",
+    "MED-005"
+   ]
+  },
+  {
+   "id": "patients.pat_age -> treatmentoutcomes.tx_out_key",
+   "source_table": "patients",
+   "source_column": "pat_age",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 893,
+   "source_distinct": 68,
+   "target_rows": 316,
+   "score": 2.34,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "23",
+    "42",
+    "32",
+    "46",
+    "81"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "patients.clin_lead_ref -> clinicians.clin_key",
+   "source_table": "patients",
+   "source_column": "clin_lead_ref",
+   "target_table": "clinicians",
+   "target_key": "clin_key",
+   "source_rows": 893,
+   "source_distinct": 687,
+   "target_rows": 753,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "C8738",
+    "C6837",
+    "C6539",
+    "C4463",
+    "C2769"
+   ],
+   "target_samples": [
+    "C1014",
+    "C1050",
+    "C1080",
+    "C1094",
+    "C1100"
+   ]
+  },
+  {
+   "id": "rehabprograms.sess_dur_minutes_session -> treatmentoutcomes.tx_out_key",
+   "source_table": "rehabprograms",
+   "source_column": "sess_dur_minutes_session",
+   "target_table": "treatmentoutcomes",
+   "target_key": "tx_out_key",
+   "source_rows": 15,
+   "source_distinct": 5,
+   "target_rows": 316,
+   "score": 1.76,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "60.0",
+    "45.0",
+    "90.0",
+    "75.0",
+    "30.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "rehabprograms.cost_sess_usd_session -> treatmentbasics.tx_key",
+   "source_table": "rehabprograms",
+   "source_column": "cost_sess_usd_session",
+   "target_table": "treatmentbasics",
+   "target_key": "tx_key",
+   "source_rows": 15,
+   "source_distinct": 14,
+   "target_rows": 453,
+   "score": 2.44,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "180.0",
+    "250.0",
+    "320.0",
+    "220.0",
+    "150.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "treatmentbasics.enc_ref -> encounters.enc_key",
+   "source_table": "treatmentbasics",
+   "source_column": "enc_ref",
+   "target_table": "encounters",
+   "target_key": "enc_key",
+   "source_rows": 453,
+   "source_distinct": 259,
+   "target_rows": 351,
+   "score": 4.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MH353857",
+    "MH512598",
+    "MH463949",
+    "MH437133",
+    "MH485293"
+   ],
+   "target_samples": [
+    "MH105640",
+    "MH113729",
+    "MH115939",
+    "MH116568",
+    "MH117455"
+   ]
+  },
+  {
+   "id": "treatmentoutcomes.tx_ref -> treatmentbasics.tx_key",
+   "source_table": "treatmentoutcomes",
+   "source_column": "tx_ref",
+   "target_table": "treatmentbasics",
+   "target_key": "tx_key",
+   "source_rows": 316,
+   "source_distinct": 316,
+   "target_rows": 453,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "assessmentsocialanddiagnosis.asd_key -> assessmentbasics.ab_key",
+   "source_table": "assessmentsocialanddiagnosis",
+   "source_column": "asd_key",
+   "target_table": "assessmentbasics",
+   "target_key": "ab_key",
+   "source_rows": 652,
+   "source_distinct": 652,
+   "target_rows": 921,
+   "score": 3.18,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "A100700",
+    "A101789",
+    "A101817",
+    "A103555",
+    "A103737"
+   ],
+   "target_samples": [
+    "A100700",
+    "A101440",
+    "A101789",
+    "A101817",
+    "A103555"
+   ]
+  },
+  {
+   "id": "assessmentsymptomsandrisk.asr_key -> assessmentbasics.ab_key",
+   "source_table": "assessmentsymptomsandrisk",
+   "source_column": "asr_key",
+   "target_table": "assessmentbasics",
+   "target_key": "ab_key",
+   "source_rows": 523,
+   "source_distinct": 523,
+   "target_rows": 921,
+   "score": 3.03,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "A101440",
+    "A101789",
+    "A101817",
+    "A103555",
+    "A103737"
+   ],
+   "target_samples": [
+    "A100700",
+    "A101440",
+    "A101789",
+    "A101817",
+    "A103555"
+   ]
+  },
+  {
+   "id": "careplans.care_key -> caregivers.care_key",
+   "source_table": "careplans",
+   "source_column": "care_key",
+   "target_table": "caregivers",
+   "target_key": "care_key",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 8,
+   "score": 2.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "CARE-001",
+    "CARE-002",
+    "CARE-003",
+    "CARE-004",
+    "CARE-005"
+   ],
+   "target_samples": [
+    "CARE-001",
+    "CARE-002",
+    "CARE-003",
+    "CARE-004",
+    "CARE-005"
+   ]
+  },
+  {
+   "id": "treatmentoutcomes.tx_out_key -> treatmentbasics.tx_key",
+   "source_table": "treatmentoutcomes",
+   "source_column": "tx_out_key",
+   "target_table": "treatmentbasics",
+   "target_key": "tx_key",
+   "source_rows": 316,
+   "source_distinct": 316,
+   "target_rows": 453,
+   "score": 2.59,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

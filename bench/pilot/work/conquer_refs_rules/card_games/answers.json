@@ -1,0 +1,46 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST l FROM ForeignData [has ForeignDataMultiverseid: 149934] has ForeignDataLanguage l"
+ },
+ {
+  "question_id": 346,
+  "answer": "LIST i, a FROM Card [has CardId i] [OPTIONALLY has CardArtist a] [has CardUuid u] BUT NOT has CardPower OR OTHERWISE has CardPower: '*' WHERE SOME Legality [has LegalityUuid: !u] [has LegalityFormat: 'commander'] [has LegalityStatus: 'Legal']"
+ },
+ {
+  "question_id": 473,
+  "answer": "LIST f FROM Card [has CardName: 'Adarkar Valkyrie'] has Set has SetIsForeignOnly f"
+ },
+ {
+  "question_id": 424,
+  "answer": "THE COUNT OF Card [has CardIsTextless: 1] [has CardLayout: 'normal'] * 100 / THE COUNT OF Card"
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST n FROM Card [has CardRarity: 'mythic'] [has CardUuid u] has CardName n WHERE SOME Legality [has LegalityUuid: !u] [has LegalityFormat: 'gladiator'] [has LegalityStatus: 'Banned']"
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes s] WHERE s <> 'Angel'"
+ },
+ {
+  "question_id": 352,
+  "answer": "THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF ForeignData"
+ },
+ {
+  "question_id": 518,
+  "answer": "LIST f, c FROM Legality l [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO THE COUNT OF l GROUPED BY f AS c ORDERED WITH c DESCENDING THE FIRST 1"
+ },
+ {
+  "question_id": 416,
+  "answer": "(THE COUNT OF ForeignData [has ForeignDataUuid u] [has ForeignDataLanguage: 'French'] WHERE SOME Card [has CardUuid: !u] BUT NOT has CardPower OR SOME Card [has CardUuid: !u] [has CardPower: '*']) * 100 / (THE COUNT OF ForeignData [has ForeignDataUuid v] WHERE SOME Card [has CardUuid: !v] BUT NOT has CardPower OR SOME Card [has CardUuid: !v] [has CardPower: '*'])"
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST n, a, p FROM Card c has CardName n AND ALSO has CardArtist a AND ALSO OPTIONALLY has CardIsPromo p AND ALSO is of Ruling r AND ALSO THE COUNT OF r GROUPED BY c AS k ORDERED WITH k DESCENDING THE FIRST 1"
+ },
+ {
+  "question_id": 462,
+  "answer": "LIST t FROM Card [has CardName: 'Ancestor''s Chosen'] has Set is of SetTranslation [has SetTranslationLanguage: 'Italian'] has SetTranslationTranslation t"
+ }
+]

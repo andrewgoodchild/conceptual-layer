@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "disaster_9",
+  "answer": "LIST o, el, per FROM Operation has OperationOpsregistry o AND ALSO has OperationEmerglevel el AND ALSO is of Humanresource has HumanresourceStaffingprofile sp AND ALSO is of Financial has FinancialPersonnelcostsusd pc AND ALSO round(jsonPath(sp, '$.personnel.total') / (pc / 10000) * jsonPath(sp, '$.readiness.availability_percent') / 100, 2) AS per WHERE el = 'Red' OR el = 'Black'"
+ },
+ {
+  "question_id": "disaster_1",
+  "answer": "LIST hr, rur, if(rur > 5, 'High Utilization', if(rur >= 2, 'Moderate Utilization', 'Low Utilization')) FROM Distributionhub has DistributionhubHubregistry hr AND ALSO has hubutilpct Percentage hu AND ALSO has DistributionhubStorecapm3 sc AND ALSO has DistributionhubStoreavailm3 sa AND ALSO (hu / 100 * sc / (sa + 1)) AS rur ORDERED WITH rur DESCENDING"
+ },
+ {
+  "question_id": "disaster_4",
+  "answer": "LIST o, sc, sa, ap, sf FROM Operation has OperationOpsregistry o AND ALSO has OperationSupplyflowstate sf AND ALSO has Distributionhub d AND ALSO d has DistributionhubStorecapm3 sc AND ALSO d has DistributionhubStoreavailm3 sa AND ALSO round(sa / sc * 100, 2) AS ap WHERE sa < sc * 0.1 AND (sf = 'Strained' OR sf = 'Disrupted') ORDERED WITH ap ASCENDING"
+ },
+ {
+  "question_id": "disaster_5",
+  "answer": "LIST er, dr, phrs, if(dz = 'High' AND wq < 50 AND phrsr < 40, 'Public Health Emergency', 'Standard Health Status') FROM Environmentandhealth has EnvironmentandhealthEnvhealthregistry er AND ALSO has Disasterevent has DisastereventDistanceRegistry dr AND ALSO has EnvironmentandhealthWaterqualityindex wq AND ALSO has EnvironmentandhealthSanitationcoverage sn AND ALSO has EnvironmentandhealthVaccinationcoverage vc AND ALSO has EnvironmentandhealthDiseaserisk dz AND ALSO (wq * 0.4 + sn * 0.3 + vc * 0.3) AS phrsr AND ALSO round(phrsr, 2) AS phrs ORDERED WITH phrs ASCENDING"
+ },
+ {
+  "question_id": "disaster_3",
+  "answer": "LIST er, dr, aa, ht, eif, if(eifr < 50, 'Sustainable', if(eifr < 100, 'Moderate Impact', 'High Impact')) FROM Environmentandhealth has EnvironmentandhealthEnvhealthregistry er AND ALSO has Disasterevent d AND ALSO d has DisastereventDistanceRegistry dr AND ALSO d has DisastereventAffectedarea aa AND ALSO d has DisastereventHaztype ht AND ALSO has EnvironmentandhealthCarbontons ct AND ALSO has renewenergypct Percentage rn AND ALSO has recyclepct Percentage rc AND ALSO (ct * (1 - rn / 100) + (100 - rc) * 0.5) AS eifr AND ALSO round(eifr, 2) AS eif ORDERED WITH eif ASCENDING"
+ },
+ {
+  "question_id": "disaster_8",
+  "answer": "LIST fr, o, dr, fsr, if(fu > 80 AND fs = 'Critical' AND fsrr < 0.2, 'Financial Crisis Risk', 'Financially Stable') FROM Financial has FinancialFinanceregistry fr AND ALSO has Operation has OperationOpsregistry o AND ALSO has Disasterevent has DisastereventDistanceRegistry dr AND ALSO has FinancialDonorcommitmentsusd dc AND ALSO has FinancialBudgetallotusd ba AND ALSO has Percentage fu AND ALSO has FinancialResourcegapsusd rg AND ALSO has FinancialFundingstate fs AND ALSO (dc / ba * (1 - fu / 100) - rg / ba) AS fsrr AND ALSO round(fsrr, 2) AS fsr ORDERED WITH fsr ASCENDING"
+ },
+ {
+  "question_id": "disaster_10",
+  "answer": "LIST br, rde, if(rder < 0.4 AND de < 0.5 AND dp < 5, 'Resource Distribution Inequity', 'Normal Distribution'), af FROM Beneficiariesandassessment has BeneficiariesandassessmentBeneregistry br AND ALSO has BeneficiariesandassessmentDistequityidx de AND ALSO has Operation op AND ALSO op has Disasterevent d AND ALSO d has DisastereventImpactmetrics im AND ALSO d is of Transportation t AND ALSO t has TransportationDistributionpoints dp AND ALSO t has TransportationDeliverysuccessrate ds AND ALSO op is of Coordinationandevaluation has CoordinationandevaluationCoordeffectlvl cl AND ALSO jsonPath(im, '$.population.affected') AS af AND ALSO (de * (1 + dp / 20) * (1 - (100 - ds) / 100) * if(cl = 'High', 1.2, if(cl = 'Medium', 1.0, if(cl = 'Low', 0.8, 0)))) AS rder AND ALSO round(rder, 2) AS rde ORDERED WITH rde ASCENDING"
+ },
+ {
+  "question_id": "disaster_7",
+  "answer": "LIST br, dr, cee, cls FROM Beneficiariesandassessment has BeneficiariesandassessmentBeneregistry br AND ALSO has BeneficiariesandassessmentBenefeedbackscore bf AND ALSO has BeneficiariesandassessmentDistequityidx de AND ALSO has BeneficiariesandassessmentCommengagelvl ce AND ALSO has BeneficiariesandassessmentLocalcapacitygrowth lc AND ALSO has BeneficiariesandassessmentVulnerabilityreview vr AND ALSO has Operation op AND ALSO op has Disasterevent has DisastereventDistanceRegistry dr AND ALSO op is of Coordinationandevaluation has CoordinationandevaluationStakeholdersatisf ss AND ALSO if(ce = 'High', 3, if(ce = 'Medium', 2, if(ce = 'Low', 1, 0))) AS cn AND ALSO (bf * 10 + cn * 20 + de * 50) AS bsi AND ALSO (bsi / 100 * cn * ((ss + 1) / 5)) AS ceer AND ALSO round(ceer, 2) AS cee AND ALSO if(lc = 'Active' AND ce = 'High' AND bsi > 70, 'Community Resilience Builder', if(ceer > 2.5 AND vr = 'Complete', 'Community Resilience Opportunity', 'Standard Operation')) AS cls ORDERED WITH cls ASCENDING, cee DESCENDING"
+ },
+ {
+  "question_id": "disaster_2",
+  "answer": "LIST o, oei, IF ds > 90 AND iv > 95 AND oeir > 3 THEN 'Yes' ELSE 'No' FROM Operation has OperationOpsregistry o AND ALSO has Distributionhub d AND ALSO d has invaccpct Percentage iv AND ALSO d is of Transportation t AND ALSO t has TransportationDeliverysuccessrate ds AND ALSO t has TransportationAvgdeliveryhours ah AND ALSO t has TransportationDistributionpoints dp AND ALSO (ds / 100 * (1 - ah / 24) * (1 + dp / 10)) AS oeir AND ALSO round(oeir, 2) AS oei ORDERED WITH oei DESCENDING"
+ },
+ {
+  "question_id": "disaster_6",
+  "answer": "LIST tr, l, IF lr < 30 AND lm = 'Suspended' AND vb > 15 THEN 'Logistics Breakdown' ELSE 'Normal Operation' FROM Transportation has TransportationTransportregistry tr AND ALSO has TransportationTotaldeliverytons td AND ALSO has Distributionhub has DistributionhubHubcaptons hc AND ALSO has TransportationDeliverysuccessrate ds AND ALSO has TransportationVehiclebreakrate vb AND ALSO has TransportationLastmilestatus lm AND ALSO (td / hc * ds * (1 - vb / 100) * 100) AS lr AND ALSO round(lr, 2) AS l ORDERED WITH l ASCENDING"
+ }
+]

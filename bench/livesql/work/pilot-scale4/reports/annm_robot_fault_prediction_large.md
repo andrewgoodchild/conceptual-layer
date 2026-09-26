@@ -1,0 +1,3 @@
+All ten answers written and run; no notes.
+Hardest: Q4 (null cycle times would fill quintile 1, removed; null application group kept; robot ID added); Q3 (only Assembly; inner join 17); Q6 distinct robots; Q10; Q12 flat average.
+What mattered: "The column comments were essential. The column names (overseerloadvalue, memuseval, poserrmmval, rulhours, cycletimesecval, payloadwval) look nothing like the names in the knowledge-base formulas, and the comments are what let me match them." They also spelled out the joint_health paths and which columns are empty. Join paths checked, zero mismatches. The knowledge base names applications not in the data, and mixes in disaster-relief entries.

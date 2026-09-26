@@ -1,0 +1,3 @@
+All ten answers written and run; _8 and _6 carry notes. Early attempt to read ./schema output saved outside the directory was denied; nothing read; afterwards output redirected inside.
+Hardest: _8 (no main-race results; podium as driver_standings.px 1-3, 23 rows); _6 (PPR not tied to a column; age as of today per the formula); _13 and _3 (st_mark NULL on 1952 rows, 'D' on one, although the documented values list 'D' and '\\N'); _7.
+What mattered: the JSON field listings (sprint_performance, event_schedule date_set as YYYY/MM/DD, driver_identity); the knowledge base's age formula, pit thresholds, NULL means finished. Missing: that there is no race results table; the st_mark value list doesn't match the data.

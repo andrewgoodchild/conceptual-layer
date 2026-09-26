@@ -1,0 +1,8 @@
+[
+ {"question_id": 137, "answer": "THE COUNT OF Account [has District: 1] [is of Loan has LoanStatus s] WHERE s = 'C' OR s = 'D'", "attempts": 2},
+ {"question_id": 173, "answer": "LIST c, k FROM Order [has Account: 3] [has OrderAmount: 3539] has OrderKSymbol k AND ALSO THE COUNT OF Tran [has Account: 3] [has TranKSymbol: 'SLUZBY'] AS c", "attempts": 2},
+ {"question_id": 92, "answer": "THE COUNT OF District [has DistrictA11 a] WHERE a > 6000 AND a < 10000", "attempts": 1},
+ {"question_id": 189, "answer": "LIST acc FROM Client [has ClientGender: 'F'] has ClientBirthDate b AND ALSO has District has DistrictA11 a AND ALSO is of Disp has Account has AccountId acc ORDERED WITH b ASCENDING, a ASCENDING THE FIRST 1", "attempts": 2},
+ {"question_id": 128, "answer": "LIST d, c FROM Client e [has ClientGender: 'F'] has District has DistrictA2 d AND ALSO THE COUNT OF e GROUPED BY d AS c ORDERED WITH c DESCENDING THE FIRST 9", "attempts": 1},
+ {"question_id": 89, "answer": "THE COUNT OF Account [has AccountFrequency: 'POPLATEK PO OBRATU'] [has District has DistrictA3: 'east Bohemia']", "attempts": 1}
+]

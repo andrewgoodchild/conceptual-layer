@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "solar_3",
+  "answer": "SELECT p.panetype AS panel_type,\n       AVG(p.powratew * p.tempcoef * (e.celltempc - 25)) AS avg_tpci\nFROM panel p\nJOIN environment e ON e.arearegistry = p.hubregistry\nGROUP BY p.panetype"
+ },
+ {
+  "question_id": "solar_1",
+  "answer": "SELECT CAST((julianday('now') - julianday(g.initdate)) / 365.25 AS INTEGER) AS panel_age_years,\n       AVG(f.measpoww * 100.0 / p.powratew) AS avg_ppr,\n       COUNT(*) AS panel_count\nFROM panel p\nJOIN plant g ON g.growregistry = p.hubregistry\nJOIN performance f ON f.solmodref = p.panemark\nGROUP BY CAST((julianday('now') - julianday(g.initdate)) / 365.25 AS INTEGER)\nORDER BY panel_age_years ASC"
+ },
+ {
+  "question_id": "solar_2",
+  "answer": "WITH plant_costs AS (\n  SELECT g.growregistry AS plant_id,\n         g.growalias    AS plant_name,\n         g.gencapmw     AS capacity_mw,\n         SUM(m.maintcostusd + m.cleancostusd + m.replacecostusd) AS total_maintenance_cost,\n         SUM(m.revlossusd) AS total_revenue_loss\n  FROM plant g\n  JOIN maintenance m ON m.powerref = g.growregistry\n  GROUP BY g.growregistry, g.growalias, g.gencapmw\n),\nmetrics AS (\n  SELECT pc.plant_id, pc.plant_name, pc.capacity_mw,\n         pc.total_maintenance_cost, pc.total_revenue_loss,\n         pc.total_maintenance_cost / pc.capacity_mw AS mce,\n         pc.total_revenue_loss / pc.capacity_mw AS rlr,\n         (pc.total_revenue_loss / pc.capacity_mw) / (pc.total_maintenance_cost / pc.capacity_mw) AS mroi,\n         (SELECT COUNT(*) FROM alerts a WHERE a.compreg = pc.plant_id AND a.alertstat = 'Critical') AS critical_alerts\n  FROM plant_costs pc\n)\nSELECT plant_name,\n       ROUND(capacity_mw, 2) AS capacity_mw,\n       ROUND(total_maintenance_cost, 2) AS total_maintenance_cost,\n       ROUND(total_revenue_loss, 2) AS total_revenue_loss,\n       ROUND(mce, 2) AS maintenance_cost_efficiency,\n       ROUND(rlr, 2) AS revenue_loss_rate,\n       ROUND(mroi, 2) AS mroi,\n       CASE WHEN critical_alerts > 0 AND mroi > 2.0 THEN 'URGENT'\n            WHEN critical_alerts > 0 THEN 'HIGH'\n            WHEN mroi > 2.0 THEN 'MEDIUM'\n            ELSE 'LOW' END AS priority_level\nFROM metrics\nORDER BY CASE WHEN critical_alerts > 0 AND mroi > 2.0 THEN 1\n              WHEN critical_alerts > 0 THEN 2\n              WHEN mroi > 2.0 THEN 3\n              ELSE 4 END ASC,\n         mroi DESC"
+ },
+ {
+  "question_id": "solar_7",
+  "answer": "SELECT p.panemark AS panel_id,\n       e.ffactorinit AS initial_fill_factor,\n       e.ffactorcurr AS current_fill_factor,\n       CAST((julianday('now') - julianday(g.initdate)) / 365.25 AS INTEGER) AS years_since_installation,\n       ROUND((e.ffactorinit - e.ffactorcurr) / NULLIF(CAST((julianday('now') - julianday(g.initdate)) / 365.25 AS INTEGER), 0) * 100, 2) AS ffdr\nFROM electrical e\nJOIN panel p ON p.panemark = e.engyunitref\nJOIN plant g ON g.growregistry = p.hubregistry"
+ },
+ {
+  "question_id": "solar_6",
+  "answer": "SELECT p.panemark AS panel_id,\n       p.powratew AS rated_power_w,\n       ROUND(f.measpoww, 2) AS measured_power_w,\n       ROUND(p.powratew * json_extract(f.efficiency_profile, '$.degradation.cumdegpct') / 100.0, 2) AS degradation_loss_w,\n       ROUND(f.measpoww * e.soillosspct / 100.0, 2) AS soiling_loss_w,\n       ROUND(f.measpoww * (1 - json_extract(i.power_metrics, '$.inverteffpct') / 100.0), 2) AS inverter_loss_w,\n       ROUND(p.powratew * json_extract(f.efficiency_profile, '$.degradation.cumdegpct') / 100.0\n             + f.measpoww * e.soillosspct / 100.0\n             + f.measpoww * (1 - json_extract(i.power_metrics, '$.inverteffpct') / 100.0), 2) AS total_system_loss\nFROM panel p\nJOIN performance f ON f.solmodref = p.panemark\nJOIN plant g ON g.growregistry = p.hubregistry\nJOIN environment e ON e.arearegistry = g.growregistry\nJOIN inverter i ON i.siteref = g.growregistry"
+ },
+ {
+  "question_id": "solar_9",
+  "answer": "SELECT g.growalias AS plant_name,\n       p.panemark AS panel_id,\n       g.initdate AS installation_date,\n       CAST((julianday('now') - julianday(g.initdate)) / 365.25 AS INTEGER) AS service_years,\n       p.paneeffpct AS initial_efficiency_pct,\n       json_extract(f.efficiency_profile, '$.current_efficiency.curreffpct') AS current_efficiency_pct,\n       json_extract(f.efficiency_profile, '$.degradation.anndegrate') AS annual_degradation_rate,\n       ROUND(((json_extract(f.efficiency_profile, '$.current_efficiency.curreffpct') - p.paneeffpct) / NULLIF(CAST((julianday('now') - julianday(g.initdate)) / 365.25 AS INTEGER), 0) * 100), 2) AS pelr,\n       ROUND((((json_extract(f.efficiency_profile, '$.current_efficiency.curreffpct') - p.paneeffpct) / NULLIF(CAST((julianday('now') - julianday(g.initdate)) / 365.25 AS INTEGER), 0) * 100) / NULLIF(json_extract(f.efficiency_profile, '$.degradation.anndegrate'), 0)), 2) AS ndi,\n       CASE WHEN (((json_extract(f.efficiency_profile, '$.current_efficiency.curreffpct') - p.paneeffpct) / NULLIF(CAST((julianday('now') - julianday(g.initdate)) / 365.25 AS INTEGER), 0) * 100) / NULLIF(json_extract(f.efficiency_profile, '$.degradation.anndegrate'), 0)) > 1.5 THEN 'High Degradation'\n            WHEN (((json_extract(f.efficiency_profile, '$.current_efficiency.curreffpct') - p.paneeffpct) / NULLIF(CAST((julianday('now') - julianday(g.initdate)) / 365.25 AS INTEGER), 0) * 100) / NULLIF(json_extract(f.efficiency_profile, '$.degradation.anndegrate'), 0)) >= 1.0 THEN 'Moderate Degradation'\n            ELSE 'Normal Degradation' END AS degradation_severity\nFROM panel p\nJOIN plant g ON g.growregistry = p.hubregistry\nJOIN performance f ON f.solmodref = p.panemark"
+ },
+ {
+  "question_id": "solar_8",
+  "answer": "SELECT p.panemark AS panel_id,\n       p.tempcoef AS temperature_coefficient,\n       e.celltempc AS cell_temperature_c,\n       json_extract(f.efficiency_profile, '$.current_efficiency.curreffpct') AS current_efficiency_pct,\n       json_extract(e.irradiance_conditions, '$.irradiance_types[3]') AS poa_irradiance_wm2,\n       ROUND(json_extract(f.efficiency_profile, '$.current_efficiency.curreffpct')\n             * (1 + p.tempcoef * (25 - e.celltempc) / 100.0)\n             * (1000.0 / json_extract(e.irradiance_conditions, '$.irradiance_types[3]')), 2) AS wce\nFROM panel p\nJOIN plant g ON g.growregistry = p.hubregistry\nJOIN environment e ON e.arearegistry = g.growregistry\nJOIN performance f ON f.solmodref = p.panemark"
+ },
+ {
+  "question_id": "solar_10",
+  "answer": "SELECT i.invertregistry AS inverter_id,\n       i.pwrqualidx AS power_quality_index,\n       json_extract(i.power_metrics, '$.harmdistpct') AS harmonic_distortion_pct,\n       json_extract(i.power_metrics, '$.invertpowfac') AS inverter_power_factor,\n       i.pwrqualidx\n         * (1 - json_extract(i.power_metrics, '$.harmdistpct') / 100.0)\n         * json_extract(i.power_metrics, '$.invertpowfac') AS giq\nFROM inverter i"
+ },
+ {
+  "question_id": "solar_5",
+  "answer": "SELECT e.arearegistry AS area_id,\n       e.envmoment AS measurement_time,\n       e.soillosspct AS soiling_loss_pct,\n       e.dustdengm2 AS dust_density_gm2,\n       AVG(e.soillosspct / NULLIF(e.dustdengm2, 0)) AS avg_soiling_impact_factor\nFROM environment e\nWHERE e.soillosspct > 5\n   OR e.dustdengm2 > 0.15\n   OR (julianday('now') - julianday(e.lastcleandt)) > 30\nGROUP BY e.arearegistry, e.envmoment, e.soillosspct, e.dustdengm2"
+ },
+ {
+  "question_id": "solar_4",
+  "answer": "SELECT g.growalias AS plant_name,\n       SUM(m.maintcostusd + m.cleancostusd + m.replacecostusd) / g.gencapmw AS maintenance_cost_efficiency,\n       SUM(m.revlossusd) / g.gencapmw AS revenue_loss_rate,\n       (SUM(m.revlossusd) / g.gencapmw)\n         / (SUM(m.maintcostusd + m.cleancostusd + m.replacecostusd) / g.gencapmw) AS mroi\nFROM plant g\nJOIN maintenance m ON m.powerref = g.growregistry\nGROUP BY g.growregistry, g.growalias, g.gencapmw"
+ }
+]

@@ -1,0 +1,44 @@
+{
+ "concepts": [
+  {"id": "et.ClosedGameEvent", "name": "ClosedGameEvent", "kind": "entity",
+   "supertypes": ["et.Event"], "derivation": "dr.ClosedGameEvent"},
+
+  {"id": "et.UnspentBudget", "name": "UnspentBudget", "kind": "entity",
+   "supertypes": ["et.Budget"], "derivation": "dr.UnspentBudget"},
+
+  {"id": "et.FoodBudget", "name": "FoodBudget", "kind": "entity",
+   "supertypes": ["et.Budget"], "derivation": "dr.FoodBudget"},
+
+  {"id": "vt.TotalCost", "name": "TotalCost", "kind": "value", "dataType": {"name": "numeric"}},
+
+  {"id": "ft.BudgetHasTotalCost", "name": "BudgetHasTotalCost", "kind": "fact",
+   "roles": [{"id": "r.BudgetHasTotalCost.budget", "player": "et.Budget", "name": "Budget", "ordinal": 0},
+             {"id": "r.BudgetHasTotalCost.totalcost", "player": "vt.TotalCost", "name": "TotalCost", "ordinal": 1}],
+   "readings": [{"id": "rd.BudgetHasTotalCost", "text": "{0} has {1}",
+                 "roleSequence": ["r.BudgetHasTotalCost.budget", "r.BudgetHasTotalCost.totalcost"]}],
+   "derivation": "dr.BudgetHasTotalCost"}
+ ],
+ "derivationRules": [
+  {"id": "dr.ClosedGameEvent", "target": {"kind": "subtype", "ref": "et.ClosedGameEvent"},
+   "source": "Event [has EventType: 'Game'] AND ALSO [has EventStatus: 'Closed']"},
+
+  {"id": "dr.UnspentBudget", "target": {"kind": "subtype", "ref": "et.UnspentBudget"},
+   "source": "Budget [has BudgetSpent: 0]"},
+
+  {"id": "dr.FoodBudget", "target": {"kind": "subtype", "ref": "et.FoodBudget"},
+   "source": "Budget [has BudgetCategory: 'Food']"},
+
+  {"id": "dr.BudgetHasTotalCost", "target": {"kind": "factType", "ref": "ft.BudgetHasTotalCost"},
+   "source": "LIST b, tc FROM Expense e has Budget b AND ALSO has ExpenseCost c AND ALSO THE SUM OF c GROUPED BY b AS tc"}
+ ],
+ "macros": [
+  {"id": "mc.HighestBudgetSpend", "name": "HighestBudgetSpend", "parameters": [], "kind": "scalar",
+   "source": "THE MAXIMUM Budget has BudgetSpent"},
+
+  {"id": "mc.TotalMoneySpent", "name": "TotalMoneySpent", "parameters": [], "kind": "scalar",
+   "source": "THE SUM OF Budget has BudgetSpent"},
+
+  {"id": "mc.TotalAmountBudgeted", "name": "TotalAmountBudgeted", "parameters": [], "kind": "scalar",
+   "source": "THE SUM OF Budget has BudgetAmount"}
+ ]
+}

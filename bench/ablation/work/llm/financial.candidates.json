@@ -1,0 +1,319 @@
+{
+ "database": "financial",
+ "tables": [
+  "account",
+  "card",
+  "client",
+  "disp",
+  "district",
+  "loan",
+  "order",
+  "trans"
+ ],
+ "candidates": [
+  {
+   "id": "account.district_id -> district.district_id",
+   "source_table": "account",
+   "source_column": "district_id",
+   "target_table": "district",
+   "target_key": "district_id",
+   "source_rows": 4500,
+   "source_distinct": 77,
+   "target_rows": 77,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "18",
+    "1",
+    "5",
+    "12",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "card.disp_id -> disp.disp_id",
+   "source_table": "card",
+   "source_column": "disp_id",
+   "target_table": "disp",
+   "target_key": "disp_id",
+   "source_rows": 892,
+   "source_distinct": 892,
+   "target_rows": 5369,
+   "score": 3.61,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9",
+    "19",
+    "41",
+    "42",
+    "51"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "client.district_id -> district.district_id",
+   "source_table": "client",
+   "source_column": "district_id",
+   "target_table": "district",
+   "target_key": "district_id",
+   "source_rows": 5369,
+   "source_distinct": 77,
+   "target_rows": 77,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "18",
+    "1",
+    "5",
+    "12",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "disp.client_id -> client.client_id",
+   "source_table": "disp",
+   "source_column": "client_id",
+   "target_table": "client",
+   "target_key": "client_id",
+   "source_rows": 5369,
+   "source_distinct": 5369,
+   "target_rows": 5369,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "disp.account_id -> account.account_id",
+   "source_table": "disp",
+   "source_column": "account_id",
+   "target_table": "account",
+   "target_key": "account_id",
+   "source_rows": 5369,
+   "source_distinct": 4500,
+   "target_rows": 4500,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "district.A9 -> account.account_id",
+   "source_table": "district",
+   "source_column": "A9",
+   "target_table": "account",
+   "target_key": "account_id",
+   "source_rows": 77,
+   "source_distinct": 11,
+   "target_rows": 4500,
+   "score": 1.51,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "5",
+    "6",
+    "4",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "loan.account_id -> account.account_id",
+   "source_table": "loan",
+   "source_column": "account_id",
+   "target_table": "account",
+   "target_key": "account_id",
+   "source_rows": 682,
+   "source_distinct": 682,
+   "target_rows": 4500,
+   "score": 2.59,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "19",
+    "25",
+    "37",
+    "38"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "loan.duration -> district.district_id",
+   "source_table": "loan",
+   "source_column": "duration",
+   "target_table": "district",
+   "target_key": "district_id",
+   "source_rows": 682,
+   "source_distinct": 5,
+   "target_rows": 77,
+   "score": 3.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "24",
+    "12",
+    "60",
+    "48",
+    "36"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "order.account_id -> account.account_id",
+   "source_table": "order",
+   "source_column": "account_id",
+   "target_table": "account",
+   "target_key": "account_id",
+   "source_rows": 6471,
+   "source_distinct": 3758,
+   "target_rows": 4500,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "trans.account_id -> account.account_id",
+   "source_table": "trans",
+   "source_column": "account_id",
+   "target_table": "account",
+   "target_key": "account_id",
+   "source_rows": 1056320,
+   "source_distinct": 4500,
+   "target_rows": 4500,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

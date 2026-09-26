@@ -1,0 +1,3 @@
+All ten answers written and run; 2, 4, 5 and 8 carry notes.
+Hardest: Q5 DPQ (combined per joined row, averaged per site; MFS dominates); Q8 and Q10 (file size parsed from scans.size; ~30 software spellings folded; COUNT(*) of joined rows); Q2 and Q4 rows included.
+What mattered: the knowledge base's exact formulas; "listing the keys of each JSON column showed which field feeds each formula". Missing: how pointcloud, registration and spatial link (found (project, crew) by trial); where Preservation Status and Structural Stability live; the knowledge base's short stability values do not match the sentence values in the data.

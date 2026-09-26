@@ -1,0 +1,12 @@
+{"at": 1789256884.54789, "query": "LIST n FROM Superhero has SuperheroName n AND ALSO has Superpower has SuperpowerPowerName: 'Death Touch'"}
+{"at": 1789256888.721026, "query": "LIST n FROM Superhero has SuperheroName n AND ALSO has Alignment has AlignmentAlignment: 'Neutral'"}
+{"at": 1789256899.074997, "query": "LIST n, v FROM Superhero has SuperheroName n AND ALSO has HeroAttribute has HeroAttributeAttributeValue v AND ALSO has Attribute has AttributeName: 'Speed'"}
+{"at": 1789256909.355135, "query": "LIST n, v FROM Superhero has SuperheroName n AND ALSO has HeroAttribute [has Attribute has AttributeName: 'Speed'] has HeroAttributeAttributeValue v"}
+{"at": 1789256916.898413, "query": "LIST n FROM Superhero has SuperheroName n AND ALSO has HeroAttribute [has Attribute has AttributeName: 'Speed'] has HeroAttributeAttributeValue v ORDERED WITH v DESCENDING THE FIRST 1"}
+{"at": 1789256931.2086651, "query": "LIST an, v FROM Superhero [has SuperheroName: '3-D Man'] has HeroAttribute [has Attribute has AttributeName an] has HeroAttributeAttributeValue v"}
+{"at": 1789256938.480296, "query": "THE COUNT OF Superhero [has Publisher has PublisherName: 'Marvel Comics'] [has Gender has GenderGender: 'Female'] * 100 / THE COUNT OF Superhero [has Publisher has PublisherName: 'Marvel Comics']"}
+{"at": 1789256943.1033201, "query": "THE COUNT OF Superhero [has Gender has GenderGender: 'Female'] [has skin Colour has ColourColour: 'Blue'] * 100 / THE COUNT OF Superhero [has Gender has GenderGender: 'Female']"}
+{"at": 1789256948.444007, "query": "LIST r FROM Superhero [has SuperheroName: 'Copycat'] has Race has RaceRace r"}
+{"at": 1789256952.525842, "query": "LIST n FROM Superhero has SuperheroName n AND ALSO has Superpower has SuperpowerPowerName: 'Wind Control' ORDERED WITH n ASCENDING"}
+{"at": 1789256956.222021, "query": "THE COUNT OF Superhero [has Superpower has SuperpowerPowerName: 'Stealth']"}
+{"at": 1789256961.73019, "query": "LIST n FROM Superhero has SuperheroName n AND ALSO has SuperheroHeightCm h AND ALSO has eye Colour has ColourColour: 'No Colour' WHERE h >= 170 AND h <= 190"}

@@ -1,0 +1,44 @@
+[
+ {
+  "question_id": 37,
+  "answer": "LIST st, ci, z, sta FROM Satscore has SatscoreNumGE1500 g AND ALSO has SatscoreNumTstTakr t AND ALSO (g / t) AS e AND ALSO has SchoolStreet st AND ALSO has SchoolCity ci AND ALSO has SchoolZip z AND ALSO has SchoolState sta WHERE t > 0 ORDERED WITH e ASCENDING THE FIRST 1",
+  "attempts": 3,
+  "chosen": 2,
+  "reason": "All three candidates return the identical single row (2607 Myrtle Street, Oakland, 94607-3415, CA), so they agree on the answer. Chose candidate 2 because it both names the excellence-rate expression with AS (matching primer rule 9's requirement that a sort key be a bound name) and explicitly guards against a zero-test-taker division with WHERE t > 0, which candidate 3 omits and candidate 1 expresses via a bare unnamed expression in ORDERED WITH."
+ },
+ {
+  "question_id": 46,
+  "answer": "LIST n FROM Frpm [has SchoolDOC: '31'] has FrpmSchoolName n AND ALSO has FrpmEnrollmentK12 e ORDERED WITH e DESCENDING THE FIRST 1",
+  "attempts": 3,
+  "chosen": 2,
+  "reason": "All three candidates agree: California School for the Deaf-Fremont. Chose candidate 2 because it starts from the Frpm subtype (where FrpmEnrollmentK12 and FrpmSchoolName are native readings) rather than relying on implicit narrowing from the School supertype as candidate 1 does, and it quotes the SchoolDOC denotation '31' as a string, consistent with how the compiler itself normalised candidate 3's unquoted 31 to '31'."
+ },
+ {
+  "question_id": 82,
+  "answer": "LIST g FROM School has SchoolLongitude lon AND ALSO has SchoolGSoffered g ORDERED WITH abs(lon) DESCENDING THE FIRST 1",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree on the same result (grade span K-8) and normalise to the same query. Chose candidate 1 as the simplest form, ordering directly by abs(lon) without an unnecessary intermediate AS binding."
+ },
+ {
+  "question_id": 28,
+  "answer": "LIST n, doc FROM Frpm [has FrpmCharterFundingType: 'Locally funded'] has FrpmSchoolName n AND ALSO has SchoolDOCType doc AND ALSO has FrpmEnrollmentK12 k AND ALSO has FrpmEnrollmentAges517 a WHERE (k - a) > THE AVERAGE d IN (Frpm [has FrpmCharterFundingType: 'Locally funded'] has FrpmEnrollmentK12 k2 AND ALSO has FrpmEnrollmentAges517 a2 AND ALSO (k2 - a2) AS d)",
+  "attempts": 3,
+  "chosen": 3,
+  "reason": "Candidates 2 and 3 agree exactly (49 rows, same schools and DOC types), both filtering on FrpmCharterFundingType and naming the school via FrpmSchoolName. Candidate 1 instead filters on SchoolFundingType and names the school via SchoolSchool, giving a different 57-row result with some differently-spelled school names (e.g. 'Taft Charter High' vs 'William Howard Taft Charter High'). 'Locally funded' is charter-school funding terminology that only exists as FrpmCharterFundingType in this schema (the general SchoolFundingType field is a distinct, non-charter-specific attribute), so candidates 2/3's interpretation is the one the evidence intends. Chose 3 over 2 arbitrarily since their results are identical; 3 filters the raw (k - a) directly rather than pre-naming it, but is otherwise equivalent."
+ },
+ {
+  "question_id": 24,
+  "answer": "LIST n FROM School has FrpmSchoolName n AND ALSO has FrpmFreeMealCountK12 f AND ALSO has FrpmEnrollmentK12 k AND ALSO has SatscoreNumGE1500 g WHERE f / k > 0.1 AND g > 0",
+  "attempts": 4,
+  "chosen": 2,
+  "reason": "Candidates 2 and 3 agree exactly (1165 rows via manual f/k computation with g>0 vs g>=1, equivalent for an integer count). Candidate 1 instead reads the pre-stored FrpmPercentEligibleFreeK12 column directly, giving 1142 rows -- a diagnostic query (LIST n,p,f,k ... THE FIRST 10) confirmed p is numerically identical to f/k where both are present, so the 23-row gap is due to some rows having the raw counts but a null stored percent. Following the same convention candidates unanimously used for question 37 (compute the evidence's given formula from raw columns rather than trust a derived field), and since 2 of 3 candidates independently chose the manual computation, chose candidate 2's version (g > 0) over candidate 3's equivalent (g >= 1) arbitrarily."
+ },
+ {
+  "question_id": 79,
+  "answer": "LIST c, cnt FROM School s [has SchoolVirtual: 'F'] has SchoolCounty c AND ALSO THE COUNT OF s GROUPED BY c AS cnt WHERE c = 'San Diego' OR c = 'Santa Barbara' ORDERED WITH cnt DESCENDING THE FIRST 1",
+  "attempts": 3,
+  "chosen": 3,
+  "reason": "All three candidates agree exactly: San Diego, 8. They differ only in the bound variable name for the grouped instance (s vs e) and the AS name (ct vs cnt); functionally identical. Chose candidate 3 arbitrarily among the two using variable name s (matching the school-instance convention used elsewhere) with the WHERE clause unparenthesised, same as candidate 2."
+ }
+]

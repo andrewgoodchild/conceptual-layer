@@ -1,0 +1,33 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "LIST d FROM Transactions1k has Gasstation [has GasstationCountry: 'CZE'] AND ALSO has Product has ProductDescription d",
+  "attempts": 1
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE DISTINCT COUNT OF cu IN Customer cu [has CustomerCurrency: 'EUR'] is of Yearmonth has YearmonthConsumption c WHERE c > 1000",
+  "attempts": 2
+ },
+ {
+  "question_id": 1481,
+  "answer": null,
+  "attempts": 1,
+  "note": "Not expressible in ConQuer-92 as taught. The question needs a double level of aggregation per segment: first SUM(YearmonthConsumption) grouped by customer (restricted to CZK payers and 2013 dates), then MIN of that per-customer total within each segment together with a COUNT of customers tied at that minimum, and finally three pairwise differences of MIN/tie-count across the three segments. The primer's GROUPED BY construct only supports one level of grouping/aggregation (rule 8/19), with no shown way to aggregate over an already-aggregated (grouped) value or to correlate a date-range filter inside a grouped-aggregate branch. I tried folding the date filter into the aggregate branch with `[has YearmonthDate: d]` correlated to the outer bound date variable; the compiler accepted the parse but crashed internally (KeyError on an unresolved calculation reference) when trying to emit SQL for it, confirming this shape falls outside the supported subset. Given the additional ambiguity in the evidence's own formula (what 'total consumption per year' means when there are no ties versus ties), I judged it more honest to leave this unanswered than to guess a specific double-aggregation semantics the language cannot actually check."
+ },
+ {
+  "question_id": 1486,
+  "answer": "LIST (THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK']) - (THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR'])",
+  "attempts": 1
+ },
+ {
+  "question_id": 1525,
+  "answer": "LIST THE COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25'] has Customer has CustomerCurrency: 'EUR' * 100 / THE COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25']",
+  "attempts": 1
+ },
+ {
+  "question_id": 1501,
+  "answer": "LIST co FROM Transactions1k has Transactions1kDate dt AND ALSO has Gasstation has GasstationCountry co WHERE year(dt) = 2013 AND month(dt) = 6",
+  "attempts": 2
+ }
+]

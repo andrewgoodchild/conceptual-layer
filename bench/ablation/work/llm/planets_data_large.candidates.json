@@ -1,0 +1,5040 @@
+{
+ "database": "planets_data_large",
+ "tables": [
+  "CalibrationRecord",
+  "ChemicalAbundanceAnalysis",
+  "CitationRecord",
+  "DataReductionPipeline",
+  "Dataset_Publication_Map",
+  "EmissionAbsorptionFeature",
+  "MissionDataProduct",
+  "MissionInstrument",
+  "MissionTarget",
+  "Mission_Planet_Map",
+  "NearbyStarSurvey",
+  "Neighborhood_Catalog_Map",
+  "ObservationProposal",
+  "ObservatoryWeatherLog",
+  "Observer_Team_Map",
+  "PipelineQualityMetric",
+  "Pipeline_Instrument_Map",
+  "PlanetCharacterizationSummary",
+  "ProperMotionCatalog",
+  "ScheduledObservation",
+  "ScientificPublication",
+  "SpaceMission",
+  "SpectralCalibration",
+  "SpectralLineMeasurement",
+  "Spectral_Instrument_Map",
+  "StellarMultiplicityRecord",
+  "TelescopeAllocation",
+  "TransitLightCurve",
+  "TransmissionSpectrum",
+  "astronomical_catalogs",
+  "atmospheric_escape_rates",
+  "binary_star_systems",
+  "data_quality_tracking",
+  "discovery_teams",
+  "exomoons",
+  "gravitational_microlensing_events",
+  "habitability_metrics",
+  "instrument_specifications",
+  "instruments_surveys",
+  "multi_planet_system_dynamics",
+  "observation_conditions",
+  "orbital_characteristics",
+  "photometric_variations",
+  "physical_properties",
+  "planet_discovery_teams",
+  "planet_instrument_observations",
+  "planet_research_programs",
+  "planet_system_membership",
+  "planetary_atmospheres",
+  "planetary_formation_models",
+  "planets",
+  "radial_velocity_measurements",
+  "research_programs",
+  "star_catalog_entries",
+  "stars",
+  "stellar_evolution_phases",
+  "stellar_spectroscopy",
+  "tidal_forces_effects"
+ ],
+ "candidates": [
+  {
+   "id": "CalibrationRecord.PIPELINE_REF -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "CalibrationRecord",
+   "source_column": "PIPELINE_REF",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 200,
+   "source_distinct": 49,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "35",
+    "47",
+    "50",
+    "25",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CalibrationRecord.instrument_ref -> instruments_surveys.instrumentref",
+   "source_table": "CalibrationRecord",
+   "source_column": "instrument_ref",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 200,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "3",
+    "2",
+    "5",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CalibrationRecord.frames_combined -> Dataset_Publication_Map.DPM_ID",
+   "source_table": "CalibrationRecord",
+   "source_column": "frames_combined",
+   "target_table": "Dataset_Publication_Map",
+   "target_key": "DPM_ID",
+   "source_rows": 200,
+   "source_distinct": 129,
+   "target_rows": 200,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "171",
+    "159",
+    "148",
+    "65",
+    "187"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CalibrationRecord.BAD_PIXELS_COUNT -> stars.stellarref",
+   "source_table": "CalibrationRecord",
+   "source_column": "BAD_PIXELS_COUNT",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 200,
+   "source_distinct": 176,
+   "target_rows": 2509,
+   "score": 2.4,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "336",
+    "522",
+    "645",
+    "826",
+    "334"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ChemicalAbundanceAnalysis.stellar_ref -> stars.stellarref",
+   "source_table": "ChemicalAbundanceAnalysis",
+   "source_column": "stellar_ref",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 250,
+   "source_distinct": 237,
+   "target_rows": 2509,
+   "score": 3.54,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "742",
+    "2399",
+    "1656",
+    "990",
+    "1923"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ChemicalAbundanceAnalysis.lines_used -> Pipeline_Instrument_Map.PIM_ID",
+   "source_table": "ChemicalAbundanceAnalysis",
+   "source_column": "lines_used",
+   "target_table": "Pipeline_Instrument_Map",
+   "target_key": "PIM_ID",
+   "source_rows": 250,
+   "source_distinct": 94,
+   "target_rows": 100,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "89",
+    "41",
+    "66",
+    "77",
+    "54"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CitationRecord.publication_ref -> Pipeline_Instrument_Map.PIM_ID",
+   "source_table": "CitationRecord",
+   "source_column": "publication_ref",
+   "target_table": "Pipeline_Instrument_Map",
+   "target_key": "PIM_ID",
+   "source_rows": 400,
+   "source_distinct": 97,
+   "target_rows": 100,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9",
+    "79",
+    "60",
+    "22",
+    "51"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CitationRecord.CITATION_YEAR -> data_quality_tracking.qualityref",
+   "source_table": "CitationRecord",
+   "source_column": "CITATION_YEAR",
+   "target_table": "data_quality_tracking",
+   "target_key": "qualityref",
+   "source_rows": 400,
+   "source_distinct": 16,
+   "target_rows": 3372,
+   "score": 2.47,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2023",
+    "2014",
+    "2016",
+    "2011",
+    "2021"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CitationRecord.citing_author_count -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "CitationRecord",
+   "source_column": "citing_author_count",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 400,
+   "source_distinct": 174,
+   "target_rows": 200,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "107",
+    "136",
+    "129",
+    "30",
+    "140"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataReductionPipeline.PROCESSING_STEPS -> SpaceMission.mission_id",
+   "source_table": "DataReductionPipeline",
+   "source_column": "PROCESSING_STEPS",
+   "target_table": "SpaceMission",
+   "target_key": "mission_id",
+   "source_rows": 50,
+   "source_distinct": 24,
+   "target_rows": 80,
+   "score": 2.65,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "27",
+    "21",
+    "18",
+    "19",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Dataset_Publication_Map.PUBLICATION_REF -> Pipeline_Instrument_Map.PIM_ID",
+   "source_table": "Dataset_Publication_Map",
+   "source_column": "PUBLICATION_REF",
+   "target_table": "Pipeline_Instrument_Map",
+   "target_key": "PIM_ID",
+   "source_rows": 200,
+   "source_distinct": 87,
+   "target_rows": 100,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "10",
+    "91",
+    "3",
+    "75",
+    "84"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Dataset_Publication_Map.catalog_ref -> astronomical_catalogs.CATALOGREF",
+   "source_table": "Dataset_Publication_Map",
+   "source_column": "catalog_ref",
+   "target_table": "astronomical_catalogs",
+   "target_key": "CATALOGREF",
+   "source_rows": 200,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "23003",
+    "23004",
+    "23002",
+    "23001",
+    "23005"
+   ],
+   "target_samples": [
+    "23001",
+    "23002",
+    "23003",
+    "23004",
+    "23005"
+   ]
+  },
+  {
+   "id": "EmissionAbsorptionFeature.spectral_line_ref -> CitationRecord.CITATION_ID",
+   "source_table": "EmissionAbsorptionFeature",
+   "source_column": "spectral_line_ref",
+   "target_table": "CitationRecord",
+   "target_key": "CITATION_ID",
+   "source_rows": 300,
+   "source_distinct": 211,
+   "target_rows": 400,
+   "score": 3.97,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "299",
+    "391",
+    "242",
+    "217",
+    "384"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MissionDataProduct.instrument_ref -> MissionInstrument.INSTRUMENT_ID",
+   "source_table": "MissionDataProduct",
+   "source_column": "instrument_ref",
+   "target_table": "MissionInstrument",
+   "target_key": "INSTRUMENT_ID",
+   "source_rows": 300,
+   "source_distinct": 113,
+   "target_rows": 120,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "93",
+    "16",
+    "82",
+    "95",
+    "92"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MissionDataProduct.CITATION_COUNT -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "source_table": "MissionDataProduct",
+   "source_column": "CITATION_COUNT",
+   "target_table": "ObservatoryWeatherLog",
+   "target_key": "WEATHER_LOG_ID",
+   "source_rows": 300,
+   "source_distinct": 237,
+   "target_rows": 500,
+   "score": 3.94,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "443",
+    "333",
+    "480",
+    "301",
+    "281"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MissionInstrument.mission_ref -> SpaceMission.mission_id",
+   "source_table": "MissionInstrument",
+   "source_column": "mission_ref",
+   "target_table": "SpaceMission",
+   "target_key": "mission_id",
+   "source_rows": 120,
+   "source_distinct": 60,
+   "target_rows": 80,
+   "score": 4.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "39",
+    "18",
+    "64",
+    "72",
+    "47"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MissionTarget.MISSION_REF -> SpaceMission.mission_id",
+   "source_table": "MissionTarget",
+   "source_column": "MISSION_REF",
+   "target_table": "SpaceMission",
+   "target_key": "mission_id",
+   "source_rows": 200,
+   "source_distinct": 75,
+   "target_rows": 80,
+   "score": 4.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "51",
+    "9",
+    "28",
+    "77",
+    "38"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MissionTarget.planet_ref -> physical_properties.physref",
+   "source_table": "MissionTarget",
+   "source_column": "planet_ref",
+   "target_table": "physical_properties",
+   "target_key": "physref",
+   "source_rows": 200,
+   "source_distinct": 198,
+   "target_rows": 3359,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2561",
+    "2254",
+    "1908",
+    "1774",
+    "993"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MissionTarget.PRIORITY_RANK -> stars.stellarref",
+   "source_table": "MissionTarget",
+   "source_column": "PRIORITY_RANK",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 200,
+   "source_distinct": 189,
+   "target_rows": 2509,
+   "score": 2.36,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "45",
+    "583",
+    "956",
+    "369",
+    "17"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MissionTarget.visits_planned -> Pipeline_Instrument_Map.PIM_ID",
+   "source_table": "MissionTarget",
+   "source_column": "visits_planned",
+   "target_table": "Pipeline_Instrument_Map",
+   "target_key": "PIM_ID",
+   "source_rows": 200,
+   "source_distinct": 89,
+   "target_rows": 100,
+   "score": 4.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "32",
+    "55",
+    "24",
+    "5",
+    "90"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Mission_Planet_Map.MISSION_REF -> SpaceMission.mission_id",
+   "source_table": "Mission_Planet_Map",
+   "source_column": "MISSION_REF",
+   "target_table": "SpaceMission",
+   "target_key": "mission_id",
+   "source_rows": 300,
+   "source_distinct": 79,
+   "target_rows": 80,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "42",
+    "65",
+    "80",
+    "15",
+    "38"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Mission_Planet_Map.planet_ref -> data_quality_tracking.qualityref",
+   "source_table": "Mission_Planet_Map",
+   "source_column": "planet_ref",
+   "target_table": "data_quality_tracking",
+   "target_key": "qualityref",
+   "source_rows": 300,
+   "source_distinct": 289,
+   "target_rows": 3372,
+   "score": 3.51,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2537",
+    "1068",
+    "3304",
+    "1521",
+    "3243"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "NearbyStarSurvey.stellar_ref -> stars.stellarref",
+   "source_table": "NearbyStarSurvey",
+   "source_column": "stellar_ref",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 200,
+   "source_distinct": 196,
+   "target_rows": 2509,
+   "score": 3.54,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1213",
+    "913",
+    "1734",
+    "1754",
+    "2069"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Neighborhood_Catalog_Map.SURVEY_REF -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "Neighborhood_Catalog_Map",
+   "source_column": "SURVEY_REF",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 200,
+   "source_distinct": 126,
+   "target_rows": 200,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "53",
+    "94",
+    "29",
+    "79",
+    "46"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Neighborhood_Catalog_Map.catalog_ref -> astronomical_catalogs.CATALOGREF",
+   "source_table": "Neighborhood_Catalog_Map",
+   "source_column": "catalog_ref",
+   "target_table": "astronomical_catalogs",
+   "target_key": "CATALOGREF",
+   "source_rows": 200,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "23004",
+    "23005",
+    "23002",
+    "23001",
+    "23003"
+   ],
+   "target_samples": [
+    "23001",
+    "23002",
+    "23003",
+    "23004",
+    "23005"
+   ]
+  },
+  {
+   "id": "ObservationProposal.program_ref -> research_programs.programRef",
+   "source_table": "ObservationProposal",
+   "source_column": "program_ref",
+   "target_table": "research_programs",
+   "target_key": "programRef",
+   "source_rows": 120,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "25002",
+    "25004",
+    "25005",
+    "25003",
+    "25001"
+   ],
+   "target_samples": [
+    "25001",
+    "25002",
+    "25003",
+    "25004",
+    "25005"
+   ]
+  },
+  {
+   "id": "ObservationProposal.target_count -> stars.stellarref",
+   "source_table": "ObservationProposal",
+   "source_column": "target_count",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 120,
+   "source_distinct": 114,
+   "target_rows": 2509,
+   "score": 2.28,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "574",
+    "172",
+    "759",
+    "184",
+    "525"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Observer_Team_Map.PROPOSAL_REF -> MissionInstrument.INSTRUMENT_ID",
+   "source_table": "Observer_Team_Map",
+   "source_column": "PROPOSAL_REF",
+   "target_table": "MissionInstrument",
+   "target_key": "INSTRUMENT_ID",
+   "source_rows": 250,
+   "source_distinct": 107,
+   "target_rows": 120,
+   "score": 4.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "112",
+    "51",
+    "25",
+    "109",
+    "59"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Observer_Team_Map.team_ref -> discovery_teams.TEAMREF",
+   "source_table": "Observer_Team_Map",
+   "source_column": "team_ref",
+   "target_table": "discovery_teams",
+   "target_key": "TEAMREF",
+   "source_rows": 250,
+   "source_distinct": 8,
+   "target_rows": 8,
+   "score": 4.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13005",
+    "13007",
+    "13001",
+    "13004",
+    "13002"
+   ],
+   "target_samples": [
+    "13001",
+    "13002",
+    "13003",
+    "13004",
+    "13005"
+   ]
+  },
+  {
+   "id": "PipelineQualityMetric.PIPELINE_REF -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "PipelineQualityMetric",
+   "source_column": "PIPELINE_REF",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 300,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "11",
+    "10",
+    "47",
+    "20",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Pipeline_Instrument_Map.PIPELINE_REF -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "Pipeline_Instrument_Map",
+   "source_column": "PIPELINE_REF",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 100,
+   "source_distinct": 45,
+   "target_rows": 50,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "8",
+    "2",
+    "41",
+    "35",
+    "50"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Pipeline_Instrument_Map.instrument_ref -> instruments_surveys.instrumentref",
+   "source_table": "Pipeline_Instrument_Map",
+   "source_column": "instrument_ref",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 100,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "1",
+    "3",
+    "2",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PlanetCharacterizationSummary.planet_ref -> orbital_characteristics.orbitalref",
+   "source_table": "PlanetCharacterizationSummary",
+   "source_column": "planet_ref",
+   "target_table": "orbital_characteristics",
+   "target_key": "orbitalref",
+   "source_rows": 150,
+   "source_distinct": 149,
+   "target_rows": 3371,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1282",
+    "1048",
+    "382",
+    "1596",
+    "379"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProperMotionCatalog.STELLAR_REF -> stars.stellarref",
+   "source_table": "ProperMotionCatalog",
+   "source_column": "STELLAR_REF",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 300,
+   "source_distinct": 277,
+   "target_rows": 2509,
+   "score": 3.55,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "747",
+    "1527",
+    "1804",
+    "2098",
+    "531"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProperMotionCatalog.NUM_OBSERVATIONS -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "source_table": "ProperMotionCatalog",
+   "source_column": "NUM_OBSERVATIONS",
+   "target_table": "ObservatoryWeatherLog",
+   "target_key": "WEATHER_LOG_ID",
+   "source_rows": 300,
+   "source_distinct": 227,
+   "target_rows": 500,
+   "score": 3.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "363",
+    "320",
+    "354",
+    "91",
+    "388"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScheduledObservation.allocation_ref -> Pipeline_Instrument_Map.PIM_ID",
+   "source_table": "ScheduledObservation",
+   "source_column": "allocation_ref",
+   "target_table": "Pipeline_Instrument_Map",
+   "target_key": "PIM_ID",
+   "source_rows": 400,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "63",
+    "23",
+    "12",
+    "87",
+    "100"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScheduledObservation.PLANET_REF -> orbital_characteristics.orbitalref",
+   "source_table": "ScheduledObservation",
+   "source_column": "PLANET_REF",
+   "target_table": "orbital_characteristics",
+   "target_key": "orbitalref",
+   "source_rows": 400,
+   "source_distinct": 378,
+   "target_rows": 3371,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1706",
+    "1603",
+    "247",
+    "430",
+    "2171"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScheduledObservation.exposures_count -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "ScheduledObservation",
+   "source_column": "exposures_count",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 400,
+   "source_distinct": 170,
+   "target_rows": 200,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "30",
+    "141",
+    "53",
+    "77",
+    "36"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScientificPublication.program_ref -> research_programs.programRef",
+   "source_table": "ScientificPublication",
+   "source_column": "program_ref",
+   "target_table": "research_programs",
+   "target_key": "programRef",
+   "source_rows": 100,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "25004",
+    "25001",
+    "25005",
+    "25002",
+    "25003"
+   ],
+   "target_samples": [
+    "25001",
+    "25002",
+    "25003",
+    "25004",
+    "25005"
+   ]
+  },
+  {
+   "id": "ScientificPublication.year -> data_quality_tracking.qualityref",
+   "source_table": "ScientificPublication",
+   "source_column": "year",
+   "target_table": "data_quality_tracking",
+   "target_key": "qualityref",
+   "source_rows": 100,
+   "source_distinct": 16,
+   "target_rows": 3372,
+   "score": 2.47,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2011",
+    "2017",
+    "2020",
+    "2024",
+    "2019"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScientificPublication.VOLUME -> stars.stellarref",
+   "source_table": "ScientificPublication",
+   "source_column": "VOLUME",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 100,
+   "source_distinct": 77,
+   "target_rows": 2509,
+   "score": 2.38,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "672",
+    "147",
+    "30",
+    "252",
+    "395"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScientificPublication.author_count -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "ScientificPublication",
+   "source_column": "author_count",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 100,
+   "source_distinct": 78,
+   "target_rows": 200,
+   "score": 3.75,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "109",
+    "142",
+    "96",
+    "48",
+    "151"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScientificPublication.reference_count -> Pipeline_Instrument_Map.PIM_ID",
+   "source_table": "ScientificPublication",
+   "source_column": "reference_count",
+   "target_table": "Pipeline_Instrument_Map",
+   "target_key": "PIM_ID",
+   "source_rows": 100,
+   "source_distinct": 65,
+   "target_rows": 100,
+   "score": 4.03,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "27",
+    "45",
+    "44",
+    "5",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SpaceMission.INSTRUMENTS_COUNT -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "SpaceMission",
+   "source_column": "INSTRUMENTS_COUNT",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 80,
+   "source_distinct": 8,
+   "target_rows": 50,
+   "score": 1.94,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "4",
+    "5",
+    "1",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SpectralCalibration.instrument_ref -> instruments_surveys.instrumentref",
+   "source_table": "SpectralCalibration",
+   "source_column": "instrument_ref",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 150,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "5",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SpectralCalibration.CALIBRATION_FRAMES -> Pipeline_Instrument_Map.PIM_ID",
+   "source_table": "SpectralCalibration",
+   "source_column": "CALIBRATION_FRAMES",
+   "target_table": "Pipeline_Instrument_Map",
+   "target_key": "PIM_ID",
+   "source_rows": 150,
+   "source_distinct": 73,
+   "target_rows": 100,
+   "score": 4.14,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "91",
+    "83",
+    "87",
+    "93",
+    "80"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SpectralLineMeasurement.stellar_ref -> stars.stellarref",
+   "source_table": "SpectralLineMeasurement",
+   "source_column": "stellar_ref",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 400,
+   "source_distinct": 364,
+   "target_rows": 2509,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2078",
+    "226",
+    "1746",
+    "2096",
+    "753"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Spectral_Instrument_Map.SPECTRAL_LINE_REF -> CitationRecord.CITATION_ID",
+   "source_table": "Spectral_Instrument_Map",
+   "source_column": "SPECTRAL_LINE_REF",
+   "target_table": "CitationRecord",
+   "target_key": "CITATION_ID",
+   "source_rows": 300,
+   "source_distinct": 204,
+   "target_rows": 400,
+   "score": 3.95,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "86",
+    "126",
+    "247",
+    "373",
+    "115"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Spectral_Instrument_Map.instrument_ref -> instruments_surveys.instrumentref",
+   "source_table": "Spectral_Instrument_Map",
+   "source_column": "instrument_ref",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 300,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "4",
+    "5",
+    "1",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Spectral_Instrument_Map.SPECTRA_EXTRACTED -> Pipeline_Instrument_Map.PIM_ID",
+   "source_table": "Spectral_Instrument_Map",
+   "source_column": "SPECTRA_EXTRACTED",
+   "target_table": "Pipeline_Instrument_Map",
+   "target_key": "PIM_ID",
+   "source_rows": 300,
+   "source_distinct": 98,
+   "target_rows": 100,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "33",
+    "50",
+    "13",
+    "70",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "StellarMultiplicityRecord.stellar_ref -> planet_instrument_observations.obsref",
+   "source_table": "StellarMultiplicityRecord",
+   "source_column": "stellar_ref",
+   "target_table": "planet_instrument_observations",
+   "target_key": "obsref",
+   "source_rows": 150,
+   "source_distinct": 148,
+   "target_rows": 2683,
+   "score": 3.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "959",
+    "934",
+    "387",
+    "85",
+    "2498"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "StellarMultiplicityRecord.BINARY_REF -> binary_star_systems.binaryRef",
+   "source_table": "StellarMultiplicityRecord",
+   "source_column": "BINARY_REF",
+   "target_table": "binary_star_systems",
+   "target_key": "binaryRef",
+   "source_rows": 150,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "11006",
+    "11003",
+    "11001",
+    "11002",
+    "11004"
+   ],
+   "target_samples": [
+    "11001",
+    "11002",
+    "11003",
+    "11004",
+    "11005"
+   ]
+  },
+  {
+   "id": "StellarMultiplicityRecord.COMPONENT_COUNT -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "StellarMultiplicityRecord",
+   "source_column": "COMPONENT_COUNT",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 150,
+   "source_distinct": 6,
+   "target_rows": 50,
+   "score": 1.82,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "2",
+    "1",
+    "5",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TelescopeAllocation.instrument_ref -> instruments_surveys.instrumentref",
+   "source_table": "TelescopeAllocation",
+   "source_column": "instrument_ref",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 100,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "4",
+    "3",
+    "2",
+    "1",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TelescopeAllocation.RANK -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "TelescopeAllocation",
+   "source_column": "RANK",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 100,
+   "source_distinct": 80,
+   "target_rows": 200,
+   "score": 3.75,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "56",
+    "173",
+    "38",
+    "6",
+    "81"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransitLightCurve.planet_ref -> data_quality_tracking.qualityref",
+   "source_table": "TransitLightCurve",
+   "source_column": "planet_ref",
+   "target_table": "data_quality_tracking",
+   "target_key": "qualityref",
+   "source_rows": 500,
+   "source_distinct": 458,
+   "target_rows": 3372,
+   "score": 3.61,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2909",
+    "2835",
+    "3319",
+    "2918",
+    "984"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransitLightCurve.INSTRUMENT_REF -> instruments_surveys.instrumentref",
+   "source_table": "TransitLightCurve",
+   "source_column": "INSTRUMENT_REF",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 500,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "1",
+    "3",
+    "2",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransitLightCurve.BASELINE_FLUX -> instruments_surveys.instrumentref",
+   "source_table": "TransitLightCurve",
+   "source_column": "BASELINE_FLUX",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 500,
+   "source_distinct": 1,
+   "target_rows": 5,
+   "score": 2.2,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransmissionSpectrum.planet_ref -> data_quality_tracking.qualityref",
+   "source_table": "TransmissionSpectrum",
+   "source_column": "planet_ref",
+   "target_table": "data_quality_tracking",
+   "target_key": "qualityref",
+   "source_rows": 300,
+   "source_distinct": 289,
+   "target_rows": 3372,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2064",
+    "337",
+    "2579",
+    "1677",
+    "95"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "astronomical_catalogs.MagnitudeLimit_mag -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "astronomical_catalogs",
+   "source_column": "MagnitudeLimit_mag",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 5,
+   "source_distinct": 1,
+   "target_rows": 50,
+   "score": 2.02,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "21.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "atmospheric_escape_rates.planetLink -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "atmospheric_escape_rates",
+   "source_column": "planetLink",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 50,
+   "score": 1.82,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "atmospheric_escape_rates.solar_euv_flux_received_W/m\u00b2 -> stars.stellarref",
+   "source_table": "atmospheric_escape_rates",
+   "source_column": "solar_euv_flux_received_W/m\u00b2",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 2509,
+   "score": 2.58,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1850.0",
+    "985.0",
+    "425.0",
+    "2250.0",
+    "320.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "binary_star_systems.PRIMARY_STAR_LINK -> planet_instrument_observations.obsref",
+   "source_table": "binary_star_systems",
+   "source_column": "PRIMARY_STAR_LINK",
+   "target_table": "planet_instrument_observations",
+   "target_key": "obsref",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 2683,
+   "score": 2.1,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "5",
+    "6",
+    "17"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "binary_star_systems.secondary_star_link -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "binary_star_systems",
+   "source_column": "secondary_star_link",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 6,
+   "source_distinct": 4,
+   "target_rows": 50,
+   "score": 2.4,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "4",
+    "7",
+    "32"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "binary_star_systems.DiscoveryYear -> data_quality_tracking.qualityref",
+   "source_table": "binary_star_systems",
+   "source_column": "DiscoveryYear",
+   "target_table": "data_quality_tracking",
+   "target_key": "qualityref",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 3372,
+   "score": 2.5,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1995",
+    "2001",
+    "2018",
+    "1987",
+    "2010"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "data_quality_tracking.targetlink -> planets.planetref",
+   "source_table": "data_quality_tracking",
+   "source_column": "targetlink",
+   "target_table": "planets",
+   "target_key": "planetref",
+   "source_rows": 3372,
+   "source_distinct": 3372,
+   "target_rows": 3372,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "discovery_teams.co_investigator_count -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "discovery_teams",
+   "source_column": "co_investigator_count",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 200,
+   "score": 2.65,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "28",
+    "15",
+    "22",
+    "156",
+    "89"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "discovery_teams.PostdocCount -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "discovery_teams",
+   "source_column": "PostdocCount",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 8,
+   "source_distinct": 5,
+   "target_rows": 50,
+   "score": 2.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "6",
+    "42",
+    "12",
+    "18"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "discovery_teams.GRADUATE_STUDENT_COUNT -> Pipeline_Instrument_Map.PIM_ID",
+   "source_table": "discovery_teams",
+   "source_column": "GRADUATE_STUDENT_COUNT",
+   "target_table": "Pipeline_Instrument_Map",
+   "target_key": "PIM_ID",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 100,
+   "score": 2.82,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15",
+    "12",
+    "18",
+    "89",
+    "45"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "discovery_teams.active_since_year -> data_quality_tracking.qualityref",
+   "source_table": "discovery_teams",
+   "source_column": "active_since_year",
+   "target_table": "data_quality_tracking",
+   "target_key": "qualityref",
+   "source_rows": 8,
+   "source_distinct": 7,
+   "target_rows": 3372,
+   "score": 2.48,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1995",
+    "2008",
+    "2010",
+    "2017",
+    "2009"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "discovery_teams.TOTAL_PUBLICATIONS_COUNT -> stars.stellarref",
+   "source_table": "discovery_teams",
+   "source_column": "TOTAL_PUBLICATIONS_COUNT",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 2509,
+   "score": 2.46,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "342",
+    "156",
+    "98",
+    "1247",
+    "2156"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "discovery_teams.h_index_team -> MissionInstrument.INSTRUMENT_ID",
+   "source_table": "discovery_teams",
+   "source_column": "h_index_team",
+   "target_table": "MissionInstrument",
+   "target_key": "INSTRUMENT_ID",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 120,
+   "score": 2.55,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "85.0",
+    "62.0",
+    "48.0",
+    "92.0",
+    "98.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "exomoons.PLANETLINK -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "exomoons",
+   "source_column": "PLANETLINK",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 9,
+   "source_distinct": 9,
+   "target_rows": 50,
+   "score": 2.0,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "exomoons.SurfaceTemperature_K -> stars.stellarref",
+   "source_table": "exomoons",
+   "source_column": "SurfaceTemperature_K",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 9,
+   "source_distinct": 9,
+   "target_rows": 2509,
+   "score": 1.95,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "185.0",
+    "165.0",
+    "95.0",
+    "2250.0",
+    "215.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "exomoons.DiscoveryYear -> data_quality_tracking.qualityref",
+   "source_table": "exomoons",
+   "source_column": "DiscoveryYear",
+   "target_table": "data_quality_tracking",
+   "target_key": "qualityref",
+   "source_rows": 9,
+   "source_distinct": 5,
+   "target_rows": 3372,
+   "score": 2.46,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2022",
+    "2023",
+    "2021",
+    "2020",
+    "2019"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "gravitational_microlensing_events.PLANETLINK -> SpaceMission.mission_id",
+   "source_table": "gravitational_microlensing_events",
+   "source_column": "PLANETLINK",
+   "target_table": "SpaceMission",
+   "target_key": "mission_id",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 80,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "48",
+    "49",
+    "4",
+    "41"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "gravitational_microlensing_events.lensing_star_link -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "gravitational_microlensing_events",
+   "source_column": "lensing_star_link",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 50,
+   "score": 2.72,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11",
+    "12",
+    "23",
+    "24",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "habitability_metrics.planetLink -> instruments_surveys.instrumentref",
+   "source_table": "habitability_metrics",
+   "source_column": "planetLink",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 5,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "habitability_metrics.surface_temperature_estimate_K -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "source_table": "habitability_metrics",
+   "source_column": "surface_temperature_estimate_K",
+   "target_table": "ObservatoryWeatherLog",
+   "target_key": "WEATHER_LOG_ID",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 500,
+   "score": 2.51,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "288.0",
+    "265.0",
+    "425.0",
+    "195.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "habitability_metrics.stellar_flux_received_W/m\u00b2 -> stars.stellarref",
+   "source_table": "habitability_metrics",
+   "source_column": "stellar_flux_received_W/m\u00b2",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 2509,
+   "score": 2.73,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1285.0",
+    "985.0",
+    "2150.0",
+    "625.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "instrument_specifications.instrumentLink -> instruments_surveys.instrumentref",
+   "source_table": "instrument_specifications",
+   "source_column": "instrumentLink",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "instrument_specifications.OperatingTemperature_Kelvin -> EmissionAbsorptionFeature.FEATURE_ID",
+   "source_table": "instrument_specifications",
+   "source_column": "OperatingTemperature_Kelvin",
+   "target_table": "EmissionAbsorptionFeature",
+   "target_key": "FEATURE_ID",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 300,
+   "score": 2.84,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "40.0",
+    "273.0",
+    "80.0",
+    "165.0",
+    "243.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "instrument_specifications.PhotometricPrecision_ppm -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "instrument_specifications",
+   "source_column": "PhotometricPrecision_ppm",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 5,
+   "source_distinct": 2,
+   "target_rows": 50,
+   "score": 2.04,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "50.0",
+    "20.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "multi_planet_system_dynamics.STELLARLINK -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "multi_planet_system_dynamics",
+   "source_column": "STELLARLINK",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 50,
+   "score": 2.96,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "22",
+    "23",
+    "24",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "multi_planet_system_dynamics.PlanetCount -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "multi_planet_system_dynamics",
+   "source_column": "PlanetCount",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 8,
+   "source_distinct": 6,
+   "target_rows": 50,
+   "score": 1.85,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "3",
+    "6",
+    "2",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "multi_planet_system_dynamics.EccentricityDampingTimescale_Myr -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "source_table": "multi_planet_system_dynamics",
+   "source_column": "EccentricityDampingTimescale_Myr",
+   "target_table": "ObservatoryWeatherLog",
+   "target_key": "WEATHER_LOG_ID",
+   "source_rows": 8,
+   "source_distinct": 3,
+   "target_rows": 500,
+   "score": 2.58,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "125.0",
+    "450.0",
+    "85.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "observation_conditions.OBSERVATIONLINK -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "observation_conditions",
+   "source_column": "OBSERVATIONLINK",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 50,
+   "score": 1.94,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "observation_conditions.DataQualityFlags -> instruments_surveys.instrumentref",
+   "source_table": "observation_conditions",
+   "source_column": "DataQualityFlags",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 8,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "4",
+    "3",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "orbital_characteristics.bodylink -> data_quality_tracking.qualityref",
+   "source_table": "orbital_characteristics",
+   "source_column": "bodylink",
+   "target_table": "data_quality_tracking",
+   "target_key": "qualityref",
+   "source_rows": 3371,
+   "source_distinct": 3371,
+   "target_rows": 3372,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "photometric_variations.STELLARLINK -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "photometric_variations",
+   "source_column": "STELLARLINK",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 8,
+   "source_distinct": 5,
+   "target_rows": 200,
+   "score": 2.61,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "101",
+    "102",
+    "103",
+    "96",
+    "97"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "photometric_variations.ExposureTime_seconds -> stars.stellarref",
+   "source_table": "photometric_variations",
+   "source_column": "ExposureTime_seconds",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 8,
+   "source_distinct": 5,
+   "target_rows": 2509,
+   "score": 1.67,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "180.0",
+    "300.0",
+    "600.0",
+    "120.0",
+    "900.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "physical_properties.objectlink -> data_quality_tracking.qualityref",
+   "source_table": "physical_properties",
+   "source_column": "objectlink",
+   "target_table": "data_quality_tracking",
+   "target_key": "qualityref",
+   "source_rows": 3359,
+   "source_distinct": 3359,
+   "target_rows": 3372,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_discovery_teams.PLANETLINK -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "planet_discovery_teams",
+   "source_column": "PLANETLINK",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 7,
+   "source_distinct": 6,
+   "target_rows": 50,
+   "score": 1.82,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_discovery_teams.team_link -> discovery_teams.TEAMREF",
+   "source_table": "planet_discovery_teams",
+   "source_column": "team_link",
+   "target_table": "discovery_teams",
+   "target_key": "TEAMREF",
+   "source_rows": 7,
+   "source_distinct": 7,
+   "target_rows": 8,
+   "score": 3.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13001",
+    "13002",
+    "13003",
+    "13004",
+    "13005"
+   ],
+   "target_samples": [
+    "13001",
+    "13002",
+    "13003",
+    "13004",
+    "13005"
+   ]
+  },
+  {
+   "id": "planet_discovery_teams.CONTRIBUTION_PERCENTAGE -> MissionInstrument.INSTRUMENT_ID",
+   "source_table": "planet_discovery_teams",
+   "source_column": "CONTRIBUTION_PERCENTAGE",
+   "target_table": "MissionInstrument",
+   "target_key": "INSTRUMENT_ID",
+   "source_rows": 7,
+   "source_distinct": 7,
+   "target_rows": 120,
+   "score": 2.71,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "85.0",
+    "15.0",
+    "92.0",
+    "75.0",
+    "45.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_discovery_teams.citation_count -> physical_properties.physref",
+   "source_table": "planet_discovery_teams",
+   "source_column": "citation_count",
+   "target_table": "physical_properties",
+   "target_key": "physref",
+   "source_rows": 7,
+   "source_distinct": 6,
+   "target_rows": 3359,
+   "score": 2.34,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "127",
+    "45",
+    "2847",
+    "234",
+    "892"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_discovery_teams.FollowUpStudiesEnabled -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "planet_discovery_teams",
+   "source_column": "FollowUpStudiesEnabled",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 7,
+   "source_distinct": 6,
+   "target_rows": 50,
+   "score": 2.89,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "15",
+    "8",
+    "12",
+    "45",
+    "18"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_instrument_observations.subjectlink -> physical_properties.physref",
+   "source_table": "planet_instrument_observations",
+   "source_column": "subjectlink",
+   "target_table": "physical_properties",
+   "target_key": "physref",
+   "source_rows": 2683,
+   "source_distinct": 2460,
+   "target_rows": 3359,
+   "score": 3.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "14",
+    "47",
+    "141",
+    "143",
+    "191"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_instrument_observations.facilitylink -> instruments_surveys.instrumentref",
+   "source_table": "planet_instrument_observations",
+   "source_column": "facilitylink",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 2683,
+   "source_distinct": 3,
+   "target_rows": 5,
+   "score": 2.9,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_research_programs.planetLink -> SpaceMission.mission_id",
+   "source_table": "planet_research_programs",
+   "source_column": "planetLink",
+   "target_table": "SpaceMission",
+   "target_key": "mission_id",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 80,
+   "score": 2.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "41",
+    "42",
+    "3",
+    "44",
+    "45"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_research_programs.program_link -> research_programs.programRef",
+   "source_table": "planet_research_programs",
+   "source_column": "program_link",
+   "target_table": "research_programs",
+   "target_key": "programRef",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "25001",
+    "25004",
+    "25002",
+    "25003",
+    "25005"
+   ],
+   "target_samples": [
+    "25001",
+    "25002",
+    "25003",
+    "25004",
+    "25005"
+   ]
+  },
+  {
+   "id": "planet_research_programs.PersonnelAssigned -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "planet_research_programs",
+   "source_column": "PersonnelAssigned",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 50,
+   "score": 2.06,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "5",
+    "12",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_system_membership.PLANETLINK -> SpaceMission.mission_id",
+   "source_table": "planet_system_membership",
+   "source_column": "PLANETLINK",
+   "target_table": "SpaceMission",
+   "target_key": "mission_id",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 80,
+   "score": 2.7,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "41",
+    "42",
+    "43",
+    "44",
+    "45"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_system_membership.system_dynamics_link -> multi_planet_system_dynamics.systemDynamicsRef",
+   "source_table": "planet_system_membership",
+   "source_column": "system_dynamics_link",
+   "target_table": "multi_planet_system_dynamics",
+   "target_key": "systemDynamicsRef",
+   "source_rows": 8,
+   "source_distinct": 5,
+   "target_rows": 8,
+   "score": 3.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "20001",
+    "20002",
+    "20003",
+    "20004",
+    "20005"
+   ],
+   "target_samples": [
+    "20001",
+    "20002",
+    "20003",
+    "20004",
+    "20005"
+   ]
+  },
+  {
+   "id": "planet_system_membership.DISCOVERY_ORDER -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "planet_system_membership",
+   "source_column": "DISCOVERY_ORDER",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 8,
+   "source_distinct": 4,
+   "target_rows": 50,
+   "score": 1.74,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_system_membership.orbital_rank -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "planet_system_membership",
+   "source_column": "orbital_rank",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 8,
+   "source_distinct": 3,
+   "target_rows": 50,
+   "score": 1.72,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_system_membership.MassRank -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "planet_system_membership",
+   "source_column": "MassRank",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 8,
+   "source_distinct": 4,
+   "target_rows": 50,
+   "score": 1.74,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "1",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planetary_atmospheres.PLANETLINK -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "planetary_atmospheres",
+   "source_column": "PLANETLINK",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 50,
+   "score": 1.82,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planetary_atmospheres.GreenhouseEffectStrength_K -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "source_table": "planetary_atmospheres",
+   "source_column": "GreenhouseEffectStrength_K",
+   "target_table": "ObservatoryWeatherLog",
+   "target_key": "WEATHER_LOG_ID",
+   "source_rows": 6,
+   "source_distinct": 4,
+   "target_rows": 500,
+   "score": 2.09,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "462.0",
+    "35.0",
+    "85.0",
+    "12.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planetary_atmospheres.emission_temperature_K -> stars.stellarref",
+   "source_table": "planetary_atmospheres",
+   "source_column": "emission_temperature_K",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 2509,
+   "score": 1.48,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "735.0",
+    "255.0",
+    "165.0",
+    "120.0",
+    "420.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planetary_atmospheres.EquilibriumTemperature_K -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "source_table": "planetary_atmospheres",
+   "source_column": "EquilibriumTemperature_K",
+   "target_table": "ObservatoryWeatherLog",
+   "target_key": "WEATHER_LOG_ID",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 500,
+   "score": 2.74,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "464.0",
+    "255.0",
+    "110.0",
+    "120.0",
+    "380.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planetary_atmospheres.DataQualityFlag -> instruments_surveys.instrumentref",
+   "source_table": "planetary_atmospheres",
+   "source_column": "DataQualityFlag",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 6,
+   "source_distinct": 3,
+   "target_rows": 5,
+   "score": 2.9,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planetary_formation_models.planetLink -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "planetary_formation_models",
+   "source_column": "planetLink",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 50,
+   "score": 2.93,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "41",
+    "2",
+    "43",
+    "4",
+    "45"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planetary_formation_models.MAGMA_OCEAN_DURATION_Myr -> stars.stellarref",
+   "source_table": "planetary_formation_models",
+   "source_column": "MAGMA_OCEAN_DURATION_Myr",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 6,
+   "source_distinct": 2,
+   "target_rows": 2509,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "450.0",
+    "850.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planetary_formation_models.WaterOceanFormationTime_Myr -> EmissionAbsorptionFeature.FEATURE_ID",
+   "source_table": "planetary_formation_models",
+   "source_column": "WaterOceanFormationTime_Myr",
+   "target_table": "EmissionAbsorptionFeature",
+   "target_key": "FEATURE_ID",
+   "source_rows": 6,
+   "source_distinct": 3,
+   "target_rows": 300,
+   "score": 2.76,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "50.0",
+    "125.0",
+    "280.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planets.hostlink -> stars.stellarref",
+   "source_table": "planets",
+   "source_column": "hostlink",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 3372,
+   "source_distinct": 2509,
+   "target_rows": 2509,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "radial_velocity_measurements.stellarLink -> instruments_surveys.instrumentref",
+   "source_table": "radial_velocity_measurements",
+   "source_column": "stellarLink",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 11,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "radial_velocity_measurements.SIGNAL_TO_NOISE_RATIO -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "radial_velocity_measurements",
+   "source_column": "SIGNAL_TO_NOISE_RATIO",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 11,
+   "source_distinct": 11,
+   "target_rows": 200,
+   "score": 2.51,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "145.0",
+    "138.0",
+    "125.0",
+    "182.0",
+    "175.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "research_programs.StudentTrainingOpportunities -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "research_programs",
+   "source_column": "StudentTrainingOpportunities",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 50,
+   "score": 3.06,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "45",
+    "15",
+    "12",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "star_catalog_entries.STELLARLINK -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "star_catalog_entries",
+   "source_column": "STELLARLINK",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 50,
+   "score": 2.72,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "21",
+    "2",
+    "23",
+    "4",
+    "25"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "star_catalog_entries.catalog_link -> astronomical_catalogs.CATALOGREF",
+   "source_table": "star_catalog_entries",
+   "source_column": "catalog_link",
+   "target_table": "astronomical_catalogs",
+   "target_key": "CATALOGREF",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 5,
+   "score": 3.7,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "23001",
+    "23002",
+    "23003",
+    "23005"
+   ],
+   "target_samples": [
+    "23001",
+    "23002",
+    "23003",
+    "23004",
+    "23005"
+   ]
+  },
+  {
+   "id": "star_catalog_entries.SPECTRAL_TYPE_AGREEMENT -> instruments_surveys.instrumentref",
+   "source_table": "star_catalog_entries",
+   "source_column": "SPECTRAL_TYPE_AGREEMENT",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 5,
+   "source_distinct": 1,
+   "target_rows": 5,
+   "score": 2.2,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "star_catalog_entries.parallax_agreement -> instruments_surveys.instrumentref",
+   "source_table": "star_catalog_entries",
+   "source_column": "parallax_agreement",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 5,
+   "source_distinct": 1,
+   "target_rows": 5,
+   "score": 2.2,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "stars.compcount -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "stars",
+   "source_column": "compcount",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 2509,
+   "source_distinct": 7,
+   "target_rows": 50,
+   "score": 1.88,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "5",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "stellar_evolution_phases.STELLARLINK -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "stellar_evolution_phases",
+   "source_column": "STELLARLINK",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 50,
+   "score": 2.77,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "26",
+    "27",
+    "28",
+    "29",
+    "30"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "stellar_evolution_phases.RedGiantBranchTipLuminosity_solar_luminosities -> stars.stellarref",
+   "source_table": "stellar_evolution_phases",
+   "source_column": "RedGiantBranchTipLuminosity_solar_luminosities",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 6,
+   "source_distinct": 2,
+   "target_rows": 2509,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1200.0",
+    "2500.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "stellar_spectroscopy.stellarLink -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "stellar_spectroscopy",
+   "source_column": "stellarLink",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 7,
+   "source_distinct": 7,
+   "target_rows": 50,
+   "score": 1.88,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "stellar_spectroscopy.SignalToNoiseRatio -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "stellar_spectroscopy",
+   "source_column": "SignalToNoiseRatio",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 7,
+   "source_distinct": 7,
+   "target_rows": 200,
+   "score": 2.33,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "120.0",
+    "95.0",
+    "85.0",
+    "140.0",
+    "110.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "tidal_forces_effects.PLANETLINK -> instruments_surveys.instrumentref",
+   "source_table": "tidal_forces_effects",
+   "source_column": "PLANETLINK",
+   "target_table": "instruments_surveys",
+   "target_key": "instrumentref",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 5,
+   "score": 2.9,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "tidal_forces_effects.tidal_quality_factor -> stars.stellarref",
+   "source_table": "tidal_forces_effects",
+   "source_column": "tidal_quality_factor",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 3,
+   "source_distinct": 2,
+   "target_rows": 2509,
+   "score": 2.0,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "100.0",
+    "1500.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "tidal_forces_effects.TIDAL_BULGE_HEIGHT_meters -> stars.stellarref",
+   "source_table": "tidal_forces_effects",
+   "source_column": "TIDAL_BULGE_HEIGHT_meters",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 2509,
+   "score": 1.77,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "850.0",
+    "425.0",
+    "180.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CalibrationRecord.CAL_RECORD_ID -> Dataset_Publication_Map.DPM_ID",
+   "source_table": "CalibrationRecord",
+   "source_column": "CAL_RECORD_ID",
+   "target_table": "Dataset_Publication_Map",
+   "target_key": "DPM_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ChemicalAbundanceAnalysis.ABUNDANCE_ID -> Observer_Team_Map.OTM_ID",
+   "source_table": "ChemicalAbundanceAnalysis",
+   "source_column": "ABUNDANCE_ID",
+   "target_table": "Observer_Team_Map",
+   "target_key": "OTM_ID",
+   "source_rows": 250,
+   "source_distinct": 250,
+   "target_rows": 250,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CitationRecord.CITATION_ID -> ScheduledObservation.SCHED_OBS_ID",
+   "source_table": "CitationRecord",
+   "source_column": "CITATION_ID",
+   "target_table": "ScheduledObservation",
+   "target_key": "SCHED_OBS_ID",
+   "source_rows": 400,
+   "source_distinct": 400,
+   "target_rows": 400,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DataReductionPipeline.PIPELINE_ID -> SpaceMission.mission_id",
+   "source_table": "DataReductionPipeline",
+   "source_column": "PIPELINE_ID",
+   "target_table": "SpaceMission",
+   "target_key": "mission_id",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 80,
+   "score": 2.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Dataset_Publication_Map.DPM_ID -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "Dataset_Publication_Map",
+   "source_column": "DPM_ID",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmissionAbsorptionFeature.FEATURE_ID -> MissionDataProduct.DATA_PRODUCT_ID",
+   "source_table": "EmissionAbsorptionFeature",
+   "source_column": "FEATURE_ID",
+   "target_table": "MissionDataProduct",
+   "target_key": "DATA_PRODUCT_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MissionDataProduct.DATA_PRODUCT_ID -> EmissionAbsorptionFeature.FEATURE_ID",
+   "source_table": "MissionDataProduct",
+   "source_column": "DATA_PRODUCT_ID",
+   "target_table": "EmissionAbsorptionFeature",
+   "target_key": "FEATURE_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MissionInstrument.INSTRUMENT_ID -> ObservationProposal.PROPOSAL_ID",
+   "source_table": "MissionInstrument",
+   "source_column": "INSTRUMENT_ID",
+   "target_table": "ObservationProposal",
+   "target_key": "PROPOSAL_ID",
+   "source_rows": 120,
+   "source_distinct": 120,
+   "target_rows": 120,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MissionTarget.TARGET_ID -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "MissionTarget",
+   "source_column": "TARGET_ID",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Mission_Planet_Map.MPM_ID -> EmissionAbsorptionFeature.FEATURE_ID",
+   "source_table": "Mission_Planet_Map",
+   "source_column": "MPM_ID",
+   "target_table": "EmissionAbsorptionFeature",
+   "target_key": "FEATURE_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "NearbyStarSurvey.SURVEY_ENTRY_ID -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "NearbyStarSurvey",
+   "source_column": "SURVEY_ENTRY_ID",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Neighborhood_Catalog_Map.NCM_ID -> CalibrationRecord.CAL_RECORD_ID",
+   "source_table": "Neighborhood_Catalog_Map",
+   "source_column": "NCM_ID",
+   "target_table": "CalibrationRecord",
+   "target_key": "CAL_RECORD_ID",
+   "source_rows": 200,
+   "source_distinct": 200,
+   "target_rows": 200,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ObservationProposal.PROPOSAL_ID -> MissionInstrument.INSTRUMENT_ID",
+   "source_table": "ObservationProposal",
+   "source_column": "PROPOSAL_ID",
+   "target_table": "MissionInstrument",
+   "target_key": "INSTRUMENT_ID",
+   "source_rows": 120,
+   "source_distinct": 120,
+   "target_rows": 120,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ObservatoryWeatherLog.WEATHER_LOG_ID -> TransitLightCurve.LIGHTCURVE_ID",
+   "source_table": "ObservatoryWeatherLog",
+   "source_column": "WEATHER_LOG_ID",
+   "target_table": "TransitLightCurve",
+   "target_key": "LIGHTCURVE_ID",
+   "source_rows": 500,
+   "source_distinct": 500,
+   "target_rows": 500,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Observer_Team_Map.OTM_ID -> ChemicalAbundanceAnalysis.ABUNDANCE_ID",
+   "source_table": "Observer_Team_Map",
+   "source_column": "OTM_ID",
+   "target_table": "ChemicalAbundanceAnalysis",
+   "target_key": "ABUNDANCE_ID",
+   "source_rows": 250,
+   "source_distinct": 250,
+   "target_rows": 250,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PipelineQualityMetric.QM_ID -> EmissionAbsorptionFeature.FEATURE_ID",
+   "source_table": "PipelineQualityMetric",
+   "source_column": "QM_ID",
+   "target_table": "EmissionAbsorptionFeature",
+   "target_key": "FEATURE_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Pipeline_Instrument_Map.PIM_ID -> ScientificPublication.PUBLICATION_ID",
+   "source_table": "Pipeline_Instrument_Map",
+   "source_column": "PIM_ID",
+   "target_table": "ScientificPublication",
+   "target_key": "PUBLICATION_ID",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PlanetCharacterizationSummary.CHAR_SUMMARY_ID -> SpectralCalibration.CALIBRATION_ID",
+   "source_table": "PlanetCharacterizationSummary",
+   "source_column": "CHAR_SUMMARY_ID",
+   "target_table": "SpectralCalibration",
+   "target_key": "CALIBRATION_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProperMotionCatalog.PM_ENTRY_ID -> EmissionAbsorptionFeature.FEATURE_ID",
+   "source_table": "ProperMotionCatalog",
+   "source_column": "PM_ENTRY_ID",
+   "target_table": "EmissionAbsorptionFeature",
+   "target_key": "FEATURE_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScheduledObservation.SCHED_OBS_ID -> CitationRecord.CITATION_ID",
+   "source_table": "ScheduledObservation",
+   "source_column": "SCHED_OBS_ID",
+   "target_table": "CitationRecord",
+   "target_key": "CITATION_ID",
+   "source_rows": 400,
+   "source_distinct": 400,
+   "target_rows": 400,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScientificPublication.PUBLICATION_ID -> Pipeline_Instrument_Map.PIM_ID",
+   "source_table": "ScientificPublication",
+   "source_column": "PUBLICATION_ID",
+   "target_table": "Pipeline_Instrument_Map",
+   "target_key": "PIM_ID",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SpaceMission.mission_id -> Pipeline_Instrument_Map.PIM_ID",
+   "source_table": "SpaceMission",
+   "source_column": "mission_id",
+   "target_table": "Pipeline_Instrument_Map",
+   "target_key": "PIM_ID",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 100,
+   "score": 2.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SpectralCalibration.CALIBRATION_ID -> PlanetCharacterizationSummary.CHAR_SUMMARY_ID",
+   "source_table": "SpectralCalibration",
+   "source_column": "CALIBRATION_ID",
+   "target_table": "PlanetCharacterizationSummary",
+   "target_key": "CHAR_SUMMARY_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SpectralLineMeasurement.SPECTRAL_LINE_ID -> CitationRecord.CITATION_ID",
+   "source_table": "SpectralLineMeasurement",
+   "source_column": "SPECTRAL_LINE_ID",
+   "target_table": "CitationRecord",
+   "target_key": "CITATION_ID",
+   "source_rows": 400,
+   "source_distinct": 400,
+   "target_rows": 400,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Spectral_Instrument_Map.SIM_ID -> EmissionAbsorptionFeature.FEATURE_ID",
+   "source_table": "Spectral_Instrument_Map",
+   "source_column": "SIM_ID",
+   "target_table": "EmissionAbsorptionFeature",
+   "target_key": "FEATURE_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "StellarMultiplicityRecord.MULTIPLICITY_ID -> PlanetCharacterizationSummary.CHAR_SUMMARY_ID",
+   "source_table": "StellarMultiplicityRecord",
+   "source_column": "MULTIPLICITY_ID",
+   "target_table": "PlanetCharacterizationSummary",
+   "target_key": "CHAR_SUMMARY_ID",
+   "source_rows": 150,
+   "source_distinct": 150,
+   "target_rows": 150,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TelescopeAllocation.ALLOCATION_ID -> Pipeline_Instrument_Map.PIM_ID",
+   "source_table": "TelescopeAllocation",
+   "source_column": "ALLOCATION_ID",
+   "target_table": "Pipeline_Instrument_Map",
+   "target_key": "PIM_ID",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 3.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransitLightCurve.LIGHTCURVE_ID -> ObservatoryWeatherLog.WEATHER_LOG_ID",
+   "source_table": "TransitLightCurve",
+   "source_column": "LIGHTCURVE_ID",
+   "target_table": "ObservatoryWeatherLog",
+   "target_key": "WEATHER_LOG_ID",
+   "source_rows": 500,
+   "source_distinct": 500,
+   "target_rows": 500,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransmissionSpectrum.SPECTRUM_ID -> EmissionAbsorptionFeature.FEATURE_ID",
+   "source_table": "TransmissionSpectrum",
+   "source_column": "SPECTRUM_ID",
+   "target_table": "EmissionAbsorptionFeature",
+   "target_key": "FEATURE_ID",
+   "source_rows": 300,
+   "source_distinct": 300,
+   "target_rows": 300,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "data_quality_tracking.qualityref -> planets.planetref",
+   "source_table": "data_quality_tracking",
+   "source_column": "qualityref",
+   "target_table": "planets",
+   "target_key": "planetref",
+   "source_rows": 3372,
+   "source_distinct": 3372,
+   "target_rows": 3372,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "instruments_surveys.instrumentref -> DataReductionPipeline.PIPELINE_ID",
+   "source_table": "instruments_surveys",
+   "source_column": "instrumentref",
+   "target_table": "DataReductionPipeline",
+   "target_key": "PIPELINE_ID",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 50,
+   "score": 0.76,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "orbital_characteristics.orbitalref -> data_quality_tracking.qualityref",
+   "source_table": "orbital_characteristics",
+   "source_column": "orbitalref",
+   "target_table": "data_quality_tracking",
+   "target_key": "qualityref",
+   "source_rows": 3371,
+   "source_distinct": 3371,
+   "target_rows": 3372,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "physical_properties.physref -> orbital_characteristics.orbitalref",
+   "source_table": "physical_properties",
+   "source_column": "physref",
+   "target_table": "orbital_characteristics",
+   "target_key": "orbitalref",
+   "source_rows": 3359,
+   "source_distinct": 3359,
+   "target_rows": 3371,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planet_instrument_observations.obsref -> physical_properties.physref",
+   "source_table": "planet_instrument_observations",
+   "source_column": "obsref",
+   "target_table": "physical_properties",
+   "target_key": "physref",
+   "source_rows": 2683,
+   "source_distinct": 2683,
+   "target_rows": 3359,
+   "score": 2.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "planets.planetref -> data_quality_tracking.qualityref",
+   "source_table": "planets",
+   "source_column": "planetref",
+   "target_table": "data_quality_tracking",
+   "target_key": "qualityref",
+   "source_rows": 3372,
+   "source_distinct": 3372,
+   "target_rows": 3372,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "stars.stellarref -> planet_instrument_observations.obsref",
+   "source_table": "stars",
+   "source_column": "stellarref",
+   "target_table": "planet_instrument_observations",
+   "target_key": "obsref",
+   "source_rows": 2509,
+   "source_distinct": 2509,
+   "target_rows": 2683,
+   "score": 3.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "stellar_spectroscopy.SPECTROSCOPYREF -> stars.stellarref",
+   "source_table": "stellar_spectroscopy",
+   "source_column": "SPECTROSCOPYREF",
+   "target_table": "stars",
+   "target_key": "stellarref",
+   "source_rows": 7,
+   "source_distinct": 7,
+   "target_rows": 2509,
+   "score": 1.47,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1001",
+    "1002",
+    "1003",
+    "1004",
+    "1005"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

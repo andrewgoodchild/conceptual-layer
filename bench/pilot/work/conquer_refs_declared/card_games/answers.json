@@ -1,0 +1,46 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST l FROM ForeignData [has ForeignDataMultiverseid: 149934] has ForeignDataLanguage l"
+ },
+ {
+  "question_id": 346,
+  "answer": "LIST i, a FROM Legality [has LegalityFormat: 'commander'] [has LegalityStatus: 'Legal'] has Card c AND ALSO c has CardId i AND ALSO c OPTIONALLY has CardArtist a AND ALSO c OPTIONALLY has CardPower p WHERE if(NOT p = '*', 0, 1) = 1"
+ },
+ {
+  "question_id": 473,
+  "answer": "LIST f FROM Set has SetCode c AND ALSO has SetIsForeignOnly f WHERE SOME Card [has CardName: 'Adarkar Valkyrie'] [has CardSetCode: !c]"
+ },
+ {
+  "question_id": 424,
+  "answer": "LIST THE COUNT OF Card [has CardIsTextless: 1] [has CardLayout: 'normal'] * 100 / THE COUNT OF Card"
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST n FROM Legality [has LegalityFormat: 'gladiator'] [has LegalityStatus: 'Banned'] has Card [has CardRarity: 'mythic'] has CardName n"
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] has CardSubtypes s WHERE NOT s = 'Angel'"
+ },
+ {
+  "question_id": 352,
+  "answer": "LIST THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF ForeignData"
+ },
+ {
+  "question_id": 518,
+  "answer": "DEFINE FormatSize ::= LIST l, c FROM Legality l [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO THE COUNT OF l WITHIN f AS c\nLIST f, n FROM Legality l2 [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO l2 has Card has CardName n AND ALSO l2 has FormatSize FormatSizeC c WHERE c = THE MAXIMUM FormatSizeC"
+ },
+ {
+  "question_id": 416,
+  "answer": "LIST (THE COUNT OF fd IN (ForeignData fd [has ForeignDataLanguage: 'French'] has Card c AND ALSO c has CardId ci AND ALSO c OPTIONALLY has CardPower p WHERE if(NOT p = '*', 0, 1) = 1)) * 100 / (THE COUNT OF fd2 IN (ForeignData fd2 has Card c2 AND ALSO c2 has CardId ci2 AND ALSO c2 OPTIONALLY has CardPower p2 WHERE if(NOT p2 = '*', 0, 1) = 1))"
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST n, a, p FROM Card c has CardName n AND ALSO c has CardArtist a AND ALSO c OPTIONALLY has CardIsPromo p AND ALSO c is of Ruling r AND ALSO THE COUNT OF r GROUPED BY c AS k ORDERED WITH k DESCENDING THE FIRST 1"
+ },
+ {
+  "question_id": 462,
+  "answer": "LIST t FROM SetTranslation [has SetTranslationLanguage: 'Italian'] has SetTranslationTranslation t AND ALSO has Set has SetCode c WHERE SOME Card [has CardName: 'Ancestor''s Chosen'] [has CardSetCode: !c]"
+ }
+]

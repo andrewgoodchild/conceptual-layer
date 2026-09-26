@@ -1,0 +1,42 @@
+[
+ {
+  "instance_id": "planets_data_11",
+  "answer": "WITH pl AS (\n  SELECT p.hostlink AS hostlink, s.hostplname AS hostplname, o.period AS period,\n         ROW_NUMBER() OVER (PARTITION BY p.hostlink ORDER BY o.period ASC) AS rn\n  FROM planets p\n  JOIN orbital_characteristics o ON o.bodylink = p.planetref\n  JOIN stars s ON s.stellarref = p.hostlink\n  WHERE o.period IS NOT NULL AND o.period > 0 AND s.compcount > 1\n),\npairs AS (\n  SELECT a.hostlink AS hostlink, a.hostplname AS hostplname, b.period / a.period AS ratio\n  FROM pl a\n  JOIN pl b ON b.hostlink = a.hostlink AND b.rn = a.rn + 1\n)\nSELECT pairs.hostplname AS host_star_name,\n       ROUND(EXP(AVG(LN(pairs.ratio))), 3) AS geometric_mean_period_ratio\nFROM pairs\nGROUP BY pairs.hostlink, pairs.hostplname\nHAVING MAX(pairs.ratio) < 3\n   AND (SELECT pl.period FROM pl WHERE pl.hostlink = pairs.hostlink AND pl.rn = 1) < 10\nORDER BY geometric_mean_period_ratio DESC;",
+  "note": "Compact system = multi-planet star (stars.compcount > 1) where every adjacent period ratio < 3; adjacency and 'innermost' are taken on orbital period order. Only planets with a known positive period contribute, so systems with missing periods are judged on the periods that exist. 210 systems returned."
+ },
+ {
+  "instance_id": "planets_data_13",
+  "answer": "WITH cand AS (\n  SELECT pp.massjup * 317.83 AS mass_earth,\n         pp.radjup * 11.209 AS radius_earth\n  FROM physical_properties pp\n  WHERE pp.massjup IS NOT NULL AND pp.massjup <> 0\n    AND pp.radjup IS NOT NULL AND pp.radjup <> 0\n)\nSELECT ROUND(SQRT(2 * 6.674E-11 * (cand.mass_earth * 5.972E24) / (cand.radius_earth * 6.371E6)) / 1000.0, 0) AS escape_velocity_km_s\nFROM cand\nORDER BY cand.mass_earth / cand.radius_earth DESC\nLIMIT 1;",
+  "note": "Highest mass-radius ratio is Kepler-57 b (MRR 2742); escape velocity 585.8 -> 586 km/s. Earth mass 5.972e24 kg, Earth radius 6.371e6 m and G = 6.674e-11 are assumed (the knowledge file does not give them); using G = 6.67430e-11 still rounds to 586."
+ },
+ {
+  "instance_id": "planets_data_14",
+  "answer": "SELECT CASE\n         WHEN LOWER(TRIM(json_extract(s.stellarprops, '$.photometry.Photo_Band'))) IN ('v (johnson)','johnson','v','johnson v','v-band') THEN 'v-band'\n         WHEN LOWER(TRIM(json_extract(s.stellarprops, '$.photometry.Photo_Band'))) IN ('kepler-band','kepler','kep-b','kep') THEN 'kepler-band'\n       END AS photometric_band,\n       COUNT(*) AS star_count\nFROM stars s\nWHERE json_extract(s.stellarprops, '$.photometry.Photo_Band') IS NOT NULL\n  AND LOWER(TRIM(json_extract(s.stellarprops, '$.photometry.Photo_Band'))) IN\n      ('v (johnson)','johnson','v','johnson v','v-band','kepler-band','kepler','kep-b','kep')\nGROUP BY photometric_band\nORDER BY star_count DESC;",
+  "note": "Band lives in stars.stellarprops -> photometry.Photo_Band. The raw values are exactly the nine listed labels plus 'k-band' (315, ignored) and NULL (109). Result: kepler-band 1306, v-band 779."
+ },
+ {
+  "instance_id": "planets_data_15",
+  "answer": "WITH st AS (\n  SELECT s.stellarref AS stellarref,\n         json_extract(s.stellarprops, '$.physical.Radius_Value') AS r_star,\n         json_extract(s.stellarprops, '$.physical.Temp_Value') AS t_star\n  FROM stars s\n),\npl AS (\n  SELECT p.hostlink AS hostlink, pp.massjup AS massjup, pp.densvalue AS densvalue\n  FROM planets p\n  JOIN physical_properties pp ON pp.objectlink = p.planetref\n  WHERE pp.densvalue IS NOT NULL OR pp.massjup IS NOT NULL\n)\nSELECT ROUND(AVG((st.r_star * st.r_star) * POWER(st.t_star / 5778.0, 4)), 4) AS avg_stellar_luminosity\nFROM st\nWHERE st.r_star IS NOT NULL AND st.t_star IS NOT NULL\n  AND EXISTS (SELECT 1 FROM pl WHERE pl.hostlink = st.stellarref AND pl.densvalue > 3)\n  AND NOT EXISTS (SELECT 1 FROM pl WHERE pl.hostlink = st.stellarref AND pl.massjup > 0.1);",
+  "note": "Rocky = density > 3 g/cm3, gas giant = mass > 0.1 MJ, both drawn from the same planet pool restricted to rows with a known density or mass. 27 stars qualify; result 0.9621."
+ },
+ {
+  "instance_id": "planets_data_19",
+  "answer": "SELECT COUNT(*) AS planet_count\nFROM physical_properties pp\nJOIN data_quality_tracking dq ON dq.targetlink = pp.objectlink\nWHERE pp.radjup IS NOT NULL\n  AND json_extract(dq.limitflags, '$.planetary_limits.Rad_Lim') = 1;",
+  "note": "Rad_Lim in data_quality_tracking.limitflags is the upper-limit flag: 2693 rows are 0, 678 NULL and exactly 1 is 1, so the answer is 1. The low count is surprising but the flag distribution leaves no alternative reading."
+ },
+ {
+  "instance_id": "planets_data_4",
+  "answer": "WITH mp AS (\n  SELECT s.stellarref AS stellarref, s.hostplname AS hostplname,\n         json_extract(s.stellarprops, '$.physical.Mass_Value') AS recorded_mass\n  FROM stars s\n  WHERE s.compcount > 1\n),\nranked AS (\n  SELECT p.hostlink AS hostlink, o.semimajor AS semimajor, o.period AS period,\n         ROW_NUMBER() OVER (PARTITION BY p.hostlink ORDER BY o.semimajor DESC) AS rn\n  FROM planets p\n  JOIN orbital_characteristics o ON o.bodylink = p.planetref\n  WHERE o.semimajor IS NOT NULL AND o.period IS NOT NULL AND o.period > 0\n)\nSELECT mp.hostplname AS host_star_name,\n       mp.recorded_mass AS recorded_stellar_mass,\n       (r.semimajor * r.semimajor * r.semimajor) / ((r.period / 365.25) * (r.period / 365.25)) AS calculated_stellar_mass\nFROM mp\nJOIN ranked r ON r.hostlink = mp.stellarref AND r.rn = 1\nORDER BY ABS(mp.recorded_mass - (r.semimajor * r.semimajor * r.semimajor) / ((r.period / 365.25) * (r.period / 365.25))) ASC;",
+  "note": "Period converted days->years with 365.25; calculated masses reproduce the recorded ones to ~4 decimals, which confirms the unit handling. The question states only the 'known and positive period' filter, so stars whose recorded mass is NULL are kept (115 of 465 rows) and sort first under ASC; if the intent was to compare only known masses, add 'AND mp.recorded_mass IS NOT NULL'."
+ },
+ {
+  "instance_id": "planets_data_6",
+  "answer": "SELECT s.hostplname || ' ' || p.completter AS planet_full_name,\n       s.hostplname AS host_star_name,\n       o.eccentricity AS eccentricity,\n       ROUND((pp.massjup * 1.898E27) / (json_extract(s.stellarprops, '$.physical.Mass_Value') * 1.98847E30), 5) AS planet_star_mass_ratio\nFROM planets p\nJOIN stars s ON s.stellarref = p.hostlink\nJOIN physical_properties pp ON pp.objectlink = p.planetref\nJOIN orbital_characteristics o ON o.bodylink = p.planetref\nJOIN data_quality_tracking d ON d.targetlink = p.planetref\nWHERE o.eccentricity > 0.25\n  AND LOWER(d.masssource) = 'msini'\n  AND pp.massjup IS NOT NULL\n  AND json_extract(s.stellarprops, '$.physical.Mass_Value') IS NOT NULL\n  AND json_extract(s.stellarprops, '$.physical.Mass_Value') > 0\nORDER BY planet_star_mass_ratio ASC;",
+  "note": "Minimum-mass flag read from data_quality_tracking.masssource; LOWER(masssource) = 'msini' matches 554 rows (the 9 'Msin(i)/sin(i)' rows are excluded as they are not the literal 'msini'). Planet full name built as host star name + component letter, since planets holds only the letter. 177 rows; at 5 dp most ratios collapse to a handful of distinct values."
+ },
+ {
+  "instance_id": "planets_data_9",
+  "answer": "WITH cand AS (\n  SELECT pp.massjup AS massjup,\n         pp.massjup * 317.83 AS mass_earth,\n         pp.radjup * 11.209 AS radius_earth,\n         json_extract(s.stellarprops, '$.physical.Mass_Value') AS star_mass\n  FROM physical_properties pp\n  JOIN planets p ON p.planetref = pp.objectlink\n  JOIN stars s ON s.stellarref = p.hostlink\n  WHERE pp.massjup IS NOT NULL AND pp.radjup IS NOT NULL AND pp.densvalue IS NOT NULL\n    AND pp.densvalue > 3\n    AND pp.massjup * 317.83 BETWEEN 1 AND 10\n    AND json_extract(s.stellarprops, '$.physical.Mass_Value') IS NOT NULL\n    AND json_extract(s.stellarprops, '$.physical.Mass_Value') > 0\n)\nSELECT printf('%.6e', (cand.massjup * 1.898E27) / (cand.star_mass * 1.98847E30)) AS planet_star_mass_ratio\nFROM cand\nORDER BY cand.mass_earth / (cand.radius_earth * cand.radius_earth) DESC\nLIMIT 1;",
+  "note": "Winner is Kepler-131 c (g = 11.69 Earth g); ratio 2.433046e-05. Jupiter/Sun mass constants taken from the sibling question since this one does not restate them. '7 digits of precision' read as 7 significant figures, i.e. printf('%.6e')."
+ }
+]

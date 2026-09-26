@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 604,
+  "answer": "DEFINE UserPosts ::= LIST u, c FROM Post p has owner User u AND ALSO THE COUNT OF p GROUPED BY u AS c\nLIST THE AVERAGE uv IN (User [has UserPosts UserPostsC c WHERE c > 10] has UserUpVotes uv), THE AVERAGE a IN (User [has UserPosts UserPostsC c2 WHERE c2 > 10] has UserAge a)"
+ },
+ {
+  "question_id": 584,
+  "answer": "LIST t FROM DISTINCT Post [has PostTitle: 'Why square the difference instead of taking the absolute value in standard deviation?'] is of PostHistory has User is of Comment has CommentText t"
+ },
+ {
+  "question_id": 537,
+  "answer": "THE COUNT OF Post [has owner User has UserDisplayName: 'csgillespie']"
+ },
+ {
+  "question_id": 704,
+  "answer": "LIST e, w FROM Tag [has TagName: 'sample'] has Post has PostId e AND ALSO has TagWikiPostId w"
+ },
+ {
+  "question_id": 665,
+  "answer": "THE COUNT OF PostLink [has PostLinkCreationDate d WHERE year(d) = 2010] [has Post has PostAnswerCount <= 2] / 12"
+ },
+ {
+  "question_id": 672,
+  "answer": "THE DISTINCT COUNT OF User [has UserLocation: 'United Kingdom'] [is owner of Post has PostFavoriteCount >= 4]"
+ },
+ {
+  "question_id": 701,
+  "answer": "THE COUNT OF Post [has owner User [has UserReputation r WHERE r = THE MAXIMUM UserReputation]] [has PostScore > 50] * 100 / THE COUNT OF Post [has owner User [has UserReputation r2 WHERE r2 = THE MAXIMUM UserReputation]]"
+ },
+ {
+  "question_id": 567,
+  "answer": "THE COUNT OF Post [has owner User has UserDisplayName: 'Tiago Pasqualini']"
+ },
+ {
+  "question_id": 539,
+  "answer": "LIST n FROM Post [has PostTitle: 'Eliciting priors from experts'] has owner User has UserDisplayName n"
+ },
+ {
+  "question_id": 563,
+  "answer": "LIST f FROM Comment [has User has UserId: '3025'] [has CommentCreationDate: '2014-04-23 20:29:39.0'] has Post has PostFavoriteCount f"
+ }
+]

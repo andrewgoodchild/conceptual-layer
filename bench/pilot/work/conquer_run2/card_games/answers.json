@@ -1,0 +1,60 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST lang FROM ForeignData [has ForeignDataMultiverseid: 149934] has ForeignDataLanguage lang",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": null,
+  "attempts": 6,
+  "note": "'unknown power' means power IS NULL OR power = '*'. ConQuer's WHERE clause has no IS NULL/IS NOT NULL operator, so the NULL half can't be written as a plain comparison. The natural disjunction constructs (BUT NOT ... OR OTHERWISE ...) fail to compile as soon as the query also has the 'is of Legality' join ('cannot compile: node n10 has no anchor'). A correlated-subquery rewrite (THE COUNT OF Card [has CardUuid: !u] [has CardPower: '*'] > 0 OR THE COUNT OF Card [has CardUuid: !u] BUT NOT has CardPower > 0) does compile and its SQL (checked with --sql-only) looks correct, but it never finished executing against the 56,822-row Card table within the attempt/time budget, so I could not confirm the result rows and won't submit an unverified query."
+ },
+ {
+  "question_id": 473,
+  "answer": null,
+  "note": "Card has no fact type connecting it to Set anywhere in this model. Card only has CardSetCode (a value type) and Set only has SetCode (a different value type); no reading links them. Confirmed with ./try: 'is of' from Card is only ambiguous between ForeignDataHasUu, LegalityHasUu and RulingHasUu ('none of them reaches Set'). So a card's set, and that set's isForeignOnly flag, cannot be reached from Card in this model."
+ },
+ {
+  "question_id": 424,
+  "answer": "THE COUNT OF Card [has CardIsTextless: 1] [has CardLayout: 'normal'] * 100 / THE COUNT OF Card",
+  "attempts": 2
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST id FROM Card has CardId id AND ALSO has CardRarity: 'mythic' AND ALSO is of Legality [has LegalityFormat: 'gladiator'] has LegalityStatus: 'Banned'",
+  "attempts": 1
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes s] WHERE s <> 'Angel'",
+  "attempts": 1
+ },
+ {
+  "question_id": 352,
+  "answer": "THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF ForeignData",
+  "attempts": 1
+ },
+ {
+  "question_id": 518,
+  "answer": "LIST fmt, name FROM Legality has LegalityFormat: 'legacy' AND ALSO has LegalityStatus: 'Banned' AND ALSO has Card has CardName name AND ALSO has LegalityFormat fmt",
+  "attempts": 2,
+  "note": "Determined 'legacy' as the format with the most banned cards (546) via an exploratory grouped-aggregate query (LIST fmt, c FROM Legality has LegalityFormat fmt AND ALSO has LegalityStatus: 'Banned' AND ALSO THE COUNT OF Legality [has LegalityStatus: 'Banned'] GROUPED BY fmt AS c ORDERED WITH c DESCENDING THE FIRST 1), then wrote the final query listing the format and every banned card's name for that format (546 rows, matching the count)."
+ },
+ {
+  "question_id": 416,
+  "answer": null,
+  "attempts": 4,
+  "note": "Same 'power IS NULL OR power = *' problem as question 346, here needed on both sides of a percentage joined through ForeignData for language='French'. The '*' half computes fine and fast (e.g. THE COUNT OF ForeignData [has ForeignDataLanguage: 'French'] has Card [has CardPower: '*'] = 236 pairs), but adding the NULL-power half requires the same BUT NOT/OR OTHERWISE-plus-join construct that fails to compile, or a correlated NOT-EXISTS subquery that did not finish executing within the attempt/time budget against the 56,822 Card / 229,186 ForeignData rows. Not submitting an unverified or admittedly-partial ('*'-only) numerator/denominator as if it answered the question asked."
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST name, artist, promo FROM Card crd has CardName name AND ALSO has CardArtist artist AND ALSO has CardIsPromo promo AND ALSO is of Ruling r AND ALSO THE COUNT OF r GROUPED BY crd AS c ORDERED WITH c DESCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 462,
+  "answer": null,
+  "note": "Same limitation as question 473: no fact type connects Card to Set (Set is only reachable from SetTranslation), so the set containing 'Ancestor's Chosen' -- and hence its Italian SetTranslationTranslation -- cannot be reached from Card in this model."
+ }
+]

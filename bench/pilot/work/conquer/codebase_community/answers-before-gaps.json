@@ -1,0 +1,53 @@
+[
+ {
+  "question_id": 604,
+  "answer": null,
+  "attempts": 5,
+  "note": "Needs a two-level aggregate: group Users by post-owner, keep groups with COUNT(posts)>10, then average UpVotes and average Age across those groups in one 2-column row. ConQuer's GROUPED BY only produces a multi-row per-group list (a LIST query); a bare THE AVERAGE/THE COUNT aggregate produces a single scalar column and can filter via a correlated WHERE (the '!' correlation), but combining a bare aggregate with an explicit GROUPED BY sub-clause raised an internal compiler error ('node n3 has no anchor'), and there is no subquery/derived-table syntax to feed a grouped-and-filtered result back into an outer aggregate. The correlated-WHERE workaround (THE AVERAGE a IN User u has UserUpVotes a WHERE THE COUNT OF Post [has owner User: !u] > 10) does compile and is logically correct for ONE metric, but only yields a single column, not the two (up votes, age) columns needed side by side, and is also too slow to run in this session (no cheap pre-filter narrows the ~40,000 users before the ~92,000-row correlated Post scan per user, unlike Q672 where the UK-location filter cut it to 209 users). Concluded this composition is not expressible as a single well-formed, performant ConQuer query with the taught constructs."
+ },
+ {
+  "question_id": 584,
+  "answer": "LIST ct FROM Comment has User has UserDisplayName dn AND ALSO has CommentText ct WHERE dn = 'c4il' OR dn = 'whuber' OR dn = 'mbq'",
+  "attempts": 3
+ },
+ {
+  "question_id": 537,
+  "answer": "THE COUNT OF Post has owner User [has UserDisplayName: 'csgillespie']",
+  "attempts": 2
+ },
+ {
+  "question_id": 704,
+  "answer": "LIST pid, w FROM Tag [has TagName: 'sample'] has Post has PostId pid AND ALSO has TagWikiPostId w",
+  "attempts": 1
+ },
+ {
+  "question_id": 665,
+  "answer": "(THE COUNT OF PostLink [has Post has PostAnswerCount a] [has PostLinkCreationDate d] WHERE a <= 2 AND year(d) = 2010) / 12",
+  "attempts": 2
+ },
+ {
+  "question_id": 672,
+  "answer": "THE COUNT OF User u has UserLocation loc WHERE loc = 'United Kingdom' AND THE SUM OF fc IN Post [has owner User: !u] has PostFavoriteCount fc >= 4",
+  "attempts": 2
+ },
+ {
+  "question_id": 701,
+  "answer": "(THE COUNT OF Post [has owner User: 919] [has PostScore s] WHERE s > 50) * 100 / THE COUNT OF Post [has owner User: 919]",
+  "attempts": 2
+ },
+ {
+  "question_id": 567,
+  "answer": "THE COUNT OF Post has owner User [has UserDisplayName: 'Tiago Pasqualini']",
+  "attempts": 1
+ },
+ {
+  "question_id": 539,
+  "answer": "LIST dn FROM Post [has PostTitle: 'Eliciting priors from experts'] has owner User has UserDisplayName dn",
+  "attempts": 1
+ },
+ {
+  "question_id": 563,
+  "answer": "LIST fc FROM Comment [has User: 3025] [has CommentCreationDate: '2014-04-23 20:29:39.0'] has Post has PostFavoriteCount fc",
+  "attempts": 1
+ }
+]

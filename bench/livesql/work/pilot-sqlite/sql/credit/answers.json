@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "credit_3",
+  "answer": "SELECT e.expemplref AS customer_id, e.investamt AS investment_amount, e.totassets AS total_assets FROM expenses_and_assets e JOIN bank_and_transactions b ON b.bankexpref = e.expemplref WHERE json_extract(b.chaninvdatablock, '$.invcluster.investport') IN ('Moderate', 'Aggressive') AND json_extract(b.chaninvdatablock, '$.invcluster.investexp') = 'Extensive' AND e.investamt > 0.3 * e.totassets"
+ },
+ {
+  "question_id": "credit_7",
+  "answer": "WITH base AS (SELECT strftime('%Y', date(c.scoredate, '-' || c.tenureyrs || ' years')) || '-Q' || ((CAST(strftime('%m', date(c.scoredate, '-' || c.tenureyrs || ' years')) AS INTEGER) + 2) / 3) AS cohort_quarter, CASE WHEN (json_extract(bt.chaninvdatablock, '$.onlineuse') = 'High' OR json_extract(bt.chaninvdatablock, '$.mobileuse') = 'High') AND json_extract(bt.chaninvdatablock, '$.autopay') = 'Yes' THEN 'true' ELSE 'false' END AS is_digital_first, 0.4 * MIN(1.0, h.produsescore) + 0.3 * MIN(1.0, h.chanusescore) + 0.2 * MIN(1.0, bt.bankrelscore) + 0.1 * MIN(1.0, h.custservint / 10.0) AS ces FROM core_record c JOIN bank_and_transactions bt ON bt.bankexpref = c.coreregistry JOIN credit_accounts_and_history h ON h.histcompref = c.coreregistry) SELECT cohort_quarter, is_digital_first, COUNT(*) AS cohort_size, AVG(ces) AS avg_ces, 100.0 * SUM(CASE WHEN ces > 0.7 THEN 1 ELSE 0 END) / COUNT(*) AS pct_high_engagement, 100.0 * SUM(CASE WHEN is_digital_first = 'true' AND ces > 0.7 THEN 1 ELSE 0 END) / COUNT(*) AS pct_digital_first_high_engagement FROM base GROUP BY cohort_quarter, is_digital_first ORDER BY cohort_quarter, is_digital_first"
+ },
+ {
+  "question_id": "credit_6",
+  "answer": "SELECT e.expemplref AS customer_reference, e.totassets - e.totliabs AS net_worth, 0.3 * MIN(1.0, 1 - i.debincratio) + 0.3 * MIN(1.0, e.liqassets / (i.mthincome * 6)) + 0.2 * MIN(1.0, e.bankaccbal / (i.mthincome * 3)) + 0.2 * MIN(1.0, e.savamount / (i.mthincome * 12)) AS fsi FROM expenses_and_assets e JOIN employment_and_income i ON i.emplcoreref = e.expemplref"
+ },
+ {
+  "question_id": "credit_9",
+  "answer": "SELECT e.expemplref AS customer_id, e.liqassets AS liquid_assets, e.totassets AS total_assets, e.liqassets / e.totassets AS alr, i.mthincome AS monthly_income, e.investamt AS investment_amount, CASE WHEN e.liqassets / e.totassets > 0.3 AND i.mthincome > 5000 THEN 'Target' ELSE 'Standard' END AS customer_label FROM expenses_and_assets e JOIN employment_and_income i ON i.emplcoreref = e.expemplref"
+ },
+ {
+  "question_id": "credit_1",
+  "answer": "SELECT expemplref AS customer_id, totassets AS total_assets, totliabs AS total_liabilities, totassets - totliabs AS net_worth, RANK() OVER (ORDER BY totassets - totliabs DESC) AS wealth_rank FROM expenses_and_assets ORDER BY net_worth DESC LIMIT 10"
+ },
+ {
+  "question_id": "credit_2",
+  "answer": "SELECT bankexpref AS customer_id FROM bank_and_transactions WHERE (json_extract(chaninvdatablock, '$.onlineuse') = 'High' OR json_extract(chaninvdatablock, '$.mobileuse') = 'High') AND json_extract(chaninvdatablock, '$.autopay') = 'Yes'"
+ },
+ {
+  "question_id": "credit_5",
+  "answer": "SELECT expemplref AS customer_id, json_extract(propfinancialdata, '$.propvalue') AS property_value, json_extract(propfinancialdata, '$.mortgagebits.mortbalance') AS mortgage_balance, ROUND(json_extract(propfinancialdata, '$.mortgagebits.mortbalance') / json_extract(propfinancialdata, '$.propvalue'), 3) AS ltv FROM expenses_and_assets ORDER BY ltv DESC"
+ },
+ {
+  "question_id": "credit_10",
+  "answer": "SELECT e.expemplref AS customer_id, 0.5 * i.debincratio + 0.5 * (1 - e.liqassets / (i.mthincome * 6)) AS fvs, e.totassets - e.totliabs AS net_worth, c.delinqcount AS delinquency_count, c.latepaycount AS late_payment_count FROM expenses_and_assets e JOIN employment_and_income i ON i.emplcoreref = e.expemplref JOIN credit_and_compliance c ON c.compbankref = e.expemplref WHERE 0.5 * i.debincratio + 0.5 * (1 - e.liqassets / (i.mthincome * 6)) > 0.7 AND (c.delinqcount > 0 OR c.latepaycount > 0) AND e.totassets - e.totliabs < 0"
+ },
+ {
+  "question_id": "credit_4",
+  "answer": "SELECT CASE WHEN credscore BETWEEN 300 AND 579 THEN 'Poor' WHEN credscore BETWEEN 580 AND 669 THEN 'Fair' WHEN credscore BETWEEN 670 AND 739 THEN 'Good' WHEN credscore BETWEEN 740 AND 799 THEN 'Very Good' WHEN credscore BETWEEN 800 AND 850 THEN 'Excellent' ELSE 'Unknown' END AS credit_category, COUNT(*) AS customer_count, ROUND(AVG(credscore), 2) AS avg_credit_score FROM credit_and_compliance GROUP BY credit_category"
+ },
+ {
+  "question_id": "credit_8",
+  "answer": "WITH base AS (SELECT c.clientseg AS seg, i.debincratio AS dti, i.debincratio + json_extract(e.propfinancialdata, '$.mortgagebits.mortbalance') / i.mthincome AS tdsr FROM core_record c JOIN employment_and_income i ON i.emplcoreref = c.coreregistry JOIN expenses_and_assets e ON e.expemplref = c.coreregistry), ranked_seg AS (SELECT seg, dti, ROW_NUMBER() OVER (PARTITION BY seg ORDER BY dti) AS rn, COUNT(*) OVER (PARTITION BY seg) AS cnt FROM base), med_seg AS (SELECT seg, AVG(dti) AS median_dti FROM ranked_seg WHERE rn IN ((cnt + 1) / 2, (cnt + 2) / 2) GROUP BY seg), ranked_all AS (SELECT dti, ROW_NUMBER() OVER (ORDER BY dti) AS rn, COUNT(*) OVER () AS cnt FROM base), med_all AS (SELECT AVG(dti) AS median_dti FROM ranked_all WHERE rn IN ((cnt + 1) / 2, (cnt + 2) / 2)), seg_rows AS (SELECT base.seg AS customer_segment, COUNT(*) AS customer_count, AVG(base.dti) AS avg_dti, AVG(base.tdsr) AS avg_tdsr, m.median_dti AS median_dti FROM base JOIN med_seg m ON m.seg = base.seg GROUP BY base.seg HAVING COUNT(*) > 10), total_row AS (SELECT 'All Segments' AS customer_segment, COUNT(*) AS customer_count, AVG(base.dti) AS avg_dti, AVG(base.tdsr) AS avg_tdsr, (SELECT median_dti FROM med_all) AS median_dti FROM base) SELECT * FROM seg_rows UNION ALL SELECT * FROM total_row ORDER BY avg_tdsr DESC"
+ }
+]

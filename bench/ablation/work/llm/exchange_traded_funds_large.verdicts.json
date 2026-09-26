@@ -1,0 +1,665 @@
+{
+ "database": "exchange_traded_funds_large",
+ "verdicts": [
+  {
+   "id": "AlternativeDataQuality.alt_data_signal_ref -> AlternativeDataSignals.AlternativeDataSignals_id",
+   "verdict": "yes",
+   "reason": "alt_data_signal_ref holds ADS-prefixed ids of AlternativeDataSignals; 14062 of 14240 covered, many quality rows per signal"
+  },
+  {
+   "id": "AlternativeDataQuality.historical_backtest_months -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "historical_backtest_months is a count of months, not a manager id; overlap of small integers"
+  },
+  {
+   "id": "AlternativeDataQuality.decay_halflife_days -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "decay_halflife_days is a duration, not a manager id"
+  },
+  {
+   "id": "AlternativeDataSignals.security_ref -> securities.securityref",
+   "verdict": "yes",
+   "reason": "security_ref holds securities ids incl. large values like 19736; 3296 of 3330 securities covered"
+  },
+  {
+   "id": "AnalystEstimateRevisions.consensus_ref -> AnalystResearchConsensus.AnalystResearchConsensus_id",
+   "verdict": "yes",
+   "reason": "consensus_ref holds ARC-prefixed AnalystResearchConsensus ids; 8005 of 8122 covered"
+  },
+  {
+   "id": "AnalystEstimateRevisions.estimate_period_quarters_ahead -> risk_attribution_analytics.riskattributionid",
+   "verdict": "no",
+   "reason": "quarters-ahead 1..7 nesting in an 8-row analytics surrogate is coincidence"
+  },
+  {
+   "id": "AnalystEstimateRevisions.days_since_earnings -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "days_since_earnings is a day count, not a manager id"
+  },
+  {
+   "id": "AnalystResearchConsensus.security_ref -> securities.securityref",
+   "verdict": "yes",
+   "reason": "security_ref holds securities ids with large values; 3041 of 3330 covered"
+  },
+  {
+   "id": "AnalystResearchConsensus.total_analysts_covering -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "total_analysts_covering is a count, not a manager id"
+  },
+  {
+   "id": "CorporateActionEvents.security_ref -> securities.securityref",
+   "verdict": "yes",
+   "reason": "security_ref of corporate action events points at securities; 3125 of 3330 covered"
+  },
+  {
+   "id": "CorporateActionImpactAnalysis.corporate_action_ref -> CorporateActionEvents.CorporateActionEvents_id",
+   "verdict": "yes",
+   "reason": "corporate_action_ref holds CAE-prefixed CorporateActionEvents ids; 8652 of 9061 covered"
+  },
+  {
+   "id": "CorporateActionImpactAnalysis.affected_fund_count -> annual_returns.yearlyid",
+   "verdict": "no",
+   "reason": "affected_fund_count is a count nesting in a large surrogate sequence"
+  },
+  {
+   "id": "CorporateActionImpactAnalysis.market_reaction_window_hours -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "market_reaction_window_hours is a duration, not a manager id"
+  },
+  {
+   "id": "DistributionPlatformMetrics.distribution_ref -> FundWholesaleDistribution.FundWholesaleDistribution_id",
+   "verdict": "yes",
+   "reason": "distribution_ref holds FWD-prefixed FundWholesaleDistribution ids; 9925 of 10100 covered"
+  },
+  {
+   "id": "DistributionPlatformMetrics.competitive_rank -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "competitive_rank is a rank, not a manager id"
+  },
+  {
+   "id": "DistributionPlatformMetrics.search_visibility_rank -> annual_returns.yearlyid",
+   "verdict": "no",
+   "reason": "search_visibility_rank is a rank nesting in a large surrogate sequence"
+  },
+  {
+   "id": "ExecutionQualityMetrics.execution_audit_ref -> TradeExecutionAudit.TradeExecutionAudit_id",
+   "verdict": "yes",
+   "reason": "execution_audit_ref holds TEA-prefixed TradeExecutionAudit ids; all 12 audits covered"
+  },
+  {
+   "id": "FundTaxEfficiencyMetrics.product_ref -> funds.productnum",
+   "verdict": "yes",
+   "reason": "product_ref holds fund product numbers; 2172 of 2306 funds covered, several metrics rows per fund"
+  },
+  {
+   "id": "FundWholesaleDistribution.product_ref -> funds.productnum",
+   "verdict": "yes",
+   "reason": "product_ref holds fund product numbers; 2270 of 2306 funds covered"
+  },
+  {
+   "id": "FundWholesaleDistribution.platform_fee_bps -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "platform_fee_bps is a fee in basis points, not a manager id"
+  },
+  {
+   "id": "FundWholesaleDistribution.data_sharing_score -> bond_ratings.ratekey",
+   "verdict": "no",
+   "reason": "data_sharing_score 1..9 nesting in a 9-row rating table is coincidence; a score is not a rating key"
+  },
+  {
+   "id": "MarketSentimentScores.security_ref -> securities.securityref",
+   "verdict": "yes",
+   "reason": "security_ref of sentiment scores points at securities; 3233 of 3330 covered"
+  },
+  {
+   "id": "OperationalRiskEvents.fund_ref -> funds.productnum",
+   "verdict": "yes",
+   "reason": "fund_ref holds fund product numbers; 1994 of 2306 funds covered"
+  },
+  {
+   "id": "OperationalRiskEvents.reputational_damage_score -> bond_ratings.ratekey",
+   "verdict": "no",
+   "reason": "reputational_damage_score 1..9 is a score, not a bond rating key"
+  },
+  {
+   "id": "PortfolioStressTestResults.fund_ref -> funds.productnum",
+   "verdict": "yes",
+   "reason": "fund_ref holds fund product numbers; 2288 of 2306 funds covered"
+  },
+  {
+   "id": "RiskEventRemediation.risk_event_ref -> OperationalRiskEvents.OperationalRiskEvents_id",
+   "verdict": "yes",
+   "reason": "risk_event_ref holds ORE-prefixed OperationalRiskEvents ids; 4546 of 4628 covered"
+  },
+  {
+   "id": "RiskEventRemediation.estimated_completion_days -> investment_strategies.StrategyID",
+   "verdict": "no",
+   "reason": "estimated_completion_days is a duration, not a strategy id"
+  },
+  {
+   "id": "RiskEventRemediation.actual_completion_days -> investment_strategies.StrategyID",
+   "verdict": "no",
+   "reason": "actual_completion_days is a duration, not a strategy id"
+  },
+  {
+   "id": "RiskEventRemediation.resources_assigned_count -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "resources_assigned_count is a count, not a manager id"
+  },
+  {
+   "id": "RiskEventRemediation.control_enhancements_count -> fund_flow_history.flow_id",
+   "verdict": "no",
+   "reason": "control_enhancements_count is a count; 19-row fund_flow_history is an unrelated coincidence"
+  },
+  {
+   "id": "RiskEventRemediation.process_changes_count -> style_factor_analytics.styleanalyticsid",
+   "verdict": "no",
+   "reason": "process_changes_count is a count; 15-row style analytics table is unrelated"
+  },
+  {
+   "id": "SentimentTradingSignals.sentiment_score_ref -> MarketSentimentScores.MarketSentimentScores_id",
+   "verdict": "yes",
+   "reason": "sentiment_score_ref holds MSS-prefixed MarketSentimentScores ids; 11498 of 11585 covered"
+  },
+  {
+   "id": "SentimentTradingSignals.holding_period_days -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "holding_period_days is a duration, not a manager id"
+  },
+  {
+   "id": "SentimentTradingSignals.signal_decay_hours -> investment_strategies.StrategyID",
+   "verdict": "no",
+   "reason": "signal_decay_hours is a duration, not a strategy id"
+  },
+  {
+   "id": "ShareholderVotingOutcomes.security_ref -> securities.securityref",
+   "verdict": "yes",
+   "reason": "security_ref of voting outcomes points at securities; 3062 of 3330 covered"
+  },
+  {
+   "id": "StressScenarioParameters.stress_test_ref -> PortfolioStressTestResults.PortfolioStressTestResults_id",
+   "verdict": "yes",
+   "reason": "stress_test_ref holds PST-prefixed PortfolioStressTestResults ids; 11328 of 11509 covered"
+  },
+  {
+   "id": "StressScenarioParameters.scenario_duration_days -> investment_strategies.StrategyID",
+   "verdict": "no",
+   "reason": "scenario_duration_days is a duration, not a strategy id"
+  },
+  {
+   "id": "StressScenarioParameters.historical_precedent_year -> fund_regulatory_compliance.ComplianceID",
+   "verdict": "no",
+   "reason": "historical_precedent_year holds calendar years (1990..2016), not compliance ids"
+  },
+  {
+   "id": "TaxLotManagement.tax_efficiency_ref -> FundTaxEfficiencyMetrics.FundTaxEfficiencyMetrics_id",
+   "verdict": "yes",
+   "reason": "tax_efficiency_ref holds FTE-prefixed FundTaxEfficiencyMetrics ids; 6361 of 6405 covered"
+  },
+  {
+   "id": "TradeExecutionAudit.exchange_ref -> exchanges.xchgnum",
+   "verdict": "yes",
+   "reason": "exchange_ref values are exactly the four exchange keys 1,2,6,2122; 2122 is too distinctive for coincidence"
+  },
+  {
+   "id": "TradeExecutionAudit.average_latency_micros -> risk_metrics.riskid",
+   "verdict": "no",
+   "reason": "average_latency_micros is a measurement, not a risk id"
+  },
+  {
+   "id": "TradeExecutionAudit.average_order_size -> fund_manager_assignments.AssignmentID",
+   "verdict": "no",
+   "reason": "average_order_size is a measurement, not an assignment id"
+  },
+  {
+   "id": "VotingPolicyAlignment.voting_outcome_ref -> ShareholderVotingOutcomes.ShareholderVotingOutcomes_id",
+   "verdict": "yes",
+   "reason": "voting_outcome_ref holds SVO-prefixed ShareholderVotingOutcomes ids; 8327 of 8509 covered"
+  },
+  {
+   "id": "annual_returns.portfolioref -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "portfolioref holds fund ticker symbols; 2076 of 2306 funds with many yearly rows each"
+  },
+  {
+   "id": "annual_returns.calendaryear -> fund_regulatory_compliance.ComplianceID",
+   "verdict": "no",
+   "reason": "calendaryear holds years 2006..2020, not compliance ids"
+  },
+  {
+   "id": "bond_allocations.fundlink -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "fundlink holds ticker symbols of (bond) funds; subset of 381 funds is expected for bond allocations"
+  },
+  {
+   "id": "bond_allocations.ratinglink -> bond_ratings.ratekey",
+   "verdict": "yes",
+   "reason": "ratinglink covers all 9 bond_ratings keys; name and cardinality of a lookup fit"
+  },
+  {
+   "id": "bond_rating_market_data.rating_id -> competitive_positioning_analytics.competitiveid",
+   "verdict": "no",
+   "reason": "rating_id would point at bond_ratings, not competitive positioning; two 5-row sequences nest by coincidence"
+  },
+  {
+   "id": "competitive_positioning_analytics.fundticker -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "fundticker holds real tickers (ACES, QQQ, SPY) that are funds; small analytics table referencing funds"
+  },
+  {
+   "id": "competitive_positioning_analytics.expensepercentile -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "expensepercentile is a percentile, not a manager id"
+  },
+  {
+   "id": "competitive_positioning_analytics.peergroupsize -> risk_metrics.riskid",
+   "verdict": "no",
+   "reason": "peergroupsize is a count, not a risk id"
+  },
+  {
+   "id": "competitive_positioning_analytics.competitorlaunches -> holdings_changes_history.holding_change_id",
+   "verdict": "no",
+   "reason": "competitorlaunches is a count, not a holdings-change id"
+  },
+  {
+   "id": "competitive_positioning_analytics.pricingchanges -> bond_ratings.ratekey",
+   "verdict": "no",
+   "reason": "pricingchanges is a count, not a bond rating key"
+  },
+  {
+   "id": "daily_nav_history.fund_ticker -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "fund_ticker holds tickers contained in funds; name and values match"
+  },
+  {
+   "id": "daily_nav_history.number_of_trades -> sector_allocations.allockey",
+   "verdict": "no",
+   "reason": "number_of_trades is a count nesting in a large surrogate sequence"
+  },
+  {
+   "id": "esg_integration_analytics.fundticker -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "fundticker holds tickers (DIVA, QQQ, SPY) of funds"
+  },
+  {
+   "id": "esg_integration_analytics.esgdialogueparticipation -> investment_strategies.StrategyID",
+   "verdict": "no",
+   "reason": "esgdialogueparticipation is a count, not a strategy id"
+  },
+  {
+   "id": "esg_integration_analytics.esgpercentilerank -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "esgpercentilerank is a percentile, not a manager id"
+  },
+  {
+   "id": "exchange_extended_info.exchange_code -> exchanges.marketcode",
+   "verdict": "yes",
+   "reason": "exchange_code holds the same four market codes as exchanges; one-to-one extension of exchanges"
+  },
+  {
+   "id": "exchange_extended_info.delayed_data_available -> esg_integration_analytics.esganalyticsid",
+   "verdict": "no",
+   "reason": "delayed_data_available is a boolean flag; single value 1 is no reference"
+  },
+  {
+   "id": "expense_evolution_history.fund_ticker -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "fund_ticker holds tickers contained in funds"
+  },
+  {
+   "id": "family_business_metrics.family_name -> families.groupname",
+   "verdict": "yes",
+   "reason": "family_name holds real fund family names found in families.groupname, the natural key used elsewhere in this schema"
+  },
+  {
+   "id": "family_categories.familylink -> families.groupname",
+   "verdict": "yes",
+   "reason": "familylink holds family names; 130 of 150 families covered in a family-category link table"
+  },
+  {
+   "id": "family_categories.categorylink -> categories.classtype",
+   "verdict": "yes",
+   "reason": "categorylink holds category names; all 83 categories covered in a link table"
+  },
+  {
+   "id": "family_exchanges.familyref -> families.groupname",
+   "verdict": "yes",
+   "reason": "familyref covers all 150 family names in a family-exchange link table"
+  },
+  {
+   "id": "family_exchanges.exchangeref -> exchanges.marketcode",
+   "verdict": "yes",
+   "reason": "exchangeref covers all four market codes in a family-exchange link table"
+  },
+  {
+   "id": "fund_flow_history.fund_ticker -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "fund_ticker holds tickers contained in funds"
+  },
+  {
+   "id": "fund_flow_history.media_mentions -> investment_strategies.StrategyID",
+   "verdict": "no",
+   "reason": "media_mentions is a count, not a strategy id"
+  },
+  {
+   "id": "fund_manager_assignments.FundTicker -> funds.productnum",
+   "verdict": "yes",
+   "reason": "FundTicker in an assignments table is the fund reference; sibling FundTicker columns hold productnum integers too, though this one covers only 149 funds"
+  },
+  {
+   "id": "fund_manager_assignments.ManagerID -> portfolio_managers.ManagerID",
+   "verdict": "yes",
+   "reason": "ManagerID matches portfolio_managers.ManagerID by name; 149 of 150 managers covered in the assignment table"
+  },
+  {
+   "id": "fund_operations_details.fund_ticker -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "fund_ticker holds tickers contained in funds"
+  },
+  {
+   "id": "fund_operations_details.minimum_investment -> esg_integration_analytics.esganalyticsid",
+   "verdict": "no",
+   "reason": "minimum_investment is a single amount 1.0, not an analytics id"
+  },
+  {
+   "id": "fund_operations_details.reporting_currency -> risk_metrics.investmentref",
+   "verdict": "no",
+   "reason": "reporting_currency USD coincides with a ticker; currency is not a fund reference"
+  },
+  {
+   "id": "fund_regulatory_compliance.FundTicker -> funds.productnum",
+   "verdict": "yes",
+   "reason": "FundTicker holds fund product numbers; all 2306 funds covered with multiple compliance rows each"
+  },
+  {
+   "id": "fund_regulatory_compliance.AuthorityID -> regulatory_authorities.AuthorityID",
+   "verdict": "yes",
+   "reason": "AuthorityID matches regulatory_authorities.AuthorityID by name; all 35 authorities covered"
+  },
+  {
+   "id": "fund_strategy_implementations.FundTicker -> funds.productnum",
+   "verdict": "yes",
+   "reason": "FundTicker holds fund product numbers; all 2306 funds covered with multiple strategy rows each"
+  },
+  {
+   "id": "fund_strategy_implementations.StrategyID -> investment_strategies.StrategyID",
+   "verdict": "yes",
+   "reason": "StrategyID matches investment_strategies.StrategyID by name; all 400 strategies covered"
+  },
+  {
+   "id": "funds.tickersym -> performance.productref",
+   "verdict": "no",
+   "reason": "reverse of the real reference; performance.productref points at funds.tickersym, funds does not point at performance"
+  },
+  {
+   "id": "funds.parentgroup -> families.groupname",
+   "verdict": "yes",
+   "reason": "parentgroup holds family names; all 150 families covered"
+  },
+  {
+   "id": "funds.listingvenue -> exchanges.marketcode",
+   "verdict": "yes",
+   "reason": "listingvenue holds the four exchange market codes"
+  },
+  {
+   "id": "funds.productclass -> categories.classtype",
+   "verdict": "yes",
+   "reason": "productclass holds category names; all 83 categories covered"
+  },
+  {
+   "id": "holdings.instrumentref -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "instrumentref holds fund tickers; 2293 of 2306 funds covered with many holdings each"
+  },
+  {
+   "id": "holdings.securitykey -> securities.securityref",
+   "verdict": "yes",
+   "reason": "securitykey holds securities ids; 3325 of 3330 covered"
+  },
+  {
+   "id": "holdings.positionrank -> expense_evolution_history.expense_history_id",
+   "verdict": "no",
+   "reason": "positionrank 1..10 is a rank; 11-row expense history is unrelated"
+  },
+  {
+   "id": "holdings_changes_history.fund_ticker -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "fund_ticker holds tickers contained in funds"
+  },
+  {
+   "id": "holdings_changes_history.previous_rank -> regulatory_authorities.AuthorityID",
+   "verdict": "no",
+   "reason": "previous_rank is a rank, not an authority id"
+  },
+  {
+   "id": "holdings_changes_history.new_rank -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "new_rank is a rank, not a manager id"
+  },
+  {
+   "id": "liquidity_risk_analytics.fundticker -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "fundticker holds tickers contained in funds"
+  },
+  {
+   "id": "liquidity_risk_analytics.daystoliquidate5percent -> regulatory_authorities.AuthorityID",
+   "verdict": "no",
+   "reason": "daystoliquidate5percent is a day count, not an authority id"
+  },
+  {
+   "id": "liquidity_risk_analytics.daystoliquidate10percent -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "daystoliquidate10percent is a day count, not a manager id"
+  },
+  {
+   "id": "liquidity_risk_analytics.daystoliquidate25percent -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "daystoliquidate25percent is a day count, not a manager id"
+  },
+  {
+   "id": "performance.productref -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "productref holds tickers; one performance row per fund, all 2306 covered"
+  },
+  {
+   "id": "performance_benchmark_history.fund_ticker -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "fund_ticker holds tickers contained in funds"
+  },
+  {
+   "id": "portfolio_managers.YearsExperience -> regulatory_authorities.AuthorityID",
+   "verdict": "no",
+   "reason": "YearsExperience is a count of years, not an authority id"
+  },
+  {
+   "id": "portfolio_managers.NumberOfFundsManaged -> expense_evolution_history.expense_history_id",
+   "verdict": "no",
+   "reason": "NumberOfFundsManaged is a count, not an expense-history id"
+  },
+  {
+   "id": "regulatory_authorities.EntitiesUnderSupervision -> fund_manager_assignments.AssignmentID",
+   "verdict": "no",
+   "reason": "EntitiesUnderSupervision is a count, not an assignment id"
+  },
+  {
+   "id": "regulatory_authorities.AnnualExaminations -> risk_metrics.riskid",
+   "verdict": "no",
+   "reason": "AnnualExaminations is a count, not a risk id"
+  },
+  {
+   "id": "regulatory_authorities.EnforcementActionsAnnual -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "EnforcementActionsAnnual is a count, not a manager id"
+  },
+  {
+   "id": "risk_attribution_analytics.fundticker -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "fundticker holds real tickers (ACES, DIVA, GRN) of funds"
+  },
+  {
+   "id": "risk_attribution_analytics.riskpercentilerank -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "riskpercentilerank is a percentile, not a manager id"
+  },
+  {
+   "id": "risk_metrics.investmentref -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "investmentref holds tickers, one risk row per fund, 1504 of 2306 funds covered"
+  },
+  {
+   "id": "sector_allocations.productlink -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "productlink holds tickers; 1613 of 2306 funds covered with many allocation rows each"
+  },
+  {
+   "id": "sector_allocations.sectorlink -> expense_evolution_history.expense_history_id",
+   "verdict": "no",
+   "reason": "sectorlink would point at sectors (also 11 rows); expense_evolution_history is an unrelated 11-row coincidence"
+  },
+  {
+   "id": "sector_market_intelligence.sector_id -> bond_rating_market_data.bond_market_id",
+   "verdict": "no",
+   "reason": "sector_id would point at sectors, not bond rating market data; two 5-row sequences nest by coincidence"
+  },
+  {
+   "id": "security_detailed_analytics.security_id -> securities.securityref",
+   "verdict": "yes",
+   "reason": "security_id holds distinctive securities ids (12970..) one per security, all 3330 covered; one-to-one extension"
+  },
+  {
+   "id": "style_factor_analytics.fundticker -> funds.tickersym",
+   "verdict": "yes",
+   "reason": "fundticker holds tickers contained in funds"
+  },
+  {
+   "id": "bond_rating_market_data.bond_market_id -> competitive_positioning_analytics.competitiveid",
+   "verdict": "no",
+   "reason": "two unrelated 5-row surrogate sequences nesting"
+  },
+  {
+   "id": "bond_ratings.ratekey -> daily_nav_history.nav_id",
+   "verdict": "no",
+   "reason": "bond_ratings key nesting in a 9-row NAV history surrogate is coincidence"
+  },
+  {
+   "id": "categories.catref -> family_categories.linkid",
+   "verdict": "no",
+   "reason": "categories key nesting in a link table's surrogate is coincidence; the link table points at categories, not vice versa"
+  },
+  {
+   "id": "competitive_positioning_analytics.competitiveid -> bond_rating_market_data.bond_market_id",
+   "verdict": "no",
+   "reason": "two unrelated 5-row surrogate sequences nesting"
+  },
+  {
+   "id": "daily_nav_history.nav_id -> bond_ratings.ratekey",
+   "verdict": "no",
+   "reason": "NAV history surrogate nesting in a 9-row ratings key is coincidence"
+  },
+  {
+   "id": "esg_integration_analytics.esganalyticsid -> exchange_extended_info.exchange_info_id",
+   "verdict": "no",
+   "reason": "ESG analytics surrogate nesting in a 4-row exchange info surrogate is coincidence"
+  },
+  {
+   "id": "exchange_extended_info.exchange_info_id -> bond_rating_market_data.bond_market_id",
+   "verdict": "no",
+   "reason": "exchange info surrogate nesting in a 5-row bond market surrogate is coincidence"
+  },
+  {
+   "id": "exchanges.xchgnum -> family_exchanges.connectref",
+   "verdict": "no",
+   "reason": "exchanges key nesting in a link table's surrogate is coincidence; distinctive value 2122 just happens to be within 280"
+  },
+  {
+   "id": "expense_evolution_history.expense_history_id -> sectors.secid",
+   "verdict": "no",
+   "reason": "two unrelated 11-row surrogate sequences nesting"
+  },
+  {
+   "id": "families.famcode -> family_exchanges.connectref",
+   "verdict": "no",
+   "reason": "families key nesting in a link table's surrogate is coincidence"
+  },
+  {
+   "id": "family_business_metrics.business_metric_id -> bond_rating_market_data.bond_market_id",
+   "verdict": "no",
+   "reason": "two unrelated 5-row surrogate sequences nesting"
+  },
+  {
+   "id": "family_exchanges.connectref -> fund_regulatory_compliance.ComplianceID",
+   "verdict": "no",
+   "reason": "link-table surrogate nesting in a larger compliance surrogate is coincidence"
+  },
+  {
+   "id": "fund_flow_history.flow_id -> holdings_changes_history.holding_change_id",
+   "verdict": "no",
+   "reason": "two unrelated small surrogate sequences nesting"
+  },
+  {
+   "id": "fund_operations_details.operation_id -> risk_attribution_analytics.riskattributionid",
+   "verdict": "no",
+   "reason": "two unrelated small surrogate sequences nesting"
+  },
+  {
+   "id": "funds.productnum -> performance.perfid",
+   "verdict": "no",
+   "reason": "funds surrogate nesting in performance's equal-length surrogate; the real link is performance.productref to tickersym"
+  },
+  {
+   "id": "holdings_changes_history.holding_change_id -> regulatory_authorities.AuthorityID",
+   "verdict": "no",
+   "reason": "holdings-change surrogate nesting in authority ids is coincidence"
+  },
+  {
+   "id": "investment_strategies.StrategyID -> annual_returns.yearlyid",
+   "verdict": "no",
+   "reason": "strategy surrogate nesting in a large yearly-returns surrogate is coincidence"
+  },
+  {
+   "id": "liquidity_risk_analytics.liquidityid -> style_factor_analytics.styleanalyticsid",
+   "verdict": "no",
+   "reason": "two unrelated small surrogate sequences nesting"
+  },
+  {
+   "id": "performance.perfid -> funds.productnum",
+   "verdict": "no",
+   "reason": "performance's own surrogate nesting in funds.productnum; performance already links to funds via productref, so this is coincidence"
+  },
+  {
+   "id": "performance_benchmark_history.benchmark_history_id -> bond_rating_market_data.bond_market_id",
+   "verdict": "no",
+   "reason": "two unrelated 5-row surrogate sequences nesting"
+  },
+  {
+   "id": "portfolio_managers.ManagerID -> investment_strategies.StrategyID",
+   "verdict": "no",
+   "reason": "manager surrogate nesting in a larger strategy surrogate is coincidence"
+  },
+  {
+   "id": "regulatory_authorities.AuthorityID -> portfolio_managers.ManagerID",
+   "verdict": "no",
+   "reason": "authority surrogate nesting in a larger manager surrogate is coincidence"
+  },
+  {
+   "id": "risk_attribution_analytics.riskattributionid -> bond_ratings.ratekey",
+   "verdict": "no",
+   "reason": "risk attribution surrogate nesting in bond rating keys is coincidence"
+  },
+  {
+   "id": "sector_market_intelligence.sector_intelligence_id -> bond_rating_market_data.bond_market_id",
+   "verdict": "no",
+   "reason": "two unrelated 5-row surrogate sequences nesting"
+  },
+  {
+   "id": "sectors.secid -> expense_evolution_history.expense_history_id",
+   "verdict": "no",
+   "reason": "two unrelated 11-row surrogate sequences nesting"
+  },
+  {
+   "id": "style_factor_analytics.styleanalyticsid -> fund_flow_history.flow_id",
+   "verdict": "no",
+   "reason": "style analytics surrogate nesting in a 19-row flow history surrogate is coincidence"
+  }
+ ]
+}

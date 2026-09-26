@@ -1,0 +1,3436 @@
+{
+ "database": "museum_artifact_large",
+ "tables": [
+  "AirQualityMonitor",
+  "AirQualityReadings",
+  "ArtifactArtistLink",
+  "ArtifactCondition",
+  "ArtifactConservatorLink",
+  "ArtifactLoan",
+  "ArtifactProfile",
+  "ArtifactProvenance",
+  "ArtifactPublicationLink",
+  "ArtifactRatings",
+  "ArtifactSecurityAccess",
+  "ArtifactUsageLog",
+  "ArtifactsCore",
+  "Artists",
+  "ConditionAssessments",
+  "ConservationAndMaintenance",
+  "ConservationMaintenanceLog",
+  "ConservationTreatment",
+  "ConservationTreatments",
+  "CorporateSponsorRecord",
+  "DigitalAssetLink",
+  "DigitalAssets",
+  "EmergencyPlans",
+  "EmergencyResponseLog",
+  "EnvironmentalReadingsCore",
+  "ExhibitionHalls",
+  "ExhibitionSchedule",
+  "Exhibitions",
+  "InsurancePolicies",
+  "InsurancePolicyDetail",
+  "LendingInstitutions",
+  "LightAndRadiationReadings",
+  "LightRadiationLog",
+  "MaterialAnalysis",
+  "MaterialAnalysisLog",
+  "Monitor_Showcase_Map",
+  "PublicationRecord",
+  "Publications",
+  "ResearcherAccess",
+  "Researchers",
+  "RiskAssessmentDetail",
+  "RiskAssessments",
+  "SecurityIncident",
+  "SensitivityData",
+  "ShowcaseEnvironment",
+  "Showcases",
+  "Staff",
+  "SurfaceAndPhysicalReadings",
+  "TransportationLog",
+  "TransportationMonitor",
+  "UsageRecords"
+ ],
+ "candidates": [
+  {
+   "id": "AirQualityMonitor.aqReadingId -> AirQualityReadings.aq_id",
+   "source_table": "AirQualityMonitor",
+   "source_column": "aqReadingId",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 10000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "109",
+    "136",
+    "68",
+    "937",
+    "164"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AirQualityMonitor.staffCode -> Staff.Staff_Code",
+   "source_table": "AirQualityMonitor",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9",
+    "3",
+    "69",
+    "92",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AirQualityReadings.env_link -> EnvironmentalReadingsCore.monitor_code",
+   "source_table": "AirQualityReadings",
+   "source_column": "env_link",
+   "target_table": "EnvironmentalReadingsCore",
+   "target_key": "monitor_code",
+   "source_rows": 1000,
+   "source_distinct": 999,
+   "target_rows": 999,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MM191823",
+    "MM153427",
+    "MM675303",
+    "MM393141",
+    "MM651913"
+   ],
+   "target_samples": [
+    "MM100628",
+    "MM104695",
+    "MM106214",
+    "MM106594",
+    "MM107436"
+   ]
+  },
+  {
+   "id": "ArtifactArtistLink.artwork_to_link -> ArtifactsCore.ARTregID",
+   "source_table": "ArtifactArtistLink",
+   "source_column": "artwork_to_link",
+   "target_table": "ArtifactsCore",
+   "target_key": "ARTregID",
+   "source_rows": 68,
+   "source_distinct": 68,
+   "target_rows": 995,
+   "score": 3.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ART11997",
+    "ART14428",
+    "ART15630",
+    "ART16032",
+    "ART17157"
+   ],
+   "target_samples": [
+    "ART10016",
+    "ART10101",
+    "ART10304",
+    "ART10454",
+    "ART10602"
+   ]
+  },
+  {
+   "id": "ArtifactArtistLink.artist_to_link -> Artists.Artist_Registry_Code",
+   "source_table": "ArtifactArtistLink",
+   "source_column": "artist_to_link",
+   "target_table": "Artists",
+   "target_key": "Artist_Registry_Code",
+   "source_rows": 68,
+   "source_distinct": 68,
+   "target_rows": 80,
+   "score": 4.27,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "176",
+    "170",
+    "155",
+    "168",
+    "105"
+   ],
+   "target_samples": [
+    "101",
+    "102",
+    "103",
+    "104",
+    "105"
+   ]
+  },
+  {
+   "id": "ArtifactArtistLink.verifier_staff_code -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "ArtifactArtistLink",
+   "source_column": "verifier_staff_code",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 68,
+   "source_distinct": 9,
+   "target_rows": 60,
+   "score": 2.39,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "3",
+    "6",
+    "7",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactCondition.staffCode -> Staff.Staff_Code",
+   "source_table": "ArtifactCondition",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "31",
+    "83",
+    "85",
+    "15",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactConservatorLink.conservator_staff_ref -> Staff.Staff_Code",
+   "source_table": "ArtifactConservatorLink",
+   "source_column": "conservator_staff_ref",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 39,
+   "source_distinct": 8,
+   "target_rows": 100,
+   "score": 3.07,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "13",
+    "38",
+    "54",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactConservatorLink.authorized_by_staff_ref -> ArtifactRatings.HIST_sign",
+   "source_table": "ArtifactConservatorLink",
+   "source_column": "authorized_by_staff_ref",
+   "target_table": "ArtifactRatings",
+   "target_key": "HIST_sign",
+   "source_rows": 39,
+   "source_distinct": 4,
+   "target_rows": 10,
+   "score": 2.7,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "2",
+    "6",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactLoan.staffCode -> Staff.Staff_Code",
+   "source_table": "ArtifactLoan",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "71",
+    "43",
+    "24",
+    "9",
+    "59"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactProvenance.Record_Verifier_Staff_Code -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "ArtifactProvenance",
+   "source_column": "Record_Verifier_Staff_Code",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 80,
+   "source_distinct": 14,
+   "target_rows": 60,
+   "score": 2.75,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "5",
+    "11",
+    "46",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactPublicationLink.linked_by_staff_tag -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "ArtifactPublicationLink",
+   "source_column": "linked_by_staff_tag",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 104,
+   "source_distinct": 11,
+   "target_rows": 60,
+   "score": 2.56,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "2",
+    "38",
+    "16",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactRatings.ART_link -> ArtifactsCore.ARTregID",
+   "source_table": "ArtifactRatings",
+   "source_column": "ART_link",
+   "target_table": "ArtifactsCore",
+   "target_key": "ARTregID",
+   "source_rows": 10,
+   "source_distinct": 10,
+   "target_rows": 995,
+   "score": 3.26,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ART54317",
+    "ART54254",
+    "ART69978",
+    "ART50422",
+    "ART95251"
+   ],
+   "target_samples": [
+    "ART10016",
+    "ART10101",
+    "ART10304",
+    "ART10454",
+    "ART10602"
+   ]
+  },
+  {
+   "id": "ArtifactUsageLog.usageRecordId -> AirQualityReadings.aq_id",
+   "source_table": "ArtifactUsageLog",
+   "source_column": "usageRecordId",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 10000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "18",
+    "759",
+    "457",
+    "248",
+    "233"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactUsageLog.staffCode -> Staff.Staff_Code",
+   "source_table": "ArtifactUsageLog",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "53",
+    "63",
+    "90",
+    "62"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactsCore.ageYears -> AirQualityMonitor.id",
+   "source_table": "ArtifactsCore",
+   "source_column": "ageYears",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 995,
+   "source_distinct": 851,
+   "target_rows": 10000,
+   "score": 2.19,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "943",
+    "2179",
+    "366",
+    "672",
+    "2327"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Artists.record_creator_staff_ref -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "Artists",
+   "source_column": "record_creator_staff_ref",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 80,
+   "source_distinct": 9,
+   "target_rows": 60,
+   "score": 2.39,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "5",
+    "7",
+    "3",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConditionAssessments.art_exam -> ArtifactsCore.ARTregID",
+   "source_table": "ConditionAssessments",
+   "source_column": "art_exam",
+   "target_table": "ArtifactsCore",
+   "target_key": "ARTregID",
+   "source_rows": 1000,
+   "source_distinct": 995,
+   "target_rows": 995,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ART54317",
+    "ART54254",
+    "ART69978",
+    "ART50422",
+    "ART95251"
+   ],
+   "target_samples": [
+    "ART10016",
+    "ART10101",
+    "ART10304",
+    "ART10454",
+    "ART10602"
+   ]
+  },
+  {
+   "id": "ConditionAssessments.case_exam -> Showcases.caseID",
+   "source_table": "ConditionAssessments",
+   "source_column": "case_exam",
+   "target_table": "Showcases",
+   "target_key": "caseID",
+   "source_rows": 1000,
+   "source_distinct": 953,
+   "target_rows": 953,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SC9857",
+    "SC7393",
+    "SC9391",
+    "SC3357",
+    "SC5309"
+   ],
+   "target_samples": [
+    "SC1006",
+    "SC1007",
+    "SC1015",
+    "SC1038",
+    "SC1043"
+   ]
+  },
+  {
+   "id": "ConditionAssessments.light_link -> AirQualityReadings.aq_id",
+   "source_table": "ConditionAssessments",
+   "source_column": "light_link",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConditionAssessments.score -> Staff.Staff_Code",
+   "source_table": "ConditionAssessments",
+   "source_column": "score",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 1000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "93",
+    "48",
+    "61",
+    "98",
+    "87"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationAndMaintenance.monitor_link -> EnvironmentalReadingsCore.monitor_code",
+   "source_table": "ConservationAndMaintenance",
+   "source_column": "monitor_link",
+   "target_table": "EnvironmentalReadingsCore",
+   "target_key": "monitor_code",
+   "source_rows": 1000,
+   "source_distinct": 999,
+   "target_rows": 999,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MM191823",
+    "MM153427",
+    "MM675303",
+    "MM393141",
+    "MM651913"
+   ],
+   "target_samples": [
+    "MM100628",
+    "MM104695",
+    "MM106214",
+    "MM106594",
+    "MM107436"
+   ]
+  },
+  {
+   "id": "ConservationAndMaintenance.surf_link -> AirQualityReadings.aq_id",
+   "source_table": "ConservationAndMaintenance",
+   "source_column": "surf_link",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationAndMaintenance.cleanDays -> Staff.Staff_Code",
+   "source_table": "ConservationAndMaintenance",
+   "source_column": "cleanDays",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 1000,
+   "source_distinct": 84,
+   "target_rows": 100,
+   "score": 4.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "83",
+    "85",
+    "74",
+    "24",
+    "75"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationAndMaintenance.treatEffect -> SensitivityData.ENVsense",
+   "source_table": "ConservationAndMaintenance",
+   "source_column": "treatEffect",
+   "target_table": "SensitivityData",
+   "target_key": "ENVsense",
+   "source_rows": 1000,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Low",
+    "Medium",
+    "High"
+   ],
+   "target_samples": [
+    "High",
+    "Low",
+    "Medium"
+   ]
+  },
+  {
+   "id": "ConservationAndMaintenance.reversePot -> SensitivityData.ENVsense",
+   "source_table": "ConservationAndMaintenance",
+   "source_column": "reversePot",
+   "target_table": "SensitivityData",
+   "target_key": "ENVsense",
+   "source_rows": 1000,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Medium",
+    "High",
+    "Low"
+   ],
+   "target_samples": [
+    "High",
+    "Low",
+    "Medium"
+   ]
+  },
+  {
+   "id": "ConservationMaintenanceLog.maintenanceId -> AirQualityReadings.aq_id",
+   "source_table": "ConservationMaintenanceLog",
+   "source_column": "maintenanceId",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 10000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "370",
+    "140",
+    "326",
+    "781",
+    "339"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationMaintenanceLog.staffCode -> Staff.Staff_Code",
+   "source_table": "ConservationMaintenanceLog",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "26",
+    "34",
+    "52",
+    "73",
+    "83"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationTreatment.leadConservator -> Staff.Staff_Code",
+   "source_table": "ConservationTreatment",
+   "source_column": "leadConservator",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "75",
+    "33",
+    "28",
+    "53",
+    "57"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationTreatment.assistantConservator -> Staff.Staff_Code",
+   "source_table": "ConservationTreatment",
+   "source_column": "assistantConservator",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "75",
+    "33",
+    "28",
+    "53",
+    "57"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationTreatments.treatment_for_artifact -> ArtifactsCore.ARTregID",
+   "source_table": "ConservationTreatments",
+   "source_column": "treatment_for_artifact",
+   "target_table": "ArtifactsCore",
+   "target_key": "ARTregID",
+   "source_rows": 40,
+   "source_distinct": 40,
+   "target_rows": 995,
+   "score": 3.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ART54254",
+    "ART69978",
+    "ART50422",
+    "ART48028",
+    "ART95251"
+   ],
+   "target_samples": [
+    "ART10016",
+    "ART10101",
+    "ART10304",
+    "ART10454",
+    "ART10602"
+   ]
+  },
+  {
+   "id": "ConservationTreatments.requesting_staff_code -> Staff.Staff_Code",
+   "source_table": "ConservationTreatments",
+   "source_column": "requesting_staff_code",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 40,
+   "source_distinct": 8,
+   "target_rows": 100,
+   "score": 2.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "6",
+    "2",
+    "13",
+    "67"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationTreatments.estimated_duration_hours -> AirQualityReadings.aq_id",
+   "source_table": "ConservationTreatments",
+   "source_column": "estimated_duration_hours",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 40,
+   "source_distinct": 36,
+   "target_rows": 1000,
+   "score": 1.38,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "250.0",
+    "120.0",
+    "60.0",
+    "80.0",
+    "180.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationTreatments.approving_manager_code -> ArtifactRatings.HIST_sign",
+   "source_table": "ConservationTreatments",
+   "source_column": "approving_manager_code",
+   "target_table": "ArtifactRatings",
+   "target_key": "HIST_sign",
+   "source_rows": 40,
+   "source_distinct": 2,
+   "target_rows": 10,
+   "score": 2.7,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DigitalAssetLink.assetRegistryTag -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "DigitalAssetLink",
+   "source_column": "assetRegistryTag",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 10000,
+   "source_distinct": 60,
+   "target_rows": 60,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "20",
+    "14",
+    "12",
+    "58",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DigitalAssets.technician_staff_ref -> ArtifactProvenance.Provenance_Record_Num",
+   "source_table": "DigitalAssets",
+   "source_column": "technician_staff_ref",
+   "target_table": "ArtifactProvenance",
+   "target_key": "Provenance_Record_Num",
+   "source_rows": 60,
+   "source_distinct": 9,
+   "target_rows": 80,
+   "score": 2.97,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "35",
+    "14",
+    "38",
+    "46",
+    "48"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DigitalAssets.version -> ArtifactRatings.HIST_sign",
+   "source_table": "DigitalAssets",
+   "source_column": "version",
+   "target_table": "ArtifactRatings",
+   "target_key": "HIST_sign",
+   "source_rows": 60,
+   "source_distinct": 2,
+   "target_rows": 10,
+   "score": 2.7,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DigitalAssets.parent_asset_tag -> ArtifactRatings.HIST_sign",
+   "source_table": "DigitalAssets",
+   "source_column": "parent_asset_tag",
+   "target_table": "ArtifactRatings",
+   "target_key": "HIST_sign",
+   "source_rows": 60,
+   "source_distinct": 1,
+   "target_rows": 10,
+   "score": 2.6,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmergencyPlans.plan_for_hall -> ExhibitionHalls.Hall_ID",
+   "source_table": "EmergencyPlans",
+   "source_column": "plan_for_hall",
+   "target_table": "ExhibitionHalls",
+   "target_key": "Hall_ID",
+   "source_rows": 20,
+   "source_distinct": 16,
+   "target_rows": 20,
+   "score": 4.12,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Hall-1",
+    "Hall-2",
+    "Hall-3",
+    "Hall-4",
+    "Hall-5"
+   ],
+   "target_samples": [
+    "Hall-1",
+    "Hall-10",
+    "Hall-11",
+    "Hall-12",
+    "Hall-13"
+   ]
+  },
+  {
+   "id": "EmergencyPlans.primary_responder_staff -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "EmergencyPlans",
+   "source_column": "primary_responder_staff",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 20,
+   "source_distinct": 4,
+   "target_rows": 60,
+   "score": 1.95,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "19",
+    "1",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmergencyPlans.is_active -> ArtifactRatings.HIST_sign",
+   "source_table": "EmergencyPlans",
+   "source_column": "is_active",
+   "target_table": "ArtifactRatings",
+   "target_key": "HIST_sign",
+   "source_rows": 20,
+   "source_distinct": 1,
+   "target_rows": 10,
+   "score": 2.1,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmergencyResponseLog.leadStaffCode -> Staff.Staff_Code",
+   "source_table": "EmergencyResponseLog",
+   "source_column": "leadStaffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "97",
+    "16",
+    "64",
+    "5",
+    "73"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmergencyResponseLog.supportStaffCode -> Staff.Staff_Code",
+   "source_table": "EmergencyResponseLog",
+   "source_column": "supportStaffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "97",
+    "16",
+    "64",
+    "5",
+    "73"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EnvironmentalReadingsCore.case_link -> Showcases.caseID",
+   "source_table": "EnvironmentalReadingsCore",
+   "source_column": "case_link",
+   "target_table": "Showcases",
+   "target_key": "caseID",
+   "source_rows": 999,
+   "source_distinct": 952,
+   "target_rows": 953,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SC9857",
+    "SC7393",
+    "SC9391",
+    "SC3357",
+    "SC5309"
+   ],
+   "target_samples": [
+    "SC1006",
+    "SC1007",
+    "SC1015",
+    "SC1038",
+    "SC1043"
+   ]
+  },
+  {
+   "id": "EnvironmentalReadingsCore.TEMPc -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "EnvironmentalReadingsCore",
+   "source_column": "TEMPc",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 999,
+   "source_distinct": 5,
+   "target_rows": 60,
+   "score": 2.56,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "22",
+    "18",
+    "21",
+    "19",
+    "20"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EnvironmentalReadingsCore.RH -> Staff.Staff_Code",
+   "source_table": "EnvironmentalReadingsCore",
+   "source_column": "RH",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 999,
+   "source_distinct": 11,
+   "target_rows": 100,
+   "score": 2.72,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "53",
+    "54",
+    "48",
+    "46",
+    "49"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Exhibitions.curator_in_charge_stafftag -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "Exhibitions",
+   "source_column": "curator_in_charge_stafftag",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 47,
+   "source_distinct": 5,
+   "target_rows": 60,
+   "score": 1.96,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "5",
+    "16",
+    "9",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Exhibitions.location_in_hall -> ExhibitionHalls.Hall_ID",
+   "source_table": "Exhibitions",
+   "source_column": "location_in_hall",
+   "target_table": "ExhibitionHalls",
+   "target_key": "Hall_ID",
+   "source_rows": 47,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Hall-3",
+    "Hall-9",
+    "Hall-12",
+    "Hall-16",
+    "Hall-5"
+   ],
+   "target_samples": [
+    "Hall-1",
+    "Hall-10",
+    "Hall-11",
+    "Hall-12",
+    "Hall-13"
+   ]
+  },
+  {
+   "id": "InsurancePolicies.policy_for_exhibition -> Exhibitions.Exhibition_Catalog_Code",
+   "source_table": "InsurancePolicies",
+   "source_column": "policy_for_exhibition",
+   "target_table": "Exhibitions",
+   "target_key": "Exhibition_Catalog_Code",
+   "source_rows": 64,
+   "source_distinct": 17,
+   "target_rows": 47,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "EXH-2022-01",
+    "EXH-2023-01",
+    "EXH-2024-01",
+    "EXH-2022-02",
+    "EXH-2023-02"
+   ],
+   "target_samples": [
+    "EXH-2010-01",
+    "EXH-2011-01",
+    "EXH-2011-02",
+    "EXH-2012-01",
+    "EXH-2012-02"
+   ]
+  },
+  {
+   "id": "InsurancePolicies.policy_updated_by -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "InsurancePolicies",
+   "source_column": "policy_updated_by",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 64,
+   "source_distinct": 3,
+   "target_rows": 60,
+   "score": 3.22,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11",
+    "17",
+    "50"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "InsurancePolicyDetail.staffCode -> Staff.Staff_Code",
+   "source_table": "InsurancePolicyDetail",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "99",
+    "5",
+    "75",
+    "34",
+    "61"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "LightAndRadiationReadings.env_link -> EnvironmentalReadingsCore.monitor_code",
+   "source_table": "LightAndRadiationReadings",
+   "source_column": "env_link",
+   "target_table": "EnvironmentalReadingsCore",
+   "target_key": "monitor_code",
+   "source_rows": 1000,
+   "source_distinct": 999,
+   "target_rows": 999,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MM191823",
+    "MM153427",
+    "MM675303",
+    "MM393141",
+    "MM651913"
+   ],
+   "target_samples": [
+    "MM100628",
+    "MM104695",
+    "MM106214",
+    "MM106594",
+    "MM107436"
+   ]
+  },
+  {
+   "id": "LightAndRadiationReadings.lux -> AirQualityReadings.aq_id",
+   "source_table": "LightAndRadiationReadings",
+   "source_column": "lux",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 1000,
+   "source_distinct": 151,
+   "target_rows": 1000,
+   "score": 2.14,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "138",
+    "71",
+    "154",
+    "87",
+    "73"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "LightRadiationLog.radiationReadingId -> AirQualityReadings.aq_id",
+   "source_table": "LightRadiationLog",
+   "source_column": "radiationReadingId",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 10000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "371",
+    "169",
+    "75",
+    "524",
+    "748"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "LightRadiationLog.staffCode -> Staff.Staff_Code",
+   "source_table": "LightRadiationLog",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "80",
+    "18",
+    "59",
+    "56",
+    "13"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MaterialAnalysis.ANALYSIS_COST -> AirQualityMonitor.id",
+   "source_table": "MaterialAnalysis",
+   "source_column": "ANALYSIS_COST",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 80,
+   "source_distinct": 20,
+   "target_rows": 10000,
+   "score": 2.06,
+   "signals": [
+    "spread",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1200.0",
+    "3500.0",
+    "850.0",
+    "1500.0",
+    "1100.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MaterialAnalysisLog.surfaceReadingId -> AirQualityReadings.aq_id",
+   "source_table": "MaterialAnalysisLog",
+   "source_column": "surfaceReadingId",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 10000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "945",
+    "506",
+    "451",
+    "718",
+    "598"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MaterialAnalysisLog.staffCode -> Staff.Staff_Code",
+   "source_table": "MaterialAnalysisLog",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "68",
+    "26",
+    "67",
+    "91",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Monitor_Showcase_Map.mon_ID -> EnvironmentalReadingsCore.monitor_code",
+   "source_table": "Monitor_Showcase_Map",
+   "source_column": "mon_ID",
+   "target_table": "EnvironmentalReadingsCore",
+   "target_key": "monitor_code",
+   "source_rows": 1000,
+   "source_distinct": 999,
+   "target_rows": 999,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MM100628",
+    "MM104695",
+    "MM106214",
+    "MM106594",
+    "MM107436"
+   ],
+   "target_samples": [
+    "MM100628",
+    "MM104695",
+    "MM106214",
+    "MM106594",
+    "MM107436"
+   ]
+  },
+  {
+   "id": "Monitor_Showcase_Map.case_ID -> Showcases.caseID",
+   "source_table": "Monitor_Showcase_Map",
+   "source_column": "case_ID",
+   "target_table": "Showcases",
+   "target_key": "caseID",
+   "source_rows": 1000,
+   "source_distinct": 953,
+   "target_rows": 953,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "SC9857",
+    "SC7393",
+    "SC9391",
+    "SC3357",
+    "SC5309"
+   ],
+   "target_samples": [
+    "SC1006",
+    "SC1007",
+    "SC1015",
+    "SC1038",
+    "SC1043"
+   ]
+  },
+  {
+   "id": "ResearcherAccess.staffCode -> Staff.Staff_Code",
+   "source_table": "ResearcherAccess",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "61",
+    "44",
+    "6",
+    "60",
+    "50"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Researchers.researcher_staff_profile -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "Researchers",
+   "source_column": "researcher_staff_profile",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 60,
+   "source_distinct": 8,
+   "target_rows": 60,
+   "score": 2.89,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "5",
+    "9",
+    "38",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskAssessmentDetail.conditionAssessmentId -> AirQualityReadings.aq_id",
+   "source_table": "RiskAssessmentDetail",
+   "source_column": "conditionAssessmentId",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 10000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "181",
+    "636",
+    "565",
+    "270",
+    "195"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskAssessmentDetail.staffCode -> Staff.Staff_Code",
+   "source_table": "RiskAssessmentDetail",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9",
+    "23",
+    "36",
+    "50",
+    "28"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskAssessments.art_concern -> ArtifactsCore.ARTregID",
+   "source_table": "RiskAssessments",
+   "source_column": "art_concern",
+   "target_table": "ArtifactsCore",
+   "target_key": "ARTregID",
+   "source_rows": 1000,
+   "source_distinct": 995,
+   "target_rows": 995,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "ART54317",
+    "ART54254",
+    "ART69978",
+    "ART50422",
+    "ART95251"
+   ],
+   "target_samples": [
+    "ART10016",
+    "ART10101",
+    "ART10304",
+    "ART10454",
+    "ART10602"
+   ]
+  },
+  {
+   "id": "RiskAssessments.hall_concern -> ExhibitionHalls.Hall_ID",
+   "source_table": "RiskAssessments",
+   "source_column": "hall_concern",
+   "target_table": "ExhibitionHalls",
+   "target_key": "Hall_ID",
+   "source_rows": 1000,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Hall-3",
+    "Hall-12",
+    "Hall-9",
+    "Hall-20",
+    "Hall-18"
+   ],
+   "target_samples": [
+    "Hall-1",
+    "Hall-10",
+    "Hall-11",
+    "Hall-12",
+    "Hall-13"
+   ]
+  },
+  {
+   "id": "RiskAssessments.risk_level -> SensitivityData.ENVsense",
+   "source_table": "RiskAssessments",
+   "source_column": "risk_level",
+   "target_table": "SensitivityData",
+   "target_key": "ENVsense",
+   "source_rows": 1000,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Medium",
+    "High",
+    "Low"
+   ],
+   "target_samples": [
+    "High",
+    "Low",
+    "Medium"
+   ]
+  },
+  {
+   "id": "RiskAssessments.conserve_score -> Staff.Staff_Code",
+   "source_table": "RiskAssessments",
+   "source_column": "conserve_score",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 1000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "85",
+    "76",
+    "91",
+    "41",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SecurityIncident.staffCode -> Staff.Staff_Code",
+   "source_table": "SecurityIncident",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "76",
+    "51",
+    "42",
+    "9",
+    "23"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SensitivityData.ART_link -> ArtifactsCore.ARTregID",
+   "source_table": "SensitivityData",
+   "source_column": "ART_link",
+   "target_table": "ArtifactsCore",
+   "target_key": "ARTregID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 995,
+   "score": 2.71,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ART54317",
+    "ART54254",
+    "ART48028"
+   ],
+   "target_samples": [
+    "ART10016",
+    "ART10101",
+    "ART10304",
+    "ART10454",
+    "ART10602"
+   ]
+  },
+  {
+   "id": "ShowcaseEnvironment.staffCode -> Staff.Staff_Code",
+   "source_table": "ShowcaseEnvironment",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "15",
+    "59",
+    "52",
+    "81",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Showcases.hall_ref -> ExhibitionHalls.Hall_ID",
+   "source_table": "Showcases",
+   "source_column": "hall_ref",
+   "target_table": "ExhibitionHalls",
+   "target_key": "Hall_ID",
+   "source_rows": 953,
+   "source_distinct": 20,
+   "target_rows": 20,
+   "score": 4.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Hall-3",
+    "Hall-12",
+    "Hall-9",
+    "Hall-6",
+    "Hall-11"
+   ],
+   "target_samples": [
+    "Hall-1",
+    "Hall-10",
+    "Hall-11",
+    "Hall-12",
+    "Hall-13"
+   ]
+  },
+  {
+   "id": "Staff.Manager_Staff_Code -> ArtifactProvenance.Provenance_Record_Num",
+   "source_table": "Staff",
+   "source_column": "Manager_Staff_Code",
+   "target_table": "ArtifactProvenance",
+   "target_key": "Provenance_Record_Num",
+   "source_rows": 100,
+   "source_distinct": 32,
+   "target_rows": 80,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "5",
+    "18"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Staff.Security_Clearance -> ArtifactRatings.HIST_sign",
+   "source_table": "Staff",
+   "source_column": "Security_Clearance",
+   "target_table": "ArtifactRatings",
+   "target_key": "HIST_sign",
+   "source_rows": 100,
+   "source_distinct": 5,
+   "target_rows": 10,
+   "score": 2.8,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "4",
+    "3",
+    "2",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SurfaceAndPhysicalReadings.env_link -> EnvironmentalReadingsCore.monitor_code",
+   "source_table": "SurfaceAndPhysicalReadings",
+   "source_column": "env_link",
+   "target_table": "EnvironmentalReadingsCore",
+   "target_key": "monitor_code",
+   "source_rows": 1000,
+   "source_distinct": 999,
+   "target_rows": 999,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MM191823",
+    "MM153427",
+    "MM675303",
+    "MM393141",
+    "MM651913"
+   ],
+   "target_samples": [
+    "MM100628",
+    "MM104695",
+    "MM106214",
+    "MM106594",
+    "MM107436"
+   ]
+  },
+  {
+   "id": "SurfaceAndPhysicalReadings.noise_dB -> ArtifactProvenance.Provenance_Record_Num",
+   "source_table": "SurfaceAndPhysicalReadings",
+   "source_column": "noise_dB",
+   "target_table": "ArtifactProvenance",
+   "target_key": "Provenance_Record_Num",
+   "source_rows": 1000,
+   "source_distinct": 31,
+   "target_rows": 80,
+   "score": 3.26,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "47",
+    "50",
+    "42",
+    "31",
+    "33"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SurfaceAndPhysicalReadings.pestActivity -> SensitivityData.ENVsense",
+   "source_table": "SurfaceAndPhysicalReadings",
+   "source_column": "pestActivity",
+   "target_table": "SensitivityData",
+   "target_key": "ENVsense",
+   "source_rows": 1000,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Medium",
+    "Low",
+    "High"
+   ],
+   "target_samples": [
+    "High",
+    "Low",
+    "Medium"
+   ]
+  },
+  {
+   "id": "SurfaceAndPhysicalReadings.saltRisk -> SensitivityData.ENVsense",
+   "source_table": "SurfaceAndPhysicalReadings",
+   "source_column": "saltRisk",
+   "target_table": "SensitivityData",
+   "target_key": "ENVsense",
+   "source_rows": 1000,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "High",
+    "Medium",
+    "Low"
+   ],
+   "target_samples": [
+    "High",
+    "Low",
+    "Medium"
+   ]
+  },
+  {
+   "id": "SurfaceAndPhysicalReadings.condRisk -> SensitivityData.ENVsense",
+   "source_table": "SurfaceAndPhysicalReadings",
+   "source_column": "condRisk",
+   "target_table": "SensitivityData",
+   "target_key": "ENVsense",
+   "source_rows": 1000,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "Medium",
+    "High",
+    "Low"
+   ],
+   "target_samples": [
+    "High",
+    "Low",
+    "Medium"
+   ]
+  },
+  {
+   "id": "TransportationMonitor.staffCode -> Staff.Staff_Code",
+   "source_table": "TransportationMonitor",
+   "source_column": "staffCode",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 10000,
+   "source_distinct": 100,
+   "target_rows": 100,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "37",
+    "18",
+    "57",
+    "10",
+    "85"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "UsageRecords.env_link -> EnvironmentalReadingsCore.monitor_code",
+   "source_table": "UsageRecords",
+   "source_column": "env_link",
+   "target_table": "EnvironmentalReadingsCore",
+   "target_key": "monitor_code",
+   "source_rows": 1000,
+   "source_distinct": 999,
+   "target_rows": 999,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "MM191823",
+    "MM153427",
+    "MM675303",
+    "MM393141",
+    "MM651913"
+   ],
+   "target_samples": [
+    "MM100628",
+    "MM104695",
+    "MM106214",
+    "MM106594",
+    "MM107436"
+   ]
+  },
+  {
+   "id": "UsageRecords.displayMonths -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "UsageRecords",
+   "source_column": "displayMonths",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 1000,
+   "source_distinct": 12,
+   "target_rows": 60,
+   "score": 2.07,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "5",
+    "6",
+    "8",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "UsageRecords.restMonths -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "UsageRecords",
+   "source_column": "restMonths",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 1000,
+   "source_distinct": 19,
+   "target_rows": 60,
+   "score": 2.72,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "22",
+    "11",
+    "10",
+    "16",
+    "15"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AirQualityMonitor.id -> ArtifactCondition.id",
+   "source_table": "AirQualityMonitor",
+   "source_column": "id",
+   "target_table": "ArtifactCondition",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AirQualityReadings.aq_id -> ConditionAssessments.cond_id",
+   "source_table": "AirQualityReadings",
+   "source_column": "aq_id",
+   "target_table": "ConditionAssessments",
+   "target_key": "cond_id",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactCondition.id -> AirQualityMonitor.id",
+   "source_table": "ArtifactCondition",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactLoan.id -> AirQualityMonitor.id",
+   "source_table": "ArtifactLoan",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactProfile.id -> AirQualityMonitor.id",
+   "source_table": "ArtifactProfile",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactProvenance.Provenance_Record_Num -> Staff.Staff_Code",
+   "source_table": "ArtifactProvenance",
+   "source_column": "Provenance_Record_Num",
+   "target_table": "Staff",
+   "target_key": "Staff_Code",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 100,
+   "score": 2.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactRatings.HIST_sign -> DigitalAssets.Asset_Registry_Tag",
+   "source_table": "ArtifactRatings",
+   "source_column": "HIST_sign",
+   "target_table": "DigitalAssets",
+   "target_key": "Asset_Registry_Tag",
+   "source_rows": 10,
+   "source_distinct": 10,
+   "target_rows": 60,
+   "score": 0.97,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ArtifactUsageLog.id -> AirQualityMonitor.id",
+   "source_table": "ArtifactUsageLog",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConditionAssessments.cond_id -> AirQualityReadings.aq_id",
+   "source_table": "ConditionAssessments",
+   "source_column": "cond_id",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationAndMaintenance.maint_id -> AirQualityReadings.aq_id",
+   "source_table": "ConservationAndMaintenance",
+   "source_column": "maint_id",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationMaintenanceLog.id -> AirQualityMonitor.id",
+   "source_table": "ConservationMaintenanceLog",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ConservationTreatment.id -> AirQualityMonitor.id",
+   "source_table": "ConservationTreatment",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CorporateSponsorRecord.id -> AirQualityMonitor.id",
+   "source_table": "CorporateSponsorRecord",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DigitalAssetLink.id -> AirQualityMonitor.id",
+   "source_table": "DigitalAssetLink",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "DigitalAssets.Asset_Registry_Tag -> ArtifactProvenance.Provenance_Record_Num",
+   "source_table": "DigitalAssets",
+   "source_column": "Asset_Registry_Tag",
+   "target_table": "ArtifactProvenance",
+   "target_key": "Provenance_Record_Num",
+   "source_rows": 60,
+   "source_distinct": 60,
+   "target_rows": 80,
+   "score": 2.73,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmergencyResponseLog.id -> AirQualityMonitor.id",
+   "source_table": "EmergencyResponseLog",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ExhibitionSchedule.id -> AirQualityMonitor.id",
+   "source_table": "ExhibitionSchedule",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "InsurancePolicyDetail.id -> AirQualityMonitor.id",
+   "source_table": "InsurancePolicyDetail",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "LightAndRadiationReadings.rad_id -> AirQualityReadings.aq_id",
+   "source_table": "LightAndRadiationReadings",
+   "source_column": "rad_id",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "LightRadiationLog.id -> AirQualityMonitor.id",
+   "source_table": "LightRadiationLog",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "MaterialAnalysisLog.id -> AirQualityMonitor.id",
+   "source_table": "MaterialAnalysisLog",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PublicationRecord.id -> AirQualityMonitor.id",
+   "source_table": "PublicationRecord",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ResearcherAccess.id -> AirQualityMonitor.id",
+   "source_table": "ResearcherAccess",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "RiskAssessmentDetail.id -> AirQualityMonitor.id",
+   "source_table": "RiskAssessmentDetail",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SecurityIncident.id -> AirQualityMonitor.id",
+   "source_table": "SecurityIncident",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShowcaseEnvironment.id -> AirQualityMonitor.id",
+   "source_table": "ShowcaseEnvironment",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Staff.Staff_Code -> AirQualityReadings.aq_id",
+   "source_table": "Staff",
+   "source_column": "Staff_Code",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 100,
+   "source_distinct": 100,
+   "target_rows": 1000,
+   "score": 0.8,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SurfaceAndPhysicalReadings.surf_id -> AirQualityReadings.aq_id",
+   "source_table": "SurfaceAndPhysicalReadings",
+   "source_column": "surf_id",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransportationMonitor.id -> AirQualityMonitor.id",
+   "source_table": "TransportationMonitor",
+   "source_column": "id",
+   "target_table": "AirQualityMonitor",
+   "target_key": "id",
+   "source_rows": 10000,
+   "source_distinct": 10000,
+   "target_rows": 10000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "UsageRecords.usage_id -> AirQualityReadings.aq_id",
+   "source_table": "UsageRecords",
+   "source_column": "usage_id",
+   "target_table": "AirQualityReadings",
+   "target_key": "aq_id",
+   "source_rows": 1000,
+   "source_distinct": 1000,
+   "target_rows": 1000,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "news_3",
+  "answer": "SELECT s.seshkey AS session_id,\n       s.seshstart AS session_start,\n       s.bncrate * (1 - s.ctrval / 100.0) AS sbra,\n       AVG(i.seqval) AS avg_sequence_value,\n       CASE WHEN s.bncrate * (1 - s.ctrval / 100.0) = 0 THEN NULL\n            ELSE AVG(i.seqval) / (s.bncrate * (1 - s.ctrval / 100.0)) END AS rtse\nFROM sessions s\nJOIN interactions i ON i.seshlink2 = s.seshkey\nGROUP BY s.seshkey, s.seshstart, s.bncrate, s.ctrval"
+ },
+ {
+  "question_id": "news_10",
+  "answer": "SELECT u.userkey AS user_id,\n       s.seshclicks AS clicks,\n       s.seshviews AS views,\n       s.engscore AS engagement_score,\n       (s.seshclicks + s.seshviews) * (s.engscore / 100.0) AS euim\nFROM users u\nJOIN sessions s ON s.userel = u.userkey\nORDER BY euim DESC\nLIMIT 10"
+ },
+ {
+  "question_id": "news_1",
+  "answer": "WITH base AS (\n  SELECT date(seshstart) AS session_date,\n         (seshviews * engscore) / seshdur AS uer\n  FROM sessions\n), withavg AS (\n  SELECT session_date, uer,\n         AVG(uer) OVER (PARTITION BY session_date) AS avg_daily_uer\n  FROM base\n)\nSELECT session_date, uer, avg_daily_uer\nFROM withavg\nWHERE uer > avg_daily_uer\nORDER BY session_date"
+ },
+ {
+  "question_id": "news_9",
+  "answer": "SELECT r.posval AS position,\n       COUNT(r.reckey) AS total_recommendations,\n       SUM(CASE WHEN i.evttype = 'click' THEN 1 ELSE 0 END) AS total_clicks,\n       CASE WHEN COUNT(r.reckey) > 0\n            THEN 1.0 * SUM(CASE WHEN i.evttype = 'click' THEN 1 ELSE 0 END) / COUNT(r.reckey)\n            ELSE 0 END AS rctr\nFROM recommendations r\nLEFT JOIN interactions i ON i.reclink = r.reckey\nGROUP BY r.posval\nORDER BY r.posval ASC"
+ },
+ {
+  "question_id": "news_4",
+  "answer": "WITH u AS (\n  SELECT substatus, gendlbl, occulbl,\n         CASE WHEN ageval < 25 THEN 'Under 25'\n              WHEN ageval BETWEEN 25 AND 34 THEN '25-34'\n              WHEN ageval BETWEEN 35 AND 44 THEN '35-44'\n              WHEN ageval BETWEEN 45 AND 54 THEN '45-54'\n              ELSE '55+' END AS age_group,\n         subdays * (CASE substatus WHEN 'Premium' THEN 2.0\n                                   WHEN 'Enterprise' THEN 3.0\n                                   WHEN 'Basic' THEN 1.0 ELSE 0.5 END) AS usv,\n         ageval * (CASE WHEN gendlbl IN ('Male', 'Female') THEN 1.0 ELSE 0.8 END)\n                * (CASE occulbl WHEN 'Professional' THEN 1.5\n                                WHEN 'Retired' THEN 1.2\n                                WHEN 'Student' THEN 0.7\n                                WHEN 'Other' THEN 1.0 ELSE 1.0 END) AS uds,\n         CAST(json_extract(user_preferences, '$.satisfaction_score') AS REAL) AS satisfaction_score,\n         json_extract(user_preferences, '$.interests') AS interests\n  FROM users\n)\nSELECT substatus AS subscription_type,\n       gendlbl AS gender,\n       occulbl AS occupation,\n       age_group,\n       COUNT(*) AS user_count,\n       ROUND(AVG(usv), 2) AS avg_usv,\n       ROUND(AVG(uds), 2) AS avg_uds,\n       ROUND(AVG(satisfaction_score), 2) AS avg_satisfaction_score,\n       GROUP_CONCAT(DISTINCT interests) AS shared_interests\nFROM u\nGROUP BY substatus, gendlbl, occulbl, age_group\nHAVING COUNT(*) > 10\nORDER BY avg_usv DESC, avg_uds DESC\nLIMIT 15"
+ },
+ {
+  "question_id": "news_7",
+  "answer": "SELECT strftime('%Y-%m', regmoment) AS registration_month,\n       testgrp AS test_group,\n       COUNT(*) AS total_registrations,\n       100.0 * COUNT(*) / SUM(COUNT(*)) OVER (PARTITION BY strftime('%Y-%m', regmoment)) AS cohort_percentage\nFROM users\nGROUP BY strftime('%Y-%m', regmoment), testgrp\nORDER BY registration_month, test_group"
+ },
+ {
+  "question_id": "news_2",
+  "answer": "WITH m AS (\n  SELECT artkey, catlabel,\n         (qualscore + freshscore + sentscore - contrscore) / 3.0 AS aqi,\n         (readsec * log(wordlen)) /\n           (CASE difflevel WHEN 'Basic' THEN 1.0\n                           WHEN 'Intermediate' THEN 1.5\n                           WHEN 'Advanced' THEN 2.0 ELSE 1.2 END) AS ars\n  FROM articles\n)\nSELECT catlabel AS category,\n       json_group_array(json_object('artkey', artkey, 'catlabel', catlabel, 'aqi', aqi, 'ars', ars)) AS articles\nFROM m\nGROUP BY catlabel"
+ },
+ {
+  "question_id": "news_5",
+  "answer": "SELECT rectrace AS trace_id,\n       resptime AS response_time,\n       loadscore AS load_score,\n       perfscore AS performance_score,\n       (perfscore - loadscore) AS performance_delta,\n       RANK() OVER (ORDER BY resptime DESC) AS response_time_rank,\n       CASE WHEN resptime > 200 THEN 'Critical'\n            WHEN resptime > 150 THEN 'Warning'\n            ELSE 'Normal' END AS performance_status\nFROM systemperformance\nWHERE resptime > 100"
+ },
+ {
+  "question_id": "news_6",
+  "answer": "WITH base AS (\n  SELECT s.seshkey, s.userel, s.bncrate, s.ctrval, s.engscore, s.seshdur, s.seshviews,\n         s.bncrate * (1 - s.ctrval / 100.0) AS adjusted_bounce_rate\n  FROM sessions s\n), pct AS (\n  SELECT b.*,\n         PERCENT_RANK() OVER (ORDER BY b.adjusted_bounce_rate) AS bounce_percentile,\n         PERCENT_RANK() OVER (ORDER BY b.ctrval DESC) AS ctr_percentile\n  FROM base b\n), seg AS (\n  SELECT p.*, u.typelabel, u.seglabel,\n         CASE\n           WHEN p.bounce_percentile < 0.25 AND p.ctr_percentile < 0.25 THEN 'High Bounce, Low CTR'\n           WHEN p.bounce_percentile < 0.25 AND p.ctr_percentile >= 0.75 THEN 'High Bounce, High CTR'\n           WHEN p.bounce_percentile >= 0.75 AND p.ctr_percentile < 0.25 THEN 'Low Bounce, Low CTR'\n           WHEN p.bounce_percentile >= 0.75 AND p.ctr_percentile >= 0.75 THEN 'Low Bounce, High CTR'\n           ELSE 'Average Performance'\n         END AS performance_segment\n  FROM pct p\n  JOIN users u ON u.userkey = p.userel\n)\nSELECT typelabel AS user_type,\n       seglabel AS user_segment,\n       performance_segment,\n       COUNT(*) AS session_count,\n       ROUND(AVG(bncrate), 2) AS avg_bounce_rate,\n       ROUND(AVG(adjusted_bounce_rate), 2) AS avg_adjusted_bounce_rate,\n       ROUND(AVG(ctrval), 2) AS avg_ctr,\n       ROUND(AVG(engscore), 2) AS avg_engagement_score,\n       ROUND(AVG(seshdur), 2) AS avg_duration,\n       ROUND(AVG(seshviews), 2) AS avg_page_views\nFROM seg\nGROUP BY typelabel, seglabel, performance_segment\nHAVING COUNT(*) > 10\nORDER BY avg_adjusted_bounce_rate, avg_ctr"
+ },
+ {
+  "question_id": "news_8",
+  "answer": "WITH m AS (\n  SELECT catlabel,\n         (readsec * log(wordlen)) /\n           (CASE difflevel WHEN 'Basic' THEN 1.0\n                           WHEN 'Intermediate' THEN 1.5\n                           WHEN 'Advanced' THEN 2.0 ELSE 1.2 END) AS ars,\n         CAST(json_extract(engagement_metrics, '$.engagement_rate') AS REAL) AS eng_rate\n  FROM articles\n)\nSELECT catlabel AS category,\n       AVG(ars) AS avg_readability_score,\n       AVG(eng_rate) AS avg_engagement_rate,\n       (AVG(ars * eng_rate) - AVG(ars) * AVG(eng_rate)) /\n         (SQRT(AVG(ars * ars) - AVG(ars) * AVG(ars)) * SQRT(AVG(eng_rate * eng_rate) - AVG(eng_rate) * AVG(eng_rate)))\n         AS correlation_coefficient,\n       SUM(CASE WHEN ars < 50 THEN 1 ELSE 0 END) AS low_readability_count,\n       SUM(CASE WHEN ars >= 50 AND ars <= 100 THEN 1 ELSE 0 END) AS medium_readability_count,\n       SUM(CASE WHEN ars > 100 THEN 1 ELSE 0 END) AS high_readability_count\nFROM m\nGROUP BY catlabel"
+ }
+]

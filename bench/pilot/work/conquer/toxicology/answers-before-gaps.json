@@ -1,0 +1,43 @@
+[
+ {
+  "question_id": 201,
+  "answer": "THE COUNT OF Atom [has AtomElement: 'c'] has Molecule is of Bond [has BondType: '='] * 100 / THE COUNT OF Atom has Molecule is of Bond [has BondType: '=']",
+  "attempts": 3
+ },
+ {
+  "question_id": 239,
+  "answer": "THE COUNT OF Atom [has AtomId a] is connected to Atom WHERE like(a, 'TR%_19')",
+  "attempts": 3
+ },
+ {
+  "question_id": 243,
+  "answer": null,
+  "attempts": 12,
+  "note": "Cannot be expressed. 'Connected' (the objectified fact type for the connected table) has two roles both played by Atom, and the schema exposes only one reading text for it ('Atom is connected to Atom'), with no distinct role names. Stepping from Connected (or from a second Atom position) back to 'the other Atom' -- needed to pick up phosphorus on one side and nitrogen on the other while still reaching the Bond -- triggers a hard compiler error ('Atom plays 2 roles in Connected; say which') with no documented way to disambiguate (tried ordinals, 'first'/'second', numeric suffixes like Atom2, bracket forms, 'is of', and continuing the path in and out of Connected -- all rejected). The one direction that does work, 'Atom is connected to Atom', reaches only the second Atom, not the Connected/Bond entity, so a query can filter both atoms' elements or retrieve the Bond, but not both together. Unlike Q206 (a single named bond, where the two atom ids could be pinned down from the given bond id and verified), this question ranges over the whole dataset and has no such workaround."
+ },
+ {
+  "question_id": 234,
+  "answer": "THE COUNT OF Atom [has AtomId: 'TR009_12'] is connected to Atom",
+  "attempts": 2
+ },
+ {
+  "question_id": 215,
+  "answer": "THE DISTINCT COUNT OF Bond [has BondType: '-'] has Molecule is of Atom [has AtomElement e] WHERE e = 'i' OR e = 's'",
+  "attempts": 4
+ },
+ {
+  "question_id": 230,
+  "answer": "LIST e, l FROM DISTINCT Atom [has Molecule: 'TR060'] has AtomElement e AND ALSO has Molecule has MoleculeLabel l",
+  "attempts": 1
+ },
+ {
+  "question_id": 206,
+  "answer": "LIST e FROM DISTINCT Atom [has AtomId a] has AtomElement e WHERE a = 'TR004_8' OR a = 'TR004_9'",
+  "attempts": 3
+ },
+ {
+  "question_id": 212,
+  "answer": "LIST e FROM Atom a has AtomElement e AND ALSO has Molecule has MoleculeLabel: '-' AND ALSO THE COUNT OF a GROUPED BY e AS c ORDERED WITH c ASCENDING THE FIRST 1",
+  "attempts": 2
+ }
+]

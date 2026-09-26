@@ -1,0 +1,655 @@
+{
+ "database": "polar_equipment_large",
+ "verdicts": [
+  {
+   "id": "BatteryChargeCycleLog.battery_ref -> PowerBattery.PWR_BATT_ID",
+   "verdict": "yes",
+   "reason": "battery_ref names the battery table; 889 of 899 batteries referenced by a per-battery log"
+  },
+  {
+   "id": "BatteryChargeCycleLog.cycleCountTotal -> FuelingAndChargingEvent.fuelChargeSeq",
+   "verdict": "no",
+   "reason": "cycleCountTotal is a running count, not a reference; small integers nesting in a longer sequence"
+  },
+  {
+   "id": "BatteryDegradationAnalysis.charge_cycle_ref -> BatteryChargeCycleLog.chargeCycleSeq",
+   "verdict": "yes",
+   "reason": "charge_cycle_ref carries BCC- tokens of the charge-cycle log; analysis rows hang off cycles"
+  },
+  {
+   "id": "BatteryDegradationAnalysis.cycleCount -> FuelingAndChargingEvent.fuelChargeSeq",
+   "verdict": "no",
+   "reason": "cycleCount is a measure; coincidental containment in a surrogate sequence"
+  },
+  {
+   "id": "BatteryDegradationAnalysis.calendarAgeDays -> SafetyInspection.safetyNote",
+   "verdict": "no",
+   "reason": "calendarAgeDays is an age in days; safetyNote is an unrelated sequence"
+  },
+  {
+   "id": "BatteryDegradationAnalysis.predictedEOL_days -> SafetyInspection.safetyNote",
+   "verdict": "no",
+   "reason": "predicted end-of-life days is a measure, not a pointer at inspections"
+  },
+  {
+   "id": "CabinAirQualitySample.occupancy_event_ref -> CabinOccupancyEvent.occupancyEventSeq",
+   "verdict": "yes",
+   "reason": "occupancy_event_ref carries COE- tokens of the occupancy-event table; near-full coverage"
+  },
+  {
+   "id": "CabinEnvironment.equipRef -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equipRef with PE equipment codes; one cabin row per equipment item"
+  },
+  {
+   "id": "CabinEnvironment.loc_link -> Location.STATION_name",
+   "verdict": "yes",
+   "reason": "loc_link holds Station-N names covering all 20 locations"
+  },
+  {
+   "id": "CabinEnvironment.comm_link -> EngineAndFluids.ENGINE_ID",
+   "verdict": "no",
+   "reason": "comm_link names Communication, not EngineAndFluids; 1..346 sequence merely nests in a longer engine sequence"
+  },
+  {
+   "id": "CabinOccupancyEvent.cabin_ref -> CabinEnvironment.CABIN_ID",
+   "verdict": "yes",
+   "reason": "cabin_ref names the cabin table; 332 of 346 cabins referenced by events"
+  },
+  {
+   "id": "CabinOccupancyEvent.maxCapacity -> SensorModelMeasurementProfile.profileStamp",
+   "verdict": "no",
+   "reason": "maxCapacity is a headcount capacity, not a profile reference"
+  },
+  {
+   "id": "ChassisAndVehicle.equipRef -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equipRef with PE codes; 1000 chassis rows map one-to-one onto 1000 equipment items"
+  },
+  {
+   "id": "ChassisAndVehicle.trans_link -> Transmission.TRANS_ID",
+   "verdict": "yes",
+   "reason": "trans_link names Transmission; 976 distinct values cover all 976 transmissions"
+  },
+  {
+   "id": "ChassisAndVehicle.engine_link -> EngineAndFluids.ENGINE_ID",
+   "verdict": "yes",
+   "reason": "engine_link names the engine table; 467 distinct values cover all 467 engines"
+  },
+  {
+   "id": "ChassisDynamicsEvent.for_chassis -> ChassisAndVehicle.CHASSIS_ID",
+   "verdict": "yes",
+   "reason": "for_chassis names the chassis table; events over all 1000 chassis"
+  },
+  {
+   "id": "Communication.equipRef -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equipRef with PE codes; one communication row per equipment item"
+  },
+  {
+   "id": "Communication.loc_link -> Location.STATION_name",
+   "verdict": "yes",
+   "reason": "loc_link holds Station-N names covering all 20 locations"
+  },
+  {
+   "id": "CommunicationLinkMetric.for_comm_link -> Communication.COMM_ID",
+   "verdict": "yes",
+   "reason": "for_comm_link names Communication; metrics over all 850 links"
+  },
+  {
+   "id": "CommunicationQualityMetric.comm_session_ref -> CommunicationSessionLog.commSessionSeq",
+   "verdict": "yes",
+   "reason": "comm_session_ref carries CSL- session tokens; near-full coverage"
+  },
+  {
+   "id": "CommunicationSessionLog.comm_ref -> Communication.COMM_ID",
+   "verdict": "yes",
+   "reason": "comm_ref names Communication; 750 of 850 links have sessions"
+  },
+  {
+   "id": "CommunicationSessionLog.durationSeconds -> CommunicationLinkMetric.commMeasureNo",
+   "verdict": "no",
+   "reason": "durationSeconds is a measure nesting in a longer surrogate sequence"
+  },
+  {
+   "id": "CommunicationSessionLog.bandwidthAllocated_kbps -> WaterTreatmentCycle.cycleStamp",
+   "verdict": "no",
+   "reason": "bandwidth values 64..2048 kbps are not water-cycle identifiers"
+  },
+  {
+   "id": "CrewCertificationRecord.crew_ref -> CrewMember.crewToken",
+   "verdict": "yes",
+   "reason": "crew_ref carries CRW- crew tokens covering all 120 crew"
+  },
+  {
+   "id": "CrewCertificationRecord.attemptNumber -> EquipmentTypeDetail.typeDetailNo",
+   "verdict": "no",
+   "reason": "attemptNumber is 1 or 2; coincidental overlap with a six-row sequence"
+  },
+  {
+   "id": "CrewCertificationRecord.renewalPeriodMonths -> CabinEnvironment.CABIN_ID",
+   "verdict": "no",
+   "reason": "renewal period in months (12/24/36/60), not a cabin"
+  },
+  {
+   "id": "CrewProjectAssignment.crew_ref -> CrewMember.crewToken",
+   "verdict": "yes",
+   "reason": "crew_ref carries CRW- tokens covering all 120 crew"
+  },
+  {
+   "id": "CrewProjectAssignment.project_ref -> Project.projectSlug",
+   "verdict": "yes",
+   "reason": "project_ref carries PRJ- slugs covering all 40 projects"
+  },
+  {
+   "id": "CrewProjectAssignment.breakMin -> CabinEnvironment.CABIN_ID",
+   "verdict": "no",
+   "reason": "break minutes (30/45/60/90), not a cabin id"
+  },
+  {
+   "id": "CrewTrainingSession.cert_record_ref -> CrewCertificationRecord.certRecordSeq",
+   "verdict": "yes",
+   "reason": "cert_record_ref carries CCR- certification tokens; near-full coverage"
+  },
+  {
+   "id": "CrewTrainingSession.sessionDuration_min -> CabinEnvironment.CABIN_ID",
+   "verdict": "no",
+   "reason": "session duration in minutes nesting in a cabin surrogate sequence"
+  },
+  {
+   "id": "EnergyGenerationLog.for_thermal_asset -> ChassisAndVehicle.CHASSIS_ID",
+   "verdict": "no",
+   "reason": "for_thermal_asset names the thermal table, not chassis; two 1000-row sequences coincide"
+  },
+  {
+   "id": "EngineAndFluids.equipRef -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equipRef with PE codes; one engine row per equipment item"
+  },
+  {
+   "id": "EngineAndFluids.batt_link -> LightingAndSafety.LIGHT_ID",
+   "verdict": "no",
+   "reason": "batt_link names the battery table, not lighting; 1..467 sequence nests in a longer one"
+  },
+  {
+   "id": "EngineEmissionMeasurement.runtime_snap_ref -> EngineRuntimeSnapshot.runtimeSnapSeq",
+   "verdict": "yes",
+   "reason": "runtime_snap_ref carries ERS- snapshot tokens; near-full coverage"
+  },
+  {
+   "id": "EngineRuntimeSnapshot.engine_ref -> EngineAndFluids.ENGINE_ID",
+   "verdict": "yes",
+   "reason": "engine_ref names the engine table; 458 of 467 engines have snapshots"
+  },
+  {
+   "id": "Equipment.EquipType -> EquipmentType.EquipType",
+   "verdict": "yes",
+   "reason": "same-named type column with the six type names of the lookup table"
+  },
+  {
+   "id": "Equipment.SERVICE_YRS -> SensorModelMeasurementProfile.profileStamp",
+   "verdict": "no",
+   "reason": "service years is a measure, not a profile reference"
+  },
+  {
+   "id": "EquipmentAnomalyDetection.perf_log_ref -> EquipmentPerformanceLog.perfLogSeq",
+   "verdict": "yes",
+   "reason": "perf_log_ref carries EPL- performance-log tokens"
+  },
+  {
+   "id": "EquipmentAnomalyDetection.durationSeconds -> CommunicationLinkMetric.commMeasureNo",
+   "verdict": "no",
+   "reason": "durationSeconds is a measure nesting in a longer surrogate sequence"
+  },
+  {
+   "id": "EquipmentHealthAssessment.perf_log_ref -> EquipmentPerformanceLog.perfLogSeq",
+   "verdict": "yes",
+   "reason": "perf_log_ref carries EPL- tokens; 4220 of 4322 logs assessed"
+  },
+  {
+   "id": "EquipmentHealthAssessment.remainingUsefulLife_hrs -> EquipmentLocationHistory.locSeq",
+   "verdict": "no",
+   "reason": "remaining useful life in hours is a measure, not a location-history pointer"
+  },
+  {
+   "id": "EquipmentLifecycle.lifeEquipRef -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "lifeEquipRef with PE codes; one lifecycle row per equipment item"
+  },
+  {
+   "id": "EquipmentLifecycle.warrantyYears -> EquipmentTypeDetail.typeDetailNo",
+   "verdict": "no",
+   "reason": "warranty years (1.0..5.0 floats) coincide with a six-row sequence"
+  },
+  {
+   "id": "EquipmentLifecycle.deprYears -> SensorModelMeasurementProfile.profileStamp",
+   "verdict": "no",
+   "reason": "depreciation years (floats) are not profile identifiers"
+  },
+  {
+   "id": "EquipmentLifecycle.auditCycle_days -> EngineAndFluids.ENGINE_ID",
+   "verdict": "no",
+   "reason": "constant 365 days, not an engine id"
+  },
+  {
+   "id": "EquipmentLocationHistory.loc_for_equipment -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "loc_for_equipment with PE codes over all 1000 equipment items"
+  },
+  {
+   "id": "EquipmentLocationHistory.at_station -> Location.STATION_name",
+   "verdict": "yes",
+   "reason": "at_station holds Station-N names covering all 20 locations"
+  },
+  {
+   "id": "EquipmentLocationHistory.satCount -> SensorModelMeasurementProfile.profileStamp",
+   "verdict": "no",
+   "reason": "satellite count is a measure, not a profile reference"
+  },
+  {
+   "id": "EquipmentPerformanceLog.equip_ref -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equip_ref with PE codes; 987 of 1000 items logged"
+  },
+  {
+   "id": "EquipmentPerformanceLog.memoryUsedMB -> FuelingAndChargingEvent.fuelChargeSeq",
+   "verdict": "no",
+   "reason": "memory in MB is a measure nesting in a surrogate sequence"
+  },
+  {
+   "id": "EquipmentPerformanceLog.fanSpeedRPM -> WaterTreatmentCycle.cycleStamp",
+   "verdict": "no",
+   "reason": "fan RPM is a measure nesting in a surrogate sequence"
+  },
+  {
+   "id": "EquipmentSensorMapping.equip_ref_map -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equip_ref_map with PE codes over all 1000 equipment items"
+  },
+  {
+   "id": "EquipmentSensorMapping.sensor_model_ref -> SensorModel.modelHandle",
+   "verdict": "yes",
+   "reason": "sensor_model_ref carries SM- model handles covering all 28 models"
+  },
+  {
+   "id": "EquipmentSensorMapping.bitDepth -> SensorModelMeasurementProfile.profileStamp",
+   "verdict": "no",
+   "reason": "bit depth (12..24) is a setting, not a profile reference"
+  },
+  {
+   "id": "EquipmentSensorMapping.cal_profile_link -> SensorModelMeasurementProfile.profileStamp",
+   "verdict": "yes",
+   "reason": "cal_profile_link names a profile; 56 distinct values cover all 56 measurement profiles"
+  },
+  {
+   "id": "EquipmentSpecification.spec_for_equipment -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "spec_for_equipment with PE codes; one spec per equipment item"
+  },
+  {
+   "id": "EquipmentTypeDetail.for_type_code -> EquipmentType.EquipType",
+   "verdict": "yes",
+   "reason": "for_type_code holds the six equipment type names; one detail row per type"
+  },
+  {
+   "id": "FuelingAndChargingEvent.for_equip_event -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "for_equip_event with PE codes over all 1000 equipment items"
+  },
+  {
+   "id": "FuelingAndChargingEvent.battery_power_link -> PowerBattery.PWR_BATT_ID",
+   "verdict": "yes",
+   "reason": "battery_power_link names the battery table; 583 of 899 batteries have charging events"
+  },
+  {
+   "id": "FuelingAndChargingEvent.chargeVolt_V -> Scientific.SCI_ID",
+   "verdict": "no",
+   "reason": "charge voltage (400.0/750.0) is a measure, not a science id"
+  },
+  {
+   "id": "FuelingAndChargingEvent.duration_s -> CommunicationLinkMetric.commMeasureNo",
+   "verdict": "no",
+   "reason": "duration in seconds nesting in a longer surrogate sequence"
+  },
+  {
+   "id": "LightingAndSafety.equipRef -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equipRef with PE codes; one lighting row per equipment item"
+  },
+  {
+   "id": "LocationEnvironmentalLog.location_ref -> Location.STATION_name",
+   "verdict": "yes",
+   "reason": "location_ref holds Station-N names; 19 of 20 stations logged"
+  },
+  {
+   "id": "LocationWeatherObservation.env_log_ref -> LocationEnvironmentalLog.envLogSeq",
+   "verdict": "yes",
+   "reason": "env_log_ref carries LEL- tokens covering all 44 environmental logs"
+  },
+  {
+   "id": "MaintenancePartConsumption.work_order_ref -> MaintenanceWorkOrder.workOrderSeq",
+   "verdict": "yes",
+   "reason": "work_order_ref carries MWO- work-order tokens"
+  },
+  {
+   "id": "MaintenancePartConsumption.quantityUsed -> SensorModelMeasurementProfile.profileStamp",
+   "verdict": "no",
+   "reason": "quantity used is a count coincidentally within 1..56"
+  },
+  {
+   "id": "MaintenancePartConsumption.installationTime_min -> CabinEnvironment.CABIN_ID",
+   "verdict": "no",
+   "reason": "installation minutes nesting in a cabin surrogate sequence"
+  },
+  {
+   "id": "MaintenancePartConsumption.leadTime_days -> CabinEnvironment.CABIN_ID",
+   "verdict": "no",
+   "reason": "lead time in days, not a cabin id"
+  },
+  {
+   "id": "MaintenancePartConsumption.reorderPoint -> SensorModelMeasurementProfile.profileStamp",
+   "verdict": "no",
+   "reason": "reorder point is a stock threshold, not a profile reference"
+  },
+  {
+   "id": "MaintenanceWorkOrder.opmaint_ref -> OperationMaintenance.OP_MAINT_ID",
+   "verdict": "yes",
+   "reason": "opmaint_ref names OperationMaintenance; 807 of 859 rows referenced"
+  },
+  {
+   "id": "MaintenanceWorkOrder.technicianCount -> EquipmentTypeDetail.typeDetailNo",
+   "verdict": "no",
+   "reason": "technician count 1..5 coincides with a six-row sequence"
+  },
+  {
+   "id": "OperationMaintenance.equipRef -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equipRef with PE codes; one maintenance row per equipment item"
+  },
+  {
+   "id": "OperationMaintenance.maintCycleHrs -> TransmissionDiagnosticEvent.transDiagSeq",
+   "verdict": "no",
+   "reason": "maintenance cycle hours (floats) nesting in a longer surrogate sequence"
+  },
+  {
+   "id": "PowerBattery.equip_ref -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equip_ref with PE codes; one battery row per equipment item"
+  },
+  {
+   "id": "SafetyInspection.for_light_asset -> LightingAndSafety.LIGHT_ID",
+   "verdict": "yes",
+   "reason": "for_light_asset names the lighting table; inspections over all 693 assets"
+  },
+  {
+   "id": "SafetyInspection.exitSignCount -> SensorModelMeasurementProfile.profileStamp",
+   "verdict": "no",
+   "reason": "exit sign count is a tally, not a profile reference"
+  },
+  {
+   "id": "SafetyInspection.extinguisherCount -> SensorModelMeasurementProfile.profileStamp",
+   "verdict": "no",
+   "reason": "extinguisher count is a tally, not a profile reference"
+  },
+  {
+   "id": "Scientific.equipRef -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equipRef with PE codes; one scientific row per equipment item"
+  },
+  {
+   "id": "ScientificCalibrationSchedule.for_science_row -> Scientific.SCI_ID",
+   "verdict": "yes",
+   "reason": "for_science_row names the science table; 768 distinct cover all 768 rows"
+  },
+  {
+   "id": "ScientificCalibrationSchedule.equip_ref_for_cal -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equip_ref_for_cal with PE codes; a subset of 100 items needing calibration"
+  },
+  {
+   "id": "ScientificDataAcquisition.scientific_ref -> Scientific.SCI_ID",
+   "verdict": "yes",
+   "reason": "scientific_ref names the science table; 692 of 768 rows referenced"
+  },
+  {
+   "id": "ScientificDataAcquisition.resolutionBits -> SensorModelMeasurementProfile.profileStamp",
+   "verdict": "no",
+   "reason": "resolution in bits is a setting, not a profile reference"
+  },
+  {
+   "id": "ScientificDataAcquisition.gainSetting -> CabinEnvironment.CABIN_ID",
+   "verdict": "no",
+   "reason": "gain setting (float steps) is not a cabin id"
+  },
+  {
+   "id": "ScientificExperimentResult.data_acq_ref -> ScientificDataAcquisition.dataAcqSeq",
+   "verdict": "yes",
+   "reason": "data_acq_ref carries SDA- acquisition tokens; near-full coverage"
+  },
+  {
+   "id": "SensorModelMeasurementProfile.profile_for_model -> SensorModel.modelHandle",
+   "verdict": "yes",
+   "reason": "profile_for_model carries SM- handles; two profiles per model over all 28 models"
+  },
+  {
+   "id": "SensorModelMeasurementProfile.oversample -> CabinEnvironment.CABIN_ID",
+   "verdict": "no",
+   "reason": "oversample factor (powers of two) is a setting, not a cabin id"
+  },
+  {
+   "id": "StationEquipmentType.station_name -> Location.STATION_name",
+   "verdict": "yes",
+   "reason": "station_name holds Station-N names covering all 20 stations"
+  },
+  {
+   "id": "StationEquipmentType.equip_type -> EquipmentType.EquipType",
+   "verdict": "yes",
+   "reason": "equip_type holds the six equipment type names"
+  },
+  {
+   "id": "TaskCrewAssignment.task_ref_code -> MaintenanceTaskCatalog.taskCodeToken",
+   "verdict": "yes",
+   "reason": "task_ref_code carries MT- task tokens covering all 64 catalog tasks"
+  },
+  {
+   "id": "TaskCrewAssignment.crew_ref_code -> CrewMember.crewToken",
+   "verdict": "yes",
+   "reason": "crew_ref_code carries CRW- tokens covering all 120 crew"
+  },
+  {
+   "id": "ThermalSolarWindAndGrid.comm_link -> Communication.COMM_ID",
+   "verdict": "yes",
+   "reason": "comm_link names Communication; 850 distinct values cover all 850 rows"
+  },
+  {
+   "id": "ThermalSolarWindAndGrid.batt_link -> PowerBattery.PWR_BATT_ID",
+   "verdict": "yes",
+   "reason": "batt_link names the battery table; 899 distinct values cover all 899 batteries"
+  },
+  {
+   "id": "ThermalSolarWindAndGrid.windRPM -> CabinEnvironment.CABIN_ID",
+   "verdict": "no",
+   "reason": "wind RPM is a measure nesting in a cabin surrogate sequence"
+  },
+  {
+   "id": "Transmission.equipRef -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equipRef with PE codes; one transmission row per equipment item"
+  },
+  {
+   "id": "Transmission.engine_link -> EngineAndFluids.ENGINE_ID",
+   "verdict": "yes",
+   "reason": "engine_link names the engine table; 467 distinct cover all 467 engines"
+  },
+  {
+   "id": "TransmissionDiagnosticEvent.for_transmission -> Transmission.TRANS_ID",
+   "verdict": "yes",
+   "reason": "for_transmission names the transmission table; events over all 976 rows"
+  },
+  {
+   "id": "TransmissionFluidAnalysis.trans_service_ref -> TransmissionServiceHistory.transServiceSeq",
+   "verdict": "yes",
+   "reason": "trans_service_ref carries TSH- service tokens; near-full coverage"
+  },
+  {
+   "id": "TransmissionFluidAnalysis.viscosityIndex -> CabinEnvironment.CABIN_ID",
+   "verdict": "no",
+   "reason": "viscosity index is a measure, not a cabin id"
+  },
+  {
+   "id": "TransmissionFluidAnalysis.particleCount_14um -> TransmissionDiagnosticEvent.transDiagSeq",
+   "verdict": "no",
+   "reason": "particle count is a measure nesting in a longer surrogate sequence"
+  },
+  {
+   "id": "TransmissionServiceHistory.transmission_ref -> Transmission.TRANS_ID",
+   "verdict": "yes",
+   "reason": "transmission_ref names the transmission table; 957 of 976 rows serviced"
+  },
+  {
+   "id": "WaterAndWaste.equipRef -> Equipment.EQUIP_CODE",
+   "verdict": "yes",
+   "reason": "equipRef with PE codes; one water row per equipment item"
+  },
+  {
+   "id": "WaterTreatmentCycle.for_water_proc -> ChassisAndVehicle.CHASSIS_ID",
+   "verdict": "no",
+   "reason": "for_water_proc names the water table, not chassis; two 1000-row sequences coincide"
+  },
+  {
+   "id": "WeatherAndStructure.loc_link -> Location.STATION_name",
+   "verdict": "yes",
+   "reason": "loc_link holds Station-N names covering all 20 locations"
+  },
+  {
+   "id": "WeatherAndStructure.opmaint_link -> OperationMaintenance.OP_MAINT_ID",
+   "verdict": "yes",
+   "reason": "opmaint_link names OperationMaintenance; 859 distinct cover all 859 rows"
+  },
+  {
+   "id": "WeatherAndStructure.snowLoad_kgm2 -> LightingAndSafety.LIGHT_ID",
+   "verdict": "no",
+   "reason": "snow load in kg/m2 is a measure, not a lighting id"
+  },
+  {
+   "id": "CabinEnvironment.CABIN_ID -> EngineAndFluids.ENGINE_ID",
+   "verdict": "no",
+   "reason": "own surrogate key 1..346 nesting in an unrelated 1..467 sequence"
+  },
+  {
+   "id": "ChassisAndVehicle.CHASSIS_ID -> EquipmentLifecycle.lifeTrack",
+   "verdict": "no",
+   "reason": "two independent 1000-row surrogate sequences; both tables already link to Equipment through PE codes"
+  },
+  {
+   "id": "Communication.COMM_ID -> OperationMaintenance.OP_MAINT_ID",
+   "verdict": "no",
+   "reason": "own surrogate key 1..850 nesting in an unrelated 1..859 sequence"
+  },
+  {
+   "id": "CommunicationLinkMetric.commMeasureNo -> EnergyGenerationLog.energyLogNo",
+   "verdict": "no",
+   "reason": "own surrogate key nesting in an unrelated longer log sequence"
+  },
+  {
+   "id": "EnergyGenerationLog.energyLogNo -> ChassisDynamicsEvent.chRecord",
+   "verdict": "no",
+   "reason": "own surrogate key nesting in an unrelated longer event sequence"
+  },
+  {
+   "id": "EngineAndFluids.ENGINE_ID -> LightingAndSafety.LIGHT_ID",
+   "verdict": "no",
+   "reason": "own surrogate key 1..467 nesting in an unrelated 1..693 sequence"
+  },
+  {
+   "id": "EquipmentLifecycle.lifeTrack -> ChassisAndVehicle.CHASSIS_ID",
+   "verdict": "no",
+   "reason": "two independent 1000-row surrogate sequences; both tables already link to Equipment through PE codes"
+  },
+  {
+   "id": "EquipmentLocationHistory.locSeq -> CommunicationLinkMetric.commMeasureNo",
+   "verdict": "no",
+   "reason": "own surrogate key nesting in an unrelated longer metric sequence"
+  },
+  {
+   "id": "EquipmentSpecification.specRecord -> ChassisAndVehicle.CHASSIS_ID",
+   "verdict": "no",
+   "reason": "two independent 1000-row surrogate sequences; spec already links to Equipment through PE codes"
+  },
+  {
+   "id": "EquipmentTypeDetail.typeDetailNo -> SensorModelMeasurementProfile.profileStamp",
+   "verdict": "no",
+   "reason": "six-row surrogate key nesting in an unrelated 56-row sequence"
+  },
+  {
+   "id": "FuelingAndChargingEvent.fuelChargeSeq -> WaterTreatmentCycle.cycleStamp",
+   "verdict": "no",
+   "reason": "own surrogate key nesting in an unrelated longer cycle sequence"
+  },
+  {
+   "id": "LightingAndSafety.LIGHT_ID -> Scientific.SCI_ID",
+   "verdict": "no",
+   "reason": "own surrogate key 1..693 nesting in an unrelated 1..768 sequence"
+  },
+  {
+   "id": "OperationMaintenance.OP_MAINT_ID -> PowerBattery.PWR_BATT_ID",
+   "verdict": "no",
+   "reason": "own surrogate key 1..859 nesting in an unrelated 1..899 sequence"
+  },
+  {
+   "id": "PowerBattery.PWR_BATT_ID -> Transmission.TRANS_ID",
+   "verdict": "no",
+   "reason": "own surrogate key 1..899 nesting in an unrelated 1..976 sequence"
+  },
+  {
+   "id": "SafetyInspection.safetyNote -> FuelingAndChargingEvent.fuelChargeSeq",
+   "verdict": "no",
+   "reason": "own surrogate key nesting in an unrelated longer event sequence"
+  },
+  {
+   "id": "Scientific.SCI_ID -> ScientificCalibrationSchedule.calibrationNote",
+   "verdict": "no",
+   "reason": "equal-length surrogate sequences; the schedule links to Scientific through for_science_row, whose values are permuted"
+  },
+  {
+   "id": "ScientificCalibrationSchedule.calibrationNote -> Scientific.SCI_ID",
+   "verdict": "no",
+   "reason": "equal-length surrogate sequences; for_science_row is the real link and is not the identity"
+  },
+  {
+   "id": "SensorModelMeasurementProfile.profileStamp -> CabinEnvironment.CABIN_ID",
+   "verdict": "no",
+   "reason": "own surrogate key 1..56 nesting in an unrelated cabin sequence"
+  },
+  {
+   "id": "ThermalSolarWindAndGrid.THERMAL_ID -> ChassisAndVehicle.CHASSIS_ID",
+   "verdict": "no",
+   "reason": "two independent 1000-row surrogate sequences; thermal already links to Equipment elsewhere"
+  },
+  {
+   "id": "Transmission.TRANS_ID -> ChassisAndVehicle.CHASSIS_ID",
+   "verdict": "no",
+   "reason": "own surrogate key 1..976 nesting in 1..1000; chassis links to transmission through trans_link instead"
+  },
+  {
+   "id": "TransmissionDiagnosticEvent.transDiagSeq -> EquipmentLocationHistory.locSeq",
+   "verdict": "no",
+   "reason": "own surrogate key nesting in an unrelated longer sequence"
+  },
+  {
+   "id": "WaterAndWaste.WATER_ID -> ChassisAndVehicle.CHASSIS_ID",
+   "verdict": "no",
+   "reason": "two independent 1000-row surrogate sequences; water already links to Equipment through equipRef"
+  },
+  {
+   "id": "WaterTreatmentCycle.cycleStamp -> TransmissionDiagnosticEvent.transDiagSeq",
+   "verdict": "no",
+   "reason": "own surrogate key nesting in an unrelated longer sequence"
+  },
+  {
+   "id": "WeatherAndStructure.WEATHER_ID -> ChassisAndVehicle.CHASSIS_ID",
+   "verdict": "no",
+   "reason": "two independent 1000-row surrogate sequences; weather links to Location and OperationMaintenance instead"
+  }
+ ]
+}

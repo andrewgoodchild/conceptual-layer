@@ -1,0 +1,625 @@
+{
+ "database": "european_football_2",
+ "verdicts": [
+  {
+   "id": "League.country_id -> Country.id",
+   "verdict": "yes",
+   "reason": "country_id names the Country key; one league per country, 11 of 11 covered with identical id values."
+  },
+  {
+   "id": "Match.country_id -> Country.id",
+   "verdict": "yes",
+   "reason": "country_id names the Country key; every match belongs to one of the 11 countries, full coverage."
+  },
+  {
+   "id": "Match.league_id -> Country.id",
+   "verdict": "no",
+   "reason": "league_id is how a match points at League, not Country; containment holds only because the loader gave League and Country identical id values."
+  },
+  {
+   "id": "Match.stage -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "stage is the match-week number (38 values 1..38), not an identifier; it nests in a 184k surrogate sequence by size alone."
+  },
+  {
+   "id": "Match.home_team_api_id -> Team.team_api_id",
+   "verdict": "yes",
+   "reason": "home_team_api_id names the Team api key; all 299 teams covered and the sample values (9987, 10000, 8635) are team api ids, not a sequence."
+  },
+  {
+   "id": "Match.away_team_api_id -> Team.team_api_id",
+   "verdict": "yes",
+   "reason": "away_team_api_id names the Team api key; all 299 teams covered and the sample values (9987, 10000, 8635) are team api ids, not a sequence."
+  },
+  {
+   "id": "Match.home_player_X3 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_X3 is a formation coordinate (8 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_X4 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_X4 is a formation coordinate (7 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_X5 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_X5 is a formation coordinate (9 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_X6 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_X6 is a formation coordinate (9 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_X7 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_X7 is a formation coordinate (9 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_X8 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_X8 is a formation coordinate (9 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_X9 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_X9 is a formation coordinate (9 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_X10 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_X10 is a formation coordinate (9 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_X11 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_X11 is a formation coordinate (6 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_X1 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_X1 is a formation coordinate (3 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_X2 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_X2 is a formation coordinate (8 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_X3 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_X3 is a formation coordinate (8 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_X4 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_X4 is a formation coordinate (8 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_X5 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_X5 is a formation coordinate (9 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_X6 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_X6 is a formation coordinate (9 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_X7 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_X7 is a formation coordinate (9 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_X8 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_X8 is a formation coordinate (9 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_X9 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_X9 is a formation coordinate (9 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_X10 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_X10 is a formation coordinate (9 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_X11 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_X11 is a formation coordinate (6 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_Y3 -> Team.id",
+   "verdict": "no",
+   "reason": "home_player_Y3 is a formation coordinate (2 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_Y4 -> Team.id",
+   "verdict": "no",
+   "reason": "home_player_Y4 is a formation coordinate (2 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_Y5 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_Y5 is a formation coordinate (5 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_Y6 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_Y6 is a formation coordinate (6 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_Y7 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_Y7 is a formation coordinate (6 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_Y8 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_Y8 is a formation coordinate (7 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_Y9 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_Y9 is a formation coordinate (6 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_Y10 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_Y10 is a formation coordinate (7 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_Y11 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "home_player_Y11 is a formation coordinate (4 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_Y1 -> Team.id",
+   "verdict": "no",
+   "reason": "away_player_Y1 is a formation coordinate (2 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_Y2 -> Team.id",
+   "verdict": "no",
+   "reason": "away_player_Y2 is a formation coordinate (1 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_Y3 -> Team.id",
+   "verdict": "no",
+   "reason": "away_player_Y3 is a formation coordinate (2 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_Y4 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_Y4 is a formation coordinate (3 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_Y5 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_Y5 is a formation coordinate (5 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_Y6 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_Y6 is a formation coordinate (7 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_Y7 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_Y7 is a formation coordinate (7 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_Y8 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_Y8 is a formation coordinate (7 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_Y9 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_Y9 is a formation coordinate (7 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_Y10 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_Y10 is a formation coordinate (6 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.away_player_Y11 -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "away_player_Y11 is a formation coordinate (4 distinct values in roughly 1..11), not a reference; it lands in the target only because the target's ids start at 1."
+  },
+  {
+   "id": "Match.home_player_1 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "home_player_1 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 906 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.home_player_2 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "home_player_2 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 2414 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.home_player_3 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "home_player_3 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 2375 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.home_player_4 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "home_player_4 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 2606 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.home_player_5 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "home_player_5 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 2769 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.home_player_6 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "home_player_6 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 3798 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.home_player_7 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "home_player_7 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 3422 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.home_player_8 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "home_player_8 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 4076 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.home_player_9 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "home_player_9 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 4114 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.home_player_10 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "home_player_10 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 3642 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.home_player_11 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "home_player_11 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 2890 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.away_player_1 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "away_player_1 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 926 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.away_player_2 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "away_player_2 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 2504 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.away_player_3 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "away_player_3 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 2470 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.away_player_4 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "away_player_4 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 2657 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.away_player_5 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "away_player_5 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 2884 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.away_player_6 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "away_player_6 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 3930 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.away_player_7 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "away_player_7 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 3620 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.away_player_8 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "away_player_8 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 4249 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.away_player_9 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "away_player_9 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 4319 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.away_player_10 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "away_player_10 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 3891 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Match.away_player_11 -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "away_player_11 is a lineup slot holding a player; the sample values (five-digit api ids) match Player.player_api_id and 3040 distinct players is right for one position across 26k matches."
+  },
+  {
+   "id": "Player.height -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "height is a physical measurement (20 distinct values around 182), not an identifier; coincidental nesting in a 184k sequence."
+  },
+  {
+   "id": "Player.weight -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "weight is a physical measurement (50 distinct values around 187), not an identifier; coincidental nesting in a 184k sequence."
+  },
+  {
+   "id": "Player_Attributes.player_api_id -> Player.player_api_id",
+   "verdict": "yes",
+   "reason": "player_api_id names the Player api key; 11060 distinct values cover all 11060 players, the attribute-rows-per-player shape."
+  },
+  {
+   "id": "Player_Attributes.overall_rating -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "overall_rating is a 0-100 skill rating (61 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.potential -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "potential is a 0-100 skill rating (56 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.crossing -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "crossing is a 0-100 skill rating (95 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.finishing -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "finishing is a 0-100 skill rating (97 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.heading_accuracy -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "heading_accuracy is a 0-100 skill rating (96 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.short_passing -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "short_passing is a 0-100 skill rating (95 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.volleys -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "volleys is a 0-100 skill rating (93 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.dribbling -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "dribbling is a 0-100 skill rating (97 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.curve -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "curve is a 0-100 skill rating (92 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.free_kick_accuracy -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "free_kick_accuracy is a 0-100 skill rating (97 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.long_passing -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "long_passing is a 0-100 skill rating (95 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.ball_control -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "ball_control is a 0-100 skill rating (93 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.acceleration -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "acceleration is a 0-100 skill rating (86 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.sprint_speed -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "sprint_speed is a 0-100 skill rating (85 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.agility -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "agility is a 0-100 skill rating (81 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.reactions -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "reactions is a 0-100 skill rating (78 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.balance -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "balance is a 0-100 skill rating (81 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.shot_power -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "shot_power is a 0-100 skill rating (96 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.jumping -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "jumping is a 0-100 skill rating (79 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.stamina -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "stamina is a 0-100 skill rating (84 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.strength -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "strength is a 0-100 skill rating (82 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.long_shots -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "long_shots is a 0-100 skill rating (96 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.aggression -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "aggression is a 0-100 skill rating (91 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.interceptions -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "interceptions is a 0-100 skill rating (96 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.positioning -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "positioning is a 0-100 skill rating (95 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.vision -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "vision is a 0-100 skill rating (97 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.penalties -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "penalties is a 0-100 skill rating (94 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.marking -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "marking is a 0-100 skill rating (95 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.standing_tackle -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "standing_tackle is a 0-100 skill rating (95 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.sliding_tackle -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "sliding_tackle is a 0-100 skill rating (94 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.gk_diving -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "gk_diving is a 0-100 skill rating (93 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.gk_handling -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "gk_handling is a 0-100 skill rating (90 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.gk_kicking -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "gk_kicking is a 0-100 skill rating (97 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.gk_positioning -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "gk_positioning is a 0-100 skill rating (94 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Player_Attributes.gk_reflexes -> Team_Attributes.id",
+   "verdict": "no",
+   "reason": "gk_reflexes is a 0-100 skill rating (92 distinct values), not an identifier; a team-attribute row is not what it points at."
+  },
+  {
+   "id": "Team.team_fifa_api_id -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "team_fifa_api_id is an external FIFA identifier for a team; it has nothing to do with player attribute rows, its values just fit inside 1..183978."
+  },
+  {
+   "id": "Team_Attributes.team_fifa_api_id -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "team_fifa_api_id is an external FIFA team identifier; the meant target would be Team, not player attribute rows."
+  },
+  {
+   "id": "Team_Attributes.team_api_id -> Team.team_api_id",
+   "verdict": "yes",
+   "reason": "team_api_id names the Team api key; 288 of 299 teams have attribute rows and sample values (9930, 8485) are team api ids."
+  },
+  {
+   "id": "Team_Attributes.buildUpPlaySpeed -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "buildUpPlaySpeed is a 0-100 tactical rating (57 distinct values), not an identifier; coincidental nesting in a 184k sequence."
+  },
+  {
+   "id": "Team_Attributes.buildUpPlayDribbling -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "buildUpPlayDribbling is a 0-100 tactical rating (49 distinct values), not an identifier; coincidental nesting in a 184k sequence."
+  },
+  {
+   "id": "Team_Attributes.buildUpPlayPassing -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "buildUpPlayPassing is a 0-100 tactical rating (58 distinct values), not an identifier; coincidental nesting in a 184k sequence."
+  },
+  {
+   "id": "Team_Attributes.chanceCreationPassing -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "chanceCreationPassing is a 0-100 tactical rating (50 distinct values), not an identifier; coincidental nesting in a 184k sequence."
+  },
+  {
+   "id": "Team_Attributes.chanceCreationCrossing -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "chanceCreationCrossing is a 0-100 tactical rating (56 distinct values), not an identifier; coincidental nesting in a 184k sequence."
+  },
+  {
+   "id": "Team_Attributes.chanceCreationShooting -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "chanceCreationShooting is a 0-100 tactical rating (57 distinct values), not an identifier; coincidental nesting in a 184k sequence."
+  },
+  {
+   "id": "Team_Attributes.defencePressure -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "defencePressure is a 0-100 tactical rating (48 distinct values), not an identifier; coincidental nesting in a 184k sequence."
+  },
+  {
+   "id": "Team_Attributes.defenceAggression -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "defenceAggression is a 0-100 tactical rating (47 distinct values), not an identifier; coincidental nesting in a 184k sequence."
+  },
+  {
+   "id": "Team_Attributes.defenceTeamWidth -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "defenceTeamWidth is a 0-100 tactical rating (43 distinct values), not an identifier; coincidental nesting in a 184k sequence."
+  },
+  {
+   "id": "Country.id -> League.id",
+   "verdict": "no",
+   "reason": "Country and League are distinct entities and League already points at Country via country_id; the identical id values are a loader artifact, not a designed one-to-one split."
+  },
+  {
+   "id": "League.id -> Country.id",
+   "verdict": "no",
+   "reason": "League's own key sharing Country's values is a loader artifact; the designed link is League.country_id, so a designer would not declare League.id as a reference."
+  },
+  {
+   "id": "Match.id -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "Match's own surrogate key nesting inside a larger unrelated surrogate sequence; no entity is split across these tables."
+  },
+  {
+   "id": "Player.id -> Match.id",
+   "verdict": "no",
+   "reason": "Player's own surrogate key nesting inside a larger unrelated surrogate sequence; no entity is split across these tables."
+  },
+  {
+   "id": "Team.id -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "Team's own surrogate key nesting inside a larger unrelated surrogate sequence; no entity is split across these tables."
+  },
+  {
+   "id": "Team_Attributes.id -> Player_Attributes.id",
+   "verdict": "no",
+   "reason": "Team_Attributes's own surrogate key nesting inside a larger unrelated surrogate sequence; no entity is split across these tables."
+  }
+ ]
+}

@@ -1,0 +1,9 @@
+{"database": "debit_card_specializing",
+ "verdicts": [
+  {"id": "gasstations.ChainID -> products.ProductID", "verdict": "no", "reason": "ChainID names a gas-station chain, not a product; 233 small integers nesting inside a 1..591 product sequence is coincidental overlap and there is no chains table for it to point at."},
+  {"id": "transactions_1k.CustomerID -> customers.CustomerID", "verdict": "yes", "reason": "Exact name match, transactions naturally reference customers, and the sample values (31543, 46707, 7654) look like customer identifiers drawn from a 32k-row customer table."},
+  {"id": "transactions_1k.GasStationID -> gasstations.GasStationID", "verdict": "yes", "reason": "Exact name match, a transaction happens at a gas station, and the spread of source values (3704, 656, 1152) across the 5716 stations reads as real identifiers."},
+  {"id": "transactions_1k.ProductID -> products.ProductID", "verdict": "yes", "reason": "Exact name match and a transaction buying a product is the obvious designed relationship; only 28 distinct products in a 1000-row sample is normal for fuel/shop purchases."},
+  {"id": "yearmonth.CustomerID -> customers.CustomerID", "verdict": "yes", "reason": "Exact name match, monthly consumption rows per customer, and 30566 of 32461 customers covered with high spread is exactly what a designed reference looks like."},
+  {"id": "products.ProductID -> transactions_1k.TransactionID", "verdict": "no", "reason": "Products' own key 1..591 nesting inside transaction ids 1..1000 is the classic two-surrogate-sequences false positive; a product does not point at a transaction."}
+ ]}

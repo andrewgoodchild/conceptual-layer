@@ -1,0 +1,156 @@
+[
+ {
+  "arm": "conquer_mcp",
+  "db": "superhero",
+  "subagent_tokens": 62097,
+  "tool_uses": 10,
+  "duration_ms": 137927
+ },
+ {
+  "arm": "direct_mcp",
+  "db": "superhero",
+  "subagent_tokens": 47432,
+  "tool_uses": 12,
+  "duration_ms": 139603
+ },
+ {
+  "arm": "conquer_mcp",
+  "db": "financial",
+  "subagent_tokens": 62009,
+  "tool_uses": 17,
+  "duration_ms": 153177
+ },
+ {
+  "arm": "direct_mcp",
+  "db": "financial",
+  "subagent_tokens": 54187,
+  "tool_uses": 14,
+  "duration_ms": 179470
+ },
+ {
+  "arm": "direct_mcp",
+  "db": "student_club",
+  "subagent_tokens": 52720,
+  "tool_uses": 20,
+  "duration_ms": 179630
+ },
+ {
+  "arm": "conquer_mcp",
+  "db": "student_club",
+  "subagent_tokens": 66470,
+  "tool_uses": 20,
+  "duration_ms": 190305
+ },
+ {
+  "arm": "direct_mcp",
+  "db": "codebase_community",
+  "subagent_tokens": 65797,
+  "tool_uses": 24,
+  "duration_ms": 219210
+ },
+ {
+  "arm": "direct_mcp",
+  "db": "debit_card_specializing",
+  "subagent_tokens": 50698,
+  "tool_uses": 17,
+  "duration_ms": 225166
+ },
+ {
+  "arm": "direct_mcp",
+  "db": "european_football_2",
+  "subagent_tokens": 69497,
+  "tool_uses": 25,
+  "duration_ms": 227667
+ },
+ {
+  "arm": "direct_mcp",
+  "db": "california_schools",
+  "subagent_tokens": 67669,
+  "tool_uses": 25,
+  "duration_ms": 238327
+ },
+ {
+  "arm": "conquer_mcp",
+  "db": "toxicology",
+  "subagent_tokens": 68761,
+  "tool_uses": 23,
+  "duration_ms": 239215
+ },
+ {
+  "arm": "conquer_mcp",
+  "db": "california_schools",
+  "subagent_tokens": 81663,
+  "tool_uses": 23,
+  "duration_ms": 258654
+ },
+ {
+  "arm": "conquer_mcp",
+  "db": "european_football_2",
+  "subagent_tokens": 81460,
+  "tool_uses": 17,
+  "duration_ms": 279219
+ },
+ {
+  "arm": "conquer_mcp",
+  "db": "debit_card_specializing",
+  "subagent_tokens": 76889,
+  "tool_uses": 17,
+  "duration_ms": 288047
+ },
+ {
+  "arm": "conquer_mcp",
+  "db": "thrombosis_prediction",
+  "subagent_tokens": 81110,
+  "tool_uses": 30,
+  "duration_ms": 296073
+ },
+ {
+  "arm": "direct_mcp",
+  "db": "toxicology",
+  "subagent_tokens": 45066,
+  "tool_uses": 12,
+  "duration_ms": 151248
+ },
+ {
+  "arm": "direct_mcp",
+  "db": "card_games",
+  "subagent_tokens": 68527,
+  "tool_uses": 17,
+  "duration_ms": 335799
+ },
+ {
+  "arm": "direct_mcp",
+  "db": "thrombosis_prediction",
+  "subagent_tokens": 66009,
+  "tool_uses": 32,
+  "duration_ms": 239389
+ },
+ {
+  "arm": "conquer_mcp",
+  "db": "formula_1",
+  "subagent_tokens": 91067,
+  "tool_uses": 25,
+  "duration_ms": 422666
+ },
+ {
+  "arm": "conquer_mcp",
+  "db": "codebase_community",
+  "subagent_tokens": 82466,
+  "tool_uses": 30,
+  "duration_ms": 445612
+ },
+ {
+  "arm": "direct_mcp",
+  "db": "formula_1",
+  "subagent_tokens": 91279,
+  "tool_uses": 25,
+  "duration_ms": 523332
+ },
+ {
+  "arm": "conquer_mcp",
+  "db": "card_games",
+  "subagent_tokens": 120614,
+  "tool_uses": 54,
+  "duration_ms": 658247
+ }
+]

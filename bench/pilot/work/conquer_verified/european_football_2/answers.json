@@ -1,0 +1,72 @@
+[
+ {
+  "question_id": 1115,
+  "answer": "(THE MAXIMUM r IN PlayerAttribute [has api Player has PlayerName: 'Landon Donovan'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r - THE MAXIMUM r IN PlayerAttribute [has api Player has PlayerName: 'Jordan Bowery'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r) * 100 / THE MAXIMUM r IN PlayerAttribute [has api Player has PlayerName: 'Landon Donovan'] [has PlayerAttributeDate: '2013-07-12 00:00:00'] has PlayerAttributeOverallRating r",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Matches evidence exactly: DIVIDE(SUBTRACT(Landon's rating, Jordan's rating), Landon's rating)*100, both filtered to the given date. MAX just collapses to a scalar per player/date (no fan-out risk since the date filter is exact). Returns a single plausible value, 25.32."
+ },
+ {
+  "question_id": 1134,
+  "answer": "THE MAXIMUM j IN PlayerAttribute [has PlayerAttributeId: 6] has PlayerAttributeJumping j - THE MAXIMUM j IN PlayerAttribute [has PlayerAttributeId: 23] has PlayerAttributeJumping j",
+  "attempts": 2,
+  "verdict": "accepted",
+  "reason": "Evidence 'jumping AND id = 6' names id and jumping with no join qualifier, and jumping only exists on PlayerAttribute, so id=6/23 is read as PlayerAttribute's own id (a row filter), matching the draft. I tested the alternative reading (id as Player.id, joined via api to PlayerAttribute) and got a different result (-5 vs 1), confirming this is a real fork, but the literal, unqualified 'id' in the evidence supports the same-table reading the draft uses. Order (6 minus 23) matches SUBTRACT's argument order."
+ },
+ {
+  "question_id": 1135,
+  "answer": "LIST pid FROM PlayerAttribute [has PlayerAttributePreferredFoot: 'right'] has api Player has PlayerApiId pid AND ALSO THE MINIMUM p IN PlayerAttribute [has api Player has PlayerApiId: !pid] has PlayerAttributePotential p GROUPED BY pid AS m ORDERED WITH m ASCENDING THE FIRST 4",
+  "attempts": 3,
+  "verdict": "accepted",
+  "reason": "Question asks for 'top four players' IDs' (four distinct players), and this dataset has repeated PlayerAttribute snapshots per player with identical potential values, so a plain row-level ORDER BY potential ASC LIMIT 4 (which I tested) returns only 2 distinct players duplicated (41496,41496,166963,166963) -- not 'four players'. The draft's grouped-by-player minimum correctly yields four distinct players (41496, 166963, 8893, 168342), and I confirmed no tie at the 4th/5th boundary that would make the cutoff ambiguous."
+ },
+ {
+  "question_id": 1124,
+  "answer": "LIST n FROM DISTINCT PlayerAttribute [has PlayerAttributeAttackingWorkRate: 'high'] has api Player has PlayerName n",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Directly matches evidence (attacking_work_rate = 'high'), projects only player names, DISTINCT avoids duplicate names from repeated snapshots. 3339 rows returned, alphabetical, no unwanted ordering claim."
+ },
+ {
+  "question_id": 1107,
+  "answer": "LIST d FROM PlayerAttribute [has api Player has PlayerName: 'Kevin Constant'] has PlayerAttributeCrossing c AND ALSO has PlayerAttributeDate d WHERE c = THE MAXIMUM c2 IN PlayerAttribute [has api Player has PlayerName: 'Kevin Constant'] has PlayerAttributeCrossing c2 ORDERED WITH d ASCENDING THE FIRST 1",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Finds Kevin Constant's max crossing score, all dates on which he had it, then orders ascending and takes the first, correctly answering 'the first time'. Single row returned."
+ },
+ {
+  "question_id": 1094,
+  "answer": "((THE MAXIMUM r1 IN PlayerAttribute [has api Player has PlayerName: 'Ariel Borysiuk'] [has PlayerAttributeId a1] has PlayerAttributeOverallRating r1 WHERE a1 = (THE MINIMUM m1 IN PlayerAttribute [has api Player has PlayerName: 'Ariel Borysiuk'] has PlayerAttributeId m1)) - (THE MAXIMUM r2 IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] [has PlayerAttributeId a2] has PlayerAttributeOverallRating r2 WHERE a2 = (THE MINIMUM m2 IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] has PlayerAttributeId m2))) * 100 / (THE MAXIMUM r3 IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] [has PlayerAttributeId a3] has PlayerAttributeOverallRating r3 WHERE a3 = (THE MINIMUM m3 IN PlayerAttribute [has api Player has PlayerName: 'Paulin Puel'] has PlayerAttributeId m3))",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Evidence gives overall_rating per player with no further disambiguation among a player's many PlayerAttribute snapshots; picking the earliest snapshot (minimum PlayerAttributeId) is the conventional stand-in for an unqualified scalar lookup in this dataset. Formula matches MULTIPLY(DIVIDE(SUBTRACT(Borysiuk, Puel), Puel), 100) exactly; returns a single plausible value, 15.25."
+ },
+ {
+  "question_id": 1110,
+  "answer": "LIST c FROM TeamAttribute [has api Team has TeamLongName: 'FC Lorient'] [has TeamAttributeDate d] has TeamAttributeBuildUpPlayPassingClass c WHERE like(d, '2010-02-22%')",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Matches evidence exactly (team_long_name filter, date LIKE '2010-02-22%'), projects only the passing class. Single row returned ('Long')."
+ },
+ {
+  "question_id": 1130,
+  "answer": "LIST s FROM DISTINCT TeamAttribute [has TeamAttributeChanceCreationPassingClass: 'Safe'] has api Team has TeamShortName s",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Matches evidence exactly (chanceCreationPassingClass = 'Safe', project team_short_name), DISTINCT avoids duplicates from repeated snapshots. 43 rows returned."
+ },
+ {
+  "question_id": 1116,
+  "answer": "LIST n FROM DISTINCT Player [has PlayerHeight h] has PlayerName n WHERE h = THE MAXIMUM Player has PlayerHeight",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Finds the maximum PlayerHeight and lists (distinct) names of every player at that height, correctly handling ties for 'rank = 1'. Returns a single player, Kristof van Hout."
+ },
+ {
+  "question_id": 1044,
+  "answer": "LIST n FROM Player has PlayerName n AND ALSO has PlayerBirthday b WHERE year(b) = 1970 AND month(b) = 10",
+  "attempts": 1,
+  "verdict": "accepted",
+  "reason": "Directly matches evidence (birth year 1970, birth month October), projects only names. Returns 4 plausible names."
+ }
+]

@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "cybermarket_1",
+  "answer": "LIST r, tcr, tx, amt FROM Riskanalysi has RiskanalysiRiskRegistry r AND ALSO has RiskanalysiTxchainlen cl AND ALSO has RiskanalysiLinkedtxcount lc AND ALSO has RiskanalysiFraudprob fp AND ALSO has RiskanalysiProfilecomplete pc AND ALSO has RiskanalysiIdverifyscore iv AND ALSO has RiskanalysiWallage wa AND ALSO has RiskanalysiWallturnrt wt AND ALSO has Transaction t AND ALSO t has TransactionTxregistry tx AND ALSO t has TransactionPayamtusd amt AND ALSO (cl * 10 + lc * 5 + fp * 100 - pc * 0.5 - iv * 0.5) AS tcr WHERE tcr > 150 AND wa < 30 AND wt > 5 AND lc >= 3 ORDERED WITH tcr DESCENDING"
+ },
+ {
+  "question_id": "cybermarket_3",
+  "answer": "LIST mr, md, mrs FROM Market has MarketMktregistry mr AND ALSO has MarketMktdenom md AND ALSO has MarketDlyflow df AND ALSO has MarketEsccomprate ec AND ALSO has MarketInterscore isc AND ALSO has MarketVendcount vc AND ALSO has MarketMktspan ms AND ALSO round(df / 1000 + ec * 0.2 + isc * 0.3 + vc * 0.1 - ms / 100, 2) AS mrs ORDERED WITH mrs DESCENDING"
+ },
+ {
+  "question_id": "cybermarket_10",
+  "answer": "LIST vr, vrs FROM Vendor has VendorVendregistry vr AND ALSO has VendorVendrate rate AND ALSO has VendorVendsucccount sc AND ALSO has VendorVendtxcount tc AND ALSO has VendorVendchecklvl cl AND ALSO has VendorVenddisputecount dc AND ALSO round(rate * 10 + sc / tc * 50 + if(cl = 'Basic', 1, if(cl = 'Advanced', 2, if(cl = 'Premium', 3, 0))) * 15 - dc / tc * 100, 2) AS vrs WHERE tc > 0 ORDERED WITH vrs DESCENDING"
+ },
+ {
+  "question_id": "cybermarket_7",
+  "answer": "LIST ir, ips, li, tx FROM Investigation has InvestigationInvestregistry ir AND ALSO has InvestigationLawinterest li AND ALSO has InvestigationRegistryRiskLevel rl AND ALSO has InvestigationComplianceScore cs AND ALSO has InvestigationNotescount nc AND ALSO has Riskanalysi r AND ALSO r has RiskanalysiFraudprob fp AND ALSO r has Transaction t AND ALSO t has TransactionTxregistry tx AND ALSO t has TransactionPaymethod pm AND ALSO t has TransactionPayamtusd amt AND ALSO t has TransactionEscrowused eu AND ALSO t has TransactionEscrowhrs eh AND ALSO t has TransactionRoutecomplexity rc AND ALSO t has TransactionTxfinishhrs fh AND ALSO t has Market m AND ALSO m has MarketEsccomprate ec AND ALSO (if(li = 'Low', 1, if(li = 'Medium', 2, if(li = 'High', 3, 2))) * 30 + if(rl = 'Low', 1, if(rl = 'Medium', 2, if(rl = 'High', 3, 2))) * 20 + fp * 100 - cs * 0.5 + nc * 2) AS ips AND ALSO (amt / 1000 * (fh / 24) * (1 + eh / 100) * (1 - ec / 100)) AS tas WHERE ips > 200 AND li = 'High' AND pm = 'Crypto_B' AND (eu = 'No' OR eh < 24) AND rc = 'Complex' AND tas > 75 ORDERED WITH ips DESCENDING"
+ },
+ {
+  "question_id": "cybermarket_9",
+  "answer": "DEFINE VendMkt ::= LIST v, n FROM Vendor v OPTIONALLY has Market m AND ALSO THE DISTINCT COUNT OF m GROUPED BY v AS n LIST vr, sz, vti, vnc FROM Vendor has VendorVendregistry vr AND ALSO OPTIONALLY has Market OPTIONALLY has MarketSizecluster sz AND ALSO has VendMkt VendMktN mc AND ALSO has VendorVendtxcount tc AND ALSO has VendorVendsucccount sc AND ALSO has VendorVenddisputecount dc AND ALSO has VendorVendrate rate AND ALSO (sc / tc * 100 - dc / tc * 50 + rate * 5) AS vti AND ALSO (mc * 5 + tc / 50 + vti * 0.1 - (1 - if(sz = 'Small', 1, if(sz = 'Medium', 2, if(sz = 'Large', 3, if(sz = 'Mega', 4, 0))))) * 10) AS vnc WHERE vnc > 50 ORDERED WITH vnc DESCENDING"
+ },
+ {
+  "question_id": "cybermarket_6",
+  "answer": "LIST tx, pm, amt, eu, eh, rc, tas FROM Transaction has TransactionTxregistry tx AND ALSO has TransactionPaymethod pm AND ALSO has TransactionPayamtusd amt AND ALSO has TransactionEscrowused eu AND ALSO has TransactionEscrowhrs eh AND ALSO has TransactionRoutecomplexity rc AND ALSO has TransactionTxfinishhrs fh AND ALSO has Market has MarketEsccomprate ec AND ALSO (amt / 1000 * (fh / 24) * (1 + eh / 100) * (1 - ec / 100)) AS tas WHERE tas > 75 AND pm = 'Crypto_B' AND (eu = 'No' OR eh < 24) AND rc = 'Complex' ORDERED WITH tas DESCENDING"
+ },
+ {
+  "question_id": "cybermarket_5",
+  "answer": "DEFINE MktVend ::= LIST m, sdc, stc FROM Vendor has Market m AND ALSO has VendorVenddisputecount dc AND ALSO has VendorVendtxcount tc AND ALSO THE SUM OF dc GROUPED BY m AS sdc AND ALSO THE SUM OF tc GROUPED BY m AS stc LIST mr, md, mc, msi, sts FROM Market has MarketMktregistry mr AND ALSO has MarketMktdenom md AND ALSO has MarketMktclass mc AND ALSO has MarketStatusReputation sr AND ALSO jsonPath(sr, '$.status') AS sts AND ALSO has MarketMktspan msp AND ALSO has MarketEsccomprate ec AND ALSO OPTIONALLY has MktVend MktVendSdc sdc AND ALSO OPTIONALLY has stc MktVendStc stc AND ALSO (msp / 365 * (ec / 100) * (1 - coalesce(sdc / stc, 0)) * 100) AS msi ORDERED WITH msi DESCENDING"
+ },
+ {
+  "question_id": "cybermarket_8",
+  "answer": "LIST cr, vf, lp, mt, csr, cpr, cls FROM Communication has CommunicationCommregistry cr AND ALSO has CommunicationVpnflag vf AND ALSO has CommunicationLangpattern lp AND ALSO has msgtally Distance mt AND ALSO has iptally Distance ip AND ALSO has CommunicationTornodecount tn AND ALSO has CommunicationBrwsrunique bu AND ALSO has CommunicationSusppatscore sp AND ALSO has CommunicationRiskindiccount ri AND ALSO if(vf = 'Yes', 1, if(vf = 'Suspected', 0.5, 0)) AS vn AND ALSO (ip * 5 + tn * 2 + vn * 30 + bu / 10 + sp * 3 + ri * 4) AS craw AND ALSO (if(lp = 'Consistent', 1, if(lp = 'Variable', 2, if(lp = 'Suspicious', 3, 0))) * 15 + craw * 0.2 + mt * 0.5 - (1 - vn) * 20) AS praw AND ALSO round(craw, 2) AS csr AND ALSO round(praw, 2) AS cpr AND ALSO IF praw > 70 AND lp = 'Suspicious' AND craw > 80 THEN 'Deceptive Pattern' ELSE 'Normal Pattern' AS cls ORDERED WITH cpr DESCENDING"
+ },
+ {
+  "question_id": "cybermarket_2",
+  "answer": "LIST vr, rate, mkt, vti FROM Vendor has VendorVendregistry vr AND ALSO has VendorVendrate rate AND ALSO has VendorVendsucccount sc AND ALSO has VendorVendtxcount tc AND ALSO has VendorVendchecklvl cl AND ALSO has VendorVenddisputecount dc AND ALSO has VendorVendspan sp AND ALSO has Market has MarketMktregistry mkt AND ALSO (sc / tc * 100 - dc / tc * 50 + rate * 5) AS vti WHERE vti > 80 AND (cl = 'Advanced' OR cl = 'Premium') AND dc / tc < 0.05 AND sp > 90 ORDERED WITH vti DESCENDING"
+ },
+ {
+  "question_id": "cybermarket_4",
+  "answer": "LIST c, apl FROM Communication has CommunicationCommregistry c AND ALSO has CommunicationVpnflag vf AND ALSO has CommunicationTornodecount tn AND ALSO has CommunicationEncryptmethod em AND ALSO has CommunicationConnpatscore cp AND ALSO has CommunicationBrwsrunique bu AND ALSO (if(vf = 'Yes', 1, if(vf = 'Suspected', 0.5, 0)) * 30 + tn * 2 + if(em = 'Standard', 1, if(em = 'Enhanced', 2, if(em = 'Custom', 3, 0))) * 15 + cp * 0.2 + bu / 20) AS apl WHERE tn > 20 ORDERED WITH apl DESCENDING"
+ }
+]

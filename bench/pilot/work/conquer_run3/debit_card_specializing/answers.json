@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "LIST d FROM Transactions1k [has Gasstation has GasstationCountry: 'CZE'] has Product has ProductDescription d",
+  "attempts": 1
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE DISTINCT COUNT OF Customer [has CustomerCurrency: 'EUR'] [is of Yearmonth has YearmonthConsumption c] WHERE c > 1000",
+  "attempts": 1
+ },
+ {
+  "question_id": 1481,
+  "answer": "LIST (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))) - (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'LAM'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))), (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'LAM'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))) - (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'KAM'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))), (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'KAM'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013'))) - (THE MINIMUM t IN (Customer cu [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] is of Yearmonth [has YearmonthDate v] has YearmonthConsumption c AND ALSO THE SUM OF c GROUPED BY cu AS t WHERE starts_with(v, '2013')))",
+  "attempts": 4
+ },
+ {
+  "question_id": 1486,
+  "answer": "THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] - THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR']",
+  "attempts": 1
+ },
+ {
+  "question_id": 1525,
+  "answer": "THE COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25'] [has Customer has CustomerCurrency: 'EUR'] * 100.0 / THE COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25']",
+  "attempts": 1
+ },
+ {
+  "question_id": 1501,
+  "answer": "LIST c FROM DISTINCT Gasstation has GasstationCountry c AND ALSO is of Transactions1k has Transactions1kDate d WHERE starts_with(d, '2013-06')",
+  "attempts": 2
+ }
+]

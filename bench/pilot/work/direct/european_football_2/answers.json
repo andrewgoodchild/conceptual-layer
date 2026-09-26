@@ -1,0 +1,12 @@
+[
+ {"question_id": 1115, "answer": "SELECT (l.overall_rating - j.overall_rating) * 100.0 / l.overall_rating AS pct FROM Player_Attributes l JOIN Player pl ON pl.player_api_id = l.player_api_id JOIN Player_Attributes j ON j.date = l.date JOIN Player pj ON pj.player_api_id = j.player_api_id WHERE pl.player_name = 'Landon Donovan' AND pj.player_name = 'Jordan Bowery' AND l.date LIKE '2013-07-12%';", "attempts": 1},
+ {"question_id": 1134, "answer": "SELECT (SELECT jumping FROM Player_Attributes WHERE id = 6) - (SELECT jumping FROM Player_Attributes WHERE id = 23) AS diff;", "attempts": 1},
+ {"question_id": 1135, "answer": "SELECT player_api_id FROM Player_Attributes WHERE preferred_foot = 'right' ORDER BY potential ASC LIMIT 4;", "attempts": 2},
+ {"question_id": 1124, "answer": "SELECT player_name FROM Player WHERE player_api_id IN (SELECT player_api_id FROM Player_Attributes WHERE attacking_work_rate = 'high');", "attempts": 2},
+ {"question_id": 1107, "answer": "SELECT pa.date FROM Player_Attributes pa JOIN Player p ON p.player_api_id = pa.player_api_id WHERE p.player_name = 'Kevin Constant' AND pa.crossing = (SELECT MAX(pa2.crossing) FROM Player_Attributes pa2 JOIN Player p2 ON p2.player_api_id = pa2.player_api_id WHERE p2.player_name = 'Kevin Constant') ORDER BY pa.date ASC LIMIT 1;", "attempts": 1},
+ {"question_id": 1094, "answer": "SELECT ((SELECT overall_rating FROM Player_Attributes WHERE player_api_id = (SELECT player_api_id FROM Player WHERE player_name = 'Ariel Borysiuk')) - (SELECT overall_rating FROM Player_Attributes WHERE player_api_id = (SELECT player_api_id FROM Player WHERE player_name = 'Paulin Puel'))) * 100.0 / (SELECT overall_rating FROM Player_Attributes WHERE player_api_id = (SELECT player_api_id FROM Player WHERE player_name = 'Paulin Puel')) AS pct;", "attempts": 2},
+ {"question_id": 1110, "answer": "SELECT ta.buildUpPlayPassingClass FROM Team_Attributes ta JOIN Team t ON t.team_api_id = ta.team_api_id WHERE t.team_long_name = 'FC Lorient' AND ta.date LIKE '2010-02-22%';", "attempts": 1},
+ {"question_id": 1130, "answer": "SELECT t.team_short_name FROM Team t JOIN Team_Attributes ta ON t.team_api_id = ta.team_api_id WHERE ta.chanceCreationPassingClass = 'Safe';", "attempts": 1},
+ {"question_id": 1116, "answer": "SELECT player_name FROM Player WHERE height = (SELECT MAX(height) FROM Player);", "attempts": 1},
+ {"question_id": 1044, "answer": "SELECT player_name FROM Player WHERE substr(birthday,1,4) = '1970' AND substr(birthday,6,2) = '10';", "attempts": 1}
+]

@@ -1,0 +1,33 @@
+[
+ {
+  "question_id": 1506,
+  "answer": "LIST d FROM Transactions1k [has Gasstation has GasstationCountry: 'CZE'] has Product has ProductDescription d",
+  "attempts": 1
+ },
+ {
+  "question_id": 1505,
+  "answer": "THE DISTINCT COUNT OF Customer [has CustomerCurrency: 'EUR'] [is of Yearmonth has YearmonthConsumption c] WHERE c > 1000",
+  "attempts": 2
+ },
+ {
+  "question_id": 1481,
+  "answer": null,
+  "attempts": 6,
+  "note": "The question needs, per segment (SME/LAM/KAM), the annual (2013) total consumption per customer, then the minimum of those per-customer totals (mathematically the 'average of the tied lowest' collapses to that minimum), and finally three pairwise differences of that value across the three segments in one result. That is a two-level aggregate (a MIN over a per-customer GROUPed SUM), correlated per segment, composed with cross-segment arithmetic -- a combination the primer's 20 patterns don't cover directly. I tried six phrasings: (1) a per-row correlated SUM using 'AND has ...' -- parse error; (2) 'AS t' placed after a trailing WHERE -- 'unconsumed input near AS t'; (3) correlating via 'is of Customer' in the wrong direction -- resolver error (the fact type reads Yearmonth has Customer, not the reverse); (4) correlating via a denotation on the bound CustomerID ('has Customer: !cid') -- resolved correctly but failed at SQL generation with 'node n26 has no anchor'; (5) a GROUPED BY attempt where the SUM's IN-path wasn't anchored back to the outer Customer -- an unintended cross join that ran for minutes and had to be killed; (6) correlating via a directly bound entity variable ('Customer c ... has Customer: !c'), mirroring a pattern I saw another session use successfully for a similar shape -- rejected with 'Customer is named here but joined to nothing'. Each fix addressed the previous error but exposed a new one at a different stage (parser, resolver, or SQL codegen), so I judged this genuinely not reliably expressible rather than keep guessing at compiler internals."
+ },
+ {
+  "question_id": 1486,
+  "answer": "LIST THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'CZK'] - THE COUNT OF Customer [has CustomerSegment: 'SME'] [has CustomerCurrency: 'EUR']",
+  "attempts": 1
+ },
+ {
+  "question_id": 1525,
+  "answer": "LIST THE COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25'] [has Customer has CustomerCurrency: 'EUR'] * 100 / THE COUNT OF Transactions1k [has Transactions1kDate: '2012-08-25']",
+  "attempts": 1
+ },
+ {
+  "question_id": 1501,
+  "answer": "LIST c FROM Yearmonth [has YearmonthDate: '201306'] has Customer is of Transactions1k has Gasstation has GasstationCountry c",
+  "attempts": 4
+ }
+]

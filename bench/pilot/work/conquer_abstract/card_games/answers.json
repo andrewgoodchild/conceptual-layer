@@ -1,0 +1,59 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST lang FROM ForeignData [has ForeignDataMultiverseid: 149934] has ForeignDataLanguage lang",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": "LIST id, artist FROM Card has CardId id AND ALSO has CardArtist artist AND ALSO is of Legality leg AND ALSO leg has LegalityFormat: 'commander' AND ALSO leg has LegalityStatus: 'Legal' BUT NOT [has CardPower p WHERE p <> '*']",
+  "attempts": 9
+ },
+ {
+  "question_id": 473,
+  "answer": "",
+  "note": "No fact type connects Card to Set in this model. Card carries CardSetCode and Set carries SetCode as two separate, unrelated value types (CardHasSetCode, SetHasCode); the schema listing has no reading (has / is of) between the entity types Card and Set, so 'the set that a named card belongs to' cannot be walked. Confirmed by the compiler: 'has'/'is of' from Card never reaches Set. Q462 has the identical gap.",
+  "attempts": 3
+ },
+ {
+  "question_id": 424,
+  "answer": "THE COUNT OF Card [has CardIsTextless: '1'] [has CardLayout: 'normal'] * 100.0 / THE COUNT OF Card [has CardIsTextless]",
+  "attempts": 1
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST n FROM Card [has CardRarity: 'mythic'] has CardName n AND ALSO is of Legality leg AND ALSO leg has LegalityFormat: 'gladiator' AND ALSO leg has LegalityStatus: 'Banned'",
+  "attempts": 1
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes s WHERE s <> 'Angel']",
+  "attempts": 1
+ },
+ {
+  "question_id": 352,
+  "answer": "THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100.0 / THE COUNT OF ForeignData",
+  "attempts": 1
+ },
+ {
+  "question_id": 518,
+  "answer": "LIST format, name FROM Legality leg has LegalityFormat format AND ALSO leg has LegalityStatus: 'Banned' AND ALSO leg has Card has CardName name AND ALSO (THE COUNT OF Legality [has LegalityFormat: !format] [has LegalityStatus: 'Banned']) AS cnt WHERE cnt = THE MAXIMUM t IN (Legality has LegalityFormat format2 AND ALSO has LegalityStatus: 'Banned' AND ALSO THE COUNT OF Legality [has LegalityFormat: !format2] [has LegalityStatus: 'Banned'] AS t)",
+  "attempts": 3
+ },
+ {
+  "question_id": 416,
+  "answer": "THE COUNT OF Card BUT NOT [has CardPower p WHERE p <> '*'] AND ALSO is of ForeignData has ForeignDataLanguage: 'French' * 100.0 / THE COUNT OF Card BUT NOT [has CardPower p WHERE p <> '*'] AND ALSO is of ForeignData has ForeignDataLanguage lang",
+  "attempts": 3
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST name, artist, promo, rc FROM Card c has CardName name AND ALSO has CardArtist artist AND ALSO has CardIsPromo promo AND ALSO is of Ruling r AND ALSO THE COUNT OF r GROUPED BY c AS rc WHERE rc = THE MAXIMUM m IN (Card c2 AND ALSO is of Ruling r2 AND ALSO THE COUNT OF r2 GROUPED BY c2 AS m)",
+  "attempts": 5
+ },
+ {
+  "question_id": 462,
+  "answer": "",
+  "note": "No fact type connects Card to Set in this model (see Q473): finding the set that 'Ancestor's Chosen' belongs to, then its SetTranslation, requires a Card-to-Set step that the schema listing does not provide.",
+  "attempts": 1
+ }
+]

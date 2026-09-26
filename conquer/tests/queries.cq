@@ -1,0 +1,35 @@
+# --- basic paths -----------------------------------------------------------
+Employee has EmployeeName
+LIST e, s FROM Employee e has EmployeeSalary s ORDERED WITH s DESCENDING
+# --- denotations: Type: 'value' expands through Idf(x) ---------------------
+Employee has Department: 'ENG'
+LIST n FROM Employee has EmployeeName n AND ALSO has Department: 'SALES'
+# --- value comparison, with HdCoerce/TlCoerce materialised ----------------
+LIST n, s FROM Employee has EmployeeName n AND ALSO has EmployeeSalary s > 100000
+# --- multi-hop: employee -> assignment -> project -------------------------
+LIST n, p FROM Employee has EmployeeName n AND ALSO has Assignment has Project p
+# --- WHERE with a condition ------------------------------------------------
+LIST n, s FROM Employee has EmployeeName n AND ALSO has EmployeeSalary s WHERE s > 150000 AND s < 180000
+# --- BUT NOT: negated sub-block -------------------------------------------
+LIST n FROM Employee has EmployeeName n BUT NOT has Department: 'ENG'
+# --- subtyping recovered by rule 7 ----------------------------------------
+LIST c FROM Manager has ManagerCarSpace c
+# --- aggregate -------------------------------------------------------------
+THE COUNT OF Employee
+THE AVERAGE Employee has EmployeeSalary
+# --- distinct --------------------------------------------------------------
+DISTINCT Employee has Department
+# --- self-reference: manager_nr FK ----------------------------------------
+LIST n FROM Employee has EmployeeName n AND ALSO has manager Employee
+# --- relational division: section 6.2's WHICH ARE ALL IN -------------------
+LIST n FROM Employee has EmployeeName n AND ALSO has Assignment has Project WHICH ARE ALL IN Employee: 4 has Assignment has Project
+# --- THAT INCLUDES ALL: the superset direction ----------------------------
+LIST n FROM Employee has EmployeeName n AND ALSO has Assignment has Project THAT INCLUDES ALL Employee: 2 has Assignment has Project
+# --- scalar aggregate over a filtered path --------------------------------
+THE COUNT OF Employee has Department: 'ENG'
+# --- correlated aggregate: the report's own section 6.4 example -----------
+LIST n, s FROM Employee has EmployeeName n AND ALSO has EmployeeSalary s AND ALSO has Department d WHERE s > THE AVERAGE Employee [has Department: !d] has EmployeeSalary
+# --- value restriction recovered from a CHECK constraint (rule 6) ---------
+LIST n FROM Employee has EmployeeName n AND ALSO has EmployeeGender: 'X'
+# --- ordering -------------------------------------------------------------
+LIST n, h FROM Employee has EmployeeName n AND ALSO has Assignment has AssignmentHours h ORDERED WITH h DESCENDING

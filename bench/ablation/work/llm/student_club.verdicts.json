@@ -1,0 +1,11 @@
+{"database": "student_club",
+ "verdicts": [
+  {"id": "attendance.link_to_event -> event.event_id", "verdict": "yes", "reason": "Column is literally named link_to_event and carries Airtable rec... ids that appear verbatim in event's key; attendance rows point at events."},
+  {"id": "attendance.link_to_member -> member.member_id", "verdict": "yes", "reason": "link_to_member with rec... ids matching member keys; 30 of 33 members attend, classic junction-table reference."},
+  {"id": "budget.link_to_event -> event.event_id", "verdict": "yes", "reason": "link_to_event with rec... ids in event's key; budgets are drawn up per event."},
+  {"id": "expense.link_to_member -> member.member_id", "verdict": "yes", "reason": "link_to_member with rec... ids in member's key; only 3 distinct payers is ordinary for expenses handled by a few officers."},
+  {"id": "expense.link_to_budget -> budget.budget_id", "verdict": "yes", "reason": "link_to_budget with rec... ids in budget's key; each expense charged against a budget line."},
+  {"id": "income.link_to_member -> member.member_id", "verdict": "yes", "reason": "link_to_member with rec... ids in member's key; 31 of 33 members contribute income (dues), full-coverage reference."},
+  {"id": "member.zip -> zip_code.zip_code", "verdict": "yes", "reason": "zip pointing at a 41877-row zip_code lookup with real five-digit ZIP values (55108, 10002); the designer clearly intended the postal-code lookup."},
+  {"id": "member.link_to_major -> major.major_id", "verdict": "yes", "reason": "link_to_major with rec... ids in major's key; members declare a major from a 113-row lookup."}
+ ]}

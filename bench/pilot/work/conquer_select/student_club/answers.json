@@ -1,0 +1,72 @@
+[
+ {
+  "question_id": 1435,
+  "answer": "LIST n FROM Event [has EventType: 'Game'] [has EventStatus: 'Closed'] has EventName n AND ALSO has EventDate d WHERE d >= '2019-03-15' AND d <= '2020-03-20'",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates are logically identical (C1/C2 byte-identical, C3 only reorders the AND ALSO branches) and return the same 3 rows: Women's Soccer, Football game, Football game. Filters on EventType='Game', EventStatus='Closed', and EventDate between the two dates match the evidence exactly; only EventName is projected, as asked."
+ },
+ {
+  "question_id": 1378,
+  "answer": "THE MAXIMUM Budget has BudgetSpent",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree, returning 327.07. This is a plain whole-query MAX over BudgetSpent as the evidence (MAX(spent)) specifies; no grouping or filter is needed since the question asks for a single overall highest value."
+ },
+ {
+  "question_id": 1427,
+  "answer": "LIST c FROM Budget [has BudgetSpent: 0] has BudgetCategory c AND ALSO has Event [has EventLocation: 'MU 215'] [has EventType: 'Guest Speaker']",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree, returning the same 16 rows of BudgetCategory values. Filters (BudgetSpent=0, EventLocation='MU 215', EventType='Guest Speaker') and the single projected column match the evidence exactly; no DISTINCT was asked for and none is applied, matching a plain per-budget row count."
+ },
+ {
+  "question_id": 1380,
+  "answer": "THE SUM OF s IN Budget [has BudgetCategory: 'Food'] has BudgetSpent s",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates are identical and return 1234.73, a straightforward SUM(spent) filtered to BudgetCategory='Food' as the evidence specifies."
+ },
+ {
+  "question_id": 1404,
+  "answer": "LIST desc, t FROM Expense e [has Budget has Event [has EventName: 'October Meeting']] has ExpenseDescription desc AND ALSO THE SUM OF c IN e has ExpenseCost c GROUPED BY desc AS t",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "Candidates 1 and 2 group by ExpenseDescription (Pizza/Posters/Water,chips,cookies) and agree on the 3 resulting rows; candidate 3 instead groups by the coarser BudgetCategory (Advertisement/Food), giving only 2 rows. 'Type of expenses' reads most naturally as the per-expense description (the finer-grained field explicitly named ExpenseDescription), not the budget's category, so candidate 1 (equivalent to candidate 2) was chosen. Filter on Event name 'October Meeting' and SUM(cost) match the evidence."
+ },
+ {
+  "question_id": 1361,
+  "answer": "THE SUM OF c IN Expense [has ExpenseDescription: 'Pizza'] has ExpenseCost c",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates are identical and return 600.11, SUM(cost) filtered to ExpenseDescription='Pizza' exactly as the evidence specifies, with no event-level filter since the question asks for the total across all events."
+ },
+ {
+  "question_id": 1375,
+  "answer": "LIST fn, ln FROM Member [has Major has MajorDepartment: 'School of Applied Sciences, Technology and Education'] has MemberFirstName fn AND ALSO has MemberLastName ln",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree, returning the same 5 (first name, last name) pairs, filtered through Major to MajorDepartment as the question and evidence require. Only the two name fields are projected, matching 'list all the full name'."
+ },
+ {
+  "question_id": 1405,
+  "answer": "LIST cat, amt FROM Budget b [has Event [has EventName: 'April Speaker']] has BudgetCategory cat AND ALSO has BudgetAmount a AND ALSO THE SUM OF a GROUPED BY cat AS amt ORDERED WITH amt ASCENDING",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates agree, returning the same 4 rows (Parking 10, Speaker Gifts 25, Advertisement 75, Food 150) in ascending order. Grouped SUM(amount) by category, filtered to the 'April Speaker' event, ordered ascending as asked -- this single grouped/sorted result answers both parts of the question (amount budgeted per category, ascending)."
+ },
+ {
+  "question_id": 1464,
+  "answer": "LIST fn, ln, amt FROM Member has MemberFirstName fn AND ALSO has MemberLastName ln AND ALSO is of Income [has IncomeDateReceived: '2019-09-09'] has IncomeAmount amt",
+  "attempts": 3,
+  "chosen": 3,
+  "reason": "All three candidates agree, returning the same 2 rows: Sacha Harrison 50, Carlo Jacobs 50. Candidate 3 was chosen as the cleanest formulation (single 'is of Income' branch reaching both the date filter and the amount, versus C1's redundant duplicate Income branch and C2's redundant duplicate Member branch); all compute the same join and give identical results."
+ },
+ {
+  "question_id": 1312,
+  "answer": "LIST mn FROM Member [has MemberFirstName: 'Angela'] [has MemberLastName: 'Sanders'] has Major has MajorName mn",
+  "attempts": 3,
+  "chosen": 1,
+  "reason": "All three candidates are identical in structure and return 'Business'. Filters on first and last name, projecting only MajorName as asked."
+ }
+]

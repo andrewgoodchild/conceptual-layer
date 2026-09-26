@@ -1,0 +1,190 @@
+{
+ "database": "labor_certification_applications_large",
+ "verdicts": [
+  {
+   "id": "AttorneyPerformanceMetric.law_ref -> attorney.lawmail",
+   "verdict": "yes",
+   "reason": "law_ref carries attorney email addresses matching lawmail; 383 of 386 covered"
+  },
+  {
+   "id": "AttorneyTrainingRecord.perf_metric_ref -> AttorneyPerformanceMetric.APM_code",
+   "verdict": "yes",
+   "reason": "perf_metric_ref carries APM- hex codes matching the target key form; 1406 distinct contained"
+  },
+  {
+   "id": "BenefitClaimDetail.benefit_ref -> WorkerHealthBenefit.WHB_code",
+   "verdict": "yes",
+   "reason": "benefit_ref carries WHB- hex codes matching the target key form; 1103 distinct contained"
+  },
+  {
+   "id": "CaseCorrespondenceLog.file_ref -> cases.filekey",
+   "verdict": "yes",
+   "reason": "file_ref carries I-200-… case file numbers matching filekey; 977 of 981 covered"
+  },
+  {
+   "id": "CaseDecisionAudit.file_ref -> cases.filekey",
+   "verdict": "yes",
+   "reason": "file_ref carries I-200-… case file numbers matching filekey; 887 of 981 covered"
+  },
+  {
+   "id": "CaseFraudIndicator.file_ref -> cases.filekey",
+   "verdict": "yes",
+   "reason": "file_ref carries I-200-… case file numbers matching filekey; 955 of 981 covered"
+  },
+  {
+   "id": "CertificationVerificationLog.cert_ref -> WorkerSkillCertification.WSC_code",
+   "verdict": "yes",
+   "reason": "cert_ref carries WSC- hex codes matching the target key form; 936 of 944 covered"
+  },
+  {
+   "id": "ComplianceScoreHistory.score_ref -> EmployerComplianceScore.ECS_code",
+   "verdict": "yes",
+   "reason": "score_ref carries ECS- hex codes matching the target key form; 1748 of 1791 covered"
+  },
+  {
+   "id": "CorrespondenceResponseTracking.correspondence_ref -> CaseCorrespondenceLog.CCL_code",
+   "verdict": "yes",
+   "reason": "correspondence_ref carries CCL- hex codes matching the target key form; 4391 of 4495 covered"
+  },
+  {
+   "id": "DecisionAuditAppeal.audit_ref -> CaseDecisionAudit.CDA_code",
+   "verdict": "yes",
+   "reason": "audit_ref carries CDA- hex codes matching the target key form; 2234 of 2276 covered"
+  },
+  {
+   "id": "EmployerComplianceScore.poc_ref -> employer_poc.contactmail",
+   "verdict": "yes",
+   "reason": "poc_ref carries employer contact emails matching contactmail; 547 of 578 covered"
+  },
+  {
+   "id": "EmployerLaborCondition.track_ref -> prevailing_wage.trackno",
+   "verdict": "yes",
+   "reason": "track_ref names trackno and covers 880 of 981 tracking numbers spread across the range"
+  },
+  {
+   "id": "FraudInvestigationAction.fraud_ref -> CaseFraudIndicator.CFI_code",
+   "verdict": "yes",
+   "reason": "fraud_ref carries CFI- hex codes matching the target key form; 2987 distinct contained"
+  },
+  {
+   "id": "InspectionRemediationTask.inspection_ref -> WorksiteInspection.WSI_code",
+   "verdict": "yes",
+   "reason": "inspection_ref carries WI- hex codes matching the target key form; 4548 of 4618 covered"
+  },
+  {
+   "id": "LaborConditionAmendment.elc_ref -> EmployerLaborCondition.ELC_code",
+   "verdict": "yes",
+   "reason": "elc_ref names ELC_code and carries ELC- hex codes; 2082 of 2147 covered"
+  },
+  {
+   "id": "RecruitmentSourceAnalytic.camp_ref -> recruitment_campaign.CAMP_code",
+   "verdict": "yes",
+   "reason": "camp_ref carries CAMP0000n codes matching CAMP_code; all 150 campaigns covered"
+  },
+  {
+   "id": "SourceChannelPerformance.analytic_ref -> RecruitmentSourceAnalytic.RSA_code",
+   "verdict": "yes",
+   "reason": "analytic_ref carries RSA- hex codes matching the target key form; 702 of 726 covered"
+  },
+  {
+   "id": "VisaExtensionOutcome.extension_ref -> visa_extension_request.EXT_code",
+   "verdict": "yes",
+   "reason": "extension_ref carries EXT0000n codes matching EXT_code; 972 of 981 covered"
+  },
+  {
+   "id": "WorkerHealthBenefit.worker_ref -> worker_profile.worker_CODE",
+   "verdict": "yes",
+   "reason": "worker_ref carries W00000n worker codes; 295 of 300 covered"
+  },
+  {
+   "id": "WorkerSkillCertification.worker_ref -> worker_profile.worker_CODE",
+   "verdict": "yes",
+   "reason": "worker_ref carries W00000n worker codes; 289 of 300 covered"
+  },
+  {
+   "id": "WorksiteInspection.file_ref -> cases.filekey",
+   "verdict": "yes",
+   "reason": "file_ref carries I-200-… case file numbers matching filekey; 971 of 981 covered"
+  },
+  {
+   "id": "attorney_case_specialization.law_code_ref -> attorney.lawmail",
+   "verdict": "yes",
+   "reason": "law_code_ref carries attorney emails identical to lawmail; all 386 attorneys covered"
+  },
+  {
+   "id": "case_attorney.docketkey -> cases.filekey",
+   "verdict": "yes",
+   "reason": "docketkey carries I-200-… case file numbers; a case-attorney link row naturally points at its case, 727 distinct contained"
+  },
+  {
+   "id": "case_attorney.counselmail -> attorney.lawmail",
+   "verdict": "yes",
+   "reason": "counselmail carries attorney emails; the counsel on a case-attorney link is an attorney, all 386 covered"
+  },
+  {
+   "id": "case_processing_timeline.file_ref -> cases.filekey",
+   "verdict": "yes",
+   "reason": "file_ref carries I-200-… case file numbers; one timeline row per case, all 981 covered"
+  },
+  {
+   "id": "case_rfe_details.file_ref -> cases.filekey",
+   "verdict": "yes",
+   "reason": "file_ref carries I-200-… case file numbers; one RFE row per case, all 981 covered"
+  },
+  {
+   "id": "case_worksite.dockkey -> cases.filekey",
+   "verdict": "yes",
+   "reason": "dockkey carries I-200-… case file numbers identical to filekey; 980 of 981 covered"
+  },
+  {
+   "id": "case_worksite.wagetrack -> prevailing_wage.trackno",
+   "verdict": "yes",
+   "reason": "wagetrack names the prevailing-wage tracking number; 980 of 981 trackno values covered one-to-one"
+  },
+  {
+   "id": "cases.preplink -> preparer.prepmail",
+   "verdict": "yes",
+   "reason": "preplink carries preparer emails matching prepmail; all 290 preparers covered"
+  },
+  {
+   "id": "recruitment_campaign_case_link.camp_code_ref -> recruitment_campaign.CAMP_code",
+   "verdict": "yes",
+   "reason": "camp_code_ref names CAMP_code and carries CAMP0000n codes; all 150 covered, a link table"
+  },
+  {
+   "id": "recruitment_campaign_case_link.FILE_ref -> cases.filekey",
+   "verdict": "yes",
+   "reason": "FILE_ref carries I-200-… case file numbers; the case side of a campaign-case link, 546 distinct contained"
+  },
+  {
+   "id": "recruitment_campaign_worksite_link.camp_code_ref -> recruitment_campaign.CAMP_code",
+   "verdict": "yes",
+   "reason": "camp_code_ref names CAMP_code and carries CAMP0000n codes; all 150 covered, a link table"
+  },
+  {
+   "id": "visa_extension_request.FILE_ref -> cases.filekey",
+   "verdict": "yes",
+   "reason": "FILE_ref carries I-200-… case file numbers; one request per case, all 981 covered"
+  },
+  {
+   "id": "wage_history.track_ref -> prevailing_wage.trackno",
+   "verdict": "yes",
+   "reason": "track_ref names trackno and covers all 981 tracking numbers one-to-one"
+  },
+  {
+   "id": "worker_dependent.worker_ref -> worker_profile.worker_CODE",
+   "verdict": "yes",
+   "reason": "worker_ref carries W00000n worker codes; 240 of 300 covered"
+  },
+  {
+   "id": "worker_education.worker_ref -> worker_profile.worker_CODE",
+   "verdict": "yes",
+   "reason": "worker_ref carries W00000n worker codes; all 300 covered"
+  },
+  {
+   "id": "worker_position_history.worker_ref -> worker_profile.worker_CODE",
+   "verdict": "yes",
+   "reason": "worker_ref carries W00000n worker codes; 299 of 300 covered"
+  }
+ ]
+}

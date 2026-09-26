@@ -1,0 +1,43 @@
+[
+  {
+    "question_id": 201,
+    "answer": "SELECT CAST(SUM(CASE WHEN T.element = 'c' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(T.atom_id) AS pct FROM atom T WHERE T.molecule_id IN (SELECT molecule_id FROM bond WHERE bond_type = '=');",
+    "attempts": 2
+  },
+  {
+    "question_id": 239,
+    "answer": "SELECT COUNT(bond_id) FROM connected WHERE atom_id LIKE 'TR%_19';",
+    "attempts": 2
+  },
+  {
+    "question_id": 243,
+    "answer": "SELECT DISTINCT c.bond_id FROM connected c JOIN atom a1 ON c.atom_id = a1.atom_id JOIN atom a2 ON c.atom_id2 = a2.atom_id WHERE (a1.element = 'p' AND a2.element = 'n') OR (a1.element = 'n' AND a2.element = 'p');",
+    "attempts": 2
+  },
+  {
+    "question_id": 234,
+    "answer": "SELECT COUNT(DISTINCT bond_id) FROM connected WHERE atom_id = 'TR009_12' OR atom_id2 = 'TR009_12';",
+    "attempts": 2
+  },
+  {
+    "question_id": 215,
+    "answer": "SELECT COUNT(DISTINCT a.atom_id) FROM atom a WHERE a.element IN ('i','s') AND a.molecule_id IN (SELECT molecule_id FROM bond WHERE bond_type = '-');",
+    "attempts": 1
+  },
+  {
+    "question_id": 230,
+    "answer": "SELECT DISTINCT a.element, m.label FROM atom a JOIN molecule m ON a.molecule_id = m.molecule_id WHERE m.molecule_id = 'TR060';",
+    "attempts": 2
+  },
+  {
+    "question_id": 206,
+    "answer": "SELECT DISTINCT a.element FROM atom a WHERE a.atom_id IN (SELECT atom_id FROM connected WHERE bond_id = 'TR004_8_9');",
+    "attempts": 2
+  },
+  {
+    "question_id": 212,
+    "answer": "SELECT a.element FROM atom a JOIN molecule m ON a.molecule_id = m.molecule_id WHERE m.label = '-' GROUP BY a.element ORDER BY COUNT(*) ASC LIMIT 1;",
+    "attempts": 2,
+    "note": "There is a 3-way tie for least numerous element among non-carcinogenic molecules: 'ca', 'k', and 'pb' each occur exactly once. This query returns whichever the database happens to list first among the tied elements ('ca' in testing); the tie itself is a genuine feature of the data, not a query defect."
+  }
+]

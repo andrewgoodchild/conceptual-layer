@@ -1,0 +1,9 @@
+{"at": 1789256810.01265, "query": "LIST e FROM Connected [has Bond has BondId: 'TR004_8_9'] has ConnectedAtom has AtomElement e"}
+{"at": 1789256816.956885, "query": "LIST e, l FROM DISTINCT Molecule [has MoleculeId: 'TR060'] has MoleculeLabel l AND ALSO is of Atom has AtomElement e"}
+{"at": 1789256821.383757, "query": "LIST e FROM Atom a [has Molecule has MoleculeLabel: '-'] has AtomElement e AND ALSO THE COUNT OF a GROUPED BY e AS c ORDERED WITH c ASCENDING THE FIRST 1"}
+{"at": 1789256826.0748, "query": "THE COUNT OF Atom [has AtomElement: 'c'] [has Molecule is of Bond has BondType: '='] * 100 / THE COUNT OF Atom [has Molecule is of Bond has BondType: '=']"}
+{"at": 1789256855.533333, "query": "THE COUNT OF Bond [has BondType: '='] has Molecule is of Atom [has AtomElement: 'c'] * 100 / THE COUNT OF Bond [has BondType: '='] has Molecule is of Atom"}
+{"at": 1789256869.4132018, "query": "THE COUNT OF Connected [has ConnectedAtom has AtomId a] WHERE like(a, 'TR%_19')"}
+{"at": 1789256874.835062, "query": "LIST bid FROM DISTINCT Connected [has ConnectedAtom has AtomElement: 'p'] [has ConnectedAtomid2 has AtomElement: 'n'] has Bond has BondId bid"}
+{"at": 1789256879.946827, "query": "THE COUNT OF Connected [has ConnectedAtom has AtomId a1 AND ALSO has ConnectedAtomid2 has AtomId a2] WHERE a1 = 'TR009_12' OR a2 = 'TR009_12'"}
+{"at": 1789256911.488927, "query": "THE DISTINCT COUNT OF Atom [has Molecule is of Bond has BondType: '-'] [has AtomElement e] WHERE e = 'i' OR e = 's'"}

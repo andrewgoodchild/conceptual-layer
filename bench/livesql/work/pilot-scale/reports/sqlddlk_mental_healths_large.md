@@ -1,0 +1,4 @@
+Writer's report (sqlddlk arm, mental_healths_large), as returned.
+
+- Hardest: mh_5 SSE mapping (data has 'Moderate' the definition lacks; scored 0; latest vs average unclear); mh_1 identical encounter timestamps, one output column for two fields, rounding ambiguous; mh_17 stored 0.11976... as text with units vs the question's rounded input; mh_4 facility from clinicians vs encounters disagree on 85 of 351; mh_11 path choice changes severity numbers.
+- Material: declared foreign keys gave the join hub through `encounters`; sample rows showed the traps (outcome fields inside JSON, random capitalisation, "29.87 hours/month" text, 'Non-compliant' engagement not in the TES definition). Nothing said whether facility metrics go through encounters, or how to treat values the definitions do not cover.

@@ -1,0 +1,5 @@
+Writer's report (sqldesc2 arm, robot_fault_prediction_large), as returned. Drafts in `./drafts/`.
+
+- Hardest: rf_3 only 'Assembly' of five precision-critical applications exists; 17 of 36 robots have a performance row; raw codes returned. rf_4 NTILE(5) per application, 518 of 1000 cycle times null. rf_10 zero-stop robots, half of `totopshrval` null. rf_1/7/8 thresholds; wear tier; 951 robots with 1000 operations (duplicates not removed).
+- **Useful:** the value lists showed most application names in knowledge.md do not exist in the data; JSON layout of `joint_health`; calibration codes; shared robot ids across three tables; **the route caution said the four routes between operations and actuation records agree, so the join path does not change results.**
+- **Missing:** no null counts for key columns (cycle time ~52% null, operating hours ~52%, 272 of 513 maintenance rows missing scores). **The business-term "likely from" suggestions were often wrong** (Relative Positional Error pointed at an end-effector column; the reach is `robot_details.reachmmval`). The full description was 215 KB, too large to view; `information_schema` was faster for core tables.

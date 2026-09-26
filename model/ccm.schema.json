@@ -1,0 +1,1452 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "https://conceptual-layer/ccm/0.1/ccm.schema.json",
+ "title": "Common Core Model",
+ "description": "Conceptual schema, query/derivation language and relational mapping for the ConQuer-92 to SQL compiler. Normative prose: model/model.md.",
+ "type": "object",
+ "required": [
+  "ccmVersion",
+  "id",
+  "concepts"
+ ],
+ "additionalProperties": false,
+ "properties": {
+  "ccmVersion": {
+   "const": "0.1"
+  },
+  "id": {
+   "$ref": "#/$defs/id"
+  },
+  "name": {
+   "type": "string"
+  },
+  "concepts": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/concept"
+   }
+  },
+  "constraints": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/constraint"
+   }
+  },
+  "functions": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/function"
+   }
+  },
+  "queries": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/query"
+   }
+  },
+  "derivationRules": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/derivationRule"
+   }
+  },
+  "mapping": {
+   "$ref": "#/$defs/relationalMapping"
+  },
+  "_comment": {
+   "description": "Free-form note; ignored by the compiler.",
+   "oneOf": [
+    {
+     "type": "string"
+    },
+    {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    }
+   ]
+  },
+  "macros": {
+   "type": "array",
+   "items": {
+    "$ref": "#/$defs/macro"
+   }
+  }
+ },
+ "$defs": {
+  "id": {
+   "type": "string",
+   "minLength": 1
+  },
+  "ref": {
+   "type": "string",
+   "minLength": 1
+  },
+  "dataType": {
+   "type": "object",
+   "required": [
+    "name"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "name": {
+     "type": "string"
+    },
+    "length": {
+     "type": "integer",
+     "minimum": 0
+    },
+    "scale": {
+     "type": "integer",
+     "minimum": 0
+    }
+   }
+  },
+  "valueRestriction": {
+   "description": "Ranges and/or enumerated values. An empty restriction is invalid.",
+   "type": "object",
+   "additionalProperties": false,
+   "minProperties": 1,
+   "properties": {
+    "ranges": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+       "min": {
+        "type": "string"
+       },
+       "max": {
+        "type": "string"
+       },
+       "minInclusive": {
+        "type": "boolean",
+        "default": true
+       },
+       "maxInclusive": {
+        "type": "boolean",
+        "default": true
+       }
+      }
+     }
+    },
+    "values": {
+     "description": "The values the type may take, each as the type takes them: a value constraint on an integer column enumerates integers, and spelling them as strings is how a filter comes to match nothing.",
+     "type": "array",
+     "items": {
+      "type": [
+       "string",
+       "number",
+       "boolean"
+      ]
+     }
+    }
+   }
+  },
+  "conceptCommon": {
+   "type": "object",
+   "required": [
+    "id",
+    "name",
+    "kind"
+   ],
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "name": {
+     "type": "string"
+    },
+    "aliases": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "kind": {
+     "enum": [
+      "value",
+      "entity",
+      "fact"
+     ]
+    },
+    "dataQuality": {
+     "type": "array",
+     "items": {"type": "string"},
+     "description": "What a query author has to know about the values this type holds, from profiling the population rather than from the catalogue: that they arrive in scrambled case, that a number is wrapped in its unit, that some of them stand in for NULL. Each entry is one sentence, written to be read in the schema listing. Not a constraint and never enforced -- a caution, because each of these makes an ordinary filter match the wrong rows without failing."
+    },
+    "description": {
+     "type": "string",
+     "description": "What this concept means, in a sentence a domain expert would recognise. Distinct from `terms`, which is vocabulary for *matching* a question against the model and is never read by a person: this is read, by a query author deciding whether this is the term they want. Reverse engineering has nothing to put here; it comes from wherever the definitions were written down -- a data dictionary, or a benchmark's knowledge base."
+    },
+    "terms": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "description": "Other words this concept is known by: the source table or column it was named from, the words of that name, an abbreviation and its expansion. Vocabulary for matching a question against the model, not names a query may use -- those are `aliases`, which resolve and can collide."
+    }
+   }
+  },
+  "concept": {
+   "oneOf": [
+    {
+     "$ref": "#/$defs/valueType"
+    },
+    {
+     "$ref": "#/$defs/entityType"
+    },
+    {
+     "$ref": "#/$defs/factType"
+    }
+   ]
+  },
+  "valueType": {
+   "allOf": [
+    {
+     "$ref": "#/$defs/conceptCommon"
+    }
+   ],
+   "type": "object",
+   "unevaluatedProperties": false,
+   "required": [
+    "dataType"
+   ],
+   "properties": {
+    "kind": {
+     "const": "value"
+    },
+    "dataType": {
+     "$ref": "#/$defs/dataType"
+    },
+    "restriction": {
+     "$ref": "#/$defs/valueRestriction"
+    },
+    "unit": {
+     "description": "The measurable unit the values are in: 'MHz', 'K', 'deg'. ORMCore carries this as the UnitBased reference-mode pattern -- 'a value type that is associated with a measurable unit' -- and the CCM had no slot for it, so a schema whose column names are the only record of the unit (airtempc, objtempk, freqmhz) lost it on the way in. Two value types are the same domain only if the unit agrees as well as the restriction.",
+     "type": "string",
+     "minLength": 1
+    }
+   }
+  },
+  "entityType": {
+   "allOf": [
+    {
+     "$ref": "#/$defs/conceptCommon"
+    }
+   ],
+   "type": "object",
+   "unevaluatedProperties": false,
+   "properties": {
+    "kind": {
+     "const": "entity"
+    },
+    "referenceMode": {
+     "type": "string"
+    },
+    "identifier": {
+     "description": "Preferred identifier role sequence. ConQuer's Idf(x).",
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/ref"
+     }
+    },
+    "supertypes": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/ref"
+     }
+    },
+    "isIndependent": {
+     "type": "boolean",
+     "default": false
+    },
+    "derivation": {
+     "$ref": "#/$defs/ref"
+    }
+   }
+  },
+  "factType": {
+   "description": "A fact type is a Concept and may type a path node whether or not it is objectified (model.md G1).",
+   "allOf": [
+    {
+     "$ref": "#/$defs/conceptCommon"
+    }
+   ],
+   "type": "object",
+   "unevaluatedProperties": false,
+   "required": [
+    "roles"
+   ],
+   "properties": {
+    "kind": {
+     "const": "fact"
+    },
+    "roles": {
+     "type": "array",
+     "minItems": 1,
+     "items": {
+      "$ref": "#/$defs/role"
+     }
+    },
+    "readings": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/reading"
+     }
+    },
+    "isObjectified": {
+     "type": "boolean",
+     "default": false
+    },
+    "isImplied": {
+     "type": "boolean",
+     "default": false
+    },
+    "derivation": {
+     "$ref": "#/$defs/ref"
+    }
+   }
+  },
+  "role": {
+   "type": "object",
+   "required": [
+    "id",
+    "player",
+    "ordinal"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "name": {
+     "type": "string"
+    },
+    "player": {
+     "$ref": "#/$defs/ref"
+    },
+    "isMandatory": {
+     "type": "boolean",
+     "default": false
+    },
+    "ordinal": {
+     "type": "integer",
+     "minimum": 0
+    }
+   }
+  },
+  "reading": {
+   "description": "ConQuer's MFix in ORM's positional-slot spelling. Slot {n} binds roleSequence[n].",
+   "type": "object",
+   "required": [
+    "id",
+    "text",
+    "roleSequence"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "text": {
+     "type": "string"
+    },
+    "roleSequence": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/ref"
+     }
+    }
+   }
+  },
+  "constraint": {
+   "type": "object",
+   "required": [
+    "id",
+    "kind"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "name": {
+     "type": "string"
+    },
+    "kind": {
+     "enum": [
+      "uniqueness",
+      "mandatory",
+      "frequency",
+      "ring",
+      "subset",
+      "equality",
+      "exclusion",
+      "valueComparison"
+     ]
+    },
+    "roleSequences": {
+     "type": "array",
+     "items": {
+      "type": "array",
+      "items": {
+       "$ref": "#/$defs/ref"
+      }
+     }
+    },
+    "isPreferredIdentifier": {
+     "type": "boolean",
+     "default": false
+    },
+    "minFrequency": {
+     "type": "integer",
+     "minimum": 1
+    },
+    "maxFrequency": {
+     "type": "integer",
+     "minimum": 1
+    },
+    "ringKind": {
+     "type": "string"
+    },
+    "comparisonOperator": {
+     "enum": [
+      "<",
+      "<=",
+      "=",
+      "<>",
+      ">=",
+      ">"
+     ]
+    },
+    "violation": {
+     "type": "string"
+    },
+    "modality": {
+     "enum": [
+      "alethic",
+      "deontic"
+     ],
+     "default": "alethic",
+     "description": "ORM 2 section 1.7. Alethic is a law the data cannot break and a consumer may reason from; deontic is a rule it should keep, which a consumer may report but must not optimise on. A constraint recovered from a population is deontic: it says what today's rows do, not what the schema forbids."
+    }
+   }
+  },
+  "function": {
+   "type": "object",
+   "required": [
+    "id",
+    "name"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "name": {
+     "type": "string"
+    },
+    "operatorSymbol": {
+     "type": "string"
+    },
+    "isBoolean": {
+     "type": "boolean",
+     "default": false
+    },
+    "isAggregate": {
+     "type": "boolean",
+     "default": false
+    },
+    "parameters": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "name": {
+        "type": "string"
+       },
+       "bagInput": {
+        "type": "boolean",
+        "default": false
+       },
+       "default": {
+        "type": [
+         "number",
+         "string"
+        ],
+        "description": "The value a call that leaves this trailing parameter out means: round(x) is round(x, 0)."
+       }
+      }
+     }
+    },
+    "sqlTemplate": {
+     "type": "string",
+     "description": "How the target dialect spells a call: '{0}', '{1}' are the arguments. Takes precedence over operatorSymbol and the bare name."
+    },
+    "sqlBagTemplate": {
+     "type": "string",
+     "description": "For an aggregate the dialect can spell only over a derived table, not over a column: '{bag}' is the SQL of the bag the aggregate ranges over, whose one column is \"v\". SQLite's median. Where the aggregate stands in place beside GROUP BY, the emitter re-lowers it into a bag of its own so this can apply."
+    }
+   }
+  },
+  "query": {
+   "type": "object",
+   "required": [
+    "id",
+    "name",
+    "body"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "name": {
+     "type": "string"
+    },
+    "parameters": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "id",
+       "name",
+       "concept"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "id": {
+        "$ref": "#/$defs/id"
+       },
+       "name": {
+        "type": "string"
+       },
+       "concept": {
+        "$ref": "#/$defs/ref"
+       }
+      }
+     }
+    },
+    "body": {
+     "$ref": "#/$defs/queryExpr"
+    },
+    "ordering": {
+     "description": "Presentation only; outside the query body (model.md A6).",
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "projection",
+       "direction"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "projection": {
+        "$ref": "#/$defs/ref"
+       },
+       "direction": {
+        "enum": [
+         "asc",
+         "desc"
+        ]
+       }
+      }
+     }
+    },
+    "limit": {
+     "description": "CCM extension: keep `count` rows after skipping `offset`. Outermost block only; see model.md \u00a74.1.",
+     "type": "object",
+     "required": [
+      "count"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "count": {
+       "type": "integer",
+       "minimum": 0
+      },
+      "offset": {
+       "type": "integer",
+       "minimum": 0,
+       "default": 0
+      }
+     }
+    }
+   }
+  },
+  "queryExpr": {
+   "oneOf": [
+    {
+     "$ref": "#/$defs/block"
+    },
+    {
+     "$ref": "#/$defs/setExpr"
+    }
+   ]
+  },
+  "setExpr": {
+   "description": "Set operations between independently rooted blocks (model.md G3).",
+   "type": "object",
+   "required": [
+    "nodeType",
+    "op",
+    "operands"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "nodeType": {
+     "const": "setExpr"
+    },
+    "op": {
+     "enum": [
+      "union",
+      "intersect",
+      "except"
+     ]
+    },
+    "all": {
+     "type": "boolean",
+     "default": false
+    },
+    "operands": {
+     "type": "array",
+     "minItems": 2,
+     "items": {
+      "$ref": "#/$defs/queryExpr"
+     }
+    }
+   }
+  },
+  "block": {
+   "description": "A conjunctive query. Flat by construction: no composition operator exists (model.md G2).",
+   "type": "object",
+   "required": [
+    "nodeType",
+    "id"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "nodeType": {
+     "const": "block"
+    },
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "nodes": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/node"
+     }
+    },
+    "steps": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/step"
+     }
+    },
+    "invocations": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/invocation"
+     }
+    },
+    "unifications": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/unification"
+     }
+    },
+    "calculations": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/calculation"
+     }
+    },
+    "conditions": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/condition"
+     }
+    },
+    "subBlocks": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/block"
+     }
+    },
+    "combinator": {
+     "enum": [
+      "and",
+      "or",
+      "xor"
+     ],
+     "default": "and"
+    },
+    "negated": {
+     "type": "boolean",
+     "default": false
+    },
+    "projections": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/projection"
+     }
+    },
+    "distinct": {
+     "type": "boolean",
+     "default": false
+    }
+   }
+  },
+  "node": {
+   "description": "concept may reference a fact type. name is diagnostic only; correlation is by unification.",
+   "type": "object",
+   "required": [
+    "id",
+    "concept"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "concept": {
+     "$ref": "#/$defs/ref"
+    },
+    "name": {
+     "type": "string"
+    },
+    "restriction": {
+     "$ref": "#/$defs/valueRestriction"
+    }
+   }
+  },
+  "step": {
+   "description": "enter = ConQuer role-entry p (Player -> Rel); exit = role-exit p-reversed (Rel -> Player).",
+   "type": "object",
+   "required": [
+    "id",
+    "kind",
+    "role",
+    "from",
+    "to"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "kind": {
+     "enum": [
+      "enter",
+      "exit"
+     ]
+    },
+    "role": {
+     "$ref": "#/$defs/ref"
+    },
+    "from": {
+     "$ref": "#/$defs/ref"
+    },
+    "to": {
+     "$ref": "#/$defs/ref"
+    },
+    "join": {
+     "enum": [
+      "inner",
+      "outer"
+     ],
+     "default": "inner"
+    }
+   },
+   "if": {
+    "properties": {
+     "kind": {
+      "const": "exit"
+     }
+    },
+    "required": [
+     "kind"
+    ]
+   },
+   "then": {
+    "properties": {
+     "join": {
+      "const": "inner"
+     }
+    }
+   }
+  },
+  "unification": {
+   "description": "The CCM's variable: an equivalence class of node occurrences. May span nesting levels.",
+   "type": "object",
+   "required": [
+    "id",
+    "nodes"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "nodes": {
+     "type": "array",
+     "minItems": 2,
+     "items": {
+      "$ref": "#/$defs/ref"
+     }
+    }
+   }
+  },
+  "invocation": {
+   "type": "object",
+   "required": [
+    "id",
+    "query"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "query": {
+     "$ref": "#/$defs/ref"
+    },
+    "arguments": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "parameter",
+       "value"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "parameter": {
+        "$ref": "#/$defs/ref"
+       },
+       "value": {
+        "$ref": "#/$defs/value"
+       }
+      }
+     }
+    },
+    "results": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "projection",
+       "node"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "projection": {
+        "$ref": "#/$defs/ref"
+       },
+       "node": {
+        "$ref": "#/$defs/ref"
+       }
+      }
+     }
+    }
+   }
+  },
+  "calculation": {
+   "type": "object",
+   "required": [
+    "id",
+    "function"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "function": {
+     "$ref": "#/$defs/ref"
+    },
+    "arguments": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/value"
+     }
+    },
+    "aggregation": {
+     "description": "Present exactly when the function is an aggregate. context is ConQuer's grouping set X.",
+     "type": "object",
+     "required": [
+      "context"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "context": {
+       "oneOf": [
+        {
+         "type": "array",
+         "items": {
+          "oneOf": [
+           {
+            "$ref": "#/$defs/ref"
+           },
+           {
+            "$ref": "#/$defs/value"
+           }
+          ]
+         }
+        },
+        {
+         "const": "universal"
+        }
+       ]
+      },
+      "distinct": {
+       "type": "boolean",
+       "default": false
+      }
+     }
+    }
+   }
+  },
+  "value": {
+   "oneOf": [
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "node"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "node"
+      },
+      "node": {
+       "$ref": "#/$defs/ref"
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "dataType",
+      "lexical"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "constant"
+      },
+      "dataType": {
+       "$ref": "#/$defs/dataType"
+      },
+      "lexical": {
+       "type": "string"
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "calculation"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "calculation"
+      },
+      "calculation": {
+       "$ref": "#/$defs/ref"
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "parameter"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "parameter"
+      },
+      "parameter": {
+       "$ref": "#/$defs/ref"
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "condition",
+      "then",
+      "else"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "conditional"
+      },
+      "condition": {
+       "$ref": "#/$defs/condition"
+      },
+      "then": {
+       "$ref": "#/$defs/value"
+      },
+      "else": {
+       "$ref": "#/$defs/value"
+      }
+     }
+    }
+   ]
+  },
+  "bag": {
+   "description": "The multiset of values taken by `node` over `block`. May correlate with an enclosing block.",
+   "type": "object",
+   "required": [
+    "block",
+    "node"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "block": {
+     "$ref": "#/$defs/block"
+    },
+    "node": {
+     "$ref": "#/$defs/ref"
+    }
+   }
+  },
+  "condition": {
+   "oneOf": [
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "op",
+      "left",
+      "right"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "compare"
+      },
+      "op": {
+       "enum": [
+        "<",
+        "<=",
+        "=",
+        "<>",
+        ">=",
+        ">"
+       ]
+      },
+      "left": {
+       "$ref": "#/$defs/value"
+      },
+      "right": {
+       "$ref": "#/$defs/value"
+      }
+     }
+    },
+    {
+     "description": "First-class relational division etc. (model.md G4). disjoint is the report's PLAIN circled-times of 6.4, not the underlined path operator of 6.2.",
+     "type": "object",
+     "required": [
+      "kind",
+      "op",
+      "left",
+      "right"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "setCompare"
+      },
+      "op": {
+       "enum": [
+        "subset",
+        "properSubset",
+        "superset",
+        "properSuperset",
+        "match",
+        "disjoint"
+       ]
+      },
+      "left": {
+       "$ref": "#/$defs/bag"
+      },
+      "right": {
+       "$ref": "#/$defs/bag"
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "block"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "exists"
+      },
+      "block": {
+       "$ref": "#/$defs/block"
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "operand"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "not"
+      },
+      "operand": {
+       "$ref": "#/$defs/condition"
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "op",
+      "operands"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "logical"
+      },
+      "op": {
+       "enum": [
+        "and",
+        "or",
+        "xor",
+        "implies"
+       ]
+      },
+      "operands": {
+       "type": "array",
+       "minItems": 2,
+       "items": {
+        "$ref": "#/$defs/condition"
+       }
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "node",
+      "restriction"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "restriction"
+      },
+      "node": {
+       "$ref": "#/$defs/ref"
+      },
+      "restriction": {
+       "$ref": "#/$defs/valueRestriction"
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "kind",
+      "function"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "const": "call"
+      },
+      "function": {
+       "$ref": "#/$defs/ref"
+      },
+      "arguments": {
+       "type": "array",
+       "items": {
+        "$ref": "#/$defs/value"
+       }
+      }
+     }
+    }
+   ]
+  },
+  "projection": {
+   "type": "object",
+   "required": [
+    "id",
+    "name",
+    "source"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "name": {
+     "type": "string"
+    },
+    "source": {
+     "$ref": "#/$defs/value"
+    },
+    "target": {
+     "description": "Set when the block populates a derived fact type; references one of its roles.",
+     "$ref": "#/$defs/ref"
+    }
+   }
+  },
+  "derivationRule": {
+   "type": "object",
+   "required": [
+    "id",
+    "target"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "target": {
+     "type": "object",
+     "required": [
+      "kind",
+      "ref"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "kind": {
+       "enum": [
+        "factType",
+        "subtype",
+        "valueType"
+       ]
+      },
+      "ref": {
+       "$ref": "#/$defs/ref"
+      }
+     }
+    },
+    "body": {
+     "$ref": "#/$defs/queryExpr"
+    },
+    "completeness": {
+     "enum": [
+      "fullyDerived",
+      "partiallyDerived"
+     ],
+     "default": "fullyDerived"
+    },
+    "storage": {
+     "enum": [
+      "notStored",
+      "stored"
+     ],
+     "default": "notStored"
+    },
+    "source": {
+     "type": "string",
+     "description": "The rule as written: ConQuer-92 text (section 6.11). A fact-type rule is `LIST a1, ..., an FROM P`, one listed thing per role in role order; a subtype rule is a path whose heads are the population. The compiler lowers it into `body`."
+    }
+   }
+  },
+  "relationalMapping": {
+   "description": "No ORMCore counterpart (model.md A5). Optional in the model; the compiler refuses to query a model without one.",
+   "type": "object",
+   "additionalProperties": false,
+   "properties": {
+    "tables": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "id",
+       "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "id": {
+        "$ref": "#/$defs/id"
+       },
+       "name": {
+        "type": "string"
+       },
+       "schema": {
+        "type": "string"
+       }
+      }
+     }
+    },
+    "columns": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "id",
+       "table",
+       "name"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "id": {
+        "$ref": "#/$defs/id"
+       },
+       "table": {
+        "$ref": "#/$defs/ref"
+       },
+       "name": {
+        "type": "string"
+       },
+       "dataType": {
+        "$ref": "#/$defs/dataType"
+       },
+       "nullable": {
+        "type": "boolean",
+        "default": true
+       },
+       "isRowId": {
+        "type": "boolean",
+        "default": false,
+        "description": "The table's own row identity (SQLite rowid), registered as a column so a keyless table read under rule 1c can be identified. Dialect-specific."
+       },
+       "path": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        },
+        "minItems": 1,
+        "description": "The value is not the column but a path to a scalar inside the document it holds (rule 12). `[\"location\", \"city\"]` reads location_metadata -> location -> city. The emitter renders it with fn.jsonPath and casts to dataType; nothing in the query language mentions it, because a role mapped to a path is a role like any other."
+       }
+      }
+     }
+    },
+    "conceptMap": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "concept",
+       "table"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "concept": {
+        "$ref": "#/$defs/ref"
+       },
+       "table": {
+        "$ref": "#/$defs/ref"
+       },
+       "identifyingColumns": {
+        "type": "array",
+        "items": {
+         "$ref": "#/$defs/ref"
+        }
+       }
+      }
+     }
+    },
+    "roleMap": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "required": [
+       "role",
+       "table",
+       "columns"
+      ],
+      "additionalProperties": false,
+      "properties": {
+       "role": {
+        "$ref": "#/$defs/ref"
+       },
+       "table": {
+        "$ref": "#/$defs/ref"
+       },
+       "columns": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+         "$ref": "#/$defs/ref"
+        }
+       },
+       "references": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+         "$ref": "#/$defs/ref"
+        }
+       },
+       "enforced": {
+        "type": "boolean",
+        "default": false,
+        "description": "Every value these columns hold is present in the columns they reference -- in `references` when it is given, otherwise in the target concept's identifier. It is a claim about the data, not about the catalogue: a declared foreign key is not enough, because 28% of the declared single-column foreign keys in a 90-database Spider sample are contradicted by their own rows. Where it holds the compiler may omit the join that checks the referent exists, and may read a referenced value from the column already in hand instead of joining for it. Absent, the compiler assumes nothing and joins."
+       }
+      }
+     }
+    }
+   }
+  },
+  "macro": {
+   "description": "Section 6.9: a named, parameterised abbreviation of a scalar expression, a condition or a path expression, expanded at parse time. Not recursive; recursion belongs to derivation rules.",
+   "type": "object",
+   "required": [
+    "id",
+    "name",
+    "kind",
+    "source"
+   ],
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "$ref": "#/$defs/id"
+    },
+    "name": {
+     "type": "string"
+    },
+    "parameters": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     },
+     "default": []
+    },
+    "kind": {
+     "enum": [
+      "scalar",
+      "condition",
+      "path"
+     ]
+    },
+    "source": {
+     "type": "string"
+    }
+   }
+  }
+ }
+}

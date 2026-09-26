@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "credit_3",
+  "answer": "LIST r, ia, ta FROM CoreRecord has CoreRecordCoreregistry r AND ALSO has CoreRecordInvestamt ia AND ALSO has CoreRecordTotassets ta AND ALSO has CoreRecordChaninvdatablock c WHERE (jsonPath(c, '$.invcluster.investport') = 'Moderate' OR jsonPath(c, '$.invcluster.investport') = 'Aggressive') AND jsonPath(c, '$.invcluster.investexp') = 'Extensive' AND ia > 0.3 * ta"
+ },
+ {
+  "question_id": "credit_7",
+  "answer": "LIST cq, df, n, ac, ph, pdh FROM CoreRecord e has CoreRecordScoreDate sd AND ALSO has CoreRecordTenureyrs ty AND ALSO has CoreRecordChaninvdatablock cb AND ALSO has CoreRecordProductUseScore pu AND ALSO has CoreRecordChanusescore cu AND ALSO has CoreRecordBankrelscore br AND ALSO has CoreRecordCustservint ci AND ALSO concat(year(sd) - ty, '-Q', div(month(sd) - 1, 3) + 1) AS cq AND ALSO if((jsonPath(cb, '$.onlineuse') = 'High' OR jsonPath(cb, '$.mobileuse') = 'High') AND jsonPath(cb, '$.autopay') = 'Yes', 'true', 'false') AS df AND ALSO (0.4 * least(pu, 1.0) + 0.3 * least(cu, 1.0) + 0.2 * least(br, 1.0) + 0.1 * least(ci / 10, 1.0)) AS ces AND ALSO if(ces > 0.7, 1, 0) AS he AND ALSO if(df = 'true' AND ces > 0.7, 1, 0) AS dhe AND ALSO THE COUNT OF e GROUPED BY cq, df AS n AND ALSO THE AVERAGE ces GROUPED BY cq, df AS ac AND ALSO THE SUM OF he GROUPED BY cq, df AS hs AND ALSO THE SUM OF dhe GROUPED BY cq, df AS dhs AND ALSO (100.0 * hs / n) AS ph AND ALSO (100.0 * dhs / n) AS pdh ORDERED WITH cq ASCENDING, df ASCENDING"
+ },
+ {
+  "question_id": "credit_6",
+  "answer": "LIST r, nw, fsi FROM CoreRecord has CoreRecordCoreregistry r AND ALSO has CoreRecordTotassets ta AND ALSO has CoreRecordTotliabs tl AND ALSO has CoreRecordDebincratio dti AND ALSO has CoreRecordLiqassets la AND ALSO has CoreRecordMthincome mi AND ALSO has CoreRecordBankaccbal bb AND ALSO has CoreRecordSavamount sa AND ALSO (ta - tl) AS nw AND ALSO (0.3 * least(1 - dti, 1.0) + 0.3 * least(la / (mi * 6), 1.0) + 0.2 * least(bb / (mi * 3), 1.0) + 0.2 * least(sa / (mi * 12), 1.0)) AS fsi"
+ },
+ {
+  "question_id": "credit_9",
+  "answer": "LIST r, la, ta, alr, mi, ia, lbl FROM CoreRecord has CoreRecordCoreregistry r AND ALSO has CoreRecordLiqassets la AND ALSO has CoreRecordTotassets ta AND ALSO has CoreRecordMthincome mi AND ALSO has CoreRecordInvestamt ia AND ALSO (la / ta) AS alr AND ALSO if(la / ta > 0.3 AND mi > 5000, 'Target', 'Standard') AS lbl"
+ },
+ {
+  "question_id": "credit_1",
+  "answer": "LIST r, ta, tl, nw, rk FROM CoreRecord has CoreRecordCoreregistry r AND ALSO has CoreRecordTotassets ta AND ALSO has CoreRecordTotliabs tl AND ALSO (ta - tl) AS nw AND ALSO 1 AS grp AND ALSO THE RANK OF nw WITHIN grp AS rk ORDERED WITH nw DESCENDING THE FIRST 10"
+ },
+ {
+  "question_id": "credit_2",
+  "answer": "LIST r FROM CoreRecord has CoreRecordCoreregistry r AND ALSO has CoreRecordChaninvdatablock c WHERE (jsonPath(c, '$.onlineuse') = 'High' OR jsonPath(c, '$.mobileuse') = 'High') AND jsonPath(c, '$.autopay') = 'Yes'"
+ },
+ {
+  "question_id": "credit_5",
+  "answer": "LIST r, pv, mb, round(mb / pv, 3) FROM CoreRecord has CoreRecordCoreregistry r AND ALSO has CoreRecordPropfinancialdata p AND ALSO jsonPath(p, '$.propvalue') AS pv AND ALSO jsonPath(p, '$.mortgagebits.mortbalance') AS mb ORDERED WITH round(mb / pv, 3) DESCENDING"
+ },
+ {
+  "question_id": "credit_10",
+  "answer": "LIST r, fvs, nw, dc, lpc FROM CoreRecord has CoreRecordCoreregistry r AND ALSO has CoreRecordDebincratio dti AND ALSO has CoreRecordLiqassets la AND ALSO has CoreRecordMthincome mi AND ALSO has CoreRecordTotassets ta AND ALSO has CoreRecordTotliabs tl AND ALSO has CoreRecordDelinqcount dc AND ALSO has CoreRecordLatepaycount lpc AND ALSO (0.5 * dti + 0.5 * (1 - la / (mi * 6))) AS fvs AND ALSO (ta - tl) AS nw WHERE fvs > 0.7 AND (dc > 0 OR lpc > 0) AND nw < 0"
+ },
+ {
+  "question_id": "credit_4",
+  "answer": "LIST cat, c, round(a, 2) FROM CoreRecord e has CoreRecordCredscore cs AND ALSO if(cs >= 300 AND cs <= 579, 'Poor', if(cs >= 580 AND cs <= 669, 'Fair', if(cs >= 670 AND cs <= 739, 'Good', if(cs >= 740 AND cs <= 799, 'Very Good', if(cs >= 800 AND cs <= 850, 'Excellent', 'Unknown'))))) AS cat AND ALSO THE COUNT OF e GROUPED BY cat AS c AND ALSO THE AVERAGE cs GROUPED BY cat AS a"
+ },
+ {
+  "question_id": "credit_8",
+  "answer": "LIST seg, n, adti, atdsr, md FROM DISTINCT CoreRecord c has CoreRecordClientseg seg AND ALSO has CoreRecordDebincratio md AND ALSO has CoreRecordMthincome mi AND ALSO has CoreRecordPropfinancialdata p AND ALSO (md + jsonPath(p, '$.mortgagebits.mortbalance') / mi) AS tdsr AND ALSO THE RANK OF md WITHIN seg AS rk AND ALSO THE COUNT OF c WITHIN seg AS n AND ALSO THE AVERAGE md WITHIN seg AS adti AND ALSO THE AVERAGE tdsr WITHIN seg AS atdsr AND ALSO (atdsr * 1.0) AS ord WHERE rk = div(n + 1, 2) AND n > 10 ORDERED WITH ord DESCENDING"
+ }
+]

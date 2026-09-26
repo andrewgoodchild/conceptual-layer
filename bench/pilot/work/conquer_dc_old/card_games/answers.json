@@ -1,0 +1,57 @@
+[
+ {
+  "question_id": 422,
+  "answer": "LIST l FROM ForeignData [has ForeignDataMultiverseid: '149934'] has ForeignDataLanguage l",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": "LIST id, a FROM Card has CardId id AND ALSO has CardArtist a AND ALSO (has CardPower: '*' OR OTHERWISE (Card BUT NOT has CardPower)) AND ALSO is of Legality lg has LegalityFormat f AND ALSO lg has LegalityStatus s WHERE f = 'commander' AND s = 'Legal'",
+  "attempts": 8
+ },
+ {
+  "question_id": 473,
+  "answer": "",
+  "note": "No fact type connects Card to Set in this model. Card only has CardSetCode (a value type) and Set only has SetCode (a different value type); the schema listing has no reading between Card and Set (confirmed: 'has'/'is of' from Card, filtered to CardName, is ambiguous among Card's own value types and never reaches Set). Without that reading the question cannot be walked."
+ },
+ {
+  "question_id": 424,
+  "answer": "THE COUNT OF Card [has CardIsTextless: '1' AND ALSO has CardLayout: 'normal'] * 100 / THE COUNT OF Card [has CardIsTextless]",
+  "attempts": 2
+ },
+ {
+  "question_id": 344,
+  "answer": "LIST n FROM Card [has CardRarity: 'mythic'] has CardName n AND ALSO is of Legality lg has LegalityFormat f AND ALSO lg has LegalityStatus s WHERE f = 'gladiator' AND s = 'Banned'",
+  "attempts": 1
+ },
+ {
+  "question_id": 377,
+  "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] has CardSubtypes t WHERE t <> 'Angel'",
+  "attempts": 1
+ },
+ {
+  "question_id": 352,
+  "answer": "THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF Card",
+  "attempts": 1
+ },
+ {
+  "question_id": 518,
+  "answer": "LIST n, f FROM Card has CardName n AND ALSO is of Legality lg has LegalityFormat f AND ALSO lg has LegalityStatus s WHERE f = 'legacy' AND s = 'Banned'",
+  "attempts": 2
+ },
+ {
+  "question_id": 416,
+  "answer": "(THE COUNT OF Card [has CardPower: '*' OR OTHERWISE (Card BUT NOT has CardPower)] AND ALSO is of ForeignData fd has ForeignDataLanguage lang WHERE lang = 'French') * 100 / THE COUNT OF Card [has CardPower: '*' OR OTHERWISE (Card BUT NOT has CardPower)]",
+  "attempts": 3
+ },
+ {
+  "question_id": 349,
+  "answer": "LIST cid, n, a, p, c FROM Card has CardId cid AND ALSO has CardName n AND ALSO has CardArtist a AND ALSO has CardIsPromo p AND ALSO is of Ruling rl AND ALSO THE COUNT OF rl GROUPED BY cid AS c ORDERED WITH c DESCENDING THE FIRST 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 462,
+  "answer": "",
+  "note": "No fact type connects Card to Set in this model, so the set containing a named card cannot be reached, and therefore neither can the SetTranslation for that set. Same structural gap as question 473."
+ }
+]

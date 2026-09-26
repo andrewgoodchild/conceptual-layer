@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 201,
+  "answer": "THE COUNT OF Atom [has AtomElement: 'c'] [has Molecule is of Bond has BondType: '='] * 100 / THE COUNT OF Atom [has Molecule is of Bond has BondType: '=']",
+  "attempts": 2
+ },
+ {
+  "question_id": 239,
+  "answer": "THE COUNT OF b IN Connected [has ConnectedAtom has AtomId a] has Bond has BondId b WHERE like(a, 'TR%_19')",
+  "attempts": 3
+ },
+ {
+  "question_id": 243,
+  "answer": "LIST b FROM DISTINCT Bond [is of Connected [has ConnectedAtom has AtomElement: 'p'] [has ConnectedAtomid2 has AtomElement: 'n']] has BondId b",
+  "attempts": 2
+ },
+ {
+  "question_id": 234,
+  "answer": "THE COUNT OF Bond [has Molecule has MoleculeId: 'TR009'] [is of Connected has ConnectedAtom has AtomId: 'TR009_12']",
+  "attempts": 3
+ },
+ {
+  "question_id": 215,
+  "answer": "THE COUNT OF Atom [has AtomElement e] [has Molecule is of Bond has BondType: '-'] WHERE e = 'i' OR e = 's'",
+  "attempts": 2
+ },
+ {
+  "question_id": 230,
+  "answer": "LIST e, l FROM DISTINCT Atom [has Molecule has MoleculeId: 'TR060'] has AtomElement e AND ALSO has Molecule has MoleculeLabel l",
+  "attempts": 1
+ },
+ {
+  "question_id": 206,
+  "answer": "LIST e FROM DISTINCT Connected [has Bond has BondId: 'TR004_8_9'] has ConnectedAtom has AtomElement e",
+  "attempts": 2
+ },
+ {
+  "question_id": 212,
+  "answer": "LIST e FROM Atom a [has Molecule has MoleculeLabel: '-'] has AtomElement e AND ALSO THE COUNT OF a GROUPED BY e AS c ORDERED WITH c ASCENDING THE FIRST 1",
+  "attempts": 2
+ }
+]

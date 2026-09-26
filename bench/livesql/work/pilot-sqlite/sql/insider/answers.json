@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": "insider_8",
+  "answer": "WITH ev AS (\n  SELECT t.trdref AS tradereg\n  FROM transactionrecord t\n  LEFT JOIN sentimentandfundamentals s ON s.transref = t.transreg\n  GROUP BY t.trdref\n  HAVING AVG(CASE WHEN s.corpeventprx IS NOT NULL THEN 1.0 ELSE 0.0 END) > 0.3\n), vs AS (\n  SELECT DISTINCT tr.tradereg AS tradereg\n  FROM trader tr\n  JOIN ev ON ev.tradereg = tr.tradereg\n  JOIN transactionrecord t ON t.trdref = tr.tradereg\n  JOIN sentimentandfundamentals s ON s.transref = t.transreg\n  WHERE json_extract(tr.trading_performance, '$.risklevel.risklevel') = 'Aggressive'\n    AND ABS(s.newsscore - s.socscore) > 1.0\n)\nSELECT ROUND(AVG(t.modfreq / (1 - t.cancelpct)), 4) AS avg_omi\nFROM transactionrecord t\nJOIN vs ON vs.tradereg = t.trdref"
+ },
+ {
+  "question_id": "insider_6",
+  "answer": "SELECT e.penimp, COUNT(*) AS frequency\nFROM enforcementactions e\nJOIN investigationdetails i ON i.invdetreg = e.invdetref\nJOIN sentimentandfundamentals s ON s.sentreg = i.sentref\nWHERE s.infoleaksc > 50.0\n  AND s.corpeventprx IS NOT NULL\n  AND s.eventannotm IN ('Pre-market', 'Intraday')\n  AND (0.6 * i.behansc + 0.4 * i.netansc) > 70\nGROUP BY e.penimp\nORDER BY frequency DESC"
+ },
+ {
+  "question_id": "insider_10",
+  "answer": "WITH q AS (\n  SELECT MIN(json_extract(risk_indicators, '$.qstuffindex')) AS qmin,\n         MAX(json_extract(risk_indicators, '$.qstuffindex')) AS qmax\n  FROM transactionrecord\n), x AS (\n  SELECT json_extract(t.risk_indicators, '$.layerind') AS layering_status,\n         ( 0.2 * (json_extract(t.risk_indicators, '$.spoofprob') / 100.0)\n         + 0.2 * (json_extract(t.risk_indicators, '$.frontscore') / 100.0)\n         + 0.2 * ((json_extract(t.risk_indicators, '$.qstuffindex') - q.qmin) / (q.qmax - q.qmin))\n         + 0.2 * (CASE json_extract(t.risk_indicators, '$.washsus')\n                    WHEN 'Low' THEN 0.1 WHEN 'Medium' THEN 0.5 WHEN 'High' THEN 1.0 END)\n         + 0.2 * (CASE json_extract(t.risk_indicators, '$.layerind')\n                    WHEN 'None' THEN 0.0 WHEN 'Suspected' THEN 0.5 WHEN 'Confirmed' THEN 1.0 END)\n         ) AS sai,\n         (tr.voldaily / tr.acctbal)\n           * json_extract(tr.trading_performance, '$.risklevel.levratio')\n           * (t.modfreq / (1 - t.cancelpct)) AS ati\n  FROM transactionrecord t\n  JOIN trader tr ON tr.tradereg = t.trdref\n  CROSS JOIN q\n)\nSELECT layering_status, ROUND(AVG(sai * ati), 3) AS avg_ass\nFROM x\nWHERE layering_status IN ('Confirmed', 'Suspected')\nGROUP BY layering_status"
+ },
+ {
+  "question_id": "insider_9",
+  "answer": "SELECT e.enforcereg, e.traderestr\nFROM enforcementactions e\nJOIN compliancecase c ON c.compreg = e.compref2\nJOIN transactionrecord t ON t.transreg = c.transref\nJOIN trader tr ON tr.tradereg = t.trdref\nWHERE (e.penimp IN ('Fine', 'Ban') OR e.acttake = 'Suspension' OR e.busrestr = 'Full')\n  AND e.penamt / tr.acctbal > 0.1\n  AND tr.freqscope = 'High'\n  AND ((json_extract(tr.trading_performance, '$.risklevel.levratio') > 5.0\n        AND json_extract(tr.trading_performance, '$.risklevel.risklevel') = 'Aggressive')\n       OR tr.voldaily / tr.acctbal > 0.5)"
+ },
+ {
+  "question_id": "insider_3",
+  "answer": "SELECT tr.tradekind,\n       ROUND(AVG((tr.voldaily / tr.acctbal)\n                 * json_extract(tr.trading_performance, '$.risklevel.levratio')\n                 * (t.modfreq / (1 - t.cancelpct))), 2) AS avg_ati,\n       ROUND(AVG(1.0 / (1 + (c.prevviol / MAX(1.0, tr.acctdays / 365.0))\n                            * (CASE c.comprate WHEN 'A' THEN 1 WHEN 'B' THEN 2\n                                               WHEN 'C' THEN 3 WHEN 'D' THEN 4 END))), 2) AS avg_chs\nFROM trader tr\nJOIN transactionrecord t ON t.trdref = tr.tradereg\nJOIN compliancecase c ON c.transref = t.transreg\nGROUP BY tr.tradekind\nORDER BY AVG((tr.voldaily / tr.acctbal)\n             * json_extract(tr.trading_performance, '$.risklevel.levratio')\n             * (t.modfreq / (1 - t.cancelpct))) DESC"
+ },
+ {
+  "question_id": "insider_5",
+  "answer": "WITH cand AS (\n  SELECT DISTINCT tr.tradereg AS tradereg\n  FROM trader tr\n  JOIN transactionrecord t ON t.trdref = tr.tradereg\n  WHERE ((json_extract(tr.trading_performance, '$.risklevel.levratio') > 5.0\n          AND json_extract(tr.trading_performance, '$.risklevel.risklevel') = 'Aggressive')\n         OR tr.voldaily / tr.acctbal > 0.5)\n    AND (json_extract(t.risk_indicators, '$.layerind') = 'Confirmed'\n         OR (json_extract(t.risk_indicators, '$.spoofprob') > 0.75\n             AND t.modfreq / (1 - t.cancelpct) > 1.0))\n)\nSELECT ROUND(AVG(ABS(a.patsim - a.peercorr) / MAX(0.01, a.patsim)), 2) AS avg_updr\nFROM transactionrecord t\nJOIN cand ON cand.tradereg = t.trdref\nJOIN advancedbehavior a ON a.translink = t.transreg"
+ },
+ {
+  "question_id": "insider_2",
+  "answer": "SELECT t.transreg, t.trdref, t.transtime, s.infoleaksc,\n       ROUND(s.optvolrt * (1 + ABS(s.newsscore - s.socscore)) * s.infoleaksc, 2) AS sdlr\nFROM transactionrecord t\nJOIN sentimentandfundamentals s ON s.transref = t.transreg\nWHERE s.infoleaksc > 50.0\n  AND s.corpeventprx IS NOT NULL\n  AND s.eventannotm IN ('Pre-market', 'Intraday')\n  AND s.optvolrt * (1 + ABS(s.newsscore - s.socscore)) * s.infoleaksc > 1000"
+ },
+ {
+  "question_id": "insider_4",
+  "answer": "WITH nmr AS (\n  SELECT DISTINCT t.trdref AS tradereg\n  FROM transactionrecord t\n  JOIN advancedbehavior a ON a.translink = t.transreg\n  JOIN compliancecase c ON c.transref = t.transreg\n  JOIN investigationdetails i ON i.compref = c.compreg\n  WHERE ABS(a.patsim - a.peercorr) < 0.1\n    AND a.peercorr > 0.7\n    AND i.tcirclesz > 5 AND i.grpbehsc > 0.6 AND i.commpat = 'Regular'\n)\nSELECT c.compreg, ROUND(0.6 * i.behansc + 0.4 * i.netansc, 2) AS iii\nFROM compliancecase c\nJOIN transactionrecord t ON t.transreg = c.transref\nJOIN nmr ON nmr.tradereg = t.trdref\nJOIN investigationdetails i ON i.compref = c.compreg\nORDER BY iii DESC\nLIMIT 100"
+ },
+ {
+  "question_id": "insider_1",
+  "answer": "SELECT DISTINCT tr.tradereg\nFROM trader tr\nJOIN transactionrecord t ON t.trdref = tr.tradereg\nJOIN compliancecase c ON c.transref = t.transreg\nJOIN enforcementactions e ON e.compref2 = c.compreg\nWHERE ((json_extract(tr.trading_performance, '$.risklevel.levratio') > 5.0\n        AND json_extract(tr.trading_performance, '$.risklevel.risklevel') = 'Aggressive')\n       OR tr.voldaily / tr.acctbal > 0.5)\n  AND (e.penimp IN ('Fine', 'Ban') OR e.acttake = 'Suspension' OR e.busrestr = 'Full')\n  AND c.lastrevdt >= date((SELECT MAX(lastrevdt) FROM compliancecase), '-12 months')"
+ },
+ {
+  "question_id": "insider_7",
+  "answer": "WITH pms AS (\n  SELECT DISTINCT t.trdref AS tradereg\n  FROM transactionrecord t\n  JOIN advancedbehavior a ON a.translink = t.transreg\n  WHERE ABS(a.patsim - a.peercorr) < 0.1 AND a.peercorr > 0.7\n)\nSELECT CASE WHEN tr.tradereg IN (SELECT tradereg FROM pms) THEN 1 ELSE 0 END AS is_peer_mimicry_suspicion,\n       ROUND(AVG(json_extract(tr.trading_performance, '$.winpct')\n                 / MAX(1.0, json_extract(tr.trading_performance, '$.risklevel.levratio'))), 2) AS avg_rawr\nFROM trader tr\nGROUP BY is_peer_mimicry_suspicion"
+ }
+]

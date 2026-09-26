@@ -1,0 +1,5 @@
+{"database": "thrombosis_prediction",
+ "verdicts": [
+  {"id": "Examination.ID -> Patient.ID", "verdict": "yes", "reason": "Examination rows are per-patient (106 rows over 69 patients); ID values are large sparse patient numbers (14872 appears on both sides), not a nesting of small sequences, and the one shared ID column is how examinations point at their patient."},
+  {"id": "Laboratory.ID -> Patient.ID", "verdict": "yes", "reason": "Lab results are many-per-patient (13908 rows over 302 patients); ID values are the same large sparse patient identifiers (27654 on both sides), and a designer would declare Laboratory.ID as the patient reference."}
+ ]}

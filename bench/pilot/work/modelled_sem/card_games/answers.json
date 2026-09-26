@@ -1,0 +1,13 @@
+[
+ {"question_id": 422, "answer": "SELECT language FROM foreign_data WHERE multiverseid = 149934", "attempts": 1},
+ {"question_id": 346, "answer": "SELECT c.id, c.artist FROM cards c JOIN legalities l ON l.uuid = c.uuid WHERE (c.power IS NULL OR c.power = '*') AND l.format = 'commander' AND l.status = 'Legal'", "attempts": 1},
+ {"question_id": 473, "answer": "SELECT CASE WHEN s.isForeignOnly = 1 THEN 'Yes' ELSE 'No' END AS answer FROM sets s JOIN cards c ON c.setCode = s.code WHERE c.name = 'Adarkar Valkyrie'", "attempts": 1},
+ {"question_id": 424, "answer": "SELECT COUNT(CASE WHEN layout = 'normal' AND text IS NULL THEN 1 END) * 100.0 / COUNT(*) FROM cards", "attempts": 2},
+ {"question_id": 344, "answer": "SELECT DISTINCT c.name FROM cards c JOIN legalities l ON l.uuid = c.uuid WHERE c.rarity = 'mythic' AND l.format = 'gladiator' AND l.status = 'Banned'", "attempts": 1},
+ {"question_id": 377, "answer": "SELECT COUNT(*) FROM cards WHERE originalType = 'Summon - Angel' AND subtypes IS NOT NULL AND subtypes <> 'Angel'", "attempts": 1},
+ {"question_id": 352, "answer": "SELECT COUNT(*) * 100.0 / (SELECT COUNT(*) FROM cards) FROM foreign_data WHERE language = 'Chinese Simplified'", "attempts": 1},
+ {"question_id": 518, "answer": "SELECT DISTINCT l.format, c.name FROM legalities l JOIN cards c ON c.uuid = l.uuid WHERE l.status = 'Banned' AND l.format = (SELECT format FROM legalities WHERE status = 'Banned' GROUP BY format ORDER BY COUNT(*) DESC LIMIT 1)", "attempts": 1},
+ {"question_id": 416, "answer": "SELECT (SELECT COUNT(DISTINCT c.uuid) FROM cards c JOIN foreign_data f ON f.uuid = c.uuid WHERE (c.power IS NULL OR c.power = '*') AND f.language = 'French') * 100.0 / (SELECT COUNT(*) FROM cards WHERE power IS NULL OR power = '*')", "attempts": 1},
+ {"question_id": 349, "answer": "SELECT T1.name, T1.artist, T1.isPromo FROM cards AS T1 INNER JOIN rulings AS T2 ON T1.uuid = T2.uuid GROUP BY T1.uuid ORDER BY COUNT(T2.id) DESC LIMIT 1", "attempts": 1},
+ {"question_id": 462, "answer": "SELECT DISTINCT st.translation FROM cards c JOIN set_translations st ON st.setCode = c.setCode WHERE c.name = 'Ancestor''s Chosen' AND st.language = 'Italian'", "attempts": 1}
+]

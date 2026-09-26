@@ -1,0 +1,139 @@
+{
+ "arm": "sweep@0",
+ "gate": "+1to1+md1+mr1+t0@3.0",
+ "databases": {
+  "thrombosis_prediction": {
+   "truth": [
+    [
+     "examination",
+     "id",
+     "patient"
+    ],
+    [
+     "laboratory",
+     "id",
+     "patient"
+    ]
+   ],
+   "found": {
+    "rules@2.6": [
+     [
+      "examination",
+      "id",
+      "patient"
+     ],
+     [
+      "laboratory",
+      "id",
+      "patient"
+     ]
+    ],
+    "rules@3.0": [
+     [
+      "examination",
+      "id",
+      "patient"
+     ],
+     [
+      "laboratory",
+      "id",
+      "patient"
+     ]
+    ],
+    "rules@3.5": [],
+    "rules@4.0": [],
+    "+1to1@2.6": [
+     [
+      "examination",
+      "id",
+      "patient"
+     ],
+     [
+      "laboratory",
+      "id",
+      "patient"
+     ]
+    ],
+    "+1to1@3.0": [
+     [
+      "examination",
+      "id",
+      "patient"
+     ],
+     [
+      "laboratory",
+      "id",
+      "patient"
+     ]
+    ],
+    "+1to1@3.5": [],
+    "+1to1@4.0": [],
+    "+1to1+md1+mr1@2.6": [
+     [
+      "examination",
+      "id",
+      "patient"
+     ],
+     [
+      "laboratory",
+      "id",
+      "patient"
+     ]
+    ],
+    "+1to1+md1+mr1@3.0": [
+     [
+      "examination",
+      "id",
+      "patient"
+     ],
+     [
+      "laboratory",
+      "id",
+      "patient"
+     ]
+    ],
+    "+1to1+md1+mr1@3.5": [],
+    "+1to1+md1+mr1@4.0": [],
+    "+1to1+md1+mr1+t0@0.0": [
+     [
+      "examination",
+      "id",
+      "patient"
+     ],
+     [
+      "laboratory",
+      "id",
+      "patient"
+     ]
+    ],
+    "+1to1+md1+mr1+t0@2.0": [
+     [
+      "examination",
+      "id",
+      "patient"
+     ],
+     [
+      "laboratory",
+      "id",
+      "patient"
+     ]
+    ],
+    "+1to1+md1+mr1+t0@3.0": [
+     [
+      "examination",
+      "id",
+      "patient"
+     ],
+     [
+      "laboratory",
+      "id",
+      "patient"
+     ]
+    ],
+    "+1to1+md1+mr1+t0@3.5": [],
+    "+1to1+md1+mr1+t0@4.0": []
+   },
+   "secs": 0
+  }
+ }
+}

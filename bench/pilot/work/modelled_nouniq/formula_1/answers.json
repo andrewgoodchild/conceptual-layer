@@ -1,0 +1,68 @@
+[
+ {
+  "question_id": 930,
+  "answer": "SELECT r.name FROM results res JOIN races r ON res.raceId = r.raceId JOIN drivers d ON res.driverId = d.driverId WHERE d.forename = 'Lewis' AND d.surname = 'Hamilton' AND res.rank != 0 ORDER BY res.rank ASC LIMIT 1;",
+  "attempts": 3
+ },
+ {
+  "question_id": 1011,
+  "answer": "SELECT d.forename, d.surname FROM lapTimes lt JOIN drivers d ON lt.driverId = d.driverId WHERE lt.time = (SELECT MIN(time) FROM lapTimes);",
+  "attempts": 3,
+  "note": "'top 20' in the question text has no supporting clue in the evidence and does not correspond to any obvious column; treated as noise. Following the evidence literally (MIN(time), a text column), the string-minimum is '10:32.179' (Anthony Davidson), not the numerically shortest lap (which by milliseconds is 67411ms, a different lap) -- lexical comparison of 'M:SS.mmm'/'MM:SS.mmm' strings does not sort numerically. Answered per the evidence's literal MIN(time)."
+ },
+ {
+  "question_id": 909,
+  "answer": "SELECT CAST(SUM(CASE WHEN c.country = 'Germany' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) AS percentage FROM races r JOIN circuits c ON r.circuitId = c.circuitId WHERE r.name = 'European Grand Prix';",
+  "attempts": 2
+ },
+ {
+  "question_id": 892,
+  "answer": "SELECT d.forename, d.surname, ds.points FROM driverStandings ds JOIN drivers d ON ds.driverId = d.driverId ORDER BY ds.points DESC LIMIT 1;",
+  "attempts": 1
+ },
+ {
+  "question_id": 854,
+  "answer": "SELECT DISTINCT c.lat, c.lng FROM races r JOIN circuits c ON r.circuitId = c.circuitId WHERE r.name = 'Australian Grand Prix';",
+  "attempts": 1
+ },
+ {
+  "question_id": 898,
+  "answer": "SELECT forename, surname, (STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', dob)) AS age FROM drivers WHERE nationality = 'Japanese' ORDER BY dob DESC LIMIT 1;",
+  "attempts": 1
+ },
+ {
+  "question_id": 877,
+  "answer": "SELECT d.forename, d.surname FROM results res JOIN drivers d ON res.driverId = d.driverId WHERE res.raceId = 872 AND res.time IS NOT NULL AND res.time != '' ORDER BY d.dob DESC LIMIT 1;",
+  "attempts": 2
+ },
+ {
+  "question_id": 906,
+  "answer": "SELECT r.name, r.year, res.points FROM results res JOIN races r ON res.raceId = r.raceId JOIN drivers d ON res.driverId = d.driverId WHERE d.forename = 'Lewis' AND d.surname = 'Hamilton' ORDER BY r.year ASC, r.round ASC LIMIT 1;",
+  "attempts": 1
+ },
+ {
+  "question_id": 988,
+  "answer": "SELECT d.forename, d.surname, AVG(CAST(ps.duration AS REAL)) AS avg_duration FROM pitStops ps JOIN drivers d ON ps.driverId = d.driverId WHERE d.nationality = 'German' AND CAST(STRFTIME('%Y', d.dob) AS INTEGER) BETWEEN 1980 AND 1985 GROUP BY d.driverId, d.forename, d.surname ORDER BY avg_duration ASC LIMIT 3;",
+  "attempts": 1
+ },
+ {
+  "question_id": 881,
+  "answer": "SELECT CAST(SUM(CASE WHEN res.time IS NOT NULL AND res.time != '' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(res.driverId) AS completion_rate FROM results res JOIN races r ON res.raceId = r.raceId WHERE r.date = '1983-07-16';",
+  "attempts": 1
+ },
+ {
+  "question_id": 977,
+  "answer": "SELECT COUNT(*) FROM results WHERE raceId > 50 AND raceId < 100 AND statusId = 2 AND time IS NOT NULL AND time != '';",
+  "attempts": 1
+ },
+ {
+  "question_id": 915,
+  "answer": "SELECT nationality FROM drivers WHERE dob IS NOT NULL AND dob != '' ORDER BY dob ASC LIMIT 1;",
+  "attempts": 2
+ },
+ {
+  "question_id": 868,
+  "answer": "SELECT DISTINCT c.lat, c.lng FROM races r JOIN circuits c ON r.circuitId = c.circuitId WHERE r.name = 'Malaysian Grand Prix';",
+  "attempts": 1
+ }
+]

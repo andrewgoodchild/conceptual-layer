@@ -1,0 +1,46 @@
+[
+  {
+    "question_id": 422,
+    "answer": "LIST l FROM ForeignData [has ForeignDataMultiverseid: 149934] has ForeignDataLanguage l"
+  },
+  {
+    "question_id": 346,
+    "answer": "LIST u, a FROM Legality [has LegalityFormat: 'commander'] [has LegalityStatus: 'Legal'] has Card c AND ALSO c has CardUuid u AND ALSO OPTIONALLY c has CardArtist a AND ALSO OPTIONALLY c has CardPower p WHERE coalesce(p, '*') = '*'"
+  },
+  {
+    "question_id": 473,
+    "answer": "LIST v FROM Card [has CardName: 'Adarkar Valkyrie'] has CardSetCode sc AND ALSO THE MAXIMUM f IN Set [has SetCode: !sc] has SetIsForeignOnly f AS v"
+  },
+  {
+    "question_id": 424,
+    "answer": "LIST THE COUNT OF Card [has CardIsTextless: 1] [has CardLayout: 'normal'] * 100 / THE COUNT OF Card"
+  },
+  {
+    "question_id": 344,
+    "answer": "LIST n FROM Legality [has LegalityFormat: 'gladiator'] [has LegalityStatus: 'Banned'] has Card [has CardRarity: 'mythic'] has CardName n"
+  },
+  {
+    "question_id": 377,
+    "answer": "THE COUNT OF Card [has CardOriginalType: 'Summon - Angel'] [has CardSubtypes s] WHERE s <> 'Angel'"
+  },
+  {
+    "question_id": 352,
+    "answer": "LIST THE COUNT OF ForeignData [has ForeignDataLanguage: 'Chinese Simplified'] * 100 / THE COUNT OF ForeignData"
+  },
+  {
+    "question_id": 518,
+    "answer": "DEFINE Bans ::= LIST f, n FROM Legality [has LegalityStatus: 'Banned'] has LegalityFormat f AND ALSO THE COUNT OF f GROUPED BY f AS n\nLIST fmt, nm FROM Legality [has LegalityStatus: 'Banned'] has LegalityFormat fmt AND ALSO has Card has CardName nm AND ALSO fmt has Bans BansN n WHERE n = THE MAXIMUM LegalityFormat has Bans BansN"
+  },
+  {
+    "question_id": 416,
+    "answer": "LIST (THE COUNT OF ForeignData [has ForeignDataLanguage: 'French'] [has Card] BUT NOT [has Card has CardPower p WHERE NOT p = '*']) * 100 / (THE COUNT OF ForeignData [has Card] BUT NOT [has Card has CardPower q WHERE NOT q = '*'])"
+  },
+  {
+    "question_id": 349,
+    "answer": "LIST n, a, p FROM Card c has CardName n AND ALSO has CardArtist a AND ALSO has CardIsPromo p AND ALSO is of Ruling r AND ALSO THE COUNT OF r GROUPED BY c AS k ORDERED WITH k DESCENDING THE FIRST 1"
+  },
+  {
+    "question_id": 462,
+    "answer": "LIST tr FROM SetTranslation [has SetTranslationLanguage: 'Italian'] has SetTranslationTranslation tr AND ALSO has Set has SetCode c WHERE SOME Card [has CardSetCode: !c] [has CardName: 'Ancestor''s Chosen']"
+  }
+]

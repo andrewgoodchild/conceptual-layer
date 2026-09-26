@@ -1,0 +1,53 @@
+[
+ {
+  "question_id": 1115,
+  "answer": "SELECT (MAX(CASE WHEN p.player_name='Landon Donovan' THEN pa.overall_rating END) - MAX(CASE WHEN p.player_name='Jordan Bowery' THEN pa.overall_rating END)) * 100.0 / MAX(CASE WHEN p.player_name='Landon Donovan' THEN pa.overall_rating END) AS pct FROM Player p JOIN Player_Attributes pa ON p.player_api_id = pa.player_api_id WHERE p.player_name IN ('Landon Donovan','Jordan Bowery') AND pa.date LIKE '2013-07-12%';",
+  "attempts": 2
+ },
+ {
+  "question_id": 1134,
+  "answer": "SELECT (SELECT jumping FROM Player_Attributes WHERE id = 6) - (SELECT jumping FROM Player_Attributes WHERE id = 23) AS diff;",
+  "attempts": 2
+ },
+ {
+  "question_id": 1135,
+  "answer": "SELECT DISTINCT player_api_id FROM Player_Attributes WHERE preferred_foot = 'right' ORDER BY potential ASC LIMIT 4;",
+  "attempts": 2
+ },
+ {
+  "question_id": 1124,
+  "answer": "SELECT DISTINCT p.player_name FROM Player p JOIN Player_Attributes pa ON p.player_api_id = pa.player_api_id WHERE pa.attacking_work_rate = 'high';",
+  "attempts": 2
+ },
+ {
+  "question_id": 1107,
+  "answer": "SELECT MIN(pa.date) AS first_date FROM Player p JOIN Player_Attributes pa ON p.player_api_id = pa.player_api_id WHERE p.player_name = 'Kevin Constant' AND pa.crossing = (SELECT MAX(pa2.crossing) FROM Player_Attributes pa2 WHERE pa2.player_api_id = p.player_api_id);",
+  "attempts": 2
+ },
+ {
+  "question_id": 1094,
+  "answer": "SELECT (MAX(CASE WHEN p.player_name='Ariel Borysiuk' THEN pa.overall_rating END) - MAX(CASE WHEN p.player_name='Paulin Puel' THEN pa.overall_rating END)) * 100.0 / MAX(CASE WHEN p.player_name='Paulin Puel' THEN pa.overall_rating END) AS pct FROM Player p JOIN Player_Attributes pa ON p.player_api_id = pa.player_api_id WHERE p.player_name IN ('Ariel Borysiuk','Paulin Puel');",
+  "attempts": 2,
+  "note": "Both players have many Player_Attributes rows over time with no date given in the question; used MAX(overall_rating) per player as the representative value since the question specifies no particular date."
+ },
+ {
+  "question_id": 1110,
+  "answer": "SELECT ta.buildUpPlayPassingClass FROM Team t JOIN Team_Attributes ta ON t.team_api_id = ta.team_api_id WHERE t.team_long_name = 'FC Lorient' AND ta.date LIKE '2010-02-22%';",
+  "attempts": 1
+ },
+ {
+  "question_id": 1130,
+  "answer": "SELECT DISTINCT t.team_short_name FROM Team t JOIN Team_Attributes ta ON t.team_api_id = ta.team_api_id WHERE ta.chanceCreationPassingClass = 'Safe';",
+  "attempts": 2
+ },
+ {
+  "question_id": 1116,
+  "answer": "SELECT player_name FROM Player WHERE height = (SELECT MAX(height) FROM Player);",
+  "attempts": 1
+ },
+ {
+  "question_id": 1044,
+  "answer": "SELECT player_name FROM Player WHERE substr(birthday,1,4) = '1970' AND substr(birthday,6,2) = '10';",
+  "attempts": 1
+ }
+]

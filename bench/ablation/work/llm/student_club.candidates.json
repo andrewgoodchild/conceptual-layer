@@ -1,0 +1,256 @@
+{
+ "database": "student_club",
+ "tables": [
+  "attendance",
+  "budget",
+  "event",
+  "expense",
+  "income",
+  "major",
+  "member",
+  "zip_code"
+ ],
+ "candidates": [
+  {
+   "id": "attendance.link_to_event -> event.event_id",
+   "source_table": "attendance",
+   "source_column": "link_to_event",
+   "target_table": "event",
+   "target_key": "event_id",
+   "source_rows": 326,
+   "source_distinct": 17,
+   "target_rows": 42,
+   "score": 3.76,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "rec2N69DMcrqN9PJC",
+    "rec5XDvJLyxDsGZWc",
+    "recEVTik3MlqbvLFi",
+    "recGxVCwaLW3mDIa3",
+    "recI43CzsZ0Q625ma"
+   ],
+   "target_samples": [
+    "rec0Si5cQ4rJRVzd6",
+    "rec0akZnLLpGUloLH",
+    "rec0dZPcWXF0QjNnE",
+    "rec180D2MI4EpckHy",
+    "rec2N69DMcrqN9PJC"
+   ]
+  },
+  {
+   "id": "attendance.link_to_member -> member.member_id",
+   "source_table": "attendance",
+   "source_column": "link_to_member",
+   "target_table": "member",
+   "target_key": "member_id",
+   "source_rows": 326,
+   "source_distinct": 30,
+   "target_rows": 33,
+   "score": 4.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "recD078PnS3x2doBe",
+    "recP6DJPyi5donvXL",
+    "rec28ORZgcm1dtqBZ",
+    "recTjHY5xXhvkCdVT",
+    "recZ4PkGERzl9ziHO"
+   ],
+   "target_samples": [
+    "rec1x5zBFIqoOuPW8",
+    "rec280Sk7o31iG0Tx",
+    "rec28ORZgcm1dtqBZ",
+    "rec2a03QXbFQAUZ7X",
+    "rec3pH4DxMcWHMRB7"
+   ]
+  },
+  {
+   "id": "budget.link_to_event -> event.event_id",
+   "source_table": "budget",
+   "source_column": "link_to_event",
+   "target_table": "event",
+   "target_key": "event_id",
+   "source_rows": 52,
+   "source_distinct": 23,
+   "target_rows": 42,
+   "score": 3.83,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "recI43CzsZ0Q625ma",
+    "recggMW2eyCYceNcy",
+    "recJ4Witp9tpjaugn",
+    "recHaMmaKyfktt5fW",
+    "recs4x1BYWAsU2SKg"
+   ],
+   "target_samples": [
+    "rec0Si5cQ4rJRVzd6",
+    "rec0akZnLLpGUloLH",
+    "rec0dZPcWXF0QjNnE",
+    "rec180D2MI4EpckHy",
+    "rec2N69DMcrqN9PJC"
+   ]
+  },
+  {
+   "id": "expense.link_to_member -> member.member_id",
+   "source_table": "expense",
+   "source_column": "link_to_member",
+   "target_table": "member",
+   "target_key": "member_id",
+   "source_rows": 32,
+   "source_distinct": 3,
+   "target_rows": 33,
+   "score": 3.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "rec4BLdZHS2Blfp4v",
+    "recro8T1MPMwRadVH",
+    "recD078PnS3x2doBe"
+   ],
+   "target_samples": [
+    "rec1x5zBFIqoOuPW8",
+    "rec280Sk7o31iG0Tx",
+    "rec28ORZgcm1dtqBZ",
+    "rec2a03QXbFQAUZ7X",
+    "rec3pH4DxMcWHMRB7"
+   ]
+  },
+  {
+   "id": "expense.link_to_budget -> budget.budget_id",
+   "source_table": "expense",
+   "source_column": "link_to_budget",
+   "target_table": "budget",
+   "target_key": "budget_id",
+   "source_rows": 32,
+   "source_distinct": 24,
+   "target_rows": 52,
+   "score": 3.82,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "recvKTAWAFKkVNnXQ",
+    "recy8KY5bUdzF81vv",
+    "recwXIiKoBMjXJsGZ",
+    "recsI0IzpUuxl2bPh",
+    "recTUGXxhTaFZ2qkg"
+   ],
+   "target_samples": [
+    "rec0QmEc3cSQFQ6V2",
+    "rec1bG6HSft7XIvTP",
+    "rec1z6ISJU2HdIsVm",
+    "rec33PFqxLtnp80RJ",
+    "rec4DYUKBHMPZXWB2"
+   ]
+  },
+  {
+   "id": "income.link_to_member -> member.member_id",
+   "source_table": "income",
+   "source_column": "link_to_member",
+   "target_table": "member",
+   "target_key": "member_id",
+   "source_rows": 36,
+   "source_distinct": 31,
+   "target_rows": 33,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "reccW7q1KkhSKZsea",
+    "recTjHY5xXhvkCdVT",
+    "recUdRhbhcEO1Hk5r",
+    "rec3pH4DxMcWHMRB7",
+    "rec28ORZgcm1dtqBZ"
+   ],
+   "target_samples": [
+    "rec1x5zBFIqoOuPW8",
+    "rec280Sk7o31iG0Tx",
+    "rec28ORZgcm1dtqBZ",
+    "rec2a03QXbFQAUZ7X",
+    "rec3pH4DxMcWHMRB7"
+   ]
+  },
+  {
+   "id": "member.zip -> zip_code.zip_code",
+   "source_table": "member",
+   "source_column": "zip",
+   "target_table": "zip_code",
+   "target_key": "zip_code",
+   "source_rows": 33,
+   "source_distinct": 33,
+   "target_rows": 41877,
+   "score": 3.01,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "55108",
+    "29440",
+    "10002",
+    "8021",
+    "48236"
+   ],
+   "target_samples": [
+    "501",
+    "544",
+    "601",
+    "602",
+    "603"
+   ]
+  },
+  {
+   "id": "member.link_to_major -> major.major_id",
+   "source_table": "member",
+   "source_column": "link_to_major",
+   "target_table": "major",
+   "target_key": "major_id",
+   "source_rows": 33,
+   "source_distinct": 26,
+   "target_rows": 113,
+   "score": 3.62,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "recxK3MHQFbR9J5uO",
+    "rec7BxKpjJ7bNph3O",
+    "recdIBgeU38UbV2sy",
+    "recaJdSK83k6ekRJL",
+    "recCk8lCDOTRp6rKN"
+   ],
+   "target_samples": [
+    "rec06DF6vZ1CyPKpc",
+    "rec09LedkREyskCNv",
+    "rec0Eanv576RhQllI",
+    "rec0xRZtkzxrg8kj2",
+    "rec1N0upiVLy5esTO"
+   ]
+  }
+ ]
+}
