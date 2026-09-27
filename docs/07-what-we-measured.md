@@ -360,6 +360,14 @@ essential" -- and the scores did not move: 28 with the meanings and 28 without, 
 everything. Without the one blocked cell the full set was 26 of 50 against 24 for the plain
 DDL, the only direction in four rounds that favours the layer, inside the noise.
 
+**Retrieval was not the bottleneck** (finding 170). Of 538 wrong answers across the four
+rounds, 53% used every table, column and JSON field the gold used and still answered
+something else. The rest did leave out a gold table or column -- but on those same questions
+the writer with the whole DDL in front of it made the same kind of miss 50 times in 55 and
+got the question right once: the misses are choices of which table or column holds the
+answer, not failures to find one. A better selector of the model's parts -- BM25, a Steiner
+tree, Bird's abstraction -- would help a one-shot writer that cannot widen its view, not these.
+
 Read together: at this scale, for agents that can query the database, the layer tells them
 what they would have found, and the misses are how a question is meant to be read -- the
 grain of a result, the base of a percentage, age at the event or today, a sort order left

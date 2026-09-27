@@ -5644,3 +5644,32 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      query the database, no description of the schema -- the model's, the benchmark's, or an
      LLM's from a profile -- and no linking, value index or pre-derived term changes how many
      answers are right. What decides them is how each question is meant to be read.
+
+170. **The misses at scale were readings, not retrieval. Of 538 wrong answers across the four
+     scale rounds, 53% used every table, column and JSON field the gold used and still answered
+     something else; and the misses that did leave out a gold table or column were made just
+     as often by the writer who could see the whole schema.**
+
+     `livesql/misses.py` puts every wrong answer beside the gold and classifies it: no answer
+     or an error (21, 4%); the answer does not use every table the gold uses (117, 22%); it
+     does, but not every gold column or JSON field (116, 22%); it uses all of them and differs
+     in a filter, grain, formula, order or rounding (284, 53%). The test is lexical, so a
+     column named but misused counts as used.
+
+     Taken at face value, 44% would be retrieval -- what BM25, a Steiner tree over the model or
+     Bird's abstraction could fix. The control says otherwise. In `SCALE.md` the `sql` arm had
+     the full DDL in a file and saw every table. On the questions where a narrowed arm left out
+     a gold table, the full-DDL writer left out a gold table too on 16 of 17 (`sqlddlk`) and 15
+     of 17 (`sqldesc`), and got the question right once in 34. Where a narrowed arm left out a
+     gold column, the full-DDL writer did the same on 9 of 10 and 10 of 11, and got none right.
+     These are choices -- the standings table for a podium, the stored rate or the computed
+     one, the panel model's route -- made the same way whether or not the other option was on
+     screen. In SCALE3 and SCALE4 the view for the question's own text lacked a gold table for
+     155 of 240 misses, and the misses were no fewer where it had them all; writers widened the
+     view or queried the catalogue.
+
+     So retrieval accounts for at most about one wrong answer in a hundred here, and a better
+     selector of the model's parts would not move these scores. It would matter to a one-shot
+     writer that cannot widen its view -- which is where the published gains from linking come
+     from. `misses.py` prints counts only; the per-question classification uses the private gold
+     and is not committed.
