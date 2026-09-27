@@ -5673,3 +5673,46 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      writer that cannot widen its view -- which is where the published gains from linking come
      from. `misses.py` prints counts only; the per-question classification uses the private gold
      and is not committed.
+
+171. **Why each answer at scale was wrong, question by question: none because the conceptual
+     model was wrong. Most because the benchmark's gold or scorer was.**
+
+     `livesql/diagnose.py` built, for every SCALE4 question some arm got wrong (39 questions,
+     132 wrong answers), the gold, each arm's answer and result, the writers' reports, the
+     knowledge base, the database, and the reverse-engineered model and view. Six analyst
+     agents -- allowed to read the gold, as the writers were not -- diffed each wrong result
+     against the gold, pinned the difference, checked whether the model and view carried the
+     deciding fact and whether it was true, and gave the cause and the fix.
+
+     | primary cause | questions | wrong answers |
+     |---|---|---|
+     | the gold contradicts the question or the knowledge base, or has a defect | 18 | 71 |
+     | scoring: the answer is right but fails on tie order, rounding or an extra column | 7 | 25 |
+     | the knowledge base leaves the deciding point undefined | 4 | 16 |
+     | the question admits several readings; the gold took one | 5 | 15 |
+     | writer error (four of the five: the `annl` writer blocked on `sports_events`) | 5 | 5 |
+     | the model or view said something false | 0 | 0 |
+     | the model lacked a fact the rows or catalogue held, and that decided it | 0 | 0 |
+
+     Three quarters of the wrong answers are the benchmark's: gold that contradicts its own
+     knowledge base (a definition that says "greater than" answered with "at least"; a formula
+     that divides by *n* answered with the sample deviation; a key misspelt inside a JSON path so
+     one rating always scores zero; integer division that truncates a quantity; missing data
+     scored as zero; a probability returned as a percentage), and a scorer that fails right
+     answers on the order of rows tied on the sort key, on a rounding difference of 1e-9, or on
+     an identifying column the question asked for. The four arms made the same choices on
+     almost every one: the writers were largely right. The remaining quarter is undefined terms
+     and open readings, which only a person can settle.
+
+     **Model defects found**, none of which decided an answer: the constant-column caution that
+     counted non-null rows only (fixed, finding 169); no link between tables that share a
+     project-and-crew pair unique in each -- the one-to-one join every archeology writer found
+     by trial; unrelated measures (an area, a weight) grouped under one value-type name; no
+     note that a flag is null exactly where the measurement it qualifies is null; no coverage
+     note when a child table covers 1% of its parent; no note that a child table has one row
+     per parent pair 94% of the time; and a view that chose tables from the question's words,
+     missing the tables behind a knowledge-base formula (writers widened it every time).
+
+     **What it says.** Measured on this benchmark, the ceiling is not the layer, the model or
+     the writer. The per-question diagnoses cite the gold and stay local
+     (`work/pilot-scale4/diagnose/`, git-ignored); this summary names no question.

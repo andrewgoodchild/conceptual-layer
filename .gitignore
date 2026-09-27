@@ -108,3 +108,4 @@ bench/livesql/work/pilot-scale4/links/
 bench/livesql/work/pilot-scale4/describe/
 bench/livesql/work/pilot-scale4/link/
 bench/livesql/work/pilot-scale4/verdicts.json
+bench/livesql/work/pilot-scale4/diagnose/

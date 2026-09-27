@@ -368,6 +368,13 @@ got the question right once: the misses are choices of which table or column hol
 answer, not failures to find one. A better selector of the model's parts -- BM25, a Steiner
 tree, Bird's abstraction -- would help a one-shot writer that cannot widen its view, not these.
 
+**And most of the misses were not the writers'** (finding 171). Question by question, with the
+gold, the model and the data side by side: of 132 wrong answers in the fourth round, 71 were
+against gold that contradicts its own knowledge base or has a defect, 25 were right answers
+failed by the scorer on tie order or rounding, and 31 turned on terms the knowledge base leaves
+undefined or questions with more than one reading. None was caused by something the
+reverse-engineered model stated falsely, or by a fact it lacked.
+
 Read together: at this scale, for agents that can query the database, the layer tells them
 what they would have found, and the misses are how a question is meant to be read -- the
 grain of a result, the base of a percentage, age at the event or today, a sort order left
