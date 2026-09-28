@@ -73,7 +73,7 @@ the same thing scoped to a single query.
 
 **BIRD / Spider 2.0 / LiveSQLBench** — text-to-SQL benchmarks. All ship gold SQL; a large
 fraction of it is contestable, which
-[7](07-what-we-measured.md#the-benchmarks-are-shakier-than-the-systems) measures rather than
+[7](07-what-we-measured.md#what-is-wrong-with-the-benchmarks) measures rather than
 assumes. LiveSQLBench's schemas are the enterprise kind — dozens of tables, JSON columns, a
 knowledge base of definitions handed to every competitor — and it is where the layer's value
 finally showed.
@@ -81,4 +81,4 @@ finally showed.
 **Identification** — what names an instance of a type: the value the schema refers to it by.
 `--schema` prints it for every type, because a writer asked for "the customer ID" otherwise
 picks whichever id-shaped column sounds right, and there are usually several
-([7](07-what-we-measured.md#a-second-benchmark-where-the-schemas-are-worse)).
+([7](07-what-we-measured.md#on-livesqlbenchs-sqlite-tier-where-the-schemas-are-worse)).

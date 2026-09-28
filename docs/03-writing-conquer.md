@@ -359,7 +359,7 @@ And before writing anything, `--schema`: its *Identification* section says what 
 an instance of each type and which columns hold it. Asked for "the customer's ID", list that
 value — a type often has several id-shaped values, and only one is what every other table
 calls the instance. This was the single largest lever measured on real schemas
-([7](07-what-we-measured.md#a-second-benchmark-where-the-schemas-are-worse)).
+([7](07-what-we-measured.md#on-livesqlbenchs-sqlite-tier-where-the-schemas-are-worse)).
 
 ## What is not there
 

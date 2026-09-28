@@ -5,18 +5,150 @@ language that can only say things the model supports, would help a language mode
 correct queries — and that the queries it *refused* would be the difference.
 
 It was tested. The thesis did not survive. This page is what was actually found, including the
-parts that argue against the thing being built.
+parts that argue against the thing being built. It is in four parts: the benchmarks used, what
+is wrong with them, what the published research says, and then how the conceptual layer and
+the language did against that background.
 
-## The experiment
+## The benchmarks
 
-A hundred questions from [BIRD](https://bird-bench.github.io/) mini-dev, stratified across
-eleven databases, each answered by a fresh agent that had never seen this repository. Every arm
+Three public text-to-SQL benchmarks were used, all from the field's standard set. None of their
+questions, databases or gold queries are in this repository; `NOTICE` says why and
+[`bench/README.md`](../bench/README.md) says how to fetch them.
+
+**BIRD** ([Li et al., NeurIPS 2023](https://bird-bench.github.io/)) is the benchmark most
+text-to-SQL work reports on: natural-language questions over real SQLite databases, each paired
+with a gold SQL statement and scored by *execution accuracy* -- the answer is right when it
+returns the same rows as the gold. Each question also ships a line of "evidence": what a code
+means, which column a term is, sometimes the formula. This project used the **mini-dev** set --
+500 questions over 11 databases of about seven tables each -- and took 100 of them, stratified
+across the eleven, for every arm. BIRD's schemas are small and tidy enough for a writer to read
+whole.
+
+**LiveSQLBench** (from the BIRD team; [`bench/livesql/`](../bench/livesql/README.md)) is the
+enterprise kind, built to be contamination-free and refreshed over time. Its databases are
+larger and messier -- undocumented `jsonb` columns, codes spelled several ways, filler tables
+-- and instead of per-question evidence each database ships a **hierarchical knowledge base**
+of 30 to 95 business definitions, many as formulas, and a description of every column. Two
+tiers were used. The **SQLite tier** (base-lite): 180 `SELECT` questions over 18 databases,
+with a gold that the benchmark sends on request and that can be scored offline. The
+**PostgreSQL tier** (Large-v1): about 54 tables and 980 columns per database -- 30,000 to
+55,000 tokens of DDL -- where a writer has to find the part of the schema a question needs.
+Its gold is private, sent on request, and never leaves the local machine here.
+
+**Spider 2.0** ([Lei et al., ICLR 2025](https://github.com/xlang-ai/Spider2)) is the
+enterprise-workflow benchmark, most of it on Snowflake and BigQuery. Only its 30 local SQLite
+databases were used, offline ([`bench/spider2-trial/`](../bench/spider2-trial/README.md)): to
+test the reverse engineer on schemas nobody here had seen, and to ask whether the gold
+reproduces itself. It was not run as a scored benchmark.
+
+**How every round was run.** Each arm is a set of fresh agent writers that have never seen this
+repository, one per database, given the questions, the benchmark's own knowledge (evidence or
+knowledge base), whatever the arm adds, and a read-only runner to try their queries on the real
+database -- never the gold. Arms differ in one thing each and share questions, so they are
+compared *paired*, with McNemar's exact test on the questions where they disagree. From the
+PostgreSQL tier on, every round's plan, prediction and kill criterion was committed before any
+writer ran. Everything is reproducible from the scripts under [`bench/`](../bench/README.md).
+
+**Two numbers to read everything else by.** Three writers with an identical prompt on BIRD
+scored 71, 69 and 68 of 100: **run-to-run noise is about three points**, and at the
+disagreement rates seen here a true one-point difference would need on the order of 1,500
+questions to detect. On the PostgreSQL tier's rounds of 40 to 100 questions, a difference under
+about five is not distinguishable from noise.
+
+## What is wrong with the benchmarks
+
+A score is only as good as the gold it is scored against, and the field has been finding out
+how poor the gold is. Jin, Choi, Zhu and Kang re-annotated two of the most-used benchmarks and
+found errors -- a wrong gold query, an ambiguous question, a gold that contradicts its own
+evidence -- in **52.8% of BIRD mini-dev** and **66.1% of Spider 2.0-Snow**; re-scoring five
+leading BIRD systems on the corrected set moved them by −3% to +31% relative and reordered the
+leaderboard by up to three places ([*Text-to-SQL Benchmarks are Broken*, CIDR
+2026](https://www.vldb.org/cidrdb/papers/2026/p5-jin.pdf)). Wretblad et al. found noise in up
+to 49% of one BIRD domain's questions, enough to underestimate a system's accuracy by up to
+17.6% ([ACL 2024](https://aclanthology.org/2024.acl-short.34/)). And Shkapenyuk et al. point out
+that BIRD's per-question evidence is an oracle no real deployment has -- the hint is often the
+query ([arXiv:2505.19988](https://arxiv.org/abs/2505.19988)).
+
+This project measured the same thing on every benchmark it touched.
+
+- **Spider 2.0's gold does not reproduce itself.** Running its own gold SQL on its own
+  databases and grading with its own evaluator, it matches its recorded answer on **14 of 23**
+  gradable local tasks. For one task the shipped answer file holds championship winners and the
+  shipped SQL sums points; another ships two accepted answers that contradict each other.
+  `bench/spider2-trial/calibrate.py` asks that question of any benchmark.
+- **BIRD's ceiling is the gold's reading.** The oracle over every arm run on the hundred
+  questions is 82: eighteen questions no arm ever got right, most of them the gold's reading of
+  an ambiguous question rather than an authoring failure.
+- **LiveSQLBench's SQLite tier.** Of the 98 questions both arms still got wrong, a SQL writer
+  and a ConQuer writer -- two languages, no contact -- returned *byte-identical* wrong rows on
+  59. The ones checked by hand were the gold's error: a variance labelled a standard deviation,
+  integer division that truncates on every row, join rows counted as entities.
+- **LiveSQLBench's PostgreSQL tier, question by question** (finding 171). Every wrong answer in
+  the last round was set beside the gold, the data and the model, and its cause found:
+
+  | cause | wrong answers, of 132 |
+  |---|---|
+  | the gold contradicts the question or the knowledge base, or has a defect | 71 |
+  | the scorer failed a right answer on tie order, rounding or an extra column | 25 |
+  | the knowledge base leaves the deciding term undefined | 16 |
+  | the question admits several readings; the gold took one | 15 |
+  | the writer's error (four of five: one writer the tooling blocked) | 5 |
+
+  The gold's defects are ordinary ones: a definition that says "greater than" answered with
+  "at least"; a formula that divides by *n* answered with the sample deviation; a key misspelt
+  inside a JSON path, so one rating always scores zero; integer division that truncates a
+  quantity; missing data scored as zero; a probability returned as a percentage. The scorer's
+  are execution accuracy's: rows tied on the sort key compared in an arbitrary order, and a
+  float sum that differs in the ninth significant figure. The knowledge bases are closer to
+  reality than per-question hints and have their own faults -- terms used and never defined,
+  and in one database thirteen definitions from an unrelated domain.
+
+So absolute scores on these benchmarks understate what the writers did, and differences
+between systems of a few points are as likely to be which gold errors each happened to match
+as anything about the systems. Everything below is therefore reported as *paired* comparisons
+on the same questions in the same run, never against a leaderboard number.
+
+## What the research says
+
+**Describing the database helps a writer that cannot look at it.** Sequeda, Allemang and Jacob
+put an ontology and mappings -- a conceptual layer by another name -- over an enterprise
+insurance schema and took GPT-4 zero-shot from 16% to 54% ([GRADES-NDA
+2024](https://arxiv.org/abs/2311.07509)). BIRD's own evidence raises accuracy by double
+digits. Shkapenyuk et al. topped BIRD without hints on metadata extracted automatically:
+49.8% with no column descriptions, 59.6 with BIRD's, 61.2 with descriptions an LLM wrote from a
+column profile, 63.2 with both ([arXiv:2505.19988](https://arxiv.org/abs/2505.19988)).
+Descriptions that only restate the schema gain under a point (Gao and Luo,
+[arXiv:2502.20657](https://arxiv.org/abs/2502.20657)).
+
+**Picking the right part of the schema is the lever the leaderboards agree on.** Every system at
+the front of BIRD and Spider 2.0 spends most of its effort on schema linking -- CHESS retrieves
+values and prunes the schema before writing ([Talaei et al.,
+2024](https://arxiv.org/abs/2405.16755)); Shkapenyuk et al. link by drafting the query and
+report 63.2 for their linking against 69.0 for perfect linking. **How you ask matters too:**
+CHASE-SQL generates candidates with different reasoning strategies and has a selector choose.
+
+**What these share** is a writer that generates from the prompt alone, for which the
+description and the linked schema are the only window onto the database. The condition this
+repository adds is the other one -- an agent with a runner, that can query the catalogue, look
+at the values and try its answer before giving it -- and that turns out to be the condition
+under which most of the published gains shrink.
+
+## How the conceptual layer did
+
+What follows is measured against that background: paired arms on the benchmarks above, the gold
+withheld from every writer, and every claim read against three points of noise on BIRD and
+about five on the PostgreSQL tier's rounds.
+
+### On BIRD: the experiment
+
+A hundred questions from BIRD mini-dev, stratified across the eleven databases, each answered
+by a fresh agent that had never seen this repository. Every arm
 got the same attempt budget and the same test-your-answer loop; the gold SQL was withheld.
 Arms differ in exactly one thing each, which is what makes them comparable.
 
 Everything below is reproducible: `bench/fetch.sh`, `bench/run.sh`, then `bench/pilot/`.
 
-## The head-to-head is a tie
+### The head-to-head is a tie
 
 | arm | of 100 |
 |---|---|
@@ -41,7 +173,7 @@ this project's own earlier ones.
 Only 11 of 100 questions discriminate the two languages at all. A model taught ConQuer from a
 one-page primer wrote it about as accurately as it wrote SQL, in 1.71 attempts against 1.25.
 
-## The semantic-layer gain is real, and it is not the language's
+### The semantic-layer gain is real, and it is not the language's
 
 Every BIRD question ships a line of "evidence" — what a code means, which column a term is,
 sometimes a formula. Withholding it costs **14 points** for a SQL writer and 16 for a ConQuer
@@ -74,7 +206,7 @@ Two details worth keeping:
 - A *wrong* definition is wrong everywhere it is used. Three answers were lost that way. A
   definition that compiles and runs is not yet a definition that is right.
 
-## How you ask
+### How you ask
 
 Every arm above changes the *inputs* — the language, the definitions, the writer. One arm
 changes the **method**, and it is the only thing in this project that moved accuracy by more
@@ -114,7 +246,7 @@ So the ingredient transfers and the mechanism does not: better strategies raised
 rather than spreading the candidates. If you are choosing where to spend effort, spend it on
 one good method rather than on three samples and a referee.
 
-## The refusals never fire
+### The refusals never fire
 
 This was the architectural argument for the whole exercise: a conceptual query language can
 refuse queries that are well-formed and meaningless — the fan trap, a value equated with an
@@ -145,7 +277,7 @@ The author caught it by reading the row count.
 The honest conclusion is the opposite of the thesis: **what helps the author is the loop — run
 it, look at the rows — not the refusals.**
 
-## The reverse engineering is measured like the literature measures it
+### The reverse engineering is measured like the literature measures it
 
 Strip the declared keys out of a schema that has them, ask the inference to recover them, and
 score it. Jiang & Naumann's HoPF (JIIS 54:439–461, 2020) is the bar, at 88% of primary keys
@@ -173,11 +305,9 @@ Recall on foreign keys is the weak spot, and scoring against *declared* referenc
 it: dozens more proposals land on columns the schema declares nothing for, and some of those
 are omissions in the schema rather than mistakes in the inference. They are counted apart.
 
-## Schema linking: the lever the leaderboards agree on
+### Schema linking: the lever the leaderboards agree on
 
-Every system at the front of BIRD and Spider 2.0 spends most of its effort on one thing —
-picking the part of the schema a question is about before writing anything. A conceptual model
-is a better thing to link against than a DDL, for three reasons that cost nothing: the readings
+A conceptual model is a better thing to link against than a DDL, for three reasons that cost nothing: the readings
 are English, the value domains are *in* the model (so a literal in the question says which
 column the filter is on), and the model is a graph, so keeping the answer connected is a walk
 rather than a guess.
@@ -203,26 +333,59 @@ databases. And the method's first hour produced 87% recall for a reason that had
 with method: the tokeniser did not split camelCase, so `IncomeAmount` matched no question ever
 asked. Fixing that was worth ten points, and no amount of tuning would have found it.
 
-## The benchmarks are shakier than the systems
+### Shortening the English removes what was helping
 
-Running Spider 2.0's own gold SQL against its own databases and grading it with its own
-evaluator: **it reproduces its own recorded answer for 14 of 23 gradable local tasks.** For one
-task the shipped CSV holds championship winners and the shipped SQL sums points. Another ships
-two accepted answers that contradict each other.
+The English description of the model is the input that helps a SQL writer, and it is the one
+that does not scale: flat verbalisation is one sentence per elementary fact, 55 KB across the
+eleven BIRD models and 18 KB for a single Spider 2.0 schema. `model/abstract.py` implements
+Bird's 1997 abstraction — twelve weighting rules, major object types, clustering — and says the
+same model at a higher level in a third of the space, keeping which values may be absent.
 
-That is the same measurement Jin et al. (CIDR'26) report as a 66% annotation-error rate for
-Spider2.0-Snow — asked here of the slice that runs offline.
+It does not work.
 
-`bench/spider2-trial/calibrate.py` asks that question of any benchmark, and it is worth asking
-before believing any score, including the ones on this page.
+| | DDL only | + flat English | + level-2 English |
+|---|---|---|---|
+| one prompt | 70 | **73** | — |
+| another prompt | 68 | **70** | **68** |
 
-## A second benchmark, where the schemas are worse
+Two things fall out of that table, and the second one needed *two* control arms to see.
 
-BIRD's databases have seven tables. [LiveSQLBench](../bench/livesql/README.md) is the
-enterprise kind: dozens of tables per database, `jsonb` columns nobody documented, and a
-1,090-entry knowledge base of definitions handed to *every* competitor — so the definitions
-that were worth +8 above are table stakes here. Its SQLite tier is 180 SELECT questions over
-18 databases whose gold, sent on request, can be scored offline. Same method:
+**The English gained +2 to +3 under both prompts.** Two independent prompts, same direction,
+same size, same asymmetric paired split — each inside the ±3 noise band on its own, so what
+the repetition shows is a direction, not a size.
+
+**The abstraction gives a SQL writer nothing over the DDL alone** — 68 against 68, four
+questions lost and four won. Three times shorter, and the help is gone with the length.
+
+Two more arms then tested *why*, against a prediction written down first. The flat text is 82%
+"each X has at most one Y", so the guess was that a SQL writer reads join cardinality off it.
+Strip those sentences and the arm should fall to 68.
+
+| the English it saw | size | of 100 |
+|---|---|---|
+| none | — | 68 |
+| the level-2 summary | 17.5 KB | 68 |
+| flat, complete | 54.2 KB | 70 |
+| the summary plus cardinality | 21.2 KB | 70 |
+| **flat minus cardinality** | **7.8 KB** | **72** |
+
+It went *up*. Removing 82% of the sentences cost nothing, so cardinality is not the ingredient;
+and since the best arm is also the smallest, neither is length. What survives is duller and
+better supported: **any English description of the model is worth about +2 to +4 over the DDL,
+and what it says matters little** — five arms, one prompt, materials differing seven-fold in
+size, all inside a four-point band against three-point noise.
+
+The first cut of this experiment ran only the abstract arm and read it against the recorded
+flat arms: 68 against 73 and 74, six lost and none won. "Shaping costs five points" is what
+that says, and it is wrong. The recorded arms' prompt could not be reproduced verbatim, so the
+flat arm was run again under the new prompt (70), and then the baseline under it too (68). The
+prompt was worth two points wherever it was applied; the shaping was worth the rest of nothing.
+**Two of the four arms in this experiment exist only to make the other two mean something.**
+
+### On LiveSQLBench's SQLite tier, where the schemas are worse
+
+Here the knowledge base of definitions is handed to *every* competitor -- 1,090 entries across
+the tier -- so the definitions that were worth +8 above are table stakes. Same method:
 fresh blind writers, one per database, the gold withheld from them.
 
 | ConQuer arm | of 180 | what changed |
@@ -314,7 +477,7 @@ above: the layer matched the DDL when it carried what the rows say, and showed n
 effect beside the DDL when it did not — both within the noise band, and read with the
 writers' own accounts of what they used.
 
-## At scale, nothing beat the DDL
+### At scale, nothing beat the DDL
 
 Every result above had schemas small enough for a writer to take in whole. On LiveSQLBench's
 PostgreSQL tier a database is about 54 tables and 980 columns, 30,000 to 55,000 tokens of
@@ -368,39 +531,29 @@ got the question right once: the misses are choices of which table or column hol
 answer, not failures to find one. A better selector of the model's parts -- BM25, a Steiner
 tree, Bird's abstraction -- would help a one-shot writer that cannot widen its view, not these.
 
-**And most of the misses were not the writers'** (finding 171). Question by question, with the
-gold, the model and the data side by side: of 132 wrong answers in the fourth round, 71 were
-against gold that contradicts its own knowledge base or has a defect, 25 were right answers
-failed by the scorer on tie order or rounding, and 31 turned on terms the knowledge base leaves
-undefined or questions with more than one reading. None was caused by something the
-reverse-engineered model stated falsely, or by a fact it lacked.
+**And most of the misses were not the writers'** (finding 171, and *What is wrong with the
+benchmarks* above). Of the fourth round's 132 wrong answers, three quarters were the
+benchmark's gold or scorer; none was caused by something the reverse-engineered model stated
+falsely, or by a fact it lacked.
 
 Read together: at this scale, for agents that can query the database, the layer tells them
-what they would have found, and the misses are how a question is meant to be read -- the
-grain of a result, the base of a percentage, age at the event or today, a sort order left
-open -- which a description of the schema, however good, does not settle. The profiling is
+what they would have found, and what is left is the benchmark's own errors and how a question
+is meant to be read -- the grain of a result, the base of a percentage, age at the event or
+today, a sort order left open -- which a description of the schema, however good, does not
+settle. The profiling is
 right about the data and is kept; `conquer/annotate.py` and `bench/livesql/terms.py` are kept
 as tools, measured and not recommended as an accuracy lever. Each round had cells compromised
 by tooling (writers blocked by the permission system, once the database going down); each is
 reported with and without them, and none changes the reading.
 
-**Against the published work.** That better descriptions improve text-to-SQL is established,
-and the results above reproduce it where the conditions match. Sequeda, Allemang and Jacob
-put an ontology and mappings -- a conceptual layer by another name -- over an enterprise
-insurance schema and took GPT-4 zero-shot from 16% to 54% (GRADES-NDA 2024); here, saying
-what identifies a thing and what is inside a document took ConQuer writers from 71 to 82 of
-180, with no re-run control. BIRD's own evidence hints raise accuracy, and the +8 from
-written-down definitions is that finding again -- in plain English as much as in the model.
-Metadata from profiling tops BIRD's leaderboard (Shkapenyuk et al., 2025), and generated
-table and column descriptions that restate the schema gain under a point (Gao and Luo, 2025),
-as restating it gained nothing here. Shkapenyuk et al.'s own largest effect -- BIRD's column
-descriptions, +9.8 points for a single-shot writer -- was tested directly in the fourth round,
-with LiveSQLBench's, and added nothing. What those studies share is a writer that generates
-from the prompt alone, for which the description is the only window onto the database. The
-writers here were agents that could query it, and they found the keys, the JSON fields, the
-spellings and the join routes for themselves. The gain from description shrinks once the
-writer can explore the data; none of these three studies tests that condition, and it is the
-one this repository adds.
+### Where the ceiling is
+
+The oracle over every arm is **82**. Eighteen questions no arm ever got right, and most of
+them are the gold's reading of an ambiguous question rather than an authoring failure.
+Thirty-four arms and three strategies moved that ceiling by one question.
+
+So the residual is mostly not about how the query was written. That, more than any single arm,
+is why the thesis is not rescued by a better compiler.
 
 ## What this means if you are building with LLMs in 2026
 
@@ -429,69 +582,11 @@ one this repository adds.
 - **Run the control first.** The most instructive mistake here was writing up a real +8 as a
   win for the architecture before running the arm that showed the same +8 without it.
 
-## Shortening the English removes what was helping
-
-The English description of the model is the input that helps a SQL writer, and it is the one
-that does not scale: flat verbalisation is one sentence per elementary fact, 55 KB across the
-eleven BIRD models and 18 KB for a single Spider 2.0 schema. `model/abstract.py` implements
-Bird's 1997 abstraction — twelve weighting rules, major object types, clustering — and says the
-same model at a higher level in a third of the space, keeping which values may be absent.
-
-It does not work.
-
-| | DDL only | + flat English | + level-2 English |
-|---|---|---|---|
-| one prompt | 70 | **73** | — |
-| another prompt | 68 | **70** | **68** |
-
-Two things fall out of that table, and the second one needed *two* control arms to see.
-
-**The English gained +2 to +3 under both prompts.** Two independent prompts, same direction,
-same size, same asymmetric paired split — each inside the ±3 noise band on its own, so what
-the repetition shows is a direction, not a size.
-
-**The abstraction gives a SQL writer nothing over the DDL alone** — 68 against 68, four
-questions lost and four won. Three times shorter, and the help is gone with the length.
-
-Two more arms then tested *why*, against a prediction written down first. The flat text is 82%
-"each X has at most one Y", so the guess was that a SQL writer reads join cardinality off it.
-Strip those sentences and the arm should fall to 68.
-
-| the English it saw | size | of 100 |
-|---|---|---|
-| none | — | 68 |
-| the level-2 summary | 17.5 KB | 68 |
-| flat, complete | 54.2 KB | 70 |
-| the summary plus cardinality | 21.2 KB | 70 |
-| **flat minus cardinality** | **7.8 KB** | **72** |
-
-It went *up*. Removing 82% of the sentences cost nothing, so cardinality is not the ingredient;
-and since the best arm is also the smallest, neither is length. What survives is duller and
-better supported: **any English description of the model is worth about +2 to +4 over the DDL,
-and what it says matters little** — five arms, one prompt, materials differing seven-fold in
-size, all inside a four-point band against three-point noise.
-
-The first cut of this experiment ran only the abstract arm and read it against the recorded
-flat arms: 68 against 73 and 74, six lost and none won. "Shaping costs five points" is what
-that says, and it is wrong. The recorded arms' prompt could not be reproduced verbatim, so the
-flat arm was run again under the new prompt (70), and then the baseline under it too (68). The
-prompt was worth two points wherever it was applied; the shaping was worth the rest of nothing.
-**Two of the four arms in this experiment exist only to make the other two mean something.**
-
-## Where the ceiling is
-
-The oracle over every arm is **82**. Eighteen questions no arm ever got right, and most of
-them are the gold's reading of an ambiguous question rather than an authoring failure.
-Thirty-four arms and three strategies moved that ceiling by one question.
-
-So the residual is mostly not about how the query was written. That, more than any single arm,
-is why the thesis is not rescued by a better compiler.
-
 ---
 
 The pilot's write-up, arm by arm, is [`bench/pilot/README.md`](../bench/pilot/README.md); the
 LiveSQLBench rounds are in [`bench/livesql/README.md`](../bench/livesql/README.md), and
-[`bench/README.md`](../bench/README.md) indexes every experiment. All 165 findings the work
+[`bench/README.md`](../bench/README.md) indexes every experiment. All 171 findings the work
 produced, with what each cost and how it was found, are in
 [`bench/findings.md`](../bench/findings.md).
 

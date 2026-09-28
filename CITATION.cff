@@ -333,16 +333,39 @@ references:
     url: https://github.com/xlang-ai/Spider2
     notes: The offline SQLite slice (bench/spider2-trial/).
   - type: conference-paper
-    title: Jin et al., CIDR 2026
+    title: >-
+      Text-to-SQL Benchmarks are Broken: An In-Depth Analysis of Annotation
+      Errors
     authors:
       - family-names: Jin
-      - name: et al.
+        given-names: T.
+      - family-names: Choi
+        given-names: Y.
+      - family-names: Zhu
+        given-names: Y.
+      - family-names: Kang
+        given-names: D.
     conference:
       name: CIDR 2026
     year: 2026
+    url: https://www.vldb.org/cidrdb/papers/2026/p5-jin.pdf
     notes: >-
-      Title not recorded. The 66% annotation-error rate for Spider2.0-Snow
-      that bench/spider2-trial/ reproduces on the offline slice.
+      Annotation errors in 52.8% of BIRD mini-dev and 66.1% of Spider 2.0-Snow;
+      the rate bench/spider2-trial/ reproduces on the offline slice, and the
+      background to docs/07's "What is wrong with the benchmarks".
+  - type: conference-paper
+    title: >-
+      Understanding the Effects of Noise in Text-to-SQL: An Examination of the
+      BIRD-Bench Benchmark
+    authors:
+      - family-names: Wretblad
+        given-names: N.
+      - name: et al.
+    conference:
+      name: ACL 2024
+    year: 2024
+    url: https://aclanthology.org/2024.acl-short.34/
+    notes: Noise in up to 49% of one BIRD domain's questions (docs/07).
   - type: conference-paper
     title: Chen et al., SIGMOD 2025
     authors:
@@ -413,6 +436,19 @@ references:
       - type: other
         value: "arXiv:2502.20657"
     notes: LLM-generated table and column descriptions, +0.93 points on BIRD.
+
+  - type: generic
+    title: "CHESS: Contextual Harnessing for Efficient SQL Synthesis"
+    authors:
+      - family-names: Talaei
+        given-names: S.
+      - name: et al.
+    year: 2024
+    url: https://arxiv.org/abs/2405.16755
+    identifiers:
+      - type: other
+        value: "arXiv:2405.16755"
+    notes: Schema linking by value retrieval and pruning (docs/07).
 
   # --- Sample data ------------------------------------------------------------
   - type: data
