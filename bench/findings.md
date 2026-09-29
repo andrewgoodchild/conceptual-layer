@@ -5716,3 +5716,59 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      **What it says.** Measured on this benchmark, the ceiling is not the layer, the model or
      the writer. The per-question diagnoses cite the gold and stay local
      (`work/pilot-scale4/diagnose/`, git-ignored); this summary names no question.
+
+172. **The model behind every miss in the first two scale rounds, checked: it had what was
+     needed or it was not a model matter in 102 of 105 questions, and it misled a writer once
+     -- by what it left out, not by anything false. But it carried real defects.**
+
+     `diagnose.py --work pilot-scale` and `--work pilot-scale2` built the same evidence as
+     finding 171 for the first two rounds (105 questions with a miss, 298 wrong answers, 14
+     databases, the earlier and less-profiled models), and seven analyst agents gave each case a
+     verdict on the model as well as a cause.
+
+     | verdict on the model | questions |
+     |---|---|
+     | not a model matter (gold, knowledge base, reading, scoring) | 89 |
+     | the model had the fact, correct, and the view showed it | 4 |
+     | the model had it; the view for the question's words left it out | 3 |
+     | the fact was derivable from the rows and the model lacked it | 4 |
+     | something false was shown near the deciding point, not decisive | 5 |
+     | something false was shown and a writer followed it | 0 |
+
+     Primary causes: gold 47, knowledge base 19, reading 18, scoring 17, writer 3, the model
+     missing a fact 1. The one case where the model moved an answer: a status stored as both
+     `'2'` and `'Status 2'`, listed as six values with no warning that two pairs are one; the
+     description writer scored them apart and reordered four rows, where the DDL writers read
+     the equivalence off the sample rows. The later profile's near-duplicate caution (finding
+     167) catches exactly that. Across the four rounds, the arms that never saw the model made
+     the same miss as the arms that did on all but a handful of questions.
+
+     **Defects found, most of them now fixable rules.**
+     - *Composite foreign keys scrambled* (labor_certification, cybermarket_pattern): a
+       four-column reference became sixteen single-column ones, each child column paired with
+       every parent column (`wsstate -> w_addr1`); the view then called non-unique columns
+       identifiers and said a table with a declared key had none. False, shown, followed by
+       no one.
+     - *An answer taken for an absence marker*: `'Not available'` (no parking, no cable)
+       cautioned as reading "as absent rather than as a value" and dropped from a domain
+       presented as complete.
+     - *Units read off word endings*: grams as milliseconds (`...grams` ends in `ms`), an
+       adverb's `-ly` as light-years (`...Daily`, `...Successfully`, two boolean flags), `min`
+       expanded to "Minimum", `per_kg` as a unit named `1Kg`, a days-supply as a Distance;
+       and unrelated real-valued measures -- area, volume, angle, weight -- merged into one
+       value type named Duration.
+     - *A declared foreign key the data contradicts* kept as true (an integer zone number
+       referencing a text region name).
+     - *Links the rows show and the model lacks*: a project-and-crew pair unique in four
+       tables, the one-to-one join every archeology writer found by trial; single-column
+       references that match on every row but are not declared.
+     - *The view*: narrowing that depends on Python's hash seed, so the same question shows
+       different tables on different runs; null shares, optionality and types the model holds
+       and never prints; a caution that points to a value list the view does not show; and
+       business-term questions that miss the tables behind the formula.
+     - In the earlier models only, since fixed by later profiling: no JSON-field profiling, no
+       near-duplicate or constant-column cautions, no value lists for some tables.
+
+     None of these decided an answer, which is the finding: at this scale the answers were
+     decided elsewhere. They are still wrong statements in a model that claims to describe the
+     data, and they should be fixed. Per-question diagnoses cite the gold and stay local.
