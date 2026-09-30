@@ -143,6 +143,143 @@ def _t(name: str) -> str:
     return '"%s"' % name.replace('"', '""')
 
 
+def _containment(conn, table, cols, ref_table, ref_cols):
+    """(matched, total): the child's non-null key tuples, and how many are in the parent."""
+    on = " AND ".join('p."%s" = c."%s"' % (r.replace('"', '""'), k.replace('"', '""'))
+                      for k, r in zip(cols, ref_cols))
+    notnull = " AND ".join('c."%s" IS NOT NULL' % k.replace('"', '""') for k in cols)
+    sql = ("SELECT count(*), sum(CASE WHEN EXISTS (SELECT 1 FROM %s p WHERE %s) THEN 1 "
+           "ELSE 0 END) FROM (SELECT DISTINCT %s FROM %s) c WHERE %s"
+           % (_t(ref_table), on, ", ".join('"%s"' % k.replace('"', '""') for k in cols),
+              _t(table), notnull))
+    total, matched = conn.execute(sql).fetchone()
+    return matched or 0, total or 0
+
+
+def verify_foreign_keys(conn: sqlite3.Connection, catalog) -> List[tuple]:
+    """Hold every declared foreign key against the rows, before anything is derived from it.
+
+    A declaration is a claim, and the catalogues here make false ones: an integer zone
+    number declared to reference a text region name, which no row satisfies (finding 172).
+    A reference the data contradicts entirely -- not one of its values is in the parent --
+    is dropped. A composite key `catalog.repair_crossed_keys` rebuilt is paired by position,
+    which is a guess; here every order of its columns is tried and the one the rows bear out
+    is kept. Returns (table, columns, parent, verdict, matched, total) for the report.
+    """
+    from itertools import permutations
+    out = []
+    for table in catalog.tables:
+        keep = []
+        for fk in table.foreign_keys:
+            if catalog.table(fk.ref_table) is None:
+                keep.append(fk)
+                continue
+            try:
+                matched, total = _containment(conn, table.name, fk.columns,
+                                              fk.ref_table, fk.ref_columns)
+            except sqlite3.Error:
+                keep.append(fk)
+                continue
+            if total and not matched:
+                out.append((table.name, list(fk.columns), fk.ref_table, "dropped", 0, total))
+                continue
+            if len(fk.columns) > 1 and len(fk.columns) <= 4 and total and matched < total:
+                best = (matched, list(fk.ref_columns))
+                for order in permutations(fk.ref_columns):
+                    try:
+                        m, _ = _containment(conn, table.name, fk.columns, fk.ref_table, order)
+                    except sqlite3.Error:
+                        continue
+                    if m > best[0]:
+                        best = (m, list(order))
+                if best[1] != list(fk.ref_columns):
+                    out.append((table.name, list(fk.columns), fk.ref_table,
+                                "re-paired as (%s)" % ", ".join(best[1]), best[0], total))
+                    fk.ref_columns = best[1]
+                    matched = best[0]
+            keep.append(fk)
+        table.foreign_keys = keep
+    return out
+
+
+def shared_key_links(conn: sqlite3.Connection, catalog) -> List[tuple]:
+    """Rule 9d: the link two tables share through a pair of references neither declares.
+
+    `pointcloud`, `registration` and `spatial` each carry `(arcref, crewref)` -- a project
+    and a crew member -- and so does `scans`; the pair is unique in all four, and every
+    point cloud's pair is a scan's. That is one scan per point cloud, the join every writer
+    in finding 172 found by counting, and the model had only the two references to Project
+    and Personnel. Here: for every two tables whose foreign keys to the same two parents use
+    a pair unique in both, where one table's pairs lie inside the other's, the one is declared
+    to reference the other through the pair, and the pair made a unique key of the target.
+    Returns (child, columns, parent, parent columns, matched, total) for the report.
+    """
+    def pairs_of(t):
+        single = [fk for fk in t.foreign_keys if len(fk.columns) == 1]
+        out = {}
+        for i, a in enumerate(single):
+            for b in single[i + 1:]:
+                key = tuple(sorted([(_fold_name(a.ref_table), _fold_name(a.ref_columns[0])),
+                                    (_fold_name(b.ref_table), _fold_name(b.ref_columns[0]))]))
+                cols = [a.columns[0], b.columns[0]] if key[0][0] == _fold_name(a.ref_table) \
+                    else [b.columns[0], a.columns[0]]
+                if key[0] == key[1]:
+                    continue
+                out[key] = cols
+        return out
+
+    def unique(t, cols):
+        try:
+            total, distinct = conn.execute(
+                "SELECT count(*), count(DISTINCT %s) FROM %s WHERE %s"
+                % (" || '\x1f' || ".join('"%s"' % c.replace('"', '""') for c in cols),
+                   _t(t.name), " AND ".join('"%s" IS NOT NULL' % c.replace('"', '""')
+                                           for c in cols))).fetchone()
+        except sqlite3.Error:
+            return False, 0
+        return bool(total) and total == distinct, total
+
+    by_pair = {}
+    for t in catalog.tables:
+        for key, cols in pairs_of(t).items():
+            by_pair.setdefault(key, []).append((t, cols))
+    found = []
+    for key, members in by_pair.items():
+        if len(members) < 2:
+            continue
+        uniq = []
+        for t, cols in members:
+            ok, n = unique(t, cols)
+            if ok:
+                uniq.append((t, cols, n))
+        for i, (a, acols, an) in enumerate(uniq):
+            for b, bcols, bn in uniq[i + 1:]:
+                # the bigger population is the one referred to
+                (child, ccols, cn), (parent, pcols, pn) = sorted(
+                    [(a, acols, an), (b, bcols, bn)], key=lambda x: x[2])
+                if any(fk.ref_table.casefold() == parent.name.casefold()
+                       for fk in child.foreign_keys):
+                    continue
+                try:
+                    matched, total = _containment(conn, child.name, ccols, parent.name, pcols)
+                except sqlite3.Error:
+                    continue
+                if not total or matched != total:
+                    continue
+                if not any({c.casefold() for c in u} == {c.casefold() for c in pcols}
+                           for u in [parent.primary_key] + list(parent.uniques)):
+                    parent.uniques.append(list(pcols))
+                from catalog import ForeignKey
+                child.foreign_keys.append(ForeignKey(columns=list(ccols), ref_table=parent.name,
+                                                     ref_columns=list(pcols)))
+                found.append((child.name, list(ccols), parent.name, list(pcols), matched, total))
+    return found
+
+
+def _fold_name(name):
+    return name.casefold()
+
+
 def analyse(conn: sqlite3.Connection, catalog, tables=None,
             include_declared: bool = False, ignore_names: bool = False,
             also_unique: Optional[List["Finding"]] = None) -> Analysis:
@@ -288,12 +425,24 @@ _STRIPPABLE = {"n/a", "none", "null", "nil", "unknown", "unspecified",
                "not applicable", "not available", "tbd"}
 
 
-def _is_absent(value) -> bool:
-    """Whether a value stands for NULL clearly enough to drop from a value constraint."""
+def _is_absent(value, peers=()) -> bool:
+    """Whether a value stands for NULL clearly enough to drop from a value constraint.
+
+    `peers` are the other values the column holds. "Not available" beside "Available" is an
+    answer -- no parking, no cable -- not an absence marker, and dropping it from a domain
+    presented as complete was false (finding 172). A negated word whose positive form is
+    among its peers is kept.
+    """
     if not isinstance(value, str):
         return False
-    v = value.strip().casefold()
-    return v == "" or (len(v) >= 3 and v in _STRIPPABLE)
+    v = " ".join(value.strip().casefold().split())
+    if not (v == "" or (len(v) >= 3 and v in _STRIPPABLE)):
+        return False
+    if v.startswith("not "):
+        positive = v[4:]
+        if any(" ".join(str(p).strip().casefold().split()) == positive for p in peers):
+            return False
+    return True
 
 
 def _dirt(conn, tables, out: Analysis) -> None:
@@ -370,7 +519,10 @@ def _dirt_values(table: str, column: str, n: int, vals, out: Analysis,
     # on one, and "every row holds 'D'" sent a SCALE4 writer the wrong way.
     if len(set(vals)) == 1 and len(vals) >= MIN_ROWS:
         found(["constant"], 1, [str(vals[0])[:60]])
-    sentinel = {v for v in text if v.strip().casefold() in _SENTINELS}
+    folded = lambda v: " ".join(v.strip().casefold().split())
+    # a negated answer beside its positive form ("Not available", "Available") is a value
+    sentinel = {v for v in text if folded(v) in _SENTINELS
+                and not (folded(v).startswith("not ") and not _is_absent(v, text))}
     if sentinel:
         found(["sentinel-null"], sum(1 for v in text if v in sentinel), sorted(sentinel)[:4])
     formats = _date_formats(text)
@@ -379,6 +531,47 @@ def _dirt_values(table: str, column: str, n: int, vals, out: Analysis,
     pairs = _variant_pairs(text)
     if pairs:
         found(["variants"], len(pairs), [x for pair in pairs[:2] for x in pair])
+    _more_signals(text, n, vals, found, column, path)
+
+
+_TS = re.compile(r"^(\d{4}-\d{2}-\d{2})[ T]\d{2}:\d{2}")
+_VALUE_UNIT = re.compile(r"^\s*[-+]?\d[\d,]*(?:\.\d+)?\s*([A-Za-z/°%][A-Za-z/°%0-9]*)\s*$")
+#  Units a name or a value may spell, to one spelling each, for telling when they disagree.
+_UNIT_SPELLING = {"kmh": "km/h", "kph": "km/h", "km/h": "km/h", "mph": "mph", "ms": "m/s",
+                  "mps": "m/s", "m/s": "m/s", "kg": "kg", "lb": "lb", "lbs": "lb",
+                  "g": "g", "grams": "g", "km": "km", "mi": "mi", "miles": "mi",
+                  "celsius": "°C", "°c": "°C", "fahrenheit": "°F", "°f": "°F"}
+
+
+def _more_signals(text, n, vals, found, column, path):
+    """The signals finding 172's reviews asked for: a column mostly empty, rows clustered
+    several to a date, identifiers that differ only by case, and a unit in the values that
+    contradicts the unit in the name."""
+    nulls = n - len(vals)
+    if n >= MIN_ROWS and nulls >= 0.2 * n:
+        found(["sparse"], nulls, [nulls, n])
+    if len(text) >= MIN_ROWS:
+        stamps = [m.group(1) for m in map(_TS.match, text) if m]
+        if len(stamps) >= 0.9 * len(text):
+            dates = len(set(stamps))
+            if len(set(stamps)) < 0.8 * len(stamps) and len(set(text)) > dates:
+                found(["per-date"], dates, [len(stamps), dates])
+        distinct = len(set(text))
+        if distinct >= 0.95 * len(text):
+            by_fold = {}
+            for v in set(text):
+                by_fold.setdefault(v.casefold(), []).append(v)
+            clashes = [sorted(vs) for vs in by_fold.values() if len(vs) > 1]
+            if clashes:
+                found(["case-duplicates"], len(clashes), clashes[0][:2])
+    name = (path[-1] if path else column).casefold()
+    said = [w for w in re.split(r"[^a-z]+", name) if w in _UNIT_SPELLING]
+    units = {m.group(1).casefold() for m in map(_VALUE_UNIT.match, text) if m}
+    if said and len(units) == 1:
+        vu = _UNIT_SPELLING.get(next(iter(units)))
+        nu = _UNIT_SPELLING[said[-1]]
+        if vu and vu != nu:
+            found(["unit-conflict"], 1, [nu, vu])
 
 
 # Dates as text, by shape. Finding 166: `returns.logtime` held "2024-08-13", "2024/04/16",
@@ -2193,7 +2386,7 @@ def apply_domains(analysis: Analysis, model: dict, report) -> None:
             # truth is 742. `_dirt` has reported these since it was written and nothing
             # consumed the finding. Stripping is not optional -- a domain that admits its own
             # null is wrong, not merely generous -- so it happens wherever a domain is applied.
-            values = [v for v in f.values if not _is_absent(v)]
+            values = [v for v in f.values if not _is_absent(v, f.values)]
             if len(values) != len(f.values):
                 stripped.append("%s.%s (%s)" % (f.table, f.columns[0],
                                                 ", ".join(sorted(set(f.values) - set(values)))))
@@ -2313,6 +2506,18 @@ QUALITY_PROSE = {
                      "%(distinct)d date shapes in one text column: %(values)s. Sorted as text "
                      "they interleave, and a range filter on the text is wrong.",
                      "Store a date. Until then every query parses each shape."),
+    "sparse": ("mostly empty",
+               "Null in a large share of the rows (%(values)s).",
+               "Say what a missing value counts as in any measure that uses it."),
+    "per-date": ("several rows per date",
+                 "Rows and dates: %(values)s.",
+                 "Say whether a 'daily' measure counts rows or days."),
+    "case-duplicates": ("identifiers that differ only by case",
+                        "For example %(values)s.",
+                        "Decide whether they are one thing; fold case at the source if so."),
+    "unit-conflict": ("a unit in the values that contradicts the name",
+                      "The name and the values name different units: %(values)s.",
+                      "Correct the name or the values."),
     "variants": ("values that look like two spellings of one",
                  "%(values)s: a bare code beside the same code with a label, or a word beside "
                  "a longer word it begins. Each reader decides alone whether they are one value.",
@@ -2420,7 +2625,11 @@ def _document_dirt(conn, model: dict, out: Analysis) -> None:
         except sqlite3.Error:
             continue
         if vals:
-            _dirt_values(table, col["name"], len(vals), vals, out, path=list(col["path"]))
+            try:
+                rows = conn.execute("SELECT count(*) FROM %s" % _t(table)).fetchone()[0]
+            except sqlite3.Error:
+                rows = len(vals)
+            _dirt_values(table, col["name"], rows, vals, out, path=list(col["path"]))
 
 
 def apply_document_quality(conn: sqlite3.Connection, model: dict, report) -> int:
@@ -2543,6 +2752,139 @@ def apply_routes(conn, tables, model: dict, report) -> int:
     return applied
 
 
+def apply_structure(conn, tables, model: dict, report) -> int:
+    """Three things about the rows' shape that finding 171's writers had to count for
+    themselves, each put where the listing shows it:
+
+    * coverage -- a table whose rows refer to only a small share of what it references:
+      10 of 995 artifacts have a rating. Said on the referenced entity.
+    * one row per group -- a composite key whose last column almost never varies within the
+      rest: 94% of (race, driver) pairs have one lap. Said on the table's entity.
+    * joint nulls -- a flag null exactly where another value is null: a blend flag missing on
+      the 109 stars with no magnitude means no magnitude, not "not blended". Said on the flag.
+    """
+    concepts = {c["id"]: c for c in model["concepts"]}
+    tnames = {t["id"]: t["name"] for t in model["mapping"]["tables"]}
+    entity = {}
+    for cm in model["mapping"]["conceptMap"]:
+        c = concepts.get(cm["concept"])
+        if c and c["kind"] == "entity":
+            entity.setdefault(tnames.get(cm["table"]).casefold(), c)
+    by_name = {t.name.casefold(): t for t in tables}
+    applied = 0
+
+    def say(concept, text):
+        nonlocal applied
+        marks = concept.setdefault("dataQuality", [])
+        if text not in marks:
+            marks.append(text)
+            applied += 1
+
+    rows = {}
+    for t in tables:
+        try:
+            rows[t.name.casefold()] = conn.execute("SELECT count(*) FROM %s" % _t(t.name)).fetchone()[0]
+        except sqlite3.Error:
+            rows[t.name.casefold()] = 0
+
+    for t in tables:
+        for fk in t.foreign_keys:
+            parent = by_name.get(fk.ref_table.casefold())
+            n = rows.get(fk.ref_table.casefold(), 0)
+            if parent is None or n < MIN_ROWS or fk.ref_table.casefold() == t.name.casefold():
+                continue
+            try:
+                covered = conn.execute(
+                    "SELECT count(*) FROM (SELECT DISTINCT %s FROM %s WHERE %s)"
+                    % (_q(fk.columns), _t(t.name),
+                       " AND ".join("%s IS NOT NULL" % _q([c]) for c in fk.columns))).fetchone()[0]
+            except sqlite3.Error:
+                continue
+            ent = entity.get(fk.ref_table.casefold())
+            if ent and covered < 0.5 * n:
+                say(ent, "Only %d of %d are referred to by %s (%s): a join to it keeps %d%% "
+                         "of them unless it is an outer join."
+                    % (covered, n, t.name, ", ".join(fk.columns), round(100 * covered / n)))
+        key = t.primary_key
+        ent = entity.get(t.name.casefold())
+        in_fk = {c.casefold() for fk in t.foreign_keys for c in fk.columns}
+        # a counter at the end of a key of references -- (race, driver, lap) -- not the last
+        # column of a composite reference, which varies with the rest by construction
+        if ent and len(key) >= 3 and rows.get(t.name.casefold(), 0) >= MIN_ROWS \
+                and key[-1].casefold() not in in_fk \
+                and all(c.casefold() in in_fk for c in key[:-1]):
+            head = key[:-1]
+            try:
+                groups, single = conn.execute(
+                    "SELECT count(*), sum(CASE WHEN k = 1 THEN 1 ELSE 0 END) FROM "
+                    "(SELECT count(*) k FROM %s GROUP BY %s)" % (_t(t.name), _q(head))).fetchone()
+            except sqlite3.Error:
+                groups, single = 0, 0
+            if groups and single >= 0.8 * groups:
+                say(ent, "%d of %d (%s) groups have a single row here, so a spread or a "
+                         "consistency measure within a group is empty or zero for most."
+                    % (single, groups, ", ".join(head)))
+
+    # joint nulls, over columns and the paths inside documents
+    columns = {c["id"]: c for c in model["mapping"]["columns"]}
+    player = {r["id"]: r["player"] for c in model["concepts"] for r in c.get("roles", [])}
+    readable = {}
+    for rm in model["mapping"]["roleMap"]:
+        cid = player.get(rm["role"])
+        if not cid or concepts.get(cid, {}).get("kind") != "value" or len(rm["columns"]) != 1:
+            continue
+        col = columns.get(rm["columns"][0])
+        if not col:
+            continue
+        table = tnames[col["table"]]
+        if col.get("path"):
+            lit = _json_path_literal(col["path"])
+            if lit is None:
+                continue
+            expr = "json_extract(%s, '%s')" % (_q([col["name"]]), lit)
+            label = "%s->%s" % (col["name"], ".".join(col["path"]))
+        else:
+            expr, label = _q([col["name"]]), col["name"]
+        readable.setdefault(table, {})[expr] = (label, cid)
+    for table, exprs in readable.items():
+        n = rows.get(table.casefold(), 0)
+        if n < MIN_ROWS or len(exprs) > 200:
+            continue
+        stats = {}
+        for expr in exprs:
+            try:
+                nulls, distinct = conn.execute("SELECT sum(CASE WHEN %s IS NULL THEN 1 ELSE 0 END), "
+                                               "count(DISTINCT %s) FROM %s"
+                                               % (expr, expr, _t(table))).fetchone()
+            except sqlite3.Error:
+                continue
+            if nulls:
+                stats[expr] = (nulls, distinct)
+        for flag, (nulls, distinct) in stats.items():
+            if distinct > 3:
+                continue
+            for other, (onulls, odistinct) in stats.items():
+                if other == flag or onulls != nulls or odistinct <= 3:
+                    continue
+                try:
+                    both = conn.execute("SELECT count(*) FROM %s WHERE %s IS NULL AND %s IS NULL"
+                                        % (_t(table), flag, other)).fetchone()[0]
+                except sqlite3.Error:
+                    continue
+                if both == nulls:
+                    label, cid = exprs[flag]
+                    say(concepts[cid], "Null exactly where %s is null (%d rows): a missing value "
+                                       "here means %s was not recorded, not a value of its own."
+                        % (exprs[other][0], nulls, exprs[other][0]))
+                    break
+    if applied:
+        report.refine("data quality", "population", "%d structure caution(s)" % applied,
+                      "Coverage of referenced tables, groups of one row, and flags null "
+                      "exactly where another value is.",
+                      "Say in a definition how a measure treats the rows these leave out.")
+    return applied
+
+
 def report_quality(analysis: Analysis, report) -> None:
     """Put the data-quality profile on the derivation report.
 
@@ -2567,8 +2909,8 @@ def report_quality(analysis: Analysis, report) -> None:
 # entry, but neither makes a well-written filter match the wrong rows.
 QUALITY_MARKER = {
     "case-variants": "Values arrive in mixed case (%(distinct)d spellings of %(folded)d "
-                     "values). An exact `=` filter will match a fraction of the rows; use a "
-                     "case-insensitive test, or spell the value as the domain lists it.",
+                     "values: %(listed)s). An exact `=` filter will match a fraction of the "
+                     "rows; use a case-insensitive test.",
     "numeric-text": "The number is stored with its unit, as %(values)s. Comparisons are "
                     "string comparisons unless the number is extracted first.",
     "sentinel-null": "Some rows hold %(values)s, which reads as absent rather than as a "
@@ -2579,6 +2921,14 @@ QUALITY_MARKER = {
                 "mean the same before filtering on either.",
     "constant": "Every row holds the same value, %(value)r: it cannot order, rank or tell rows "
                 "apart.",
+    "sparse": "Null in %(v0)s of %(v1)s rows. An average, a filter or a ranking over it covers "
+              "only the rows that have it; say what a missing value counts as.",
+    "per-date": "Several rows per date: %(v0)s rows fall on %(v1)s dates. A count of rows is "
+                "not a count of days.",
+    "case-duplicates": "%(distinct)d values differ from another only by case, as %(pairs)s. "
+                       "A count of distinct values counts each twice unless it folds case.",
+    "unit-conflict": "The name says %(v0)s; the values are written in %(v1)s. Convert before "
+                     "comparing with anything in %(v0)s.",
 }
 
 
@@ -2620,9 +2970,13 @@ def apply_quality(analysis: Analysis, model: dict, report) -> int:
                 continue
             said = text % {"distinct": f.distinct or 0, "folded": len(f.values or []),
                            "values": ", ".join(repr(v) for v in (f.values or [])[:2]),
-                           "formats": "; ".join(f.values or []),
+                           "formats": "; ".join(str(v) for v in (f.values or [])),
                            "pairs": " and ".join(repr(v) for v in (f.values or [])[:2]),
-                           "value": (f.values or ["?"])[0]}
+                           "value": (f.values or ["?"])[0],
+                           "listed": ", ".join(repr(v) for v in (f.values or [])[:12])
+                           + (", ..." if len(f.values or []) > 12 else ""),
+                           "v0": (list(f.values or []) + ["?", "?"])[0],
+                           "v1": (list(f.values or []) + ["?", "?"])[1]}
             marks = concepts[cid].setdefault("dataQuality", [])
             if said not in marks:
                 marks.append(said)

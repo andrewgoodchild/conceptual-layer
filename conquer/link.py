@@ -80,6 +80,42 @@ def literals(question: str) -> List[str]:
     return [a or b for a, b in _QUOTED.findall(question or "")]
 
 
+def widen(question: str, knowledge) -> str:
+    """The question, plus the definitions of the business terms it names.
+
+    A question names what it is about, not what it is computed from: "Intensive Workload"
+    never says `cycletimesecval`, so a view chosen from its words left out the tables the
+    definition needs, and writers widened it by hand every time (findings 171, 172). A term
+    counts as named when every word of its name, or its abbreviation in brackets, is in the
+    question; its definition, and those of the terms it depends on, are added to the words
+    the view is chosen from. Only the choosing changes -- nothing is added to the listing, so
+    a term matched by accident costs a wider view, not a wrong statement.
+    """
+    if not knowledge:
+        return question
+    qt = tokens(question)
+    low = " ".join(question.lower().split())
+    by_id = {k.get("id"): k for k in knowledge}
+    chosen = []
+    for k in knowledge:
+        name = k.get("knowledge") or ""
+        abbrev = re.findall(r"\(([A-Za-z][A-Za-z0-9-]{1,9})\)", name)
+        bare = re.sub(r"\([^)]*\)", " ", name)
+        words_ = tokens(bare)
+        named = (words_ and words_ <= qt) or " ".join(bare.lower().split()) in low \
+            or any(re.search(r"(?<![A-Za-z])%s(?![A-Za-z])" % re.escape(a), question) for a in abbrev)
+        if named:
+            chosen.append(k)
+    for k in list(chosen):
+        kids = k.get("children_knowledge")
+        for kid in (kids if isinstance(kids, list) else [kids]):
+            if kid not in (None, -1) and by_id.get(kid) and by_id[kid] not in chosen:
+                chosen.append(by_id[kid])
+    extra = " ".join(" ".join(str(k.get(f) or "") for f in ("description", "definition"))
+                     for k in chosen)
+    return question + (" " + extra if extra.strip() else "")
+
+
 class Linker:
     """Scores a model's concepts against a question. Built once per model; the index and the
     token bags are the expensive part and neither depends on the question."""
@@ -159,8 +195,12 @@ class Linker:
         return out
 
     def neighbours(self, cid: str):
-        """(fact type, other player) for every fact type this concept plays a role in."""
-        for fid in self.touching.get(cid, ()):
+        """(fact type, other player) for every fact type this concept plays a role in.
+
+        In a fixed order. A set here made the walk, and so which of two equally short paths
+        the view kept, depend on Python's hash seed: the same question showed a different
+        bridge table on different runs (finding 172)."""
+        for fid in sorted(self.touching.get(cid, ())):
             for r in self.ix.concepts[fid].get("roles", []):
                 if r["player"] != cid:
                     yield fid, r["player"]
@@ -211,7 +251,7 @@ class Linker:
         real queries no longer expressible. Pick it only where the schema is wide enough for
         that to be worth it.
         """
-        scored = sorted(self.score(question).items(), key=lambda kv: -kv[1])
+        scored = sorted(self.score(question).items(), key=lambda kv: (-kv[1], kv[0]))
         chosen = {cid for cid, _ in scored[:seeds]}
         if not chosen:
             return set()
@@ -220,7 +260,7 @@ class Linker:
         # A value type is a fact about something; keep what it is a fact about, and treat that
         # as a seed too, since the question named the value and meant the thing.
         anchors = {c for c in chosen if self.ix.concepts.get(c, {}).get("kind") == "entity"}
-        for cid in chosen:
+        for cid in sorted(chosen):
             kind = self.ix.concepts.get(cid, {}).get("kind")
             if kind == "value":
                 for fid, other in self.neighbours(cid):
@@ -252,7 +292,7 @@ class Linker:
         frontier = set(anchors)
         for _ in range(max(0, hops)):
             nxt = set()
-            for cid in frontier:
+            for cid in sorted(frontier):
                 for fid, other in self.neighbours(cid):
                     keep.add(fid)
                     keep.add(other)
@@ -274,11 +314,11 @@ class Linker:
 
         # Everything that identifies what is kept, or a query cannot name an instance; and
         # subtypes travel with their supertypes, since one is walked through the other.
-        for cid in list(keep):
-            for fid in self.identifying.get(cid, ()):
+        for cid in sorted(keep):
+            for fid in sorted(self.identifying.get(cid, ())):
                 keep.add(fid)
                 keep |= {r["player"] for r in self.ix.concepts[fid].get("roles", [])}
-        for cid in list(keep):
+        for cid in sorted(keep):
             keep |= set(self.ix.concepts.get(cid, {}).get("supertypes") or [])
         return keep
 

@@ -143,6 +143,7 @@ class Build:
         self.keys, self.refs, self.mandatory, self.referenced = [], [], [], []
         self.json_shapes, self.absorb = {}, {}
         self.model, self.report = None, None
+        self.verified, self.shared = [], []
         self.ran = set()
 
     def data(self):
@@ -156,6 +157,14 @@ class Build:
 def _pop():
     import population as population_mod          # noqa: E402  (after sys.path is set)
     return population_mod
+
+
+def _verify_keys(b):
+    # Before anything reads the catalogue's references: a declared foreign key no row
+    # satisfies is not a reference (finding 172), and a rebuilt composite key is paired the
+    # way the rows bear out.
+    b.verified = _pop().verify_foreign_keys(b.data(), b.cat)
+    b.shared = _pop().shared_key_links(b.data(), b.cat)
 
 
 def _referenced_keys(b):
@@ -206,6 +215,28 @@ def _derive(b):
                                           absorb=b.absorb, merge_domains=a.merge_domains,
                                           glossary=glossary)
     report, pop = b.report, _pop()
+    for said in b.cat.repairs:
+        report.refine("rule 0", "catalogue", said.split(":", 1)[0], said.split(": ", 1)[1] +
+                      ". The catalogue listed every pairing of the columns as its own "
+                      "reference, which taken as written makes each column reference "
+                      "something it does not.",
+                      "Confirm the pairing; declare the key as one composite reference.")
+    for table, cols, parent, verdict, matched, total in b.verified:
+        what = ("declared, and none of its %d values is in %s's key: dropped from the draft"
+                % (total, parent) if verdict == "dropped" else
+                "rebuilt from a cross-product declaration and %s, the order %d of %d rows "
+                "match" % (verdict, matched, total))
+        report.refine("rule 0", "population", "%s.%s -> %s" % (table, ", ".join(cols), parent),
+                      "The reference %s is %s." % (", ".join(cols), what),
+                      "Check the declaration against the data it describes.")
+    for child, ccols, parent, pcols, matched, total in b.shared:
+        report.refine("rule 9d", "population", "%s (%s) -> %s" % (child, ", ".join(ccols), parent),
+                      "Both carry the pair (%s), it is unique in both, and all %d of %s's "
+                      "pairs are %s's: one %s per %s row, a link nothing declares. Added, "
+                      "with the pair as a unique key of %s."
+                      % (", ".join(ccols), total, child, parent, parent, child, parent),
+                      "Confirm it. Two tables can share a pair of references by design "
+                      "without one belonging to the other.")
     for table, cols, target, score, signals in b.refs:
         report.refine("rule 9c", "population", "%s.%s -> %s" % (table, ", ".join(cols), target),
                       "No foreign key is declared, but every value is present in %s's key "
@@ -278,6 +309,7 @@ def _profile(b):
     # several ways, whether the ways agree (finding 166)
     _pop().apply_document_quality(b.data(), b.model, b.report)
     _pop().apply_routes(b.data(), b.cat.tables, b.model, b.report)
+    _pop().apply_structure(b.data(), b.cat.tables, b.model, b.report)
 
 
 def _report_analysis(b):
@@ -287,6 +319,7 @@ def _report_analysis(b):
 # (name, the flag(s) that select it -- None for always, a tuple for all-of --, what must
 #  have run before it, whether it reads the data, the pass)
 PASSES = [
+    ("verify-keys", "profile", (), True, _verify_keys),
     ("referenced-keys", "prefer_referenced_keys", (), True, _referenced_keys),
     ("analyse", "*", ("referenced-keys",), True, _analyse),
     ("mandatory", "infer_mandatory", ("analyse",), False, _mandatory),

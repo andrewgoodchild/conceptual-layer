@@ -205,6 +205,31 @@ def test_reading_a_glossary_file():
         os.remove(path)
 
 
+@case
+def test_a_split_name_names_its_unit_as_a_whole_word():
+    """Finding 172: read off the last word's letters, `weight_grams` was milliseconds,
+    `spatial_dims` a duration and `is_anomaly`, `EquipmentCostDaily` light-years."""
+    for column in ("weight_grams", "spatial_dims", "is_anomaly", "EquipmentCostDaily",
+                   "days_supply", "DataTransmittedSuccessfully"):
+        eq(unit_of(column), None, column)
+    eq(unit_of("sess_dur_min"), "min")
+    eq(unit_of("dur_ms"), "ms")
+    eq(unit_of("wind_speed_ms"), "m/s")
+    eq(unit_of("cost_per_kg"), "1/kg")
+
+
+@case
+def test_an_adverb_is_not_light_years():
+    for column in ("daily", "monthly", "anomaly", "supply"):
+        eq(unit_of(column), None, column)
+    eq(unit_of("sourcedistly"), "ly")
+
+
+@case
+def test_a_per_unit_domain_is_named_for_it():
+    """`cost_per_kg` was a domain called `1Kg`."""
+    eq(quantity_name("1/kg"), "PerKg")
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("-v", "--verbose", action="store_true")

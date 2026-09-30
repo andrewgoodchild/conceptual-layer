@@ -5772,3 +5772,45 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      None of these decided an answer, which is the finding: at this scale the answers were
      decided elsewhere. They are still wrong statements in a model that claims to describe the
      data, and they should be fixed. Per-question diagnoses cite the gold and stay local.
+
+173. **Finding 172's defects fixed, each checked against the model it was found in.**
+     `bench/livesql/check_models.py` holds the cases the reviews found; after the fixes, all 20
+     pass on the 18 rebuilt models (`build.py --profiled --profiled-dir models-profiled3`),
+     every model validates, and the suites pass.
+
+     - *Composite foreign keys.* The scrambling was in the benchmark's own DDL, not the reverse
+       engineer: its dump lists a four-column reference as sixteen single-column ones. The
+       catalogue readers now rebuild any exact cross product of single-column references onto
+       a target's key as one composite reference (`catalog.repair_crossed_keys`), and the
+       profile re-pairs its columns in whichever order the rows bear out. It fired 12 times in
+       labor_certification, 8 in residential_data -- where it was also the "integer zone
+       referencing a text region", now `(locregion, loczone) -> (regioncode, zonenum)` -- and
+       in cybermarket_pattern. And `derive` made one fact type per column where a column was in
+       two references; it now makes one per reference.
+     - *Declared references the data contradicts* are held against the rows before anything is
+       derived, and dropped with a report entry if no row satisfies them (none of the 18 had
+       one once the cross products were rebuilt).
+     - *Answers taken for absence markers.* "Not X" beside X is a value: it stays in the domain
+       and draws no caution.
+     - *Units.* A name split into words names its unit as a whole last word or not at all;
+       adverbs are not light-years; a per-unit domain is named `PerKg`, not `1Kg`; the unit word
+       leaves before abbreviations are expanded, so `sess_dur_min` is a SessDuration in minutes,
+       not a SessDurationMinimum. Unrelated measures no longer merge into one domain.
+     - *Links the rows show.* Rule 9c (references the data upholds) now runs in profiled
+       builds, and rule 9d adds the link two tables share through a pair of references unique
+       in both, one inside the other: Pointcloud has Scan through (project, crew).
+     - *What the rows say that the listing did not:* columns mostly null; rows several to a
+       date; identifiers that differ only by case; a unit in the values that contradicts the
+       name; a child table covering a small share of its parent; one row per group under a key
+       of references; a flag null exactly where its measurement is. The constant-column rule
+       counts non-null values (finding 169).
+     - *The view.* The narrowing is deterministic (it had depended on the hash seed); the
+       listing prints each value's type and says when a relationship is optional; the
+       mixed-case caution lists the values it refers to; and `--knowledge` widens the tables
+       chosen for a question by the definitions of the business terms it names -- only the
+       choosing, nothing added to the listing (finding 167's lesson). It brings in some of the
+       tables a formula needs, not all: matching a definition's words to columns is still
+       lexical.
+
+     No round has been re-run on the rebuilt models; findings 170-172 say the answers would
+     not move. The fixes are for the model's truth, not for the score.

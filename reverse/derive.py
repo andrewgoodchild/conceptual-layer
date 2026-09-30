@@ -1371,19 +1371,24 @@ class Deriver:
                 continue                              # already the reference scheme
             if col.name.casefold() in skip_columns:
                 continue                              # already a role of the objectified fact
-            fk = table.fk_for(col.name)
+            # Every reference the column takes part in, not only the first: a column can be
+            # in two -- `pointcloud.crewref` names a crew member on its own and, with
+            # `arcref`, the scan it belongs to (rule 9d) -- and each is a fact type.
+            fks = [fk for fk in table.foreign_keys
+                   if any(c.casefold() == col.name.casefold() for c in fk.columns)]
 
-            if fk is not None:
-                if id(fk) in handled_fks:
-                    continue
-                handled_fks.add(id(fk))
-                if all(table.is_key(c) for c in fk.columns) and \
-                        table.name.casefold() in self.entity_of and \
-                        len(table.primary_key) == len(fk.columns):
-                    continue                          # the subtype's own key; rule 7 handles it
-                identifying = (not simple_pk
-                               and all(table.is_key(c) for c in fk.columns))
-                self.make_fk_fact(table, eid, ename, fk, identifying)
+            if fks:
+                for fk in fks:
+                    if id(fk) in handled_fks:
+                        continue
+                    handled_fks.add(id(fk))
+                    if all(table.is_key(c) for c in fk.columns) and \
+                            table.name.casefold() in self.entity_of and \
+                            len(table.primary_key) == len(fk.columns):
+                        continue                      # the subtype's own key; rule 7 handles it
+                    identifying = (not simple_pk
+                                   and all(table.is_key(c) for c in fk.columns))
+                    self.make_fk_fact(table, eid, ename, fk, identifying)
                 continue
 
             # Rule 12 first: a document column with a record inside it becomes several fact
@@ -1580,14 +1585,24 @@ class Deriver:
         raw = strip_prefix(column, table)
         if not self.glossary_on:
             return pascal(raw)
-        text = _names.expand(raw, self.glossary)
-        parts = text.split()
-        if len(parts) > 1 and parts[-1].casefold() in self._UNIT_TOKENS and unit_of(column):
+        #  The unit word leaves before the abbreviations are written out: expanded first,
+        #  `sess_dur_min` became SessDurationMinimum, a duration in minutes named for a
+        #  minimum (finding 172).
+        raw_parts = _names.words(raw)
+        residue = None
+        if len(raw_parts) > 1 and raw_parts[-1].casefold() in self._UNIT_TOKENS and unit_of(column):
             #  A suffix like `tempc` is a quantity word plus a unit. Dropping the whole token
             #  leaves `AirTempC` as `Air`, which no longer says what was measured, so the
             #  quantity word goes back and only the unit letters leave.
-            residue = _names.UNIT_TOKEN_RESIDUE.get(parts[-1].casefold())
-            parts = parts[:-1] + ([residue] if residue else [])
+            residue = _names.UNIT_TOKEN_RESIDUE.get(raw_parts[-1].casefold())
+            raw = " ".join(raw_parts[:-1])
+        parts = _names.expand(raw, self.glossary).split()
+        if residue is None and len(raw_parts) == 1 and len(parts) > 1 \
+                and parts[-1].casefold() in self._UNIT_TOKENS and unit_of(column):
+            #  A squashed token (`freqmhz`) is only split into its unit by the expansion.
+            residue = _names.UNIT_TOKEN_RESIDUE.get(parts[-1].casefold()) or ""
+            parts = parts[:-1]
+        parts += [residue] if residue else []
         return pascal(" ".join(parts))
 
     def merge_domains(self):

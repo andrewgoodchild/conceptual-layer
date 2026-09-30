@@ -97,7 +97,7 @@ class DdlLinker:
         for _ in range(limit):
             nxt = []
             for here, via in frontier:
-                for other in self.fk.get(here, ()):
+                for other in sorted(self.fk.get(here, ())):
                     if other == b:
                         return via
                     if other not in seen:

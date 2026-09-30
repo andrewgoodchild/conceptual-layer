@@ -88,6 +88,9 @@ class Catalog:
     # names the source listed but could not describe: a view whose definition no longer
     # resolves. Reported so the worklist says what was skipped rather than silently losing it.
     unreadable: List[str] = field(default_factory=list)
+    # declared foreign keys rebuilt because the declaration could not be taken as written
+    # (`repair_crossed_keys`), each a sentence for the report
+    repairs: List[str] = field(default_factory=list)
 
     def table(self, name: str) -> Optional[Table]:
         target = _fold(name)
@@ -98,6 +101,52 @@ class Catalog:
         target = _fold(name)
         return [t for t in self.tables
                 if any(_fold(fk.ref_table) == target for fk in t.foreign_keys)]
+
+
+def repair_crossed_keys(catalog: "Catalog") -> "Catalog":
+    """Rebuild a composite foreign key a catalogue has listed as a cross product.
+
+    Some dumps declare a foreign key onto a composite key as one single-column reference per
+    pair of columns -- `(ws_addr1) REFERENCES worksite(w_addr1)`, `(ws_addr1) REFERENCES
+    worksite(wcity)`, ... sixteen of them for a four-column key. Taken as written, each says a
+    column references something it does not, and a model built on them names worksites by
+    columns that are not unique (finding 172). The pattern is unmistakable: the references
+    from one table to another pair every one of n columns with every one of n columns that
+    together are the target's primary key or a unique key. That is one n-column reference,
+    and the columns pair by position -- the referencing table's column order against the
+    key's.
+    """
+    for table in catalog.tables:
+        groups = {}
+        for fk in table.foreign_keys:
+            if len(fk.columns) == 1 and len(fk.ref_columns) == 1:
+                groups.setdefault(_fold(fk.ref_table), []).append(fk)
+        for ref, fks in groups.items():
+            cols = {_fold(fk.columns[0]) for fk in fks}
+            refs = {_fold(fk.ref_columns[0]) for fk in fks}
+            pairs = {(_fold(fk.columns[0]), _fold(fk.ref_columns[0])) for fk in fks}
+            n = len(cols)
+            if n < 2 or len(refs) != n or len(pairs) != n * n:
+                continue
+            target = catalog.table(ref)
+            if target is None:
+                continue
+            keys = [target.primary_key] + list(target.uniques)
+            key = next((k for k in keys if {_fold(c) for c in k} == refs), None)
+            if key is None:
+                continue
+            ordered = [c.name for c in table.columns if _fold(c.name) in cols]
+            if len(ordered) != n:
+                continue
+            table.foreign_keys = [fk for fk in table.foreign_keys if fk not in fks]
+            table.foreign_keys.append(ForeignKey(columns=ordered, ref_table=fks[0].ref_table,
+                                                 ref_columns=list(key),
+                                                 ref_schema=fks[0].ref_schema))
+            catalog.repairs.append(
+                "%s: %d single-column references onto %s were one %d-column reference, "
+                "(%s) -> (%s); rebuilt, pairing the columns by position"
+                % (table.name, n * n, fks[0].ref_table, n, ", ".join(ordered), ", ".join(key)))
+    return catalog
 
 
 # --------------------------------------------------------------------------- SQLite
@@ -187,7 +236,7 @@ def from_sqlite(path: str) -> Catalog:
                 table.checks = _parse_checks(row["sql"])
 
             catalog.tables.append(table)
-        return catalog
+        return repair_crossed_keys(catalog)
     finally:
         conn.close()
 
@@ -309,7 +358,7 @@ def from_dbapi(conn, schema: str = "public", paramstyle: str = "%s") -> Catalog:
     except Exception:
         pass          # check_constraints is absent or restricted on some servers
 
-    return catalog
+    return repair_crossed_keys(catalog)
 
 
 # --------------------------------------------------------------------------- JSON fixture
@@ -338,4 +387,4 @@ def from_json(source) -> Catalog:
             checks=[Check(expression=c["expression"], name=c.get("name"))
                     for c in t.get("checks", [])],
         ))
-    return catalog
+    return repair_crossed_keys(catalog)

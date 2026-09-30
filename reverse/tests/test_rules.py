@@ -350,6 +350,13 @@ CASES = [
             and m.concept("RAir", "value") is None,
   {"glossary": {}}),
 
+ ("rule 10b", "a unit word leaves before the abbreviations are written out",
+  "CREATE TABLE r (id INTEGER PRIMARY KEY, sess_dur_min REAL);",
+  lambda m: m.concept("RSessDuration", "value") is not None
+            and m.concept("RSessDuration", "value")["unit"] == "min"
+            and m.concept("RSessDurationMinimum", "value") is None,
+  {"glossary": {}}),
+
  ("rule 10b", "without the flag rule 10 spells names exactly as it always has",
   "CREATE TABLE observatories (observstation VARCHAR(60) PRIMARY KEY);",
   lambda m: m.concept("ObservatoryObservstation", "value")),

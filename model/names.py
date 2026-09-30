@@ -89,15 +89,16 @@ _NOT_A_UNIT = frozenset((
 ))
 
 
-def unit_of(column: str) -> Optional[str]:
-    """The measurable unit a column name ends in, or None.
+#  Single tokens that end in `ly` without being light-years: adverbs and the nouns a schema
+#  actually uses. `sourcedistly` is a distance in light-years; `daily` is how often.
+_LY_WORDS = ("daily", "hourly", "weekly", "monthly", "yearly", "quarterly", "annually",
+             "anomaly", "supply", "family", "assembly", "early", "only", "reply", "apply",
+             "fully", "successfully", "rally", "italy", "july", "poly", "nightly")
 
-    Name-based and therefore a guess, like every other rule 10 answer. It is a cheap one to
-    check and an expensive one to miss: a model that cannot say `freqmhz` is megahertz
-    cannot say that `freqmhz` and `centerfreqmhz` are the same domain either.
-    """
-    c = column.casefold().strip("_")
-    if c in _NOT_A_UNIT:
+
+def _unit_in_token(c: str) -> Optional[str]:
+    """The unit a single squashed token ends in (`freqmhz`, `pulsewidms`), or None."""
+    if c in _NOT_A_UNIT or (c.endswith("ly") and any(c.endswith(w) for w in _LY_WORDS)):
         return None
     for suffix, unit in UNIT_SUFFIXES:
         if not c.endswith(suffix):
@@ -119,6 +120,36 @@ def unit_of(column: str) -> Optional[str]:
                 return "1/%s" % unit
             return unit
     return None
+
+
+def unit_of(column: str) -> Optional[str]:
+    """The measurable unit a column name ends in, or None.
+
+    Name-based and therefore a guess, like every other rule 10 answer. It is a cheap one to
+    check and an expensive one to miss: a model that cannot say `freqmhz` is megahertz
+    cannot say that `freqmhz` and `centerfreqmhz` are the same domain either.
+
+    A name split into words (`sess_dur_min`, `EquipmentCostDaily`) names its unit as a whole
+    last word or not at all. Reading a suffix off the last word's letters is what made
+    `weight_grams` milliseconds, `spatial_dims` a duration and `is_anomaly` light-years
+    (finding 172); only a single squashed token (`freqmhz`) is read by its ending.
+    """
+    parts = [w.casefold() for w in words(column.strip("_"))]
+    if not parts:
+        return None
+    if len(parts) == 1:
+        return _unit_in_token(parts[0])
+    last = parts[-1]
+    units = dict(UNIT_SUFFIXES)
+    if last not in units:
+        return None
+    unit = units[last]
+    before = parts[-2]
+    if before == "per":
+        return "1/%s" % unit
+    if unit == "ms" and any(w in "".join(parts[:-1]) for w in ("speed", "velocity", "vel")):
+        return "m/s"
+    return unit
 
 
 #  What each unit measures, so a merged domain can be named for the quantity rather than for
@@ -152,6 +183,9 @@ def quantity_name(unit: str, units_in_play=()) -> str:
     where it uses two -- because then the bare quantity would name two different domains.
     """
     quantity = UNIT_QUANTITY.get(unit)
+    if not quantity and unit.startswith("1/"):
+        #  `cost_per_kg` is an amount per kilogram; its domain was named `1Kg` (finding 172).
+        return "Per" + pascal(_SEPARATOR.sub(" ", unit[2:]))
     if not quantity:
         return pascal(_SEPARATOR.sub(" ", unit)) or "Quantity"
     kin = {u for u in units_in_play if UNIT_QUANTITY.get(u) == quantity}

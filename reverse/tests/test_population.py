@@ -576,6 +576,91 @@ def profile_cases():
            not [x for x in found if "trip" in [v[0] for v in x["via"]]], "trip.from_op / to_op")
 
 
+def review_cases():
+    """Finding 172's fixes, each pinned: what the model said wrongly or left out, and the
+    near miss that must stay as it was."""
+    import sqlite3 as _sq
+    import tempfile
+    from catalog import Catalog, ForeignKey, Table, Column, repair_crossed_keys
+
+    # a composite key a dump listed as a cross product
+    parent = Table("worksite", columns=[Column(n, "TEXT", True, i) for i, n in enumerate(("a", "c", "s"))],
+                   primary_key=["a", "c", "s"])
+    child = Table("cw", columns=[Column(n, "TEXT", True, i) for i, n in enumerate(("k", "wa", "wc", "ws"))],
+                  primary_key=["k"],
+                  foreign_keys=[ForeignKey([x], "worksite", [y])
+                                for x in ("wa", "wc", "ws") for y in ("a", "c", "s")])
+    cat = repair_crossed_keys(Catalog(tables=[parent, child]))
+    fks = [(f.columns, f.ref_columns) for f in cat.table("cw").foreign_keys]
+    yield ("nine single-column references onto a three-column key are one reference",
+           fks == [(["wa", "wc", "ws"], ["a", "c", "s"])] and len(cat.repairs) == 1, repr(fks))
+    two = Table("t2", columns=[Column("x", "TEXT", True, 0), Column("y", "TEXT", True, 1)],
+                foreign_keys=[ForeignKey(["x"], "worksite", ["a"]),
+                              ForeignKey(["y"], "worksite", ["c"])])
+    cat = repair_crossed_keys(Catalog(tables=[parent, two]))
+    yield ("...and two references that are not a full cross product are left alone",
+           len(cat.table("t2").foreign_keys) == 2 and not cat.repairs, "x->a, y->c")
+
+    # an answer is not an absence marker
+    yield ("'Not available' beside 'Available' is an answer, kept",
+           not pop._is_absent("Not available", ["Available", "Not available"]), "parking")
+    yield ("...'Not available' with no positive form beside it still reads as absent",
+           pop._is_absent("Not available", ["Yes", "No"]), "Yes / No")
+
+    path = tempfile.mktemp(suffix=".sqlite")
+    conn = _sq.connect(path)
+    conn.executescript("""
+        CREATE TABLE region (name TEXT PRIMARY KEY);
+        CREATE TABLE house (h INTEGER PRIMARY KEY, zone INTEGER REFERENCES region(name));
+        CREATE TABLE scans (sid TEXT PRIMARY KEY, proj TEXT REFERENCES project(p),
+                            crew TEXT REFERENCES crew(c));
+        CREATE TABLE cloud (cid TEXT PRIMARY KEY, proj TEXT REFERENCES project(p),
+                            crew TEXT REFERENCES crew(c), pts INTEGER);
+        CREATE TABLE project (p TEXT PRIMARY KEY);
+        CREATE TABLE crew (c TEXT PRIMARY KEY);
+        INSERT INTO region VALUES ('North'), ('South');
+        INSERT INTO house VALUES (1, 3), (2, 7);
+        INSERT INTO project VALUES ('P1'), ('P2');
+        INSERT INTO crew VALUES ('C1'), ('C2');
+        INSERT INTO scans VALUES ('s1', 'P1', 'C1'), ('s2', 'P1', 'C2'), ('s3', 'P2', 'C1');
+        INSERT INTO cloud VALUES ('k1', 'P1', 'C1', 10), ('k2', 'P2', 'C1', 20);""")
+    conn.commit()
+    cat = catalog_mod.from_sqlite(path)
+    verdicts = pop.verify_foreign_keys(conn, cat)
+    yield ("a declared reference no row satisfies is dropped",
+           any(v[0] == "house" and v[3] == "dropped" for v in verdicts)
+           and not cat.table("house").foreign_keys, repr(verdicts))
+    links = pop.shared_key_links(conn, cat)
+    yield ("a pair unique in two tables, one inside the other, is a link",
+           any(l[0] == "cloud" and l[2] == "scans" for l in links), repr(links))
+    conn.close()
+    os.remove(path)
+
+    # the new value signals
+    class Out:
+        def __init__(self):
+            self.findings = []
+    out = Out()
+    vals = ["x%d" % i for i in range(60)]
+    pop._dirt_values("t", "c", 200, vals, out)
+    yield ("a column null in most rows is said to be sparse",
+           any(f.signals == ["sparse"] for f in out.findings), "140 of 200 null")
+    out = Out()
+    stamps = ["2024-03-%02d 1%d:00:00" % (1 + i % 5, i % 10) for i in range(60)]
+    pop._dirt_values("t", "readts", 60, stamps, out)
+    yield ("several rows to a date are said to be",
+           any(f.signals == ["per-date"] for f in out.findings), "60 rows on 5 dates")
+    out = Out()
+    ids = ["user%d@x.com" % i for i in range(60)] + ["User1@x.com"]
+    pop._dirt_values("t", "lawmail", 61, ids, out)
+    yield ("identifiers that differ only by case are reported",
+           any(f.signals == ["case-duplicates"] for f in out.findings), "user1 / User1")
+    out = Out()
+    pop._dirt_values("t", "speed_kmh", 60, ["%d.3 m/s" % i for i in range(60)], out)
+    yield ("a unit in the values that contradicts the name is reported",
+           any(f.signals == ["unit-conflict"] for f in out.findings), "km/h named, m/s held")
+
+
 def main(argv=None):
     p = argparse.ArgumentParser()
     p.add_argument("--only")
@@ -592,7 +677,8 @@ def main(argv=None):
         passed = failed = 0
         for name, ok, note in (list(cases(a)) + list(key_cases(a, cat))
                                + list(constraint_cases(a)) + list(reporting_cases(a, path))
-                               + list(partition_cases(path)) + list(profile_cases())):
+                               + list(partition_cases(path)) + list(profile_cases())
+                               + list(review_cases())):
             if args.only and args.only.lower() not in name.lower():
                 continue
             if ok:

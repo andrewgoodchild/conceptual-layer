@@ -388,7 +388,7 @@ def storage(model):
     return out
 
 
-def describe(model, question=None, relational=False):
+def describe(model, question=None, relational=False, knowledge=None):
     """What the schema lets you say. With a question, only the part of it that question is
     about -- `link.py`, which keeps every table the answer needs for 94% of BIRD's questions
     while dropping three quarters of the model. `relational` puts where each thing is stored
@@ -403,7 +403,7 @@ def describe(model, question=None, relational=False):
     identified = identification(model)
     if question:
         import link as link_mod
-        keep = link_mod.Linker(model).relevant(question)
+        keep = link_mod.Linker(model).relevant(link_mod.widen(question, knowledge))
         if keep:
             hidden = sorted(c["name"] for c in model["concepts"]
                             if c["kind"] == "entity" and c["id"] not in keep)
@@ -417,9 +417,19 @@ def describe(model, question=None, relational=False):
                   "the key it refers to. The names are the model's (a column's value type is "
                   "named TableColumn); the columns are the database's.", ""]
     lines += ["Types you can name:", ""]
+    by_id = {c["id"]: c for c in model["concepts"]}
+
+    def typed_tag(cid):
+        # the data type beside a value's column: `rulhours` is an integer, and dividing it
+        # truncates, which finding 172's writers could not see in the listing
+        if cid not in where:
+            return ""
+        c = by_id.get(cid, {})
+        dt = (c.get("dataType") or {}).get("name") if c.get("kind") == "value" else None
+        return " [%s%s]" % (where[cid], ": " + dt if dt else "")
     for kind, label in (("entity", "Entity types"), ("value", "Value types")):
         typed = sorted((c["name"], c["id"]) for c in model["concepts"] if c["kind"] == kind)
-        names = [n + (" [%s]" % where[i] if i in where else "") for n, i in typed]
+        names = [n + typed_tag(i) for n, i in typed]
         lines += ["  %s (%d): %s" % (label, len(names), ", ".join(names)), ""]
     if hidden:
         # The filter scores the words the question uses, and a question names what it is about
@@ -502,6 +512,12 @@ def describe(model, question=None, relational=False):
     for c in sorted((c for c in model["concepts"] if c["kind"] == "fact"),
                     key=lambda c: c["name"]):
         line = "  %-28s %s%s" % (c["name"], lex.verbalise(c), tag(c["id"]))
+        roles = c.get("roles", [])
+        if len(roles) == 2 and any(by_id.get(r["player"], {}).get("kind") == "entity"
+                                   and not r.get("isMandatory") for r in roles[:1]):
+            # optional for the first player: not every one has it (finding 172 -- the model
+            # held this and the listing never said it)
+            line += "   (optional: not every %s has one)" % by_id.get(roles[0]["player"], {}).get("name", "?")
         if c.get("derivation") in rules:
             src = " ".join(rules[c["derivation"]].get("source", "").split())
             line += "   (derived: %s)" % src
@@ -802,6 +818,10 @@ def main(argv=None):
     p.add_argument("--json", action="store_true",
                    help="with --explain or --check, emit the interpretation as JSON")
     p.add_argument("--schema", action="store_true", help="describe what the schema allows")
+    p.add_argument("--knowledge", metavar="FILE",
+                   help="with --schema --for: a knowledge base as JSON lines. The definitions "
+                        "of the terms the question names widen what the view keeps; nothing "
+                        "is added to the listing itself")
     p.add_argument("--relational", action="store_true",
                    help="with --schema, say where each thing is stored -- table, column, "
                         "JSON field, foreign key -- for a reader who will write SQL")
@@ -841,7 +861,9 @@ def main(argv=None):
         model = json.load(fh)
 
     if args.schema:
-        print(describe(model, args.about, relational=args.relational))
+        knowledge = ([json.loads(l) for l in open(args.knowledge) if l.strip()]
+                     if args.knowledge else None)
+        print(describe(model, args.about, relational=args.relational, knowledge=knowledge))
         return 0
 
     # Read-only, and read-only in the way that leaves the file alone: a plain connect()

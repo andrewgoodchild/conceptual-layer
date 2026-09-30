@@ -91,6 +91,7 @@ def json_shapes(db, cat):
 # with (finding 156), less the two that change the model's shape rather than describe it --
 # `--infer-keys` and `--infer-json`, whose work the catalogue and `json_shapes` already do.
 PROFILE = ["infer_domains", "infer_enforced", "infer_partitions", "merge_domains", "profile",
+           "infer_keys",
            "expand_names", "infer_identifiers"]
 
 

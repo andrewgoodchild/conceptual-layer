@@ -245,7 +245,9 @@ class Links:
 
 
 class Annotator:
-    def __init__(self, schema_text, model=None, desc=None, values=None, links=None):
+    def __init__(self, schema_text, model=None, desc=None, values=None, links=None,
+                 knowledge=None):
+        self.knowledge = knowledge
         self.ddl = DdlLinker(schema_text)
         self.model = model
         self.notes = Notes(model) if model else None
@@ -282,7 +284,7 @@ class Annotator:
         if not (question or "").strip():
             return "\n".join(render(n, b, notes, desc, max_fields=10 ** 6)
                              for n, b in self.ddl.blocks)
-        ranked = self.ranked(question)
+        ranked = self.ranked(link_mod.widen(question, self.knowledge))
         forced, said = [], []
         linked = self.links.find(question) if self.links else None
         if linked:
@@ -346,6 +348,9 @@ def main(argv=None):
                         "where a value the question names is stored, and shows that table")
     p.add_argument("--links", metavar="FILE",
                    help="question text -> {tables, columns} a draft of it used")
+    p.add_argument("--knowledge", metavar="FILE",
+                   help="a knowledge base as JSON lines; the definitions of the terms a "
+                        "question names widen the tables chosen for it")
     args = p.parse_args(argv)
     if args.plain:
         model, schema = None, args.paths[-1]
@@ -356,9 +361,12 @@ def main(argv=None):
         schema = args.paths[1]
     desc = Descriptions([tuple(d.split("=", 1)) if "=" in d else ("", d)
                          for d in args.describe]) if args.describe else None
+    knowledge = ([json.loads(l) for l in open(args.knowledge) if l.strip()]
+                 if args.knowledge else None)
     print(Annotator(open(schema).read(), model, desc,
                     Values(args.values) if args.values else None,
-                    Links(args.links) if args.links else None).view(args.about, args.budget))
+                    Links(args.links) if args.links else None,
+                    knowledge).view(args.about, args.budget))
     return 0
 
 
