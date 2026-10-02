@@ -71,7 +71,6 @@ def main():
                 if qq:
                     print("  %d of 3 agree: %3d questions, vote right on %d"
                           % (k, len(qq), sum(1 for q in qq if ok("conquer_vote", q))))
-    everything = [a for a in by if a != "conquer_vote" or True]
     union_all = sum(1 for q in qs if any(ok(a, q) for a in by))
     print("\noracle over every arm scored: %d of %d" % (union_all, len(qs)))
 

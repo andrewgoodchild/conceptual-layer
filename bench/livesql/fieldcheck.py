@@ -131,22 +131,6 @@ def split_definition(definition):
     return [s for s in head.split("=") if s.strip()]
 
 
-def defined_names(entry):
-    """What a definition calls the thing it defines: its symbol, its abbreviation, and the
-    term itself with the spaces taken out."""
-    out = set()
-    d = entry.get("definition") or ""
-    if "=" in d:
-        out |= {t.strip() for t in re.findall(
-            r"\\(?:text|mathrm|mathit)\s*\{([^{}]*)\}", d.split("=", 1)[0])}
-    term = (entry.get("knowledge") or "").strip()
-    m = re.search(r"\(([A-Z][A-Za-z0-9]{1,9})\)\s*$", term)
-    if m:
-        out.add(m.group(1))
-    out.add(re.sub(r"\s*\([^)]*\)\s*$", "", term).replace(" ", ""))
-    return {o for o in out if o}
-
-
 # -- the three checks ------------------------------------------------------------------
 
 def check_decoys(db, con):

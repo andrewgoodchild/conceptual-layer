@@ -45,7 +45,6 @@ DBS = os.path.join(DATA, "sqlite_tier")
 # `\text{SnrRatio}`, `\mathrm{...}`, or a bare CamelCase run inside the formula.
 TEXT = re.compile(r"\\(?:text|mathrm|mathit|textit|textbf)\s*\{([^{}]*)\}")
 WORD = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
-NUMBER = re.compile(r"(?<![\w.])\d+(?:\.\d+)?(?![\w.])")
 # The abbreviation a definition is cited by: "Signal Stability Metric (SSM)".
 ABBREV = re.compile(r"\(([A-Z][A-Za-z0-9]{1,9})\)\s*$")
 

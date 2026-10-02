@@ -30,7 +30,6 @@ otherwise, *before* the SQL runs.
 
 from __future__ import annotations
 
-from typing import List
 
 import lower as lowering
 import parser as cq
@@ -112,18 +111,6 @@ class Verbaliser:
 
     def cname(self, cid) -> str:
         return self.lex.concepts.get(cid, {}).get("name", cid)
-
-    def reading_for(self, fact_id, from_role, to_role) -> str:
-        """The verb part that steps from one role to the other, as the model words it."""
-        fact = self.lex.concepts[fact_id]
-        for verb, a, b in self.lex.reading_slots(fact):
-            if a == from_role and b == to_role:
-                return verb
-            if a == to_role and b == from_role:
-                inv = self.lex.__class__._inverse_of(verb)
-                if inv:
-                    return inv
-        return "is related to"
 
     # -- the walk ----------------------------------------------------------
 
@@ -331,7 +318,7 @@ class Verbaliser:
                 return None
             if ast.op == "and":
                 self.sibling_fanout(ast, head_concept)
-            tail = self.path(ast.left, head_concept)
+            self.path(ast.left, head_concept)
             self.out.sentence.append(words.get(ast.op, ast.op))
             # AND ALSO / OR OTHERWISE / BUT NOT are Fr: the right operand continues from the
             # HEAD, not from where the left operand ended. Passing the tail made every such
@@ -750,9 +737,6 @@ def explain(model: dict, text: str, lexicon=None) -> Interpretation:
     for invocation, expansion in parser.expanded_macros:
         out.note(NOTE, "expanded", "Macro (§6.9): %s stands for %s" % (invocation, expansion))
     return out
-
-
-MARK = {RISK: "!", CAUTION: "?", NOTE: "-"}
 
 
 def render(interp: Interpretation) -> str:

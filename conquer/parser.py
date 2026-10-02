@@ -70,16 +70,6 @@ class TypeSpec:
 
 
 @dataclass
-class Predicate:
-    """One mix-fix step: a verb part resolved to a fact type, plus what follows it."""
-    fact: str
-    from_role: str
-    to_role: str
-    verb: str
-    target: Optional[object] = None
-
-
-@dataclass
 class RoleSpec:
     """Appendix B.2 <role reference>: naming a role rather than the type that plays it."""
     roles: List[str]
@@ -366,12 +356,6 @@ UNLOWERED = {
     "OTHERWISE": "the alternatives sequence of section 7.5, ... IF ...; ... OTHERWISE ...",
 }
 
-# B.2 <confluence>. Unlike the entries above, `EACH` cannot simply be listed there: the
-# report's own examples also use "each" as an article ("LIST n FROM each Employee ..."), and
-# NOISE already lets it through in that position. Only the operator position -- after a
-# complete descriptor -- is refused, by `_refuse_confluence`.
-CONFLUENCE_REASON = ("section 6.5's confluence operation, `Q1 AS a1 VIA x1, ... EACH P`, "
-                     "which gathers side paths onto a base path")
 VALUE_CMP = {"IS EQUAL TO": "=", "IS NOT EQUAL TO": "<>", "IS LESS THAN OR EQUAL TO": "<=",
              "IS LESS THAN": "<", "IS GREATER THAN OR EQUAL TO": ">=",
              "IS GREATER THAN": ">", "=": "=", "<>": "<>", "!=": "<>",
@@ -823,10 +807,6 @@ class Parser:
             return False
         finally:
             self.i = save
-
-    def _refuse_confluence(self):
-        raise ParseError("'EACH' is %s, which this transpiler parses but does not compile"
-                         % CONFLUENCE_REASON)
 
     def at_phrase(self, *phrases) -> bool:
         save = self.i
@@ -1377,8 +1357,6 @@ class Parser:
             or (t.kind == "punct" and t.text in "(["))
         self.i = save
         return ok
-
-    ARITH = {"add": "+", "subtract": "-", "multiply": "*", "divide": "/", "power": "^"}
 
     def parse_scalar(self):
         """<scalar expression> ::= ... | <scalar> <bin operator> <scalar> | '(' <scalar> ')'"""

@@ -99,7 +99,7 @@ def main():
     gold = {g["instance_id"]: g for g in map(json.loads, open(os.path.join(
         DATA, "livesqlbench_large_v1_gt.jsonl")))}
     ddl = {}
-    total, shown_all, per_round = Counter(), Counter(), {}
+    total, shown_all = Counter(), Counter()
     by_round_arm = {}
     view_cache = {}
     for name, work in ROUNDS:

@@ -29,7 +29,6 @@ sys.path.insert(0, HERE)
 DATA = os.path.join(HERE, "data")
 WORK = os.path.join(HERE, "work", "pilot-scale3")
 MODELS = os.path.join(HERE, "work", "models-profiled2")
-KINDS = ("measure", "condition", "value", "none")
 
 
 def kb(db):

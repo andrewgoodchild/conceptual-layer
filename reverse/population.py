@@ -1793,47 +1793,6 @@ def _same_type(a, b) -> bool:
     return norm(a) == norm(b)
 
 
-def _name_agrees(column: str, target_table: str, target_key: str) -> bool:
-    """Does the column's *name* point at the same place its values do?
-
-    The two signals fail in opposite directions. Name matching (derive.py rule 9) is precise
-    and blind: it found nothing at all in Bird's case study, where references are named for the
-    concept and keys for the identifier. Containment is the reverse -- it finds nearly every
-    real reference and a pile of arithmetic coincidences besides. Where both agree the finding
-    is worth much more than either alone, so it is marked, and the report leads with those.
-    """
-    col, tbl, key = column.casefold(), target_table.casefold(), target_key.casefold()
-    if col == key:
-        return True
-    stem = tbl[:-1] if tbl.endswith("s") and len(tbl) > 3 else tbl
-    return stem in col or col in tbl
-
-
-def _dense_integer_run(conn, table, col) -> bool:
-    """Do this column's values form a contiguous run of integers?
-
-    Surrogate keys are 1..N, and 1..N is contained in 1..M whenever N <= M. Containment
-    between two such columns is therefore arithmetic, not evidence: `Album.AlbumId` is
-    "contained in" `Invoice.InvoiceId` for no reason but that there are fewer albums than
-    invoices. Rejecting the pair when *both* sides are contiguous runs removes that whole
-    class without touching a real foreign key, whose child column is a scattered subset
-    rather than a run.
-    """
-    try:
-        row = conn.execute(
-            "SELECT MIN(%s), MAX(%s), COUNT(DISTINCT %s), "
-            "       SUM(CASE WHEN typeof(%s) = 'integer' THEN 0 ELSE 1 END) "
-            "FROM %s WHERE %s IS NOT NULL"
-            % (_q([col]), _q([col]), _q([col]), _q([col]), _t(table.name), _q([col]))
-        ).fetchone()
-    except sqlite3.Error:
-        return False
-    lo, hi, distinct, non_int = row
-    if lo is None or non_int:
-        return False
-    return hi - lo + 1 == distinct
-
-
 def _distinct(conn, table, col) -> int:
     try:
         return conn.execute('SELECT COUNT(DISTINCT %s) FROM %s'

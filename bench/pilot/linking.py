@@ -178,7 +178,7 @@ def main(argv=None):
               % args.corpus)
         return 2
     linkers, models = {}, {}
-    n = kept_all = recalled = 0
+    n = recalled = 0
     kept_concepts = total_concepts = kept_tables = total_tables = 0
     misses = []
     for db, path, question, sql in corpus_rows:
