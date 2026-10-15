@@ -78,6 +78,30 @@ def main(argv):
     out = server.run_sql("company", "CREATE TABLE zz (a INT)")
     check("the connection is read-only", "SQL error" in out and "readonly" in out.lower() or "read-only" in out.lower(), out[:200])
 
+    import sqlcheck
+    if sqlcheck.available():
+        out = server.run_sql("company", "SELECT SUM(d.budget) FROM department d "
+                             "JOIN employee e ON e.dept_code = d.dept_code")
+        check("run_sql puts a fan trap above the rows", out.startswith("The model says")
+              and "fan trap" in out and "row" in out, out[:300])
+        out = server.run_sql("company", "SELECT COUNT(*) AS n FROM employee")
+        check("and says nothing when there is nothing to say", not out.startswith("The model"))
+        out = server.check_sql("company", "SELECT SUM(DISTINCT e.salary) FROM employee e "
+                               "JOIN assignment a ON a.emp_nr = e.emp_nr")
+        check("check_sql reports without running", "SUM(DISTINCT)" in out and "instead" in out, out)
+
+    # a restricted database: hidden from the description and refused by the connection
+    server.DATABASES["restricted"] = {"sqlite": db, "model": model, "hide": ["assignment"]}
+    text = server.describe_schema("restricted", relational=True)
+    check("a hidden table is not described", "assignment" not in text.lower()
+          and "Employee" in text, text[:200])
+    out = server.run_sql("restricted", "SELECT * FROM assignment")
+    check("and reading it is refused", "SQL error" in out and "prohibited" in out, out[:200])
+    out = server.run_query("restricted", "LIST h FROM Assignment has AssignmentHours h")
+    check("and ConQuer cannot name it", "SQL:" not in out, out[:200])
+    check("list_databases says the view is restricted",
+          "restricted by the server" in server.list_databases())
+
     brief = server.writing_brief("conquer")
     check("the ConQuer brief carries the primer", "run_query" in brief and "ConQuer" in brief and len(brief) > 5000)
     brief = server.writing_brief("sql")
@@ -102,8 +126,9 @@ def main(argv):
 
     try:
         tools, prompts, text = asyncio.run(over_stdio())
-        check("stdio: the six tools are listed",
-              {"list_databases", "build_model", "describe_schema", "explain_query", "run_query", "run_sql"} <= tools, str(tools))
+        check("stdio: the seven tools are listed",
+              {"list_databases", "build_model", "describe_schema", "explain_query", "run_query",
+               "run_sql", "check_sql"} <= tools, str(tools))
         check("stdio: the brief is a prompt", "writing_brief" in prompts, str(prompts))
         check("stdio: describe_schema answers", "Employee" in text, text[:200])
     except Exception as e:                                             # noqa: BLE001

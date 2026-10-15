@@ -15,8 +15,10 @@ is inside the documents -- and the language is optional; docs/07 has the numbers
     python3 mcp/server.py --config mcp/databases.json     # stdio, for a client's config file
     python3 mcp/server.py --sqlite path/to.sqlite         # one database, model built on demand
 
-Needs the `mcp` package, the one dependency outside the standard library in this repository
-and needed only here; `psycopg` for a PostgreSQL database. Every connection is read-only.
+Needs the `mcp` package, version 1; `psycopg` for a PostgreSQL database; `sqlglot` to check
+hand-written SQL against the model, without which `run_sql` runs it unchecked. Every
+connection is read-only, and a database's entry in the config may restrict what a caller sees
+(access.py).
 """
 import argparse
 import functools
@@ -29,16 +31,20 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 sys.path.insert(0, os.path.join(ROOT, "conquer"))
+sys.path.insert(0, HERE)
 
 import conquer as driver              # noqa: E402
 import parser as parser_mod           # noqa: E402
 import sql as sql_mod                 # noqa: E402
+import sqlcheck                       # noqa: E402
+import access as access_mod           # noqa: E402  (this directory, for HERE is on the path)
 
 try:
     from mcp.server.fastmcp import FastMCP   # noqa: E402
 except ImportError:
     # Without the package, `mcp` resolves to this directory and the error names the wrong thing.
-    sys.exit("the MCP server needs the `mcp` package: pip install mcp (Python 3.10 or later)")
+    sys.exit("the MCP server needs the `mcp` package, version 1: pip install 'mcp<2' "
+             "(Python 3.10 or later; mcp 2 renamed FastMCP)")
 
 mcp = FastMCP("conceptual-layer")
 
@@ -68,28 +74,100 @@ def _model_path(name):
 
 
 @functools.lru_cache(maxsize=32)
-def _loaded(path, mtime):
-    """The model, its lexicon and its emitter, built once per file version."""
+def _loaded(path, mtime, restriction=None):
+    """The model, its lexicon and its emitter, built once per file version -- and per
+    restriction, which is applied before anything else reads the model (access.py)."""
     model = json.load(open(path))
+    if restriction is not None:
+        model = restriction.restrict(model)
     lexicon = parser_mod.Lexicon(model)
     emitter = sql_mod.Emitter(model) if model.get("mapping") else None
     return model, lexicon, emitter
 
 
-def _model(name):
+def _access(name):
+    """What the configuration lets a caller of this database see. Worked out once; for a
+    PostgreSQL role, from the database's own privileges, as the role."""
+    e = _entry(name)
+    if not e.get("role"):
+        if "_access" not in e:
+            e["_access"] = access_mod.from_entry(e)
+        return e["_access"]
+    # a role's privileges are read against the model's tables: again when the model changes
+    path = _model_path(name)
+    if not os.path.exists(path):
+        raise ValueError("%s has no model yet" % name)
+    mtime = os.path.getmtime(path)
+    if e.get("_access_for") != mtime:
+        conn = _raw_connect(name)
+        try:
+            e["_access"] = access_mod.from_entry(e, json.load(open(path)), conn)
+        finally:
+            conn.close()
+        e["_access_for"] = mtime
+    return e["_access"]
+
+
+def _model_version(name):
+    """What `_loaded` is keyed on: the file, its version and the restriction."""
     path = _model_path(name)
     if not os.path.exists(path):
         raise ValueError("%s has no model yet: call build_model(%r) first" % (name, name))
-    return _loaded(path, os.path.getmtime(path))
+    acc = _access(name)
+    return path, os.path.getmtime(path), acc if acc.restricted or acc.rls else None
 
 
-def _connect(name):
+def _model(name):
+    return _loaded(*_model_version(name))
+
+
+def _raw_connect(name):
     e = _entry(name)
     if e.get("sqlite"):
         return sqlite3.connect("file:%s?mode=ro" % e["sqlite"], uri=True)
     if e.get("dsn"):
-        return driver._Server(e["dsn"])
+        conn = driver._Server(e["dsn"])
+        if e.get("role"):
+            # as the role from the first statement: the server refuses what it may not
+            # read and row-level security filters the rows, whatever the SQL says
+            conn.conn.execute('SET ROLE "%s"' % e["role"].replace('"', '""'))
+        return conn
     raise ValueError("%s names neither a sqlite file nor a dsn" % name)
+
+
+def _connect(name):
+    e = _entry(name)
+    if e.get("dsn") and not e.get("role") and _access(name).restricted:
+        # nothing on PostgreSQL would refuse what "tables" or "hide" leave out of the model
+        raise ValueError("%s restricts what is shown but names no role: on PostgreSQL the "
+                         "role is what refuses the rest (access.py)" % name)
+    conn = _raw_connect(name)
+    if e.get("sqlite"):
+        _access(name).guard(conn)
+    return conn
+
+
+@functools.lru_cache(maxsize=32)
+def _keys(path, mtime, restriction=None):
+    """The checker's reading of a model, once per model `_loaded` builds."""
+    return sqlcheck.Keys(_loaded(path, mtime, restriction)[0])
+
+
+def _dialect(name):
+    return "postgres" if _entry(name).get("dsn") else "sqlite"
+
+
+def _checked(name, sql):
+    """What the model says about this SQL's joins, or "" -- also when sqlglot is absent,
+    since the check is advice and the rows do not depend on it."""
+    if not sqlcheck.available() or not os.path.exists(_model_path(name)):
+        return ""
+    version = _model_version(name)
+    found = sqlcheck.check(_loaded(*version)[0], sql, _dialect(name), _keys(*version))
+    if not found:
+        return ""
+    return ("The model says about this SQL (the rows are below; these say why they may not "
+            "be the answer):\n" + sqlcheck.render(found) + "\n\n")
 
 
 def _rows(conn, statement, params, limit):
@@ -118,6 +196,8 @@ def list_databases() -> str:
             state = built
         else:
             state = "no model yet -- build_model(%r)" % name
+        if e.get("tables") is not None or e.get("hide") or e.get("role"):
+            state += "; what is shown is restricted by the server's configuration"
         lines.append("%-24s %-14s %s\n%26s%s" % (name, "postgresql" if e.get("dsn") else "sqlite",
                                                  where, "", state))
     return "\n".join(lines)
@@ -142,6 +222,9 @@ def build_model(database: str, flags: str = "") -> str:
     if r.returncode != 0:
         return "build failed:\n" + (r.stderr or r.stdout)[-2000:]
     e["model"] = os.path.join(MODEL_DIR, "%s.ccm.json" % database)
+    if _access(database).restricted:
+        # the report is about every table, the hidden ones too
+        return "built %s" % e["model"]
     report = os.path.join(MODEL_DIR, "%s.report.md" % database)
     tail = open(report).read()[:1500] if os.path.exists(report) else ""
     return "built %s\n\n%s" % (e["model"], tail)
@@ -214,12 +297,28 @@ def run_query(database: str, query: str, limit: int = 50) -> str:
 def run_sql(database: str, sql: str, limit: int = 50) -> str:
     """Run a SQL statement against the database, read-only, and show the first rows. For an
     agent writing SQL with `describe_schema(relational=True)` beside it -- the layer without
-    the language, which the measurements say is where the value is."""
+    the language, which the measurements say is where the value is. Where the model says
+    the joins multiply what an aggregate adds up (a fan trap), join on columns it does not
+    relate, or pair tables nothing joins, that comes first, with what to write instead."""
+    note = _checked(database, sql)
     conn = _connect(database)
     try:
-        return _rows(conn, sql, (), limit)
+        return note + _rows(conn, sql, (), limit)
     finally:
         conn.close()
+
+
+@mcp.tool()
+def check_sql(database: str, sql: str) -> str:
+    """Check SQL against the conceptual model without running it: an aggregate over rows a
+    join multiplies (SUM, AVG or COUNT counting a value once per match), rows repeated by a
+    join used as a filter, a join on columns the model does not relate, tables with nothing
+    joining them, SUM(DISTINCT), a sum of a value the model says is not additive. Each
+    finding says what to write instead. `run_sql` reports the same before its rows."""
+    if not sqlcheck.available():
+        return "the SQL checker needs sqlglot on the server: pip install sqlglot"
+    return _checked(database, sql).strip() or "nothing to say: the model finds no problem " \
+        "with these joins (it checks joins and aggregates, not whether this answers the question)"
 
 
 # --------------------------------------------------------------------------- prompts

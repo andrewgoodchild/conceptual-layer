@@ -7,7 +7,8 @@ those tools over the [Model Context Protocol](https://modelcontextprotocol.io), 
 that speaks it: Claude Code, Claude Desktop, an agent framework.
 
 ```sh
-pip install mcp                                   # the one dependency; psycopg for PostgreSQL
+pip install 'mcp<2'                               # mcp 2 renamed FastMCP; psycopg for PostgreSQL,
+                                                  # sqlglot for the SQL checker
 python3 mcp/server.py --sqlite examples/db/chinook.sqlite       # one database
 python3 mcp/server.py --config mcp/databases.json               # several; see the example
 ```
@@ -27,10 +28,43 @@ model is built on demand.
 | `describe_schema` | the description, narrowed to a question: what identifies each thing, what is inside the documents, the value domains, the cautions from profiling, every relationship as a sentence; `relational=True` puts the table, column, JSON field or foreign key beside each entry |
 | `explain_query` | a ConQuer query read back in English, with its risks, without running it |
 | `run_query` | a ConQuer query compiled and run, read-only: the reading, the SQL, the rows — or the refusal and how to write it instead |
-| `run_sql` | plain SQL, read-only, for an agent that writes SQL with the description beside it |
+| `run_sql` | plain SQL, read-only, for an agent that writes SQL with the description beside it — with what the model says about its joins above the rows, when it says anything |
+| `check_sql` | the same check without running: an aggregate over rows a join multiplies, rows a join repeats, a join on columns the model does not relate, a cross product, SUM(DISTINCT), a sum of a non-additive value — each with what to write instead (`conquer/sqlcheck.py`, needs `sqlglot`) |
 | prompt `writing_brief` | how to work with the tools: `conquer` (with the one-page primer) or `sql` |
 
 Every connection is read-only, with a statement timeout on PostgreSQL.
+
+## What a caller may see
+
+A database's entry can restrict it: `"tables": [...]` shows only those, `"hide": ["audit_log",
+"employee.salary"]` hides tables or columns, and on PostgreSQL `"role": "analyst"` runs every
+statement as that role and hides whatever it has no SELECT privilege on. The restriction is
+applied to the model before anything reads it, so a hidden table is absent from the
+description -- never named in the "not shown" list, never in a caution -- and the connection
+refuses it: a SQLite authorizer refuses reads of anything hidden (through views, the
+catalogue and the pragmas too), and PostgreSQL refuses for the role, with row-level security
+filtering the rows. **On PostgreSQL that holds only if the DSN logs in as the role.** `"role"`
+is applied with `SET ROLE` after connecting, and a caller's own SQL can undo it (`RESET ROLE`,
+or `set_config('role', ...)` inside a SELECT), so against an agent that writes SQL it narrows
+the description and does not enforce anything. Give such an entry a DSN whose login is the
+role. An entry with `"tables"` or `"hide"` and no role is refused for queries on PostgreSQL,
+since nothing there would enforce it. Under a row-level policy the profiled value domains and cautions are left
+out, because they were read from rows the role may not see. If the role's privileges cannot
+be read, nothing is described. The server has no notion of who its client is; the identity
+is the configuration's, so serve each role from its own server. `access.py` has the detail
+and `tests/test_access.py` the cases (the PostgreSQL half against a stand-in connection).
+
+## What the SQL checker is worth
+
+`bench/pilot/sqlcheck_eval.py` ran it over the 1,200 SQL answers the pilot's twelve SQL arms
+recorded, each scored when it was made. Of the 13 it called fan traps, 11 were wrong (85%)
+against 31% of the answers it said nothing about -- but those 13 are three questions, so it
+is a signal, not a rate. Cross products: 15 of 22 wrong (68%, five questions). Repeated rows
+showed nothing (28% wrong), as it cannot on BIRD, whose scorer compares sets; it is printed
+as a note for that reason. On BIRD's own gold SQL it flags 30 of 500 as fan traps, many of
+them real (`AVG` of a patient's age over every laboratory row), and its one join-key finding
+is q571, the wrong gold sqlsure reported. Whether showing the findings changes what a writer
+does is not measured: no arm has run with them.
 
 ## What to expect from it
 

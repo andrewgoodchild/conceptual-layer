@@ -6,6 +6,11 @@
   "chinook": {
     "sqlite": "../examples/db/chinook.sqlite"
   },
+  "company-restricted": {
+    "sqlite": "../.work/company.sqlite",
+    "model": "../.work/company.ccm.json",
+    "hide": ["assignment", "employee.salary"]
+  },
   "warehouse": {
     "dsn": "postgresql://USER:PASSWORD@localhost:5432/warehouse",
     "model": "models/warehouse.ccm.json"

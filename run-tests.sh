@@ -164,5 +164,8 @@ python3 "$root/conquer/tests/test_sqlcheck.py" \
         --model "$work/company.ccm.json" --db "$work/company.sqlite"
 
 echo
+python3 "$root/mcp/tests/test_access.py"
+
+echo
 # The MCP server, when the `mcp` package is installed; it says so and passes when it is not.
 python3 "$root/mcp/tests/test_server.py"

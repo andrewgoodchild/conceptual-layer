@@ -134,15 +134,16 @@ LiveSQLBench in [`bench/livesql/`](bench/livesql/README.md).
 ./run-tests.sh
 python3 reverse/reverse.py yours.sqlite -o out/ -n yours --infer-domains --profile --infer-identifiers --infer-json
 python3 conquer/conquer.py out/yours.ccm.json --schema --relational
-pip install mcp && python3 mcp/server.py --sqlite yours.sqlite
+pip install 'mcp<2' && python3 mcp/server.py --sqlite yours.sqlite
 ```
 
 `reverse.py` exits 1 when its report lists blockers — tables it could not model — and still
 writes the model; the report says what each one needs.
 
-Python 3.9 or later, standard library only for SQLite. Optional: `mcp` for the server (Python
-3.10 or later), `psycopg` and `SQLAlchemy` for PostgreSQL, `jsonschema` for the schema half of
-`model/validate.py`.
+Python 3.9 or later, standard library only for SQLite. Optional: `mcp` 1.x for the server
+(Python 3.10 or later), `sqlglot` for checking hand-written SQL against the model
+(`conquer/sqlcheck.py`), `psycopg` and `SQLAlchemy` for PostgreSQL, `jsonschema` for the
+schema half of `model/validate.py`.
 
 ## Documentation
 
