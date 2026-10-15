@@ -10,13 +10,24 @@ reverse.py --json catalog.json -o out/       a fixture, for tests
 reverse.py --dsn "postgresql://..." -o out/  a live server's information_schema
 ```
 
-Three files come out:
+Four files come out:
 
 | File | What it is |
 |---|---|
 | `<name>.ccm.json` | The draft Common Core Model — **including the relational mapping** |
 | `<name>.orm` | The same schema as a NORMA file, for viewing and validating (there is no importer back) |
 | `<name>.report.md` | The worklist: what was guessed, what was skipped, what is blocked |
+| `<name>.review.json` | The same claims as a file someone can sign: each with the query that would refute it, where it is a claim about rows, and what a person decided. Read back on the next build — a decision survives it, and a **rejected** inference is not applied again |
+
+```sh
+review.py out/x.review.json                          # what is still proposed, least trustworthy first
+review.py out/x.review.json reject ID --by NAME --reason "a loyalty id, not the customer"
+review.py out/x.review.json accept ID --by NAME
+review.py out/x.review.json --db x.sqlite --check    # re-run every probe: has an insert refuted one?
+```
+
+The inferences a rejection stops are the ones that change the model: rule 9's name-based
+references, rules 9a-9d and 1d from the rows, and second identifiers.
 
 Exit status is 1 when there are blockers, so it drops into a build script.
 
@@ -148,6 +159,7 @@ checked the right way round.
 | `population.py` | **Bird's Step 9**: reads the data as well as the catalogue and reports the constraints it supports — candidate foreign keys (subset constraints), candidate identifiers, candidate mandatory roles, and candidate value domains (rule 6b, ours rather than Bird's). `--analyse-data`, SQLite only. Every finding carries the population behind it, at confidence `population`, and is never applied. Measured against four databases that declare their foreign keys: **87% recall, 17% precision** alone; where the column *name* also points at the target, **100% precision at 77% recall** — two independently weak signals that are strong together. |
 | `tests/test_population.py` | Step 9 on a fixture whose answers are known, including a column that is unique only by coincidence and must be reported rather than trusted. 37 cases. |
 | `tests/scenarios/09-warehouse-wide-and-junk.sql` | Star-schema shapes, none of which had been tried: a keyless fact table with four foreign keys and measures (rule 1b, objectified by the measures — the right ORM reading of a star), a Kimball junk dimension, a 40-column repeating group, and a degenerate dimension. |
+| `review.py` | **The review file**: claims with a probe each, accepted or rejected by a named person, `--check` to re-run the probes against today's rows. `tests/test_review.py` walks one claim from inference to rejection to not being made again. |
 | `ormlint.py` | **Modelling quality, not well-formedness.** `model/validate.py` asks whether a model is structurally sound; this asks whether it is good ORM. Ten checks over identity, subtyping, constraints, readings and naming. Four of them take `--db` and *measure*, because the questions they ask are about the population rather than the schema: a subtype is a proper subset by definition, and only the data knows whether a partition is proper. Severities follow `validate.py` — `error` fails the file, `warning` and `note` report. |
 | `tests/test_ormlint.py` | **Every check pinned twice: a model that has the defect and one that does not.** The negatives carry the weight. Three checks were false positives at corpus scale before the negatives caught them — a mandatory *value* role over a nullable column (vacuous: a value type's population excludes null), every FORML hyphen binding read as a mangled reading (177 of 177 correct), and an objectified fact type's identifier read as dangling (it is the objectified roles, which is what objectification means). 30 cases. |
 

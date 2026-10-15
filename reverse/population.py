@@ -46,6 +46,7 @@ import re
 import sqlite3
 
 import catalog as catalog_mod
+import review as review_mod
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Sequence, Tuple
 
@@ -265,6 +266,9 @@ def shared_key_links(conn: sqlite3.Connection, catalog) -> List[tuple]:
                 except sqlite3.Error:
                     continue
                 if not total or matched != total:
+                    continue
+                if review_mod.vetoed("rule 9d", "%s (%s) -> %s"
+                                     % (child.name, ", ".join(ccols), parent.name)):
                     continue
                 if not any({c.casefold() for c in u} == {c.casefold() for c in pcols}
                            for u in [parent.primary_key] + list(parent.uniques)):
@@ -1934,6 +1938,8 @@ def apply_keys(analysis: Analysis, catalog, tables=None, conn=None) -> List[tupl
                 best = (NAMED_FOR_ITS_TABLE, [col], candidates[0].evidence)
         if best is None:
             continue
+        if review_mod.vetoed("rule 9b", "%s (%s)" % (t.name, ", ".join(best[1]))):
+            continue
         t.primary_key = list(best[1])
         applied.append((t.name, list(best[1]), best[2]))
 
@@ -1973,6 +1979,8 @@ def _keys_that_are_referenced(conn, analysis, tables, unique_by_table) -> List[t
             if not analysis.row_counts.get(other.name):
                 continue
             if _contained(conn, other, [col], t, [col]) is None:
+                continue
+            if review_mod.vetoed("rule 9b", "%s (%s)" % (t.name, col)):
                 continue
             t.primary_key = [col]
             applied.append((t.name, [col],
@@ -2103,6 +2111,9 @@ def apply_references(analysis: Analysis, catalog, tables=None) -> List[tuple]:
             continue
         if [c.casefold() for c in t.primary_key] == [c.casefold() for c in f.columns]:
             continue                # a key that references another key is the 1:1 subtype
+        if review_mod.vetoed("rule 9c", "%s.%s -> %s" % (f.table, ", ".join(f.columns),
+                                                         f.target_table)):
+            continue
         t.foreign_keys.append(catalog_mod.ForeignKey(
             columns=list(f.columns), ref_table=target.name,
             ref_columns=list(f.target_columns or target.primary_key)))
@@ -2130,6 +2141,8 @@ def apply_mandatory(analysis: Analysis, catalog, tables=None) -> List[tuple]:
         t = by_table.get(f.table)
         col = t.column(f.columns[0]) if t else None
         if col is None or not col.nullable or t.is_key(col.name):
+            continue
+        if review_mod.vetoed("rule 9a", "%s.%s" % (f.table, col.name)):
             continue
         col.nullable = False
         applied.append((f.table, col.name, f.evidence))
@@ -2524,6 +2537,8 @@ def apply_alternate_keys(analysis: Analysis, model: dict, report) -> int:
         role = role_of.get((f.table.casefold(), f.columns[0].casefold()))
         if role is None or role in already:
             continue
+        if review_mod.vetoed("alternate identifier", "%s.%s" % (f.table, f.columns[0])):
+            continue
         model.setdefault("constraints", []).append(
             {"id": "uc.alt.%s" % role.split(".", 1)[-1].replace(".", "_"),
              "kind": "uniqueness", "roleSequences": [[role]],
@@ -2541,7 +2556,8 @@ def apply_alternate_keys(analysis: Analysis, model: dict, report) -> int:
                       "query author that %s is a second way to name the same thing." % vt,
                       "Confirm it. Uniqueness in today's rows is not uniqueness, and an "
                       "identifier that is wrong is a wrong identity in every query that "
-                      "walks it. Recorded as deontic for that reason.")
+                      "walks it. Recorded as deontic for that reason.",
+                      probe=review_mod.unique(table, [col]))
     return len(applied)
 
 
@@ -2992,7 +3008,9 @@ def _report_inclusion(analysis: Analysis, report) -> None:
             "Confirm with someone who knows the domain, then declare the foreign key and "
             "re-run. Containment in the current data is evidence, not a constraint: it can "
             "hold by coincidence, and an insert tomorrow can refute it."
-            + ("" if f.significant else " This population is too small to rely on."))
+            + ("" if f.significant else " This population is too small to rely on."),
+            probe=review_mod.contained(f.table, f.columns, f.target_table, f.target_columns)
+            if f.target_columns else None)
 
     if rejected:
         # One line, not one per candidate. Chinook alone yields 65 of these, and a report
@@ -3374,6 +3392,8 @@ def prefer_referenced_keys(conn: sqlite3.Connection, catalog, tables=None) -> Li
         except sqlite3.Error:
             continue
         if not n or d != n or nulls:
+            continue
+        if review_mod.vetoed("rule 1d", "%s (%s, not %s)" % (t.name, col.name, key)):
             continue
         t.primary_key = [col.name]
         col.nullable = False

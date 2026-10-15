@@ -11,7 +11,7 @@ mkdir -p "$work"
 # one by design, so its failure is tolerated below -- with stale files left in place, a
 # genuine crash would have been masked by the last good run's output.
 rm -f "$work/company.sqlite" "$work/company.ccm.json" "$work/company.orm" \
-      "$work/company.report.md" "$work/model-only.xml"
+      "$work/company.report.md" "$work/company.review.json" "$work/model-only.xml"
 python3 -c "
 import sqlite3, sys
 c = sqlite3.connect('$work/company.sqlite')
@@ -56,6 +56,9 @@ python3 "$root/reverse/tests/test_population.py"
 
 echo
 python3 "$root/reverse/tests/test_inference.py"
+
+echo
+python3 "$root/reverse/tests/test_review.py"
 
 echo
 python3 "$root/conquer/tests/test_operators.py" \

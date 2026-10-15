@@ -19,6 +19,7 @@ import re
 from typing import Dict, List, Optional, Tuple
 
 from catalog import Catalog, ForeignKey, Table
+import review as review_mod
 
 import os as _os
 import sys as _sys
@@ -494,9 +495,11 @@ class Report:
         self.blockers.append({"rule": rule, "subject": subject,
                               "message": message, "action": action})
 
-    def refine(self, rule, confidence, subject, message, action):
+    def refine(self, rule, confidence, subject, message, action, probe=None):
+        """`probe`, where the claim is about rows: SQL whose rows refute it (review.py)."""
         self.refinements.append({"rule": rule, "confidence": confidence, "subject": subject,
-                                 "message": message, "action": action})
+                                 "message": message, "action": action,
+                                 **({"probe": probe} if probe else {})})
 
     def as_dict(self):
         return {"summary": self.summary, "blockers": self.blockers,
@@ -1110,17 +1113,21 @@ class Deriver:
                 if pk is None or conceptual_type(col.data_type)["name"] \
                         != conceptual_type(pk.data_type)["name"]:
                     continue
+                subject = "%s.%s -> %s.%s" % (t.name, col.name, target.name, pk.name)
+                if review_mod.vetoed("rule 9", subject):
+                    continue
                 t.foreign_keys.append(ForeignKey(columns=[col.name], ref_table=target.name,
                                                  ref_columns=[pk.name], name="inferred"))
                 self.report.refine(
-                    "rule 9", "guess", "%s.%s -> %s.%s" % (t.name, col.name, target.name, pk.name),
+                    "rule 9", "guess", subject,
                     "No foreign key is declared, but the column is named exactly like the "
                     "primary key of %s and nothing else, with the same type. Applied because "
                     "--infer-fks asked for it: the model now has a fact type between %s and "
                     "%s." % (target.name, t.name, target.name),
                     "Confirm against the data (--analyse-data scores the same pairing on "
                     "containment, spread and coverage). A name coincidence here is a wrong "
-                    "join in every query that walks it.")
+                    "join in every query that walks it.",
+                    probe=review_mod.contained(t.name, [col.name], target.name, [pk.name]))
 
     def run(self) -> Tuple[dict, Report]:
         for name in getattr(self.catalog, "unreadable", []):

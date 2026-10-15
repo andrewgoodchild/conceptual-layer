@@ -10,6 +10,8 @@ Writes three things into the output directory:
     <name>.ccm.json   the draft Common Core Model, including the relational mapping
     <name>.orm        the same schema as a NORMA file, to view and validate (one way: no importer)
     <name>.report.md  the worklist -- what was guessed, what was skipped, what is blocked
+    <name>.review.json  the same claims, each with the query that would refute it and what
+                      a person decided about it; read back on the next build (review.py)
 
 The model is a DRAFT. See the rule table in reverse/README.md.
 """
@@ -23,6 +25,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import catalog as catalog_mod          # noqa: E402
 import derive as derive_mod           # noqa: E402
+import review as review_mod           # noqa: E402
 # after derive, which is what puts the repository root on the path
 from model import names as names_mod    # noqa: E402
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "model"))
@@ -215,6 +218,12 @@ def _derive(b):
                                           absorb=b.absorb, merge_domains=a.merge_domains,
                                           glossary=glossary)
     report, pop = b.report, _pop()
+
+    def ref_columns(table, cols, target):
+        t = next((x for x in b.cat.tables if x.name == table), None)
+        fk = t.fk_for(cols[0]) if t else None
+        return list(fk.ref_columns) if fk and fk.ref_table == target else None
+
     for said in b.cat.repairs:
         report.refine("rule 0", "catalogue", said.split(":", 1)[0], said.split(": ", 1)[1] +
                       ". The catalogue listed every pairing of the columns as its own "
@@ -236,8 +245,10 @@ def _derive(b):
                       "with the pair as a unique key of %s."
                       % (", ".join(ccols), total, child, parent, parent, child, parent),
                       "Confirm it. Two tables can share a pair of references by design "
-                      "without one belonging to the other.")
+                      "without one belonging to the other.",
+                      probe=review_mod.contained(child, ccols, parent, pcols))
     for table, cols, target, score, signals in b.refs:
+        target_cols = ref_columns(table, cols, target)
         report.refine("rule 9c", "population", "%s.%s -> %s" % (table, ", ".join(cols), target),
                       "No foreign key is declared, but every value is present in %s's key "
                       "and the shape of the match says reference rather than coincidence: %s. "
@@ -246,14 +257,17 @@ def _derive(b):
                       "and Zhang et al. (VLDB 2010) showed carries most of the signal."
                       % (target, ", ".join(pop.SIGNAL_PROSE.get(x, x) for x in signals)),
                       "Confirm it. Containment is not reference, and a wrong join answers a "
-                      "different question without saying so.")
+                      "different question without saying so.",
+                      probe=review_mod.contained(table, cols, target, target_cols)
+                      if target_cols else None)
     for table, col, evidence in b.mandatory:
         report.refine("rule 9a", "population", "%s.%s" % (table, col),
                       "Declared nullable and never null in %s, so the role is mandatory in "
                       "this draft. Applied because --infer-mandatory asked for it; Bird's "
                       "Step 9 (3.9-a) mines it and nothing used to apply it." % evidence,
                       "Confirm it. A single later insert with this column empty refutes it, "
-                      "and a mandatory role that is wrong rejects data the business accepts.")
+                      "and a mandatory role that is wrong rejects data the business accepts.",
+                      probe=review_mod.never_null(table, col))
     for table, key, col, referrers, evidence in b.referenced:
         report.refine("rule 1d", "population", "%s (%s, not %s)" % (table, col, key),
                       "The declared key %s is referenced by nothing, and %s -- %s -- is what "
@@ -265,7 +279,8 @@ def _derive(b):
                       "Confirm which one the business means by the thing's id. A surrogate "
                       "beside a business key looks exactly like this -- and so does a "
                       "business key beside a synchronisation id, where the declared key was "
-                      "right all along.")
+                      "right all along.",
+                      probe=review_mod.unique(table, [col]))
     for table, cols, evidence in b.keys:
         report.refine("rule 9b", "population", "%s (%s)" % (table, ", ".join(cols)),
                       "No primary key is declared, and %s has no duplicate values (%s) and "
@@ -275,7 +290,8 @@ def _derive(b):
                       % (", ".join(cols), evidence),
                       "Confirm and declare the key. Uniqueness in the current population is "
                       "not uniqueness, and a wrong identifier is a wrong identity in every "
-                      "query that walks this table.")
+                      "query that walks this table.",
+                      probe=review_mod.unique(table, cols))
 
 
 def _domains(b):
@@ -559,6 +575,22 @@ def main(argv=None):
         default_name = args.schema
 
     name = args.name or default_name
+    ccm_path = os.path.join(args.out, name + ".ccm.json")
+    orm_path = os.path.join(args.out, name + ".orm")
+    rep_path = os.path.join(args.out, name + ".report.md")
+    rev_path = os.path.join(args.out, name + ".review.json")
+
+    # What a person decided last time, before any pass runs: a rejected claim is not made
+    # again (review.py). The set is the module's, read by the passes that apply inferences.
+    previous = review_mod.load(rev_path)
+    wrong = review_mod.problems(previous)
+    if wrong:
+        raise SystemExit("%s is not a valid review file:\n  %s\nFix it with review.py, or "
+                         "delete it to start the review over." % (rev_path, "\n  ".join(wrong)))
+    review_mod.VETO.clear()
+    review_mod.VETO.update((c["rule"], c["subject"]) for c in previous
+                           if c.get("status") == "rejected")
+
     ctx = Build(args, cat, source)
     run_passes(ctx, p)
     model, report = ctx.model, ctx.report
@@ -566,9 +598,6 @@ def main(argv=None):
     model["name"] = "%s (draft, reverse engineered)" % name
 
     os.makedirs(args.out, exist_ok=True)
-    ccm_path = os.path.join(args.out, name + ".ccm.json")
-    orm_path = os.path.join(args.out, name + ".orm")
-    rep_path = os.path.join(args.out, name + ".report.md")
 
     with open(ccm_path, "w") as fh:
         json.dump(model, fh, indent=2)
@@ -577,6 +606,8 @@ def main(argv=None):
         fh.write(ormxml.export(model))
     with open(rep_path, "w") as fh:
         fh.write(render_report(report, source, model))
+    claims = review_mod.merge(report, previous)
+    review_mod.write(rev_path, claims, source)
 
     s = report.summary
     print("%s: %d tables -> %d entity types, %d value types, %d fact types, %d constraints"
@@ -586,6 +617,10 @@ def main(argv=None):
     print("  %s" % orm_path)
     print("  %s   (%d blockers, %d refinements)"
           % (rep_path, s["blockers"], s["refinements"]))
+    decided = sum(1 for c in claims if c["status"] != "proposed")
+    print("  %s   (%d claims, %d decided%s)"
+          % (rev_path, len(claims), decided,
+             ", %d rejected and not applied" % len(review_mod.VETO) if review_mod.VETO else ""))
     return 1 if report.blockers else 0
 
 
