@@ -5814,3 +5814,36 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
 
      No round has been re-run on the rebuilt models; findings 170-172 say the answers would
      not move. The fixes are for the model's truth, not for the score.
+
+174. **Four things borrowed from four neighbours, and what one of them is worth.** A look at
+     four 2026 repositories in the same space -- alibaba/UnifiedModel, echopath-labs/openDomain,
+     sqlsure/sqlsure, schemagate -- found none that drafts its model from the data, and four
+     ideas worth taking, each built here on the model rather than copied:
+
+     - *SQL an agent wrote, checked against the model* (`conquer/sqlcheck.py`, sqlsure's idea):
+       the fan trap the compiler handles for ConQuer, reported for plain SQL, from the
+       uniqueness constraints rather than from declared keys alone; plus rows repeated by a
+       join used as a filter, a join on columns the model does not relate, a cross product,
+       SUM(DISTINCT). `run_sql` prints the findings above the rows; `check_sql` without them.
+       Measured on the 1,200 recorded answers of the twelve SQL arms
+       (`bench/pilot/sqlcheck_eval.py`): 11 of the 13 it calls fan traps were wrong (85%)
+       against 31% of the answers it passes; cross products 15 of 22 (68%). Both rest on few
+       questions -- three and five -- so the signal is real and the rate is not. Repeated rows:
+       28% wrong, no signal, because BIRD scores sets; it is printed as a note. On the 500
+       gold queries it flags 30 fan traps, mostly real, and one join key -- q571, the wrong
+       gold sqlsure found. Not measured: whether a writer shown the findings answers better.
+     - *What a caller may see* (`mcp/access.py`, schemagate's): tables and columns hidden by
+       the server's configuration, or by a PostgreSQL role's privileges, are taken out of the
+       model before linking scores anything, and refused by the connection.
+     - *The review file* (`reverse/review.py`, openDomain's): every claim on the worklist, the
+       query that would refute it where it is about rows, and who accepted or rejected it. A
+       rejected inference is not applied on the next build; `--check` finds the accepted ones
+       a later insert refuted.
+     - *Additivity* (Kimball's three kinds of fact, as sqlsure uses them): a value type may say
+       it is not additive, or is a level over a date. `--infer-additivity` guesses it from
+       names, as review claims; the listing and the checker use it. On BIRD's gold it flags
+       two queries once hand-written averages are let through: q1094 sums a player's rating
+       across every attribute snapshot (a gold defect), q1115 is a false alarm.
+
+     Also found: `pip install mcp` now installs mcp 2, which renamed FastMCP, so the server as
+     documented did not start; the instructions pin `mcp<2`.

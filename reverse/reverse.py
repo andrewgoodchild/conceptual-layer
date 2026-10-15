@@ -332,6 +332,11 @@ def _report_analysis(b):
     _pop().report_into(b.analysis, b.report)
 
 
+def _additivity(b):
+    import additivity
+    additivity.apply(b.model, b.report)
+
+
 # (name, the flag(s) that select it -- None for always, a tuple for all-of --, what must
 #  have run before it, whether it reads the data, the pass)
 PASSES = [
@@ -351,6 +356,7 @@ PASSES = [
      _identifiers),
     ("profile", "profile", ("derive", "analyse"), False, _profile),
     ("report", "analyse_data", ("derive", "analyse"), False, _report_analysis),
+    ("additivity", "infer_additivity", ("derive", "domains"), False, _additivity),
 ]
 
 # The wording each data flag refuses a catalogue fixture with. Four of the data passes had
@@ -548,6 +554,13 @@ def main(argv=None):
                         "supports -- Bird (1997) Step 9. Candidate foreign keys, identifiers "
                         "and mandatory roles, each with the population behind it. Reported at "
                         "confidence `population`, never applied. SQLite only.")
+    p.add_argument("--infer-additivity", action="store_true",
+                   help="say which numeric values must not be summed, from their names: a "
+                        "rate, ratio, percentage, average, rank, rating, age or coordinate "
+                        "is not additive, and a balance, stock or headcount beside exactly "
+                        "one date is a level that may not be summed across dates. The "
+                        "schema listing says so and the SQL checker reports a SUM of one. "
+                        "Name-based, so each is a guess on the review file (additivity.py).")
     p.add_argument("--ignore-names", action="store_true",
                    help="with --analyse-data, score candidate references on the shape of the "
                         "data alone. For schemas that name references for the concept and "

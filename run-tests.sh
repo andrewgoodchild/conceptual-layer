@@ -61,6 +61,9 @@ echo
 python3 "$root/reverse/tests/test_review.py"
 
 echo
+python3 "$root/reverse/tests/test_additivity.py"
+
+echo
 python3 "$root/conquer/tests/test_operators.py" \
         --model "$work/company.ccm.json" --db "$work/company.sqlite"
 

@@ -228,6 +228,14 @@
      "description": "The measurable unit the values are in: 'MHz', 'K', 'deg'. ORMCore carries this as the UnitBased reference-mode pattern -- 'a value type that is associated with a measurable unit' -- and the CCM had no slot for it, so a schema whose column names are the only record of the unit (airtempc, objtempk, freqmhz) lost it on the way in. Two value types are the same domain only if the unit agrees as well as the restriction.",
      "type": "string",
      "minLength": 1
+    },
+    "additivity": {
+     "description": "Whether a sum of these values means anything. 'additive' is the default and need not be written; 'nonAdditive' is a rate, ratio, average or the like, which a total must not SUM; 'semiAdditive' is a level -- a balance, a stock -- which may be summed within one value of the role named by additiveExcept and not across it. The schema listing says so and the SQL checker (conquer/sqlcheck.py) reports a SUM that ignores it. Kimball's three kinds of fact.",
+     "enum": ["additive", "nonAdditive", "semiAdditive"]
+    },
+    "additiveExcept": {
+     "description": "With additivity 'semiAdditive': the role a sum must not run across, usually the date the level was taken at.",
+     "type": "string"
     }
    }
   },

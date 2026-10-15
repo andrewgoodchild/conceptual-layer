@@ -27,7 +27,7 @@ review.py out/x.review.json --db x.sqlite --check    # re-run every probe: has a
 ```
 
 The inferences a rejection stops are the ones that change the model: rule 9's name-based
-references, rules 9a-9d and 1d from the rows, and second identifiers.
+references, rules 9a-9d and 1d from the rows, second identifiers, and additivity.
 
 Exit status is 1 when there are blockers, so it drops into a build script.
 
@@ -160,6 +160,7 @@ checked the right way round.
 | `tests/test_population.py` | Step 9 on a fixture whose answers are known, including a column that is unique only by coincidence and must be reported rather than trusted. 37 cases. |
 | `tests/scenarios/09-warehouse-wide-and-junk.sql` | Star-schema shapes, none of which had been tried: a keyless fact table with four foreign keys and measures (rule 1b, objectified by the measures — the right ORM reading of a star), a Kimball junk dimension, a 40-column repeating group, and a degenerate dimension. |
 | `review.py` | **The review file**: claims with a probe each, accepted or rejected by a named person, `--check` to re-run the probes against today's rows. `tests/test_review.py` walks one claim from inference to rejection to not being made again. |
+| `additivity.py` | `--infer-additivity`: which numeric values must not be summed, from their names — a rate, ratio, average or age is not additive; a balance beside exactly one date is a level over that date. Guesses, on the review file. `tests/test_additivity.py`. |
 | `ormlint.py` | **Modelling quality, not well-formedness.** `model/validate.py` asks whether a model is structurally sound; this asks whether it is good ORM. Ten checks over identity, subtyping, constraints, readings and naming. Four of them take `--db` and *measure*, because the questions they ask are about the population rather than the schema: a subtype is a proper subset by definition, and only the data knows whether a partition is proper. Severities follow `validate.py` — `error` fails the file, `warning` and `note` report. |
 | `tests/test_ormlint.py` | **Every check pinned twice: a model that has the defect and one that does not.** The negatives carry the weight. Three checks were false positives at corpus scale before the negatives caught them — a mandatory *value* role over a nullable column (vacuous: a value type's population excludes null), every FORML hyphen binding read as a mangled reading (177 of 177 correct), and an objectified fact type's identifier read as dangling (it is the objectified roles, which is what objectification means). 30 cases. |
 

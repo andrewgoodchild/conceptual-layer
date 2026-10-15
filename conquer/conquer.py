@@ -497,6 +497,22 @@ def describe(model, question=None, relational=False, knowledge=None):
                 lines.append("  %-28s %s%s" % (c["name"] if i == 0 else "", said,
                                                tag(c["id"]) if i == 0 else ""))
         lines.append("")
+    # Which values a total may add up. Written down by someone, or guessed from a name and
+    # reviewable (reverse/additivity.py); either way the reader is about to write a SUM.
+    summable = [c for c in model["concepts"]
+                if c["kind"] == "value" and c.get("additivity") in ("nonAdditive", "semiAdditive")]
+    if summable:
+        players = {r["id"]: r["player"] for f in model["concepts"] if f["kind"] == "fact"
+                   for r in f.get("roles", [])}
+        lines += ["Additivity (values a total must not simply SUM):", ""]
+        for c in sorted(summable, key=lambda c: c["name"]):
+            if c["additivity"] == "nonAdditive":
+                said = "not additive: average it, or sum what it is computed from"
+            else:
+                over = by_id.get(players.get(c.get("additiveExcept")), {}).get("name", "date")
+                said = "a level: sum it within one %s, never across several" % over
+            lines.append("  %-28s %s%s" % (c["name"], said, tag(c["id"])))
+        lines.append("")
     described = [c for c in model["concepts"] if c.get("description")]
     if described:
         lines += ["Defined terms (what the model means by them; use them like any other "

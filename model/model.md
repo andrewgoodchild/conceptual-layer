@@ -63,9 +63,17 @@ Concept = ValueType | EntityType | FactType
 
 **ValueType**
 ```
-  dataType    : DataType             // name + parameters, e.g. {name:"varchar", length:64}
-  restriction : ValueRestriction?    // ranges and/or enumerated values
+  dataType       : DataType          // name + parameters, e.g. {name:"varchar", length:64}
+  restriction    : ValueRestriction? // ranges and/or enumerated values
+  additivity     : "additive" | "nonAdditive" | "semiAdditive"?   // absent means additive
+  additiveExcept : RoleRef?          // semiAdditive: the role a sum must not run across
 ```
+
+`additivity` is whether a sum means anything -- Kimball's three kinds of fact. A rate, ratio
+or average is `nonAdditive`; a balance or a stock level is `semiAdditive`, summable within one
+value of `additiveExcept` (the date it was taken at) and not across it. Nothing enforces it:
+the schema listing says it, and `conquer/sqlcheck.py` reports a SUM that ignores it.
+`reverse.py --infer-additivity` guesses it from names, as a claim on the review file.
 
 **EntityType**
 ```
