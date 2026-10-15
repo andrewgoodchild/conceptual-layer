@@ -8,26 +8,31 @@ applied to the *model*, before linking scores a single concept: a hidden table i
 the description, not ranked low in it, and the narrowed view's "left out" list never names it
 (schemagate does the same, filtering before scoring; its README says why).
 
-Configured per database in the server's config, by whoever runs the server:
+Configured per database in the server's config, by whoever runs the server. On SQLite:
 
     "tables": ["employee", "department"]      only these; everything else is hidden
     "hide":   ["audit_log", "employee.salary"]  these tables, or these columns
-    "role":   "analyst"                         PostgreSQL: SET ROLE, and hide whatever
-                                                the role has no SELECT privilege on
 
-Enforcement is the database's, not this module's. A SQLite connection gets an authorizer that
-refuses a read of anything hidden -- through a view too, since SQLite authorizes the view's
-own reads -- and of the catalogue and the pragmas, which would list it. A PostgreSQL
-connection runs as the role, so the server refuses what the role may not read and row-level
-security filters the rows -- but only if the DSN *logs in* as the role. `SET ROLE` after
-connecting is undone by the caller's own `RESET ROLE` or `set_config('role', ...)`, so with
-a privileged login it narrows the description and enforces nothing. What this module adds on PostgreSQL is the description: the model
-was profiled from every row, so on a table under a row-level policy the value domains and
-cautions are dropped. Some came from rows the role may not see, and the model does not say
-which: a domain from a CHECK constraint goes too, which costs a filter's spelling, not a leak.
+and a SQLite connection gets an authorizer that refuses a read of anything hidden -- through
+a view too, since SQLite authorizes the view's own reads -- and of the catalogue and the
+pragmas, which would list it.
+
+On PostgreSQL there is nothing to configure: a database is described as the DSN's *login*
+sees it -- the tables and columns it may SELECT -- because the login is the one identity
+the server enforces, whatever SQL the caller sends. A role set after connecting is not: the
+caller's own `RESET ROLE` or `set_config('role', ...)` undoes it, which is why there is no
+`role` key, and `tables`/`hide` are refused there for the same reason -- grant SELECT to a
+login instead. A login that can see past its own grants is refused too: a superuser, one
+with BYPASSRLS, or one that can SET ROLE to a role whose privileges it does not inherit.
+`"trusted": true` serves such a login anyway, described as it sees it, for its owner's use.
+
+What this module adds on PostgreSQL is the description: the model was profiled from every
+row, so on a table under a row-level policy the value domains and cautions are dropped. Some
+came from rows the login may not see, and the model does not say which: a domain from a CHECK
+constraint goes too, which costs a filter's spelling, not a leak.
 
 The server speaks stdio to one client and has no notion of who that client is; the identity
-is the configuration's. A server per role is how to serve several.
+is the DSN's. A server per login is how to serve several.
 """
 
 import json
@@ -198,16 +203,43 @@ def _refs(x):
             yield from _refs(v)
 
 
+# Roles a login can SET ROLE to without already holding their privileges: MEMBER without
+# USAGE is a membership granted NOINHERIT, the one way up that has_table_privilege misses.
+CLIMB = ("SELECT r.rolsuper, r.rolbypassrls, "
+         "(SELECT string_agg(o.rolname, ', ') FROM pg_roles o WHERE o.rolname <> session_user "
+         "AND pg_has_role(session_user, o.oid, 'MEMBER') "
+         "AND NOT pg_has_role(session_user, o.oid, 'USAGE')) "
+         "FROM pg_roles r WHERE r.rolname = session_user")
+
+
 def from_entry(entry, model=None, conn=None):
-    """The Access a config entry asks for. A `role` is read from the database, as the role:
-    which mapped tables and columns it may SELECT, and which tables have row-level security
-    on. Raises AccessError rather than guess."""
+    """The Access a config entry asks for. On PostgreSQL, read from the database as the DSN's
+    login: which mapped tables and columns it may SELECT, and which tables have row-level
+    security on. Raises AccessError rather than guess, and rather than describe narrowly what
+    nothing would enforce."""
     tables, hide = entry.get("tables"), list(entry.get("hide") or [])
-    if not entry.get("role"):
+    if entry.get("role"):
+        raise AccessError("`role` is not supported: a role set after connecting is undone by "
+                          "the caller's own SQL. Give the DSN a login that is the role.")
+    if not entry.get("dsn"):
         return Access(tables, hide)
+    if tables is not None or hide:
+        raise AccessError("`tables` and `hide` apply to SQLite only: on PostgreSQL nothing "
+                          "would refuse what they leave out. Grant SELECT to a login instead.")
     if conn is None or model is None:
-        raise AccessError("role %r needs the model and a connection to read its privileges"
-                          % entry["role"])
+        raise AccessError("a PostgreSQL database needs its model and a connection to read "
+                          "the login's privileges")
+    try:
+        superuser, bypass, climbs = conn.execute(CLIMB, ()).fetchone()
+    except Exception as e:                                          # noqa: BLE001
+        raise AccessError("could not read what the login may do: %s" % e)
+    above = [w for w, on in (("a superuser", superuser), ("BYPASSRLS", bypass),
+                             ("able to SET ROLE to %s" % climbs, climbs)) if on]
+    if above and not entry.get("trusted"):
+        raise AccessError("the DSN's login is %s, so its grants say nothing about what the "
+                          "caller can read. Use a login with only the grants the caller "
+                          "should have, or set \"trusted\": true to serve it anyway."
+                          % " and ".join(above))
     mapping = model.get("mapping") or {}
     tname = {t["id"]: t for t in mapping.get("tables", [])}
     allowed, rls = [], []
@@ -235,7 +267,5 @@ def from_entry(entry, model=None, conn=None):
             if secured and secured[0]:
                 rls.append(t["name"])
     except Exception as e:                                          # noqa: BLE001
-        raise AccessError("could not read the privileges of role %r: %s" % (entry["role"], e))
-    if tables is not None:
-        allowed = [t for t in allowed if t.casefold() in {x.casefold() for x in tables}]
+        raise AccessError("could not read the login's privileges: %s" % e)
     return Access(allowed, hide, rls)

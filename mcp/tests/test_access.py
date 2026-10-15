@@ -6,7 +6,7 @@ restriction is the part of the server that must not regress silently. Each case 
 what must be gone, and what must still be there -- because a restriction that hides
 everything passes every "is it hidden" test.
 
-The PostgreSQL half (a role's privileges, row-level security) is exercised against a stand-in
+The PostgreSQL half (a login's privileges, row-level security) is exercised against a stand-in
 connection that answers the three catalogue queries `access.from_entry` asks; there is no
 server in this suite.
 
@@ -42,12 +42,15 @@ def names(model):
 
 
 class FakePostgres:
-    """Answers has_table_privilege, has_column_privilege and relrowsecurity from dicts."""
+    """Answers what the login is (superuser, BYPASSRLS, roles it can climb to),
+    has_table_privilege, has_column_privilege and relrowsecurity from dicts."""
 
-    def __init__(self, tables, columns, rls):
-        self.tables, self.columns, self.rls = tables, columns, rls
+    def __init__(self, tables, columns, rls, login=(False, False, None)):
+        self.tables, self.columns, self.rls, self.login = tables, columns, rls, login
 
     def execute(self, sql, params):
+        if "rolsuper" in sql:
+            return type("Cursor", (), {"fetchone": lambda self_: self.login})()
         bare = params[0].split(".")[-1].strip('"')
         if "has_table_privilege" in sql:
             got = self.tables.get(bare, False)
@@ -134,14 +137,15 @@ def main(argv):
         sqlite3.connect("file:%s?mode=ro" % db, uri=True))
     check("SQLite: an allow list refuses what it does not list", refused("SELECT * FROM project"))
 
-    # -- PostgreSQL: a role's privileges, read as the role
-    pg = FakePostgres(tables={"employee": True, "department": True, "project": False},
-                      columns={("project", "proj_code"), ("project", "proj_name")},
-                      rls={"employee"})
-    acc = access.from_entry({"role": "analyst"}, model, pg)
+    # -- PostgreSQL: the login's own privileges, read from the database
+    pg_entry = {"dsn": "postgresql://analyst@db/x"}
+    grants = dict(tables={"employee": True, "department": True, "project": False},
+                  columns={("project", "proj_code"), ("project", "proj_name")},
+                  rls={"employee"})
+    acc = access.from_entry(pg_entry, model, FakePostgres(**grants))
     m = acc.restrict(model)
     ents = {c["name"] for c in m["concepts"] if c["kind"] == "entity"}
-    check("a role sees the tables it may SELECT, and a table it has some columns of",
+    check("a login sees the tables it may SELECT, and a table it has some columns of",
           ents == {"Employee", "Department", "Project"}, str(ents))
     check("and not the columns of that table it may not",
           "ProjectPriority" not in names(m) and "ProjectName" in names(m))
@@ -155,12 +159,28 @@ def main(argv):
     class Broken:
         def execute(self, *a):
             raise RuntimeError("permission denied for function has_table_privilege")
-    try:
-        access.from_entry({"role": "analyst"}, model, Broken())
-        check("privileges that cannot be read refuse rather than show everything", False)
-    except access.AccessError as e:
-        check("privileges that cannot be read refuse rather than show everything",
-              "analyst" in str(e))
+    def refuses(name, entry, conn, phrase):
+        try:
+            access.from_entry(entry, model, conn)
+            check(name, False, "no AccessError")
+        except access.AccessError as e:
+            check(name, phrase in str(e), str(e))
+
+    refuses("privileges that cannot be read refuse rather than show everything",
+            pg_entry, Broken(), "could not read")
+    refuses("a superuser login is refused: its grants say nothing",
+            pg_entry, FakePostgres(**grants, login=(True, False, None)), "superuser")
+    refuses("so is a login with BYPASSRLS",
+            pg_entry, FakePostgres(**grants, login=(False, True, None)), "BYPASSRLS")
+    refuses("so is one that can SET ROLE to a role it does not inherit",
+            pg_entry, FakePostgres(**grants, login=(False, False, "admin")), "SET ROLE to admin")
+    acc = access.from_entry(dict(pg_entry, trusted=True), model,
+                            FakePostgres(**grants, login=(True, False, None)))
+    check("unless the entry is marked trusted", "Project" in names(acc.restrict(model)))
+    refuses("`role` is refused: a role set after connecting is undone by the caller's SQL",
+            dict(pg_entry, role="analyst"), FakePostgres(**grants), "role")
+    refuses("`tables` and `hide` are refused on PostgreSQL: nothing there enforces them",
+            dict(pg_entry, hide=["audit_log"]), FakePostgres(**grants), "SQLite only")
 
     print("\n%d passed, %d failed, %d total" % (passed, failed, passed + failed))
     return 0 if not failed else 1

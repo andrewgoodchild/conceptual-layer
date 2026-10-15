@@ -5833,8 +5833,8 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
        gold queries it flags 30 fan traps, mostly real, and one join key -- q571, the wrong
        gold sqlsure found. Not measured: whether a writer shown the findings answers better.
      - *What a caller may see* (`mcp/access.py`, schemagate's): tables and columns hidden by
-       the server's configuration, or by a PostgreSQL role's privileges, are taken out of the
-       model before linking scores anything, and refused by the connection.
+       the server's configuration on SQLite, or by the DSN login's grants on PostgreSQL, are
+       taken out of the model before linking scores anything, and refused by the connection.
      - *The review file* (`reverse/review.py`, openDomain's): every claim on the worklist, the
        query that would refute it where it is about rows, and who accepted or rejected it. A
        rejected inference is not applied on the next build; `--check` finds the accepted ones

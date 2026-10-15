@@ -86,14 +86,14 @@ def _loaded(path, mtime, restriction=None):
 
 
 def _access(name):
-    """What the configuration lets a caller of this database see. Worked out once; for a
-    PostgreSQL role, from the database's own privileges, as the role."""
+    """What a caller of this database may see. SQLite: the configuration, worked out once.
+    PostgreSQL: the DSN's login's own privileges, read from the database."""
     e = _entry(name)
-    if not e.get("role"):
+    if not e.get("dsn"):
         if "_access" not in e:
             e["_access"] = access_mod.from_entry(e)
         return e["_access"]
-    # a role's privileges are read against the model's tables: again when the model changes
+    # privileges are read against the model's tables: again when the model changes
     path = _model_path(name)
     if not os.path.exists(path):
         raise ValueError("%s has no model yet" % name)
@@ -126,24 +126,18 @@ def _raw_connect(name):
     if e.get("sqlite"):
         return sqlite3.connect("file:%s?mode=ro" % e["sqlite"], uri=True)
     if e.get("dsn"):
-        conn = driver._Server(e["dsn"])
-        if e.get("role"):
-            # as the role from the first statement: the server refuses what it may not
-            # read and row-level security filters the rows, whatever the SQL says
-            conn.conn.execute('SET ROLE "%s"' % e["role"].replace('"', '""'))
-        return conn
+        return driver._Server(e["dsn"])
     raise ValueError("%s names neither a sqlite file nor a dsn" % name)
 
 
 def _connect(name):
     e = _entry(name)
-    if e.get("dsn") and not e.get("role") and _access(name).restricted:
-        # nothing on PostgreSQL would refuse what "tables" or "hide" leave out of the model
-        raise ValueError("%s restricts what is shown but names no role: on PostgreSQL the "
-                         "role is what refuses the rest (access.py)" % name)
+    # first, on PostgreSQL too: a login that can see past its grants is refused before any
+    # SQL runs, not only before the description
+    acc = _access(name)
     conn = _raw_connect(name)
     if e.get("sqlite"):
-        _access(name).guard(conn)
+        acc.guard(conn)
     return conn
 
 
@@ -196,8 +190,10 @@ def list_databases() -> str:
             state = built
         else:
             state = "no model yet -- build_model(%r)" % name
-        if e.get("tables") is not None or e.get("hide") or e.get("role"):
+        if e.get("tables") is not None or e.get("hide"):
             state += "; what is shown is restricted by the server's configuration"
+        elif e.get("dsn"):
+            state += "; described as the DSN's login sees it"
         lines.append("%-24s %-14s %s\n%26s%s" % (name, "postgresql" if e.get("dsn") else "sqlite",
                                                  where, "", state))
     return "\n".join(lines)

@@ -36,23 +36,28 @@ Every connection is read-only, with a statement timeout on PostgreSQL.
 
 ## What a caller may see
 
-A database's entry can restrict it: `"tables": [...]` shows only those, `"hide": ["audit_log",
-"employee.salary"]` hides tables or columns, and on PostgreSQL `"role": "analyst"` runs every
-statement as that role and hides whatever it has no SELECT privilege on. The restriction is
-applied to the model before anything reads it, so a hidden table is absent from the
-description -- never named in the "not shown" list, never in a caution -- and the connection
-refuses it: a SQLite authorizer refuses reads of anything hidden (through views, the
-catalogue and the pragmas too), and PostgreSQL refuses for the role, with row-level security
-filtering the rows. **On PostgreSQL that holds only if the DSN logs in as the role.** `"role"`
-is applied with `SET ROLE` after connecting, and a caller's own SQL can undo it (`RESET ROLE`,
-or `set_config('role', ...)` inside a SELECT), so against an agent that writes SQL it narrows
-the description and does not enforce anything. Give such an entry a DSN whose login is the
-role. An entry with `"tables"` or `"hide"` and no role is refused for queries on PostgreSQL,
-since nothing there would enforce it. Under a row-level policy the profiled value domains and cautions are left
-out, because they were read from rows the role may not see. If the role's privileges cannot
-be read, nothing is described. The server has no notion of who its client is; the identity
-is the configuration's, so serve each role from its own server. `access.py` has the detail
-and `tests/test_access.py` the cases (the PostgreSQL half against a stand-in connection).
+**SQLite:** a database's entry can restrict it -- `"tables": [...]` shows only those, `"hide":
+["audit_log", "employee.salary"]` hides tables or columns -- and the connection gets an
+authorizer that refuses reads of anything hidden, through views, the catalogue and the
+pragmas too.
+
+**PostgreSQL:** nothing to configure. The database is described as the DSN's *login* sees it
+-- the tables and columns it may SELECT -- because the login is the one identity the server
+enforces whatever SQL the caller sends; row-level security filters the rows, and on a table
+under a policy the profiled value domains and cautions are left out, since they were read from
+rows the login may not see. There is no `role` key: a role set after connecting is undone by
+the caller's own `RESET ROLE` or `set_config('role', ...)`. `tables` and `hide` are refused
+here for the same reason -- nothing would enforce them; grant SELECT to a login instead. A
+login that can see past its own grants -- a superuser, BYPASSRLS, or one that can SET ROLE to
+a role whose privileges it does not inherit -- is refused unless its entry says
+`"trusted": true`, for its owner's own use. If any of this cannot be read, nothing is
+described or run.
+
+Either way the restriction is applied to the model before anything reads it, so a hidden
+table is absent from the description -- never in the "not shown" list, never in a caution.
+The server has no notion of who its client is; the identity is the DSN's, so serve each login
+from its own server. `access.py` has the detail and `tests/test_access.py` the cases; the
+PostgreSQL half runs against a stand-in connection, not a live server.
 
 ## What the SQL checker is worth
 
