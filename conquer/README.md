@@ -429,6 +429,7 @@ mean, and §6.1a removes the case where it bit in practice.
 | `link.py` | Schema linking: which part of a model a question is about, behind `--schema --for QUESTION`. |
 | `reference.py` | A reference interpreter: the report's §6 meaning of a path, evaluated directly from the data, to check the compiler against. |
 | `conquer.py` | CLI and REPL. |
+| `sqlcheck.py` | **SQL an agent wrote by hand, checked against the model**: a SUM, AVG or COUNT over rows a join multiplies, rows repeated by a join used as a filter, a join on columns the model does not relate, a cross product, SUM(DISTINCT), a sum of a value the model says is not additive. The fan trap the compiler handles for ConQuer, reported for plain SQL. Needs `sqlglot`. `tests/test_sqlcheck.py` runs each finding against the fixture: a fan trap reported must give a different answer from the query that avoids it. |
 | `conquer-2026.md`, `conquer-2026-grammar.ebnf` | The language as implemented: what was added beyond the 1994 report and why, and its grammar. `tests/test_spec.py` fails if the parser accepts a phrase none of them names. |
 | `primer.md`, `method.md` | The prompt a query writer is given: the one-page language primer and the working method. `--primer` prints both, and the MCP server serves the primer. Every example in the primer is checked by `tests/test_primer.py`. |
 | `tests/queries.cq` | 19 queries covering the table above. Run with `run-tests.sh`. |

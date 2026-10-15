@@ -159,5 +159,10 @@ python3 "$root/reverse/ormlint.py" "$work/company.ccm.json" --db "$work/company.
     || echo "(ormlint reported findings on the round-trip model -- see above)"
 
 echo
+# The SQL checker, when `sqlglot` is installed; it says so and passes when it is not.
+python3 "$root/conquer/tests/test_sqlcheck.py" \
+        --model "$work/company.ccm.json" --db "$work/company.sqlite"
+
+echo
 # The MCP server, when the `mcp` package is installed; it says so and passes when it is not.
 python3 "$root/mcp/tests/test_server.py"
