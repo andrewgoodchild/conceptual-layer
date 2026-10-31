@@ -111,3 +111,10 @@ bench/livesql/work/pilot-scale4/verdicts.json
 bench/livesql/work/pilot-scale4/diagnose/
 bench/livesql/work/pilot-scale/diagnose/
 bench/livesql/work/pilot-scale2/diagnose/
+
+# The October 2026 BIRD round: generated directories and per-question verdicts. The questions
+# and gold stay under bench/bird/; what each writer wrote is tracked, as in the pilot.
+bench/minidev2026/work/mcp.json
+bench/minidev2026/work/*/*/*
+!bench/minidev2026/work/*/*/answers.json
+bench/minidev2026/results.json
