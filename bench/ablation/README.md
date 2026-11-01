@@ -23,15 +23,16 @@ compared with afterwards.
   into `work/bar/` without running anything downloaded; `corpora.py destroy` makes the
   names-destroyed copy in `work/bar-blind/`. Run with
   `refs.py names --dbdir bench/ablation/work/bar --corpus bar --db adventureworks`; `--corpus`
-  keeps these results apart from the recorded ones. `corpora.py` builds **MusicBrainz** too,
-  236 tables and 25.7M rows, but rule 9c's search does not finish on it.
+  keeps these results apart from the recorded ones. **MusicBrainz**'s sample, 236 tables, 25.7M
+  rows and 469 declared references, is built and run the same way, at 7 to 8 minutes an
+  analysis (finding 180).
 
 ## Arms (`refs.py`)
 
 | arm | what is on |
 |---|---|
 | `names` | rule 9c with name evidence, gated as `apply_references` gates it (name-corroborated) |
-| `rules` | rule 9c with name evidence scored at zero, as shipped: preferred + significant, score >= 2.6. Not name-free: `name_score` still breaks ties among proven containments (findings 120, 179); `bar-blind` is the data-only measure |
+| `rules` | rule 9c with name evidence scored at zero, as shipped: preferred + significant, score >= 2.6. Not name-free: `name_score` still breaks ties among proven containments (findings 120, 179), unless the names are no words at all (finding 180), so `bar-blind` is the data-only measure |
 | `+1to1` | ...and a table's own key contained in another's key counts (the 1:1 split shape) |
 | `+md1+mr1` | ...and the significance floors (3 distinct values, 50 rows) removed |
 | `+t0` | ...and the proposal threshold removed: every best-scoring containment, swept by score |

@@ -297,10 +297,11 @@ def analyse(conn: sqlite3.Connection, catalog, tables=None,
     `ignore_names` scores on the shape of the data alone. Worth reaching for when a schema
     names its references for the concept and its keys for the identifier, as Bird's case study
     does -- there string comparison is not weak evidence, it is no evidence, and including it
-    only adds noise.
+    only adds noise. A schema whose names are no words at all is read that way regardless.
     """
     out = analyse_keys(conn, catalog, tables)
     live = [t for t in (tables or catalog.tables) if not t.is_view]
+    ignore_names = ignore_names or _names_say_nothing(live)
     _junk_dimensions(conn, live, out)
     _inclusions(conn, live, out, include_declared,
                 *(( SHAPE_ONLY, SHAPE_ONLY_THRESHOLD) if ignore_names else (None, None)),
@@ -1547,6 +1548,16 @@ _KEY_PREFIXES = ("id_", "pk_")
 _BARE_KEY_NAMES = {"id", "key", "pk"}
 
 
+def _names_say_nothing(tables) -> bool:
+    """Are the column names no words at all? `c0012`, `COL_7`: with digits gone at most two
+    different words are left. Similarity between such names is arbitrary, and read as the
+    tie-break below it costs more than half the references there are to find (finding 180).
+    The fewest words in any of 79 real schemas is six."""
+    columns = [c.name for t in tables for c in t.columns]
+    words = {re.sub(r"[^a-z]", "", c.casefold()) for c in columns}
+    return len(columns) > 5 and len(words) <= 2
+
+
 # -- 3.9-g: subset constraints, i.e. candidate foreign keys -----------------------------
 
 def _inclusions(conn, tables, out: Analysis, include_declared: bool = False,
@@ -1588,6 +1599,11 @@ def _inclusions(conn, tables, out: Analysis, include_declared: bool = False,
         seen.add((f.table, tuple(f.columns)))
         targets.append((t, list(f.columns)))
 
+    nameless = _names_say_nothing(tables)
+    keysets: Dict[Tuple[str, str], Optional[frozenset]] = {}
+    # A collation makes equality the database's business, so that schema keeps the `EXCEPT`.
+    collated = conn.execute(
+        "SELECT 1 FROM sqlite_master WHERE sql LIKE '%collate%'").fetchone() is not None
     for t in tables:
         n = out.row_counts.get(t.name, 0)
         if not n:
@@ -1597,15 +1613,22 @@ def _inclusions(conn, tables, out: Analysis, include_declared: bool = False,
         for col in t.columns:
             if col.name.casefold() in declared:
                 continue
+            values = None
             for target, key in targets:
                 if len(key) != 1 or target.name.casefold() == t.name.casefold():
                     continue
                 if not out.row_counts.get(target.name):
                     continue
-                found = _contained(conn, t, [col.name], target, key)
+                if collated:
+                    found = _contained(conn, t, [col.name], target, key)
+                else:
+                    if values is None:
+                        values = _column_values(conn, t.name, col.name)
+                    found = _contained_set(conn, values, target, key[0], keysets)
                 if found is None:
                     continue
-                parent = _distinct(conn, target, key[0])
+                parent = _distinct(conn, target, key[0]) if collated else len(
+                    keysets[target.name, key[0]])
                 spread = _spread(conn, t.name, col.name, target.name, key[0], vcache)
                 score, signals = _rank(t, col, target, key[0], found, parent, spread, weights)
                 # The name evidence, kept whatever the weights: under `ignore_names` it is
@@ -1615,10 +1638,11 @@ def _inclusions(conn, tables, out: Analysis, include_declared: bool = False,
                 # +134 references on the 18 LiveSQLBench schemas -- 74% recall to 86%, at
                 # better precision, with no extra candidates (finding 120). Names are
                 # decisive for choosing between targets and useless for finding them.
-                name_score = max(_similar(col.name, target.name),
-                                 _similar(col.name, _stem(target.name)),
-                                 1.0 if _stem(target.name) in col.name.casefold() else 0.0,
-                                 _similar(col.name, key[0]))
+                name_score = 0.0 if nameless else max(
+                    _similar(col.name, target.name),
+                    _similar(col.name, _stem(target.name)),
+                    1.0 if _stem(target.name) in col.name.casefold() else 0.0,
+                    _similar(col.name, key[0]))
                 # A column that identifies its OWN table is a weaker signal, because two
                 # independent surrogate sequences nest whenever one is shorter: `Album.AlbumId`
                 # is "contained in" `Invoice.InvoiceId` for no reason but that there are fewer
@@ -1818,6 +1842,47 @@ TOPK = 1
 # -- a few dangling values in a schema that declared nothing -- needs a little slack, and how
 # much is an empirical question the ablation asks.
 TOLERANCE = 0.0
+
+
+def _column_values(conn, table: str, col: str) -> Optional[frozenset]:
+    """A column's distinct non-null values, comparing as SQLite compares them: 1 and 1.0 alike,
+    1 and '1' and b'1' apart. Text that is not UTF-8 survives, surrogate-escaped, so the answer
+    does not depend on the caller's text factory. None if the column cannot be read."""
+    factory = conn.text_factory
+    conn.text_factory = lambda b: b.decode("utf-8", "surrogateescape")
+    try:
+        return frozenset(r[0] for r in conn.execute(
+            "SELECT %s FROM %s WHERE %s IS NOT NULL" % (_q([col]), _t(table), _q([col]))))
+    except sqlite3.Error:
+        return None
+    finally:
+        conn.text_factory = factory
+
+
+def _contained_set(conn, values, target, key, keysets) -> Optional[int]:
+    """`_contained` for the search, which asks it of every column against every key: each
+    side is read once and a containment that fails stops at the miss that proves it, which
+    is what makes MusicBrainz's 264,000 pairs affordable (finding 180). `keysets` keeps the
+    keys between calls, so the search holds every key in memory."""
+    if not values:
+        return None
+    k = (target.name, key)
+    if k not in keysets:
+        keysets[k] = _column_values(conn, target.name, key)
+    keys = keysets[k]
+    if keys is None:
+        return None
+    if not TOLERANCE:
+        return len(values) if values <= keys else None
+    allowed, missing = TOLERANCE * len(values), 0
+    rest = iter(values)
+    while True:
+        chunk = set(itertools.islice(rest, 4096))
+        if not chunk:
+            return len(values)
+        missing += len(chunk - keys)
+        if missing > allowed:
+            return None
 
 
 def _contained(conn, table, cols, target, key) -> Optional[int]:
@@ -2103,8 +2168,9 @@ def apply_references(analysis: Analysis, catalog, tables=None) -> List[tuple]:
     """
     applied = []
     by_table = {t.name: t for t in (tables or catalog.tables)}
+    nameless = _names_say_nothing([t for t in by_table.values() if not t.is_view])
     for f in analysis.of_kind("inclusion"):
-        if not (f.preferred and f.significant and f.corroborated):
+        if not (f.preferred and f.significant and (f.corroborated or nameless)):
             continue
         t, target = by_table.get(f.table), by_table.get(f.target_table)
         if t is None or target is None or t.fk_for(f.columns[0]) is not None:

@@ -204,7 +204,8 @@ both reproducible, measured with the command above:
 | BIRD mini-dev, 11 databases, 75 tables (`bench/fetch.sh` gets it) | **94% recall, 97% precision** | **81% recall, 100% precision** |
 | Spider 2.0, the 11 local schemas that declare keys, 156 tables | 83% recall, 98% precision | 69% recall, 97% precision |
 | AdventureWorks OLTP, 71 tables (finding 179) | 70% recall, 77% precision | 77% recall, 91% precision |
-| The same, every table and column renamed | 20% recall, 78% precision | 26% recall, 38% precision |
+| The same, every table and column renamed | 20% recall, 78% precision | 46% recall, 59% precision |
+| MusicBrainz sample, 236 tables | 88% recall, 98% precision | 44% recall, 89% precision |
 
 Before rules 9b and 9c the same harness reported 75% / 96% for keys and 55% / 92% for
 references, so the gain is real; an earlier write-up quoted 91% and 75% from a different,

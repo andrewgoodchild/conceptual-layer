@@ -5953,7 +5953,7 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      database moves this comparison by that much. Two rounds cannot show it. Finding 176's
      conclusion that checking effort may matter as much as the text stays untested, and it says
      nothing here either way, because ConQuer did not run. The evidence split turned over: +3 of 27
-     with no evidence, -1 of 73 with it, too few to read, and the five lost answers were not read
+     with no evidence, -1 of 73 with it, too few to read, and the five lost answers were not read (finding 181 reads them)
      one by one.
 
      Both defects finding 176 left open are fixed. A number in a reading now parses (q183 goes from
@@ -6044,12 +6044,85 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      25.7M rows and 469 foreign-key columns with no violations, then the search stopped being
      usable. It tests every column against every single-column key, about 264,000 pairs at
      least (1,568 columns, 169 keys), each a full `EXCEPT` and a distinct count. Sized from the real
-     row counts at the rate one mid-sized pair ran, that is about 190 hours per analysis, a rough
+     row counts at the rate one mid-sized pair ran, that is about 6 hours per analysis, a rough
      figure from a single timing, and four analyses were planned. The first was stopped at 1h50m
      with nothing recorded. This is a limit of the search as built, and `_contained` is what has
-     to change before any larger corpus.
+     to change before any larger corpus. (Corrected: this first said 190 hours, from a row
+     count taken as `max(rowid)`, which overstates a sample with sparse ids. Finding 180 fixes
+     the search, measures MusicBrainz, and corrects this finding's reading of destroyed names.)
 
      **TPC-E was skipped.** Its data comes only from TPC's EGen, under a licence a person must
      accept. `fetch-corpora.sh` was not run end to end: the files were fetched by hand first,
      and the script's checksums come from those. MusicBrainz's DDL is pinned from master, not from
      a release matching the dump.
+
+180. **Most of what looked like the data's limit was a tie-break reading meaningless names: on
+     AdventureWorks, recall with names destroyed goes from 27% to 63%, though on MusicBrainz, the
+     corpus held back, only from 32% to 38%, short of the prediction. MusicBrainz now runs, in
+     eight minutes.**
+
+     **The search.** A containment is now tested in memory: each key is read once into a set, each
+     column once, and a failing test stops at the miss that proves it (`_contained_set`). Old
+     and new were compared finding by finding, name evidence on and off, tolerance 0 and 0.02, on the
+     11 BIRD databases and AdventureWorks with and without names: 52 runs, none different, 2,938
+     seconds down to 678. A schema with a collation keeps the `EXCEPT`. MusicBrainz takes 7 to 8
+     minutes per analysis, with its keys held in memory; the old search had not finished one in
+     1h50m.
+
+     **The diagnosis.** Finding 179 read 27% as what the data alone can do. It was not: a column's
+     candidates are sorted by name similarity first, under `ignore_names` too, and on a destroyed
+     schema that compares `c0012` with `t0017`. Over all containments on destroyed AdventureWorks the
+     score puts the true target first for 71 of 91 references and that tie-break for 32.
+
+     **The rule** (`bench/ablation/PLAN-names.md`, committed before it was built). If at most two
+     different words remain in a schema's column names with digits removed, over more than five
+     columns, the names say nothing: the search scores on data alone, `name_score` is zero, and
+     `apply_references` needs no name to corroborate. Real schemas have at least six such words,
+     in all 79 checked, so no named result moves: BIRD stays at 81% / 100% and named AdventureWorks
+     at 77% / 91%, both rerun.
+
+     | Names destroyed, recall / precision | before | after |
+     |---|---|---|
+     | AdventureWorks, `rules@2.6` | 27% / 64% | **63% / 70%** |
+     | AdventureWorks, shipped pipeline, foreign keys | 26% / 38% | 46% / 59% |
+     | **MusicBrainz, `rules@2.6` (the test)** | **32% / 66%** | **38% / 69%** |
+     | MusicBrainz, `refs.py names` | 47% / 61% | 39% / 73% |
+     | MusicBrainz, every gate off | 64% / 45% | 73% / 52% |
+
+     **The prediction failed on recall.** Up at least 15 points was predicted and 6 came; precision
+     was to fall no more than 5 points and rose 3. The development corpora overstated the gain, which
+     is what a held-back corpus is for. With the gates off the true target comes first for
+     73% of MusicBrainz's references, so its remaining loss is mostly at the score and significance
+     floors, not at the tie-break. Nothing was tuned on those numbers.
+
+     MusicBrainz with its names, for the record:
+
+     | MusicBrainz, 469 foreign keys | recall | precision |
+     |---|---|---|
+     | `refs.py names` | 44% | 100% |
+     | `refs.py rules@2.6` | 42% | 92% |
+     | Shipped pipeline, primary keys stripped too | 44% | 89% |
+     | Every gate off | 85% | 60% |
+
+     Beside HoPF's own precision .54 and recall .96 on 124 tables, and LLM-FK's run of HoPF at .75
+     and .86, this favours precision over recall, and the setups differ. Primary keys are still mostly
+     read off names: with both kinds stripped from destroyed schemas, rule 9b recovers 20% of
+     AdventureWorks's and 33% of MusicBrainz's, which caps the shipped pipeline's foreign keys there
+     (MusicBrainz 26% / 58%). The rule does not touch that, and a schema with cryptic but varied
+     names (`MANDT`, `BUKRS`) still gets the tie-break.
+
+181. **Finding 177's five lost answers: one is the description's doing, by a rule that can be
+     fixed; the other four are no pattern.** The repeat lost 5 answers and gained 7, and the 5 had
+     gone unread. Read now, each against the data:
+
+     | Question | What the description arm did | Cause |
+     |---|---|---|
+     | 6, 7 | Used a stored `Percent (%) Eligible ...` column, which holds 0.66, not 66, where the evidence said to compute it times 100 | The writer preferred the named column; the description never says the stored figure is a fraction |
+     | 43 | Left out `rtype = 'S'`, so district rows counted | The writer's miss; `'D', 'S'` are listed with no meaning |
+     | 49 | Listed `uuid` where the gold lists `id` | **The description**: it says "Asked for its id, list this" of `uuid`, on a table with a column called `id` |
+     | 92 | Sorted a text id as a number, then by name | The writer's own reading of a muddled question |
+
+     So one of the five was steered by the description and two more might have been saved by it.
+     This reads the five lost and not the seven gained, so it does not settle whether a small
+     loss is real. The identification rule was not changed: that would alter the description both
+     rounds measured, and it needs a round of its own.

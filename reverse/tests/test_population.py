@@ -661,6 +661,95 @@ def review_cases():
            any(f.signals == ["unit-conflict"] for f in out.findings), "km/h named, m/s held")
 
 
+def search_cases():
+    """The in-memory containment must answer as the `EXCEPT` does, and a schema of no words
+    must be decided by its data."""
+    conn = sqlite3.connect(":memory:")
+    conn.executescript("""
+        CREATE TABLE k (id PRIMARY KEY);
+        CREATE TABLE c (ints, floats, texts, blobs, partly, empty, foldcase);
+        INSERT INTO k VALUES (1), (2), (3), ('a'), (x'ff');
+        INSERT INTO c VALUES (1, 1.0, '1', x'31', 1, NULL, 'a'), (2, 2.0, '2', x'32', 2, NULL, 'a'),
+                             (NULL, 3.0, '3', x'33', 3, NULL, 'a'), (3, 3.0, 'a', x'ff', 9, NULL, 'A');
+    """)
+
+    class Named:
+        def __init__(self, name):
+            self.name = name
+    for tolerance in (0.0, 0.3):
+        pop.TOLERANCE = tolerance
+        for column in ("ints", "floats", "texts", "blobs", "partly", "empty", "foldcase"):
+            sql = pop._contained(conn, Named("c"), [column], Named("k"), ["id"])
+            kept = pop._contained_set(conn, pop._column_values(conn, "c", column), Named("k"),
+                                      "id", {})
+            yield ("the set test answers as EXCEPT: %s at %.1f" % (column, tolerance),
+                   sql == kept, "%r and %r" % (sql, kept))
+    pop.TOLERANCE = 0.0
+    conn.execute("CREATE TABLE bad (v TEXT)")
+    conn.execute("INSERT INTO bad VALUES (CAST(x'ff' AS TEXT)), ('ok')")
+    conn.text_factory = str
+    values = pop._column_values(conn, "bad", "v")
+    yield ("text that is not UTF-8 is read, and the text factory put back",
+           len(values or ()) == 2 and conn.text_factory is str, repr(values))
+    conn.close()
+
+    class Column:
+        def __init__(self, name):
+            self.name = name
+
+    class Table:
+        def __init__(self, *columns):
+            self.columns = [Column(c) for c in columns]
+    yield ("column names with no words say nothing",
+           pop._names_say_nothing([Table("c0001", "c0002", "c0003"), Table("c0001", "c0004", "c0005")]),
+           "c0012 and t0017 are not evidence")
+    yield ("two words are still none",
+           pop._names_say_nothing([Table("col_1", "col_2", "col_3", "fld_1", "fld_2", "fld_3")]),
+           "COL_7, FLD_2")
+    yield ("real names speak, however terse",
+           not pop._names_say_nothing([Table("id", "name", "dob"), Table("id", "name", "elem")]),
+           "three words and more")
+    yield ("a few columns are too few to tell",
+           not pop._names_say_nothing([Table("id", "id2", "id3")]), "three columns")
+
+    path = os.path.join(HERE, ".nameless.sqlite")
+    if os.path.exists(path):
+        os.remove(path)
+    conn = sqlite3.connect(path)
+    conn.execute("CREATE TABLE t0001 (c0001 INTEGER PRIMARY KEY, c0002 TEXT)")
+    conn.execute("CREATE TABLE t0002 (c0001 INTEGER PRIMARY KEY, c0002 INTEGER, c0003 TEXT)")
+    conn.execute("CREATE TABLE t0003 (c0001 INTEGER PRIMARY KEY, c0002 TEXT, c0003 TEXT)")
+    conn.executemany("INSERT INTO t0001 VALUES (?, ?)", [(i * 7, "p%d" % i) for i in range(1, 201)])
+    conn.executemany("INSERT INTO t0003 VALUES (?, ?, ?)",
+                     [(i * 3, "q%d" % i, "r") for i in range(1, 2001)])
+    conn.executemany("INSERT INTO t0002 VALUES (?, ?, ?)",
+                     [(i, (i % 200 + 1) * 7, "x") for i in range(1, 1001)])
+    conn.commit()
+    try:
+        catalog = catalog_mod.from_sqlite(path)
+        _, _, applied = pop.recover(conn, catalog)
+        yield ("with no words to corroborate it, the data's reference is applied",
+               ("t0002", ["c0002"], "t0001") in [r[:3] for r in applied], repr(applied))
+    finally:
+        conn.close()
+        os.remove(path)
+
+    conn = sqlite3.connect(path)
+    conn.execute("CREATE TABLE colour (code TEXT PRIMARY KEY)")
+    conn.execute("CREATE TABLE paint (id INTEGER PRIMARY KEY, code TEXT COLLATE NOCASE)")
+    conn.executemany("INSERT INTO colour VALUES (?)", [("red",), ("blue",), ("green",)])
+    conn.executemany("INSERT INTO paint (code) VALUES (?)", [("RED",), ("Blue",), ("green",)])
+    conn.commit()
+    try:
+        found = pop.analyse(conn, catalog_mod.from_sqlite(path))
+        yield ("a collation stays the database's business",
+               any(f.columns == ["code"] and f.table == "paint" for f in found.of_kind("inclusion")),
+               "RED is contained in red under NOCASE")
+    finally:
+        conn.close()
+        os.remove(path)
+
+
 def main(argv=None):
     p = argparse.ArgumentParser()
     p.add_argument("--only")
@@ -678,7 +767,7 @@ def main(argv=None):
         for name, ok, note in (list(cases(a)) + list(key_cases(a, cat))
                                + list(constraint_cases(a)) + list(reporting_cases(a, path))
                                + list(partition_cases(path)) + list(profile_cases())
-                               + list(review_cases())):
+                               + list(review_cases()) + list(search_cases())):
             if args.only and args.only.lower() not in name.lower():
                 continue
             if ok:

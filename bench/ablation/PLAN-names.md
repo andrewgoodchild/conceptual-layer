@@ -32,3 +32,10 @@ unchanged by construction, and that is checked rather than assumed on BIRD and A
 
 **What it does not claim.** Destroyed names are a clean test, not a common schema. A schema with
 cryptic but varied names (`MANDT`, `BUKRS`) is not caught by this rule and keeps the tie-break.
+
+## What actually happened
+
+Added after the test; everything above is as committed. `rules@2.6` on destroyed MusicBrainz went
+from 32% / 66% to 38% / 69%. Precision held and recall did not: 6 points against the 15 predicted.
+`apply_references` needed a change the plan did not spell out, since a name could no longer
+corroborate anything. The plan's 61 real schemas were in fact 79, fewest words six. Finding 180.
