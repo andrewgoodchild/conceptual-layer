@@ -1,0 +1,4711 @@
+{
+ "database": "adventureworks",
+ "tables": [
+  "AWBuildVersion",
+  "Address",
+  "AddressType",
+  "BillOfMaterials",
+  "BusinessEntity",
+  "BusinessEntityAddress",
+  "BusinessEntityContact",
+  "ContactType",
+  "CountryRegion",
+  "CountryRegionCurrency",
+  "CreditCard",
+  "Culture",
+  "Currency",
+  "CurrencyRate",
+  "Customer",
+  "DatabaseLog",
+  "Department",
+  "Document",
+  "EmailAddress",
+  "Employee",
+  "EmployeeDepartmentHistory",
+  "EmployeePayHistory",
+  "ErrorLog",
+  "Illustration",
+  "JobCandidate",
+  "Location",
+  "Password",
+  "Person",
+  "PersonCreditCard",
+  "PersonPhone",
+  "PhoneNumberType",
+  "Product",
+  "ProductCategory",
+  "ProductCostHistory",
+  "ProductDescription",
+  "ProductDocument",
+  "ProductInventory",
+  "ProductListPriceHistory",
+  "ProductModel",
+  "ProductModelIllustration",
+  "ProductModelProductDescriptionCulture",
+  "ProductPhoto",
+  "ProductProductPhoto",
+  "ProductReview",
+  "ProductSubcategory",
+  "ProductVendor",
+  "PurchaseOrderDetail",
+  "PurchaseOrderHeader",
+  "SalesOrderDetail",
+  "SalesOrderHeader",
+  "SalesOrderHeaderSalesReason",
+  "SalesPerson",
+  "SalesPersonQuotaHistory",
+  "SalesReason",
+  "SalesTaxRate",
+  "SalesTerritory",
+  "SalesTerritoryHistory",
+  "ScrapReason",
+  "Shift",
+  "ShipMethod",
+  "ShoppingCartItem",
+  "SpecialOffer",
+  "SpecialOfferProduct",
+  "StateProvince",
+  "Store",
+  "TransactionHistory",
+  "TransactionHistoryArchive",
+  "UnitMeasure",
+  "Vendor",
+  "WorkOrder",
+  "WorkOrderRouting"
+ ],
+ "candidates": [
+  {
+   "id": "Address.StateProvinceID -> StateProvince.StateProvinceID",
+   "source_table": "Address",
+   "source_column": "StateProvinceID",
+   "target_table": "StateProvince",
+   "target_key": "StateProvinceID",
+   "source_rows": 19614,
+   "source_distinct": 74,
+   "target_rows": 181,
+   "score": 3.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "79",
+    "58",
+    "36",
+    "73",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BillOfMaterials.ProductAssemblyID -> Product.ProductID",
+   "source_table": "BillOfMaterials",
+   "source_column": "ProductAssemblyID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 2679,
+   "source_distinct": 238,
+   "target_rows": 504,
+   "score": 3.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "807",
+    "782",
+    "950",
+    "984",
+    "775"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "BillOfMaterials.ComponentID -> Product.ProductID",
+   "source_table": "BillOfMaterials",
+   "source_column": "ComponentID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 2679,
+   "source_distinct": 325,
+   "target_rows": 504,
+   "score": 3.78,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "995",
+    "989",
+    "785",
+    "775"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "BillOfMaterials.UnitMeasureCode -> UnitMeasure.UnitMeasureCode",
+   "source_table": "BillOfMaterials",
+   "source_column": "UnitMeasureCode",
+   "target_table": "UnitMeasure",
+   "target_key": "UnitMeasureCode",
+   "source_rows": 2679,
+   "source_distinct": 3,
+   "target_rows": 38,
+   "score": 3.26,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "EA",
+    "IN",
+    "OZ"
+   ],
+   "target_samples": [
+    "BOX",
+    "BTL",
+    "C",
+    "CAN",
+    "CAR"
+   ]
+  },
+  {
+   "id": "BillOfMaterials.PerAssemblyQty -> Password.BusinessEntityID",
+   "source_table": "BillOfMaterials",
+   "source_column": "PerAssemblyQty",
+   "target_table": "Password",
+   "target_key": "BusinessEntityID",
+   "source_rows": 2679,
+   "source_distinct": 12,
+   "target_rows": 19972,
+   "score": 1.0,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1.0",
+    "3.0",
+    "2.0",
+    "40.0",
+    "36.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BusinessEntityAddress.BusinessEntityID -> BusinessEntity.BusinessEntityID",
+   "source_table": "BusinessEntityAddress",
+   "source_column": "BusinessEntityID",
+   "target_table": "BusinessEntity",
+   "target_key": "BusinessEntityID",
+   "source_rows": 19614,
+   "source_distinct": 19579,
+   "target_rows": 20777,
+   "score": 4.34,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BusinessEntityAddress.AddressID -> Address.AddressID",
+   "source_table": "BusinessEntityAddress",
+   "source_column": "AddressID",
+   "target_table": "Address",
+   "target_key": "AddressID",
+   "source_rows": 19614,
+   "source_distinct": 19614,
+   "target_rows": 19614,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "249",
+    "293",
+    "224",
+    "11387",
+    "190"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BusinessEntityAddress.AddressTypeID -> AddressType.AddressTypeID",
+   "source_table": "BusinessEntityAddress",
+   "source_column": "AddressTypeID",
+   "target_table": "AddressType",
+   "target_key": "AddressTypeID",
+   "source_rows": 19614,
+   "source_distinct": 3,
+   "target_rows": 6,
+   "score": 3.56,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BusinessEntityContact.BusinessEntityID -> BusinessEntity.BusinessEntityID",
+   "source_table": "BusinessEntityContact",
+   "source_column": "BusinessEntityID",
+   "target_table": "BusinessEntity",
+   "target_key": "BusinessEntityID",
+   "source_rows": 909,
+   "source_distinct": 805,
+   "target_rows": 20777,
+   "score": 1.75,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "292",
+    "294",
+    "296",
+    "298",
+    "300"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BusinessEntityContact.PersonID -> Person.BusinessEntityID",
+   "source_table": "BusinessEntityContact",
+   "source_column": "PersonID",
+   "target_table": "Person",
+   "target_key": "BusinessEntityID",
+   "source_rows": 909,
+   "source_distinct": 909,
+   "target_rows": 19972,
+   "score": 1.7,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "291",
+    "293",
+    "295",
+    "297",
+    "299"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BusinessEntityContact.ContactTypeID -> ContactType.ContactTypeID",
+   "source_table": "BusinessEntityContact",
+   "source_column": "ContactTypeID",
+   "target_table": "ContactType",
+   "target_key": "ContactTypeID",
+   "source_rows": 909,
+   "source_distinct": 7,
+   "target_rows": 20,
+   "score": 3.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11",
+    "14",
+    "15",
+    "18",
+    "19"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CountryRegionCurrency.CountryRegionCode -> CountryRegion.CountryRegionCode",
+   "source_table": "CountryRegionCurrency",
+   "source_column": "CountryRegionCode",
+   "target_table": "CountryRegion",
+   "target_key": "CountryRegionCode",
+   "source_rows": 109,
+   "source_distinct": 96,
+   "target_rows": 238,
+   "score": 3.79,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "AE",
+    "AR",
+    "AT",
+    "AU",
+    "BB"
+   ],
+   "target_samples": [
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AI"
+   ]
+  },
+  {
+   "id": "CountryRegionCurrency.CurrencyCode -> Currency.CurrencyCode",
+   "source_table": "CountryRegionCurrency",
+   "source_column": "CurrencyCode",
+   "target_table": "Currency",
+   "target_key": "CurrencyCode",
+   "source_rows": 109,
+   "source_distinct": 97,
+   "target_rows": 105,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "AED",
+    "ARS",
+    "ATS",
+    "EUR",
+    "AUD"
+   ],
+   "target_samples": [
+    "AED",
+    "AFA",
+    "ALL",
+    "AMD",
+    "ANG"
+   ]
+  },
+  {
+   "id": "CreditCard.ExpMonth -> Employee.BusinessEntityID",
+   "source_table": "CreditCard",
+   "source_column": "ExpMonth",
+   "target_table": "Employee",
+   "target_key": "BusinessEntityID",
+   "source_rows": 19118,
+   "source_distinct": 12,
+   "target_rows": 290,
+   "score": 1.62,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11",
+    "8",
+    "7",
+    "4",
+    "9"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CreditCard.ExpYear -> CurrencyRate.CurrencyRateID",
+   "source_table": "CreditCard",
+   "source_column": "ExpYear",
+   "target_table": "CurrencyRate",
+   "target_key": "CurrencyRateID",
+   "source_rows": 19118,
+   "source_distinct": 4,
+   "target_rows": 13532,
+   "score": 2.05,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2006",
+    "2005",
+    "2007",
+    "2008"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CurrencyRate.FromCurrencyCode -> Currency.CurrencyCode",
+   "source_table": "CurrencyRate",
+   "source_column": "FromCurrencyCode",
+   "target_table": "Currency",
+   "target_key": "CurrencyCode",
+   "source_rows": 13532,
+   "source_distinct": 1,
+   "target_rows": 105,
+   "score": 2.51,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "USD"
+   ],
+   "target_samples": [
+    "AED",
+    "AFA",
+    "ALL",
+    "AMD",
+    "ANG"
+   ]
+  },
+  {
+   "id": "CurrencyRate.ToCurrencyCode -> Currency.CurrencyCode",
+   "source_table": "CurrencyRate",
+   "source_column": "ToCurrencyCode",
+   "target_table": "Currency",
+   "target_key": "CurrencyCode",
+   "source_rows": 13532,
+   "source_distinct": 14,
+   "target_rows": 105,
+   "score": 3.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ARS",
+    "AUD",
+    "BRL",
+    "CAD",
+    "CNY"
+   ],
+   "target_samples": [
+    "AED",
+    "AFA",
+    "ALL",
+    "AMD",
+    "ANG"
+   ]
+  },
+  {
+   "id": "Customer.PersonID -> Person.BusinessEntityID",
+   "source_table": "Customer",
+   "source_column": "PersonID",
+   "target_table": "Person",
+   "target_key": "BusinessEntityID",
+   "source_rows": 19820,
+   "source_distinct": 19119,
+   "target_rows": 19972,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13531",
+    "5454",
+    "11269",
+    "11358",
+    "11901"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Customer.StoreID -> Store.BusinessEntityID",
+   "source_table": "Customer",
+   "source_column": "StoreID",
+   "target_table": "Store",
+   "target_key": "BusinessEntityID",
+   "source_rows": 19820,
+   "source_distinct": 701,
+   "target_rows": 701,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "934",
+    "1028",
+    "642",
+    "932",
+    "1026"
+   ],
+   "target_samples": [
+    "292",
+    "294",
+    "296",
+    "298",
+    "300"
+   ]
+  },
+  {
+   "id": "Customer.TerritoryID -> SalesTerritory.TerritoryID",
+   "source_table": "Customer",
+   "source_column": "TerritoryID",
+   "target_table": "SalesTerritory",
+   "target_key": "TerritoryID",
+   "source_rows": 19820,
+   "source_distinct": 10,
+   "target_rows": 10,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "4",
+    "5",
+    "6",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Document.Owner -> WorkOrder.WorkOrderID",
+   "source_table": "Document",
+   "source_column": "Owner",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 12,
+   "source_distinct": 3,
+   "target_rows": 72591,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "217",
+    "219",
+    "220"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Document.Status -> StateProvince.StateProvinceID",
+   "source_table": "Document",
+   "source_column": "Status",
+   "target_table": "StateProvince",
+   "target_key": "StateProvinceID",
+   "source_rows": 12,
+   "source_distinct": 2,
+   "target_rows": 181,
+   "score": 2.51,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmailAddress.BusinessEntityID -> Password.BusinessEntityID",
+   "source_table": "EmailAddress",
+   "source_column": "BusinessEntityID",
+   "target_table": "Password",
+   "target_key": "BusinessEntityID",
+   "source_rows": 19972,
+   "source_distinct": 19972,
+   "target_rows": 19972,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmailAddress.EmailAddressID -> WorkOrder.WorkOrderID",
+   "source_table": "EmailAddress",
+   "source_column": "EmailAddressID",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 19972,
+   "source_distinct": 19972,
+   "target_rows": 72591,
+   "score": 2.78,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Employee.SickLeaveHours -> BillOfMaterials.BillOfMaterialsID",
+   "source_table": "Employee",
+   "source_column": "SickLeaveHours",
+   "target_table": "BillOfMaterials",
+   "target_key": "BillOfMaterialsID",
+   "source_rows": 290,
+   "source_distinct": 51,
+   "target_rows": 2679,
+   "score": 1.59,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "69",
+    "20",
+    "21",
+    "80",
+    "22"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmployeeDepartmentHistory.BusinessEntityID -> Employee.BusinessEntityID",
+   "source_table": "EmployeeDepartmentHistory",
+   "source_column": "BusinessEntityID",
+   "target_table": "Employee",
+   "target_key": "BusinessEntityID",
+   "source_rows": 296,
+   "source_distinct": 290,
+   "target_rows": 290,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmployeeDepartmentHistory.DepartmentID -> Department.DepartmentID",
+   "source_table": "EmployeeDepartmentHistory",
+   "source_column": "DepartmentID",
+   "target_table": "Department",
+   "target_key": "DepartmentID",
+   "source_rows": 296,
+   "source_distinct": 16,
+   "target_rows": 16,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "16",
+    "1",
+    "2",
+    "6",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmployeeDepartmentHistory.ShiftID -> Shift.ShiftID",
+   "source_table": "EmployeeDepartmentHistory",
+   "source_column": "ShiftID",
+   "target_table": "Shift",
+   "target_key": "ShiftID",
+   "source_rows": 296,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "EmployeePayHistory.BusinessEntityID -> Employee.BusinessEntityID",
+   "source_table": "EmployeePayHistory",
+   "source_column": "BusinessEntityID",
+   "target_table": "Employee",
+   "target_key": "BusinessEntityID",
+   "source_rows": 316,
+   "source_distinct": 290,
+   "target_rows": 290,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "EmployeePayHistory.PayFrequency -> Product.ProductID",
+   "source_table": "EmployeePayHistory",
+   "source_column": "PayFrequency",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 316,
+   "source_distinct": 2,
+   "target_rows": 504,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "JobCandidate.BusinessEntityID -> Employee.BusinessEntityID",
+   "source_table": "JobCandidate",
+   "source_column": "BusinessEntityID",
+   "target_table": "Employee",
+   "target_key": "BusinessEntityID",
+   "source_rows": 13,
+   "source_distinct": 2,
+   "target_rows": 290,
+   "score": 2.51,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "274",
+    "212"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PersonCreditCard.BusinessEntityID -> Password.BusinessEntityID",
+   "source_table": "PersonCreditCard",
+   "source_column": "BusinessEntityID",
+   "target_table": "Password",
+   "target_key": "BusinessEntityID",
+   "source_rows": 19118,
+   "source_distinct": 19118,
+   "target_rows": 19972,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "293",
+    "295",
+    "297",
+    "299",
+    "301"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PersonCreditCard.CreditCardID -> CreditCard.CreditCardID",
+   "source_table": "PersonCreditCard",
+   "source_column": "CreditCardID",
+   "target_table": "CreditCard",
+   "target_key": "CreditCardID",
+   "source_rows": 19118,
+   "source_distinct": 19118,
+   "target_rows": 19118,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "17038",
+    "15369",
+    "8010",
+    "5316",
+    "6653"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PersonPhone.BusinessEntityID -> Password.BusinessEntityID",
+   "source_table": "PersonPhone",
+   "source_column": "BusinessEntityID",
+   "target_table": "Password",
+   "target_key": "BusinessEntityID",
+   "source_rows": 19972,
+   "source_distinct": 19972,
+   "target_rows": 19972,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PersonPhone.PhoneNumberTypeID -> PhoneNumberType.PhoneNumberTypeID",
+   "source_table": "PersonPhone",
+   "source_column": "PhoneNumberTypeID",
+   "target_table": "PhoneNumberType",
+   "target_key": "PhoneNumberTypeID",
+   "source_rows": 19972,
+   "source_distinct": 3,
+   "target_rows": 3,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3"
+   ]
+  },
+  {
+   "id": "Product.SafetyStockLevel -> TransactionHistoryArchive.TransactionID",
+   "source_table": "Product",
+   "source_column": "SafetyStockLevel",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 504,
+   "source_distinct": 6,
+   "target_rows": 89253,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1000",
+    "800",
+    "500",
+    "60",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Product.ReorderPoint -> WorkOrder.WorkOrderID",
+   "source_table": "Product",
+   "source_column": "ReorderPoint",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 504,
+   "source_distinct": 6,
+   "target_rows": 72591,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "750",
+    "600",
+    "375",
+    "45",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Product.SizeUnitMeasureCode -> UnitMeasure.UnitMeasureCode",
+   "source_table": "Product",
+   "source_column": "SizeUnitMeasureCode",
+   "target_table": "UnitMeasure",
+   "target_key": "UnitMeasureCode",
+   "source_rows": 504,
+   "source_distinct": 1,
+   "target_rows": 38,
+   "score": 2.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "CM"
+   ],
+   "target_samples": [
+    "BOX",
+    "BTL",
+    "C",
+    "CAN",
+    "CAR"
+   ]
+  },
+  {
+   "id": "Product.WeightUnitMeasureCode -> UnitMeasure.UnitMeasureCode",
+   "source_table": "Product",
+   "source_column": "WeightUnitMeasureCode",
+   "target_table": "UnitMeasure",
+   "target_key": "UnitMeasureCode",
+   "source_rows": 504,
+   "source_distinct": 2,
+   "target_rows": 38,
+   "score": 2.55,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "G",
+    "LB"
+   ],
+   "target_samples": [
+    "BOX",
+    "BTL",
+    "C",
+    "CAN",
+    "CAR"
+   ]
+  },
+  {
+   "id": "Product.ProductSubcategoryID -> ProductSubcategory.ProductSubcategoryID",
+   "source_table": "Product",
+   "source_column": "ProductSubcategoryID",
+   "target_table": "ProductSubcategory",
+   "target_key": "ProductSubcategoryID",
+   "source_rows": 504,
+   "source_distinct": 37,
+   "target_rows": 37,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "14",
+    "31",
+    "23",
+    "19",
+    "21"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Product.ProductModelID -> ProductModel.ProductModelID",
+   "source_table": "Product",
+   "source_column": "ProductModelID",
+   "target_table": "ProductModel",
+   "target_key": "ProductModelID",
+   "source_rows": 504,
+   "source_distinct": 119,
+   "target_rows": 128,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "33",
+    "18",
+    "2",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductCostHistory.ProductID -> Product.ProductID",
+   "source_table": "ProductCostHistory",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 395,
+   "source_distinct": 293,
+   "target_rows": 504,
+   "score": 3.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "707",
+    "708",
+    "709",
+    "710",
+    "711"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "ProductDocument.ProductID -> Product.ProductID",
+   "source_table": "ProductDocument",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 32,
+   "source_distinct": 31,
+   "target_rows": 504,
+   "score": 2.96,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "317",
+    "318",
+    "319",
+    "506",
+    "514"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "ProductDocument.DocumentNode -> Document.DocumentNode",
+   "source_table": "ProductDocument",
+   "source_column": "DocumentNode",
+   "target_table": "Document",
+   "target_key": "DocumentNode",
+   "source_rows": 32,
+   "source_distinct": 6,
+   "target_rows": 12,
+   "score": 3.67,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6AC0",
+    "7AC0",
+    "7B40",
+    "7C20",
+    "7BC0"
+   ],
+   "target_samples": [
+    "58",
+    "5AC0",
+    "5B40",
+    "68",
+    "6AC0"
+   ]
+  },
+  {
+   "id": "ProductInventory.ProductID -> Product.ProductID",
+   "source_table": "ProductInventory",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 1069,
+   "source_distinct": 432,
+   "target_rows": 504,
+   "score": 4.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "ProductInventory.LocationID -> Location.LocationID",
+   "source_table": "ProductInventory",
+   "source_column": "LocationID",
+   "target_table": "Location",
+   "target_key": "LocationID",
+   "source_rows": 1069,
+   "source_distinct": 14,
+   "target_rows": 14,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "6",
+    "50",
+    "5",
+    "10"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductListPriceHistory.ProductID -> Product.ProductID",
+   "source_table": "ProductListPriceHistory",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 395,
+   "source_distinct": 293,
+   "target_rows": 504,
+   "score": 3.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "707",
+    "708",
+    "709",
+    "710",
+    "711"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "ProductModelIllustration.ProductModelID -> ProductModel.ProductModelID",
+   "source_table": "ProductModelIllustration",
+   "source_column": "ProductModelID",
+   "target_table": "ProductModel",
+   "target_key": "ProductModelID",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 128,
+   "score": 2.63,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "10",
+    "47",
+    "48",
+    "67"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductModelIllustration.IllustrationID -> Illustration.IllustrationID",
+   "source_table": "ProductModelIllustration",
+   "source_column": "IllustrationID",
+   "target_table": "Illustration",
+   "target_key": "IllustrationID",
+   "source_rows": 7,
+   "source_distinct": 4,
+   "target_rows": 5,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+   ]
+  },
+  {
+   "id": "ProductModelProductDescriptionCulture.ProductModelID -> ProductModel.ProductModelID",
+   "source_table": "ProductModelProductDescriptionCulture",
+   "source_column": "ProductModelID",
+   "target_table": "ProductModel",
+   "target_key": "ProductModelID",
+   "source_rows": 762,
+   "source_distinct": 127,
+   "target_rows": 128,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductModelProductDescriptionCulture.ProductDescriptionID -> ProductDescription.ProductDescriptionID",
+   "source_table": "ProductModelProductDescriptionCulture",
+   "source_column": "ProductDescriptionID",
+   "target_table": "ProductDescription",
+   "target_key": "ProductDescriptionID",
+   "source_rows": 762,
+   "source_distinct": 762,
+   "target_rows": 762,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1199",
+    "1467",
+    "1589",
+    "1712",
+    "1838"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "5",
+    "8",
+    "64"
+   ]
+  },
+  {
+   "id": "ProductModelProductDescriptionCulture.CultureID -> Culture.CultureID",
+   "source_table": "ProductModelProductDescriptionCulture",
+   "source_column": "CultureID",
+   "target_table": "Culture",
+   "target_key": "CultureID",
+   "source_rows": 762,
+   "source_distinct": 6,
+   "target_rows": 8,
+   "score": 4.15,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "en",
+    "ar",
+    "fr",
+    "th",
+    "he"
+   ],
+   "target_samples": [
+    "ar",
+    "en",
+    "es",
+    "fr",
+    "he"
+   ]
+  },
+  {
+   "id": "ProductProductPhoto.ProductID -> Product.ProductID",
+   "source_table": "ProductProductPhoto",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 504,
+   "source_distinct": 504,
+   "target_rows": 504,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "ProductProductPhoto.ProductPhotoID -> ProductPhoto.ProductPhotoID",
+   "source_table": "ProductProductPhoto",
+   "source_column": "ProductPhotoID",
+   "target_table": "ProductPhoto",
+   "target_key": "ProductPhotoID",
+   "source_rows": 504,
+   "source_distinct": 42,
+   "target_rows": 101,
+   "score": 3.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "160",
+    "162",
+    "143",
+    "139"
+   ],
+   "target_samples": [
+    "1",
+    "69",
+    "70",
+    "72",
+    "73"
+   ]
+  },
+  {
+   "id": "ProductReview.ProductID -> Product.ProductID",
+   "source_table": "ProductReview",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 504,
+   "score": 2.98,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "709",
+    "937",
+    "798"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "ProductReview.Rating -> Location.LocationID",
+   "source_table": "ProductReview",
+   "source_column": "Rating",
+   "target_table": "Location",
+   "target_key": "LocationID",
+   "source_rows": 4,
+   "source_distinct": 3,
+   "target_rows": 14,
+   "score": 2.48,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "4",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductSubcategory.ProductCategoryID -> ProductCategory.ProductCategoryID",
+   "source_table": "ProductSubcategory",
+   "source_column": "ProductCategoryID",
+   "target_table": "ProductCategory",
+   "target_key": "ProductCategoryID",
+   "source_rows": 37,
+   "source_distinct": 4,
+   "target_rows": 4,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ]
+  },
+  {
+   "id": "ProductVendor.ProductID -> Product.ProductID",
+   "source_table": "ProductVendor",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 460,
+   "source_distinct": 265,
+   "target_rows": 504,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "4",
+    "317",
+    "318"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "ProductVendor.BusinessEntityID -> Vendor.BusinessEntityID",
+   "source_table": "ProductVendor",
+   "source_column": "BusinessEntityID",
+   "target_table": "Vendor",
+   "target_key": "BusinessEntityID",
+   "source_rows": 460,
+   "source_distinct": 86,
+   "target_rows": 104,
+   "score": 4.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1580",
+    "1688",
+    "1650",
+    "1578",
+    "1678"
+   ],
+   "target_samples": [
+    "1492",
+    "1494",
+    "1496",
+    "1498",
+    "1500"
+   ]
+  },
+  {
+   "id": "ProductVendor.AverageLeadTime -> CurrencyRate.CurrencyRateID",
+   "source_table": "ProductVendor",
+   "source_column": "AverageLeadTime",
+   "target_table": "CurrencyRate",
+   "target_key": "CurrencyRateID",
+   "source_rows": 460,
+   "source_distinct": 13,
+   "target_rows": 13532,
+   "score": 1.51,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "17",
+    "19",
+    "15",
+    "18",
+    "16"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductVendor.MinOrderQty -> WorkOrder.WorkOrderID",
+   "source_table": "ProductVendor",
+   "source_column": "MinOrderQty",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 460,
+   "source_distinct": 11,
+   "target_rows": 72591,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "100",
+    "20",
+    "500",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductVendor.MaxOrderQty -> WorkOrder.WorkOrderID",
+   "source_table": "ProductVendor",
+   "source_column": "MaxOrderQty",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 460,
+   "source_distinct": 16,
+   "target_rows": 72591,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "1000",
+    "100",
+    "2000",
+    "200"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductVendor.OnOrderQty -> WorkOrder.WorkOrderID",
+   "source_table": "ProductVendor",
+   "source_column": "OnOrderQty",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 460,
+   "source_distinct": 26,
+   "target_rows": 72591,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "300",
+    "60",
+    "25",
+    "150"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductVendor.UnitMeasureCode -> UnitMeasure.UnitMeasureCode",
+   "source_table": "ProductVendor",
+   "source_column": "UnitMeasureCode",
+   "target_table": "UnitMeasure",
+   "target_key": "UnitMeasureCode",
+   "source_rows": 460,
+   "source_distinct": 7,
+   "target_rows": 38,
+   "score": 3.18,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "CS",
+    "CTN",
+    "EA",
+    "CAN",
+    "DZ"
+   ],
+   "target_samples": [
+    "BOX",
+    "BTL",
+    "C",
+    "CAN",
+    "CAR"
+   ]
+  },
+  {
+   "id": "PurchaseOrderDetail.PurchaseOrderID -> PurchaseOrderHeader.PurchaseOrderID",
+   "source_table": "PurchaseOrderDetail",
+   "source_column": "PurchaseOrderID",
+   "target_table": "PurchaseOrderHeader",
+   "target_key": "PurchaseOrderID",
+   "source_rows": 8845,
+   "source_distinct": 4012,
+   "target_rows": 4012,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PurchaseOrderDetail.PurchaseOrderDetailID -> WorkOrder.WorkOrderID",
+   "source_table": "PurchaseOrderDetail",
+   "source_column": "PurchaseOrderDetailID",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 8845,
+   "source_distinct": 8845,
+   "target_rows": 72591,
+   "score": 2.62,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PurchaseOrderDetail.OrderQty -> WorkOrder.WorkOrderID",
+   "source_table": "PurchaseOrderDetail",
+   "source_column": "OrderQty",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 8845,
+   "source_distinct": 28,
+   "target_rows": 72591,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "3",
+    "550",
+    "60",
+    "1250"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PurchaseOrderDetail.ProductID -> Product.ProductID",
+   "source_table": "PurchaseOrderDetail",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 8845,
+   "source_distinct": 265,
+   "target_rows": 504,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "359",
+    "360",
+    "530",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "PurchaseOrderDetail.ReceivedQty -> BusinessEntity.BusinessEntityID",
+   "source_table": "PurchaseOrderDetail",
+   "source_column": "ReceivedQty",
+   "target_table": "BusinessEntity",
+   "target_key": "BusinessEntityID",
+   "source_rows": 8845,
+   "source_distinct": 34,
+   "target_rows": 20777,
+   "score": 1.2,
+   "signals": [
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3.0",
+    "550.0",
+    "2.0",
+    "468.0",
+    "60.0"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PurchaseOrderHeader.RevisionNumber -> Customer.CustomerID",
+   "source_table": "PurchaseOrderHeader",
+   "source_column": "RevisionNumber",
+   "target_table": "Customer",
+   "target_key": "CustomerID",
+   "source_rows": 4012,
+   "source_distinct": 10,
+   "target_rows": 19820,
+   "score": 1.5,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "6",
+    "7",
+    "10",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PurchaseOrderHeader.Status -> StateProvince.StateProvinceID",
+   "source_table": "PurchaseOrderHeader",
+   "source_column": "Status",
+   "target_table": "StateProvince",
+   "target_key": "StateProvinceID",
+   "source_rows": 4012,
+   "source_distinct": 4,
+   "target_rows": 181,
+   "score": 1.56,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "1",
+    "3",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PurchaseOrderHeader.EmployeeID -> Employee.BusinessEntityID",
+   "source_table": "PurchaseOrderHeader",
+   "source_column": "EmployeeID",
+   "target_table": "Employee",
+   "target_key": "BusinessEntityID",
+   "source_rows": 4012,
+   "source_distinct": 12,
+   "target_rows": 290,
+   "score": 1.99,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "258",
+    "254",
+    "257",
+    "261",
+    "251"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PurchaseOrderHeader.VendorID -> Vendor.BusinessEntityID",
+   "source_table": "PurchaseOrderHeader",
+   "source_column": "VendorID",
+   "target_table": "Vendor",
+   "target_key": "BusinessEntityID",
+   "source_rows": 4012,
+   "source_distinct": 86,
+   "target_rows": 104,
+   "score": 4.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1580",
+    "1496",
+    "1494",
+    "1650",
+    "1654"
+   ],
+   "target_samples": [
+    "1492",
+    "1494",
+    "1496",
+    "1498",
+    "1500"
+   ]
+  },
+  {
+   "id": "PurchaseOrderHeader.ShipMethodID -> ShipMethod.ShipMethodID",
+   "source_table": "PurchaseOrderHeader",
+   "source_column": "ShipMethodID",
+   "target_table": "ShipMethod",
+   "target_key": "ShipMethodID",
+   "source_rows": 4012,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "3",
+    "5",
+    "2",
+    "4",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesOrderDetail.SalesOrderID -> SalesOrderHeader.SalesOrderID",
+   "source_table": "SalesOrderDetail",
+   "source_column": "SalesOrderID",
+   "target_table": "SalesOrderHeader",
+   "target_key": "SalesOrderID",
+   "source_rows": 121317,
+   "source_distinct": 31465,
+   "target_rows": 31465,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "43659",
+    "43660",
+    "43661",
+    "43662",
+    "43663"
+   ],
+   "target_samples": [
+    "43659",
+    "43660",
+    "43661",
+    "43662",
+    "43663"
+   ]
+  },
+  {
+   "id": "SalesOrderDetail.OrderQty -> WorkOrder.WorkOrderID",
+   "source_table": "SalesOrderDetail",
+   "source_column": "OrderQty",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 121317,
+   "source_distinct": 41,
+   "target_rows": 72591,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "2",
+    "6",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesOrderDetail.ProductID -> Product.ProductID",
+   "source_table": "SalesOrderDetail",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 121317,
+   "source_distinct": 266,
+   "target_rows": 504,
+   "score": 3.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "776",
+    "777",
+    "778",
+    "771",
+    "772"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "SalesOrderDetail.SpecialOfferID -> SpecialOffer.SpecialOfferID",
+   "source_table": "SalesOrderDetail",
+   "source_column": "SpecialOfferID",
+   "target_table": "SpecialOffer",
+   "target_key": "SpecialOfferID",
+   "source_rows": 121317,
+   "source_distinct": 12,
+   "target_rows": 16,
+   "score": 3.94,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesOrderHeader.RevisionNumber -> Customer.CustomerID",
+   "source_table": "SalesOrderHeader",
+   "source_column": "RevisionNumber",
+   "target_table": "Customer",
+   "target_key": "CustomerID",
+   "source_rows": 31465,
+   "source_distinct": 2,
+   "target_rows": 19820,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesOrderHeader.Status -> Illustration.IllustrationID",
+   "source_table": "SalesOrderHeader",
+   "source_column": "Status",
+   "target_table": "Illustration",
+   "target_key": "IllustrationID",
+   "source_rows": 31465,
+   "source_distinct": 1,
+   "target_rows": 5,
+   "score": 2.7,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5"
+   ],
+   "target_samples": [
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+   ]
+  },
+  {
+   "id": "SalesOrderHeader.CustomerID -> Customer.CustomerID",
+   "source_table": "SalesOrderHeader",
+   "source_column": "CustomerID",
+   "target_table": "Customer",
+   "target_key": "CustomerID",
+   "source_rows": 31465,
+   "source_distinct": 19119,
+   "target_rows": 19820,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "29825",
+    "29672",
+    "29734",
+    "29994",
+    "29565"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesOrderHeader.SalesPersonID -> SalesPerson.BusinessEntityID",
+   "source_table": "SalesOrderHeader",
+   "source_column": "SalesPersonID",
+   "target_table": "SalesPerson",
+   "target_key": "BusinessEntityID",
+   "source_rows": 31465,
+   "source_distinct": 17,
+   "target_rows": 17,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "279",
+    "282",
+    "276",
+    "280",
+    "283"
+   ],
+   "target_samples": [
+    "274",
+    "275",
+    "276",
+    "277",
+    "278"
+   ]
+  },
+  {
+   "id": "SalesOrderHeader.TerritoryID -> SalesTerritory.TerritoryID",
+   "source_table": "SalesOrderHeader",
+   "source_column": "TerritoryID",
+   "target_table": "SalesTerritory",
+   "target_key": "TerritoryID",
+   "source_rows": 31465,
+   "source_distinct": 10,
+   "target_rows": 10,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "6",
+    "4",
+    "1",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesOrderHeader.BillToAddressID -> Address.AddressID",
+   "source_table": "SalesOrderHeader",
+   "source_column": "BillToAddressID",
+   "target_table": "Address",
+   "target_key": "AddressID",
+   "source_rows": 31465,
+   "source_distinct": 19119,
+   "target_rows": 19614,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "985",
+    "921",
+    "517",
+    "482",
+    "1073"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesOrderHeader.ShipToAddressID -> Address.AddressID",
+   "source_table": "SalesOrderHeader",
+   "source_column": "ShipToAddressID",
+   "target_table": "Address",
+   "target_key": "AddressID",
+   "source_rows": 31465,
+   "source_distinct": 19119,
+   "target_rows": 19614,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "985",
+    "921",
+    "517",
+    "482",
+    "1073"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesOrderHeader.ShipMethodID -> ShipMethod.ShipMethodID",
+   "source_table": "SalesOrderHeader",
+   "source_column": "ShipMethodID",
+   "target_table": "ShipMethod",
+   "target_key": "ShipMethodID",
+   "source_rows": 31465,
+   "source_distinct": 2,
+   "target_rows": 5,
+   "score": 2.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "5",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesOrderHeader.CreditCardID -> CreditCard.CreditCardID",
+   "source_table": "SalesOrderHeader",
+   "source_column": "CreditCardID",
+   "target_table": "CreditCard",
+   "target_key": "CreditCardID",
+   "source_rows": 31465,
+   "source_distinct": 18384,
+   "target_rows": 19118,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "16281",
+    "5618",
+    "1346",
+    "10456",
+    "4322"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesOrderHeader.CurrencyRateID -> CurrencyRate.CurrencyRateID",
+   "source_table": "SalesOrderHeader",
+   "source_column": "CurrencyRateID",
+   "target_table": "CurrencyRate",
+   "target_key": "CurrencyRateID",
+   "source_rows": 31465,
+   "source_distinct": 2514,
+   "target_rows": 13532,
+   "score": 3.53,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "8",
+    "2",
+    "15",
+    "35"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesOrderHeaderSalesReason.SalesOrderID -> SalesOrderHeader.SalesOrderID",
+   "source_table": "SalesOrderHeaderSalesReason",
+   "source_column": "SalesOrderID",
+   "target_table": "SalesOrderHeader",
+   "target_key": "SalesOrderID",
+   "source_rows": 27647,
+   "source_distinct": 23012,
+   "target_rows": 31465,
+   "score": 4.01,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "43697",
+    "43702",
+    "43703",
+    "43706",
+    "43707"
+   ],
+   "target_samples": [
+    "43659",
+    "43660",
+    "43661",
+    "43662",
+    "43663"
+   ]
+  },
+  {
+   "id": "SalesOrderHeaderSalesReason.SalesReasonID -> SalesReason.SalesReasonID",
+   "source_table": "SalesOrderHeaderSalesReason",
+   "source_column": "SalesReasonID",
+   "target_table": "SalesReason",
+   "target_key": "SalesReasonID",
+   "source_rows": 27647,
+   "source_distinct": 7,
+   "target_rows": 10,
+   "score": 3.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "9",
+    "2",
+    "6",
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesPerson.TerritoryID -> SalesTerritory.TerritoryID",
+   "source_table": "SalesPerson",
+   "source_column": "TerritoryID",
+   "target_table": "SalesTerritory",
+   "target_key": "TerritoryID",
+   "source_rows": 17,
+   "source_distinct": 10,
+   "target_rows": 10,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "4",
+    "3",
+    "6",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesPersonQuotaHistory.BusinessEntityID -> SalesPerson.BusinessEntityID",
+   "source_table": "SalesPersonQuotaHistory",
+   "source_column": "BusinessEntityID",
+   "target_table": "SalesPerson",
+   "target_key": "BusinessEntityID",
+   "source_rows": 163,
+   "source_distinct": 17,
+   "target_rows": 17,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "274",
+    "275",
+    "276",
+    "277",
+    "278"
+   ],
+   "target_samples": [
+    "274",
+    "275",
+    "276",
+    "277",
+    "278"
+   ]
+  },
+  {
+   "id": "SalesTaxRate.StateProvinceID -> StateProvince.StateProvinceID",
+   "source_table": "SalesTaxRate",
+   "source_column": "StateProvinceID",
+   "target_table": "StateProvince",
+   "target_key": "StateProvinceID",
+   "source_rows": 29,
+   "source_distinct": 26,
+   "target_rows": 181,
+   "score": 2.6,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "57",
+    "63",
+    "7",
+    "29"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesTaxRate.TaxType -> ContactType.ContactTypeID",
+   "source_table": "SalesTaxRate",
+   "source_column": "TaxType",
+   "target_table": "ContactType",
+   "target_key": "ContactTypeID",
+   "source_rows": 29,
+   "source_distinct": 3,
+   "target_rows": 20,
+   "score": 1.85,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesTerritory.CountryRegionCode -> CountryRegion.CountryRegionCode",
+   "source_table": "SalesTerritory",
+   "source_column": "CountryRegionCode",
+   "target_table": "CountryRegion",
+   "target_key": "CountryRegionCode",
+   "source_rows": 10,
+   "source_distinct": 6,
+   "target_rows": 238,
+   "score": 2.82,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "US",
+    "CA",
+    "FR",
+    "DE",
+    "AU"
+   ],
+   "target_samples": [
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AI"
+   ]
+  },
+  {
+   "id": "SalesTerritoryHistory.BusinessEntityID -> SalesPerson.BusinessEntityID",
+   "source_table": "SalesTerritoryHistory",
+   "source_column": "BusinessEntityID",
+   "target_table": "SalesPerson",
+   "target_key": "BusinessEntityID",
+   "source_rows": 17,
+   "source_distinct": 14,
+   "target_rows": 17,
+   "score": 4.19,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "275",
+    "276",
+    "277",
+    "278",
+    "279"
+   ],
+   "target_samples": [
+    "274",
+    "275",
+    "276",
+    "277",
+    "278"
+   ]
+  },
+  {
+   "id": "SalesTerritoryHistory.TerritoryID -> SalesTerritory.TerritoryID",
+   "source_table": "SalesTerritoryHistory",
+   "source_column": "TerritoryID",
+   "target_table": "SalesTerritory",
+   "target_key": "TerritoryID",
+   "source_rows": 17,
+   "source_distinct": 10,
+   "target_rows": 10,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "4",
+    "6",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShoppingCartItem.Quantity -> BusinessEntity.BusinessEntityID",
+   "source_table": "ShoppingCartItem",
+   "source_column": "Quantity",
+   "target_table": "BusinessEntity",
+   "target_key": "BusinessEntityID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 20777,
+   "score": 1.5,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShoppingCartItem.ProductID -> Product.ProductID",
+   "source_table": "ShoppingCartItem",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 504,
+   "score": 2.33,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "862",
+    "881",
+    "874"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "SpecialOffer.MaxQty -> TransactionHistoryArchive.TransactionID",
+   "source_table": "SpecialOffer",
+   "source_column": "MaxQty",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 16,
+   "source_distinct": 4,
+   "target_rows": 89253,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "14",
+    "24",
+    "40",
+    "60"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SpecialOfferProduct.SpecialOfferID -> SpecialOffer.SpecialOfferID",
+   "source_table": "SpecialOfferProduct",
+   "source_column": "SpecialOfferID",
+   "target_table": "SpecialOffer",
+   "target_key": "SpecialOfferID",
+   "source_rows": 538,
+   "source_distinct": 15,
+   "target_rows": 16,
+   "score": 4.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SpecialOfferProduct.ProductID -> Product.ProductID",
+   "source_table": "SpecialOfferProduct",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 538,
+   "source_distinct": 295,
+   "target_rows": 504,
+   "score": 3.26,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "680",
+    "706",
+    "707",
+    "708",
+    "709"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "StateProvince.CountryRegionCode -> CountryRegion.CountryRegionCode",
+   "source_table": "StateProvince",
+   "source_column": "CountryRegionCode",
+   "target_table": "CountryRegion",
+   "target_key": "CountryRegionCode",
+   "source_rows": 181,
+   "source_distinct": 12,
+   "target_rows": 238,
+   "score": 3.23,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "CA",
+    "US",
+    "AS",
+    "DE",
+    "GB"
+   ],
+   "target_samples": [
+    "AD",
+    "AE",
+    "AF",
+    "AG",
+    "AI"
+   ]
+  },
+  {
+   "id": "StateProvince.TerritoryID -> SalesTerritory.TerritoryID",
+   "source_table": "StateProvince",
+   "source_column": "TerritoryID",
+   "target_table": "SalesTerritory",
+   "target_key": "TerritoryID",
+   "source_rows": 181,
+   "source_distinct": 10,
+   "target_rows": 10,
+   "score": 4.3,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "1",
+    "5",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Store.SalesPersonID -> SalesPerson.BusinessEntityID",
+   "source_table": "Store",
+   "source_column": "SalesPersonID",
+   "target_table": "SalesPerson",
+   "target_key": "BusinessEntityID",
+   "source_rows": 701,
+   "source_distinct": 13,
+   "target_rows": 17,
+   "score": 4.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "279",
+    "276",
+    "277",
+    "275",
+    "286"
+   ],
+   "target_samples": [
+    "274",
+    "275",
+    "276",
+    "277",
+    "278"
+   ]
+  },
+  {
+   "id": "TransactionHistory.ProductID -> Product.ProductID",
+   "source_table": "TransactionHistory",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 113443,
+   "source_distinct": 441,
+   "target_rows": 504,
+   "score": 4.27,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "784",
+    "794",
+    "797",
+    "798",
+    "799"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "TransactionHistory.ReferenceOrderID -> TransactionHistoryArchive.TransactionID",
+   "source_table": "TransactionHistory",
+   "source_column": "ReferenceOrderID",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 113443,
+   "source_distinct": 37118,
+   "target_rows": 89253,
+   "score": 2.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "41590",
+    "41591",
+    "41592",
+    "41593",
+    "41594"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransactionHistory.Quantity -> TransactionHistoryArchive.TransactionID",
+   "source_table": "TransactionHistory",
+   "source_column": "Quantity",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 113443,
+   "source_distinct": 455,
+   "target_rows": 89253,
+   "score": 2.51,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "1",
+    "3",
+    "4",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransactionHistoryArchive.ProductID -> Product.ProductID",
+   "source_table": "TransactionHistoryArchive",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 89253,
+   "source_distinct": 497,
+   "target_rows": 504,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "359",
+    "360",
+    "530",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "TransactionHistoryArchive.ReferenceOrderID -> WorkOrder.WorkOrderID",
+   "source_table": "TransactionHistoryArchive",
+   "source_column": "ReferenceOrderID",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 89253,
+   "source_distinct": 51380,
+   "target_rows": 72591,
+   "score": 3.21,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "TransactionHistoryArchive.Quantity -> WorkOrder.WorkOrderID",
+   "source_table": "TransactionHistoryArchive",
+   "source_column": "Quantity",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 89253,
+   "source_distinct": 640,
+   "target_rows": 72591,
+   "score": 2.51,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "4",
+    "3",
+    "550",
+    "6",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Vendor.CreditRating -> CreditCard.CreditCardID",
+   "source_table": "Vendor",
+   "source_column": "CreditRating",
+   "target_table": "CreditCard",
+   "target_key": "CreditCardID",
+   "source_rows": 104,
+   "source_distinct": 5,
+   "target_rows": 19118,
+   "score": 1.5,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "4",
+    "3",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WorkOrder.ProductID -> Product.ProductID",
+   "source_table": "WorkOrder",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 72591,
+   "source_distinct": 238,
+   "target_rows": 504,
+   "score": 3.4,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "722",
+    "725",
+    "726",
+    "729",
+    "730"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "WorkOrder.OrderQty -> TransactionHistoryArchive.TransactionID",
+   "source_table": "WorkOrder",
+   "source_column": "OrderQty",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 72591,
+   "source_distinct": 903,
+   "target_rows": 89253,
+   "score": 2.51,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "15",
+    "9",
+    "16",
+    "14"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WorkOrder.ScrapReasonID -> ScrapReason.ScrapReasonID",
+   "source_table": "WorkOrder",
+   "source_column": "ScrapReasonID",
+   "target_table": "ScrapReason",
+   "target_key": "ScrapReasonID",
+   "source_rows": 72591,
+   "source_distinct": 16,
+   "target_rows": 16,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "11",
+    "14",
+    "15",
+    "16"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WorkOrderRouting.WorkOrderID -> WorkOrder.WorkOrderID",
+   "source_table": "WorkOrderRouting",
+   "source_column": "WorkOrderID",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 67131,
+   "source_distinct": 42625,
+   "target_rows": 72591,
+   "score": 3.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "13",
+    "14",
+    "15",
+    "16",
+    "17"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WorkOrderRouting.ProductID -> Product.ProductID",
+   "source_table": "WorkOrderRouting",
+   "source_column": "ProductID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 67131,
+   "source_distinct": 149,
+   "target_rows": 504,
+   "score": 2.97,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "747",
+    "748",
+    "749",
+    "753",
+    "754"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "WorkOrderRouting.OperationSequence -> TransactionHistoryArchive.TransactionID",
+   "source_table": "WorkOrderRouting",
+   "source_column": "OperationSequence",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 67131,
+   "source_distinct": 7,
+   "target_rows": 89253,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WorkOrderRouting.LocationID -> Location.LocationID",
+   "source_table": "WorkOrderRouting",
+   "source_column": "LocationID",
+   "target_table": "Location",
+   "target_key": "LocationID",
+   "source_rows": 67131,
+   "source_distinct": 7,
+   "target_rows": 14,
+   "score": 3.14,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "10",
+    "20",
+    "30",
+    "40",
+    "50"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Address.AddressID -> WorkOrder.WorkOrderID",
+   "source_table": "Address",
+   "source_column": "AddressID",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 19614,
+   "source_distinct": 19614,
+   "target_rows": 72591,
+   "score": 1.77,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "AddressType.AddressTypeID -> Address.AddressID",
+   "source_table": "AddressType",
+   "source_column": "AddressTypeID",
+   "target_table": "Address",
+   "target_key": "AddressID",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 19614,
+   "score": 0.5,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BillOfMaterials.BillOfMaterialsID -> WorkOrder.WorkOrderID",
+   "source_table": "BillOfMaterials",
+   "source_column": "BillOfMaterialsID",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 2679,
+   "source_distinct": 2679,
+   "target_rows": 72591,
+   "score": 1.54,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "BusinessEntity.BusinessEntityID -> TransactionHistoryArchive.TransactionID",
+   "source_table": "BusinessEntity",
+   "source_column": "BusinessEntityID",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 20777,
+   "source_distinct": 20777,
+   "target_rows": 89253,
+   "score": 1.73,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ContactType.ContactTypeID -> TransactionHistoryArchive.TransactionID",
+   "source_table": "ContactType",
+   "source_column": "ContactTypeID",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 20,
+   "source_distinct": 20,
+   "target_rows": 89253,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CreditCard.CreditCardID -> TransactionHistoryArchive.TransactionID",
+   "source_table": "CreditCard",
+   "source_column": "CreditCardID",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 19118,
+   "source_distinct": 19118,
+   "target_rows": 89253,
+   "score": 1.71,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "CurrencyRate.CurrencyRateID -> CreditCard.CreditCardID",
+   "source_table": "CurrencyRate",
+   "source_column": "CurrencyRateID",
+   "target_table": "CreditCard",
+   "target_key": "CreditCardID",
+   "source_rows": 13532,
+   "source_distinct": 13532,
+   "target_rows": 19118,
+   "score": 2.62,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Customer.CustomerID -> WorkOrder.WorkOrderID",
+   "source_table": "Customer",
+   "source_column": "CustomerID",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 19820,
+   "source_distinct": 19820,
+   "target_rows": 72591,
+   "score": 1.77,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Department.DepartmentID -> StateProvince.StateProvinceID",
+   "source_table": "Department",
+   "source_column": "DepartmentID",
+   "target_table": "StateProvince",
+   "target_key": "StateProvinceID",
+   "source_rows": 16,
+   "source_distinct": 16,
+   "target_rows": 181,
+   "score": 0.75,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Employee.BusinessEntityID -> Password.BusinessEntityID",
+   "source_table": "Employee",
+   "source_column": "BusinessEntityID",
+   "target_table": "Password",
+   "target_key": "BusinessEntityID",
+   "source_rows": 290,
+   "source_distinct": 290,
+   "target_rows": 19972,
+   "score": 0.54,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Illustration.IllustrationID -> Location.LocationID",
+   "source_table": "Illustration",
+   "source_column": "IllustrationID",
+   "target_table": "Location",
+   "target_key": "LocationID",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 14,
+   "score": 1.93,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "JobCandidate.JobCandidateID -> CurrencyRate.CurrencyRateID",
+   "source_table": "JobCandidate",
+   "source_column": "JobCandidateID",
+   "target_table": "CurrencyRate",
+   "target_key": "CurrencyRateID",
+   "source_rows": 13,
+   "source_distinct": 13,
+   "target_rows": 13532,
+   "score": 0.5,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Location.LocationID -> TransactionHistoryArchive.TransactionID",
+   "source_table": "Location",
+   "source_column": "LocationID",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 14,
+   "source_distinct": 14,
+   "target_rows": 89253,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Password.BusinessEntityID -> Person.BusinessEntityID",
+   "source_table": "Password",
+   "source_column": "BusinessEntityID",
+   "target_table": "Person",
+   "target_key": "BusinessEntityID",
+   "source_rows": 19972,
+   "source_distinct": 19972,
+   "target_rows": 19972,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Person.BusinessEntityID -> Password.BusinessEntityID",
+   "source_table": "Person",
+   "source_column": "BusinessEntityID",
+   "target_table": "Password",
+   "target_key": "BusinessEntityID",
+   "source_rows": 19972,
+   "source_distinct": 19972,
+   "target_rows": 19972,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PhoneNumberType.PhoneNumberTypeID -> ContactType.ContactTypeID",
+   "source_table": "PhoneNumberType",
+   "source_column": "PhoneNumberTypeID",
+   "target_table": "ContactType",
+   "target_key": "ContactTypeID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 20,
+   "score": 0.85,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Product.ProductID -> CreditCard.CreditCardID",
+   "source_table": "Product",
+   "source_column": "ProductID",
+   "target_table": "CreditCard",
+   "target_key": "CreditCardID",
+   "source_rows": 504,
+   "source_distinct": 504,
+   "target_rows": 19118,
+   "score": 0.67,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductCategory.ProductCategoryID -> Product.ProductID",
+   "source_table": "ProductCategory",
+   "source_column": "ProductCategoryID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 504,
+   "score": 0.52,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "ProductDescription.ProductDescriptionID -> TransactionHistoryArchive.TransactionID",
+   "source_table": "ProductDescription",
+   "source_column": "ProductDescriptionID",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 762,
+   "source_distinct": 762,
+   "target_rows": 89253,
+   "score": 1.51,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "3",
+    "4",
+    "5",
+    "8",
+    "64"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductModel.ProductModelID -> Customer.CustomerID",
+   "source_table": "ProductModel",
+   "source_column": "ProductModelID",
+   "target_table": "Customer",
+   "target_key": "CustomerID",
+   "source_rows": 128,
+   "source_distinct": 128,
+   "target_rows": 19820,
+   "score": 0.52,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductPhoto.ProductPhotoID -> TransactionHistoryArchive.TransactionID",
+   "source_table": "ProductPhoto",
+   "source_column": "ProductPhotoID",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 101,
+   "source_distinct": 101,
+   "target_rows": 89253,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "69",
+    "70",
+    "72",
+    "73"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ProductReview.ProductReviewID -> Product.ProductID",
+   "source_table": "ProductReview",
+   "source_column": "ProductReviewID",
+   "target_table": "Product",
+   "target_key": "ProductID",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 504,
+   "score": 0.52,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "316"
+   ]
+  },
+  {
+   "id": "ProductSubcategory.ProductSubcategoryID -> ProductModel.ProductModelID",
+   "source_table": "ProductSubcategory",
+   "source_column": "ProductSubcategoryID",
+   "target_table": "ProductModel",
+   "target_key": "ProductModelID",
+   "source_rows": 37,
+   "source_distinct": 37,
+   "target_rows": 128,
+   "score": 1.35,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "PurchaseOrderHeader.PurchaseOrderID -> WorkOrder.WorkOrderID",
+   "source_table": "PurchaseOrderHeader",
+   "source_column": "PurchaseOrderID",
+   "target_table": "WorkOrder",
+   "target_key": "WorkOrderID",
+   "source_rows": 4012,
+   "source_distinct": 4012,
+   "target_rows": 72591,
+   "score": 1.56,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesOrderHeader.SalesOrderID -> TransactionHistoryArchive.TransactionID",
+   "source_table": "SalesOrderHeader",
+   "source_column": "SalesOrderID",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 31465,
+   "source_distinct": 31465,
+   "target_rows": 89253,
+   "score": 1.85,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "43659",
+    "43660",
+    "43661",
+    "43662",
+    "43663"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesPerson.BusinessEntityID -> Employee.BusinessEntityID",
+   "source_table": "SalesPerson",
+   "source_column": "BusinessEntityID",
+   "target_table": "Employee",
+   "target_key": "BusinessEntityID",
+   "source_rows": 17,
+   "source_distinct": 17,
+   "target_rows": 290,
+   "score": 0.68,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "274",
+    "275",
+    "276",
+    "277",
+    "278"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesReason.SalesReasonID -> ScrapReason.ScrapReasonID",
+   "source_table": "SalesReason",
+   "source_column": "SalesReasonID",
+   "target_table": "ScrapReason",
+   "target_key": "ScrapReasonID",
+   "source_rows": 10,
+   "source_distinct": 10,
+   "target_rows": 16,
+   "score": 2.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesTaxRate.SalesTaxRateID -> CurrencyRate.CurrencyRateID",
+   "source_table": "SalesTaxRate",
+   "source_column": "SalesTaxRateID",
+   "target_table": "CurrencyRate",
+   "target_key": "CurrencyRateID",
+   "source_rows": 29,
+   "source_distinct": 29,
+   "target_rows": 13532,
+   "score": 0.51,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SalesTerritory.TerritoryID -> CreditCard.CreditCardID",
+   "source_table": "SalesTerritory",
+   "source_column": "TerritoryID",
+   "target_table": "CreditCard",
+   "target_key": "CreditCardID",
+   "source_rows": 10,
+   "source_distinct": 10,
+   "target_rows": 19118,
+   "score": 0.5,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ScrapReason.ScrapReasonID -> TransactionHistoryArchive.TransactionID",
+   "source_table": "ScrapReason",
+   "source_column": "ScrapReasonID",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 16,
+   "source_distinct": 16,
+   "target_rows": 89253,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Shift.ShiftID -> ShipMethod.ShipMethodID",
+   "source_table": "Shift",
+   "source_column": "ShiftID",
+   "target_table": "ShipMethod",
+   "target_key": "ShipMethodID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 5,
+   "score": 1.9,
+   "signals": [
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShipMethod.ShipMethodID -> ScrapReason.ScrapReasonID",
+   "source_table": "ShipMethod",
+   "source_column": "ShipMethodID",
+   "target_table": "ScrapReason",
+   "target_key": "ScrapReasonID",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 16,
+   "score": 1.31,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "ShoppingCartItem.ShoppingCartItemID -> Location.LocationID",
+   "source_table": "ShoppingCartItem",
+   "source_column": "ShoppingCartItemID",
+   "target_table": "Location",
+   "target_key": "LocationID",
+   "source_rows": 3,
+   "source_distinct": 3,
+   "target_rows": 14,
+   "score": 1.48,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "2",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "SpecialOffer.SpecialOfferID -> PurchaseOrderHeader.PurchaseOrderID",
+   "source_table": "SpecialOffer",
+   "source_column": "SpecialOfferID",
+   "target_table": "PurchaseOrderHeader",
+   "target_key": "PurchaseOrderID",
+   "source_rows": 16,
+   "source_distinct": 16,
+   "target_rows": 4012,
+   "score": 0.51,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "StateProvince.StateProvinceID -> TransactionHistoryArchive.TransactionID",
+   "source_table": "StateProvince",
+   "source_column": "StateProvinceID",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 181,
+   "source_distinct": 181,
+   "target_rows": 89253,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Store.BusinessEntityID -> BusinessEntity.BusinessEntityID",
+   "source_table": "Store",
+   "source_column": "BusinessEntityID",
+   "target_table": "BusinessEntity",
+   "target_key": "BusinessEntityID",
+   "source_rows": 701,
+   "source_distinct": 701,
+   "target_rows": 20777,
+   "score": 0.73,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "292",
+    "294",
+    "296",
+    "298",
+    "300"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "Vendor.BusinessEntityID -> BusinessEntity.BusinessEntityID",
+   "source_table": "Vendor",
+   "source_column": "BusinessEntityID",
+   "target_table": "BusinessEntity",
+   "target_key": "BusinessEntityID",
+   "source_rows": 104,
+   "source_distinct": 104,
+   "target_rows": 20777,
+   "score": 0.79,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1492",
+    "1494",
+    "1496",
+    "1498",
+    "1500"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "WorkOrder.WorkOrderID -> TransactionHistoryArchive.TransactionID",
+   "source_table": "WorkOrder",
+   "source_column": "WorkOrderID",
+   "target_table": "TransactionHistoryArchive",
+   "target_key": "TransactionID",
+   "source_rows": 72591,
+   "source_distinct": 72591,
+   "target_rows": 89253,
+   "score": 2.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}
