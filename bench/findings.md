@@ -5953,8 +5953,8 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      database moves this comparison by that much. Two rounds cannot show it. Finding 176's
      conclusion that checking effort may matter as much as the text stays untested, and it says
      nothing here either way, because ConQuer did not run. The evidence split turned over: +3 of 27
-     with no evidence, -1 of 73 with it, too few to read, and the five lost answers were not read (finding 181 reads them)
-     one by one.
+     with no evidence, -1 of 73 with it, too few to read, and the five lost answers were not read one by
+     one (finding 181 reads them).
 
      Both defects finding 176 left open are fixed. A number in a reading now parses (q183 goes from
      a failure to a wrong answer, so ConQuer's 88 stands). `run_sql` and `run_query` stop a SQLite
