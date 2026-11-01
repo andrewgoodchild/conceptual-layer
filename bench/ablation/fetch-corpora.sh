@@ -30,3 +30,18 @@ python3 "$here/corpora.py" musicbrainz "$src/mb" "$out/bar/musicbrainz.sqlite"
 for db in adventureworks musicbrainz; do
     python3 "$here/corpora.py" destroy "$out/bar/$db.sqlite" "$out/bar-blind/$db.sqlite"
 done
+
+# Two schemas no benchmark here uses, for PLAN-unseen.md, from Zenodo. Already SQLite. The copies
+# are taken out of WAL so they can be opened read-only, and destroyed under neutral names.
+unseen=$out/unseen
+mkdir -p "$unseen"
+zenodo=https://zenodo.org/api/records
+get $zenodo/22960186/files/ACAI.db/content "$src/ACAI.db"
+check "$src/ACAI.db" 63ee0b73ae8c98fb2cfbfd63a6c6243f2bdb70a335cd54288b0aa9fa82dfd950
+get $zenodo/23008642/files/dbbe_archive.sqlite/content "$src/dbbe_archive.sqlite"
+check "$src/dbbe_archive.sqlite" 7395aff6d66f21e49554571d1e40236e3df91ea66db527a707bb36866417d9df
+cp "$src/ACAI.db" "$unseen/acai.sqlite"
+cp "$src/dbbe_archive.sqlite" "$unseen/dbbe.sqlite"
+sqlite3 "$unseen/dbbe.sqlite" "PRAGMA journal_mode=DELETE"
+python3 "$here/corpora.py" destroy "$unseen/acai.sqlite" "$unseen/blind1.sqlite"
+python3 "$here/corpora.py" destroy "$unseen/dbbe.sqlite" "$unseen/blind2.sqlite"
