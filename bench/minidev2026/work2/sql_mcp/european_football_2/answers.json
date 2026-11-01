@@ -1,0 +1,38 @@
+[
+ {
+  "question_id": 163,
+  "answer": "with w as (select t.team_long_name n, count(*) c from Match m join Team t on t.team_api_id=m.away_team_api_id where m.league_id=19694 and m.season='2009/2010' and m.away_team_goal>m.home_team_goal group by t.team_api_id) select n from w where c=(select max(c) from w)",
+  "attempts": 3,
+  "note": ""
+ },
+ {
+  "question_id": 168,
+  "answer": "select (select avg(ball_control) from Player_Attributes where player_api_id=563215)-(select avg(ball_control) from Player_Attributes where player_api_id=505942)",
+  "attempts": 1,
+  "note": ""
+ },
+ {
+  "question_id": 170,
+  "answer": "select date from Player_Attributes where player_api_id=26522 order by crossing desc, date limit 1",
+  "attempts": 1,
+  "note": ""
+ },
+ {
+  "question_id": 172,
+  "answer": "select round(avg(height),2) from Player where height>180 and player_api_id in (select home_player_3 from Match where home_player_3 is not null)",
+  "attempts": 1,
+  "note": ""
+ },
+ {
+  "question_id": 174,
+  "answer": "with sl as (select pa.player_api_id p from Player_Attributes pa join (select player_api_id q, max(date) d from Player_Attributes where date<='2010-12-31 23:59:59' group by 1) l on l.q=pa.player_api_id and l.d=pa.date where pa.overall_rating>80 group by 1),\nmp as (select id mid,home_player_1 p from Match where season='2010/2011' union all select id mid,home_player_2 p from Match where season='2010/2011' union all select id mid,home_player_3 p from Match where season='2010/2011' union all select id mid,home_player_4 p from Match where season='2010/2011' union all select id mid,home_player_5 p from Match where season='2010/2011' union all select id mid,home_player_6 p from Match where season='2010/2011' union all select id mid,home_player_7 p from Match where season='2010/2011' union all select id mid,home_player_8 p from Match where season='2010/2011' union all select id mid,home_player_9 p from Match where season='2010/2011' union all select id mid,home_player_10 p from Match where season='2010/2011' union all select id mid,home_player_11 p from Match where season='2010/2011' union all select id mid,away_player_1 p from Match where season='2010/2011' union all select id mid,away_player_2 p from Match where season='2010/2011' union all select id mid,away_player_3 p from Match where season='2010/2011' union all select id mid,away_player_4 p from Match where season='2010/2011' union all select id mid,away_player_5 p from Match where season='2010/2011' union all select id mid,away_player_6 p from Match where season='2010/2011' union all select id mid,away_player_7 p from Match where season='2010/2011' union all select id mid,away_player_8 p from Match where season='2010/2011' union all select id mid,away_player_9 p from Match where season='2010/2011' union all select id mid,away_player_10 p from Match where season='2010/2011' union all select id mid,away_player_11 p from Match where season='2010/2011'),\ncnt as (select p, count(distinct mid) c from mp where p in (select p from sl) group by p)\nselect round(1.0*sum(c)/(select count(*) from sl),2) from cnt",
+  "attempts": 3,
+  "note": "Q174 averages over all shortlisted players (0 for those never in a lineup)"
+ },
+ {
+  "question_id": 181,
+  "answer": "select t.team_long_name, t.team_short_name, count(*) wins from Match m join Team t on t.team_api_id=m.home_team_api_id\nwhere m.home_team_goal-m.away_team_goal>=3\nand (select ta.buildUpPlaySpeedClass from Team_Attributes ta where ta.team_api_id=m.home_team_api_id and ta.date<=m.date order by ta.date desc limit 1)='Fast'\ngroup by t.team_api_id",
+  "attempts": 1,
+  "note": ""
+ }
+]

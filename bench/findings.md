@@ -5847,3 +5847,155 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
 
      Also found: `pip install mcp` now installs mcp 2, which renamed FastMCP, so the server as
      documented did not start; the instructions pin `mcp<2`.
+
+175. **LiveSQLBench moved after the rounds were run, and the rounds stand.** Upstream's scorer
+     changed on 4 May 2026, and the Large-v1 loader has a defect the public report (issue #10)
+     says splits Linux from macOS, so both were replayed, on 31 October 2026. No Docker server
+     was left, so the dumps went into a native PostgreSQL 16.2 on macOS, not the 17 the rounds
+     used. As a check on that, all four rounds were re-scored question by question against
+     their recorded verdicts: 13 arms on 260 questions, 2 verdicts changed, one question in two
+     arms, from wrong to right. It is a question scored in order; why it changed, tie order or
+     collation on the other server, was not looked into. The rest are the same.
+
+     - *The scorer.* The new rounding, half-up on the decimal text, put through `score_pg.py`:
+       no change in rounds 1, 3 and 4, and in round 2 one question goes from right to wrong in
+       all three arms. Its gold and its answers hold one value apart from float noise, one
+       just below a rounding boundary and the other on it, and half-up rounds them apart. It
+       adds a false failure of the kind finding 171 counted and removes none. On the SQLite
+       tier, through the official harness with the new rounding and the new `remove_distinct`,
+       ConQuer goes 71 to 70 (two lost, one gained) and SQL stays at 86, no question changing.
+       The new `remove_distinct` also takes the DISTINCT out of `COUNT(DISTINCT x)`, on both
+       sides. `score_pg.py` is unchanged: nothing here argues for following it.
+     - *The loader.* Following the script's lists with exact filename matching, as Linux does,
+       loads 21 of 55 and 20 of 57 tables in the two databases. All 39 `Query` golds in them
+       run on the full load and all 39 fail on the exact-name one, so these databases cannot
+       be scored on Linux as shipped. The full load is what the gold needs; the rounds' own
+       scores in both databases are reproduced by it. The exact-name run was simulated on
+       macOS, not run on Linux. Its `Management` tasks were not tested: they write, and the
+       scorer's session is read-only.
+
+176. **On the October 2026 mini-dev the description did not hold up against the DDL: 79 of 100 against 88, and ConQuer, with the same description, 88.**
+
+     The round `bench/minidev2026/PLAN.md` fixed before any writer ran: the new release, 100
+     questions drawn fresh, 33 blind Sonnet writers, one per (arm, database). Strict EX.
+
+     | Arm | Correct of 100 | Tokens | Writer-minutes |
+     |---|---|---|---|
+     | SQL from the DDL | **88** | 422k | 13.5 |
+     | SQL from the served description, no DDL | **79** | 486k | 20.5 |
+     | ConQuer from the served description | **88** | 819k | 46.8 |
+
+     The primary comparison is -9 (5 gained, 14 lost), McNemar p=0.064, and the interval that
+     resamples whole databases is -19.7 to 0.0. The plan called a difference shown only if it
+     reached 4 points and that interval excluded zero. It touches zero, so by the rule fixed
+     in advance this is **no difference shown**, and it is a closer call than that sounds. The
+     prediction was +2, within -3 to +5, and missed on the wrong side. The prediction that its
+     margin would be larger where the evidence has gone holds only nominally: -2 of 26 there
+     against -7 of 74 with it, a loss in both and too few questions to mean anything. ConQuer
+     against the description arm is +9 (13, 4; p=0.049; 1.9 to 18.0), against the DDL arm 0
+     (7, 7).
+
+     **What the 14 lost answers were, read one at a time.** Two left working columns in the final
+     SELECT, both from one writer (q151, q155). Two sorted or took the minimum of a number stored
+     as text, which the DDL writer cast (q217, q218); the description states the type,
+     among forty-seven value types. One returned `uuid` for a card's "ID" (q54), the rule 1d
+     question finding 164 reported, and it is the brief's own advice applied where BIRD's id is
+     `cards.id`: ConQuer lost it too. Two filtered on one exact spelling where the DDL writer
+     widened the match (q46, q388), which the brief's "a filter must spell one exactly" may have
+     encouraged. The other seven are readings of the question. So at most five of the 14 trace
+     to the served text, and whether they do was not tested. Nine of the 14 ConQuer got right
+     from that same description, and it spent 2.63 runs a question against 1.66, with 21
+     one-shot answers against 42. That points at checking effort as much as at the text, and
+     nothing here separates the two. One writer per database also makes this a single draw:
+     financial, california_schools, debit_card_specializing and formula_1 lost 9 between them.
+
+     **What it changes.** Finding 164's "the description alone was worth the DDL" was 75 against
+     74 with Opus on the old set, and it does not carry over to this one: another test set and a
+     weaker writer, so the two rounds differ in two things and no conclusion says which. ConQuer's
+     88 is not evidence the language helps; it ties the DDL at about twice the tokens and three
+     and a half times the writer-minutes. Sonnet 5.5 on a fixed prompt scores 86.6 on all 500 on
+     BIRD's card, so 88 here sits at the set's published level with little room above. No gold
+     in this sample was audited.
+
+     **Departures from the plan.** The session allows 20 subagents at once, so 13 writers,
+     eleven of them ConQuer, started as others finished rather than together. Every writer said
+     it stayed in its directory, by its own report; several wrote throwaway scripts in temporary
+     folders outside it. The ledger's token counts are totals with no split between input,
+     output and cache.
+
+     **Open.** The numbered lineup readings in european_football_2's description, such as `is
+     home 1 of Match`, do not parse, on the writer's report and the recorded error for q183.
+     `mcp/server.py` sets no deadline on SQLite: one ConQuer query from the financial writer
+     left a server at a full core after its client had gone. Neither was changed in this round;
+     both were fixed before the repeat, and the loss did not repeat (finding 177).
+
+177. **The loss did not repeat: on 100 more questions SQL from the description scored 90 and SQL
+     from the DDL 88.**
+
+     `minidev2026/PLAN2.md`, its checksum recorded before any writer ran but not committed, so that
+     order rests on the ledger and the session. 100 questions from the 400 the first draw left, same
+     release, same balance of databases, 22 fresh blind Sonnet writers, the two SQL arms only. The
+     brief, description, models and databases did not change, so this tests finding 176 and not a
+     fix for it. 886k tokens, about $3.20 on the same assumption as PLAN.md; 14.3 writer-minutes
+     for the DDL arm and 18.3 for the description.
+
+     The difference is +2 (7 gained, 5 lost), McNemar p=0.774, database interval -4.6 to +9.3: **no
+     difference shown**, by the same rule. The prediction was -4, within -10 to +2, and `sql_ddl`
+     82, within 75 to 90; both ranges held, the first at its edge. Pooled, 200 questions, it is -7
+     (12, 19), p=0.281, -18.8 to +3.2, which the plan made secondary because round one chose the
+     question. PLAN2 fixed the reading in advance: no difference on the repeat means finding 176 is
+     not repeated, and the advice to keep the DDL is withdrawn. It is withdrawn in `mcp/README.md`.
+     That is not proof the two are equal: a loss of a few points is inside both intervals.
+
+     The nine-point gap and this two-point one differ by more than any change between the rounds
+     explains, and the writers worked the same way in both (1.61 runs a question against 1.49 here,
+     1.66 against 1.52 there), so the likeliest reading is that one draw with one writer per
+     database moves this comparison by that much. Two rounds cannot show it. Finding 176's
+     conclusion that checking effort may matter as much as the text stays untested, and it says
+     nothing here either way, because ConQuer did not run. The evidence split turned over: +3 of 27
+     with no evidence, -1 of 73 with it, too few to read, and the five lost answers were not read
+     one by one.
+
+     Both defects finding 176 left open are fixed. A number in a reading now parses (q183 goes from
+     a failure to a wrong answer, so ConQuer's 88 stands). `run_sql` and `run_query` stop a SQLite
+     query at 120 seconds and say so. `./try`, the DDL arm's runner, still has no limit: a writer in
+     this round left one query running after it had finished.
+
+178. **Three second opinions on the same answers change no verdict, and the third separates the
+     arms more than the score does.**
+
+     From 2026's work on what EX misses, each beside strict EX and never replacing it.
+
+     **Multiset EX** counts duplicates, which BIRD's sets collapse; ModularSQL reports that hiding
+     3.39 to 6.79 points. On these 500 answers it moved nothing: 88, 79, 88 and 88, 90. These writers
+     did not lean on the collapse. The scores are the same answers re-compared, so this says nothing
+     about published systems.
+
+     **A relaxed rescoring**, stated before it ran (`relaxed_ex`, `bench/pilot/score.py`): rows may
+     change places, numbers may differ by one part in a million, extra or reordered columns are
+     forgiven, and each rescued answer is counted by the rule that rescued it. On SCALE4 it adds
+     24 answers on 7 questions, against finding 171's 25 answers on 7 put down by hand to the
+     scorer: 19 by order, 4 by columns, 1 by tolerance. That the questions are the same ones was not
+     checked. `order` is broader than the tie-set it stands in for, so it would also forgive a
+     wrong order. On the mini-dev it adds one answer, one of finding 176's leftover columns. Strict
+     here gave `annm` 26 where the last rebuild gave 27; that one answer's instability is unexplained.
+
+     **Grounded success could not be computed.** "Beyond Correctness" counts an answer as grounded
+     when it is right and the ambiguities were resolved, and BIRD has neither annotations nor anyone
+     to ask. `grounded.py` is a stand-in for the part that can be measured, and is labelled as one:
+     a right answer must still match the gold on three thinned copies of the database, half of each
+     table gone with whatever pointed at those rows.
+
+     | Round | Arm | Right | Held on thinned data |
+     |---|---|---|---|
+     | 1 | SQL from the DDL | 88 | 81 |
+     | 1 | SQL from the description | 79 | 67 |
+     | 1 | ConQuer | 88 | 77 |
+     | 2 | SQL from the DDL | 88 | 83 |
+     | 2 | SQL from the description | 90 | 84 |
+
+     So 6 to 15 of a hundred right answers matched the gold in a way thinner data undid. In round
+     one the description arm falls further behind on this count; in round two the arms are level. Nobody has read which of these are
+     coincidences and which are two defensible queries that part where the data does, a false alarm
+     rate this design does not measure, and only foreign keys the catalogue declares are kept
+     consistent.

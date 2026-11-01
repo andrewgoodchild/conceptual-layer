@@ -4,16 +4,19 @@ arm's way in, and an empty answers.json. Nothing in one says whether an answer i
 
 Run it with the interpreter that has `mcp` installed; the client scripts name that interpreter.
 A directory whose answers.json is not empty is left alone: its inputs are the record of what
-its writer saw.
+its writer saw. `build.py 2` builds the repeat of PLAN2.md in work2/: the two SQL arms only.
 """
 import json, os, shutil, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 DBS = os.path.join(ROOT, "bench/bird/minidev/MINIDEV/dev_databases")
-QUESTIONS = os.path.join(ROOT, "bench/bird/mini_dev_1024/questions.json")
-WORK = os.path.join(HERE, "work")
-ARMS = {"sql_ddl": None, "sql_mcp": "sql", "conquer_mcp": "conquer"}
+REPEAT = sys.argv[1:] == ["2"]
+QUESTIONS = os.path.join(ROOT, "bench/bird/mini_dev_1024/questions%s.json" % ("2" if REPEAT else ""))
+WORK = os.path.join(HERE, "work2" if REPEAT else "work")
+ARMS = {"sql_ddl": None, "sql_mcp": "sql"}
+if not REPEAT:
+    ARMS["conquer_mcp"] = "conquer"
 
 COMMON = """# What to do
 

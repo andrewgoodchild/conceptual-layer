@@ -1,0 +1,61 @@
+[
+ {
+  "question_id": 2,
+  "answer": "SELECT ROUND(f.\"FRPM Count (K-12)\" * 1.0 / f.\"Enrollment (K-12)\", 6) AS eligible_rate\nFROM frpm f JOIN schools s ON s.CDSCode = f.CDSCode\nWHERE s.SOC = '66'\nORDER BY f.\"FRPM Count (K-12)\" DESC LIMIT 5",
+  "attempts": 2,
+  "note": "Ownership code read as schools.SOC='66' (no DOC 66 exists); rate = FRPM count / enrollment, K-12."
+ },
+ {
+  "question_id": 4,
+  "answer": "SELECT s.MailStreet, s.School\nFROM satscores a JOIN schools s ON s.CDSCode = a.cds\nWHERE a.rtype = 'S' AND a.AvgScrMath IS NOT NULL\nORDER BY a.AvgScrMath DESC LIMIT 1 OFFSET 6",
+  "attempts": 2,
+  "note": "School-level SAT rows only (district rows excluded)."
+ },
+ {
+  "question_id": 13,
+  "answer": "SELECT s.City FROM schools s JOIN frpm f ON f.CDSCode = s.CDSCode\nWHERE s.CDSCode = '01611920113902' AND s.County = 'Alameda' AND s.EILCode = 'HS'\nAND f.\"NSLP Provision Status\" = 'Breakfast Provision 2' AND f.\"Low Grade\" = '9' AND f.\"High Grade\" = '12'",
+  "attempts": 2,
+  "note": "CDS stored with leading zero (14 chars)."
+ },
+ {
+  "question_id": 15,
+  "answer": "SELECT s.School, s.Phone\nFROM schools s JOIN satscores a ON a.cds = s.CDSCode\nWHERE s.DOC = '03' AND a.rtype = 'S'\nAND a.NumGE1500 = (SELECT MAX(a2.NumGE1500) FROM schools s2 JOIN satscores a2 ON a2.cds = s2.CDSCode WHERE s2.DOC = '03' AND a2.rtype = 'S')",
+  "attempts": 2,
+  "note": "Statewide benefit charter = DOC 03; district-level SAT row excluded."
+ },
+ {
+  "question_id": 19,
+  "answer": "SELECT substr(GSoffered, 1, instr(GSoffered || '-', '-') - 1) AS lowest_grade\nFROM schools\nWHERE NCESDist = '0632640' AND School IS NOT NULL AND GSoffered IS NOT NULL AND GSoffered <> ''\nORDER BY CASE substr(GSoffered, 1, instr(GSoffered || '-', '-') - 1) WHEN 'P' THEN -1 WHEN 'K' THEN 0 ELSE CAST(substr(GSoffered, 1, instr(GSoffered || '-', '-') - 1) AS INTEGER) END\nLIMIT 1",
+  "attempts": 3,
+  "note": "Uses grades offered (GSoffered); result P."
+ },
+ {
+  "question_id": 24,
+  "answer": "SELECT s.SOCType AS \"School Type\", s.School, s.Latitude\nFROM schools s\nWHERE (s.SOCType = 'Intermediate/Middle Schools (Public)' OR s.School LIKE '%Middle%')\nAND s.Latitude = (SELECT MAX(Latitude) FROM schools WHERE SOCType = 'Intermediate/Middle Schools (Public)' OR School LIKE '%Middle%')",
+  "attempts": 3,
+  "note": "School Type taken from schools.SOCType (same value as frpm School Type; closed schools lack frpm rows)."
+ },
+ {
+  "question_id": 30,
+  "answer": "SELECT s.School, s.District, s.County, a.AvgScrWrite\nFROM schools s JOIN satscores a ON a.cds = s.CDSCode\nWHERE s.StatusType = 'Closed' AND a.rtype = 'S' AND a.AvgScrWrite = (\n  SELECT MAX(a2.AvgScrWrite) FROM schools s2 JOIN satscores a2 ON a2.cds = s2.CDSCode\n  WHERE s2.StatusType = 'Closed' AND a2.rtype = 'S' AND a2.AvgScrWrite < (\n    SELECT MAX(a3.AvgScrWrite) FROM schools s3 JOIN satscores a3 ON a3.cds = s3.CDSCode WHERE s3.StatusType = 'Closed' AND a3.rtype = 'S'))",
+  "attempts": 2,
+  "note": "School-level SAT rows only."
+ },
+ {
+  "question_id": 32,
+  "answer": "SELECT s.County AS county_name,\n       COUNT(*) AS num_schools,\n       ROUND(AVG(ROUND(f.\"Free Meal Count (K-12)\" * 100.0 / f.\"Enrollment (K-12)\", 2)), 2) AS avg_free_pct,\n       ROUND(AVG(ROUND(f.\"FRPM Count (K-12)\" * 100.0 / f.\"Enrollment (K-12)\", 2)), 2) AS avg_frpm_pct,\n       SUM(CASE WHEN f.\"Charter School (Y/N)\" = 1 THEN 1 ELSE 0 END) AS charter_schools,\n       SUM(CASE WHEN f.\"Charter School (Y/N)\" = 0 THEN 1 ELSE 0 END) AS non_charter_schools,\n       ROUND(AVG(a.AvgScrRead + a.AvgScrMath + a.AvgScrWrite), 2) AS avg_sat\nFROM frpm f\nJOIN schools s ON s.CDSCode = f.CDSCode\nLEFT JOIN satscores a ON a.cds = f.CDSCode AND a.rtype = 'S'\nWHERE s.County = (SELECT County FROM schools WHERE CDSCode = '01612590125716')\n  AND f.\"Free Meal Count (K-12)\" > 500 AND f.\"FRPM Count (K-12)\" < 700\nGROUP BY s.County",
+  "attempts": 2,
+  "note": "Read 'K-12' as the K-12 count columns, not a school-type filter; only 1 school in range has SAT."
+ },
+ {
+  "question_id": 46,
+  "answer": "SELECT s.City, COUNT(*) AS magnet_provision2_schools\nFROM schools s JOIN frpm f ON f.CDSCode = s.CDSCode\nWHERE s.Magnet = 1 AND f.\"NSLP Provision Status\" = 'Provision 2'\nGROUP BY s.City ORDER BY s.City",
+  "attempts": 2,
+  "note": "Exact 'Provision 2' only; city spellings as in data."
+ },
+ {
+  "question_id": 47,
+  "answer": "SELECT s.School, s.Street, s.City, s.State, s.Zip\nFROM frpm f JOIN schools s ON s.CDSCode = f.CDSCode\nWHERE s.County = 'Los Angeles'\n  AND f.\"School Type\" IN ('High Schools (Public)', 'Continuation High Schools', 'High Schools In 1 School Dist. (Public)')\n  AND f.\"FRPM Count (Ages 5-17)\" > 500\nORDER BY s.School",
+  "attempts": 1
+ }
+]

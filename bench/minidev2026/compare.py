@@ -1,29 +1,35 @@
 #!/usr/bin/env python3
 """Score the round by BIRD's strict EX and make the comparisons PLAN.md fixed in advance.
 
+Beside it, labelled and never the verdict: `multiset`, with duplicates counted, and `relaxed`,
+what a declared forgiveness would add (bench/pilot/score.py), by rule; `grounded.py` adds the
+third. They are second opinions on the same answers.
+
 Each answer is scored as `bench/pilot/score.py` scores it: `rows` and `bird_ex` are that
 file's. The difference between two arms gets an exact McNemar test on the questions they
 split and a bootstrap that resamples whole databases, since questions over one database are
 not independent. The per-question rows go to the git-ignored results.json.
 """
-import json, math, os, random, sqlite3, sys
+import collections, json, math, os, random, sqlite3, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 sys.path.insert(0, os.path.join(ROOT, "bench/pilot"))
 import score as pilot             # noqa: E402
 
-QUESTIONS = os.path.join(ROOT, "bench/bird/mini_dev_1024/questions.json")
-ARMS = ("sql_ddl", "sql_mcp", "conquer_mcp")
-PAIRS = (("sql_mcp", "sql_ddl"), ("conquer_mcp", "sql_mcp"), ("conquer_mcp", "sql_ddl"))
+REPEAT = sys.argv[1:] == ["2"]
+QUESTIONS = os.path.join(ROOT, "bench/bird/mini_dev_1024/questions%s.json")
+ARMS = ("sql_ddl", "sql_mcp") if REPEAT else ("sql_ddl", "sql_mcp", "conquer_mcp")
+PAIRS = (("sql_mcp", "sql_ddl"),) if REPEAT else (
+    ("sql_mcp", "sql_ddl"), ("conquer_mcp", "sql_mcp"), ("conquer_mcp", "sql_ddl"))
 RESAMPLES, SEED = 10000, 20261031
 
 
-def score_arm(arm, qs, conns, models):
+def score_arm(arm, qs, conns, models, work="work"):
     out = {}
     for q in qs:
         db = q["db_id"]
-        answers = json.load(open(os.path.join(HERE, "work", arm, db, "answers.json")))
+        answers = json.load(open(os.path.join(HERE, work, arm, db, "answers.json")))
         a = next((x for x in answers if x.get("question_id") == q["question_id"]), {})
         c = conns.setdefault(db, sqlite3.connect(os.path.join(pilot.DBS, db, db + ".sqlite")))
         c.text_factory = lambda b: b.decode("utf-8", "replace")
@@ -48,7 +54,10 @@ def score_arm(arm, qs, conns, models):
                 sqlite3.Error) as e:
             row["outcome"], row["error"] = "failed_loudly", str(e)
             continue
-        row["outcome"] = "ok" if pilot.bird_ex(got, pilot.rows(c, q["SQL"])) else "wrong_quietly"
+        want = pilot.rows(c, q["SQL"])
+        row["outcome"] = "ok" if pilot.bird_ex(got, want) else "wrong_quietly"
+        row["multiset"] = pilot.multiset_ex(got, want)
+        row["relaxed"] = pilot.relaxed_ex(got, want, distinct=True)
     return out
 
 
@@ -89,10 +98,11 @@ def compare(a, b, scored, keep=lambda q: True):
 
 
 def main():
-    qs = json.load(open(QUESTIONS))
+    qs = json.load(open(QUESTIONS % ("2" if REPEAT else "")))
     conns, models = {}, {}
-    scored = {arm: score_arm(arm, qs, conns, models) for arm in ARMS}
-    with open(os.path.join(HERE, "results.json"), "w") as fh:
+    work = "work2" if REPEAT else "work"
+    scored = {arm: score_arm(arm, qs, conns, models, work) for arm in ARMS}
+    with open(os.path.join(HERE, "results2.json" if REPEAT else "results.json"), "w") as fh:
         json.dump([r for arm in ARMS for r in scored[arm].values()], fh, indent=1)
     for arm in ARMS:
         rows = scored[arm].values()
@@ -100,6 +110,14 @@ def main():
         print("%-11s %3d ok of %d  wrong %d  failed %d  not answered %d" % (
             arm, count("ok"), len(rows), count("wrong_quietly"), count("failed_loudly"),
             count("not_answered")))
+    print("\nsecond opinions: multiset, and what relaxing would add, by rule")
+    for arm in ARMS:
+        rows = scored[arm].values()
+        rules = collections.Counter(",".join(r["relaxed"]) for r in rows
+                                    if r["outcome"] != "ok" and r.get("relaxed") is not None)
+        print("%-11s multiset %3d  relaxed %3d  %s" % (
+            arm, sum(1 for r in rows if r.get("multiset")),
+            sum(1 for r in rows if r.get("relaxed") is not None), dict(rules)))
     print("\nall questions")
     for a, b in PAIRS:
         print(compare(a, b, scored))
@@ -107,6 +125,11 @@ def main():
                         ("with evidence", lambda r: r["evidence"])):
         print("\n" + label)
         print(compare("sql_mcp", "sql_ddl", scored, keep))
+    if REPEAT:
+        first = {arm: score_arm(arm, json.load(open(QUESTIONS % "")), conns, models)
+                 for arm in ARMS}
+        print("\nboth rounds pooled")
+        print(compare("sql_mcp", "sql_ddl", {a: {**first[a], **scored[a]} for a in ARMS}))
 
 
 if __name__ == "__main__":

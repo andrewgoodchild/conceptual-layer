@@ -1,0 +1,57 @@
+[
+ {
+  "question_id": 242,
+  "answer": "select d.forename,d.surname,d.nationality,(select max(points) from driverStandings s where s.driverId=d.driverId) as max_points from results r join drivers d using(driverId) where r.position=1 group by d.driverId order by count(*) desc limit 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 244,
+  "answer": "select round(100.0*sum(r.laps=w.laps)/count(*),2) from results r join drivers d using(driverId) join races ra using(raceId) join results w on w.raceId=r.raceId and w.position=1 where d.nationality='Japanese' and ra.year between 2007 and 2009",
+  "attempts": 2
+ },
+ {
+  "question_id": 247,
+  "answer": "select sum(cr.points) as score,c.name,c.nationality from constructorResults cr join races ra using(raceId) join constructors c using(constructorId) where ra.name='Monaco Grand Prix' and ra.year between 1980 and 2010 group by c.constructorId order by score desc limit 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 251,
+  "answer": "select round(avg(n),2) from (select (select count(*) from pitStops p where p.raceId=ra.raceId) n from races ra where year=2017 and name not in (select name from races where year=2000))",
+  "attempts": 2
+ },
+ {
+  "question_id": 252,
+  "answer": "select d.forename,d.surname,d.url,d.dob,count(case when q.q3 is not null and q.q3<>'' then 1 end) n from drivers d left join qualifying q on q.driverId=d.driverId where d.nationality='German' and d.dob between '1971-01-01' and '1985-12-31' group by d.driverId order by n desc, d.dob",
+  "attempts": 2
+ },
+ {
+  "question_id": 255,
+  "answer": "with t as (select d.forename,d.surname,q.q1, cast(substr(q.q1,1,instr(q.q1,':')-1) as int)*60000+cast(substr(q.q1,instr(q.q1,':')+1,2) as int)*1000+cast(substr(q.q1,-3) as int) ms from qualifying q join races ra using(raceId) join drivers d using(driverId) where ra.year=1995 and ra.name='Japanese Grand Prix' and q.q1<>'') select forename,surname,q1 from t where ms=(select min(ms) from t)",
+  "attempts": 2
+ },
+ {
+  "question_id": 258,
+  "answer": "select d.forename,count(distinct d.driverId) n from results r join races ra using(raceId) join drivers d using(driverId) where ra.name='Italian Grand Prix' and r.position=2 group by d.forename having n>=2 order by n desc, d.forename",
+  "attempts": 2
+ },
+ {
+  "question_id": 264,
+  "answer": "select round(1.0*sum(case when q.q3 is not null and q.q3<>'' then 1 else 0 end)/count(distinct d.driverId),2) from drivers d left join qualifying q on q.driverId=d.driverId where d.dob between '1981-01-01' and '1991-12-31'",
+  "attempts": 2
+ },
+ {
+  "question_id": 267,
+  "answer": "select ra.date,d.forename,d.surname,case when m.ms is not null then printf('%d:%02d.%03d', m.ms/60000,(m.ms%60000)/1000,m.ms%1000) end as fastest_lap from races ra left join (select raceId,driverId,min(milliseconds) ms from lapTimes group by raceId,driverId having min(milliseconds)>90000) m on m.raceId=ra.raceId left join drivers d on d.driverId=m.driverId where ra.name='French Grand Prix' and ra.year>=1990 order by ra.date, d.surname, d.forename",
+  "attempts": 2
+ },
+ {
+  "question_id": 279,
+  "answer": "with w as (select driverId from drivers where driverId in (select driverId from results where position=1) order by dob, forename||' '||surname limit 1) select d.forename||' '||d.surname as full_name, d.nationality, fr.name, fr.date, (select count(*) from results r where r.driverId=d.driverId) as starts from w join drivers d using(driverId) join (select r.driverId,ra.name,ra.date from results r join races ra using(raceId) where r.position=1 order by ra.date, ra.name) fr on fr.driverId=d.driverId limit 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 282,
+  "answer": "select d.surname,ra.name from qualifying q join races ra using(raceId) join drivers d using(driverId) where ra.year=2017 and q.q2=(select min(q2) from qualifying x join races r2 using(raceId) where r2.year=2017 and q2<>'')",
+  "attempts": 2
+ }
+]

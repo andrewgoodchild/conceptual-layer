@@ -1,0 +1,38 @@
+[
+ {
+  "question_id": 173,
+  "answer": "LIST round((THE DISTINCT COUNT OF Player [has PlayerBirthday b] [is api of PlayerAttribute has PlayerAttributeDefensiveWorkRate: 'high'] WHERE year(b) >= 1991) * 100 / (THE DISTINCT COUNT OF Player [has PlayerBirthday b2] [is api of PlayerAttribute has PlayerAttributeDefensiveWorkRate w] WHERE year(b2) >= 1991 AND (w = 'low' OR w = 'medium' OR w = 'high')), 2)",
+  "attempts": 4,
+  "note": "Graded = low/medium/high only (17.41); counting every stored value gives 17.07."
+ },
+ {
+  "question_id": 176,
+  "answer": "DEFINE Cur ::= LIST t, md FROM Team t AND ALSO is api of TeamAttribute has TeamAttributeDate d WHERE d <= '2014-09-19 23:59:59' AND ALSO THE MAXIMUM d GROUPED BY t AS md\nLIST sn, c, v FROM Team t has TeamShortName sn AND ALSO [is api of TeamAttribute has TeamAttributeChanceCreationPassingClass: 'Risky'] AND ALSO t has Cur CurMd md AND ALSO is api of TeamAttribute a has TeamAttributeDate md AND ALSO a has TeamAttributeChanceCreationPassing p AND ALSO THE DISTINCT COUNT OF t GROUPED BY sn AS c AND ALSO THE AVERAGE p GROUPED BY sn AS av AND ALSO round(av, 1) AS v WHERE c > 1 ORDERED WITH av DESCENDING, sn ASCENDING",
+  "attempts": 4,
+  "note": "In force = latest attribute row on or before 2014-09-19."
+ },
+ {
+  "question_id": 177,
+  "answer": "DEFINE Last ::= LIST p, md FROM Player p AND ALSO is api of PlayerAttribute a has PlayerAttributeDefensiveWorkRate w AND ALSO a has PlayerAttributeDate d WHERE (w = 'low' OR w = 'medium' OR w = 'high') AND ALSO THE MAXIMUM d GROUPED BY p AS md\nLIST round(THE AVERAGE h IN (Player p has PlayerBirthday b AND ALSO has PlayerHeight h AND ALSO p has Last LastMd md AND ALSO is api of PlayerAttribute a has PlayerAttributeDate md AND ALSO a has PlayerAttributeDefensiveWorkRate: 'medium' WHERE year(b) >= 1990 AND year(b) <= 1995), 2)",
+  "attempts": 3,
+  "note": "Most recent record with low/medium/high grade; result 180.85."
+ },
+ {
+  "question_id": 178,
+  "answer": "LIST round(THE AVERAGE w IN Player [is api of PlayerAttribute has PlayerAttributePreferredFoot: 'left'] has PlayerWeight w, 1)",
+  "attempts": 3,
+  "note": "Ambiguous: many players have both left and right on different records; I took players ever recorded left, one weight per player (166.6)."
+ },
+ {
+  "question_id": 180,
+  "answer": "LIST k FROM DISTINCT Team [has TeamShortName: 'POR'] [is home api of Match has Country has CountryName: 'England'] is api of TeamAttribute a has TeamAttributeDate d AND ALSO a has TeamAttributeBuildUpPlayDribblingClass k WHERE starts_with(d, '2015-09-10')",
+  "attempts": 3,
+  "note": "Result Little (Portsmouth)."
+ },
+ {
+  "question_id": 183,
+  "answer": "LIST cn, n FROM Country c has CountryName cn AND ALSO (THE DISTINCT COUNT OF Player [has PlayerWeight w] [is home 1 of Match [has Country: !c]] OR OTHERWISE [is away 1 of Match [has Country: !c]] WHERE w >= 210) AS n",
+  "attempts": 6,
+  "note": "UNVERIFIED, does not parse: the compiler rejects the numbered readings (has home 1 Player, is home 1 of Match, etc.) in every form tried, so the 22 lineup slots cannot be reached. Intended: distinct players weighing >=210 across all 22 slots per match country, top country with ties."
+ }
+]

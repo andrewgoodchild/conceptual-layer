@@ -259,8 +259,9 @@ references:
     end: 461
     year: 2020
     notes: >-
-      The bar the inference is scored against: 88% of primary keys
-      (reverse/tests/test_inference.py).
+      The bar the inference is scored against: 88% recall on primary keys;
+      on foreign keys 91% recall, 63% precision, F1 73, on its own five
+      corpora (reverse/tests/test_inference.py).
   - type: generic
     title: Scalable Join Inference for Large Context Graphs
     authors:
@@ -350,7 +351,8 @@ references:
     year: 2026
     url: https://www.vldb.org/cidrdb/papers/2026/p5-jin.pdf
     notes: >-
-      Annotation errors in 52.8% of BIRD mini-dev and 66.1% of Spider 2.0-Snow;
+      Annotation errors in 52.8% of BIRD mini-dev and 66.1% of Spider 2.0-Snow
+      (62.8% in the authors' arXiv:2601.08778);
       the rate bench/spider2-trial/ reproduces on the offline slice, and the
       background to docs/07's "What is wrong with the benchmarks".
   - type: conference-paper

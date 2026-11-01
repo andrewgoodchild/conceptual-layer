@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 3,
+  "answer": "SELECT CAST(SUM(DOCType='Unified School District') AS REAL)/SUM(DOCType='Elementary School District') FROM schools WHERE County='Orange' AND StatusType='Merged'",
+  "attempts": 2
+ },
+ {
+  "question_id": 5,
+  "answer": "SELECT COUNT(*) FROM schools s JOIN frpm f ON f.CDSCode=s.CDSCode WHERE s.County='Los Angeles' AND s.Charter=0 AND f.\"Percent (%) Eligible Free (K-12)\" < 0.0018",
+  "attempts": 2
+ },
+ {
+  "question_id": 6,
+  "answer": "SELECT s.School, f.\"Percent (%) Eligible FRPM (Ages 5-17)\" FROM schools s JOIN frpm f ON f.CDSCode=s.CDSCode WHERE s.County='Los Angeles' AND s.GSserved='K-9'",
+  "attempts": 2
+ },
+ {
+  "question_id": 7,
+  "answer": "SELECT f.\"Percent (%) Eligible Free (K-12)\", f.\"District Code\" FROM schools s JOIN frpm f ON f.CDSCode=s.CDSCode WHERE s.AdmFName1='Alusine'",
+  "attempts": 2
+ },
+ {
+  "question_id": 9,
+  "answer": "SELECT s.NCESSchool FROM schools s JOIN frpm f ON f.CDSCode=s.CDSCode WHERE s.CDSCode IN ('01751010130583','01612910137588','01611760134270') AND f.\"Enrollment (Ages 5-17)\"=(SELECT MAX(f2.\"Enrollment (Ages 5-17)\") FROM frpm f2 WHERE f2.CDSCode IN ('01751010130583','01612910137588','01611760134270'))",
+  "attempts": 2
+ },
+ {
+  "question_id": 12,
+  "answer": "SELECT s.School, s.MailStreet FROM schools s JOIN satscores a ON a.cds=s.CDSCode WHERE s.DOCType='State Board of Education' AND a.rtype='S' AND a.AvgScrRead=(SELECT MAX(a2.AvgScrRead) FROM schools s2 JOIN satscores a2 ON a2.cds=s2.CDSCode WHERE s2.DOCType='State Board of Education' AND a2.rtype='S')",
+  "attempts": 2
+ },
+ {
+  "question_id": 18,
+  "answer": "SELECT COUNT(*) FROM schools s JOIN satscores a ON a.cds=s.CDSCode WHERE a.rtype='S' AND s.MailCity='San Francisco' AND s.DOCType IN ('Unified School District','High School District','Elementary School District','County Office of Education (COE)') AND a.AvgScrRead+a.AvgScrMath+a.AvgScrWrite>=1500",
+  "attempts": 2
+ },
+ {
+  "question_id": 22,
+  "answer": "SELECT School, EILName FROM schools WHERE CDSCode='01612590136051'",
+  "attempts": 2
+ },
+ {
+  "question_id": 33,
+  "answer": "SELECT COUNT(*)/12.0 FROM schools WHERE County='San Diego' AND OpenDate>='1980-01-01' AND OpenDate<'1981-01-01' AND DOCType IN ('Elementary School District','High School District','Unified School District')",
+  "attempts": 2
+ },
+ {
+  "question_id": 43,
+  "answer": "SELECT s.County, COUNT(*) AS n FROM schools s JOIN frpm f ON f.CDSCode=s.CDSCode JOIN satscores a ON a.cds=s.CDSCode WHERE f.\"Academic Year\"='2014-2015' AND f.\"Free Meal Count (K-12)\"*1.0/f.\"Enrollment (K-12)\" > 0.1 AND a.NumGE1500>=1 GROUP BY s.County ORDER BY n DESC, s.County",
+  "attempts": 2
+ }
+]

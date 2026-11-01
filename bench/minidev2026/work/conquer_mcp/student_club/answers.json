@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 297,
+  "answer": "LIST n FROM Income [has IncomeSource: 'Fundraising'] [has IncomeDateReceived: '2019-09-14'] has IncomeNotes n",
+  "attempts": 2
+ },
+ {
+  "question_id": 300,
+  "answer": "LIST f, l FROM Member m has MemberFirstName f AND ALSO has MemberLastName l AND ALSO is of Event e AND ALSO THE COUNT OF e GROUPED BY m AS c WHERE c > 7",
+  "attempts": 2
+ },
+ {
+  "question_id": 302,
+  "answer": "LIST THE COUNT OF Member [is of Event has EventName: 'Women''s Soccer'], round((THE COUNT OF m IN (Event has EventDate d AND ALSO has Member m) WHERE d >= '2019-09-01' AND d < '2019-12-01') * 1.0 / (THE COUNT OF Event has EventDate d2 WHERE d2 >= '2019-09-01' AND d2 < '2019-12-01'), 1), if(THE COUNT OF Member [is of Event has EventName: 'Women''s Soccer'] > round((THE COUNT OF m IN (Event has EventDate d AND ALSO has Member m) WHERE d >= '2019-09-01' AND d < '2019-12-01') * 1.0 / (THE COUNT OF Event has EventDate d2 WHERE d2 >= '2019-09-01' AND d2 < '2019-12-01'), 1), 'more', if(THE COUNT OF Member [is of Event has EventName: 'Women''s Soccer'] < round((THE COUNT OF m IN (Event has EventDate d AND ALSO has Member m) WHERE d >= '2019-09-01' AND d < '2019-12-01') * 1.0 / (THE COUNT OF Event has EventDate d2 WHERE d2 >= '2019-09-01' AND d2 < '2019-12-01'), 1), 'fewer', 'equal'))",
+  "attempts": 2
+ },
+ {
+  "question_id": 303,
+  "answer": "LIST dp, k, h, a FROM Major m has MajorDepartment dp AND ALSO has MajorCollege c AND ALSO OPTIONALLY m is of Member mem AND ALSO nullif(m, if(coalesce(mem, '') = '', m, '')) AS hm AND ALSO THE DISTINCT COUNT OF m GROUPED BY dp AS k AND ALSO THE DISTINCT COUNT OF hm GROUPED BY dp AS h AND ALSO THE DISTINCT COUNT OF mem GROUPED BY dp AS mc AND ALSO round(mc * 1.0 / k, 2) AS a WHERE c = 'College of Humanities and Social Sciences'",
+  "attempts": 3
+ },
+ {
+  "question_id": 305,
+  "answer": "DEFINE MemDues ::= LIST mem, t FROM Member mem [has MemberPosition: 'Member'] [is of Event] AND ALSO is of Income i [has IncomeSource: 'Dues'] AND ALSO i has IncomeAmount a AND ALSO THE SUM OF a GROUPED BY mem AS t\nLIST dp, s FROM Major m has MajorDepartment dp AND ALSO has MajorCollege c AND ALSO OPTIONALLY m is of Member mem AND ALSO OPTIONALLY mem has MemDues MemDuesT t AND ALSO coalesce(t, 0) AS x AND ALSO THE SUM OF x GROUPED BY dp AS s WHERE c = 'College of Engineering'",
+  "attempts": 4
+ },
+ {
+  "question_id": 307,
+  "answer": "THE SUM OF a IN Member [is of Event has EventName: 'Football game'] is of Income [has IncomeSource: 'Dues'] has IncomeAmount a",
+  "attempts": 1
+ },
+ {
+  "question_id": 310,
+  "answer": "LIST n, l, c FROM Event e [has EventType: 'Budget'] has EventName n AND ALSO OPTIONALLY has EventLocation l AND ALSO OPTIONALLY has Member mem AND ALSO THE DISTINCT COUNT OF mem GROUPED BY e AS c",
+  "attempts": 1
+ },
+ {
+  "question_id": 322,
+  "answer": "THE SUM OF a IN Event [has EventDate d WHERE d >= '2019-09-01' AND d < '2019-10-01'] [is of Budget is of Expense has ExpenseDescription: 'Pizza'] is of Budget has BudgetAmount a",
+  "attempts": 1
+ }
+]

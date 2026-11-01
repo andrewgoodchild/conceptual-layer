@@ -1,0 +1,5 @@
+[
+{"question_id":153,"answer":"SELECT c.Segment, COUNT(*) AS n FROM customers c JOIN (SELECT CustomerID, SUM(Consumption) AS s FROM yearmonth WHERE Date BETWEEN '201201' AND '201212' GROUP BY CustomerID) y ON y.CustomerID = c.CustomerID WHERE y.s < 30000 GROUP BY c.Segment","attempts":1},
+{"question_id":154,"answer":"SELECT c.Segment, COUNT(DISTINCT c.CustomerID) AS n FROM customers c JOIN yearmonth y ON y.CustomerID = c.CustomerID WHERE y.Date BETWEEN '201301' AND '201312' AND y.Consumption > 0 GROUP BY c.Segment","attempts":1,"note":"consumed = Consumption > 0"},
+{"question_id":156,"answer":"SELECT c.Currency, COUNT(*) AS n FROM customers c JOIN (SELECT CustomerID FROM yearmonth WHERE Date BETWEEN '201301' AND '201311' AND Consumption > 0 GROUP BY CustomerID HAVING COUNT(DISTINCT Date) = 11) y ON y.CustomerID = c.CustomerID GROUP BY c.Currency","attempts":1,"note":"any consumption = Consumption > 0"}
+]

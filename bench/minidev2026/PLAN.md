@@ -51,3 +51,13 @@ for a difference, which is a limit of this design. No gold is audited in this ro
 
 **Cost.** About 2.5 to 4M tokens, scaled from finding 164's 1.55M for two arms of Opus writers.
 Usage is recorded per writer.
+
+## What actually happened
+
+Added after scoring; everything above is as committed. `sql_ddl` 88, `sql_mcp` 79, `conquer_mcp`
+88. The primary comparison is -9 with a database-resampled interval of -19.7 to 0.0, so by the rule above:
+no difference shown. The +2 prediction failed. The evidence split held only nominally, -2 of 26 against
+-7 of 74, a loss in both. `sql_ddl` fell within its range, and `conquer_mcp` came +9 over `sql_mcp` where -6 to +2 was predicted. Usage was 1.73M tokens, under the estimate.
+
+One departure: the session allows 20 subagents at once, so 13 writers started as others finished.
+`ledger.jsonl` holds each writer's usage. Finding 176 has the reading of the losses.

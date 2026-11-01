@@ -1,0 +1,58 @@
+[
+ {
+  "question_id": 2,
+  "answer": "LIST q FROM Frpm [has SchoolSOC: '66'] has FrpmCountK12 k AND ALSO has FrpmEnrollmentK12 e AND ALSO round(k / e, 6) AS q ORDERED WITH k DESCENDING THE FIRST 5",
+  "attempts": 3,
+  "note": "ownership code read as SOC '66' (no DOC 66 exists); rate = FRPM count / enrollment K-12"
+ },
+ {
+  "question_id": 4,
+  "answer": "LIST st, n FROM Satscore [has SatscoreRtype: 'S'] has SatscoreAvgScrMath m AND ALSO has SchoolMailStreet st AND ALSO has SchoolSchool n ORDERED WITH m DESCENDING THE FIRST 1 AFTER 6",
+  "attempts": 3
+ },
+ {
+  "question_id": 13,
+  "answer": "LIST c FROM Frpm [has SchoolCDSCode: '01611920113902'] [has FrpmNslpProvisionStatus: 'Breakfast Provision 2'] [has SchoolEILCode: 'HS'] [has FrpmLowGrade: '9'] [has FrpmHighGrade: '12'] [has SchoolCounty: 'Alameda'] has SchoolCity c",
+  "attempts": 3,
+  "note": "CDS code in the database has a leading zero (14 digits); all other conditions match"
+ },
+ {
+  "question_id": 15,
+  "answer": "LIST n, ph FROM Satscore [has SchoolDOC: '03'] [has SatscoreRtype: 'S'] has SchoolSchool n AND ALSO OPTIONALLY has SchoolPhone ph AND ALSO has SatscoreNumGE1500 g ORDERED WITH g DESCENDING THE FIRST 1 WITH TIES",
+  "attempts": 2
+ },
+ {
+  "question_id": 19,
+  "answer": "LIST g FROM School [has SchoolNcesDist: '0632640'] has SchoolGSoffered o AND ALSO substr(o, 1, instr(o, '-') - 1) AS g AND ALSO if(g = 'P', -1, if(g = 'K', 0, castInteger(g))) AS r ORDERED WITH r ASCENDING THE FIRST 1",
+  "attempts": 2,
+  "note": "uses grade span offered (P-6 present)"
+ },
+ {
+  "question_id": 24,
+  "answer": "LIST t, n, la FROM Frpm has SchoolLatitude la AND ALSO OPTIONALLY has FrpmSchoolType t AND ALSO has SchoolSchool n WHERE contains(n, 'Middle') OR contains(t, 'Middle') ORDERED WITH la DESCENDING THE FIRST 1 WITH TIES",
+  "attempts": 4,
+  "note": "cross-checked against School-table school type; same top result"
+ },
+ {
+  "question_id": 30,
+  "answer": "LIST n, d, c, w FROM Satscore [has SchoolStatusType: 'Closed'] has SatscoreAvgScrWrite w AND ALSO has SchoolSchool n AND ALSO has SchoolDistrict d AND ALSO has SchoolCounty c WHERE w < THE MAXIMUM w2 IN Satscore [has SchoolStatusType: 'Closed'] has SatscoreAvgScrWrite w2 ORDERED WITH w DESCENDING THE FIRST 1 WITH TIES",
+  "attempts": 2
+ },
+ {
+  "question_id": 32,
+  "answer": "LIST co, cnt, round(af, 2), round(ap, 2), c1, c0, round(sa, 2) FROM Frpm x [has SchoolCounty: 'Alameda'] has SchoolCounty co AND ALSO has FrpmFreeMealCountK12 f AND ALSO has FrpmCountK12 k AND ALSO has FrpmEnrollmentK12 e AND ALSO has FrpmCharterSchoolYN ch AND ALSO OPTIONALLY has SatscoreAvgScrMath m AND ALSO OPTIONALLY has SatscoreAvgScrRead r AND ALSO OPTIONALLY has SatscoreAvgScrWrite w AND ALSO round(f / e * 100, 2) AS pf AND ALSO round(k / e * 100, 2) AS pk AND ALSO (m + r + w) AS sat AND ALSO if(ch = 1, 1, 0) AS i1 AND ALSO if(ch = 0, 1, 0) AS i0 AND ALSO THE COUNT OF x GROUPED BY co AS cnt AND ALSO THE AVERAGE pf GROUPED BY co AS af AND ALSO THE AVERAGE pk GROUPED BY co AS ap AND ALSO THE SUM OF i1 GROUPED BY co AS c1 AND ALSO THE SUM OF i0 GROUPED BY co AS c0 AND ALSO THE AVERAGE sat GROUPED BY co AS sa WHERE f > 500 AND k < 700",
+  "attempts": 3,
+  "note": "K-12 read as the K-12 count columns; schools with SAT records = all three section averages present"
+ },
+ {
+  "question_id": 46,
+  "answer": "LIST c, n FROM Frpm x [has SchoolMagnet: 1] [has FrpmNslpProvisionStatus: 'Provision 2'] has SchoolCity c AND ALSO THE COUNT OF x GROUPED BY c AS n",
+  "attempts": 1
+ },
+ {
+  "question_id": 47,
+  "answer": "LIST nm, st, ci, sa, z FROM Frpm [has SchoolCounty: 'Los Angeles'] has FrpmSchoolType t AND ALSO has FrpmCountAges517 k AND ALSO has SchoolSchool nm AND ALSO has SchoolStreet st AND ALSO has SchoolCity ci AND ALSO has SchoolState sa AND ALSO has SchoolZip z WHERE k > 500 AND (t = 'High Schools (Public)' OR t = 'Continuation High Schools' OR t = 'High Schools In 1 School Dist. (Public)') ORDERED WITH nm ASCENDING",
+  "attempts": 1,
+  "note": "ZIP returned as stored (ZIP+4)"
+ }
+]

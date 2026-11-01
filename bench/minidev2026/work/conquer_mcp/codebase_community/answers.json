@@ -1,0 +1,38 @@
+[
+ {
+  "question_id": 121,
+  "answer": "LIST round((THE COUNT OF Post [has owner User has UserDisplayName: 'Community'] [has PostTags t] WHERE contains(t, '<r>')) * 100 / (THE COUNT OF Post [has owner User has UserDisplayName: 'Community']), 2)",
+  "attempts": 3,
+  "note": "Community's posts have no Tags value at all, so 0.0"
+ },
+ {
+  "question_id": 125,
+  "answer": "LIST round((THE COUNT OF Post [has owner User has UserId: 919] [has PostScore s] WHERE s > 50) * 100 / (THE COUNT OF Post [has owner User has UserId: 919]), 2)",
+  "attempts": 3,
+  "note": "user 919 is the unique top reputation (87393)"
+ },
+ {
+  "question_id": 129,
+  "answer": "DEFINE Prior ::= LIST u, c FROM Badge has BadgeName: 'Organizer' AND ALSO has BadgeDate d AND ALSO has User u has UserLocation l AND ALSO u is of Badge b2 AND ALSO b2 has BadgeDate e AND ALSO THE COUNT OF b2 GROUPED BY u AS c WHERE e < d AND (contains(l, 'germany') OR contains(l,'berlin') OR contains(l,'mün') OR contains(l,'munich'))\nTHE COUNT OF User [has Prior PriorC c] WHERE c >= 5",
+  "attempts": 5,
+  "note": "read '5 badges' as at least 5 (12); exactly 5 would give 3"
+ },
+ {
+  "question_id": 137,
+  "answer": "LIST i, n, v, r FROM User has UserId i AND ALSO has UserDisplayName n AND ALSO has UserViews v AND ALSO has UserReputation r AND ALSO has UserLocation l WHERE contains(l, 'california') OR ends_with(l, ', CA') OR contains(l, ', CA,') OR contains(l, 'San Francisco') OR contains(l, 'Los Angeles') ORDERED WITH v DESCENDING THE FIRST 1 WITH TIES",
+  "attempts": 3,
+  "note": ""
+ },
+ {
+  "question_id": 139,
+  "answer": "THE DISTINCT COUNT OF u IN Badge has BadgeName: 'Yearling' AND ALSO has BadgeDate d AND ALSO has User u has UserLocation l WHERE contains(l, 'india') AND NOT contains(l, 'indiana') AND year(d) < 2014",
+  "attempts": 3,
+  "note": ""
+ },
+ {
+  "question_id": 143,
+  "answer": "THE DISTINCT COUNT OF k IN (Vote has VoteBountyAmount a AND ALSO has VoteCreationDate d AND ALSO has Post p AND ALSO p OPTIONALLY has owner User o AND ALSO p OPTIONALLY has PostOwnerDisplayName od AND ALSO coalesce(concat('id', o), od) AS k WHERE a >= 30 AND d >= '2010-01-01' AND d < '2011-01-01')",
+  "attempts": 2,
+  "note": ""
+ }
+]

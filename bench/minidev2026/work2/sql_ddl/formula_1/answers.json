@@ -1,0 +1,58 @@
+[
+ {
+  "question_id": 249,
+  "answer": "select d.forename||' '||d.surname as name from lapTimes l join drivers d using(driverId) group by d.driverId order by min(l.milliseconds), d.driverId limit 20",
+  "attempts": 1,
+  "note": "best lap per driver, distinct drivers"
+ },
+ {
+  "question_id": 254,
+  "answer": "select d.nationality from qualifying q join drivers d using(driverId) where q.raceId=255 and q.q1<>'' and (substr(q.q1,1,instr(q.q1,':')-1)*60000 + cast(round(substr(q.q1,instr(q.q1,':')+1)*1000) as int))=(select max((substr(q1,1,instr(q1,':')-1)*60000 + cast(round(substr(q1,instr(q1,':')+1)*1000) as int))) from qualifying where raceId=255 and q1<>'')",
+  "attempts": 1
+ },
+ {
+  "question_id": 257,
+  "answer": "select d.nationality from qualifying q join drivers d using(driverId) where q.raceId=981 and q.q2<>'' and (substr(q.q2,1,instr(q.q2,':')-1)*60000 + cast(round(substr(q.q2,instr(q.q2,':')+1)*1000) as int))=(select min((substr(q2,1,instr(q2,':')-1)*60000 + cast(round(substr(q2,instr(q2,':')+1)*1000) as int))) from qualifying where raceId=981 and q2<>'')",
+  "attempts": 1
+ },
+ {
+  "question_id": 285,
+  "answer": "select d.nationality from qualifying q join drivers d using(driverId) where q.raceId=981 and q.q3<>'' and (substr(q.q3,1,instr(q.q3,':')-1)*60000 + cast(round(substr(q.q3,instr(q.q3,':')+1)*1000) as int))=(select min((substr(q3,1,instr(q3,':')-1)*60000 + cast(round(substr(q3,instr(q3,':')+1)*1000) as int))) from qualifying where raceId=981 and q3<>'')",
+  "attempts": 1
+ },
+ {
+  "question_id": 270,
+  "answer": "with b as (select raceId,driverId,min(milliseconds) m from lapTimes group by 1,2), r as (select *, rank() over(partition by raceId order by m) rk from b) select count(distinct driverId) from r join drivers d using(driverId) where rk=2 and d.dob>='1976-01-01'",
+  "attempts": 1
+ },
+ {
+  "question_id": 273,
+  "answer": "select count(distinct case when d.forename='Peter' then d.driverId end) as peter, count(distinct case when d.forename='John' then d.driverId end) as john from results r join drivers d using(driverId) where r.position=1",
+  "attempts": 1
+ },
+ {
+  "question_id": 278,
+  "answer": "select d.forename||' '||d.surname as driver, p.duration, r.name, c.name, c.location from pitStops p join races r using(raceId) join circuits c using(circuitId) join drivers d using(driverId) where r.date>='2016-09-01' and r.date<'2016-10-01' and p.milliseconds=(select min(p2.milliseconds) from pitStops p2 join races r2 using(raceId) where r2.date>='2016-09-01' and r2.date<'2016-10-01')",
+  "attempts": 1
+ },
+ {
+  "question_id": 281,
+  "answer": "select d.forename,d.surname,c.name from qualifying q join drivers d using(driverId) join constructors c using(constructorId) join results r on r.raceId=q.raceId and r.driverId=q.driverId where q.raceId=981 and q.q2<>'' order by (substr(q.q2,1,instr(q.q2,':')-1)*60000 + cast(round(substr(q.q2,instr(q.q2,':')+1)*1000) as int)), r.grid limit 1 offset 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 290,
+  "answer": "with t as (select c.circuitRef, r.time from races r join circuits c using(circuitId) where r.time is not null and r.time<>'') select e.circuitRef, l.circuitRef, (strftime('%s','2000-01-01 '||l.time)-strftime('%s','2000-01-01 '||e.time)) as gap_seconds from (select distinct circuitRef,time from t where time=(select min(time) from t)) e, (select distinct circuitRef,time from t where time=(select max(time) from t)) l",
+  "attempts": 1
+ },
+ {
+  "question_id": 292,
+  "answer": "select d.driverRef from qualifying q join drivers d using(driverId) where q.raceId=981 and (q.q2 is null or q.q2='') order by (substr(q.q1,1,instr(q.q1,':')-1)*60000 + cast(round(substr(q.q1,instr(q.q1,':')+1)*1000) as int)) desc, q.driverId",
+  "attempts": 1
+ },
+ {
+  "question_id": 293,
+  "answer": "select count(*) from results where raceId=733 and statusId=54",
+  "attempts": 1
+ }
+]

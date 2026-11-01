@@ -1,0 +1,62 @@
+[
+ {
+  "question_id": 333,
+  "answer": "LIST n FROM Superhero has SuperheroName n AND ALSO has Publisher has PublisherName: 'Marvel Comics' AND ALSO has Superpower has SuperpowerPowerName: 'Super Strength'",
+  "attempts": 1,
+  "note": ""
+ },
+ {
+  "question_id": 337,
+  "answer": "LIST round((THE COUNT OF Superhero [has Publisher has PublisherName: 'Marvel Comics'] [has SuperheroHeightCm h] WHERE h >= 150 AND h <= 180) * 100.0 / (THE COUNT OF Superhero [has SuperheroHeightCm h2] WHERE h2 >= 150 AND h2 <= 180), 2)",
+  "attempts": 3,
+  "note": ""
+ },
+ {
+  "question_id": 346,
+  "answer": "THE COUNT OF Superhero BUT NOT [has Alignment has AlignmentAlignment: 'Good'] BUT NOT [has Alignment has AlignmentAlignment: 'Bad']",
+  "attempts": 2,
+  "note": "Includes heroes with no alignment recorded (34); 28 have an alignment other than Good/Bad."
+ },
+ {
+  "question_id": 347,
+  "answer": "LIST p, c FROM Superhero s [has Publisher has PublisherName: 'Marvel Comics'] [has SuperheroFullName f WHERE NOT f = '-'] has Superpower has SuperpowerPowerName p AND ALSO THE DISTINCT COUNT OF s GROUPED BY p AS c ORDERED WITH c DESCENDING THE FIRST 1 WITH TIES",
+  "attempts": 2,
+  "note": "Full name '-' treated as unknown."
+ },
+ {
+  "question_id": 355,
+  "answer": "LIST round(THE AVERAGE w IN Superhero [has Publisher has PublisherName: 'DC Comics'] [has eye Colour [is eye of Superhero [has Publisher has PublisherName: 'Marvel Comics']]] has SuperheroWeightKg w WHERE w > 0, 0)",
+  "attempts": 3,
+  "note": "Weight 0 treated as unknown."
+ },
+ {
+  "question_id": 357,
+  "answer": "DEFINE FemRace ::= LIST r FROM Race r [is of Superhero has Gender has GenderGender: 'Female']\nLIST THE AVERAGE w IN Superhero has Race r BUT NOT [has FemRace] AND ALSO has SuperheroWeightKg w WHERE w > 0",
+  "attempts": 5,
+  "note": "Weight 0 treated as unknown; heroes without a race excluded. Value dominated by Godzilla/King Kong outliers."
+ },
+ {
+  "question_id": 365,
+  "answer": "LIST round((THE COUNT OF Superhero [has SuperheroFullName f WHERE contains(f, ' ')] [has Gender has GenderGender: 'Male'] has Superpower) * 1.0 / (THE COUNT OF Superhero [has SuperheroFullName f2 WHERE contains(f2, ' ')] [has Gender has GenderGender: 'Male']), 2), round((THE COUNT OF Superhero [has SuperheroFullName f3 WHERE contains(f3, ' ')] [has Gender has GenderGender: 'Female'] has Superpower) * 1.0 / (THE COUNT OF Superhero [has SuperheroFullName f4 WHERE contains(f4, ' ')] [has Gender has GenderGender: 'Female']), 2)",
+  "attempts": 4,
+  "note": "Full name = contains a space (excludes '-' and mononyms). Male 7.87, female 6.87."
+ },
+ {
+  "question_id": 367,
+  "answer": "LIST round(THE AVERAGE h IN Superhero [has Publisher has PublisherName: 'George Lucas'] has SuperheroHeightCm h WHERE h > 0, 1), round(THE AVERAGE w IN Superhero [has Publisher has PublisherName: 'George Lucas'] has SuperheroWeightKg w WHERE w > 0, 1)",
+  "attempts": 2,
+  "note": "0 treated as unknown for height and weight."
+ },
+ {
+  "question_id": 372,
+  "answer": "THE DISTINCT COUNT OF p IN Superhero [has Gender has GenderGender: 'Male'] [has SuperheroWeightKg w WHERE w > 0 AND w < 70] has Superpower p",
+  "attempts": 2,
+  "note": "Weight 0 treated as unknown."
+ },
+ {
+  "question_id": 379,
+  "answer": "LIST round(100.0 * (THE COUNT OF Superhero [has Publisher has PublisherName: 'Marvel Comics'] [has Superpower] [has Alignment has AlignmentAlignment: 'Good']) / (THE COUNT OF Superhero [has Publisher has PublisherName: 'Marvel Comics'] [has Superpower]), 2)",
+  "attempts": 2,
+  "note": ""
+ }
+]

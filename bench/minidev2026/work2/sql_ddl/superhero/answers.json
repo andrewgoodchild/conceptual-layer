@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 343,
+  "answer": "select avg(height_cm) from superhero where publisher_id=13 and height_cm>0 and id in (select hero_id from hero_power where power_id not in (select hp.power_id from hero_power hp join superhero s on s.id=hp.hero_id where s.publisher_id=4))",
+  "attempts": 1
+ },
+ {
+  "question_id": 345,
+  "answer": "select round(avg(weight_kg),1) from superhero where skin_colour_id=14 and weight_kg>0",
+  "attempts": 1
+ },
+ {
+  "question_id": 349,
+  "answer": "select g.gender, count(s.id) as cnt from gender g left join superhero s on s.gender_id=g.id and s.hair_colour_id=7 and (select count(distinct power_id) from hero_power where hero_id=s.id)>=10 where g.id in (1,2) group by g.id order by g.id",
+  "attempts": 1
+ },
+ {
+  "question_id": 363,
+  "answer": "select round(avg(weight_kg),2) from superhero where gender_id=2 and weight_kg>0",
+  "attempts": 1
+ },
+ {
+  "question_id": 369,
+  "answer": "select round(avg(weight_kg)) from superhero where skin_colour_id=14 and alignment_id=2 and weight_kg>0 and id in (select hero_id from hero_power where power_id=9)",
+  "attempts": 1
+ },
+ {
+  "question_id": 370,
+  "answer": "select round(avg(weight_kg),2) from superhero where publisher_id=5 and weight_kg>0 and id in (select hero_id from hero_power)",
+  "attempts": 1
+ },
+ {
+  "question_id": 375,
+  "answer": "select count(*) from superhero where alignment_id=3 and full_name is not null and full_name<>'-' and trim(full_name)<>''",
+  "attempts": 1
+ },
+ {
+  "question_id": 376,
+  "answer": "select superhero_name, full_name from superhero where id in (select hero_id from hero_attribute where attribute_id=3 and attribute_value=(select max(attribute_value) from hero_attribute where attribute_id=3)) and full_name is not null and full_name<>'-'",
+  "attempts": 1
+ },
+ {
+  "question_id": 377,
+  "answer": "select c.colour, count(*) n from superhero s join colour c on c.id=s.eye_colour_id where s.hair_colour_id<>9 and s.eye_colour_id in (select eye_colour_id from superhero where hair_colour_id=9) group by c.id order by n desc, c.colour",
+  "attempts": 1
+ },
+ {
+  "question_id": 381,
+  "answer": "select sum(eye_colour_id=1)-sum(eye_colour_id=7) from superhero where weight_kg is null or weight_kg=0",
+  "attempts": 1
+ }
+]

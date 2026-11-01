@@ -1,0 +1,87 @@
+[
+ {
+  "question_id": 385,
+  "answer": "SELECT p.ID, p.SEX, (CAST(strftime('%Y','2026-10-09') AS INT)-CAST(strftime('%Y',p.Birthday) AS INT)-(strftime('%m-%d','2026-10-09')<strftime('%m-%d',p.Birthday))) AS age FROM Patient p WHERE EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID=p.ID AND l.GLU>=180 AND l.\"T-CHO\"<250) ORDER BY p.ID",
+  "attempts": 2
+ },
+ {
+  "question_id": 386,
+  "answer": "SELECT p.ID, (CAST(strftime('%Y','2026-10-09') AS INT)-CAST(strftime('%Y',p.Birthday) AS INT)-(strftime('%m-%d','2026-10-09')<strftime('%m-%d',p.Birthday))) AS age FROM Patient p WHERE (SELECT COUNT(*) FROM Laboratory l WHERE l.ID=p.ID AND l.HCT>=52)>=2 ORDER BY p.ID",
+  "attempts": 2
+ },
+ {
+  "question_id": 390,
+  "answer": "SELECT ROUND(100.0*SUM(Admission LIKE '+%')/COUNT(*),2) FROM Patient p WHERE CAST(strftime('%Y',Birthday) AS INT) BETWEEN 1930 AND 1940 AND EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID=p.ID)",
+  "attempts": 2
+ },
+ {
+  "question_id": 394,
+  "answer": "SELECT COUNT(*) FROM Patient p WHERE TRIM(Diagnosis)='MCTD' AND EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID=p.ID AND l.PLT BETWEEN 100 AND 400) AND EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID=p.ID AND l.RNP<>'negative' AND CAST(l.RNP AS REAL)>5)",
+  "attempts": 2
+ },
+ {
+  "question_id": 400,
+  "answer": "WITH c AS (SELECT ID FROM Patient WHERE REPLACE(REPLACE(REPLACE(Diagnosis,',',' '),'  ',' '),'  ',' ') IN ('RA SJS','SJS RA')) SELECT SUM(EXISTS(SELECT 1 FROM Laboratory l WHERE l.ID=c.ID AND l.PLT>100 AND l.PLT<400)) AS with_normal_plt, SUM(NOT EXISTS(SELECT 1 FROM Laboratory l WHERE l.ID=c.ID AND l.PLT>100 AND l.PLT<400)) AS never_normal_plt FROM c",
+  "attempts": 2
+ },
+ {
+  "question_id": 404,
+  "answer": "SELECT ROUND(100.0*SUM(EXISTS(SELECT 1 FROM Laboratory l WHERE l.ID=p.ID AND l.RNP<>'negative' AND CAST(l.RNP AS REAL)>64))/COUNT(*),2) FROM Patient p WHERE p.SEX='F' AND EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID=p.ID AND l.RNP IS NOT NULL)",
+  "attempts": 2
+ },
+ {
+  "question_id": 405,
+  "answer": "SELECT AVG(1999-CAST(strftime('%Y',Birthday) AS INT)) FROM Patient p WHERE EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID=p.ID AND l.\"U-PRO\" IN ('3','4','300','>=300','>=1000'))",
+  "attempts": 2
+ },
+ {
+  "question_id": 407,
+  "answer": "SELECT MIN(CAST(strftime('%Y',l.Date) AS INT)-CAST(strftime('%Y',p.Birthday) AS INT)) FROM Laboratory l JOIN Patient p ON p.ID=l.ID WHERE l.RNP<>'negative' AND CAST(l.RNP AS REAL)>=64",
+  "attempts": 2
+ },
+ {
+  "question_id": 423,
+  "answer": "SELECT COUNT(*) FROM Patient p WHERE EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID=p.ID AND l.SSA IS NOT NULL AND l.SSA NOT IN ('negative','0')) AND EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID=p.ID AND l.\"U-PRO\" IS NOT NULL AND l.\"U-PRO\" NOT IN ('-','0','negative','-15'))",
+  "attempts": 2
+ },
+ {
+  "question_id": 429,
+  "answer": "SELECT COUNT(*) FROM Patient p WHERE p.Birthday>'1980-01-01' AND EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID=p.ID AND (l.FG<150 OR l.FG>450 OR l.\"U-PRO\" IN ('3','4','300','>=300','>=1000')))",
+  "attempts": 2
+ },
+ {
+  "question_id": 432,
+  "answer": "SELECT COUNT(DISTINCT p.ID) FROM Patient p JOIN Examination e ON e.ID=p.ID WHERE p.SEX='F' AND p.Admission LIKE '+%' AND CAST(strftime('%Y',p.Birthday) AS INT) BETWEEN 1945 AND 1989 AND e.\"ANA Pattern\"='P'",
+  "attempts": 2
+ },
+ {
+  "question_id": 439,
+  "answer": "SELECT COUNT(DISTINCT p.ID) FROM Patient p JOIN Laboratory l ON l.ID=p.ID WHERE p.SEX='F' AND l.PT<14 AND l.RNP<>'negative' AND CAST(l.RNP AS REAL)>=16",
+  "attempts": 2
+ },
+ {
+  "question_id": 441,
+  "answer": "SELECT p.ID, p.SEX FROM Patient p WHERE ','||REPLACE(p.Diagnosis,' ','')||',' LIKE '%,SLE,%' AND EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID=p.ID AND l.\"T-BIL\">=1.2) ORDER BY p.SEX, p.ID",
+  "attempts": 2
+ },
+ {
+  "question_id": 444,
+  "answer": "SELECT p.ID, p.Diagnosis, l.DNA FROM Patient p JOIN Laboratory l ON l.ID=p.ID WHERE p.Diagnosis LIKE '%SLE%' AND l.DNA IS NOT NULL AND CAST(l.DNA AS REAL)=(SELECT MAX(CAST(l2.DNA AS REAL)) FROM Laboratory l2 JOIN Patient p2 ON p2.ID=l2.ID WHERE p2.Diagnosis LIKE '%SLE%' AND l2.DNA IS NOT NULL)",
+  "attempts": 2
+ },
+ {
+  "question_id": 459,
+  "answer": "SELECT ROUND(AVG(e.\"aCL IgM\"),2) FROM Patient p JOIN Examination e ON e.ID=p.ID WHERE (','||REPLACE(p.Diagnosis,' ','')||',' LIKE '%,SJS,%' OR p.Diagnosis='SJS  RA') AND e.\"aCL IgM\">0",
+  "attempts": 2
+ },
+ {
+  "question_id": 464,
+  "answer": "SELECT ROUND(AVG(a),1) FROM (SELECT (CAST(strftime('%Y','2026-10-09') AS INT)-CAST(strftime('%Y',p.Birthday) AS INT)-(strftime('%m-%d','2026-10-09')<strftime('%m-%d',p.Birthday))) AS a FROM Patient p WHERE EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID=p.ID AND l.RNP<>'negative' AND CAST(l.RNP AS REAL)>=64)) WHERE a<70",
+  "attempts": 2
+ },
+ {
+  "question_id": 466,
+  "answer": "SELECT ROUND(100.0*SUM(SEX='F')/COUNT(*),1) FROM Patient p WHERE CAST(strftime('%Y',Birthday) AS INT) BETWEEN 1936 AND 1956 AND NOT EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID=p.ID AND l.CPK>=250) AND SEX IN ('F','M')",
+  "attempts": 2
+ }
+]

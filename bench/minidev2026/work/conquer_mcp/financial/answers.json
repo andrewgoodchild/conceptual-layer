@@ -1,0 +1,47 @@
+[
+ {
+  "question_id": 201,
+  "answer": "LIST (THE SUM OF v97 IN (Loan [has Account [is of Disp [has DispType: 'OWNER' AND ALSO has Client [has ClientGender: 'M']]]] has LoanDate d AND ALSO has LoanAmount a AND ALSO if(year(d) = 1997, a, 0) AS v97) - THE SUM OF w IN (Loan [has Account [is of Disp [has DispType: 'OWNER' AND ALSO has Client [has ClientGender: 'M']]]] has LoanDate d AND ALSO has LoanAmount a AND ALSO if(year(d) = 1996, a, 0) AS w)) * 100 / THE SUM OF w2 IN (Loan [has Account [is of Disp [has DispType: 'OWNER' AND ALSO has Client [has ClientGender: 'M']]]] has LoanDate d AND ALSO has LoanAmount a AND ALSO if(year(d) = 1996, a, 0) AS w2)",
+  "attempts": 3
+ },
+ {
+  "question_id": 210,
+  "answer": "LIST round(THE COUNT OF Loan [has Account [is of Disp [has DispType: 'OWNER' AND ALSO has Client [has ClientBirthDate b] WHERE b < '1950-01-01']]] * 1.0 / THE COUNT OF Account [is of Disp [has DispType: 'OWNER' AND ALSO has Client [has ClientBirthDate b] WHERE b < '1950-01-01']], 2)",
+  "attempts": 2
+ },
+ {
+  "question_id": 217,
+  "answer": "DEFINE Topd ::= LIST x, n, c FROM District x [has DistrictA3: 'central Bohemia'] has DistrictA2 n AND ALSO has DistrictA4 p AND ALSO has DistrictA16 c AND ALSO castNumber(p) AS pn ORDERED WITH pn DESCENDING, n ASCENDING THE FIRST 3\nLIST nm, cc, a3, ao, df FROM District x has Topd DistrictA2 nm AND ALSO x has c DistrictA16 cc AND ALSO round(THE AVERAGE t IN District has c DistrictA16 t, 2) AS a3 AND ALSO round(THE AVERAGE u IN District has DistrictA16 u, 2) AS ao AND ALSO round((THE AVERAGE t2 IN District has c DistrictA16 t2) - (THE AVERAGE u2 IN District has DistrictA16 u2), 2) AS df",
+  "attempts": 6
+ },
+ {
+  "question_id": 218,
+  "answer": "LIST ct, d, p0 FROM DISTINCT Card has CardType ct AND ALSO has Disp has Client has District dd AND ALSO dd has DistrictA2 d AND ALSO dd has DistrictA4 p0 AND ALSO castNumber(p0) AS p AND ALSO THE MINIMUM p WITHIN ct AS m WHERE p = m ORDERED WITH ct ASCENDING",
+  "attempts": 3
+ },
+ {
+  "question_id": 219,
+  "answer": "DEFINE EndBal ::= LIST ac, bal FROM Tran [has TranDate td WHERE td <= '1996-12-31'] has Account ac [has AccountDate ad WHERE year(ad) = 1996] AND ALSO has TranSId i AND ALSO has TranBalance bal AND ALSO castNumber(replace(td, '-', '')) * 100000000 + i AS k AND ALSO THE RANK OF k WITHIN ac AS rk WHERE rk = 1\nDEFINE DS ::= LIST dn, n, a FROM Account ac [has AccountDate ad WHERE year(ad) = 1996] has District [has DistrictA3: 'north Bohemia'] has DistrictA2 dn AND ALSO ac has EndBal TranBalance b AND ALSO THE COUNT OF ac GROUPED BY dn AS n AND ALSO THE AVERAGE b GROUPED BY dn AS a\nLIST dn, n, av, ra, top FROM DistrictA2 dn has DS DSN n AND ALSO dn has a DSA a AND ALSO round(a, 2) AS av AND ALSO THE SUM OF z IN (DistrictA2 e has DS DSN m AND ALSO e has a DSA q AND ALSO m * q AS z) AS zs AND ALSO THE SUM OF mm IN DistrictA2 has DS DSN mm AS ms AND ALSO round(zs / ms, 2) AS ra AND ALSO THE LIST OF nm SEPARATED BY ', ' IN DistrictA2 nm has a DSA qq ORDERED WITH qq DESCENDING, nm ASCENDING THE FIRST 1 AS top ORDERED WITH dn ASCENDING",
+  "attempts": 6
+ },
+ {
+  "question_id": 229,
+  "answer": "THE SUM OF v IN (Tran [has Account [is of Disp [has Client: 2823]]] has TranKSymbol ks AND ALSO has TranDate d AND ALSO has TranAmount a AND ALSO if(ks = 'UROK', a, if(ks = 'SANKC. UROK', 0 - a, 0)) AS v WHERE year(d) = 1998)",
+  "attempts": 2
+ },
+ {
+  "question_id": 235,
+  "answer": "DEFINE Cl ::= LIST dd, nc FROM District dd AND ALSO is of Account is of Disp [has DispType: 'OWNER'] has Client cq AND ALSO cq is of Disp is of Card [has CardType: 'classic'] AND ALSO THE DISTINCT COUNT OF cq GROUPED BY dd AS nc\nDEFINE Pay ::= LIST dd, ne, tot FROM Tran tt [has TranType: 'VYDAJ'] has Account ac [has District dd] [is of Disp [has DispType: 'OWNER'] has Client [is of Disp [is of Card [has CardType: 'classic']]]] AND ALSO tt has TranBank b AND ALSO tt has TranAccount x AND ALSO tt has TranAmount a AND ALSO concat(b, '/', x) AS ek AND ALSO THE DISTINCT COUNT OF ek GROUPED BY dd AS ne AND ALSO THE SUM OF a GROUPED BY dd AS tot\nLIST dn, ncl, nex, tt FROM District dd has DistrictA2 dn AND ALSO OPTIONALLY has Cl ClNc c0 AND ALSO OPTIONALLY has Pay PayNe e0 AND ALSO OPTIONALLY has tot PayTot t0 AND ALSO coalesce(c0, 0) AS ncl AND ALSO coalesce(e0, 0) AS nex AND ALSO coalesce(t0, 0) AS tt ORDERED WITH tt DESCENDING, dn ASCENDING",
+  "attempts": 6
+ },
+ {
+  "question_id": 237,
+  "answer": "LIST round(THE AVERAGE s IN District [is of Client [has ClientGender: 'F'] [has ClientBirthDate b WHERE b < '1950-01-01']] has DistrictA11 s, 2)",
+  "attempts": 1
+ },
+ {
+  "question_id": 239,
+  "answer": "DEFINE Coh ::= LIST dd, lab FROM DISTINCT District dd AND ALSO is of Account is of Disp has Client has ClientBirthDate b AND ALSO if(year(b) >= 1980, 'young', if(year(b) <= 1919, 'old', 'other')) AS lab\nLIST lab, av FROM District dd has Coh CohLab lab AND ALSO dd has DistrictA11 s AND ALSO THE AVERAGE s GROUPED BY lab AS a AND ALSO round(a, 0) AS av WHERE lab <> 'other' ORDERED WITH lab DESCENDING",
+  "attempts": 3
+ }
+]

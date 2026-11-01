@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 297,
+  "answer": "select notes from income where source='Fundraising' and date_received='2019-09-14'",
+  "attempts": 1
+ },
+ {
+  "question_id": 300,
+  "answer": "select m.first_name, m.last_name from member m join attendance a on a.link_to_member=m.member_id group by m.member_id having count(distinct a.link_to_event)>7",
+  "attempts": 1
+ },
+ {
+  "question_id": 302,
+  "answer": "with ws as (select count(*) c from attendance a join event e on e.event_id=a.link_to_event where e.event_name=\"Women's Soccer\"), av as (select round(avg(c),1) a from (select e.event_id, (select count(*) from attendance t where t.link_to_event=e.event_id) c from event e where date(e.event_date) between '2019-09-01' and '2019-11-30')) select ws.c as women_soccer_attendees, av.a as avg_fall_2019_attendees, case when ws.c>av.a then 'more' when ws.c<av.a then 'fewer' else 'equal' end as verdict from ws, av",
+  "attempts": 1
+ },
+ {
+  "question_id": 303,
+  "answer": "select d.department, count(*) as majors_offered, sum(exists(select 1 from member m where m.link_to_major=d.major_id)) as majors_held, round(1.0*(select count(*) from member m join major x on x.major_id=m.link_to_major where x.department=d.department)/count(*),2) as avg_members_per_major from major d where d.department in (select department from major where college='College of Humanities and Social Sciences') group by d.department",
+  "attempts": 1
+ },
+ {
+  "question_id": 305,
+  "answer": "select d.department, coalesce((select sum(i.amount) from income i join member m on m.member_id=i.link_to_member join major x on x.major_id=m.link_to_major where x.department=d.department and i.source='Dues' and m.position='Member' and exists(select 1 from attendance a where a.link_to_member=m.member_id)),0) as total_dues from (select distinct department from major where college=(select college from major where department='Electrical and Computer Engineering Department' limit 1)) d",
+  "attempts": 1
+ },
+ {
+  "question_id": 307,
+  "answer": "select coalesce(sum(i.amount),0) as total_dues from income i where i.source='Dues' and i.link_to_member in (select a.link_to_member from attendance a join event e on e.event_id=a.link_to_event where e.event_name='Football game')",
+  "attempts": 1
+ },
+ {
+  "question_id": 310,
+  "answer": "select e.event_name, e.location, (select count(*) from attendance a where a.link_to_event=e.event_id) as attendees from event e where e.type='Budget'",
+  "attempts": 1
+ },
+ {
+  "question_id": 322,
+  "answer": "select coalesce(sum(b.amount),0) as total_budgeted from budget b where b.link_to_event in (select e.event_id from event e where date(e.event_date) between '2019-09-01' and '2019-09-30' and exists(select 1 from budget b2 join expense x on x.link_to_budget=b2.budget_id where b2.link_to_event=e.event_id and x.expense_description='Pizza'))",
+  "attempts": 1
+ }
+]

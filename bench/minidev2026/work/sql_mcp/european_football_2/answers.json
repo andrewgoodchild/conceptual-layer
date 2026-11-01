@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 173,
+  "answer": "SELECT ROUND(100.0*COUNT(DISTINCT CASE WHEN a.defensive_work_rate='high' THEN p.player_api_id END)/COUNT(DISTINCT p.player_api_id),2) FROM Player p JOIN Player_Attributes a ON a.player_api_id=p.player_api_id WHERE p.birthday>='1991-01-01' AND a.defensive_work_rate IN ('low','medium','high')",
+  "attempts": 1
+ },
+ {
+  "question_id": 176,
+  "answer": "WITH risky AS (SELECT DISTINCT team_api_id FROM Team_Attributes WHERE chanceCreationPassingClass='Risky'),\nt AS (SELECT t.team_short_name sn, t.team_api_id FROM Team t JOIN risky r ON r.team_api_id=t.team_api_id)\nSELECT sn AS short_name, COUNT(*) AS club_count, ROUND(AVG(ta.chanceCreationPassing),1) AS avg_risk\nFROM t LEFT JOIN Team_Attributes ta ON ta.team_api_id=t.team_api_id AND ta.date LIKE '2014-09-19%'\nGROUP BY sn HAVING COUNT(*)>1 ORDER BY avg_risk DESC, sn",
+  "attempts": 1
+ },
+ {
+  "question_id": 177,
+  "answer": "SELECT ROUND(AVG(height),2) FROM Player p WHERE birthday>='1990-01-01' AND birthday<'1996-01-01' AND (SELECT defensive_work_rate FROM Player_Attributes a WHERE a.player_api_id=p.player_api_id AND defensive_work_rate IN ('low','medium','high') ORDER BY date DESC, id DESC LIMIT 1)='medium'",
+  "attempts": 1
+ },
+ {
+  "question_id": 178,
+  "answer": "SELECT ROUND(AVG(weight),1) FROM Player WHERE player_api_id IN (SELECT player_api_id FROM Player_Attributes WHERE preferred_foot='left')",
+  "attempts": 1
+ },
+ {
+  "question_id": 180,
+  "answer": "SELECT ta.buildUpPlayDribblingClass FROM Team_Attributes ta JOIN Team t ON t.team_api_id=ta.team_api_id WHERE t.team_short_name='POR' AND t.team_api_id IN (SELECT m.home_team_api_id FROM Match m JOIN Country c ON c.id=m.country_id WHERE c.name='England') AND ta.date LIKE '2015-09-10%'",
+  "attempts": 1
+ },
+ {
+  "question_id": 183,
+  "answer": "WITH mp AS (\nSELECT country_id, home_player_1 p FROM Match UNION SELECT country_id, home_player_2 FROM Match UNION SELECT country_id, home_player_3 FROM Match UNION SELECT country_id, home_player_4 FROM Match UNION SELECT country_id, home_player_5 FROM Match UNION SELECT country_id, home_player_6 FROM Match UNION SELECT country_id, home_player_7 FROM Match UNION SELECT country_id, home_player_8 FROM Match UNION SELECT country_id, home_player_9 FROM Match UNION SELECT country_id, home_player_10 FROM Match UNION SELECT country_id, home_player_11 FROM Match\nUNION SELECT country_id, away_player_1 FROM Match UNION SELECT country_id, away_player_2 FROM Match UNION SELECT country_id, away_player_3 FROM Match UNION SELECT country_id, away_player_4 FROM Match UNION SELECT country_id, away_player_5 FROM Match UNION SELECT country_id, away_player_6 FROM Match UNION SELECT country_id, away_player_7 FROM Match UNION SELECT country_id, away_player_8 FROM Match UNION SELECT country_id, away_player_9 FROM Match UNION SELECT country_id, away_player_10 FROM Match UNION SELECT country_id, away_player_11 FROM Match),\nc AS (SELECT c.name, COUNT(DISTINCT pl.player_api_id) n FROM mp JOIN Player pl ON pl.player_api_id=mp.p JOIN Country c ON c.id=mp.country_id WHERE pl.weight>=210 GROUP BY c.name)\nSELECT name AS country, n AS player_count FROM c WHERE n=(SELECT MAX(n) FROM c) ORDER BY name",
+  "attempts": 1
+ }
+]

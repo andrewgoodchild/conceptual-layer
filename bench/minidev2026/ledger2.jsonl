@@ -1,0 +1,23 @@
+{"pinned_at": "2026-11-01T09:06:10", "sha256": {"bench/minidev2026/PLAN2.md": "eb55fa49a3310d18ff3588bf60a8b9d111b696d97662862eaedcead42c4814c0", "bench/minidev2026/build.py": "ecafd1f0a15ec8289daf6a66fe4bbbeaf9736894261290b466b94f3eb52efb87", "bench/minidev2026/sample.py": "e6df68ba150d189814e6f31571fcd6dcd69233a2f6625ec23c25708461e13c7d", "bench/minidev2026/compare.py": "8621f447fa31e035b99844b9a3e20ee76c443c43d86190918c39d6fa5892efaa", "bench/minidev2026/pins2.json": "e341de7ddf5965e9de6311a5ad9e179a126e3a5b27c4d44d2ab8f7c4de447b60", "mcp/server.py": "c99cebfefbac4eb305d21e6d9409f9a03ab24bf694466f2b450e5f30d4e680b6", "conquer/parser.py": "a8c4f9dcc4596b61d07953187d84572f051f5d8f8f33aeb17cc9637829e85ae1"}}
+{"arm":"sql_ddl","db":"debit_card_specializing","subagent_tokens":29574,"tool_uses":6,"duration_ms":19849}
+{"arm":"sql_ddl","db":"codebase_community","subagent_tokens":33429,"tool_uses":6,"duration_ms":27071}
+{"arm":"sql_mcp","db":"debit_card_specializing","subagent_tokens":32379,"tool_uses":8,"duration_ms":30538}
+{"arm":"sql_ddl","db":"student_club","subagent_tokens":35108,"tool_uses":7,"duration_ms":33790}
+{"arm":"sql_ddl","db":"formula_1","subagent_tokens":37535,"tool_uses":9,"duration_ms":45005}
+{"arm":"sql_mcp","db":"codebase_community","subagent_tokens":38863,"tool_uses":10,"duration_ms":51350}
+{"arm":"sql_ddl","db":"toxicology","subagent_tokens":33237,"tool_uses":7,"duration_ms":29015}
+{"arm":"sql_mcp","db":"superhero","subagent_tokens":37502,"tool_uses":8,"duration_ms":57729}
+{"arm":"sql_ddl","db":"california_schools","subagent_tokens":39395,"tool_uses":11,"duration_ms":58761}
+{"arm":"sql_ddl","db":"financial","subagent_tokens":38761,"tool_uses":11,"duration_ms":59340}
+{"arm":"sql_ddl","db":"thrombosis_prediction","subagent_tokens":44861,"tool_uses":11,"duration_ms":78464}
+{"arm":"sql_mcp","db":"toxicology","subagent_tokens":35146,"tool_uses":10,"duration_ms":48101}
+{"arm":"sql_mcp","db":"financial","subagent_tokens":43627,"tool_uses":10,"duration_ms":80716}
+{"arm":"sql_mcp","db":"student_club","subagent_tokens":41781,"tool_uses":10,"duration_ms":82492}
+{"arm":"sql_mcp","db":"california_schools","subagent_tokens":48507,"tool_uses":11,"duration_ms":84928}
+{"arm":"sql_mcp","db":"formula_1","subagent_tokens":44824,"tool_uses":9,"duration_ms":85903}
+{"arm":"sql_mcp","db":"card_games","subagent_tokens":49778,"tool_uses":14,"duration_ms":106295}
+{"arm":"sql_mcp","db":"thrombosis_prediction","subagent_tokens":58402,"tool_uses":18,"duration_ms":146352}
+{"arm":"sql_ddl","db":"superhero","subagent_tokens":36390,"tool_uses":9,"duration_ms":155270}
+{"arm":"sql_ddl","db":"european_football_2","subagent_tokens":38351,"tool_uses":10,"duration_ms":173634}
+{"arm":"sql_ddl","db":"card_games","subagent_tokens":42532,"tool_uses":12,"duration_ms":177604}
+{"arm":"sql_mcp","db":"european_football_2","subagent_tokens":46208,"tool_uses":17,"duration_ms":325347}

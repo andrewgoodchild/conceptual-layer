@@ -33,9 +33,15 @@ read back in English.
 ## Relationship to semantic layers
 
 Malloy, MetricFlow, LookML and Cube are the same idea one level down — definitions written
-once, above the tables, so every query uses the same *revenue* and the same join path. A
-conceptual model can generate one: a derived fact type *is* a metric, with its grain stated.
-Where it differs:
+once, above the tables, so every query uses the same *revenue* and the same join path — and so
+are Snowflake's semantic views and Databricks' metric views. A conceptual model can generate
+one: a derived fact type *is* a metric, with its grain stated.
+[Apache Ossie](https://github.com/apache/ossie) (incubating, formerly Open Semantic Interchange)
+is the format they are converging on to exchange these. It is still a draft, and two of its
+draft parts come close to this project: an ontology of entity types, value types, identifiers
+and verbalised n-ary relationships, much like ORM though it does not say so, and relational
+semantics in which a join cannot inflate a measure. Nothing here exports to it yet.
+Where this project differs:
 
 - **Drafted from the data as well as the schema.** Some semantic-layer tools generate a
   starting model from the tables; this one also reads the rows — keys and references where
@@ -70,7 +76,8 @@ Where it differs:
 
 Blind LLM writers, each given one database and its questions, scored by whether the rows their
 query returns match the benchmark's answer. On 100 questions, three points either way is
-noise.
+noise. BIRD figures are on its 2025-07-04 annotations; the October 2026 release is close to a
+new test set and has not been run.
 
 **The conceptual model helped only where it said something the DDL does not.** In place of
 the DDL it did as well as the DDL and no better; beside it, the same schema restated as

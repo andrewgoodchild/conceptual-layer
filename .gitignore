@@ -118,3 +118,13 @@ bench/minidev2026/work/mcp.json
 bench/minidev2026/work/*/*/*
 !bench/minidev2026/work/*/*/answers.json
 bench/minidev2026/results.json
+bench/minidev2026/results2.json
+bench/minidev2026/work2/mcp.json
+bench/minidev2026/work2/*/*/*
+!bench/minidev2026/work2/*/*/answers.json
+
+# Rebuilt by bench/ablation/fetch-corpora.sh; the sources are not ours to redistribute. No
+# trailing slash: any of these may be a symlink to a larger disk.
+bench/ablation/work/bar
+bench/ablation/work/bar-source
+bench/ablation/work/bar-blind

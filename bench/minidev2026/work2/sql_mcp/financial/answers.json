@@ -1,0 +1,47 @@
+[
+ {
+  "question_id": 197,
+  "answer": "SELECT (b2.balance - b1.balance) * 100.0 / b1.balance AS pct_increase\nFROM loan l\nJOIN trans b1 ON b1.account_id = l.account_id AND b1.date = '1993-03-22'\nJOIN trans b2 ON b2.account_id = l.account_id AND b2.date = '1998-12-27'\nWHERE l.date = '1993-07-05'",
+  "attempts": 1
+ },
+ {
+  "question_id": 199,
+  "answer": "SELECT d.A2 AS district, ROUND((d.A13 - d.A12) * 100.0 / d.A12, 2) AS pct_change\nFROM district d\nWHERE d.A12 IS NOT NULL AND d.A13 IS NOT NULL\nAND d.district_id IN (SELECT a.district_id FROM account a JOIN loan l ON l.account_id = a.account_id WHERE l.status = 'D')",
+  "attempts": 1
+ },
+ {
+  "question_id": 209,
+  "answer": "SELECT ROUND(AVG(dd.A11), 2) AS avg_salary\nFROM district dd\nWHERE dd.district_id IN (\n SELECT c.district_id FROM client c\n JOIN district d ON d.district_id = c.district_id AND d.A3 = 'central Bohemia'\n JOIN disp o ON o.client_id = c.client_id AND o.type = 'OWNER'\n WHERE NOT EXISTS (SELECT 1 FROM disp x JOIN card k ON k.disp_id = x.disp_id WHERE x.account_id = o.account_id))",
+  "attempts": 1
+ },
+ {
+  "question_id": 211,
+  "answer": "SELECT\n SUM(CASE WHEN t.k_symbol = 'SIPO' THEN 1 ELSE 0 END) AS household_payments,\n SUM(CASE WHEN t.k_symbol IS NOT NULL AND TRIM(t.k_symbol) <> '' AND t.k_symbol <> 'SIPO' THEN 1 ELSE 0 END) AS other_purpose_payments\nFROM trans t\nWHERE t.amount > 4000 AND t.type = 'VYDAJ'\nAND t.account_id IN (SELECT d.account_id FROM disp d JOIN client c ON c.client_id = d.client_id\n  WHERE c.gender = 'M' AND CAST(SUBSTR(c.birth_date,1,4) AS INTEGER) BETWEEN 1974 AND 1976)",
+  "attempts": 1
+ },
+ {
+  "question_id": 220,
+  "answer": "WITH top AS (\n SELECT l.loan_id, a.district_id,\n  ROW_NUMBER() OVER (ORDER BY l.amount DESC, l.loan_id ASC) AS rn\n FROM loan l JOIN account a ON a.account_id = l.account_id\n WHERE l.duration = 24 AND a.frequency = 'POPLATEK TYDNE'),\nds AS (SELECT DISTINCT district_id FROM top WHERE rn <= 10)\nSELECT (SELECT d.district_id FROM ds JOIN district d ON d.district_id = ds.district_id ORDER BY CAST(d.A4 AS INTEGER) DESC, d.district_id ASC LIMIT 1) AS most_populous_district_id,\n (SELECT CAST(d.A4 AS INTEGER) FROM ds JOIN district d ON d.district_id = ds.district_id ORDER BY CAST(d.A4 AS INTEGER) DESC, d.district_id ASC LIMIT 1) AS inhabitants,\n (SELECT ROUND(AVG(d.A11), 2) FROM ds JOIN district d ON d.district_id = ds.district_id) AS avg_salary",
+  "attempts": 1
+ },
+ {
+  "question_id": 225,
+  "answer": "WITH x AS (\n SELECT c.client_id, c.gender, c.birth_date, k.type AS card_type,\n  CAST(SUBSTR(k.issued,1,4) AS INTEGER) - CAST(SUBSTR(c.birth_date,1,4) AS INTEGER) AS age,\n  d.account_id, dist.A2 AS district_name, dist.A11 AS avg_salary\n FROM card k JOIN disp d ON d.disp_id = k.disp_id\n JOIN client c ON c.client_id = d.client_id\n JOIN district dist ON dist.district_id = c.district_id\n WHERE SUBSTR(k.issued,1,4) = '1994')\nSELECT x.client_id, x.gender, x.birth_date, x.card_type, x.age AS age_at_issue,\n (SELECT COUNT(*) FROM loan l WHERE l.account_id = x.account_id) AS num_loans,\n (SELECT COALESCE(SUM(l.amount),0) FROM loan l WHERE l.account_id = x.account_id) AS total_borrowed,\n CASE WHEN EXISTS (SELECT 1 FROM loan l WHERE l.account_id = x.account_id) THEN\n   CASE WHEN x.age < 30 THEN 'Young borrower' ELSE 'Mature borrower' END\n  ELSE 'Non-borrower' END AS borrower_class,\n x.district_name, x.avg_salary,\n RANK() OVER (PARTITION BY x.gender ORDER BY x.age) AS age_rank_in_gender\nFROM x ORDER BY x.client_id",
+  "attempts": 1
+ },
+ {
+  "question_id": 228,
+  "answer": "SELECT COUNT(DISTINCT a.account_id)\nFROM account a JOIN loan l ON l.account_id = a.account_id\nWHERE a.district_id = 1 AND a.date <= '1995-12-31' AND l.status IN ('C','D')",
+  "attempts": 1
+ },
+ {
+  "question_id": 230,
+  "answer": "WITH top AS (\n SELECT l.*, d.client_id, c.birth_date FROM loan l\n JOIN disp d ON d.account_id = l.account_id AND d.type = 'OWNER'\n JOIN client c ON c.client_id = d.client_id AND c.gender = 'F'\n WHERE l.amount >= (SELECT MIN(amount) FROM (SELECT l2.amount FROM loan l2 JOIN disp d2 ON d2.account_id=l2.account_id AND d2.type='OWNER' JOIN client c2 ON c2.client_id=d2.client_id AND c2.gender='F' ORDER BY l2.amount DESC LIMIT 3)))\nSELECT t.client_id, t.amount AS loan_amount, t.duration, ROUND(t.payments*t.duration,2) AS total_payments,\n ROUND(t.payments*t.duration - t.amount,2) AS interest_paid, t.status,\n dist.A2 AS district, dist.A3 AS region,\n (SELECT COUNT(*) FROM trans x WHERE x.account_id=t.account_id) AS tran_count,\n (SELECT COALESCE(SUM(x.amount),0) FROM trans x WHERE x.account_id=t.account_id AND x.type='PRIJEM') AS total_deposits,\n CASE WHEN (SELECT COALESCE(SUM(x.amount),0) FROM trans x WHERE x.account_id=t.account_id AND x.type='PRIJEM') > 2*t.amount THEN 'High Income'\n      WHEN (SELECT COALESCE(SUM(x.amount),0) FROM trans x WHERE x.account_id=t.account_id AND x.type='PRIJEM') > t.amount THEN 'Medium Income'\n      ELSE 'Low Income' END AS income_category,\n (SELECT COUNT(*) FROM loan l3 JOIN account a3 ON a3.account_id=l3.account_id JOIN district d3 ON d3.district_id=a3.district_id WHERE d3.A3=dist.A3) AS region_loans,\n (SELECT ROUND(AVG(d4.A11),2) FROM district d4 WHERE d4.A3=dist.A3) AS region_avg_salary,\n CAST(strftime('%Y','2026-10-09') AS INTEGER) - CAST(strftime('%Y',t.birth_date) AS INTEGER)\n  - (CASE WHEN strftime('%m-%d',t.birth_date) > '10-09' THEN 1 ELSE 0 END) AS age\nFROM top t JOIN account a ON a.account_id=t.account_id JOIN district dist ON dist.district_id=a.district_id\nORDER BY t.amount DESC, t.loan_id",
+  "attempts": 1
+ },
+ {
+  "question_id": 232,
+  "answer": "SELECT SUM(n) AS accounts_opened, COUNT(*) AS districts, ROUND(AVG(A11),2) AS avg_salary FROM (\n SELECT d.district_id, d.A11, COUNT(*) AS n FROM account a JOIN district d ON d.district_id=a.district_id\n WHERE a.frequency='POPLATEK MESICNE' AND SUBSTR(a.date,1,4)='1997' AND CAST(d.A4 AS INTEGER) >= 100000\n GROUP BY d.district_id, d.A11)",
+  "attempts": 1
+ }
+]

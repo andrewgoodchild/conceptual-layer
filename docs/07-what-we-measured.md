@@ -22,7 +22,10 @@ returns the same rows as the gold. Each question also ships a line of "evidence"
 means, which column a term is, sometimes the formula. This project used the **mini-dev** set --
 500 questions over 11 databases of about seven tables each -- and took 100 of them, stratified
 across the eleven, for every arm. BIRD's schemas are small and tidy enough for a writer to read
-whole.
+whole. Every BIRD number here is on the **2025-07-04 annotations**. BIRD re-released mini-dev
+in October 2026, with 0 of 500 rows the same in question, evidence and SQL and 96 of this
+project's 100 questions gone, so these are not scores on the current set; `bench/fetch.sh`
+pins the old one. The one round on the new release is [`bench/minidev2026/`](../bench/minidev2026/PLAN.md).
 
 **LiveSQLBench** (from the BIRD team; [`bench/livesql/`](../bench/livesql/README.md)) is the
 enterprise kind, built to be contamination-free and refreshed over time. Its databases are
@@ -60,7 +63,8 @@ about five is not distinguishable from noise.
 A score is only as good as the gold it is scored against, and the field has been finding out
 how poor the gold is. Jin, Choi, Zhu and Kang re-annotated two of the most-used benchmarks and
 found errors -- a wrong gold query, an ambiguous question, a gold that contradicts its own
-evidence -- in **52.8% of BIRD mini-dev** and **66.1% of Spider 2.0-Snow**; re-scoring five
+evidence -- in **52.8% of BIRD mini-dev** and **66.1% of Spider 2.0-Snow** (62.8% in their
+[arXiv companion](https://arxiv.org/abs/2601.08778)); re-scoring five
 leading BIRD systems on the corrected set moved them by −3% to +31% relative and reordered the
 leaderboard by up to three places ([*Text-to-SQL Benchmarks are Broken*, CIDR
 2026](https://www.vldb.org/cidrdb/papers/2026/p5-jin.pdf)). Wretblad et al. found noise in up
@@ -99,7 +103,9 @@ This project measured the same thing on every benchmark it touched.
   inside a JSON path, so one rating always scores zero; integer division that truncates a
   quantity; missing data scored as zero; a probability returned as a percentage. The scorer's
   are execution accuracy's: rows tied on the sort key compared in an arbitrary order, and a
-  float sum that differs in the ninth significant figure. The knowledge bases are closer to
+  float sum that differs in the ninth significant figure. Upstream's May 2026 change to its
+rounding fixes none of these: replayed over all four rounds it changes one question, and that
+one goes from right to wrong (finding 175). The knowledge bases are closer to
   reality than per-question hints and have their own faults -- terms used and never defined,
   and in one database thirteen definitions from an unrelated domain.
 
@@ -280,8 +286,10 @@ it, look at the rows — not the refusals.**
 ### The reverse engineering is measured like the literature measures it
 
 Strip the declared keys out of a schema that has them, ask the inference to recover them, and
-score it. Jiang & Naumann's HoPF (JIIS 54:439–461, 2020) is the bar, at 88% of primary keys
-and 91% of foreign keys.
+score it. Jiang & Naumann's HoPF (JIIS 54:439–461, 2020) is the bar: 88% recall on primary
+keys, and on foreign keys 91% recall, 63% precision and F1 73, the means of its Table 7 over
+five corpora, none of them run here. Set beside the table below, those are figures from other
+corpora, not a head-to-head.
 
 ```sh
 python3 reverse/tests/test_inference.py --db bench/bird/minidev/MINIDEV/dev_databases/*/*.sqlite
@@ -476,6 +484,15 @@ the value domains and the writers named the answers those decided. Read with the
 above: the layer matched the DDL when it carried what the rows say, and showed no detectable
 effect beside the DDL when it did not — both within the noise band, and read with the
 writers' own accounts of what they used.
+
+That match did not repeat on BIRD's October 2026 release. With 100 new questions and Sonnet
+writers, SQL from the description scored 79, SQL from the DDL 88 and ConQuer from the description
+88 (finding 176). By the rule fixed in advance the 79 is no difference shown, the
+database-resampled interval touching zero, but it was a nine-point gap on the wrong side of the
+prediction. It did not repeat. On 100 more questions from that release, with the same writers and
+the same text, the description scored 90 and the DDL 88 (finding 177). Both rounds pooled are -7 of
+200, with an interval from -18.8 to +3.2. So one draw of this size can move the comparison by nine
+points, and a small loss is not ruled out.
 
 ### At scale, nothing beat the DDL
 

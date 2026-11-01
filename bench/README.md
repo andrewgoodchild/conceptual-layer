@@ -12,8 +12,9 @@ up, numbered, is [`findings.md`](findings.md).
 | [`pilot/`](pilot/README.md) | BIRD mini-dev, 100 questions | The main experiment: blind agents in many arms — SQL or ConQuer, with or without the model's English, the evidence, definitions, a stronger writer, a working method — each scored by execution accuracy |
 | [`livesql/`](livesql/README.md) | LiveSQLBench, SQLite and PostgreSQL tiers | The same comparison on a benchmark with knowledge bases, JSON columns and a second dialect, plus the reverse engineer against 1,122 declared references |
 | [`spider2-trial/`](spider2-trial/README.md) | Spider 2.0, the 30 local databases | Not a benchmark run: what the gold queries need, what the reverse engineer makes of unseen schemas, and a handful of tasks written by hand |
-| [`ablation/`](ablation/README.md) | LiveSQLBench and BIRD | A published foreign-key recovery pipeline, one step at a time, and what each step's references do to a query writer downstream |
+| [`ablation/`](ablation/README.md) | LiveSQLBench, BIRD and AdventureWorks | A published foreign-key recovery pipeline, one step at a time, and what each step's references do to a query writer downstream |
 | [`malloy-probe/`](malloy-probe/README.md) | the company fixture | How Malloy handles the fan traps the compiler was refusing at the time, which the compiler now computes |
+| [`minidev2026/`](minidev2026/PLAN.md) | BIRD's October 2026 mini-dev, 200 questions | Paired arms on the new release, planned before they ran: SQL from the DDL, SQL from the description, ConQuer (finding 176), its [repeat](minidev2026/PLAN2.md) (finding 177), and second opinions on the same answers (finding 178) |
 | [`archive/hand-run/`](archive/hand-run/README.md) | BIRD mini-dev, 70 questions | The first measurement, answered by hand while the compiler was being built. Superseded by `pilot/`, kept for its trace of where ConQuer lost |
 
 ## Getting the data
@@ -21,7 +22,7 @@ up, numbered, is [`findings.md`](findings.md).
 No benchmark's questions, databases or gold SQL are in the repository (`NOTICE` says why).
 
 ```sh
-bench/fetch.sh            # BIRD mini-dev into bench/bird/ (800 MB)
+bench/fetch.sh            # BIRD mini-dev into bench/bird/ (800 MB): the 2025-07-04 annotations
 bench/run.sh              # reverse engineer its eleven databases into bench/models/
 bench/livesql/fetch.sh    # LiveSQLBench's public release into bench/livesql/data/
 ```
