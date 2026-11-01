@@ -190,21 +190,24 @@ def destroy(source, out):
     names = [r[0] for r in s.execute("SELECT name FROM sqlite_master WHERE type='table'")]
     rng.shuffle(names)
     table = {t: "t%04d" % i for i, t in enumerate(names)}
+    folded = {t.casefold(): t for t in names}
     column, tables, primary, foreign = {}, {}, {}, []
     for t in names:
         info = s.execute('PRAGMA table_info("%s")' % t).fetchall()
         order = list(info)
         rng.shuffle(order)
         for i, col in enumerate(order):
-            column[t, col[1]] = "c%04d" % i
-        tables[table[t]] = [(column[t, col[1]], col[2]) for col in info]
+            column[t.casefold(), col[1].casefold()] = "c%04d" % i
+        tables[table[t]] = [(column[t.casefold(), col[1].casefold()], col[2]) for col in info]
         pk = sorted((col for col in info if col[5]), key=lambda col: col[5])
-        primary[table[t]] = [column[t, col[1]] for col in pk]
+        primary[table[t]] = [column[t.casefold(), col[1].casefold()] for col in pk]
     for t in names:
         grouped = {}
         for fid, seq, target, col, to, *_ in s.execute('PRAGMA foreign_key_list("%s")' % t):
-            if to is not None:
-                grouped.setdefault((fid, target), []).append((column[t, col], column[target, to]))
+            target = folded.get(target.casefold())
+            if to is not None and target and (target.casefold(), to.casefold()) in column:
+                grouped.setdefault((fid, target), []).append(
+                    (column[t.casefold(), col.casefold()], column[target.casefold(), to.casefold()]))
         for (_, target), pairs in grouped.items():
             foreign.append((table[t], [a for a, _ in pairs], table[target], [b for _, b in pairs]))
     c = build(out, tables, primary, foreign)
