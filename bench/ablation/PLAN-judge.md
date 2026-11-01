@@ -26,3 +26,9 @@ judge is worth having only if recall gains at least 15 points at precision of at
 declared counts against it. Both corpora are famous, and a judge may know them from training, as
 DBAutoDoc warns of its own runs; these names cannot rule that out. Names destroyed are out of
 scope: the judge reads names.
+
+## What actually happened
+
+Added after scoring; everything above is as committed. AdventureWorks 91% / 95% and MusicBrainz
+85% / 95%, so both predictions and the 15-point gain held. One file was rerun, for not judging
+each candidate, before anything was scored; its verdicts did not change. Finding 182.

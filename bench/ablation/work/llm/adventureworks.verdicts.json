@@ -1,0 +1,790 @@
+{
+ "database": "adventureworks",
+ "verdicts": [
+  {
+   "id": "Address.StateProvinceID -> StateProvince.StateProvinceID",
+   "verdict": "yes",
+   "reason": "Name matches target; address state lookup"
+  },
+  {
+   "id": "BillOfMaterials.ProductAssemblyID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Assembly is a product; product ids in range"
+  },
+  {
+   "id": "BillOfMaterials.ComponentID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Component is a product"
+  },
+  {
+   "id": "BillOfMaterials.UnitMeasureCode -> UnitMeasure.UnitMeasureCode",
+   "verdict": "yes",
+   "reason": "Same name, unit codes EA/IN/OZ"
+  },
+  {
+   "id": "BillOfMaterials.PerAssemblyQty -> Password.BusinessEntityID",
+   "verdict": "no",
+   "reason": "Quantity decimal vs entity id"
+  },
+  {
+   "id": "BusinessEntityAddress.BusinessEntityID -> BusinessEntity.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "Same name, near-full coverage"
+  },
+  {
+   "id": "BusinessEntityAddress.AddressID -> Address.AddressID",
+   "verdict": "yes",
+   "reason": "Same name, full coverage"
+  },
+  {
+   "id": "BusinessEntityAddress.AddressTypeID -> AddressType.AddressTypeID",
+   "verdict": "yes",
+   "reason": "Lookup reference by name"
+  },
+  {
+   "id": "BusinessEntityContact.BusinessEntityID -> BusinessEntity.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "Same name; values are store ids"
+  },
+  {
+   "id": "BusinessEntityContact.PersonID -> Person.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "PersonID points at person"
+  },
+  {
+   "id": "BusinessEntityContact.ContactTypeID -> ContactType.ContactTypeID",
+   "verdict": "yes",
+   "reason": "Lookup reference by name"
+  },
+  {
+   "id": "CountryRegionCurrency.CountryRegionCode -> CountryRegion.CountryRegionCode",
+   "verdict": "yes",
+   "reason": "Same name, ISO codes"
+  },
+  {
+   "id": "CountryRegionCurrency.CurrencyCode -> Currency.CurrencyCode",
+   "verdict": "yes",
+   "reason": "Same name, currency codes"
+  },
+  {
+   "id": "CreditCard.ExpMonth -> Employee.BusinessEntityID",
+   "verdict": "no",
+   "reason": "Month number, small-integer overlap"
+  },
+  {
+   "id": "CreditCard.ExpYear -> CurrencyRate.CurrencyRateID",
+   "verdict": "no",
+   "reason": "Year 2005-2008 is not a rate id"
+  },
+  {
+   "id": "CurrencyRate.FromCurrencyCode -> Currency.CurrencyCode",
+   "verdict": "yes",
+   "reason": "Currency code reference"
+  },
+  {
+   "id": "CurrencyRate.ToCurrencyCode -> Currency.CurrencyCode",
+   "verdict": "yes",
+   "reason": "Currency code reference"
+  },
+  {
+   "id": "Customer.PersonID -> Person.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "PersonID points at person"
+  },
+  {
+   "id": "Customer.StoreID -> Store.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "StoreID matches store keys exactly"
+  },
+  {
+   "id": "Customer.TerritoryID -> SalesTerritory.TerritoryID",
+   "verdict": "yes",
+   "reason": "Same name, full coverage"
+  },
+  {
+   "id": "Document.Owner -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Owner is a person, ids 217-220 coincidental"
+  },
+  {
+   "id": "Document.Status -> StateProvince.StateProvinceID",
+   "verdict": "no",
+   "reason": "Status code, not province"
+  },
+  {
+   "id": "EmailAddress.BusinessEntityID -> Password.BusinessEntityID",
+   "verdict": "no",
+   "reason": "Sibling table sharing id; real parent is Person"
+  },
+  {
+   "id": "EmailAddress.EmailAddressID -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Own surrogate id vs unrelated sequence"
+  },
+  {
+   "id": "Employee.SickLeaveHours -> BillOfMaterials.BillOfMaterialsID",
+   "verdict": "no",
+   "reason": "Hours measure"
+  },
+  {
+   "id": "EmployeeDepartmentHistory.BusinessEntityID -> Employee.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "History of employee"
+  },
+  {
+   "id": "EmployeeDepartmentHistory.DepartmentID -> Department.DepartmentID",
+   "verdict": "yes",
+   "reason": "Same name, full coverage"
+  },
+  {
+   "id": "EmployeeDepartmentHistory.ShiftID -> Shift.ShiftID",
+   "verdict": "yes",
+   "reason": "Same name lookup"
+  },
+  {
+   "id": "EmployeePayHistory.BusinessEntityID -> Employee.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "History of employee"
+  },
+  {
+   "id": "EmployeePayHistory.PayFrequency -> Product.ProductID",
+   "verdict": "no",
+   "reason": "Frequency code 1/2"
+  },
+  {
+   "id": "JobCandidate.BusinessEntityID -> Employee.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "Candidate who became employee; ids are employee ids"
+  },
+  {
+   "id": "PersonCreditCard.BusinessEntityID -> Password.BusinessEntityID",
+   "verdict": "no",
+   "reason": "Points at person, not password table"
+  },
+  {
+   "id": "PersonCreditCard.CreditCardID -> CreditCard.CreditCardID",
+   "verdict": "yes",
+   "reason": "Same name, full coverage"
+  },
+  {
+   "id": "PersonPhone.BusinessEntityID -> Password.BusinessEntityID",
+   "verdict": "no",
+   "reason": "Points at person, not password table"
+  },
+  {
+   "id": "PersonPhone.PhoneNumberTypeID -> PhoneNumberType.PhoneNumberTypeID",
+   "verdict": "yes",
+   "reason": "Same name lookup"
+  },
+  {
+   "id": "Product.SafetyStockLevel -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "Product.ReorderPoint -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "Product.SizeUnitMeasureCode -> UnitMeasure.UnitMeasureCode",
+   "verdict": "yes",
+   "reason": "Unit code CM"
+  },
+  {
+   "id": "Product.WeightUnitMeasureCode -> UnitMeasure.UnitMeasureCode",
+   "verdict": "yes",
+   "reason": "Unit codes G/LB"
+  },
+  {
+   "id": "Product.ProductSubcategoryID -> ProductSubcategory.ProductSubcategoryID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "Product.ProductModelID -> ProductModel.ProductModelID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "ProductCostHistory.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "ProductDocument.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "ProductDocument.DocumentNode -> Document.DocumentNode",
+   "verdict": "yes",
+   "reason": "Same name, hierarchy node values match"
+  },
+  {
+   "id": "ProductInventory.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "ProductInventory.LocationID -> Location.LocationID",
+   "verdict": "yes",
+   "reason": "Same name, full coverage"
+  },
+  {
+   "id": "ProductListPriceHistory.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "ProductModelIllustration.ProductModelID -> ProductModel.ProductModelID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "ProductModelIllustration.IllustrationID -> Illustration.IllustrationID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "ProductModelProductDescriptionCulture.ProductModelID -> ProductModel.ProductModelID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "ProductModelProductDescriptionCulture.ProductDescriptionID -> ProductDescription.ProductDescriptionID",
+   "verdict": "yes",
+   "reason": "Same name, full coverage"
+  },
+  {
+   "id": "ProductModelProductDescriptionCulture.CultureID -> Culture.CultureID",
+   "verdict": "yes",
+   "reason": "Culture codes en/ar/fr"
+  },
+  {
+   "id": "ProductProductPhoto.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name, full coverage"
+  },
+  {
+   "id": "ProductProductPhoto.ProductPhotoID -> ProductPhoto.ProductPhotoID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "ProductReview.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "ProductReview.Rating -> Location.LocationID",
+   "verdict": "no",
+   "reason": "Rating score"
+  },
+  {
+   "id": "ProductSubcategory.ProductCategoryID -> ProductCategory.ProductCategoryID",
+   "verdict": "yes",
+   "reason": "Same name, full coverage"
+  },
+  {
+   "id": "ProductVendor.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "ProductVendor.BusinessEntityID -> Vendor.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "Vendor ids 1492+ match"
+  },
+  {
+   "id": "ProductVendor.AverageLeadTime -> CurrencyRate.CurrencyRateID",
+   "verdict": "no",
+   "reason": "Days measure"
+  },
+  {
+   "id": "ProductVendor.MinOrderQty -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "ProductVendor.MaxOrderQty -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "ProductVendor.OnOrderQty -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "ProductVendor.UnitMeasureCode -> UnitMeasure.UnitMeasureCode",
+   "verdict": "yes",
+   "reason": "Same name, unit codes"
+  },
+  {
+   "id": "PurchaseOrderDetail.PurchaseOrderID -> PurchaseOrderHeader.PurchaseOrderID",
+   "verdict": "yes",
+   "reason": "Detail to header, full coverage"
+  },
+  {
+   "id": "PurchaseOrderDetail.PurchaseOrderDetailID -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Own surrogate id vs unrelated sequence"
+  },
+  {
+   "id": "PurchaseOrderDetail.OrderQty -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "PurchaseOrderDetail.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "PurchaseOrderDetail.ReceivedQty -> BusinessEntity.BusinessEntityID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "PurchaseOrderHeader.RevisionNumber -> Customer.CustomerID",
+   "verdict": "no",
+   "reason": "Revision counter"
+  },
+  {
+   "id": "PurchaseOrderHeader.Status -> StateProvince.StateProvinceID",
+   "verdict": "no",
+   "reason": "Status code"
+  },
+  {
+   "id": "PurchaseOrderHeader.EmployeeID -> Employee.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "Employee who placed order; ids 251-261 are employees"
+  },
+  {
+   "id": "PurchaseOrderHeader.VendorID -> Vendor.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "VendorID matches vendor keys"
+  },
+  {
+   "id": "PurchaseOrderHeader.ShipMethodID -> ShipMethod.ShipMethodID",
+   "verdict": "yes",
+   "reason": "Same name, full coverage"
+  },
+  {
+   "id": "SalesOrderDetail.SalesOrderID -> SalesOrderHeader.SalesOrderID",
+   "verdict": "yes",
+   "reason": "Detail to header, full coverage"
+  },
+  {
+   "id": "SalesOrderDetail.OrderQty -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "SalesOrderDetail.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SalesOrderDetail.SpecialOfferID -> SpecialOffer.SpecialOfferID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SalesOrderHeader.RevisionNumber -> Customer.CustomerID",
+   "verdict": "no",
+   "reason": "Revision counter"
+  },
+  {
+   "id": "SalesOrderHeader.Status -> Illustration.IllustrationID",
+   "verdict": "no",
+   "reason": "Constant status code"
+  },
+  {
+   "id": "SalesOrderHeader.CustomerID -> Customer.CustomerID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SalesOrderHeader.SalesPersonID -> SalesPerson.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "Sales person ids 274+ match"
+  },
+  {
+   "id": "SalesOrderHeader.TerritoryID -> SalesTerritory.TerritoryID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SalesOrderHeader.BillToAddressID -> Address.AddressID",
+   "verdict": "yes",
+   "reason": "Address reference by name"
+  },
+  {
+   "id": "SalesOrderHeader.ShipToAddressID -> Address.AddressID",
+   "verdict": "yes",
+   "reason": "Address reference by name"
+  },
+  {
+   "id": "SalesOrderHeader.ShipMethodID -> ShipMethod.ShipMethodID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SalesOrderHeader.CreditCardID -> CreditCard.CreditCardID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SalesOrderHeader.CurrencyRateID -> CurrencyRate.CurrencyRateID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SalesOrderHeaderSalesReason.SalesOrderID -> SalesOrderHeader.SalesOrderID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SalesOrderHeaderSalesReason.SalesReasonID -> SalesReason.SalesReasonID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SalesPerson.TerritoryID -> SalesTerritory.TerritoryID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SalesPersonQuotaHistory.BusinessEntityID -> SalesPerson.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "History of sales person"
+  },
+  {
+   "id": "SalesTaxRate.StateProvinceID -> StateProvince.StateProvinceID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SalesTaxRate.TaxType -> ContactType.ContactTypeID",
+   "verdict": "no",
+   "reason": "Tax type code, not contact type"
+  },
+  {
+   "id": "SalesTerritory.CountryRegionCode -> CountryRegion.CountryRegionCode",
+   "verdict": "yes",
+   "reason": "Same name, ISO codes"
+  },
+  {
+   "id": "SalesTerritoryHistory.BusinessEntityID -> SalesPerson.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "History of sales person"
+  },
+  {
+   "id": "SalesTerritoryHistory.TerritoryID -> SalesTerritory.TerritoryID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "ShoppingCartItem.Quantity -> BusinessEntity.BusinessEntityID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "ShoppingCartItem.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SpecialOffer.MaxQty -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "SpecialOfferProduct.SpecialOfferID -> SpecialOffer.SpecialOfferID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "SpecialOfferProduct.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "StateProvince.CountryRegionCode -> CountryRegion.CountryRegionCode",
+   "verdict": "yes",
+   "reason": "Same name, ISO codes"
+  },
+  {
+   "id": "StateProvince.TerritoryID -> SalesTerritory.TerritoryID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "Store.SalesPersonID -> SalesPerson.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "Sales person ids 274+ match"
+  },
+  {
+   "id": "TransactionHistory.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "TransactionHistory.ReferenceOrderID -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Order reference, not archive transaction id"
+  },
+  {
+   "id": "TransactionHistory.Quantity -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "TransactionHistoryArchive.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "TransactionHistoryArchive.ReferenceOrderID -> WorkOrder.WorkOrderID",
+   "verdict": "unsure",
+   "reason": "Order reference of mixed types; only partly work orders"
+  },
+  {
+   "id": "TransactionHistoryArchive.Quantity -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "Vendor.CreditRating -> CreditCard.CreditCardID",
+   "verdict": "no",
+   "reason": "Rating code 1-5"
+  },
+  {
+   "id": "WorkOrder.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "WorkOrder.OrderQty -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Quantity measure"
+  },
+  {
+   "id": "WorkOrder.ScrapReasonID -> ScrapReason.ScrapReasonID",
+   "verdict": "yes",
+   "reason": "Same name, full coverage"
+  },
+  {
+   "id": "WorkOrderRouting.WorkOrderID -> WorkOrder.WorkOrderID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "WorkOrderRouting.ProductID -> Product.ProductID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "WorkOrderRouting.OperationSequence -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Sequence number"
+  },
+  {
+   "id": "WorkOrderRouting.LocationID -> Location.LocationID",
+   "verdict": "yes",
+   "reason": "Same name"
+  },
+  {
+   "id": "Address.AddressID -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "AddressType.AddressTypeID -> Address.AddressID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "BillOfMaterials.BillOfMaterialsID -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "BusinessEntity.BusinessEntityID -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "ContactType.ContactTypeID -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "CreditCard.CreditCardID -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "CurrencyRate.CurrencyRateID -> CreditCard.CreditCardID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "Customer.CustomerID -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "Department.DepartmentID -> StateProvince.StateProvinceID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "Employee.BusinessEntityID -> Password.BusinessEntityID",
+   "verdict": "no",
+   "reason": "Sibling subtype table, not a parent"
+  },
+  {
+   "id": "Illustration.IllustrationID -> Location.LocationID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "JobCandidate.JobCandidateID -> CurrencyRate.CurrencyRateID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "Location.LocationID -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "Password.BusinessEntityID -> Person.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "One-to-one split of person across tables sharing id"
+  },
+  {
+   "id": "Person.BusinessEntityID -> Password.BusinessEntityID",
+   "verdict": "no",
+   "reason": "Wrong direction; Password depends on Person"
+  },
+  {
+   "id": "PhoneNumberType.PhoneNumberTypeID -> ContactType.ContactTypeID",
+   "verdict": "no",
+   "reason": "Unrelated lookup sequences"
+  },
+  {
+   "id": "Product.ProductID -> CreditCard.CreditCardID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "ProductCategory.ProductCategoryID -> Product.ProductID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "ProductDescription.ProductDescriptionID -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "ProductModel.ProductModelID -> Customer.CustomerID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "ProductPhoto.ProductPhotoID -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "ProductReview.ProductReviewID -> Product.ProductID",
+   "verdict": "no",
+   "reason": "Own id vs unrelated sequence"
+  },
+  {
+   "id": "ProductSubcategory.ProductSubcategoryID -> ProductModel.ProductModelID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "PurchaseOrderHeader.PurchaseOrderID -> WorkOrder.WorkOrderID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "SalesOrderHeader.SalesOrderID -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "SalesPerson.BusinessEntityID -> Employee.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "Sales person is an employee; shared id, ids 274+ in range"
+  },
+  {
+   "id": "SalesReason.SalesReasonID -> ScrapReason.ScrapReasonID",
+   "verdict": "no",
+   "reason": "Unrelated lookup sequences"
+  },
+  {
+   "id": "SalesTaxRate.SalesTaxRateID -> CurrencyRate.CurrencyRateID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "SalesTerritory.TerritoryID -> CreditCard.CreditCardID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "ScrapReason.ScrapReasonID -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "Shift.ShiftID -> ShipMethod.ShipMethodID",
+   "verdict": "no",
+   "reason": "Unrelated lookup sequences"
+  },
+  {
+   "id": "ShipMethod.ShipMethodID -> ScrapReason.ScrapReasonID",
+   "verdict": "no",
+   "reason": "Unrelated lookup sequences"
+  },
+  {
+   "id": "ShoppingCartItem.ShoppingCartItemID -> Location.LocationID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "SpecialOffer.SpecialOfferID -> PurchaseOrderHeader.PurchaseOrderID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "StateProvince.StateProvinceID -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  },
+  {
+   "id": "Store.BusinessEntityID -> BusinessEntity.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "Store is a business entity sharing its id"
+  },
+  {
+   "id": "Vendor.BusinessEntityID -> BusinessEntity.BusinessEntityID",
+   "verdict": "yes",
+   "reason": "Vendor is a business entity sharing its id"
+  },
+  {
+   "id": "WorkOrder.WorkOrderID -> TransactionHistoryArchive.TransactionID",
+   "verdict": "no",
+   "reason": "Unrelated surrogate sequences"
+  }
+ ]
+}

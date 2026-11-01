@@ -6126,3 +6126,48 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      This reads the five lost and not the seven gained, so it does not settle whether a small
      loss is real. The identification rule was not changed: that would alter the description both
      rounds measured, and it needs a round of its own.
+
+182. **A blind judge over everything the gates discard: 91% recall at 95% precision on
+     AdventureWorks and 85% at 95% on MusicBrainz, from 66% / 87% and 44% / 100%. Both predictions
+     held, and both corpora are too famous for that to be clean.**
+
+     `bench/ablation/PLAN-judge.md` was committed before any judge ran, with `JUDGE.md` unchanged and
+     the candidates fixed: every best-scoring containment, no floors, no threshold. Sonnet judges saw
+     one candidate file and nothing else; MusicBrainz went in four parts. About 416k tokens, some
+     $1.50 on the assumption in `bench/minidev2026/PLAN.md`.
+
+     | | Shipped gate | Candidates (the ceiling) | Judged | Predicted at least |
+     |---|---|---|---|---|
+     | AdventureWorks, 91 references | 66% / 87% | 91% / 53% | **91% / 95%** | 75% / 90% |
+     | MusicBrainz, 469 references | 44% / 100% | 85% / 62% | **85% / 95%** | 65% / 85% |
+
+     **The judges dropped no true reference**: every one of the 483 among the candidates was kept, so
+     recall is the candidates' ceiling, and what is still missing is the search's to find. Earlier
+     judges were not this clean (BIRD 85% / 95%, LiveSQLBench 75% / 90%, finding 118's round), which
+     is one reason to distrust it here.
+
+     **What the 24 wrongly kept were.** Few are wrong in any way that would hurt. On MusicBrainz 12
+     are `l_event_*.entity -> event_meta.id` where `event` is declared, two tables sharing an id, a
+     defect of the candidate rather than the judge, as an earlier round's judges reported; 8 are
+     one-to-one splits declared the other way round. On AdventureWorks all 4 hold real products or offers: two
+     are declared only through `SpecialOfferProduct`'s composite key, and two, `WorkOrderRouting`'s and
+     `TransactionHistoryArchive`'s `ProductID`, are not declared at all. So 95% understates precision,
+     as scoring against declared references does.
+
+     **It is more than reading names, on one corpus.** A plain rule over the same candidates,
+     after the fact (the column contains the target's name, or equals its key), gets 90% / 87% on
+     AdventureWorks, close behind, but 55% / 82% on MusicBrainz, whose link tables say only `entity0`.
+
+     **Three cautions.** Both schemas are public and much used, and a judge may know them; DBAutoDoc
+     flags the same for its own AdventureWorks run, and nothing here can rule it out. Beside
+     DBAutoDoc's precision 90.0 and recall 98.9 on AdventureWorks 2022 and LLM-FK's F1 of .93 to .95,
+     this is F1 .93 on AdventureWorks and .90 on MusicBrainz, with different releases and strips and
+     primary keys left in place, so not head-to-head. And a judge is not free or in the shipped
+     path: `apply_references` is unchanged.
+
+     **A deviation.** The first judge of MusicBrainz's part 1 wrote a script of name rules instead of
+     weighing each candidate. That was decided a failed file before anything was scored, and the part
+     was rerun with scripts forbidden. The two gave the same verdict on all 161, with no reason text
+     shared and neither able to see the other, so the choice changed nothing and the decisions in
+     that part are easy ones. The rerun's verdicts are the ones recorded. One judge's report of its
+     own counts was wrong against its file; the files were checked, every candidate once.
