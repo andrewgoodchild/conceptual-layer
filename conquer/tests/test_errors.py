@@ -285,6 +285,31 @@ def main(argv=None):
             failed += 1
             print("FAIL  %s\n        %s\n        %s" % (name, query, note))
 
+    # -- a reading with a number in it ------------------------------------------------------
+    # `has home 1`, from a column `home_player_1`. The description lists the verb part, so a
+    # number in it has to parse, or the writer is told to say something the compiler refuses
+    # (BIRD's european_football_2, finding 176).
+    name = "a verb part may hold a number"
+    if not args.only or args.only.lower() in name.lower():
+        numbered = copy.deepcopy(model)
+        fact = next(c for c in numbered["concepts"]
+                    if c["kind"] == "fact" and any(r.get("text") == "{0} has {1}"
+                                                   for r in c.get("readings", [])))
+        for r in fact["readings"]:
+            if r.get("text") == "{0} has {1}":
+                r["text"] = "{0} has lead 1 {1}"
+        lex = parser_mod.Lexicon(numbered)
+        got = [v for v in ("has lead 1", "is lead 1 of") if v in lex.verbs]
+        for verb in got:
+            parsed = parser_mod.Parser(lex, verb)
+            if parsed.match_verb() != verb:
+                got = []
+        if len(got) == 2:
+            passed += 1
+        else:
+            failed += 1
+            print("FAIL  %s\n        %r" % (name, sorted(v for v in lex.verbs if "1" in v)))
+
     # -- the one thing a *running* query says about itself ---------------------------------
     # Every other message here is a refusal. This one fires on a query that compiled and ran,
     # which is the class the benchmark loses answers to: 13 of 984 misses across 30 arms are

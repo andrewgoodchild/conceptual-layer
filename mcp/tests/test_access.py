@@ -7,8 +7,8 @@ what must be gone, and what must still be there -- because a restriction that hi
 everything passes every "is it hidden" test.
 
 The PostgreSQL half (a login's privileges, row-level security) is exercised against a stand-in
-connection that answers the three catalogue queries `access.from_entry` asks; there is no
-server in this suite.
+connection that answers the catalogue queries `access.from_entry` asks; there is no server in
+this suite. test_pg_access.py runs the same refusals against a live one.
 
     test_access.py [-v]
 """
@@ -42,15 +42,18 @@ def names(model):
 
 
 class FakePostgres:
-    """Answers what the login is (superuser, BYPASSRLS, roles it can climb to),
-    has_table_privilege, has_column_privilege and relrowsecurity from dicts."""
+    """Answers what the login is (superuser, BYPASSRLS, roles it can climb to), what it can
+    write, has_table_privilege, has_column_privilege and relrowsecurity from dicts."""
 
-    def __init__(self, tables, columns, rls, login=(False, False, None)):
+    def __init__(self, tables, columns, rls, login=(False, False, None), writes=None):
         self.tables, self.columns, self.rls, self.login = tables, columns, rls, login
+        self.writes = writes
 
     def execute(self, sql, params):
         if "rolsuper" in sql:
             return type("Cursor", (), {"fetchone": lambda self_: self.login})()
+        if "has_schema_privilege" in sql:
+            return type("Cursor", (), {"fetchone": lambda self_: (self.writes,)})()
         bare = params[0].split(".")[-1].strip('"')
         if "has_table_privilege" in sql:
             got = self.tables.get(bare, False)
@@ -177,6 +180,17 @@ def main(argv):
     acc = access.from_entry(dict(pg_entry, trusted=True), model,
                             FakePostgres(**grants, login=(True, False, None)))
     check("unless the entry is marked trusted", "Project" in names(acc.restrict(model)))
+    refuses("a login that can write is refused: the caller's SQL lifts a read-only session",
+            pg_entry, FakePostgres(**grants, writes="public.employee"), "public.employee")
+    refuses("so is one that can run programs on the server",
+            pg_entry, FakePostgres(**grants, writes="pg_execute_server_program"),
+            "pg_execute_server_program")
+    refuses("a long list of what it can write is cut short",
+            pg_entry, FakePostgres(**grants, writes=", ".join("t%d" % i for i in range(9))),
+            "and 4 more")
+    acc = access.from_entry(dict(pg_entry, trusted=True), model,
+                            FakePostgres(**grants, writes="public.employee"))
+    check("unless that entry is marked trusted too", "Project" in names(acc.restrict(model)))
     refuses("`role` is refused: a role set after connecting is undone by the caller's SQL",
             dict(pg_entry, role="analyst"), FakePostgres(**grants), "role")
     refuses("`tables` and `hide` are refused on PostgreSQL: nothing there enforces them",

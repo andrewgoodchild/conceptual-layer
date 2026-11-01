@@ -24,7 +24,11 @@ caller's own `RESET ROLE` or `set_config('role', ...)` undoes it, which is why t
 `role` key, and `tables`/`hide` are refused there for the same reason -- grant SELECT to a
 login instead. A login that can see past its own grants is refused too: a superuser, one
 with BYPASSRLS, or one that can SET ROLE to a role whose privileges it does not inherit.
-`"trusted": true` serves such a login anyway, described as it sees it, for its owner's use.
+So is one that can change the database or reach the server's files: read-only on PostgreSQL is
+a session default, and the caller's own `BEGIN READ WRITE`, or a DO block that commits, lifts
+it, so only the grants stop a write. Lifted, it still lets a SELECT-only login make a temporary
+table or a large object, which no table grant governs (mcp/README.md says what to revoke).
+`"trusted": true` serves any of these anyway, as it sees the database, for its owner's use.
 
 What this module adds on PostgreSQL is the description: the model was profiled from every
 row, so on a table under a row-level policy the value domains and cautions are dropped. Some
@@ -211,6 +215,22 @@ CLIMB = ("SELECT r.rolsuper, r.rolbypassrls, "
          "AND NOT pg_has_role(session_user, o.oid, 'USAGE')) "
          "FROM pg_roles r WHERE r.rolname = session_user")
 
+# What a login could change, or read and run outside the database, once the caller's SQL has
+# lifted the read-only default. A SECURITY DEFINER function is not visible here.
+WRITES = ("SELECT string_agg(w, ', ') FROM ("
+          "SELECT quote_ident(n.nspname) || '.' || quote_ident(c.relname) AS w "
+          "FROM pg_class c JOIN pg_namespace n ON n.oid = c.relnamespace "
+          "WHERE c.relkind IN ('r', 'p', 'v', 'f') "
+          "AND n.nspname <> 'information_schema' AND n.nspname !~ '^pg_' "
+          "AND (has_table_privilege(c.oid, 'INSERT, UPDATE, DELETE, TRUNCATE') "
+          "OR has_any_column_privilege(c.oid, 'INSERT, UPDATE')) "
+          "UNION ALL SELECT 'schema ' || quote_ident(nspname) FROM pg_namespace "
+          "WHERE nspname <> 'information_schema' AND nspname !~ '^pg_' "
+          "AND has_schema_privilege(oid, 'CREATE') "
+          "UNION ALL SELECT rolname::text FROM pg_roles WHERE rolname IN "
+          "('pg_execute_server_program', 'pg_read_server_files', 'pg_write_server_files') "
+          "AND pg_has_role(session_user, oid, 'USAGE')) reach")
+
 
 def from_entry(entry, model=None, conn=None):
     """The Access a config entry asks for. On PostgreSQL, read from the database as the DSN's
@@ -231,6 +251,7 @@ def from_entry(entry, model=None, conn=None):
                           "the login's privileges")
     try:
         superuser, bypass, climbs = conn.execute(CLIMB, ()).fetchone()
+        writes = conn.execute(WRITES, ()).fetchone()[0]
     except Exception as e:                                          # noqa: BLE001
         raise AccessError("could not read what the login may do: %s" % e)
     above = [w for w, on in (("a superuser", superuser), ("BYPASSRLS", bypass),
@@ -240,6 +261,14 @@ def from_entry(entry, model=None, conn=None):
                           "caller can read. Use a login with only the grants the caller "
                           "should have, or set \"trusted\": true to serve it anyway."
                           % " and ".join(above))
+    if writes and not entry.get("trusted"):
+        some = writes.split(", ")
+        raise AccessError("the DSN's login can change the database or reach the server's files "
+                          "(%s%s), and the caller's own SQL can lift a read-only session: only "
+                          "its grants stop a write. Use a login with only SELECT, or set "
+                          "\"trusted\": true to serve it anyway."
+                          % (", ".join(some[:5]), " and %d more" % (len(some) - 5)
+                             if len(some) > 5 else ""))
     mapping = model.get("mapping") or {}
     tname = {t["id"]: t for t in mapping.get("tables", [])}
     allowed, rls = [], []

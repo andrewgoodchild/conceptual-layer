@@ -98,9 +98,11 @@ class _Server:
     """A PostgreSQL connection behind the calls the runner makes of sqlite3: `execute(sql,
     params)` with `?` markers, a cursor with `description` and `fetch*`, and `close()`.
 
-    Read-only, as the SQLite path is, and with a statement timeout: a runner has no business
-    writing to the database it reads, and a query that never ends would otherwise hold a
-    writer's whole budget. Parameters are bound client-side, quoted by the driver, because
+    Read-only, and with a statement timeout: a runner has no business writing to the database
+    it reads, and a query that never ends would otherwise hold a writer's whole budget. Unlike
+    the SQLite path this is a session default, which hand-written SQL can lift (`BEGIN READ
+    WRITE`, a DO block that commits), so what stops a write is the login's grants: mcp/access.py
+    refuses a login that has them. Parameters are bound client-side, quoted by the driver, because
     the server cannot type a bare `(SELECT $1)` -- which is how a constant group key is
     spelled -- and every scorer inlines them the same way."""
 

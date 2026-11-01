@@ -105,7 +105,7 @@ python3 conquer/conquer.py MODEL.ccm.json --db DB.sqlite "Employee has EmployeeN
 | `--schema --for "…"` | only the part of the model a question is about — schema linking, measured in [7](07-what-we-measured.md#schema-linking-the-lever-the-leaderboards-agree-on) |
 | `--schema --relational` | the same description with where each thing is stored beside it — table and key, column, JSON field as `col->'a'->>'b'`, foreign key as `referencing -> key` — for a reader who will write SQL rather than ConQuer (finding 163 measured it) |
 | `--db` | the database to run against — refused if the model does not describe it, since a model is bound to one physical schema and a *partly* overlapping database would otherwise return wrong rows |
-| `--dsn` | a PostgreSQL URL instead of `--db`; read-only, with a two-minute statement limit (needs `psycopg`) |
+| `--dsn` | a PostgreSQL URL instead of `--db`; a read-only session, with a two-minute statement limit (needs `psycopg`). Hand-written SQL can lift a session default, so the MCP server wants a login with only SELECT ([`mcp/`](../mcp/README.md)) |
 | `--sql-only` | print the SQL and stop |
 | `--show-sql` | print the SQL *and* the rows |
 | `--explain` | read the query back in English, with its assumptions and risks, without running |

@@ -32,7 +32,10 @@ model is built on demand.
 | `check_sql` | the same check without running: an aggregate over rows a join multiplies, rows a join repeats, a join on columns the model does not relate, a cross product, SUM(DISTINCT), a sum of a non-additive value — each with what to write instead (`conquer/sqlcheck.py`, needs `sqlglot`) |
 | prompt `writing_brief` | how to work with the tools: `conquer` (with the one-page primer) or `sql` |
 
-Every connection is read-only, with a statement timeout on PostgreSQL.
+Every SQLite connection is opened read-only, and a query is stopped after two minutes. On
+PostgreSQL read-only is a session default, with the same timeout, and it holds only as far as the login's grants: `run_sql` takes the
+caller's SQL as written, and `BEGIN READ WRITE`, or a DO block that commits, lifts the default.
+So give the DSN a login with only SELECT, as below; the server refuses one that can write.
 
 ## What a caller may see
 
@@ -50,14 +53,21 @@ the caller's own `RESET ROLE` or `set_config('role', ...)`. `tables` and `hide` 
 here for the same reason -- nothing would enforce them; grant SELECT to a login instead. A
 login that can see past its own grants -- a superuser, BYPASSRLS, or one that can SET ROLE to
 a role whose privileges it does not inherit -- is refused unless its entry says
-`"trusted": true`, for its owner's own use. If any of this cannot be read, nothing is
-described or run.
+`"trusted": true`, for its owner's own use, and so is one that can write to a table, create in
+a schema, or holds `pg_execute_server_program`, `pg_read_server_files` or
+`pg_write_server_files`. If any of this cannot be read, nothing is described or run.
+
+Those checks cannot see two things. A SELECT-only login can still lift the default and make a
+temporary table or a large object, and a large object outlives the connection: `REVOKE TEMP ON
+DATABASE` from `PUBLIC`, and `REVOKE EXECUTE` on `lo_create(oid)`, `lo_creat(integer)` and
+`lo_from_bytea(oid, bytea)`, if that matters. And a SECURITY DEFINER function it may execute writes as its owner.
 
 Either way the restriction is applied to the model before anything reads it, so a hidden
 table is absent from the description -- never in the "not shown" list, never in a caution.
 The server has no notion of who its client is; the identity is the DSN's, so serve each login
 from its own server. `access.py` has the detail and `tests/test_access.py` the cases; the
-PostgreSQL half runs against a stand-in connection, not a live server.
+PostgreSQL half runs against a stand-in connection, and `tests/test_pg_access.py` against a live
+server when `CONCEPTUAL_LAYER_TEST_DSN` names one.
 
 ## What the SQL checker is worth
 
@@ -84,6 +94,11 @@ listing to search. What `run_query` adds is the reading back and the fan trap ha
 the model — a value summed once, an ambiguous count refused — and the honest finding is that writers rarely produce the shapes
 they guard. So: `describe_schema(relational=True)` and `run_sql` is the configuration the
 numbers recommend; `run_query` is there for a query you want checked and read back.
+
+One round cut against that and then did not repeat. On BIRD's October 2026 release, with Sonnet
+writers, SQL from the description scored 79 of 100 against 88 for SQL from the DDL (finding 176),
+then 90 against 88 on 100 new questions (finding 177). Neither is a difference by the rule set in
+advance. There is no measured case for carrying the DDL too; a loss of a few points is not ruled out.
 
 The build flags are the ones the benchmark models were built with, and a model wants the
 data: every pass past the catalogue reads the rows. A PostgreSQL database needs its model
