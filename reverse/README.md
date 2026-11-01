@@ -192,7 +192,7 @@ rule 7 fires and says so. That is the correct behaviour, not a bug.
 declare its keys is a labelled set: remove the declarations from the catalogue, run the
 inference against the data alone, and compare. That is how the literature reports this --
 Jiang & Naumann's HoPF (JIIS 54:439-461, 2020) retrieves 88% of primary keys and 91% of
-foreign keys -- and it is the only way to know whether a rule is finding keys or inventing
+foreign keys, at 63% precision on the foreign keys, on five corpora of its own -- and it is the only way to know whether a rule is finding keys or inventing
 them.
 
 **Name the corpus with the number.** The inference leans on naming convention, so the same
@@ -203,6 +203,8 @@ both reproducible, measured with the command above:
 |---|---|---|
 | BIRD mini-dev, 11 databases, 75 tables (`bench/fetch.sh` gets it) | **94% recall, 97% precision** | **81% recall, 100% precision** |
 | Spider 2.0, the 11 local schemas that declare keys, 156 tables | 83% recall, 98% precision | 69% recall, 97% precision |
+| AdventureWorks OLTP, 71 tables (finding 179) | 70% recall, 77% precision | 77% recall, 91% precision |
+| The same, every table and column renamed | 20% recall, 78% precision | 26% recall, 38% precision |
 
 Before rules 9b and 9c the same harness reported 75% / 96% for keys and 55% / 92% for
 references, so the gain is real; an earlier write-up quoted 91% and 75% from a different,

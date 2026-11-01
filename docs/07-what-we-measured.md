@@ -299,11 +299,19 @@ python3 reverse/tests/test_inference.py --db bench/bird/minidev/MINIDEV/dev_data
 |---|---|---|
 | BIRD mini-dev, 11 schemas, 75 tables | 94% recall, 97% precision | 81% recall, 100% precision |
 | Spider 2.0, 11 key-declaring schemas, 156 tables | 83% recall, 98% precision | 69% recall, 97% precision |
+| AdventureWorks OLTP, 71 tables | 70% recall, 77% precision | 77% recall, 91% precision |
+| The same, every table and column renamed | 20% recall, 78% precision | 26% recall, 38% precision |
 
 **Name the corpus whenever you quote these.** The same code scores 94% and 83% on primary keys
 depending on which schemas it is asked about, because the inference leans on naming convention
 and conventions differ. An earlier selection of Spider schemas gave 91% and 75%; it was not a
 better algorithm, it was an easier eleven.
+
+The last two rows are the same rows of data, and the gap between them is how much of this
+recovery is reading names. AdventureWorks is the schema the recent papers share, though the
+best of those, DBAutoDoc at 90% precision and 99% recall with an LLM, reports a different
+release. MusicBrainz, the other shared corpus, could not be measured: the search tests every
+column against every key, roughly 190 hours per analysis on its 25.7M rows (finding 179).
 
 Precision is the number that matters. A missing key costs one table; a wrong key is a wrong
 identity in every query that walks it, and a wrong foreign key is a join that answers a

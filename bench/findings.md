@@ -5999,3 +5999,57 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      coincidences and which are two defensible queries that part where the data does, a false alarm
      rate this design does not measure, and only foreign keys the catalogue declares are kept
      consistent.
+
+179. **Held to the corpus the papers share, the reverse engineer gets 77% of AdventureWorks's
+     foreign keys at 91% precision, and with every name destroyed 26% at 38%: most of what it
+     finds, it finds by reading names. MusicBrainz could not be run.**
+
+     HoPF, LLM-FK and DBAutoDoc all report on AdventureWorks and most on MusicBrainz, so the
+     bar at last means the same schema. `bench/ablation/corpora.py` reads the published T-SQL
+     and PostgreSQL scripts as text, with `fetch-corpora.sh` pinning what they read: AdventureWorks
+     OLTP has 71 tables, 759k rows and 91 foreign keys with no violations. `corpora.py destroy`
+     then renames every table and column in a seeded shuffle, keeping the rows. Declared primary
+     keys stay in place for the `refs.py` arms, which strip only foreign keys; the shipped pipeline
+     strips both. Some papers strip everything, so this is an easier setting than theirs.
+
+     | AdventureWorks | named: recall / precision | names destroyed: recall / precision |
+     |---|---|---|
+     | Shipped pipeline, primary keys | 70% / 77% | 20% / 78% |
+     | Shipped pipeline, foreign keys | 77% / 91% | 26% / 38% |
+     | `refs.py names` (name-corroborated gate) | 66% / 87% | 27% / 35% |
+     | `refs.py rules@2.6` ("data" as shipped) | 65% / 84% | 27% / 64% |
+     | `refs.py` relaxed, score at least 3.0 | 73% / 89% | 30% / 68% |
+     | `refs.py` relaxed, no score floor | 91% / 51% | 34% / 19% |
+
+     **The "data alone" arm was never name-free.** Under `ignore_names` names score zero, but
+     `name_score` still chooses among containments the data has proven (`reverse/population.py`,
+     finding 120, deliberate). That is why `rules` recovers 65% on real names and 27% on none.
+     Every earlier "on the data" figure in this file carries that help, and the names-destroyed
+     column is the first measure here with no real name in it. The tie-break still runs there, on
+     look-alike names such as `c0012` and `c0017`, so it chooses arbitrarily rather than not at all,
+     and those names are presumably what drags the name-using arms to 35% and 38% precision. Read
+     that column's recall across the arms, and its precision on `rules` and the relaxed gates:
+     about a quarter of the references, at about two-thirds precision, on this one corpus.
+
+     The comparators are not head-to-head, and precision and recall below are in that order, as
+     each paper gives them. DBAutoDoc reports 90.0% / 98.9% on AdventureWorks 2022, with an LLM and
+     gates, its statistics alone finding 15 of 91, and flags training contamination. LLM-FK reports
+     F1 of .93 to .95 on corpora including AdventureWorks. HoPF's .31 / .84 on AdventureWorks, and
+     .27 / .72 without names, are on a 27-table warehouse variant; LLM-FK's own run of HoPF scored
+     .57 / .45 on AdventureWorks. So the nearest thing to a fair reading is that 91% / 77% here
+     matches DBAutoDoc's precision with no LLM and no model cost, and misses a fifth more of the
+     references, on a different release of the schema.
+
+     **MusicBrainz was not measured.** The sample dump (20261001-000001) loads with 236 tables,
+     25.7M rows and 469 foreign-key columns with no violations, then the search stopped being
+     usable. It tests every column against every single-column key, about 264,000 pairs at
+     least (1,568 columns, 169 keys), each a full `EXCEPT` and a distinct count. Sized from the real
+     row counts at the rate one mid-sized pair ran, that is about 190 hours per analysis, a rough
+     figure from a single timing, and four analyses were planned. The first was stopped at 1h50m
+     with nothing recorded. This is a limit of the search as built, and `_contained` is what has
+     to change before any larger corpus.
+
+     **TPC-E was skipped.** Its data comes only from TPC's EGen, under a licence a person must
+     accept. `fetch-corpora.sh` was not run end to end: the files were fetched by hand first,
+     and the script's checksums come from those. MusicBrainz's DDL is pinned from master, not from
+     a release matching the dump.
