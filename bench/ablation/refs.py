@@ -232,6 +232,7 @@ def main(argv=None):
                                    "rank"])
     p.add_argument("--db")
     p.add_argument("--dbdir", default=DBDIR, help="where the databases are (default LiveSQL; BIRD: %s)" % BIRD)
+    p.add_argument("--corpus", help="the name results are recorded under (default from --dbdir)")
     p.add_argument("--eps", type=float, default=0.02, help="approx: share of distinct values that may dangle")
     p.add_argument("--floor", type=float, default=2.0, help="llm-export: lowest score exported")
     p.add_argument("--own-key", action="store_true",
@@ -246,13 +247,13 @@ def main(argv=None):
     dbs = [name for name, _ in databases(args.dbdir)]
     if args.db:
         dbs = [d for d in dbs if args.db in d]
-    corpus = "bird" if os.path.abspath(args.dbdir) == os.path.abspath(BIRD) else "livesql"
+    corpus = args.corpus or ("bird" if os.path.abspath(args.dbdir) == os.path.abspath(BIRD)
+                             else "livesql")
     if args.arm == "rank":
         # one pass per database, everything recorded; the arms are computed by assign.py
         dbs = [name for name, _ in databases(args.dbdir)]
         if args.db:
             dbs = [d for d in dbs if args.db in d]
-        corpus = "bird" if os.path.abspath(args.dbdir) == os.path.abspath(BIRD) else "livesql"
         record = {"arm": "rank", "databases": {}}
         print("%-34s %8s %10s %8s" % ("database", "truth", "columns", "secs"))
         for db in dbs:

@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 163,
+  "answer": "select t.team_long_name from Match m join League l on l.id=m.league_id join Team t on t.team_api_id=m.away_team_api_id where l.name like '%Scot%' and m.season='2009/2010' and m.away_team_goal>m.home_team_goal group by t.team_api_id having count(*)=(select max(c) from (select count(*) c from Match m2 join League l2 on l2.id=m2.league_id where l2.name like '%Scot%' and m2.season='2009/2010' and m2.away_team_goal>m2.home_team_goal group by m2.away_team_api_id))",
+  "attempts": 1
+ },
+ {
+  "question_id": 168,
+  "answer": "select (select avg(ball_control) from Player_Attributes a join Player p using(player_api_id) where p.player_name='Abdou Diallo') - (select avg(ball_control) from Player_Attributes a join Player p using(player_api_id) where p.player_name='Aaron Appindangoye')",
+  "attempts": 1
+ },
+ {
+  "question_id": 170,
+  "answer": "select a.date from Player_Attributes a join Player p using(player_api_id) where p.player_name='Kevin Constant' order by a.crossing desc, a.date asc limit 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 172,
+  "answer": "select round(avg(height),2) from Player where height>180 and player_api_id in (select home_player_3 from Match where home_player_3 is not null)",
+  "attempts": 1
+ },
+ {
+  "question_id": 174,
+  "answer": "with r as (select player_api_id, overall_rating, row_number() over (partition by player_api_id order by date desc) rn from Player_Attributes where date<='2010-12-31 23:59:59' and overall_rating is not null), s as (select player_api_id from r where rn=1 and overall_rating>80), pm as (select p, count(*) n from (select home_player_1 as p from Match where season='2010/2011' union all select home_player_2 as p from Match where season='2010/2011' union all select home_player_3 as p from Match where season='2010/2011' union all select home_player_4 as p from Match where season='2010/2011' union all select home_player_5 as p from Match where season='2010/2011' union all select home_player_6 as p from Match where season='2010/2011' union all select home_player_7 as p from Match where season='2010/2011' union all select home_player_8 as p from Match where season='2010/2011' union all select home_player_9 as p from Match where season='2010/2011' union all select home_player_10 as p from Match where season='2010/2011' union all select home_player_11 as p from Match where season='2010/2011' union all select away_player_1 as p from Match where season='2010/2011' union all select away_player_2 as p from Match where season='2010/2011' union all select away_player_3 as p from Match where season='2010/2011' union all select away_player_4 as p from Match where season='2010/2011' union all select away_player_5 as p from Match where season='2010/2011' union all select away_player_6 as p from Match where season='2010/2011' union all select away_player_7 as p from Match where season='2010/2011' union all select away_player_8 as p from Match where season='2010/2011' union all select away_player_9 as p from Match where season='2010/2011' union all select away_player_10 as p from Match where season='2010/2011' union all select away_player_11 as p from Match where season='2010/2011') group by p) select round(avg(coalesce(pm.n,0)),2) from s left join pm on pm.p=s.player_api_id",
+  "attempts": 2
+ },
+ {
+  "question_id": 181,
+  "answer": "select t.team_long_name, t.team_short_name, count(*) wins from Match m join Team t on t.team_api_id=m.home_team_api_id where m.home_team_goal-m.away_team_goal>=3 and (select ta.buildUpPlaySpeedClass from Team_Attributes ta where ta.team_api_id=m.home_team_api_id and ta.date<=m.date order by ta.date desc limit 1)='Fast' group by t.team_api_id",
+  "attempts": 1
+ }
+]

@@ -34,7 +34,12 @@ now sit in `data/` (`livesqlbench_large_v1_gt.jsonl`, `livesqlbench_base_lite_sq
 The large tier's databases are 2.6 GB of PostgreSQL dumps under `data/dumps/`; the gold is
 PostgreSQL SQL, so scoring it needs a server. `docker run … postgres:17` with the dumps mounted
 at `/docker-entrypoint-initdb.d/postgre_table_dumps` and the dataset's own
-`init-databases_postgresql_large.sh` loads all 18 as `<name>_template`; `score_pg.py` then
+`init-databases_postgresql_large.sh` loads all 18 as `<name>_template`. **Load it on a
+case-insensitive filesystem**, as macOS is: the script names 37 of `organ_transplant`'s 57 tables
+and 34 of `mental_healths`' 55 in a case their dumps do not have, so on Linux it skips them
+(upstream issue #10), and every one of the 39 `Query` golds in those two databases then fails
+(finding 175). One of `labor_certification`'s 50 tables has no dump at all. Upstream has since
+moved to PostgreSQL 18; the rounds here ran on 17. `score_pg.py` then
 scores an arm the way `score_sqlite.py` does, through `psycopg`. `pilot.py --tier large-pg`
 builds the arms against that server rather than the SQLite copies: the SQL arm's `try` is
 the container's `psql`, the ConQuer arm's is `conquer.py --dsn`, both read-only with a

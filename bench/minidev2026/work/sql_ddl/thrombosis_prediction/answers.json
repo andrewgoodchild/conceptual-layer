@@ -1,0 +1,87 @@
+[
+ {
+  "question_id": 388,
+  "answer": "select count(distinct l.ID) from Laboratory l join Patient p on p.ID=l.ID where l.CRP like '%+%' and p.Description is null",
+  "attempts": 1
+ },
+ {
+  "question_id": 398,
+  "answer": "select count(*) from Patient p where Admission='-' and exists(select 1 from Laboratory where ID=p.ID and HCT is not null and (HCT<=29 or HCT>=52)) and exists(select 1 from Laboratory where ID=p.ID and RNP<>'negative' and cast(RNP as real)>16)",
+  "attempts": 1
+ },
+ {
+  "question_id": 401,
+  "answer": "select round(avg(l.TP-8.5),3) from Laboratory l where l.TP>8.5 and l.ID in (select p.ID from Patient p join Examination e on e.ID=p.ID where p.SEX='F' and e.Diagnosis like '%SLE%' and e.Diagnosis not like '%susp%')",
+  "attempts": 1
+ },
+ {
+  "question_id": 406,
+  "answer": "select sum(p.SEX='F') as women, sum(p.SEX='M') as men from Patient p where exists(select 1 from Laboratory where ID=p.ID and RNP<>'negative' and cast(RNP as real)>32)",
+  "attempts": 1
+ },
+ {
+  "question_id": 409,
+  "answer": "select count(distinct ID) from Examination where Thrombosis>0 and \"Examination Date\" between '1997-01-01' and '1997-12-31'",
+  "attempts": 1
+ },
+ {
+  "question_id": 424,
+  "answer": "select count(distinct p.ID) from Patient p join Laboratory l on l.ID=p.ID where p.SEX='F' and l.DNA is not null and l.DNA<>'' and cast(l.DNA as real)<8",
+  "attempts": 1
+ },
+ {
+  "question_id": 435,
+  "answer": "select p.ID, p.SEX, l.Date, l.\"U-PRO\" from Laboratory l join Patient p on p.ID=l.ID where l.\"U-PRO\" is not null and l.\"U-PRO\"<>'' and l.Date=(select max(Date) from Laboratory where ID=l.ID and \"U-PRO\" is not null and \"U-PRO\"<>'')",
+  "attempts": 1
+ },
+ {
+  "question_id": 438,
+  "answer": "select p.Birthday from Patient p join Laboratory l on l.ID=p.ID where p.ID in (select ID from Laboratory where RNP<>'negative' and cast(RNP as real)>=16) and l.GPT<60 group by p.ID order by max(l.GPT) desc, p.ID limit 3",
+  "attempts": 1
+ },
+ {
+  "question_id": 440,
+  "answer": "select cast((julianday(l.Date)-julianday(p.Birthday))/365.25 as int) as age, p.Diagnosis from Laboratory l join Patient p on p.ID=l.ID where p.Admission='+' and l.DNA<>'' order by cast(l.DNA as real) desc, l.Date limit 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 446,
+  "answer": "select (select count(*) from Patient p where SEX='F' and exists(select 1 from Laboratory l where l.ID=p.ID and l.Date=(select max(Date) from Laboratory where ID=p.ID) and RNP<>'negative' and cast(RNP as real)>=32)) - (select count(*) from Patient p where SEX='M' and exists(select 1 from Laboratory l where l.ID=p.ID and l.Date=(select max(Date) from Laboratory where ID=p.ID) and RNP<>'negative' and cast(RNP as real)>=32))",
+  "attempts": 1
+ },
+ {
+  "question_id": 451,
+  "answer": "select count(*) from Patient where SEX='F' and \"First Date\" between '1998-01-01' and '1998-12-31' and Admission like '+%'",
+  "attempts": 1
+ },
+ {
+  "question_id": 453,
+  "answer": "select Diagnosis from Patient where \"First Date\" between '1998-02-15' and '1998-02-28' and Admission like '+%' order by Birthday, ID limit 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 454,
+  "answer": "select round(avg(\"aCL IgM\"),1) from Examination where Diagnosis like '%SLE%' and Diagnosis not like '%susp%' and \"Examination Date\" between '1993-10-01' and '1993-10-31'",
+  "attempts": 2
+ },
+ {
+  "question_id": 455,
+  "answer": "select count(*) from Patient where Diagnosis like '%psoriatic arthritis%'",
+  "attempts": 1
+ },
+ {
+  "question_id": 456,
+  "answer": "select SEX, count(*) from Patient p where SEX in ('M','F') and not exists(select 1 from Laboratory where ID=p.ID and GPT>=60) group by SEX",
+  "attempts": 1
+ },
+ {
+  "question_id": 462,
+  "answer": "select count(*) from Patient p where exists(select 1 from Laboratory where ID=p.ID and SM in ('negative','0')) and not exists(select 1 from Examination where ID=p.ID and Thrombosis>0) and exists(select 1 from Laboratory where ID=p.ID and \"U-PRO\" in ('30','100','300','+1(30)','+2(100)','>=300','>=1000'))",
+  "attempts": 1
+ },
+ {
+  "question_id": 465,
+  "answer": "select count(distinct p.ID) from Patient p join Laboratory l on l.ID=p.ID where p.SEX='F' and l.WBC>3.5 and l.WBC<9.0 and (l.FG<=150 or l.FG>=450) and l.RNP<>'negative' and cast(l.RNP as real)>15",
+  "attempts": 1
+ }
+]

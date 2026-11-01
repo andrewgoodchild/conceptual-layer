@@ -78,6 +78,12 @@ def main(argv):
     out = server.run_sql("company", "CREATE TABLE zz (a INT)")
     check("the connection is read-only", "SQL error" in out and "readonly" in out.lower() or "read-only" in out.lower(), out[:200])
 
+    forever = "WITH RECURSIVE n(i) AS (SELECT 1 UNION ALL SELECT i + 1 FROM n) SELECT COUNT(*) FROM n"
+    seconds, server.SQLITE_SECONDS = server.SQLITE_SECONDS, 0
+    out = server.run_sql("company", forever)
+    server.SQLITE_SECONDS = seconds
+    check("a query that will not finish is stopped, and says so", out.startswith("stopped"), out[:200])
+
     import sqlcheck
     if sqlcheck.available():
         out = server.run_sql("company", "SELECT SUM(d.budget) FROM department d "

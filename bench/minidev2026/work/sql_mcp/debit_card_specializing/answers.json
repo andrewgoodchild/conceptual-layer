@@ -1,0 +1,17 @@
+[
+ {
+  "question_id": 149,
+  "answer": "WITH t AS (SELECT c.Segment s, c.CustomerID id, SUM(y.Consumption) tot FROM yearmonth y JOIN customers c ON c.CustomerID=y.CustomerID WHERE c.Currency='CZK' AND y.Date LIKE '2013%' AND c.Segment IN ('SME','LAM','KAM') GROUP BY c.Segment, c.CustomerID), r AS (SELECT s,id,tot,ROW_NUMBER() OVER (PARTITION BY s ORDER BY tot,id) rn FROM t WHERE tot IS NOT NULL), m AS (SELECT s,id,tot FROM r WHERE rn=1) SELECT ROUND((SELECT tot FROM m WHERE s='SME')-(SELECT tot FROM m WHERE s='LAM'),2) a, ROUND((SELECT tot FROM m WHERE s='LAM')-(SELECT tot FROM m WHERE s='KAM'),2) b, ROUND((SELECT tot FROM m WHERE s='KAM')-(SELECT tot FROM m WHERE s='SME'),2) c",
+  "attempts": 1
+ },
+ {
+  "question_id": 151,
+  "answer": "SELECT t.CustomerID, ROUND((SUM(CASE WHEN y.Date LIKE '2013%' THEN y.Consumption END)-SUM(CASE WHEN y.Date LIKE '2012%' THEN y.Consumption END))*1.0/SUM(CASE WHEN y.Date LIKE '2012%' THEN y.Consumption END),4) r FROM transactions_1k t JOIN yearmonth y ON y.CustomerID=t.CustomerID WHERE t.Price=634.8 AND t.Date='2012-08-25' GROUP BY t.CustomerID",
+  "attempts": 1
+ },
+ {
+  "question_id": 155,
+  "answer": "SELECT CAST((julianday(MAX(t.Date||' '||t.Time))-julianday(MIN(t.Date||' '||t.Time)))*1440 AS INTEGER) m, MIN(t.Date||' '||t.Time), MAX(t.Date||' '||t.Time), COUNT(*) FROM transactions_1k t JOIN gasstations g ON g.GasStationID=t.GasStationID WHERE g.Country='CZE' AND t.Price>1000",
+  "attempts": 1
+ }
+]

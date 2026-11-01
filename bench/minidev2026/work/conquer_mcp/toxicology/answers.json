@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 469,
+  "answer": "DEFINE MolSingle ::= LIST m, c FROM Bond b has Molecule m AND ALSO has BondType: '-' AND ALSO THE COUNT OF b GROUPED BY m AS c\nTHE AVERAGE c IN Molecule [has MoleculeLabel: '+'] has MolSingle MolSingleC c",
+  "attempts": 1
+ },
+ {
+  "question_id": 471,
+  "answer": "DEFINE SingleAtom ::= LIST a, e FROM Atom a has AtomElement e AND ALSO is of ConnectedAtom has Bond has BondType: '-'\nLIST THE COUNT OF Atom [has SingleAtom AtomElement: 'i'], THE COUNT OF Atom [has SingleAtom AtomElement: 's']",
+  "attempts": 5
+ },
+ {
+  "question_id": 476,
+  "answer": "THE DISTINCT COUNT OF Atom [has Molecule [is of Bond has BondType: '#']] [has Molecule [is of Atom [has AtomElement e] WHERE e = 'p' OR e = 'br']]",
+  "attempts": 2
+ },
+ {
+  "question_id": 490,
+  "answer": "DEFINE Rare ::= LIST e, n FROM Atom a has AtomElement e AND ALSO has Molecule m AND ALSO THE DISTINCT COUNT OF m GROUPED BY e AS n\nLIST id, k FROM Atom a has Molecule [has MoleculeLabel: '+'] has MoleculeId id AND ALSO a has AtomElement e AND ALSO e has Rare RareN n WHERE n = 1 AND ALSO a OPTIONALLY is of ConnectedAtom OPTIONALLY has Bond b AND ALSO THE DISTINCT COUNT OF b GROUPED BY id AS k ORDERED WITH id ASCENDING",
+  "attempts": 3
+ },
+ {
+  "question_id": 493,
+  "answer": "DEFINE Deg ::= LIST id, k FROM Atom a [has Molecule has MoleculeId: 'TR397'] has AtomId id AND ALSO a OPTIONALLY is of ConnectedAtom OPTIONALLY has Bond b AND ALSO THE DISTINCT COUNT OF b GROUPED BY id AS k\nLIST round(THE AVERAGE k IN AtomId has Deg DegK k, 2)",
+  "attempts": 3
+ },
+ {
+  "question_id": 497,
+  "answer": "LIST e, c FROM Atom a [is of ConnectedAtom has Bond has BondType: '-'] has AtomElement e BUT NOT [is of ConnectedAtom has Bond has BondType: '='] BUT NOT [is of ConnectedAtom has Bond has BondType: '#'] AND ALSO THE COUNT OF a GROUPED BY e AS c ORDERED WITH e ASCENDING",
+  "attempts": 2
+ }
+]

@@ -17,7 +17,8 @@ is inside the documents -- and the language is optional; docs/07 has the numbers
 
 Needs the `mcp` package, version 1; `psycopg` for a PostgreSQL database; `sqlglot` to check
 hand-written SQL against the model, without which `run_sql` runs it unchecked. Every
-connection is read-only, and a database's entry in the config may restrict what a caller sees
+connection is read-only -- on PostgreSQL as far as the login's grants, so a login that can
+write is refused -- and a database's entry in the config may restrict what a caller sees
 (access.py).
 """
 import argparse
@@ -27,6 +28,7 @@ import os
 import sqlite3
 import subprocess
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -47,6 +49,8 @@ except ImportError:
              "(Python 3.10 or later; mcp 2 renamed FastMCP)")
 
 mcp = FastMCP("conceptual-layer")
+
+SQLITE_SECONDS = 120                  # conquer.py gives PostgreSQL the same statement_timeout
 
 # name -> {"sqlite": path} or {"dsn": url}, plus "model": path (built on demand for SQLite)
 DATABASES = {}
@@ -124,7 +128,12 @@ def _model(name):
 def _raw_connect(name):
     e = _entry(name)
     if e.get("sqlite"):
-        return sqlite3.connect("file:%s?mode=ro" % e["sqlite"], uri=True)
+        conn = sqlite3.connect("file:%s?mode=ro" % e["sqlite"], uri=True)
+        # PostgreSQL has statement_timeout; SQLite has this. Without it a query that multiplies
+        # a large table runs on after its client has gone: a writer's server held a core for hours.
+        stop = time.monotonic() + SQLITE_SECONDS
+        conn.set_progress_handler(lambda: time.monotonic() > stop, 100000)
+        return conn
     if e.get("dsn"):
         return driver._Server(e["dsn"])
     raise ValueError("%s names neither a sqlite file nor a dsn" % name)
@@ -166,10 +175,13 @@ def _checked(name, sql):
 
 def _rows(conn, statement, params, limit):
     try:
-        cur = conn.execute(statement, params)
+        # the rows are fetched inside the try: SQLite runs most of a query in fetchall
+        return driver.render_rows(conn.execute(statement, params), limit)
     except driver.DB_ERRORS as e:
+        if "interrupted" in str(e):
+            return "stopped: still running after %d seconds. Narrow it, or look for a join " \
+                   "with nothing connecting its tables.\n  %s" % (SQLITE_SECONDS, statement)
         return "SQL error: %s\n  %s" % (e, statement)
-    return driver.render_rows(cur, limit)
 
 
 # --------------------------------------------------------------------------- tools

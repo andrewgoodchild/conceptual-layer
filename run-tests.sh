@@ -173,5 +173,10 @@ echo
 python3 "$root/mcp/tests/test_access.py"
 
 echo
+# The same refusals on a live server, when CONCEPTUAL_LAYER_TEST_DSN names one; it says so and
+# passes when it does not.
+python3 "$root/mcp/tests/test_pg_access.py"
+
+echo
 # The MCP server, when the `mcp` package is installed; it says so and passes when it is not.
 python3 "$root/mcp/tests/test_server.py"

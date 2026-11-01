@@ -5847,3 +5847,327 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
 
      Also found: `pip install mcp` now installs mcp 2, which renamed FastMCP, so the server as
      documented did not start; the instructions pin `mcp<2`.
+
+175. **LiveSQLBench moved after the rounds were run, and the rounds stand.** Upstream's scorer
+     changed on 4 May 2026, and the Large-v1 loader has a defect the public report (issue #10)
+     says splits Linux from macOS, so both were replayed, on 31 October 2026. No Docker server
+     was left, so the dumps went into a native PostgreSQL 16.2 on macOS, not the 17 the rounds
+     used. As a check on that, all four rounds were re-scored question by question against
+     their recorded verdicts: 13 arms on 260 questions, 2 verdicts changed, one question in two
+     arms, from wrong to right. It is a question scored in order; why it changed, tie order or
+     collation on the other server, was not looked into. The rest are the same.
+
+     - *The scorer.* The new rounding, half-up on the decimal text, put through `score_pg.py`:
+       no change in rounds 1, 3 and 4, and in round 2 one question goes from right to wrong in
+       all three arms. Its gold and its answers hold one value apart from float noise, one
+       just below a rounding boundary and the other on it, and half-up rounds them apart. It
+       adds a false failure of the kind finding 171 counted and removes none. On the SQLite
+       tier, through the official harness with the new rounding and the new `remove_distinct`,
+       ConQuer goes 71 to 70 (two lost, one gained) and SQL stays at 86, no question changing.
+       The new `remove_distinct` also takes the DISTINCT out of `COUNT(DISTINCT x)`, on both
+       sides. `score_pg.py` is unchanged: nothing here argues for following it.
+     - *The loader.* Following the script's lists with exact filename matching, as Linux does,
+       loads 21 of 55 and 20 of 57 tables in the two databases. All 39 `Query` golds in them
+       run on the full load and all 39 fail on the exact-name one, so these databases cannot
+       be scored on Linux as shipped. The full load is what the gold needs; the rounds' own
+       scores in both databases are reproduced by it. The exact-name run was simulated on
+       macOS, not run on Linux. Its `Management` tasks were not tested: they write, and the
+       scorer's session is read-only.
+
+176. **On the October 2026 mini-dev the description did not hold up against the DDL: 79 of 100 against 88, and ConQuer, with the same description, 88.**
+
+     The round `bench/minidev2026/PLAN.md` fixed before any writer ran: the new release, 100
+     questions drawn fresh, 33 blind Sonnet writers, one per (arm, database). Strict EX.
+
+     | Arm | Correct of 100 | Tokens | Writer-minutes |
+     |---|---|---|---|
+     | SQL from the DDL | **88** | 422k | 13.5 |
+     | SQL from the served description, no DDL | **79** | 486k | 20.5 |
+     | ConQuer from the served description | **88** | 819k | 46.8 |
+
+     The primary comparison is -9 (5 gained, 14 lost), McNemar p=0.064, and the interval that
+     resamples whole databases is -19.7 to 0.0. The plan called a difference shown only if it
+     reached 4 points and that interval excluded zero. It touches zero, so by the rule fixed
+     in advance this is **no difference shown**, and it is a closer call than that sounds. The
+     prediction was +2, within -3 to +5, and missed on the wrong side. The prediction that its
+     margin would be larger where the evidence has gone holds only nominally: -2 of 26 there
+     against -7 of 74 with it, a loss in both and too few questions to mean anything. ConQuer
+     against the description arm is +9 (13, 4; p=0.049; 1.9 to 18.0), against the DDL arm 0
+     (7, 7).
+
+     **What the 14 lost answers were, read one at a time.** Two left working columns in the final
+     SELECT, both from one writer (q151, q155). Two sorted or took the minimum of a number stored
+     as text, which the DDL writer cast (q217, q218); the description states the type,
+     among forty-seven value types. One returned `uuid` for a card's "ID" (q54), the rule 1d
+     question finding 164 reported, and it is the brief's own advice applied where BIRD's id is
+     `cards.id`: ConQuer lost it too. Two filtered on one exact spelling where the DDL writer
+     widened the match (q46, q388), which the brief's "a filter must spell one exactly" may have
+     encouraged. The other seven are readings of the question. So at most five of the 14 trace
+     to the served text, and whether they do was not tested. Nine of the 14 ConQuer got right
+     from that same description, and it spent 2.63 runs a question against 1.66, with 21
+     one-shot answers against 42. That points at checking effort as much as at the text, and
+     nothing here separates the two. One writer per database also makes this a single draw:
+     financial, california_schools, debit_card_specializing and formula_1 lost 9 between them.
+
+     **What it changes.** Finding 164's "the description alone was worth the DDL" was 75 against
+     74 with Opus on the old set, and it does not carry over to this one: another test set and a
+     weaker writer, so the two rounds differ in two things and no conclusion says which. ConQuer's
+     88 is not evidence the language helps; it ties the DDL at about twice the tokens and three
+     and a half times the writer-minutes. Sonnet 5.5 on a fixed prompt scores 86.6 on all 500 on
+     BIRD's card, so 88 here sits at the set's published level with little room above. No gold
+     in this sample was audited.
+
+     **Departures from the plan.** The session allows 20 subagents at once, so 13 writers,
+     eleven of them ConQuer, started as others finished rather than together. Every writer said
+     it stayed in its directory, by its own report; several wrote throwaway scripts in temporary
+     folders outside it. The ledger's token counts are totals with no split between input,
+     output and cache.
+
+     **Open.** The numbered lineup readings in european_football_2's description, such as `is
+     home 1 of Match`, do not parse, on the writer's report and the recorded error for q183.
+     `mcp/server.py` sets no deadline on SQLite: one ConQuer query from the financial writer
+     left a server at a full core after its client had gone. Neither was changed in this round;
+     both were fixed before the repeat, and the loss did not repeat (finding 177).
+
+177. **The loss did not repeat: on 100 more questions SQL from the description scored 90 and SQL
+     from the DDL 88.**
+
+     `minidev2026/PLAN2.md`, its checksum recorded before any writer ran but not committed, so that
+     order rests on the ledger and the session. 100 questions from the 400 the first draw left, same
+     release, same balance of databases, 22 fresh blind Sonnet writers, the two SQL arms only. The
+     brief, description, models and databases did not change, so this tests finding 176 and not a
+     fix for it. 886k tokens, about $3.20 on the same assumption as PLAN.md; 14.3 writer-minutes
+     for the DDL arm and 18.3 for the description.
+
+     The difference is +2 (7 gained, 5 lost), McNemar p=0.774, database interval -4.6 to +9.3: **no
+     difference shown**, by the same rule. The prediction was -4, within -10 to +2, and `sql_ddl`
+     82, within 75 to 90; both ranges held, the first at its edge. Pooled, 200 questions, it is -7
+     (12, 19), p=0.281, -18.8 to +3.2, which the plan made secondary because round one chose the
+     question. PLAN2 fixed the reading in advance: no difference on the repeat means finding 176 is
+     not repeated, and the advice to keep the DDL is withdrawn. It is withdrawn in `mcp/README.md`.
+     That is not proof the two are equal: a loss of a few points is inside both intervals.
+
+     The nine-point gap and this two-point one differ by more than any change between the rounds
+     explains, and the writers worked the same way in both (1.61 runs a question against 1.49 here,
+     1.66 against 1.52 there), so the likeliest reading is that one draw with one writer per
+     database moves this comparison by that much. Two rounds cannot show it. Finding 176's
+     conclusion that checking effort may matter as much as the text stays untested, and it says
+     nothing here either way, because ConQuer did not run. The evidence split turned over: +3 of 27
+     with no evidence, -1 of 73 with it, too few to read, and the five lost answers were not read one by
+     one (finding 181 reads them).
+
+     Both defects finding 176 left open are fixed. A number in a reading now parses (q183 goes from
+     a failure to a wrong answer, so ConQuer's 88 stands). `run_sql` and `run_query` stop a SQLite
+     query at 120 seconds and say so. `./try`, the DDL arm's runner, still has no limit: a writer in
+     this round left one query running after it had finished.
+
+178. **Three second opinions on the same answers change no verdict, and the third separates the
+     arms more than the score does.**
+
+     From 2026's work on what EX misses, each beside strict EX and never replacing it.
+
+     **Multiset EX** counts duplicates, which BIRD's sets collapse; ModularSQL reports that hiding
+     3.39 to 6.79 points. On these 500 answers it moved nothing: 88, 79, 88 and 88, 90. These writers
+     did not lean on the collapse. The scores are the same answers re-compared, so this says nothing
+     about published systems.
+
+     **A relaxed rescoring**, stated before it ran (`relaxed_ex`, `bench/pilot/score.py`): rows may
+     change places, numbers may differ by one part in a million, extra or reordered columns are
+     forgiven, and each rescued answer is counted by the rule that rescued it. On SCALE4 it adds
+     24 answers on 7 questions, against finding 171's 25 answers on 7 put down by hand to the
+     scorer: 19 by order, 4 by columns, 1 by tolerance. That the questions are the same ones was not
+     checked. `order` is broader than the tie-set it stands in for, so it would also forgive a
+     wrong order. On the mini-dev it adds one answer, one of finding 176's leftover columns. Strict
+     here gave `annm` 26 where the last rebuild gave 27; that one answer's instability is unexplained.
+
+     **Grounded success could not be computed.** "Beyond Correctness" counts an answer as grounded
+     when it is right and the ambiguities were resolved, and BIRD has neither annotations nor anyone
+     to ask. `grounded.py` is a stand-in for the part that can be measured, and is labelled as one:
+     a right answer must still match the gold on three thinned copies of the database, half of each
+     table gone with whatever pointed at those rows.
+
+     | Round | Arm | Right | Held on thinned data |
+     |---|---|---|---|
+     | 1 | SQL from the DDL | 88 | 81 |
+     | 1 | SQL from the description | 79 | 67 |
+     | 1 | ConQuer | 88 | 77 |
+     | 2 | SQL from the DDL | 88 | 83 |
+     | 2 | SQL from the description | 90 | 84 |
+
+     So 6 to 15 of a hundred right answers matched the gold in a way thinner data undid. In round
+     one the description arm falls further behind on this count; in round two the arms are level. Nobody has read which of these are
+     coincidences and which are two defensible queries that part where the data does, a false alarm
+     rate this design does not measure, and only foreign keys the catalogue declares are kept
+     consistent.
+
+179. **Held to the corpus the papers share, the reverse engineer gets 77% of AdventureWorks's
+     foreign keys at 91% precision, and with every name destroyed 26% at 38%: most of what it
+     finds, it finds by reading names. MusicBrainz could not be run.**
+
+     HoPF, LLM-FK and DBAutoDoc all report on AdventureWorks and most on MusicBrainz, so the
+     bar at last means the same schema. `bench/ablation/corpora.py` reads the published T-SQL
+     and PostgreSQL scripts as text, with `fetch-corpora.sh` pinning what they read: AdventureWorks
+     OLTP has 71 tables, 759k rows and 91 foreign keys with no violations. `corpora.py destroy`
+     then renames every table and column in a seeded shuffle, keeping the rows. Declared primary
+     keys stay in place for the `refs.py` arms, which strip only foreign keys; the shipped pipeline
+     strips both. Some papers strip everything, so this is an easier setting than theirs.
+
+     | AdventureWorks | named: recall / precision | names destroyed: recall / precision |
+     |---|---|---|
+     | Shipped pipeline, primary keys | 70% / 77% | 20% / 78% |
+     | Shipped pipeline, foreign keys | 77% / 91% | 26% / 38% |
+     | `refs.py names` (name-corroborated gate) | 66% / 87% | 27% / 35% |
+     | `refs.py rules@2.6` ("data" as shipped) | 65% / 84% | 27% / 64% |
+     | `refs.py` relaxed, score at least 3.0 | 73% / 89% | 30% / 68% |
+     | `refs.py` relaxed, no score floor | 91% / 51% | 34% / 19% |
+
+     **The "data alone" arm was never name-free.** Under `ignore_names` names score zero, but
+     `name_score` still chooses among containments the data has proven (`reverse/population.py`,
+     finding 120, deliberate). That is why `rules` recovers 65% on real names and 27% on none.
+     Every earlier "on the data" figure in this file carries that help, and the names-destroyed
+     column is the first measure here with no real name in it. The tie-break still runs there, on
+     look-alike names such as `c0012` and `c0017`, so it chooses arbitrarily rather than not at all,
+     and those names are presumably what drags the name-using arms to 35% and 38% precision. Read
+     that column's recall across the arms, and its precision on `rules` and the relaxed gates:
+     about a quarter of the references, at about two-thirds precision, on this one corpus.
+
+     The comparators are not head-to-head, and precision and recall below are in that order, as
+     each paper gives them. DBAutoDoc reports 90.0% / 98.9% on AdventureWorks 2022, with an LLM and
+     gates, its statistics alone finding 15 of 91, and flags training contamination. LLM-FK reports
+     F1 of .93 to .95 on corpora including AdventureWorks. HoPF's .31 / .84 on AdventureWorks, and
+     .27 / .72 without names, are on a 27-table warehouse variant; LLM-FK's own run of HoPF scored
+     .57 / .45 on AdventureWorks. So the nearest thing to a fair reading is that 91% / 77% here
+     matches DBAutoDoc's precision with no LLM and no model cost, and misses a fifth more of the
+     references, on a different release of the schema.
+
+     **MusicBrainz was not measured.** The sample dump (20261001-000001) loads with 236 tables,
+     25.7M rows and 469 foreign-key columns with no violations, then the search stopped being
+     usable. It tests every column against every single-column key, about 264,000 pairs at
+     least (1,568 columns, 169 keys), each a full `EXCEPT` and a distinct count. Sized from the real
+     row counts at the rate one mid-sized pair ran, that is about 6 hours per analysis, a rough
+     figure from a single timing, and four analyses were planned. The first was stopped at 1h50m
+     with nothing recorded. This is a limit of the search as built, and `_contained` is what has
+     to change before any larger corpus. (Corrected: this first said 190 hours, from a row
+     count taken as `max(rowid)`, which overstates a sample with sparse ids. Finding 180 fixes
+     the search, measures MusicBrainz, and corrects this finding's reading of destroyed names.)
+
+     **TPC-E was skipped.** Its data comes only from TPC's EGen, under a licence a person must
+     accept. `fetch-corpora.sh` was not run end to end: the files were fetched by hand first,
+     and the script's checksums come from those. MusicBrainz's DDL is pinned from master, not from
+     a release matching the dump.
+
+180. **Most of what looked like the data's limit was a tie-break reading meaningless names: on
+     AdventureWorks, recall with names destroyed goes from 27% to 63%, though on MusicBrainz, the
+     corpus held back, only from 32% to 38%, short of the prediction. MusicBrainz now runs, in
+     eight minutes.**
+
+     **The search.** A containment is now tested in memory: each key is read once into a set, each
+     column once, and a failing test stops at the miss that proves it (`_contained_set`). Old
+     and new were compared finding by finding, name evidence on and off, tolerance 0 and 0.02, on the
+     11 BIRD databases and AdventureWorks with and without names: 52 runs, none different, 2,938
+     seconds down to 678. A schema with a collation keeps the `EXCEPT`. MusicBrainz takes 7 to 8
+     minutes per analysis, with its keys held in memory; the old search had not finished one in
+     1h50m.
+
+     **The diagnosis.** Finding 179 read 27% as what the data alone can do. It was not: a column's
+     candidates are sorted by name similarity first, under `ignore_names` too, and on a destroyed
+     schema that compares `c0012` with `t0017`. Over all containments on destroyed AdventureWorks the
+     score puts the true target first for 71 of 91 references and that tie-break for 32.
+
+     **The rule** (`bench/ablation/PLAN-names.md`, committed before it was built). If at most two
+     different words remain in a schema's column names with digits removed, over more than five
+     columns, the names say nothing: the search scores on data alone, `name_score` is zero, and
+     `apply_references` needs no name to corroborate. Real schemas have at least six such words,
+     in all 79 checked, so no named result moves: BIRD stays at 81% / 100% and named AdventureWorks
+     at 77% / 91%, both rerun.
+
+     | Names destroyed, recall / precision | before | after |
+     |---|---|---|
+     | AdventureWorks, `rules@2.6` | 27% / 64% | **63% / 70%** |
+     | AdventureWorks, shipped pipeline, foreign keys | 26% / 38% | 46% / 59% |
+     | **MusicBrainz, `rules@2.6` (the test)** | **32% / 66%** | **38% / 69%** |
+     | MusicBrainz, `refs.py names` | 47% / 61% | 39% / 73% |
+     | MusicBrainz, every gate off | 64% / 45% | 73% / 52% |
+
+     **The prediction failed on recall.** Up at least 15 points was predicted and 6 came; precision
+     was to fall no more than 5 points and rose 3. The development corpora overstated the gain, which
+     is what a held-back corpus is for. With the gates off the true target comes first for
+     73% of MusicBrainz's references, so its remaining loss is mostly at the score and significance
+     floors, not at the tie-break. Nothing was tuned on those numbers.
+
+     MusicBrainz with its names, for the record:
+
+     | MusicBrainz, 469 foreign keys | recall | precision |
+     |---|---|---|
+     | `refs.py names` | 44% | 100% |
+     | `refs.py rules@2.6` | 42% | 92% |
+     | Shipped pipeline, primary keys stripped too | 44% | 89% |
+     | Every gate off | 85% | 60% |
+
+     Beside HoPF's own precision .54 and recall .96 on 124 tables, and LLM-FK's run of HoPF at .75
+     and .86, this favours precision over recall, and the setups differ. Primary keys are still mostly
+     read off names: with both kinds stripped from destroyed schemas, rule 9b recovers 20% of
+     AdventureWorks's and 33% of MusicBrainz's, which caps the shipped pipeline's foreign keys there
+     (MusicBrainz 26% / 58%). The rule does not touch that, and a schema with cryptic but varied
+     names (`MANDT`, `BUKRS`) still gets the tie-break.
+
+181. **Finding 177's five lost answers: one is the description's doing, by a rule that can be
+     fixed; the other four are no pattern.** The repeat lost 5 answers and gained 7, and the 5 had
+     gone unread. Read now, each against the data:
+
+     | Question | What the description arm did | Cause |
+     |---|---|---|
+     | 6, 7 | Used a stored `Percent (%) Eligible ...` column, which holds 0.66, not 66, where the evidence said to compute it times 100 | The writer preferred the named column; the description never says the stored figure is a fraction |
+     | 43 | Left out `rtype = 'S'`, so district rows counted | The writer's miss; `'D', 'S'` are listed with no meaning |
+     | 49 | Listed `uuid` where the gold lists `id` | **The description**: it says "Asked for its id, list this" of `uuid`, on a table with a column called `id` |
+     | 92 | Sorted a text id as a number, then by name | The writer's own reading of a muddled question |
+
+     So one of the five was steered by the description and two more might have been saved by it.
+     This reads the five lost and not the seven gained, so it does not settle whether a small
+     loss is real. The identification rule was not changed: that would alter the description both
+     rounds measured, and it needs a round of its own.
+
+182. **A blind judge over everything the gates discard: 91% recall at 95% precision on
+     AdventureWorks and 85% at 95% on MusicBrainz, from 66% / 87% and 44% / 100%. Both predictions
+     held, and both corpora are too famous for that to be clean.**
+
+     `bench/ablation/PLAN-judge.md` was committed before any judge ran, with `JUDGE.md` unchanged and
+     the candidates fixed: every best-scoring containment, no floors, no threshold. Sonnet judges saw
+     one candidate file and nothing else; MusicBrainz went in four parts. About 416k tokens, some
+     $1.50 on the assumption in `bench/minidev2026/PLAN.md`.
+
+     | | Shipped gate | Candidates (the ceiling) | Judged | Predicted at least |
+     |---|---|---|---|---|
+     | AdventureWorks, 91 references | 66% / 87% | 91% / 53% | **91% / 95%** | 75% / 90% |
+     | MusicBrainz, 469 references | 44% / 100% | 85% / 62% | **85% / 95%** | 65% / 85% |
+
+     **The judges dropped no true reference**: every one of the 483 among the candidates was kept, so
+     recall is the candidates' ceiling, and what is still missing is the search's to find. Earlier
+     judges were not this clean (BIRD 85% / 95%, LiveSQLBench 75% / 90%, finding 118's round), which
+     is one reason to distrust it here.
+
+     **What the 24 wrongly kept were.** Few are wrong in any way that would hurt. On MusicBrainz 12
+     are `l_event_*.entity -> event_meta.id` where `event` is declared, two tables sharing an id, a
+     defect of the candidate rather than the judge, as an earlier round's judges reported; 8 are
+     one-to-one splits declared the other way round. On AdventureWorks all 4 hold real products or offers: two
+     are declared only through `SpecialOfferProduct`'s composite key, and two, `WorkOrderRouting`'s and
+     `TransactionHistoryArchive`'s `ProductID`, are not declared at all. So 95% understates precision,
+     as scoring against declared references does.
+
+     **It is more than reading names, on one corpus.** A plain rule over the same candidates,
+     after the fact (the column contains the target's name, or equals its key), gets 90% / 87% on
+     AdventureWorks, close behind, but 55% / 82% on MusicBrainz, whose link tables say only `entity0`.
+
+     **Three cautions.** Both schemas are public and much used, and a judge may know them; DBAutoDoc
+     flags the same for its own AdventureWorks run, and nothing here can rule it out. Beside
+     DBAutoDoc's precision 90.0 and recall 98.9 on AdventureWorks 2022 and LLM-FK's F1 of .93 to .95,
+     this is F1 .93 on AdventureWorks and .90 on MusicBrainz, with different releases and strips and
+     primary keys left in place, so not head-to-head. And a judge is not free or in the shipped
+     path: `apply_references` is unchanged.
+
+     **A deviation.** The first judge of MusicBrainz's part 1 wrote a script of name rules instead of
+     weighing each candidate. That was decided a failed file before anything was scored, and the part
+     was rerun with scripts forbidden. The two gave the same verdict on all 161, with no reason text
+     shared and neither able to see the other, so the choice changed nothing and the decisions in
+     that part are easy ones. The rerun's verdicts are the ones recorded. One judge's report of its
+     own counts was wrong against its file; the files were checked, every candidate once.

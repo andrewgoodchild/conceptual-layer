@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 468,
+  "answer": "SELECT ROUND(AVG(cnt),4) FROM (SELECT m.molecule_id, (SELECT COUNT(*) FROM atom a WHERE a.molecule_id=m.molecule_id AND a.element='o') AS cnt FROM molecule m WHERE EXISTS (SELECT 1 FROM bond b WHERE b.molecule_id=m.molecule_id AND b.bond_type='-'))",
+  "attempts": 1
+ },
+ {
+  "question_id": 480,
+  "answer": "SELECT COUNT(*) FROM bond b JOIN molecule m ON m.molecule_id=b.molecule_id WHERE m.label='+' AND b.bond_type='=' AND (SELECT COUNT(*) FROM connected c JOIN atom a ON a.atom_id=c.atom_id2 WHERE c.bond_id=b.bond_id AND a.element='c')=2 AND (SELECT COUNT(*) FROM connected c JOIN atom a ON a.atom_id=c.atom_id WHERE c.bond_id=b.bond_id AND a.element='c')=2",
+  "attempts": 1
+ },
+ {
+  "question_id": 482,
+  "answer": "SELECT m.molecule_id, CASE m.label WHEN '+' THEN 'YES' ELSE 'NO' END, (SELECT COUNT(*) FROM bond b WHERE b.molecule_id=m.molecule_id AND b.bond_type IN ('=','#')) FROM atom a JOIN molecule m ON m.molecule_id=a.molecule_id WHERE a.atom_id='TR041_10'",
+  "attempts": 1
+ },
+ {
+  "question_id": 486,
+  "answer": "SELECT b.bond_id, b.molecule_id FROM bond b JOIN molecule m ON m.molecule_id=b.molecule_id WHERE m.label='+' AND EXISTS (SELECT 1 FROM atom a WHERE a.molecule_id=m.molecule_id AND a.element IS NOT NULL AND NOT EXISTS (SELECT 1 FROM atom a2 WHERE a2.element=a.element AND a2.molecule_id<>a.molecule_id))",
+  "attempts": 1
+ },
+ {
+  "question_id": 489,
+  "answer": "SELECT ROUND(100.0*SUM(label='+')/COUNT(*),2), ROUND(100.0*SUM(label='-')/COUNT(*),2) FROM molecule WHERE molecule_id IN (SELECT molecule_id FROM bond WHERE bond_type='#')",
+  "attempts": 1
+ },
+ {
+  "question_id": 495,
+  "answer": "SELECT b.bond_type, COUNT(*) AS n_bonds, (SELECT COUNT(*) FROM (SELECT DISTINCT MIN(a1.element,a2.element), MAX(a1.element,a2.element) FROM bond b2 JOIN connected c ON c.bond_id=b2.bond_id JOIN atom a1 ON a1.atom_id=c.atom_id JOIN atom a2 ON a2.atom_id=c.atom_id2 WHERE b2.molecule_id='TR377' AND b2.bond_type=b.bond_type)) AS n_pairs, (SELECT label FROM molecule WHERE molecule_id='TR377') FROM bond b WHERE b.molecule_id='TR377' AND b.bond_type IN ('-','=') GROUP BY b.bond_type ORDER BY n_bonds DESC, b.bond_type",
+  "attempts": 1
+ }
+]

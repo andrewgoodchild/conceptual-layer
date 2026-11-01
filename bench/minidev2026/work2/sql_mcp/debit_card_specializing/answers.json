@@ -1,0 +1,17 @@
+[
+ {
+  "question_id": 153,
+  "answer": "SELECT c.Segment, COUNT(*) FROM customers c JOIN (SELECT CustomerID, SUM(Consumption) s FROM yearmonth WHERE Date BETWEEN '201201' AND '201212' GROUP BY CustomerID HAVING SUM(Consumption) < 30000) y ON y.CustomerID=c.CustomerID GROUP BY c.Segment",
+  "attempts": 1
+ },
+ {
+  "question_id": 154,
+  "answer": "SELECT c.Segment, COUNT(DISTINCT c.CustomerID) FROM customers c JOIN yearmonth y ON y.CustomerID=c.CustomerID WHERE y.Date BETWEEN '201301' AND '201312' AND y.Consumption > 0 GROUP BY c.Segment",
+  "attempts": 1
+ },
+ {
+  "question_id": 156,
+  "answer": "SELECT c.Currency, COUNT(*) FROM customers c JOIN (SELECT CustomerID FROM yearmonth WHERE Date BETWEEN '201301' AND '201311' AND Consumption > 0 GROUP BY CustomerID HAVING COUNT(DISTINCT Date) = 11) y ON y.CustomerID=c.CustomerID GROUP BY c.Currency",
+  "attempts": 1
+ }
+]

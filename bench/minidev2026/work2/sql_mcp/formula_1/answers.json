@@ -1,0 +1,57 @@
+[
+ {
+  "question_id": 249,
+  "answer": "select forename||' '||surname from (select d.driverId,d.forename,d.surname,min(l.milliseconds) m from lapTimes l join drivers d using(driverId) group by d.driverId) order by m limit 20",
+  "attempts": 1
+ },
+ {
+  "question_id": 254,
+  "answer": "select distinct d.nationality from qualifying q join drivers d using(driverId) join races r using(raceId) where r.year=1995 and r.name='Japanese Grand Prix' and q.q1<>'' and (cast(substr(q.q1,1,instr(q.q1,':')-1) as real)*60+cast(substr(q.q1,instr(q.q1,':')+1) as real)) = (select max((cast(substr(q1,1,instr(q1,':')-1) as real)*60+cast(substr(q1,instr(q1,':')+1) as real))) from qualifying where raceId=r.raceId and q1<>'')",
+  "attempts": 1
+ },
+ {
+  "question_id": 257,
+  "answer": "select distinct d.nationality from qualifying q join drivers d using(driverId) join races r using(raceId) where r.year=2017 and r.name='Italian Grand Prix' and q.q2<>'' and (cast(substr(q.q2,1,instr(q.q2,':')-1) as real)*60+cast(substr(q.q2,instr(q.q2,':')+1) as real)) = (select min((cast(substr(q2,1,instr(q2,':')-1) as real)*60+cast(substr(q2,instr(q2,':')+1) as real))) from qualifying where raceId=r.raceId and q2<>'')",
+  "attempts": 1
+ },
+ {
+  "question_id": 270,
+  "answer": "select count(distinct driverId) from (select raceId,driverId,rank() over (partition by raceId order by m) rk from (select raceId,driverId,min(milliseconds) m from lapTimes group by raceId,driverId)) a join drivers using(driverId) where rk=2 and dob>='1976-01-01'",
+  "attempts": 1
+ },
+ {
+  "question_id": 273,
+  "answer": "select d.forename,count(distinct d.driverId) from results r join drivers d using(driverId) where r.position=1 and d.forename in ('Peter','John') group by 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 278,
+  "answer": "select d.forename||' '||d.surname,p.duration,r.name,c.name,c.location from pitStops p join drivers d using(driverId) join races r using(raceId) join circuits c using(circuitId) where r.date like '2016-09%' and p.milliseconds=(select min(p2.milliseconds) from pitStops p2 join races r2 using(raceId) where r2.date like '2016-09%')",
+  "attempts": 1
+ },
+ {
+  "question_id": 281,
+  "answer": "select d.forename,d.surname,c.name from (select q.*, (cast(substr(q2,1,instr(q2,':')-1) as real)*60+cast(substr(q2,instr(q2,':')+1) as real)) t, (select grid from results rs where rs.raceId=q.raceId and rs.driverId=q.driverId) g from qualifying q where raceId=(select raceId from races where year=2017 and name='Italian Grand Prix') and q2<>'') q join drivers d using(driverId) join constructors c using(constructorId) order by t,g limit 1 offset 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 285,
+  "answer": "select distinct d.nationality from qualifying q join drivers d using(driverId) join races r using(raceId) where r.year=2017 and r.name='Italian Grand Prix' and q.q3<>'' and (cast(substr(q.q3,1,instr(q.q3,':')-1) as real)*60+cast(substr(q.q3,instr(q.q3,':')+1) as real)) = (select min((cast(substr(q3,1,instr(q3,':')-1) as real)*60+cast(substr(q3,instr(q3,':')+1) as real))) from qualifying where raceId=r.raceId and q3<>'')",
+  "attempts": 1
+ },
+ {
+  "question_id": 290,
+  "answer": "select (select c.circuitRef from races r join circuits c using(circuitId) where r.time=(select min(time) from races)) e, (select c.circuitRef from races r join circuits c using(circuitId) where r.time=(select max(time) from races)) l, (strftime('%s','2000-01-01 '||(select max(time) from races))-strftime('%s','2000-01-01 '||(select min(time) from races))) gap_seconds",
+  "attempts": 1
+ },
+ {
+  "question_id": 292,
+  "answer": "select d.driverRef from qualifying q join drivers d using(driverId) where q.raceId=(select raceId from races where year=2017 and name='Italian Grand Prix') and (q.q2 is null or q.q2='') order by q.q1 desc, d.driverId",
+  "attempts": 1
+ },
+ {
+  "question_id": 293,
+  "answer": "select count(*) from results r join races ra using(raceId) join status s using(statusId) where ra.year=1962 and ra.name='British Grand Prix' and s.status='Withdrew'",
+  "attempts": 1
+ }
+]

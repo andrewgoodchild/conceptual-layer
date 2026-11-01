@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 295,
+  "answer": "SELECT ROUND(AVG(s),2) FROM (SELECT SUM(x.cost) s FROM expense x JOIN member m ON m.member_id=x.link_to_member JOIN budget b ON b.budget_id=x.link_to_budget WHERE m.first_name='Elijah' AND m.last_name='Allen' AND substr(x.expense_date,6,2) IN ('09','10') GROUP BY b.link_to_event)",
+  "attempts": 2
+ },
+ {
+  "question_id": 299,
+  "answer": "SELECT event_name FROM (SELECT e.event_name, ROUND(SUM(b.spent)*1.0/SUM(b.amount),9) r FROM event e JOIN budget b ON b.link_to_event=e.event_id WHERE e.status='Closed' GROUP BY e.event_id) WHERE r=(SELECT MAX(r2) FROM (SELECT ROUND(SUM(b.spent)*1.0/SUM(b.amount),9) r2 FROM event e JOIN budget b ON b.link_to_event=e.event_id WHERE e.status='Closed' GROUP BY e.event_id))",
+  "attempts": 2
+ },
+ {
+  "question_id": 320,
+  "answer": "WITH c AS (SELECT mj.college, COUNT(DISTINCT mj.major_id) n FROM member m JOIN major mj ON mj.major_id=m.link_to_major GROUP BY mj.college) SELECT college, n FROM c WHERE n=(SELECT MAX(n) FROM c) ORDER BY college",
+  "attempts": 2
+ },
+ {
+  "question_id": 323,
+  "answer": "SELECT ROUND(AVG(COALESCE(t,0)),2) FROM event e LEFT JOIN (SELECT link_to_event, SUM(spent) t FROM budget GROUP BY link_to_event) b ON b.link_to_event=e.event_id",
+  "attempts": 2
+ },
+ {
+  "question_id": 324,
+  "answer": "SELECT e.event_name FROM event e LEFT JOIN budget b ON b.link_to_event=e.event_id WHERE e.status='Closed' GROUP BY e.event_id HAVING ROUND(COALESCE(SUM(b.spent),0),6)<=ROUND(COALESCE(SUM(b.amount),0),6) ORDER BY (SELECT COALESCE(SUM(1+LENGTH(x.expense_description)-LENGTH(REPLACE(x.expense_description,',',''))),0) FROM expense x JOIN budget b2 ON b2.budget_id=x.link_to_budget WHERE b2.link_to_event=e.event_id) DESC, e.event_id LIMIT 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 325,
+  "answer": "WITH t AS (SELECT e.type, COUNT(DISTINCT a.link_to_member) n FROM attendance a JOIN event e ON e.event_id=a.link_to_event WHERE e.event_date>='2019-09-01' AND e.event_date<'2020-06-01' GROUP BY e.type) SELECT type, n FROM t WHERE n=(SELECT MAX(n) FROM t)",
+  "attempts": 2
+ },
+ {
+  "question_id": 326,
+  "answer": "WITH RECURSIVE s(id,rest,item) AS (SELECT x.expense_id, x.expense_description||',', '' FROM expense x JOIN budget b ON b.budget_id=x.link_to_budget WHERE b.category='Food' UNION ALL SELECT id, substr(rest,instr(rest,',')+1), trim(substr(rest,1,instr(rest,',')-1)) FROM s WHERE rest<>''), i AS (SELECT DISTINCT id, lower(item) item FROM s WHERE item<>'') SELECT upper(substr(item,1,1))||substr(item,2) AS item, COUNT(*) n FROM i GROUP BY item ORDER BY n DESC, item LIMIT 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 328,
+  "answer": "SELECT e.event_name, e.event_date, COALESCE((SELECT SUM(b.amount) FROM budget b WHERE b.link_to_event=e.event_id),0) AS total_budget, (SELECT COUNT(*) FROM attendance a WHERE a.link_to_event=e.event_id) AS attendees FROM event e ORDER BY e.event_name, e.event_date",
+  "attempts": 2
+ }
+]

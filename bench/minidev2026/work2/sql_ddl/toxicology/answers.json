@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 468,
+  "answer": "select round(avg(n),4) from (select m.molecule_id, (select count(*) from atom a where a.molecule_id=m.molecule_id and a.element='o') n from molecule m where exists(select 1 from bond b where b.molecule_id=m.molecule_id and b.bond_type='-'))",
+  "attempts": 1
+ },
+ {
+  "question_id": 480,
+  "answer": "select count(distinct b.bond_id) from bond b join molecule m using(molecule_id) where b.bond_type='=' and m.label='+' and exists(select 1 from connected c join atom a1 on a1.atom_id=c.atom_id join atom a2 on a2.atom_id=c.atom_id2 where c.bond_id=b.bond_id and a1.element='c' and a2.element='c')",
+  "attempts": 1
+ },
+ {
+  "question_id": 482,
+  "answer": "select a.molecule_id, case m.label when '+' then 'YES' else 'NO' end as carcinogenic, (select count(*) from bond b where b.molecule_id=a.molecule_id and b.bond_type in ('=','#')) as multiple_bonds from atom a join molecule m using(molecule_id) where a.atom_id='TR041_10'",
+  "attempts": 1
+ },
+ {
+  "question_id": 486,
+  "answer": "select b.bond_id,b.molecule_id from bond b join molecule m using(molecule_id) where m.label='+' and exists(select 1 from atom a where a.molecule_id=b.molecule_id and not exists(select 1 from atom a2 where a2.element=a.element and a2.molecule_id<>a.molecule_id))",
+  "attempts": 1
+ },
+ {
+  "question_id": 489,
+  "answer": "select round(100.0*sum(label='+')/count(*),2), round(100.0*sum(label='-')/count(*),2) from molecule where molecule_id in (select molecule_id from bond where bond_type='#')",
+  "attempts": 1
+ },
+ {
+  "question_id": 495,
+  "answer": "select b.bond_type, count(distinct b.bond_id) n, count(distinct case when a1.element<a2.element then a1.element||'-'||a2.element else a2.element||'-'||a1.element end) pairs, m.label from bond b join molecule m using(molecule_id) left join connected c on c.bond_id=b.bond_id left join atom a1 on a1.atom_id=c.atom_id left join atom a2 on a2.atom_id=c.atom_id2 where b.molecule_id='TR377' and b.bond_type in ('-','=') group by b.bond_type order by n desc, b.bond_type",
+  "attempts": 2
+ }
+]

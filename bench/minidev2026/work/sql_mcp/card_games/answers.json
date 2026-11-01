@@ -1,0 +1,72 @@
+[
+ {
+  "question_id": 53,
+  "answer": "select round(100.0*sum(exists(select 1 from foreign_data f where f.uuid=c.uuid and f.language='French'))/count(*),2) from cards c where c.isStorySpotlight=1",
+  "attempts": 2
+ },
+ {
+  "question_id": 54,
+  "answer": "select uuid from cards where duelDeck='a'",
+  "attempts": 1
+ },
+ {
+  "question_id": 60,
+  "answer": "select round(100.0*sum(c.cardKingdomId is not null and c.cardKingdomFoilId is not null)/count(*),2) from cards c join sets s on s.code=c.setCode where s.name='Coldsnap'",
+  "attempts": 2
+ },
+ {
+  "question_id": 62,
+  "answer": "select count(distinct p.name) from cards p where p.isPromo=1 and p.types like '%Creature%' and exists(select 1 from cards b where b.name=p.name and b.leadershipSkills like '%''brawl'': True%')",
+  "attempts": 2
+ },
+ {
+  "question_id": 63,
+  "answer": "select max(cast(frameVersion as integer))-min(cast(frameVersion as integer)) from cards where name='Tarmogoyf' and frameVersion<>'future'",
+  "attempts": 2
+ },
+ {
+  "question_id": 69,
+  "answer": "select frameVersion, count(*) from cards where frameVersion='future' group by frameVersion",
+  "attempts": 2
+ },
+ {
+  "question_id": 73,
+  "answer": "select s.name, round(100.0*sum(case when c.manaCost is not null and c.manaCost<>'' and c.convertedManaCost<=3 then 1 else 0 end)/count(*),2) \nfrom sets s join cards c on c.setCode=s.code\nwhere s.code in (\n (select s2.code from sets s2 where exists(select 1 from cards x where x.setCode=s2.code and x.name='Abyssal Horror') order by s2.releaseDate, s2.code limit 1),\n (select code from sets order by releaseDate desc, code limit 1))\ngroup by s.code order by s.releaseDate",
+  "attempts": 3
+ },
+ {
+  "question_id": 77,
+  "answer": "select name from cards where setCode='DKA' and (','||keywords||',') like '%,Flash,%' and convertedManaCost=(select max(convertedManaCost) from cards where setCode='DKA' and (','||keywords||',') like '%,Flash,%') order by name",
+  "attempts": 2
+ },
+ {
+  "question_id": 78,
+  "answer": "select s.name,s.keyruneCode,count(distinct t.language) from sets s left join set_translations t on t.setCode=s.code and t.translation is not null where s.releaseDate between '2020-01-01' and '2020-12-31' group by s.code",
+  "attempts": 2
+ },
+ {
+  "question_id": 79,
+  "answer": "select count(*) from cards where setCode in ('AER','AKH','C17','MP2','OC17','PAER','PAKH')",
+  "attempts": 3
+ },
+ {
+  "question_id": 83,
+  "answer": "select s.type,count(distinct case when t.language='Japanese' and t.translation is not null then s.code end) from sets s left join set_translations t on t.setCode=s.code group by s.type order by s.type",
+  "attempts": 1
+ },
+ {
+  "question_id": 85,
+  "answer": "select count(*) from cards where setCode in (select setCode from cards where name='Ancestor''s Chosen' order by (select releaseDate from sets where code=setCode) desc limit 1) and types like '%Creature%' and cast(power as int)>cast(toughness as int)",
+  "attempts": 1
+ },
+ {
+  "question_id": 98,
+  "answer": "select distinct name from cards where isPromo=1 and layout in ('split','transform','adventure','modal_dfc','flip','meld','aftermath') and originalReleaseDate like '2019/%'",
+  "attempts": 2
+ },
+ {
+  "question_id": 104,
+  "answer": "select sum(convertedManaCost) from cards where artist='Rob Alexander' and originalReleaseDate like '2013/%'",
+  "attempts": 1
+ }
+]

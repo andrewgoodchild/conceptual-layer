@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 295,
+  "answer": "select round(avg(t),2) from (select sum(e.cost) t from expense e join member m on m.member_id=e.link_to_member join budget b on b.budget_id=e.link_to_budget where m.first_name='Elijah' and m.last_name='Allen' and substr(e.expense_date,6,2) in ('09','10') group by b.link_to_event)",
+  "attempts": 2
+ },
+ {
+  "question_id": 299,
+  "answer": "select e.event_name from event e join budget b on b.link_to_event=e.event_id where e.status='Closed' group by e.event_id having sum(b.spent)*1.0/sum(b.amount) = (select max(r) from (select sum(b.spent)*1.0/sum(b.amount) r from event e join budget b on b.link_to_event=e.event_id where e.status='Closed' group by e.event_id))",
+  "attempts": 2
+ },
+ {
+  "question_id": 320,
+  "answer": "with c as (select j.college, count(distinct j.major_id) n from member m join major j on j.major_id=m.link_to_major group by j.college) select college, n from c where n=(select max(n) from c) order by college",
+  "attempts": 2
+ },
+ {
+  "question_id": 323,
+  "answer": "select round(sum(coalesce(b.s,0))*1.0/count(*),2) from event e left join (select link_to_event, sum(spent) s from budget group by link_to_event) b on b.link_to_event=e.event_id",
+  "attempts": 2
+ },
+ {
+  "question_id": 324,
+  "answer": "with recursive sp(id,item,rest) as (select expense_id,'',expense_description||',' from expense union all select id,trim(substr(rest,1,instr(rest,',')-1)),substr(rest,instr(rest,',')+1) from sp where rest<>'') select e.event_name from event e left join (select b.link_to_event ev, sum(b.spent) s, sum(b.amount) a from budget b group by 1) t on t.ev=e.event_id left join (select b.link_to_event ev, count(*) p from sp join expense x on x.expense_id=sp.id join budget b on b.budget_id=x.link_to_budget where sp.item<>'' group by 1) q on q.ev=e.event_id where e.status='Closed' and coalesce(t.s,0)<=coalesce(t.a,0) order by coalesce(q.p,0) desc, e.event_id limit 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 325,
+  "answer": "with c as (select e.type, count(distinct a.link_to_member) n from event e join attendance a on a.link_to_event=e.event_id where substr(e.event_date,1,7) between '2019-09' and '2020-05' group by e.type) select type, n from c where n=(select max(n) from c)",
+  "attempts": 2
+ },
+ {
+  "question_id": 326,
+  "answer": "with recursive sp(id,item,rest) as (select expense_id,'',expense_description||',' from expense union all select id,trim(substr(rest,1,instr(rest,',')-1)),substr(rest,instr(rest,',')+1) from sp where rest<>'') select lower(item) i, count(distinct id) c from sp join expense e on e.expense_id=sp.id join budget b on b.budget_id=e.link_to_budget where item<>'' and b.category='Food' group by 1 order by 2 desc, 1 limit 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 328,
+  "answer": "select e.event_name, e.event_date, (select sum(amount) from budget b where b.link_to_event=e.event_id) total_budget, (select count(*) from attendance a where a.link_to_event=e.event_id) attendees from event e order by e.event_name, e.event_date",
+  "attempts": 2
+ }
+]

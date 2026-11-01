@@ -1,0 +1,18 @@
+[
+ {
+  "question_id": 149,
+  "answer": "DEFINE Tot ::= LIST cu, t FROM Yearmonth y has Customer cu AND ALSO y has YearmonthDate d AND ALSO y has YearmonthConsumption c WHERE starts_with(d, '2013') AND ALSO THE SUM OF c GROUPED BY cu AS t\nLIST round((THE MINIMUM t IN Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'SME'] has Tot TotT t) - (THE MINIMUM t IN Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'LAM'] has Tot TotT t), 2), round((THE MINIMUM t IN Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'LAM'] has Tot TotT t) - (THE MINIMUM t IN Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'KAM'] has Tot TotT t), 2), round((THE MINIMUM t IN Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'KAM'] has Tot TotT t) - (THE MINIMUM t IN Customer [has CustomerCurrency: 'CZK'] [has CustomerSegment: 'SME'] has Tot TotT t), 2)",
+  "attempts": 3
+ },
+ {
+  "question_id": 151,
+  "answer": "LIST round(((THE SUM OF c IN Yearmonth [has Customer has CustomerID: 6718] has YearmonthDate d AND ALSO has YearmonthConsumption c WHERE starts_with(d, '2013')) - (THE SUM OF c IN Yearmonth [has Customer has CustomerID: 6718] has YearmonthDate d AND ALSO has YearmonthConsumption c WHERE starts_with(d, '2012'))) / (THE SUM OF c IN Yearmonth [has Customer has CustomerID: 6718] has YearmonthDate d AND ALSO has YearmonthConsumption c WHERE starts_with(d, '2012')), 4)",
+  "attempts": 2,
+  "note": "customer 6718 found via Price=634.8 on 2012-08-25"
+ },
+ {
+  "question_id": 155,
+  "answer": "DEFINE Fx ::= LIST x, s FROM Transactions1k x AND ALSO has Transactions1kDate d AND ALSO has Transactions1kTime t AND ALSO has Transactions1kPrice p AND ALSO (days_between(d, '2012-08-23') * 86400 + castInteger(substr(t,1,2)) * 3600 + castInteger(substr(t,4,2)) * 60 + castInteger(substr(t,7,2))) AS s WHERE p > 1000\nLIST div(THE MAXIMUM s IN Transactions1k [has Gasstation has GasstationCountry: 'CZE'] has Fx FxS s - THE MINIMUM s2 IN Transactions1k [has Gasstation has GasstationCountry: 'CZE'] has Fx FxS s2, 60)",
+  "attempts": 1
+ }
+]

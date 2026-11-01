@@ -13,7 +13,7 @@ answer, so they are counted separately:
 A language that trades the second for the first is doing something valuable even when its
 execution accuracy is no better.
 """
-import json, os, sqlite3, sys, collections, time
+import collections, decimal, itertools, json, math, operator, os, sqlite3, sys, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -82,6 +82,75 @@ def rows(conn, statement, params=()):
 def bird_ex(got, want):
     """BIRD's own comparison: the result sets, as sets of raw tuples."""
     return set(got) == set(want)
+
+
+def multiset_ex(got, want):
+    """The same with duplicates counted, which BIRD's sets collapse (ModularSQL, 2609.29573)."""
+    return collections.Counter(got) == collections.Counter(want)
+
+
+def _close(a, b):
+    if isinstance(a, (int, float, decimal.Decimal)) and isinstance(b, (int, float, decimal.Decimal)):
+        return math.isclose(float(a), float(b), rel_tol=1e-6, abs_tol=1e-9)
+    return a == b
+
+
+def _rounded(row):
+    return [round(float(v), 4) if isinstance(v, (int, float, decimal.Decimal)) else str(v)
+            for v in row]
+
+
+def _alike(got, want, ordered, tolerance):
+    if len(got) != len(want):
+        return False
+    if not ordered:
+        got, want = sorted(got, key=_rounded_key), sorted(want, key=_rounded_key)
+    return all(len(g) == len(w) and all((_close if tolerance else operator.eq)(a, b)
+                                        for a, b in zip(g, w)) for g, w in zip(got, want))
+
+
+def _rounded_key(row):
+    return [(isinstance(v, str), v) for v in _rounded(row)]
+
+
+def _columns_of(got, want):
+    """`got` cut down to `want`'s columns in `want`'s order, or None. Each of `want`'s columns
+    is matched by its sorted values, so this is the check that drops a working column."""
+    if not want or not got or len(got[0]) < len(want[0]):
+        return None
+    free, picked = list(range(len(got[0]))), []
+    for i in range(len(want[0])):
+        column = sorted(map(str, (r[i] for r in want)))
+        hit = next((j for j in free if sorted(map(str, (r[j] for r in got))) == column), None)
+        if hit is None:
+            return None
+        free.remove(hit)
+        picked.append(hit)
+    return [tuple(r[j] for j in picked) for r in got]
+
+
+RELAXATIONS = ("order", "tolerance", "columns")
+
+
+def relaxed_ex(got, want, ordered=False, distinct=False):
+    """A labelled second opinion, never the score: the fewest of RELAXATIONS that make `got`
+    equal `want`, as a tuple -- () if it is equal already -- or None if none do. `order` lets
+    rows of an ordered result change places, which is broader than the tie-set it stands in
+    for; `tolerance` is one part in a million; `columns` forgives extra or reordered columns.
+    `distinct` compares sets, as BIRD does. Which rule fired is the point: report by rule."""
+    if distinct:
+        got, want = list(dict.fromkeys(got)), list(dict.fromkeys(want))
+    rules = [r for r in RELAXATIONS if ordered or r != "order"]
+    for size in range(len(rules) + 1):
+        for used in itertools.combinations(rules, size):
+            mine = _columns_of(got, want) if "columns" in used else got
+            if mine is None:
+                continue
+            if distinct and "columns" in used:
+                mine = list(dict.fromkeys(mine))
+            if _alike(mine, want, ordered and "order" not in used, "tolerance" in used):
+                return used
+    return None
 
 
 def main():

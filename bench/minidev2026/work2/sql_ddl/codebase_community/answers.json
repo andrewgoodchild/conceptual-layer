@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 118,
+  "answer": "SELECT u.DisplayName FROM posts p JOIN users u ON u.Id = p.LastEditorUserId WHERE p.Title = 'Examples for teaching: Correlation does not mean causation'",
+  "attempts": 2
+ },
+ {
+  "question_id": 122,
+  "answer": "SELECT p.Id, u.DisplayName FROM posts p JOIN users u ON u.Id = p.OwnerUserId WHERE p.CreaionDate LIKE '2010%' ORDER BY p.FavoriteCount DESC LIMIT 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 124,
+  "answer": "SELECT c.Text, u.DisplayName FROM comments c JOIN posts p ON p.Id = c.PostId LEFT JOIN users u ON u.Id = c.UserId WHERE p.Title = 'Analysing wind data with R' ORDER BY c.CreationDate DESC LIMIT 10",
+  "attempts": 2
+ },
+ {
+  "question_id": 131,
+  "answer": "SELECT CAST(ROUND(AVG(Reputation)) AS INTEGER) FROM users WHERE Id IN (SELECT OwnerUserId FROM posts WHERE Tags LIKE '%<r>%' AND Score < 20)",
+  "attempts": 2
+ },
+ {
+  "question_id": 144,
+  "answer": "SELECT ROUND(AVG(Reputation), 2) FROM users WHERE Id IN (SELECT OwnerUserId FROM posts WHERE CreaionDate LIKE '2010%') AND LOWER(TRIM(Location)) = 'india'",
+  "attempts": 2
+ },
+ {
+  "question_id": 145,
+  "answer": "SELECT ROUND(AVG(UpVotes), 2), ROUND(AVG(Age), 2) FROM users WHERE Id IN (SELECT OwnerUserId FROM posts WHERE CreaionDate LIKE '2012%' GROUP BY OwnerUserId HAVING COUNT(*) > 10)",
+  "attempts": 2
+ }
+]

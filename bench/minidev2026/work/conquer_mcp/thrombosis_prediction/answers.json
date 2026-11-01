@@ -1,0 +1,104 @@
+[
+ {
+  "question_id": 388,
+  "answer": "THE DISTINCT COUNT OF Patient [is of Laboratory has LaboratoryCRP c WHERE contains(c, '+')] BUT NOT [has PatientDescription]",
+  "attempts": 3,
+  "note": "positive = CRP containing '+'"
+ },
+ {
+  "question_id": 398,
+  "answer": "THE DISTINCT COUNT OF Patient [has PatientAdmission: '-'] [is of Laboratory has LaboratoryHCT h WHERE castNumber(h) <= 29 OR castNumber(h) >= 52] [is of Laboratory has LaboratoryRNP r WHERE castNumber(r) > 16]",
+  "attempts": 2,
+  "note": ""
+ },
+ {
+  "question_id": 401,
+  "answer": "DEFINE SleLab ::= LIST l, tp FROM DISTINCT Laboratory l [has Patient [has PatientSEX: 'F'] [is of Examination has ExaminationDiagnosis d WHERE contains(d, 'SLE')]] AND ALSO has LaboratoryTP tp\nLIST round(THE AVERAGE v IN (Laboratory l has SleLab AND ALSO l has LaboratoryTP t AND ALSO (t - 8.5) AS v WHERE t > 8.5), 3)",
+  "attempts": 6,
+  "note": "SLE = diagnosis contains 'SLE' (includes 'SLE susp')"
+ },
+ {
+  "question_id": 406,
+  "answer": "LIST THE DISTINCT COUNT OF Patient [has PatientSEX: 'F'] [is of Laboratory has LaboratoryRNP r WHERE castNumber(r) > 32], THE DISTINCT COUNT OF Patient [has PatientSEX: 'M'] [is of Laboratory has LaboratoryRNP r2 WHERE castNumber(r2) > 32]",
+  "attempts": 3,
+  "note": "women, men -> 12, 0"
+ },
+ {
+  "question_id": 409,
+  "answer": "THE DISTINCT COUNT OF Patient [is of Examination e has ExaminationDate d AND ALSO e has ExaminationThrombosis t WHERE t > 0 AND d >= '1997-01-01' AND d <= '1997-12-31']",
+  "attempts": 1,
+  "note": "thrombosis = grade > 0"
+ },
+ {
+  "question_id": 424,
+  "answer": "THE DISTINCT COUNT OF Patient [has PatientSEX: 'F'] [is of Laboratory has LaboratoryDNA d WHERE castNumber(d) < 8]",
+  "attempts": 2,
+  "note": ""
+ },
+ {
+  "question_id": 435,
+  "answer": "LIST p, s, dt, u FROM Laboratory has Patient p AND ALSO has LaboratoryDate dt AND ALSO has LaboratoryUPRO u AND ALSO p OPTIONALLY has PatientSEX s ORDERED WITH dt DESCENDING THE FIRST 1 PER p",
+  "attempts": 2,
+  "note": ""
+ },
+ {
+  "question_id": 438,
+  "answer": "LIST bd FROM Patient p [is of Laboratory has LaboratoryRNP r WHERE castNumber(r) >= 16] has PatientBirthday bd AND ALSO is of Laboratory has LaboratoryGPT g AND ALSO castNumber(g) AS gn WHERE gn < 60 AND ALSO THE MAXIMUM gn GROUPED BY p AS m ORDERED WITH m DESCENDING, p ASCENDING THE FIRST 3",
+  "attempts": 3,
+  "note": "took the stated procedure literally: max normal GPT per patient, no exclusion of patients with some abnormal GPT"
+ },
+ {
+  "question_id": 440,
+  "answer": "LIST age, dg FROM Laboratory has Patient p AND ALSO has LaboratoryDate dt AND ALSO has LaboratoryDNA d AND ALSO castNumber(d) AS dn AND ALSO p [has PatientAdmission: '+'] AND ALSO p has PatientBirthday bd AND ALSO p OPTIONALLY has PatientDiagnosis dg AND ALSO (year(dt) - year(bd) - if(month(dt)*100+day(dt) < month(bd)*100+day(bd), 1, 0)) AS age ORDERED WITH dn DESCENDING, dt ASCENDING THE FIRST 1",
+  "attempts": 3,
+  "note": ""
+ },
+ {
+  "question_id": 446,
+  "answer": "(THE DISTINCT COUNT OF p IN (Laboratory has Patient p AND ALSO has LaboratoryDate dt AND ALSO has LaboratoryRNP r AND ALSO p [has PatientSEX: 'F'] WHERE castNumber(r) >= 32 AND dt = THE MAXIMUM x IN Laboratory [has Patient: !p] has LaboratoryDate x)) - (THE DISTINCT COUNT OF q IN (Laboratory has Patient q AND ALSO has LaboratoryDate dt2 AND ALSO has LaboratoryRNP r2 AND ALSO q [has PatientSEX: 'M'] WHERE castNumber(r2) >= 32 AND dt2 = THE MAXIMUM y IN Laboratory [has Patient: !q] has LaboratoryDate y))",
+  "attempts": 5,
+  "note": "most recent visit = latest lab date of the patient, whether or not RNP was measured then; result 1. Reading it as latest visit with an RNP result would give 12"
+ },
+ {
+  "question_id": 451,
+  "answer": "THE DISTINCT COUNT OF Patient [has PatientSEX: 'F'] [has PatientAdmission a WHERE starts_with(a, '+')] [has PatientFirstDate d WHERE d >= '1998-01-01' AND d <= '1998-12-31']",
+  "attempts": 1,
+  "note": ""
+ },
+ {
+  "question_id": 453,
+  "answer": "LIST dg FROM Patient p has PatientFirstDate d AND ALSO has PatientAdmission a AND ALSO has PatientBirthday bd AND ALSO OPTIONALLY has PatientDiagnosis dg WHERE d >= '1998-02-15' AND d <= '1998-02-28' AND starts_with(a, '+') ORDERED WITH bd ASCENDING, p ASCENDING THE FIRST 1",
+  "attempts": 2,
+  "note": ""
+ },
+ {
+  "question_id": 454,
+  "answer": "LIST round(THE AVERAGE m IN (Examination has ExaminationACLIgM m AND ALSO has ExaminationDate d AND ALSO has ExaminationDiagnosis dg WHERE d >= '1993-10-01' AND d <= '1993-10-31' AND contains(dg, 'SLE')), 1)",
+  "attempts": 2,
+  "note": ""
+ },
+ {
+  "question_id": 455,
+  "answer": "THE DISTINCT COUNT OF Patient [has PatientDiagnosis d WHERE contains(d, 'psoriatic arthritis')]",
+  "attempts": 3,
+  "note": ""
+ },
+ {
+  "question_id": 456,
+  "answer": "LIST s, c FROM Patient p [has PatientSEX s WHERE s = 'F' OR s = 'M'] BUT NOT [is of Laboratory has LaboratoryGPT g WHERE castNumber(g) >= 60] AND ALSO THE DISTINCT COUNT OF p GROUPED BY s AS c",
+  "attempts": 2,
+  "note": ""
+ },
+ {
+  "question_id": 462,
+  "answer": "THE DISTINCT COUNT OF Patient [is of Laboratory has LaboratorySM m WHERE m = 'negative' OR m = '0'] [is of Laboratory has LaboratoryUPRO u WHERE u = '+1(30)' OR u = '+2(100)' OR u = '100' OR u = '30' OR u = '300' OR u = '>=1000' OR u = '>=300'] BUT NOT [is of Examination has ExaminationThrombosis t WHERE t > 0]",
+  "attempts": 3,
+  "note": "significant proteinuria = values meaning >=30 mg/dl"
+ },
+ {
+  "question_id": 465,
+  "answer": "THE DISTINCT COUNT OF p IN (Laboratory has Patient p AND ALSO has LaboratoryWBC w AND ALSO has LaboratoryFG f AND ALSO has LaboratoryRNP r AND ALSO p [has PatientSEX: 'F'] WHERE castNumber(w) > 3.5 AND castNumber(w) < 9.0 AND (castNumber(f) <= 150 OR castNumber(f) >= 450) AND castNumber(r) > 15)",
+  "attempts": 1,
+  "note": "all three conditions on the same lab record"
+ }
+]

@@ -1,0 +1,61 @@
+[
+ {
+  "question_id": 242,
+  "answer": "DEFINE Wins ::= LIST d, w FROM Result r [has ResultPosition: 1] has Driver d AND ALSO THE COUNT OF r GROUPED BY d AS w\nLIST f, l, nat, mp FROM Driver d has DriverForename f AND ALSO has DriverSurname l AND ALSO has DriverNationality nat AND ALSO d has Wins WinsW w AND ALSO d is of DriverStanding has DriverStandingPoints p AND ALSO THE MAXIMUM p GROUPED BY d AS mp ORDERED WITH w DESCENDING THE FIRST 1 WITH TIES",
+  "attempts": 5
+ },
+ {
+  "question_id": 244,
+  "answer": "DEFINE WinLaps ::= LIST rc, wl FROM Result [has ResultPosition: 1] has Race rc AND ALSO has ResultLaps wl\nLIST round(THE AVERAGE v IN (Result [has Driver [has DriverNationality: 'Japanese']] has Race rc has Season s AND ALSO has ResultLaps l AND ALSO rc has WinLaps ResultLaps wl AND ALSO if(l = wl, 100.0, 0.0) AS v WHERE s >= 2007 AND s <= 2009), 2)",
+  "attempts": 4
+ },
+ {
+  "question_id": 247,
+  "answer": "LIST t, n, nat FROM ConstructorResult cr has Race [has RaceName: 'Monaco Grand Prix'] has Season y AND ALSO cr has Constructor c AND ALSO c has ConstructorName n AND ALSO c has ConstructorNationality nat AND ALSO cr has ConstructorResultPoints p AND ALSO THE SUM OF p GROUPED BY c AS t WHERE y >= 1980 AND y <= 2010 ORDERED WITH t DESCENDING THE FIRST 1 WITH TIES",
+  "attempts": 1
+ },
+ {
+  "question_id": 251,
+  "answer": "DEFINE Cnt ::= LIST rc, c FROM PitStop ps has Race rc AND ALSO THE COUNT OF ps GROUPED BY rc AS c\nLIST round(THE AVERAGE v IN (Race rc [has Season: 2017] has RaceName n AND ALSO OPTIONALLY rc has Cnt CntC c AND ALSO coalesce(c, 0) AS v WHERE THE COUNT OF Race [has Season: 2000] [has RaceName: !n] = 0), 2)",
+  "attempts": 4,
+  "note": "Counted zero for 2017 races with no pit stop rows; 'hosted in 2000' read by race name."
+ },
+ {
+  "question_id": 252,
+  "answer": "DEFINE Q3c ::= LIST d, k FROM Qualifying q [has QualifyingQ3 t WHERE length(t) > 0] has Driver d AND ALSO THE COUNT OF q GROUPED BY d AS k\nLIST f, l, u, b, n FROM Driver d [has DriverNationality: 'German'] has DriverForename f AND ALSO has DriverSurname l AND ALSO has DriverUrl u AND ALSO has DriverDob b AND ALSO OPTIONALLY d has k Q3cK k AND ALSO coalesce(k, 0) AS n WHERE year(b) >= 1971 AND year(b) <= 1985 ORDERED WITH n DESCENDING, b ASCENDING",
+  "attempts": 2,
+  "note": "Blank Q3 strings excluded from the count."
+ },
+ {
+  "question_id": 255,
+  "answer": "LIST f, l, t FROM Qualifying q [has Race [has RaceName: 'Japanese Grand Prix'] [has Season: 1995]] has QualifyingQ1 t AND ALSO has Driver d AND ALSO d has DriverForename f AND ALSO d has DriverSurname l AND ALSO castNumber(substr(t, 1, instr(t, ':') - 1)) * 60 + castNumber(substr(t, instr(t, ':') + 1)) AS secs WHERE length(t) > 0 ORDERED WITH secs ASCENDING THE FIRST 1 WITH TIES",
+  "attempts": 2,
+  "note": "Compared as seconds because one Q1 value is 16:42.640."
+ },
+ {
+  "question_id": 258,
+  "answer": "LIST f, c FROM Result [has ResultPosition: 2] [has Race [has RaceName: 'Italian Grand Prix']] has Driver d has DriverForename f AND ALSO THE DISTINCT COUNT OF d GROUPED BY f AS c WHERE c >= 2 ORDERED WITH c DESCENDING, f ASCENDING",
+  "attempts": 1,
+  "note": "Distinct drivers counted per forename."
+ },
+ {
+  "question_id": 264,
+  "answer": "DEFINE Q3c ::= LIST d, k FROM Qualifying q [has QualifyingQ3 t WHERE length(t) > 0] has Driver d AND ALSO THE COUNT OF q GROUPED BY d AS k\nLIST round(THE AVERAGE v IN (Driver d has DriverDob b AND ALSO OPTIONALLY d has k Q3cK k AND ALSO coalesce(k, 0) AS v WHERE year(b) >= 1981 AND year(b) <= 1991), 2)",
+  "attempts": 1
+ },
+ {
+  "question_id": 267,
+  "answer": "DEFINE Slow ::= LIST rc, pk FROM LapTime lt has Race rc AND ALSO has Driver dv AND ALSO dv has DriverForename f AND ALSO dv has DriverSurname l AND ALSO has LapTimeMilliseconds ms AND ALSO THE MINIMUM ms GROUPED BY rc, dv, f, l AS mv AND ALSO concat(l, '|', f, '|', mv) AS pk WHERE mv > 90000\nLIST dt, fn, ln, tm FROM Race rc [has RaceName: 'French Grand Prix'] has RaceDate dt AND ALSO has Season y AND ALSO OPTIONALLY rc has Slow SlowPk pk AND ALSO substr(pk, 1, instr(pk, '|') - 1) AS ln AND ALSO substr(pk, instr(pk, '|') + 1) AS rest AND ALSO substr(rest, 1, instr(rest, '|') - 1) AS fn AND ALSO castInteger(substr(rest, instr(rest, '|') + 1)) AS ms AND ALSO concat(div(ms, 60000), ':', substr(concat('0', div(ms - 60000 * div(ms, 60000), 1000)), -2, 2), '.', substr(concat('00', ms - 1000 * div(ms, 1000)), -3, 3)) AS tm WHERE y >= 1990 ORDERED WITH dt ASCENDING, ln ASCENDING, fn ASCENDING",
+  "attempts": 6
+ },
+ {
+  "question_id": 279,
+  "answer": "DEFINE FW ::= LIST d, pk FROM Result [has ResultPosition: 1] has Driver d AND ALSO has Race rc AND ALSO rc has RaceDate dt AND ALSO rc has RaceName rn AND ALSO concat(dt, '|', rn) AS s AND ALSO THE MINIMUM s GROUPED BY d AS pk\nDEFINE St ::= LIST d, k FROM Result r has Driver d AND ALSO has Race rc AND ALSO THE DISTINCT COUNT OF rc GROUPED BY d AS k\nLIST nm, nat, rn, dt, k FROM Driver d has DriverForename f AND ALSO has DriverSurname l AND ALSO has DriverNationality nat AND ALSO has DriverDob b AND ALSO d has FW FWPk pk AND ALSO d has St StK k AND ALSO concat(f, ' ', l) AS nm AND ALSO substr(pk, 1, 10) AS dt AND ALSO substr(pk, 12) AS rn ORDERED WITH b ASCENDING, nm ASCENDING THE FIRST 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 282,
+  "answer": "LIST l, rn FROM Qualifying q [has Race rc [has Season: 2017]] has QualifyingQ2 t AND ALSO has Driver d AND ALSO d has DriverSurname l AND ALSO rc has RaceName rn AND ALSO castNumber(substr(t, 1, instr(t, ':') - 1)) * 60 + castNumber(substr(t, instr(t, ':') + 1)) AS secs WHERE length(t) > 0 ORDERED WITH secs ASCENDING THE FIRST 1 WITH TIES",
+  "attempts": 1
+ }
+]

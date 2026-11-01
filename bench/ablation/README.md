@@ -18,12 +18,21 @@ what is left. Our reverse engineer already has the first two (rules 9, 9b, 9c; f
 Every arm strips the declared references before it runs and never reads them; they are
 compared with afterwards.
 
+- **AdventureWorks OLTP**, 71 tables, 759k rows, 91 declared references, the one corpus the
+  recent papers share (finding 179). `fetch-corpora.sh` fetches it and `corpora.py` builds it
+  into `work/bar/` without running anything downloaded; `corpora.py destroy` makes the
+  names-destroyed copy in `work/bar-blind/`. Run with
+  `refs.py names --dbdir bench/ablation/work/bar --corpus bar --db adventureworks`; `--corpus`
+  keeps these results apart from the recorded ones. **MusicBrainz**'s sample, 236 tables, 25.7M
+  rows and 469 declared references, is built and run the same way, at 7 to 8 minutes an
+  analysis (finding 180).
+
 ## Arms (`refs.py`)
 
 | arm | what is on |
 |---|---|
 | `names` | rule 9c with name evidence, gated as `apply_references` gates it (name-corroborated) |
-| `rules` | rule 9c on the data alone, as shipped: preferred + significant, score >= 2.6 |
+| `rules` | rule 9c with name evidence scored at zero, as shipped: preferred + significant, score >= 2.6. Not name-free: `name_score` still breaks ties among proven containments (findings 120, 179), unless the names are no words at all (finding 180), so `bar-blind` is the data-only measure |
 | `+1to1` | ...and a table's own key contained in another's key counts (the 1:1 split shape) |
 | `+md1+mr1` | ...and the significance floors (3 distinct values, 50 rows) removed |
 | `+t0` | ...and the proposal threshold removed: every best-scoring containment, swept by score |

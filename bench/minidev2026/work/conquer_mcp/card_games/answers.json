@@ -1,0 +1,83 @@
+[
+ {
+  "question_id": 53,
+  "answer": "LIST round(THE COUNT OF Card [has CardIsStorySpotlight: 1] [is of ForeignData has ForeignDataLanguage: 'French'] * 100.0 / THE COUNT OF Card [has CardIsStorySpotlight: 1], 2)",
+  "attempts": 1
+ },
+ {
+  "question_id": 54,
+  "answer": "LIST u FROM Card [has CardDuelDeck: 'a'] has CardUuid u",
+  "attempts": 1,
+  "note": "id taken as CardUuid per the schema's Identification section"
+ },
+ {
+  "question_id": 60,
+  "answer": "LIST round(THE COUNT OF Card [has CardSetCode: 'CSP'] [has CardKingdomId] [has CardKingdomFoilId] * 100.0 / THE COUNT OF Card [has CardSetCode: 'CSP'], 2)",
+  "attempts": 1,
+  "note": "Coldsnap = set code CSP only (not Theme Decks or Promos)"
+ },
+ {
+  "question_id": 62,
+  "answer": "THE DISTINCT COUNT OF n IN Card [has CardIsPromo: 1] [has CardLeadershipSkills ls] [has CardTypes t] has CardName n WHERE contains(ls,'brawl'': True') AND contains(t,'Creature')",
+  "attempts": 2
+ },
+ {
+  "question_id": 63,
+  "answer": "THE MAXIMUM v IN (Card [has CardName: 'Tarmogoyf'] has CardFrameVersion y WHERE y <> 'future' AND ALSO castInteger(y) AS v) - THE MINIMUM w IN (Card [has CardName: 'Tarmogoyf'] has CardFrameVersion z WHERE z <> 'future' AND ALSO castInteger(z) AS w)",
+  "attempts": 1,
+  "note": "'future' frame excluded as not a year"
+ },
+ {
+  "question_id": 69,
+  "answer": "LIST y, c FROM Card has CardFrameVersion y AND ALSO THE COUNT OF y GROUPED BY y AS c WHERE y = 'future'",
+  "attempts": 2,
+  "note": "newest frame version among cost-0 cards is 'future' (checked separately); its count is 93"
+ },
+ {
+  "question_id": 73,
+  "answer": "LIST n, p FROM Set has SetCode c AND ALSO has SetName n AND ALSO round((THE COUNT OF Card [has CardSetCode: !c] [has CardManaCost] [has CardConvertedManaCost m] WHERE m <= 3) * 100.0 / (THE COUNT OF Card [has CardSetCode: !c]), 2) AS p WHERE c = 'USG' OR c = 'TSR'",
+  "attempts": 2,
+  "note": "sets chosen by separate queries: USG (earliest Abyssal Horror set), TSR (latest)"
+ },
+ {
+  "question_id": 77,
+  "answer": "LIST n FROM DISTINCT Card [has CardSetCode: 'DKA'] [has CardKeywords k] has CardName n AND ALSO has CardConvertedManaCost m WHERE contains(concat(',',k,','),',Flash,') AND m = THE MAXIMUM v IN Card [has CardSetCode: 'DKA'] [has CardKeywords k2] has CardConvertedManaCost v WHERE contains(concat(',',k2,','),',Flash,') ORDERED WITH n ASCENDING",
+  "attempts": 3,
+  "note": "exact keyword match, since contains('Flash') also matches Flashback"
+ },
+ {
+  "question_id": 78,
+  "answer": "LIST n, k, c FROM Set s has SetName n AND ALSO has SetReleaseDate d AND ALSO OPTIONALLY has SetKeyruneCode k AND ALSO (THE DISTINCT COUNT OF l IN SetTranslation [has Set: !s] has SetTranslationLanguage l) AS c WHERE year(d) = 2020",
+  "attempts": 1,
+  "note": "sets with no translations kept with 0"
+ },
+ {
+  "question_id": 79,
+  "answer": "(THE SUM OF p IN (Set s has SetCode c AND ALSO has SetReleaseDate d AND ALSO (THE COUNT OF Card [has CardSetCode: !c]) AS p WHERE year(d) = 2017 AND SOME SetTranslation [has Set: !s])) + (THE SUM OF p2 IN (Set has SetCode c2 AND ALSO has SetParentCode pc AND ALSO (THE COUNT OF Card [has CardSetCode: !c2]) AS p2 WHERE SOME Set ps [has SetCode: !pc] [has SetReleaseDate d2] [is of SetTranslation] WHERE year(d2) = 2017))",
+  "attempts": 3,
+  "note": "counts cards of qualifying 2017 sets plus cards of their child sets (parentCode); own sets alone give 808"
+ },
+ {
+  "question_id": 83,
+  "answer": "LIST t, c FROM DISTINCT Set s has SetType t AND ALSO (THE COUNT OF Set [has SetType: !t] [is of SetTranslation has SetTranslationLanguage: 'Japanese']) AS c ORDERED WITH t ASCENDING",
+  "attempts": 3
+ },
+ {
+  "question_id": 85,
+  "answer": "THE SUM OF n IN (Set has SetCode c AND ALSO has SetReleaseDate d AND ALSO (THE COUNT OF Card [has CardSetCode: !c] [has CardTypes ty] [has CardPower p] [has CardToughness th] WHERE contains(ty, 'Creature') AND NOT contains(p, '*') AND NOT contains(th, '*') AND castNumber(p) > castNumber(th)) AS n WHERE SOME Card [has CardName: 'Ancestor''s Chosen'] [has CardSetCode: !c] AND d = THE MAXIMUM d2 IN Set has SetCode c2 AND ALSO has SetReleaseDate d2 WHERE SOME Card [has CardName: 'Ancestor''s Chosen'] [has CardSetCode: !c2])",
+  "attempts": 2,
+  "note": "latest set containing the card is UMA; '*' power/toughness excluded"
+ },
+ {
+  "question_id": 98,
+  "answer": "LIST n FROM DISTINCT Card [has CardIsPromo: 1] [has CardOtherFaceIds] [has CardOriginalReleaseDate d] has CardName n WHERE starts_with(d, '2019')",
+  "attempts": 3,
+  "note": "multi-face = has other face ids; originalReleaseDate is text like 2019/10/6 which year() misreads, so compared by prefix"
+ },
+ {
+  "question_id": 104,
+  "answer": "THE SUM OF m IN Card [has CardArtist: 'Rob Alexander'] [has CardOriginalReleaseDate d] has CardConvertedManaCost m WHERE starts_with(d, '2013')",
+  "attempts": 3,
+  "note": "date text like 2013/1/11 which year() misreads, so compared by prefix"
+ }
+]

@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 343,
+  "answer": "select avg(s.height_cm) from superhero s join publisher p on p.id=s.publisher_id where p.publisher_name='Marvel Comics' and s.height_cm>0 and exists (select 1 from hero_power hp where hp.hero_id=s.id and hp.power_id not in (select hp2.power_id from hero_power hp2 join superhero s2 on s2.id=hp2.hero_id join publisher p2 on p2.id=s2.publisher_id where p2.publisher_name='DC Comics'))",
+  "attempts": 1
+ },
+ {
+  "question_id": 345,
+  "answer": "select round(avg(s.weight_kg),1) from superhero s join colour c on c.id=s.skin_colour_id where c.colour='Green' and s.weight_kg>0",
+  "attempts": 1
+ },
+ {
+  "question_id": 349,
+  "answer": "select g.gender, (select count(*) from superhero s join colour c on c.id=s.hair_colour_id where c.colour='Blue' and s.gender_id=g.id and (select count(*) from hero_power hp where hp.hero_id=s.id)>=10) as n from gender g where g.gender in ('Male','Female')",
+  "attempts": 2
+ },
+ {
+  "question_id": 363,
+  "answer": "select round(avg(s.weight_kg),2) from superhero s join gender g on g.id=s.gender_id where g.gender='Female' and s.weight_kg>0",
+  "attempts": 1
+ },
+ {
+  "question_id": 369,
+  "answer": "select round(avg(s.weight_kg)) from superhero s join colour c on c.id=s.skin_colour_id join alignment a on a.id=s.alignment_id where c.colour='Green' and a.alignment='Bad' and s.weight_kg>0 and exists (select 1 from hero_power hp join superpower sp on sp.id=hp.power_id where hp.hero_id=s.id and sp.power_name='Flight')",
+  "attempts": 1
+ },
+ {
+  "question_id": 370,
+  "answer": "select round(avg(s.weight_kg),2) from superhero s join publisher p on p.id=s.publisher_id where p.publisher_name='George Lucas' and s.weight_kg>0 and exists (select 1 from hero_power hp where hp.hero_id=s.id)",
+  "attempts": 1
+ },
+ {
+  "question_id": 375,
+  "answer": "select count(*) from superhero s join alignment a on a.id=s.alignment_id where a.alignment='Neutral' and s.full_name is not null and full_name<>'-'",
+  "attempts": 1
+ },
+ {
+  "question_id": 376,
+  "answer": "select s.superhero_name, s.full_name from superhero s join hero_attribute ha on ha.hero_id=s.id join attribute a on a.id=ha.attribute_id where a.attribute_name='Speed' and ha.attribute_value=(select max(h2.attribute_value) from hero_attribute h2 join attribute a2 on a2.id=h2.attribute_id where a2.attribute_name='Speed') and s.full_name is not null and full_name<>'-'",
+  "attempts": 1
+ },
+ {
+  "question_id": 377,
+  "answer": "select e.colour, count(*) from superhero s join colour e on e.id=s.eye_colour_id join colour h on h.id=s.hair_colour_id where h.colour<>'Brown' and s.eye_colour_id in (select s2.eye_colour_id from superhero s2 join colour h2 on h2.id=s2.hair_colour_id where h2.colour='Brown') group by e.colour order by count(*) desc, e.colour",
+  "attempts": 1
+ },
+ {
+  "question_id": 381,
+  "answer": "select sum(case when e.colour='No Colour' then 1 else 0 end) - sum(case when e.colour='Blue' then 1 else 0 end) from superhero s join colour e on e.id=s.eye_colour_id where s.weight_kg is null or s.weight_kg=0",
+  "attempts": 1
+ }
+]

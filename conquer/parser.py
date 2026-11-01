@@ -587,12 +587,13 @@ class Parser:
         return self.toks[self.i + k] if self.i + k < len(self.toks) else None
 
     def match_phrase(self, phrases) -> Optional[str]:
-        """Longest phrase match at the cursor, over multi-word keyword phrases."""
+        """Longest phrase match at the cursor, over multi-word keyword phrases. A number
+        counts: `is home 1 of` is a verb part where a column is `home_player_1`."""
         for phrase in phrases:
             words = phrase.split()
             if all(self.peek(n) is not None
                    and self.peek(n).text.casefold() == w.casefold()
-                   and self.peek(n).kind in ("word", "punct")
+                   and self.peek(n).kind in ("word", "punct", "number")
                    for n, w in enumerate(words)):
                 self.i += len(words)
                 return phrase

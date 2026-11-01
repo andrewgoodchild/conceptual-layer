@@ -1,0 +1,3230 @@
+{
+ "database": "musicbrainz",
+ "verdicts": [
+  {
+   "id": "alternative_release_type.parent -> country_area.area",
+   "verdict": "no",
+   "reason": "parent is a self-referential hierarchy column; a single value 1 matching country_area.area is coincidence"
+  },
+  {
+   "id": "annotation.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "editor column with large editor-id values pointing at editor table"
+  },
+  {
+   "id": "area.type -> area_type.id",
+   "verdict": "yes",
+   "reason": "type of an area, small lookup table of area types, full coverage"
+  },
+  {
+   "id": "area.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "years like 1993 are dates, not language ids"
+  },
+  {
+   "id": "area.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month numbers overlapping small instrument ids"
+  },
+  {
+   "id": "area.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day-of-month numbers, not alias ids"
+  },
+  {
+   "id": "area.end_date_year -> language.id",
+   "verdict": "no",
+   "reason": "years are dates, not language ids"
+  },
+  {
+   "id": "area.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month numbers, coincidental small integers"
+  },
+  {
+   "id": "area.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day-of-month numbers, unrelated to recording aliases"
+  },
+  {
+   "id": "area_alias.area -> area.id",
+   "verdict": "yes",
+   "reason": "alias belongs to an area; ids span the area range"
+  },
+  {
+   "id": "area_alias.type -> area_type.id",
+   "verdict": "no",
+   "reason": "alias type should point at area_alias_type, not area_type; small-int overlap"
+  },
+  {
+   "id": "area_alias.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "years are dates"
+  },
+  {
+   "id": "area_alias.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month numbers, coincidence"
+  },
+  {
+   "id": "area_alias.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day numbers, coincidence"
+  },
+  {
+   "id": "area_alias.end_date_year -> language.id",
+   "verdict": "no",
+   "reason": "years are dates"
+  },
+  {
+   "id": "area_alias.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month numbers, coincidence"
+  },
+  {
+   "id": "area_alias.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day numbers, coincidence"
+  },
+  {
+   "id": "area_annotation.area -> area.id",
+   "verdict": "yes",
+   "reason": "join table linking annotation to area"
+  },
+  {
+   "id": "area_annotation.annotation -> annotation.id",
+   "verdict": "yes",
+   "reason": "join table linking to annotation text, id values fit"
+  },
+  {
+   "id": "area_gid_redirect.new_id -> area.id",
+   "verdict": "yes",
+   "reason": "redirect from old gid to the surviving area id"
+  },
+  {
+   "id": "area_tag.area -> area.id",
+   "verdict": "yes",
+   "reason": "tag join table, area column"
+  },
+  {
+   "id": "area_tag.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag join table, tag column"
+  },
+  {
+   "id": "area_tag_raw.area -> area.id",
+   "verdict": "yes",
+   "reason": "raw tag votes on an area"
+  },
+  {
+   "id": "area_tag_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "editor who cast the tag vote"
+  },
+  {
+   "id": "area_tag_raw.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag applied in raw vote"
+  },
+  {
+   "id": "area_type.child_order -> medium_format.id",
+   "verdict": "no",
+   "reason": "child_order is a sort position, not a reference"
+  },
+  {
+   "id": "artist.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month numbers, coincidence"
+  },
+  {
+   "id": "artist.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day numbers, coincidence"
+  },
+  {
+   "id": "artist.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month numbers, coincidence"
+  },
+  {
+   "id": "artist.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day numbers, coincidence"
+  },
+  {
+   "id": "artist.type -> area_type.id",
+   "verdict": "no",
+   "reason": "artist type should reference artist_type, area_type is a small-int coincidence"
+  },
+  {
+   "id": "artist.area -> area.id",
+   "verdict": "yes",
+   "reason": "artist's area, ids spread across area range"
+  },
+  {
+   "id": "artist.gender -> gender.id",
+   "verdict": "yes",
+   "reason": "gender lookup with five rows fully covered"
+  },
+  {
+   "id": "artist.begin_area -> area.id",
+   "verdict": "yes",
+   "reason": "begin area of an artist, thousands of distinct area ids"
+  },
+  {
+   "id": "artist.end_area -> area.id",
+   "verdict": "yes",
+   "reason": "end area of an artist, area ids"
+  },
+  {
+   "id": "artist_alias.artist -> artist.id",
+   "verdict": "yes",
+   "reason": "alias belongs to artist"
+  },
+  {
+   "id": "artist_alias.type -> area_type.id",
+   "verdict": "no",
+   "reason": "alias type belongs to artist_alias_type, not area_type"
+  },
+  {
+   "id": "artist_alias.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "years are dates"
+  },
+  {
+   "id": "artist_alias.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month numbers, coincidence"
+  },
+  {
+   "id": "artist_alias.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day numbers, coincidence"
+  },
+  {
+   "id": "artist_alias.end_date_year -> language.id",
+   "verdict": "no",
+   "reason": "years are dates"
+  },
+  {
+   "id": "artist_alias.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month numbers, coincidence"
+  },
+  {
+   "id": "artist_alias.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day numbers, coincidence"
+  },
+  {
+   "id": "artist_annotation.artist -> artist.id",
+   "verdict": "yes",
+   "reason": "join table from annotation to artist"
+  },
+  {
+   "id": "artist_annotation.annotation -> annotation.id",
+   "verdict": "yes",
+   "reason": "join table to annotation, unique per row"
+  },
+  {
+   "id": "artist_credit.artist_count -> instrument.id",
+   "verdict": "no",
+   "reason": "a count of artists, not an id"
+  },
+  {
+   "id": "artist_credit_gid_redirect.new_id -> artist_credit.id",
+   "verdict": "yes",
+   "reason": "redirect to surviving artist credit"
+  },
+  {
+   "id": "artist_credit_name.artist_credit -> artist_credit.id",
+   "verdict": "yes",
+   "reason": "name parts of a credit, full coverage of credits"
+  },
+  {
+   "id": "artist_credit_name.artist -> artist.id",
+   "verdict": "yes",
+   "reason": "artist named in a credit"
+  },
+  {
+   "id": "artist_gid_redirect.new_id -> artist.id",
+   "verdict": "yes",
+   "reason": "redirect to surviving artist"
+  },
+  {
+   "id": "artist_ipi.artist -> artist.id",
+   "verdict": "yes",
+   "reason": "IPI code belongs to artist"
+  },
+  {
+   "id": "artist_isni.artist -> artist.id",
+   "verdict": "yes",
+   "reason": "ISNI code belongs to artist"
+  },
+  {
+   "id": "artist_meta.rating -> genre_alias.id",
+   "verdict": "no",
+   "reason": "rating score 0-100, not an id"
+  },
+  {
+   "id": "artist_meta.rating_count -> language.id",
+   "verdict": "no",
+   "reason": "a count, not an id"
+  },
+  {
+   "id": "artist_rating_raw.artist -> artist.id",
+   "verdict": "yes",
+   "reason": "rating of an artist"
+  },
+  {
+   "id": "artist_rating_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "editor who rated"
+  },
+  {
+   "id": "artist_rating_raw.rating -> genre_alias.id",
+   "verdict": "no",
+   "reason": "rating values 20..100, not ids"
+  },
+  {
+   "id": "artist_tag.artist -> artist.id",
+   "verdict": "yes",
+   "reason": "tag join, artist column"
+  },
+  {
+   "id": "artist_tag.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag join, tag column"
+  },
+  {
+   "id": "artist_tag_raw.artist -> artist.id",
+   "verdict": "yes",
+   "reason": "raw tag vote on artist"
+  },
+  {
+   "id": "artist_tag_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "editor who voted"
+  },
+  {
+   "id": "artist_tag_raw.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag voted"
+  },
+  {
+   "id": "artist_type.parent -> country_area.area",
+   "verdict": "no",
+   "reason": "parent is self-referential within artist_type, country_area match is coincidence"
+  },
+  {
+   "id": "cdtoc.track_count -> instrument.id",
+   "verdict": "no",
+   "reason": "track counts, not instrument ids"
+  },
+  {
+   "id": "edit.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "editor who made the edit"
+  },
+  {
+   "id": "edit.type -> instrument.id",
+   "verdict": "no",
+   "reason": "edit type codes, unrelated to instrument"
+  },
+  {
+   "id": "edit.status -> release_status.id",
+   "verdict": "no",
+   "reason": "edit status is a code, not release status; small-int overlap"
+  },
+  {
+   "id": "edit_artist.edit -> edit.id",
+   "verdict": "yes",
+   "reason": "join table to edit, near full coverage of edit ids"
+  },
+  {
+   "id": "edit_artist.artist -> artist.id",
+   "verdict": "yes",
+   "reason": "artist affected by edit"
+  },
+  {
+   "id": "edit_artist.status -> release_status.id",
+   "verdict": "no",
+   "reason": "edit status code, not release status"
+  },
+  {
+   "id": "edit_recording.edit -> edit.id",
+   "verdict": "yes",
+   "reason": "join table to edit"
+  },
+  {
+   "id": "edit_recording.recording -> recording.id",
+   "verdict": "yes",
+   "reason": "recording affected by edit"
+  },
+  {
+   "id": "edit_release.edit -> edit.id",
+   "verdict": "yes",
+   "reason": "join table to edit, exact coverage"
+  },
+  {
+   "id": "edit_release.release -> release.id",
+   "verdict": "yes",
+   "reason": "release affected by edit"
+  },
+  {
+   "id": "edit_release_group.edit -> edit.id",
+   "verdict": "yes",
+   "reason": "join table to edit"
+  },
+  {
+   "id": "edit_release_group.release_group -> release_group.id",
+   "verdict": "yes",
+   "reason": "release group affected by edit"
+  },
+  {
+   "id": "edit_url.edit -> edit.id",
+   "verdict": "yes",
+   "reason": "join table to edit"
+  },
+  {
+   "id": "edit_url.url -> url.id",
+   "verdict": "yes",
+   "reason": "url affected by edit"
+  },
+  {
+   "id": "editor_collection.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "owner of the collection"
+  },
+  {
+   "id": "editor_collection.public -> place_alias.id",
+   "verdict": "no",
+   "reason": "boolean flag, not a reference"
+  },
+  {
+   "id": "editor_collection.type -> work_type.id",
+   "verdict": "no",
+   "reason": "collection type belongs to editor_collection_type, not work_type"
+  },
+  {
+   "id": "editor_collection_area.collection -> editor_collection.id",
+   "verdict": "yes",
+   "reason": "collection membership join"
+  },
+  {
+   "id": "editor_collection_area.area -> area.id",
+   "verdict": "yes",
+   "reason": "area in collection"
+  },
+  {
+   "id": "editor_collection_artist.collection -> editor_collection.id",
+   "verdict": "yes",
+   "reason": "collection membership join"
+  },
+  {
+   "id": "editor_collection_artist.artist -> artist.id",
+   "verdict": "yes",
+   "reason": "artist in collection"
+  },
+  {
+   "id": "editor_collection_label.collection -> editor_collection.id",
+   "verdict": "yes",
+   "reason": "collection membership join"
+  },
+  {
+   "id": "editor_collection_label.label -> label.id",
+   "verdict": "yes",
+   "reason": "label in collection"
+  },
+  {
+   "id": "editor_collection_place.collection -> editor_collection.id",
+   "verdict": "yes",
+   "reason": "collection membership join"
+  },
+  {
+   "id": "editor_collection_place.place -> place.id",
+   "verdict": "yes",
+   "reason": "place in collection"
+  },
+  {
+   "id": "editor_collection_recording.collection -> editor_collection.id",
+   "verdict": "yes",
+   "reason": "collection membership join"
+  },
+  {
+   "id": "editor_collection_recording.recording -> recording.id",
+   "verdict": "yes",
+   "reason": "recording in collection"
+  },
+  {
+   "id": "editor_collection_release.collection -> editor_collection.id",
+   "verdict": "yes",
+   "reason": "collection membership join"
+  },
+  {
+   "id": "editor_collection_release.release -> release.id",
+   "verdict": "yes",
+   "reason": "release in collection"
+  },
+  {
+   "id": "editor_collection_release_group.collection -> editor_collection.id",
+   "verdict": "yes",
+   "reason": "collection membership join"
+  },
+  {
+   "id": "editor_collection_release_group.release_group -> release_group.id",
+   "verdict": "yes",
+   "reason": "release group in collection"
+  },
+  {
+   "id": "editor_collection_series.collection -> editor_collection.id",
+   "verdict": "yes",
+   "reason": "collection membership join"
+  },
+  {
+   "id": "editor_collection_series.series -> series.id",
+   "verdict": "yes",
+   "reason": "series in collection"
+  },
+  {
+   "id": "editor_collection_type.parent -> country_area.area",
+   "verdict": "no",
+   "reason": "parent is self-referential in the type hierarchy, not an area"
+  },
+  {
+   "id": "editor_collection_type.child_order -> series_ordering_type.id",
+   "verdict": "no",
+   "reason": "child_order is a sort position"
+  },
+  {
+   "id": "editor_collection_work.collection -> editor_collection.id",
+   "verdict": "yes",
+   "reason": "collection membership join"
+  },
+  {
+   "id": "editor_collection_work.work -> work.id",
+   "verdict": "yes",
+   "reason": "work in collection"
+  },
+  {
+   "id": "editor_language.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "editor's spoken language rows"
+  },
+  {
+   "id": "editor_language.language -> language.id",
+   "verdict": "yes",
+   "reason": "language the editor speaks"
+  },
+  {
+   "id": "editor_subscribe_artist.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "subscribing editor"
+  },
+  {
+   "id": "editor_subscribe_artist.artist -> artist.id",
+   "verdict": "yes",
+   "reason": "subscribed artist"
+  },
+  {
+   "id": "editor_subscribe_artist.last_edit_sent -> edit.id",
+   "verdict": "yes",
+   "reason": "id of last edit emailed, values are edit-range ids"
+  },
+  {
+   "id": "editor_subscribe_label.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "subscribing editor"
+  },
+  {
+   "id": "editor_subscribe_label.label -> label.id",
+   "verdict": "yes",
+   "reason": "subscribed label"
+  },
+  {
+   "id": "editor_subscribe_label.last_edit_sent -> edit.id",
+   "verdict": "yes",
+   "reason": "id of last edit emailed"
+  },
+  {
+   "id": "editor_subscribe_series.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "subscribing editor"
+  },
+  {
+   "id": "editor_subscribe_series.series -> series.id",
+   "verdict": "yes",
+   "reason": "subscribed series"
+  },
+  {
+   "id": "editor_subscribe_series.last_edit_sent -> edit.id",
+   "verdict": "yes",
+   "reason": "id of last edit emailed"
+  },
+  {
+   "id": "event.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "years are dates"
+  },
+  {
+   "id": "event.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month numbers, coincidence"
+  },
+  {
+   "id": "event.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day numbers, coincidence"
+  },
+  {
+   "id": "event.end_date_year -> language.id",
+   "verdict": "no",
+   "reason": "years are dates"
+  },
+  {
+   "id": "event.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month numbers, coincidence"
+  },
+  {
+   "id": "event.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day numbers, coincidence"
+  },
+  {
+   "id": "event.type -> event_type.id",
+   "verdict": "yes",
+   "reason": "event type lookup, matching name and size"
+  },
+  {
+   "id": "event_alias.event -> event.id",
+   "verdict": "yes",
+   "reason": "alias belongs to event"
+  },
+  {
+   "id": "event_alias.type -> area_type.id",
+   "verdict": "no",
+   "reason": "alias type belongs to event_alias_type, not area_type"
+  },
+  {
+   "id": "event_alias.begin_date_year -> release_meta.id",
+   "verdict": "no",
+   "reason": "year 1972, a date"
+  },
+  {
+   "id": "event_alias.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "event_alias.begin_date_day -> gender.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "event_alias.end_date_year -> release_meta.id",
+   "verdict": "no",
+   "reason": "year, a date"
+  },
+  {
+   "id": "event_alias.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "event_alias.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "event_annotation.event -> event.id",
+   "verdict": "yes",
+   "reason": "join from annotation to event"
+  },
+  {
+   "id": "event_annotation.annotation -> annotation.id",
+   "verdict": "yes",
+   "reason": "join to annotation text"
+  },
+  {
+   "id": "event_gid_redirect.new_id -> event.id",
+   "verdict": "yes",
+   "reason": "redirect to surviving event"
+  },
+  {
+   "id": "event_meta.rating -> tag.id",
+   "verdict": "no",
+   "reason": "rating score, not an id"
+  },
+  {
+   "id": "event_meta.rating_count -> l_artist_recording.id",
+   "verdict": "no",
+   "reason": "a count, not an id"
+  },
+  {
+   "id": "event_rating_raw.event -> event.id",
+   "verdict": "yes",
+   "reason": "rated event"
+  },
+  {
+   "id": "event_rating_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "rating editor"
+  },
+  {
+   "id": "event_rating_raw.rating -> tag.id",
+   "verdict": "no",
+   "reason": "rating score, not an id"
+  },
+  {
+   "id": "event_tag.event -> event.id",
+   "verdict": "yes",
+   "reason": "tag join, event column"
+  },
+  {
+   "id": "event_tag.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag join, tag column"
+  },
+  {
+   "id": "event_tag_raw.event -> event.id",
+   "verdict": "yes",
+   "reason": "raw tag vote on event"
+  },
+  {
+   "id": "event_tag_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "voting editor"
+  },
+  {
+   "id": "event_tag_raw.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag voted"
+  },
+  {
+   "id": "event_type.child_order -> medium_format.id",
+   "verdict": "no",
+   "reason": "child_order is a sort position"
+  },
+  {
+   "id": "gender.child_order -> medium_format.id",
+   "verdict": "no",
+   "reason": "child_order is a sort position"
+  },
+  {
+   "id": "genre_alias.genre -> genre.id",
+   "verdict": "yes",
+   "reason": "alias belongs to genre"
+  },
+  {
+   "id": "genre_alias.type -> area_type.id",
+   "verdict": "no",
+   "reason": "alias type belongs to genre_alias_type, not area_type"
+  },
+  {
+   "id": "instrument.type -> area_type.id",
+   "verdict": "no",
+   "reason": "instrument type belongs to instrument_type, not area_type"
+  },
+  {
+   "id": "instrument_alias.instrument -> instrument.id",
+   "verdict": "yes",
+   "reason": "alias belongs to instrument"
+  },
+  {
+   "id": "instrument_alias.type -> area_type.id",
+   "verdict": "no",
+   "reason": "alias type belongs to instrument_alias_type"
+  },
+  {
+   "id": "instrument_annotation.instrument -> instrument.id",
+   "verdict": "yes",
+   "reason": "join from annotation to instrument"
+  },
+  {
+   "id": "instrument_annotation.annotation -> annotation.id",
+   "verdict": "yes",
+   "reason": "join to annotation text"
+  },
+  {
+   "id": "instrument_tag.instrument -> instrument.id",
+   "verdict": "yes",
+   "reason": "tag join, instrument column"
+  },
+  {
+   "id": "instrument_tag.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag join, tag column"
+  },
+  {
+   "id": "instrument_tag.count -> country_area.area",
+   "verdict": "no",
+   "reason": "vote count, not an id"
+  },
+  {
+   "id": "instrument_tag_raw.instrument -> instrument.id",
+   "verdict": "yes",
+   "reason": "raw tag vote on instrument"
+  },
+  {
+   "id": "instrument_tag_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "voting editor"
+  },
+  {
+   "id": "instrument_tag_raw.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag voted"
+  },
+  {
+   "id": "instrument_tag_raw.is_upvote -> instrument_type.id",
+   "verdict": "no",
+   "reason": "boolean flag, not a reference"
+  },
+  {
+   "id": "instrument_type.child_order -> country_area.area",
+   "verdict": "no",
+   "reason": "child_order is a sort position"
+  },
+  {
+   "id": "iso_3166_1.area -> area.id",
+   "verdict": "yes",
+   "reason": "ISO country code row refers to its area, unique per row"
+  },
+  {
+   "id": "iso_3166_2.area -> area.id",
+   "verdict": "yes",
+   "reason": "ISO subdivision code refers to its area"
+  },
+  {
+   "id": "iso_3166_3.area -> area.id",
+   "verdict": "yes",
+   "reason": "ISO former-country code refers to its area"
+  },
+  {
+   "id": "isrc.recording -> recording.id",
+   "verdict": "yes",
+   "reason": "ISRC code belongs to a recording"
+  },
+  {
+   "id": "iswc.work -> work.id",
+   "verdict": "yes",
+   "reason": "iswc.work names the work it identifies"
+  },
+  {
+   "id": "l_area_area.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_area_area.entity0 -> area.id",
+   "verdict": "yes",
+   "reason": "area-area relation endpoint is an area"
+  },
+  {
+   "id": "l_area_area.entity1 -> area.id",
+   "verdict": "yes",
+   "reason": "area-area relation endpoint is an area"
+  },
+  {
+   "id": "l_area_event.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_area_event.entity0 -> area.id",
+   "verdict": "yes",
+   "reason": "first entity of area_event is an area"
+  },
+  {
+   "id": "l_area_event.entity1 -> event_meta.id",
+   "verdict": "yes",
+   "reason": "entity1 is an event; event_meta shares the event id"
+  },
+  {
+   "id": "l_area_genre.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_area_genre.entity0 -> language.id",
+   "verdict": "no",
+   "reason": "entity0 is an area, language is coincidental small-integer overlap"
+  },
+  {
+   "id": "l_area_genre.entity1 -> genre.id",
+   "verdict": "yes",
+   "reason": "second entity of area_genre is a genre"
+  },
+  {
+   "id": "l_area_instrument.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_area_instrument.entity0 -> link_type.id",
+   "verdict": "no",
+   "reason": "entity0 is an area, not a link type"
+  },
+  {
+   "id": "l_area_instrument.entity1 -> instrument.id",
+   "verdict": "yes",
+   "reason": "second entity is an instrument"
+  },
+  {
+   "id": "l_area_label.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_area_label.entity0 -> area.id",
+   "verdict": "yes",
+   "reason": "first entity is an area"
+  },
+  {
+   "id": "l_area_label.entity1 -> label.id",
+   "verdict": "yes",
+   "reason": "second entity is a label"
+  },
+  {
+   "id": "l_area_recording.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_area_recording.entity0 -> area.id",
+   "verdict": "yes",
+   "reason": "first entity is an area"
+  },
+  {
+   "id": "l_area_recording.entity1 -> recording.id",
+   "verdict": "yes",
+   "reason": "second entity is a recording"
+  },
+  {
+   "id": "l_area_release.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_area_release.entity0 -> area.id",
+   "verdict": "yes",
+   "reason": "first entity is an area"
+  },
+  {
+   "id": "l_area_release.entity1 -> release.id",
+   "verdict": "yes",
+   "reason": "second entity is a release"
+  },
+  {
+   "id": "l_area_series.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_area_series.entity0 -> area.id",
+   "verdict": "yes",
+   "reason": "first entity is an area"
+  },
+  {
+   "id": "l_area_series.entity1 -> series.id",
+   "verdict": "yes",
+   "reason": "second entity is a series"
+  },
+  {
+   "id": "l_area_url.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_area_url.entity0 -> area.id",
+   "verdict": "yes",
+   "reason": "first entity is an area"
+  },
+  {
+   "id": "l_area_url.entity1 -> url.id",
+   "verdict": "yes",
+   "reason": "second entity is a url"
+  },
+  {
+   "id": "l_area_work.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_area_work.entity0 -> area.id",
+   "verdict": "yes",
+   "reason": "first entity is an area"
+  },
+  {
+   "id": "l_area_work.entity1 -> work.id",
+   "verdict": "yes",
+   "reason": "second entity is a work"
+  },
+  {
+   "id": "l_artist_artist.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_artist_artist.entity0 -> artist.id",
+   "verdict": "yes",
+   "reason": "artist-artist endpoint is an artist"
+  },
+  {
+   "id": "l_artist_artist.entity1 -> artist.id",
+   "verdict": "yes",
+   "reason": "artist-artist endpoint is an artist"
+  },
+  {
+   "id": "l_artist_event.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_artist_event.entity0 -> artist.id",
+   "verdict": "yes",
+   "reason": "first entity is an artist"
+  },
+  {
+   "id": "l_artist_event.entity1 -> event_meta.id",
+   "verdict": "yes",
+   "reason": "second entity is an event; event_meta shares the event id, high coverage"
+  },
+  {
+   "id": "l_artist_instrument.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_artist_instrument.entity0 -> artist.id",
+   "verdict": "yes",
+   "reason": "first entity is an artist"
+  },
+  {
+   "id": "l_artist_instrument.entity1 -> annotation.id",
+   "verdict": "no",
+   "reason": "entity1 is an instrument, annotation is coincidental small-integer overlap"
+  },
+  {
+   "id": "l_artist_label.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_artist_label.entity0 -> artist.id",
+   "verdict": "yes",
+   "reason": "first entity is an artist"
+  },
+  {
+   "id": "l_artist_label.entity1 -> label.id",
+   "verdict": "yes",
+   "reason": "second entity is a label"
+  },
+  {
+   "id": "l_artist_place.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_artist_place.entity0 -> artist.id",
+   "verdict": "yes",
+   "reason": "first entity is an artist"
+  },
+  {
+   "id": "l_artist_place.entity1 -> place.id",
+   "verdict": "yes",
+   "reason": "second entity is a place"
+  },
+  {
+   "id": "l_artist_recording.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_artist_recording.entity0 -> artist.id",
+   "verdict": "yes",
+   "reason": "first entity is an artist"
+  },
+  {
+   "id": "l_artist_recording.entity1 -> recording.id",
+   "verdict": "yes",
+   "reason": "second entity is a recording"
+  },
+  {
+   "id": "l_artist_release.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_artist_release.entity0 -> artist.id",
+   "verdict": "yes",
+   "reason": "first entity is an artist"
+  },
+  {
+   "id": "l_artist_release.entity1 -> release.id",
+   "verdict": "yes",
+   "reason": "second entity is a release"
+  },
+  {
+   "id": "l_artist_release_group.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_artist_release_group.entity0 -> artist.id",
+   "verdict": "yes",
+   "reason": "first entity is an artist"
+  },
+  {
+   "id": "l_artist_release_group.entity1 -> release_group.id",
+   "verdict": "yes",
+   "reason": "second entity is a release group"
+  },
+  {
+   "id": "l_artist_series.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_artist_series.entity0 -> artist.id",
+   "verdict": "yes",
+   "reason": "first entity is an artist"
+  },
+  {
+   "id": "l_artist_series.entity1 -> series.id",
+   "verdict": "yes",
+   "reason": "second entity is a series"
+  },
+  {
+   "id": "l_artist_url.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_artist_url.entity0 -> artist.id",
+   "verdict": "yes",
+   "reason": "first entity is an artist"
+  },
+  {
+   "id": "l_artist_url.entity1 -> url.id",
+   "verdict": "yes",
+   "reason": "second entity is a url"
+  },
+  {
+   "id": "l_artist_work.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_artist_work.entity0 -> artist.id",
+   "verdict": "yes",
+   "reason": "first entity is an artist"
+  },
+  {
+   "id": "l_artist_work.entity1 -> work.id",
+   "verdict": "yes",
+   "reason": "second entity is a work"
+  },
+  {
+   "id": "l_event_event.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_event_event.entity0 -> event_meta.id",
+   "verdict": "yes",
+   "reason": "event endpoint; event_meta shares the event id"
+  },
+  {
+   "id": "l_event_event.entity1 -> event_meta.id",
+   "verdict": "yes",
+   "reason": "event endpoint; event_meta shares the event id"
+  },
+  {
+   "id": "l_event_label.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_event_label.entity0 -> event_meta.id",
+   "verdict": "yes",
+   "reason": "first entity is an event; event_meta shares the event id"
+  },
+  {
+   "id": "l_event_label.entity1 -> label.id",
+   "verdict": "yes",
+   "reason": "second entity is a label"
+  },
+  {
+   "id": "l_event_place.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_event_place.entity0 -> event_meta.id",
+   "verdict": "yes",
+   "reason": "first entity is an event; event_meta shares the event id"
+  },
+  {
+   "id": "l_event_place.entity1 -> place.id",
+   "verdict": "yes",
+   "reason": "second entity is a place"
+  },
+  {
+   "id": "l_event_recording.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_event_recording.entity0 -> event_meta.id",
+   "verdict": "yes",
+   "reason": "first entity is an event; event_meta shares the event id"
+  },
+  {
+   "id": "l_event_recording.entity1 -> recording.id",
+   "verdict": "yes",
+   "reason": "second entity is a recording"
+  },
+  {
+   "id": "l_event_release.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_event_release.entity0 -> event_meta.id",
+   "verdict": "yes",
+   "reason": "first entity is an event; event_meta shares the event id"
+  },
+  {
+   "id": "l_event_release.entity1 -> release.id",
+   "verdict": "yes",
+   "reason": "second entity is a release"
+  },
+  {
+   "id": "l_event_release_group.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_event_release_group.entity0 -> event_meta.id",
+   "verdict": "yes",
+   "reason": "first entity is an event; event_meta shares the event id"
+  },
+  {
+   "id": "l_event_release_group.entity1 -> release_group.id",
+   "verdict": "yes",
+   "reason": "second entity is a release group"
+  },
+  {
+   "id": "l_event_series.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_event_series.entity0 -> event_meta.id",
+   "verdict": "yes",
+   "reason": "first entity is an event; event_meta shares the event id"
+  },
+  {
+   "id": "l_event_series.entity1 -> series.id",
+   "verdict": "yes",
+   "reason": "second entity is a series"
+  },
+  {
+   "id": "l_event_url.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_event_url.entity0 -> event_meta.id",
+   "verdict": "yes",
+   "reason": "first entity is an event; event_meta shares the event id"
+  },
+  {
+   "id": "l_event_url.entity1 -> url.id",
+   "verdict": "yes",
+   "reason": "second entity is a url"
+  },
+  {
+   "id": "l_event_work.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_event_work.entity0 -> event_meta.id",
+   "verdict": "yes",
+   "reason": "first entity is an event; event_meta shares the event id"
+  },
+  {
+   "id": "l_event_work.entity1 -> work.id",
+   "verdict": "yes",
+   "reason": "second entity is a work"
+  },
+  {
+   "id": "l_label_label.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_label_label.entity0 -> label.id",
+   "verdict": "yes",
+   "reason": "label-label endpoint is a label"
+  },
+  {
+   "id": "l_label_label.entity1 -> label.id",
+   "verdict": "yes",
+   "reason": "label-label endpoint is a label"
+  },
+  {
+   "id": "l_label_place.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_label_place.entity0 -> label.id",
+   "verdict": "yes",
+   "reason": "first entity is a label"
+  },
+  {
+   "id": "l_label_place.entity1 -> place.id",
+   "verdict": "yes",
+   "reason": "second entity is a place"
+  },
+  {
+   "id": "l_label_recording.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_label_recording.entity0 -> label.id",
+   "verdict": "yes",
+   "reason": "first entity is a label"
+  },
+  {
+   "id": "l_label_recording.entity1 -> recording.id",
+   "verdict": "yes",
+   "reason": "second entity is a recording"
+  },
+  {
+   "id": "l_label_release.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_label_release.entity0 -> label.id",
+   "verdict": "yes",
+   "reason": "first entity is a label"
+  },
+  {
+   "id": "l_label_release.entity1 -> release.id",
+   "verdict": "yes",
+   "reason": "second entity is a release"
+  },
+  {
+   "id": "l_label_release_group.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_label_release_group.entity0 -> label.id",
+   "verdict": "yes",
+   "reason": "first entity is a label"
+  },
+  {
+   "id": "l_label_release_group.entity1 -> release_group.id",
+   "verdict": "yes",
+   "reason": "second entity is a release group"
+  },
+  {
+   "id": "l_label_series.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_label_series.entity0 -> label.id",
+   "verdict": "yes",
+   "reason": "first entity is a label"
+  },
+  {
+   "id": "l_label_series.entity1 -> series.id",
+   "verdict": "yes",
+   "reason": "second entity is a series"
+  },
+  {
+   "id": "l_label_url.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_label_url.entity0 -> label.id",
+   "verdict": "yes",
+   "reason": "first entity is a label"
+  },
+  {
+   "id": "l_label_url.entity1 -> url.id",
+   "verdict": "yes",
+   "reason": "second entity is a url"
+  },
+  {
+   "id": "l_label_work.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_label_work.entity0 -> label.id",
+   "verdict": "yes",
+   "reason": "first entity is a label"
+  },
+  {
+   "id": "l_label_work.entity1 -> work.id",
+   "verdict": "yes",
+   "reason": "second entity is a work"
+  },
+  {
+   "id": "l_place_place.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_place_place.entity0 -> place.id",
+   "verdict": "yes",
+   "reason": "place-place endpoint is a place"
+  },
+  {
+   "id": "l_place_place.entity1 -> place.id",
+   "verdict": "yes",
+   "reason": "place-place endpoint is a place"
+  },
+  {
+   "id": "l_place_recording.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_place_recording.entity0 -> place.id",
+   "verdict": "yes",
+   "reason": "first entity is a place"
+  },
+  {
+   "id": "l_place_recording.entity1 -> recording.id",
+   "verdict": "yes",
+   "reason": "second entity is a recording"
+  },
+  {
+   "id": "l_place_release.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_place_release.entity0 -> place.id",
+   "verdict": "yes",
+   "reason": "first entity is a place"
+  },
+  {
+   "id": "l_place_release.entity1 -> release.id",
+   "verdict": "yes",
+   "reason": "second entity is a release"
+  },
+  {
+   "id": "l_place_series.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_place_series.entity0 -> place.id",
+   "verdict": "yes",
+   "reason": "first entity is a place"
+  },
+  {
+   "id": "l_place_series.entity1 -> series.id",
+   "verdict": "yes",
+   "reason": "second entity is a series"
+  },
+  {
+   "id": "l_place_url.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_place_url.entity0 -> place.id",
+   "verdict": "yes",
+   "reason": "first entity is a place"
+  },
+  {
+   "id": "l_place_url.entity1 -> url.id",
+   "verdict": "yes",
+   "reason": "second entity is a url"
+  },
+  {
+   "id": "l_place_work.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_place_work.entity0 -> place.id",
+   "verdict": "yes",
+   "reason": "first entity is a place"
+  },
+  {
+   "id": "l_place_work.entity1 -> work.id",
+   "verdict": "yes",
+   "reason": "second entity is a work"
+  },
+  {
+   "id": "l_recording_recording.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_recording_recording.entity0 -> recording.id",
+   "verdict": "yes",
+   "reason": "recording-recording endpoint"
+  },
+  {
+   "id": "l_recording_recording.entity1 -> recording.id",
+   "verdict": "yes",
+   "reason": "recording-recording endpoint"
+  },
+  {
+   "id": "l_recording_release.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_recording_release.entity0 -> recording.id",
+   "verdict": "yes",
+   "reason": "first entity is a recording"
+  },
+  {
+   "id": "l_recording_release.entity1 -> release.id",
+   "verdict": "yes",
+   "reason": "second entity is a release"
+  },
+  {
+   "id": "l_recording_series.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_recording_series.entity0 -> recording.id",
+   "verdict": "yes",
+   "reason": "first entity is a recording"
+  },
+  {
+   "id": "l_recording_series.entity1 -> series.id",
+   "verdict": "yes",
+   "reason": "second entity is a series"
+  },
+  {
+   "id": "l_recording_url.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_recording_url.entity0 -> recording.id",
+   "verdict": "yes",
+   "reason": "first entity is a recording"
+  },
+  {
+   "id": "l_recording_url.entity1 -> url.id",
+   "verdict": "yes",
+   "reason": "second entity is a url"
+  },
+  {
+   "id": "l_recording_work.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_recording_work.entity0 -> recording.id",
+   "verdict": "yes",
+   "reason": "first entity is a recording"
+  },
+  {
+   "id": "l_recording_work.entity1 -> work.id",
+   "verdict": "yes",
+   "reason": "second entity is a work"
+  },
+  {
+   "id": "l_release_group_release_group.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_release_group_release_group.entity0 -> release_group.id",
+   "verdict": "yes",
+   "reason": "release_group endpoint"
+  },
+  {
+   "id": "l_release_group_release_group.entity1 -> release_group.id",
+   "verdict": "yes",
+   "reason": "release_group endpoint"
+  },
+  {
+   "id": "l_release_group_series.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_release_group_series.entity0 -> release_group.id",
+   "verdict": "yes",
+   "reason": "first entity is a release group"
+  },
+  {
+   "id": "l_release_group_series.entity1 -> series.id",
+   "verdict": "yes",
+   "reason": "second entity is a series"
+  },
+  {
+   "id": "l_release_group_url.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_release_group_url.entity0 -> release_group.id",
+   "verdict": "yes",
+   "reason": "first entity is a release group"
+  },
+  {
+   "id": "l_release_group_url.entity1 -> url.id",
+   "verdict": "yes",
+   "reason": "second entity is a url"
+  },
+  {
+   "id": "l_release_group_work.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_release_group_work.entity0 -> release_group.id",
+   "verdict": "yes",
+   "reason": "first entity is a release group"
+  },
+  {
+   "id": "l_release_group_work.entity1 -> work.id",
+   "verdict": "yes",
+   "reason": "second entity is a work"
+  },
+  {
+   "id": "l_release_release.link -> link.id",
+   "verdict": "yes",
+   "reason": "l_* link column points at link"
+  },
+  {
+   "id": "l_release_release.entity0 -> release.id",
+   "verdict": "yes",
+   "reason": "link entity points at release"
+  },
+  {
+   "id": "l_release_release.entity1 -> release.id",
+   "verdict": "yes",
+   "reason": "link entity points at release"
+  },
+  {
+   "id": "l_release_series.link -> link.id",
+   "verdict": "yes",
+   "reason": "relationship table link column"
+  },
+  {
+   "id": "l_release_series.entity0 -> release.id",
+   "verdict": "yes",
+   "reason": "entity0 is release in l_release_series"
+  },
+  {
+   "id": "l_release_series.entity1 -> series.id",
+   "verdict": "yes",
+   "reason": "entity1 is series"
+  },
+  {
+   "id": "l_release_url.link -> link.id",
+   "verdict": "yes",
+   "reason": "relationship table link column"
+  },
+  {
+   "id": "l_release_url.entity0 -> release.id",
+   "verdict": "yes",
+   "reason": "entity0 is release"
+  },
+  {
+   "id": "l_release_url.entity1 -> url.id",
+   "verdict": "yes",
+   "reason": "entity1 is url"
+  },
+  {
+   "id": "l_series_series.link -> link.id",
+   "verdict": "yes",
+   "reason": "relationship table link column"
+  },
+  {
+   "id": "l_series_series.entity0 -> series.id",
+   "verdict": "yes",
+   "reason": "series to series"
+  },
+  {
+   "id": "l_series_series.entity1 -> series.id",
+   "verdict": "yes",
+   "reason": "series to series"
+  },
+  {
+   "id": "l_series_url.link -> link.id",
+   "verdict": "yes",
+   "reason": "relationship table link column"
+  },
+  {
+   "id": "l_series_url.entity0 -> series.id",
+   "verdict": "yes",
+   "reason": "entity0 is series"
+  },
+  {
+   "id": "l_series_url.entity1 -> url.id",
+   "verdict": "yes",
+   "reason": "entity1 is url"
+  },
+  {
+   "id": "l_series_work.link -> link.id",
+   "verdict": "yes",
+   "reason": "relationship table link column"
+  },
+  {
+   "id": "l_series_work.entity0 -> series.id",
+   "verdict": "yes",
+   "reason": "entity0 is series"
+  },
+  {
+   "id": "l_series_work.entity1 -> work.id",
+   "verdict": "yes",
+   "reason": "entity1 is work"
+  },
+  {
+   "id": "l_url_work.link -> link.id",
+   "verdict": "yes",
+   "reason": "relationship table link column"
+  },
+  {
+   "id": "l_url_work.entity0 -> url.id",
+   "verdict": "yes",
+   "reason": "entity0 is url"
+  },
+  {
+   "id": "l_url_work.entity1 -> work.id",
+   "verdict": "yes",
+   "reason": "entity1 is work"
+  },
+  {
+   "id": "l_work_work.link -> link.id",
+   "verdict": "yes",
+   "reason": "relationship table link column"
+  },
+  {
+   "id": "l_work_work.entity0 -> work.id",
+   "verdict": "yes",
+   "reason": "work to work"
+  },
+  {
+   "id": "l_work_work.entity1 -> work.id",
+   "verdict": "yes",
+   "reason": "work to work"
+  },
+  {
+   "id": "label.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values, coincidental overlap"
+  },
+  {
+   "id": "label.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "label.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "label.end_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "label.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "label.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "label.type -> work_type.id",
+   "verdict": "no",
+   "reason": "label type refers to label_type, not work_type"
+  },
+  {
+   "id": "label.area -> area.id",
+   "verdict": "yes",
+   "reason": "label area"
+  },
+  {
+   "id": "label_alias.label -> label.id",
+   "verdict": "yes",
+   "reason": "alias of label"
+  },
+  {
+   "id": "label_alias.type -> area_type.id",
+   "verdict": "no",
+   "reason": "wrong type table; small ints"
+  },
+  {
+   "id": "label_alias.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "label_alias.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "label_alias.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "label_alias.end_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "label_alias.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "label_alias.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "label_annotation.label -> label.id",
+   "verdict": "yes",
+   "reason": "annotation join to label"
+  },
+  {
+   "id": "label_annotation.annotation -> annotation.id",
+   "verdict": "yes",
+   "reason": "annotation join"
+  },
+  {
+   "id": "label_gid_redirect.new_id -> label.id",
+   "verdict": "yes",
+   "reason": "redirect target label"
+  },
+  {
+   "id": "label_ipi.label -> label.id",
+   "verdict": "yes",
+   "reason": "IPI of label"
+  },
+  {
+   "id": "label_isni.label -> label.id",
+   "verdict": "yes",
+   "reason": "ISNI of label"
+  },
+  {
+   "id": "label_meta.rating -> area_alias.id",
+   "verdict": "no",
+   "reason": "rating score"
+  },
+  {
+   "id": "label_meta.rating_count -> recording_alias.id",
+   "verdict": "no",
+   "reason": "count"
+  },
+  {
+   "id": "label_rating_raw.label -> label.id",
+   "verdict": "yes",
+   "reason": "rated label"
+  },
+  {
+   "id": "label_rating_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "rating editor"
+  },
+  {
+   "id": "label_rating_raw.rating -> tag.id",
+   "verdict": "no",
+   "reason": "rating score 20-100"
+  },
+  {
+   "id": "label_tag.label -> label.id",
+   "verdict": "yes",
+   "reason": "tagged label"
+  },
+  {
+   "id": "label_tag.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag"
+  },
+  {
+   "id": "label_tag_raw.label -> label.id",
+   "verdict": "yes",
+   "reason": "tagged label"
+  },
+  {
+   "id": "label_tag_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "tagging editor"
+  },
+  {
+   "id": "label_tag_raw.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag"
+  },
+  {
+   "id": "label_type.parent -> country_area.area",
+   "verdict": "no",
+   "reason": "parent is self-reference to label_type"
+  },
+  {
+   "id": "link.link_type -> link_type.id",
+   "verdict": "yes",
+   "reason": "link type"
+  },
+  {
+   "id": "link.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "link.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "link.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "link.end_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "link.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "link.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "link_attribute.link -> link.id",
+   "verdict": "yes",
+   "reason": "attribute of link"
+  },
+  {
+   "id": "link_attribute.attribute_type -> link_attribute_type.id",
+   "verdict": "yes",
+   "reason": "attribute type"
+  },
+  {
+   "id": "link_attribute_credit.link -> link.id",
+   "verdict": "yes",
+   "reason": "credit on link"
+  },
+  {
+   "id": "link_attribute_credit.attribute_type -> link_creditable_attribute_type.attribute_type",
+   "verdict": "yes",
+   "reason": "creditable attribute type"
+  },
+  {
+   "id": "link_attribute_text_value.link -> link.id",
+   "verdict": "yes",
+   "reason": "text value on link"
+  },
+  {
+   "id": "link_attribute_text_value.attribute_type -> link_text_attribute_type.attribute_type",
+   "verdict": "yes",
+   "reason": "text attribute type"
+  },
+  {
+   "id": "link_attribute_type.parent -> area_alias.id",
+   "verdict": "no",
+   "reason": "parent is self-reference, wrong target"
+  },
+  {
+   "id": "link_attribute_type.root -> area_alias.id",
+   "verdict": "no",
+   "reason": "root is self-reference, wrong target"
+  },
+  {
+   "id": "link_type.parent -> language.id",
+   "verdict": "no",
+   "reason": "parent is self-reference, wrong target"
+  },
+  {
+   "id": "link_type_attribute_type.link_type -> link_type.id",
+   "verdict": "yes",
+   "reason": "link type"
+  },
+  {
+   "id": "link_type_attribute_type.attribute_type -> link_attribute_type.id",
+   "verdict": "yes",
+   "reason": "attribute type"
+  },
+  {
+   "id": "link_type_attribute_type.max -> tag.id",
+   "verdict": "no",
+   "reason": "max cardinality value"
+  },
+  {
+   "id": "medium.release -> release.id",
+   "verdict": "yes",
+   "reason": "medium of release"
+  },
+  {
+   "id": "medium.position -> work_attribute_type_allowed_value.id",
+   "verdict": "no",
+   "reason": "position number"
+  },
+  {
+   "id": "medium.format -> medium_format.id",
+   "verdict": "yes",
+   "reason": "medium format"
+  },
+  {
+   "id": "medium_cdtoc.medium -> medium.id",
+   "verdict": "yes",
+   "reason": "join to medium"
+  },
+  {
+   "id": "medium_cdtoc.cdtoc -> cdtoc.id",
+   "verdict": "yes",
+   "reason": "join to cdtoc"
+  },
+  {
+   "id": "medium_format.parent -> country_area.area",
+   "verdict": "no",
+   "reason": "parent is self-reference, wrong target"
+  },
+  {
+   "id": "medium_format.year -> area_alias.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "orderable_link_type.direction -> editor_collection_type.id",
+   "verdict": "no",
+   "reason": "direction flag"
+  },
+  {
+   "id": "place.type -> place_type.id",
+   "verdict": "yes",
+   "reason": "place type"
+  },
+  {
+   "id": "place.area -> area.id",
+   "verdict": "yes",
+   "reason": "place area"
+  },
+  {
+   "id": "place.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "place.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "place.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "place.end_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "place.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "place.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "place_alias.place -> place.id",
+   "verdict": "yes",
+   "reason": "alias of place"
+  },
+  {
+   "id": "place_alias.type -> area_type.id",
+   "verdict": "no",
+   "reason": "wrong type table; small ints"
+  },
+  {
+   "id": "place_alias.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "place_alias.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "place_alias.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "place_alias.end_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "place_alias.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "place_alias.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "place_annotation.place -> place.id",
+   "verdict": "yes",
+   "reason": "annotation join"
+  },
+  {
+   "id": "place_annotation.annotation -> annotation.id",
+   "verdict": "yes",
+   "reason": "annotation join"
+  },
+  {
+   "id": "place_gid_redirect.new_id -> place.id",
+   "verdict": "yes",
+   "reason": "redirect target"
+  },
+  {
+   "id": "place_rating_raw.place -> place.id",
+   "verdict": "yes",
+   "reason": "rated place"
+  },
+  {
+   "id": "place_rating_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "rating editor"
+  },
+  {
+   "id": "place_rating_raw.rating -> tag.id",
+   "verdict": "no",
+   "reason": "rating score"
+  },
+  {
+   "id": "place_tag.place -> place.id",
+   "verdict": "yes",
+   "reason": "tagged place"
+  },
+  {
+   "id": "place_tag.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag"
+  },
+  {
+   "id": "place_tag_raw.place -> place.id",
+   "verdict": "yes",
+   "reason": "tagged place"
+  },
+  {
+   "id": "place_tag_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "tagging editor"
+  },
+  {
+   "id": "place_tag_raw.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag"
+  },
+  {
+   "id": "place_type.parent -> country_area.area",
+   "verdict": "no",
+   "reason": "parent is self-reference, wrong target"
+  },
+  {
+   "id": "recording.artist_credit -> artist_credit.id",
+   "verdict": "yes",
+   "reason": "recording artist credit"
+  },
+  {
+   "id": "recording_alias.recording -> recording.id",
+   "verdict": "yes",
+   "reason": "alias of recording"
+  },
+  {
+   "id": "recording_alias.type -> area_type.id",
+   "verdict": "no",
+   "reason": "wrong type table; small ints"
+  },
+  {
+   "id": "recording_alias.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "recording_alias.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "recording_alias.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "recording_alias.end_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "recording_alias.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "recording_alias.end_date_day -> link_attribute_type.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "recording_annotation.recording -> recording.id",
+   "verdict": "yes",
+   "reason": "annotation join"
+  },
+  {
+   "id": "recording_annotation.annotation -> annotation.id",
+   "verdict": "yes",
+   "reason": "annotation join"
+  },
+  {
+   "id": "recording_gid_redirect.new_id -> recording.id",
+   "verdict": "yes",
+   "reason": "redirect target"
+  },
+  {
+   "id": "recording_meta.rating -> genre_alias.id",
+   "verdict": "no",
+   "reason": "rating score"
+  },
+  {
+   "id": "recording_meta.rating_count -> instrument.id",
+   "verdict": "no",
+   "reason": "count"
+  },
+  {
+   "id": "recording_rating_raw.recording -> recording.id",
+   "verdict": "yes",
+   "reason": "rated recording"
+  },
+  {
+   "id": "recording_rating_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "rating editor"
+  },
+  {
+   "id": "recording_rating_raw.rating -> genre_alias.id",
+   "verdict": "no",
+   "reason": "rating score"
+  },
+  {
+   "id": "recording_tag.recording -> recording.id",
+   "verdict": "yes",
+   "reason": "tagged recording"
+  },
+  {
+   "id": "recording_tag.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag"
+  },
+  {
+   "id": "recording_tag_raw.recording -> recording.id",
+   "verdict": "yes",
+   "reason": "tagged recording"
+  },
+  {
+   "id": "recording_tag_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "tagging editor"
+  },
+  {
+   "id": "recording_tag_raw.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag"
+  },
+  {
+   "id": "release.artist_credit -> artist_credit.id",
+   "verdict": "yes",
+   "reason": "release artist credit"
+  },
+  {
+   "id": "release.release_group -> release_group.id",
+   "verdict": "yes",
+   "reason": "release's group"
+  },
+  {
+   "id": "release.status -> release_status.id",
+   "verdict": "yes",
+   "reason": "release status"
+  },
+  {
+   "id": "release.packaging -> release_packaging.id",
+   "verdict": "yes",
+   "reason": "release packaging"
+  },
+  {
+   "id": "release.language -> language.id",
+   "verdict": "yes",
+   "reason": "release language"
+  },
+  {
+   "id": "release.script -> script.id",
+   "verdict": "yes",
+   "reason": "release script"
+  },
+  {
+   "id": "release_alias.release -> release.id",
+   "verdict": "yes",
+   "reason": "alias of release"
+  },
+  {
+   "id": "release_alias.type -> area_type.id",
+   "verdict": "no",
+   "reason": "wrong type table; small ints"
+  },
+  {
+   "id": "release_alias.begin_date_year -> l_area_work.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "release_alias.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "release_alias.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "release_alias.end_date_year -> recording_alias.id",
+   "verdict": "no",
+   "reason": "year value"
+  },
+  {
+   "id": "release_alias.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "release_alias.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "release_annotation.release -> release.id",
+   "verdict": "yes",
+   "reason": "annotation join"
+  },
+  {
+   "id": "release_annotation.annotation -> annotation.id",
+   "verdict": "yes",
+   "reason": "annotation join"
+  },
+  {
+   "id": "release_country.release -> release.id",
+   "verdict": "yes",
+   "reason": "release of country row"
+  },
+  {
+   "id": "release_country.country -> country_area.area",
+   "verdict": "yes",
+   "reason": "country of release"
+  },
+  {
+   "id": "release_country.date_year -> track.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "release_country.date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "release_country.date_day -> country_area.area",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "release_gid_redirect.new_id -> release.id",
+   "verdict": "yes",
+   "reason": "redirect target"
+  },
+  {
+   "id": "release_group.artist_credit -> artist_credit.id",
+   "verdict": "yes",
+   "reason": "release group artist credit"
+  },
+  {
+   "id": "release_group.type -> work_type.id",
+   "verdict": "no",
+   "reason": "wrong target; type would be release_group_primary_type"
+  },
+  {
+   "id": "release_group_alias.release_group -> release_group.id",
+   "verdict": "yes",
+   "reason": "alias of release group"
+  },
+  {
+   "id": "release_group_alias.type -> area_type.id",
+   "verdict": "no",
+   "reason": "wrong type table; small ints"
+  },
+  {
+   "id": "release_group_alias.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year values"
+  },
+  {
+   "id": "release_group_alias.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month number"
+  },
+  {
+   "id": "release_group_alias.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day number"
+  },
+  {
+   "id": "release_group_alias.end_date_year -> artist_meta.id",
+   "verdict": "no",
+   "reason": "year column, coincidental overlap"
+  },
+  {
+   "id": "release_group_alias.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month value, not an id"
+  },
+  {
+   "id": "release_group_alias.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day value, not an id"
+  },
+  {
+   "id": "release_group_annotation.release_group -> release_group.id",
+   "verdict": "yes",
+   "reason": "annotation join table pointing at its release group"
+  },
+  {
+   "id": "release_group_annotation.annotation -> annotation.id",
+   "verdict": "yes",
+   "reason": "join table to annotation text"
+  },
+  {
+   "id": "release_group_gid_redirect.new_id -> release_group.id",
+   "verdict": "yes",
+   "reason": "redirect to current entity"
+  },
+  {
+   "id": "release_group_meta.first_release_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year"
+  },
+  {
+   "id": "release_group_meta.first_release_date_month -> release_packaging.id",
+   "verdict": "no",
+   "reason": "month"
+  },
+  {
+   "id": "release_group_meta.first_release_date_day -> l_area_area.id",
+   "verdict": "no",
+   "reason": "day"
+  },
+  {
+   "id": "release_group_meta.rating -> genre_alias.id",
+   "verdict": "no",
+   "reason": "rating score"
+  },
+  {
+   "id": "release_group_meta.rating_count -> instrument.id",
+   "verdict": "no",
+   "reason": "a count"
+  },
+  {
+   "id": "release_group_primary_type.child_order -> country_area.area",
+   "verdict": "no",
+   "reason": "ordering value"
+  },
+  {
+   "id": "release_group_rating_raw.release_group -> release_group.id",
+   "verdict": "yes",
+   "reason": "rating of a release group"
+  },
+  {
+   "id": "release_group_rating_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "editor who rated"
+  },
+  {
+   "id": "release_group_rating_raw.rating -> genre_alias.id",
+   "verdict": "no",
+   "reason": "rating score"
+  },
+  {
+   "id": "release_group_secondary_type_join.release_group -> release_group.id",
+   "verdict": "yes",
+   "reason": "join table"
+  },
+  {
+   "id": "release_group_secondary_type_join.secondary_type -> release_group_secondary_type.id",
+   "verdict": "yes",
+   "reason": "lookup join, 12 rows"
+  },
+  {
+   "id": "release_group_tag.release_group -> release_group.id",
+   "verdict": "yes",
+   "reason": "tag join table"
+  },
+  {
+   "id": "release_group_tag.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag join table"
+  },
+  {
+   "id": "release_group_tag_raw.release_group -> release_group.id",
+   "verdict": "yes",
+   "reason": "tag join table"
+  },
+  {
+   "id": "release_group_tag_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "editor who tagged"
+  },
+  {
+   "id": "release_group_tag_raw.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag join table"
+  },
+  {
+   "id": "release_label.release -> release.id",
+   "verdict": "yes",
+   "reason": "release label join"
+  },
+  {
+   "id": "release_label.label -> label.id",
+   "verdict": "yes",
+   "reason": "release label join"
+  },
+  {
+   "id": "release_status.child_order -> medium_format.id",
+   "verdict": "no",
+   "reason": "ordering value"
+  },
+  {
+   "id": "release_tag.release -> release.id",
+   "verdict": "yes",
+   "reason": "tag join table"
+  },
+  {
+   "id": "release_tag.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag join table"
+  },
+  {
+   "id": "release_tag_raw.release -> release.id",
+   "verdict": "yes",
+   "reason": "tag join table"
+  },
+  {
+   "id": "release_tag_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "editor who tagged"
+  },
+  {
+   "id": "release_tag_raw.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag join table"
+  },
+  {
+   "id": "release_unknown_country.date_year -> area_alias.id",
+   "verdict": "no",
+   "reason": "year"
+  },
+  {
+   "id": "release_unknown_country.date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month"
+  },
+  {
+   "id": "release_unknown_country.date_day -> country_area.area",
+   "verdict": "no",
+   "reason": "day"
+  },
+  {
+   "id": "script.frequency -> instrument_type.id",
+   "verdict": "no",
+   "reason": "frequency level, unrelated lookup"
+  },
+  {
+   "id": "series.type -> series_type.id",
+   "verdict": "yes",
+   "reason": "type lookup"
+  },
+  {
+   "id": "series.ordering_type -> series_ordering_type.id",
+   "verdict": "yes",
+   "reason": "ordering type lookup"
+  },
+  {
+   "id": "series_alias.series -> series.id",
+   "verdict": "yes",
+   "reason": "alias of a series"
+  },
+  {
+   "id": "series_alias.type -> area_type.id",
+   "verdict": "no",
+   "reason": "should be series_alias_type, not area_type"
+  },
+  {
+   "id": "series_alias.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year"
+  },
+  {
+   "id": "series_alias.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month"
+  },
+  {
+   "id": "series_alias.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day"
+  },
+  {
+   "id": "series_alias.end_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year"
+  },
+  {
+   "id": "series_alias.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month"
+  },
+  {
+   "id": "series_alias.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day"
+  },
+  {
+   "id": "series_annotation.series -> series.id",
+   "verdict": "yes",
+   "reason": "annotation join"
+  },
+  {
+   "id": "series_annotation.annotation -> annotation.id",
+   "verdict": "yes",
+   "reason": "annotation join"
+  },
+  {
+   "id": "series_gid_redirect.new_id -> series.id",
+   "verdict": "yes",
+   "reason": "redirect to current entity"
+  },
+  {
+   "id": "series_tag.series -> series.id",
+   "verdict": "yes",
+   "reason": "tag join"
+  },
+  {
+   "id": "series_tag.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag join"
+  },
+  {
+   "id": "series_tag_raw.series -> series.id",
+   "verdict": "yes",
+   "reason": "tag join"
+  },
+  {
+   "id": "series_tag_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "editor who tagged"
+  },
+  {
+   "id": "series_tag_raw.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag join"
+  },
+  {
+   "id": "series_type.parent -> country_area.area",
+   "verdict": "no",
+   "reason": "self-parent within series_type, not country_area"
+  },
+  {
+   "id": "track.recording -> recording.id",
+   "verdict": "yes",
+   "reason": "track's recording"
+  },
+  {
+   "id": "track.medium -> medium.id",
+   "verdict": "yes",
+   "reason": "track belongs to medium"
+  },
+  {
+   "id": "track.artist_credit -> artist_credit.id",
+   "verdict": "yes",
+   "reason": "track's artist credit"
+  },
+  {
+   "id": "url_gid_redirect.new_id -> url.id",
+   "verdict": "yes",
+   "reason": "redirect to current entity"
+  },
+  {
+   "id": "vote.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "voter"
+  },
+  {
+   "id": "vote.edit -> edit.id",
+   "verdict": "yes",
+   "reason": "vote on an edit"
+  },
+  {
+   "id": "work.type -> work_type.id",
+   "verdict": "yes",
+   "reason": "type lookup"
+  },
+  {
+   "id": "work_alias.work -> work.id",
+   "verdict": "yes",
+   "reason": "alias of a work"
+  },
+  {
+   "id": "work_alias.type -> area_type.id",
+   "verdict": "no",
+   "reason": "should be work_alias_type"
+  },
+  {
+   "id": "work_alias.begin_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year"
+  },
+  {
+   "id": "work_alias.begin_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month"
+  },
+  {
+   "id": "work_alias.begin_date_day -> genre_alias.id",
+   "verdict": "no",
+   "reason": "day"
+  },
+  {
+   "id": "work_alias.end_date_year -> language.id",
+   "verdict": "no",
+   "reason": "year"
+  },
+  {
+   "id": "work_alias.end_date_month -> instrument.id",
+   "verdict": "no",
+   "reason": "month"
+  },
+  {
+   "id": "work_alias.end_date_day -> recording_alias.id",
+   "verdict": "no",
+   "reason": "day"
+  },
+  {
+   "id": "work_annotation.work -> work.id",
+   "verdict": "yes",
+   "reason": "annotation join"
+  },
+  {
+   "id": "work_annotation.annotation -> annotation.id",
+   "verdict": "yes",
+   "reason": "annotation join"
+  },
+  {
+   "id": "work_attribute.work -> work.id",
+   "verdict": "yes",
+   "reason": "attribute of a work"
+  },
+  {
+   "id": "work_attribute.work_attribute_type -> work_attribute_type.id",
+   "verdict": "yes",
+   "reason": "type lookup"
+  },
+  {
+   "id": "work_attribute.work_attribute_type_allowed_value -> work_attribute_type_allowed_value.id",
+   "verdict": "yes",
+   "reason": "allowed value lookup"
+  },
+  {
+   "id": "work_attribute_type.parent -> country_area.area",
+   "verdict": "no",
+   "reason": "self-parent, not country_area"
+  },
+  {
+   "id": "work_attribute_type_allowed_value.work_attribute_type -> work_attribute_type.id",
+   "verdict": "yes",
+   "reason": "allowed values belong to an attribute type"
+  },
+  {
+   "id": "work_gid_redirect.new_id -> work.id",
+   "verdict": "yes",
+   "reason": "redirect to current entity"
+  },
+  {
+   "id": "work_language.work -> work.id",
+   "verdict": "yes",
+   "reason": "work's language join"
+  },
+  {
+   "id": "work_language.language -> language.id",
+   "verdict": "yes",
+   "reason": "work's language join"
+  },
+  {
+   "id": "work_meta.rating -> tag.id",
+   "verdict": "no",
+   "reason": "rating score"
+  },
+  {
+   "id": "work_meta.rating_count -> recording_alias.id",
+   "verdict": "no",
+   "reason": "a count"
+  },
+  {
+   "id": "work_rating_raw.work -> work.id",
+   "verdict": "yes",
+   "reason": "rating of a work"
+  },
+  {
+   "id": "work_rating_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "editor who rated"
+  },
+  {
+   "id": "work_rating_raw.rating -> genre_alias.id",
+   "verdict": "no",
+   "reason": "rating score"
+  },
+  {
+   "id": "work_tag.work -> work.id",
+   "verdict": "yes",
+   "reason": "tag join"
+  },
+  {
+   "id": "work_tag.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag join"
+  },
+  {
+   "id": "work_tag_raw.work -> work.id",
+   "verdict": "yes",
+   "reason": "tag join"
+  },
+  {
+   "id": "work_tag_raw.editor -> editor.id",
+   "verdict": "yes",
+   "reason": "editor who tagged"
+  },
+  {
+   "id": "work_tag_raw.tag -> tag.id",
+   "verdict": "yes",
+   "reason": "tag join"
+  },
+  {
+   "id": "work_type.child_order -> series_ordering_type.id",
+   "verdict": "no",
+   "reason": "ordering value"
+  },
+  {
+   "id": "alternative_release_type.id -> area_alias_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "area_alias_type.id -> alternative_release_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "area_type.id -> label_type.id",
+   "verdict": "no",
+   "reason": "unrelated lookups"
+  },
+  {
+   "id": "artist.id -> artist_meta.id",
+   "verdict": "yes",
+   "reason": "one-to-one entity split"
+  },
+  {
+   "id": "artist_alias_type.id -> alternative_release_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "artist_meta.id -> artist.id",
+   "verdict": "yes",
+   "reason": "meta extends artist, shared id"
+  },
+  {
+   "id": "artist_type.id -> instrument_type.id",
+   "verdict": "no",
+   "reason": "unrelated lookups"
+  },
+  {
+   "id": "country_area.area -> area.id",
+   "verdict": "yes",
+   "reason": "country subset of areas, named area"
+  },
+  {
+   "id": "edit.id -> edit_data.edit",
+   "verdict": "yes",
+   "reason": "one-to-one split"
+  },
+  {
+   "id": "edit_data.edit -> edit.id",
+   "verdict": "yes",
+   "reason": "data of an edit"
+  },
+  {
+   "id": "editor_collection_type.id -> work_type.id",
+   "verdict": "no",
+   "reason": "unrelated lookups"
+  },
+  {
+   "id": "event.id -> event_meta.id",
+   "verdict": "yes",
+   "reason": "one-to-one split"
+  },
+  {
+   "id": "event_alias_type.id -> genre_alias_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "event_meta.id -> event.id",
+   "verdict": "yes",
+   "reason": "meta extends event"
+  },
+  {
+   "id": "event_type.id -> recording_alias.id",
+   "verdict": "no",
+   "reason": "unrelated"
+  },
+  {
+   "id": "gender.id -> artist_type.id",
+   "verdict": "no",
+   "reason": "unrelated lookups"
+  },
+  {
+   "id": "genre_alias_type.id -> event_alias_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "instrument_alias_type.id -> alternative_release_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "instrument_type.id -> event_type.id",
+   "verdict": "no",
+   "reason": "unrelated lookups"
+  },
+  {
+   "id": "l_area_genre.id -> language.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_area_instrument.id -> genre_alias.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_area_label.id -> genre_alias.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_area_series.id -> language.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_artist_instrument.id -> l_place_work.id",
+   "verdict": "no",
+   "reason": "unrelated link tables"
+  },
+  {
+   "id": "l_event_label.id -> language.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_event_release_group.id -> l_event_work.id",
+   "verdict": "no",
+   "reason": "unrelated link tables"
+  },
+  {
+   "id": "l_event_url.id -> work_alias.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_event_work.id -> language.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_label_place.id -> language.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_label_release_group.id -> l_area_genre.id",
+   "verdict": "no",
+   "reason": "unrelated link tables"
+  },
+  {
+   "id": "l_place_place.id -> language.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_place_series.id -> genre_alias.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_place_work.id -> language.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_recording_release.id -> language.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_release_group_work.id -> genre_alias.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "l_series_series.id -> series_alias.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "label.id -> label_meta.id",
+   "verdict": "yes",
+   "reason": "one-to-one split"
+  },
+  {
+   "id": "label_alias_type.id -> event_alias_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "label_meta.id -> label.id",
+   "verdict": "yes",
+   "reason": "meta extends label"
+  },
+  {
+   "id": "label_type.id -> release_group_secondary_type.id",
+   "verdict": "no",
+   "reason": "unrelated lookups"
+  },
+  {
+   "id": "link_attribute_type.id -> language.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "link_creditable_attribute_type.attribute_type -> link_attribute_type.id",
+   "verdict": "yes",
+   "reason": "named attribute_type, pk-sharing extension"
+  },
+  {
+   "id": "link_text_attribute_type.attribute_type -> link_attribute_type.id",
+   "verdict": "yes",
+   "reason": "named attribute_type, pk-sharing extension"
+  },
+  {
+   "id": "link_type.id -> language.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "medium_format.id -> genre_alias.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "medium_index.medium -> medium.id",
+   "verdict": "yes",
+   "reason": "index of a medium, one-to-one"
+  },
+  {
+   "id": "orderable_link_type.link_type -> link_type.id",
+   "verdict": "yes",
+   "reason": "flags a link type"
+  },
+  {
+   "id": "place_alias_type.id -> event_alias_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "place_type.id -> recording_alias.id",
+   "verdict": "no",
+   "reason": "unrelated"
+  },
+  {
+   "id": "recording.id -> recording_meta.id",
+   "verdict": "yes",
+   "reason": "one-to-one split"
+  },
+  {
+   "id": "recording_alias_type.id -> event_alias_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "recording_meta.id -> recording.id",
+   "verdict": "yes",
+   "reason": "meta extends recording"
+  },
+  {
+   "id": "release.id -> release_meta.id",
+   "verdict": "yes",
+   "reason": "one-to-one split"
+  },
+  {
+   "id": "release_alias_type.id -> event_alias_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "release_group.id -> release_group_meta.id",
+   "verdict": "yes",
+   "reason": "one-to-one split"
+  },
+  {
+   "id": "release_group_alias_type.id -> event_alias_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "release_group_meta.id -> release_group.id",
+   "verdict": "yes",
+   "reason": "meta extends release group"
+  },
+  {
+   "id": "release_group_primary_type.id -> label_type.id",
+   "verdict": "no",
+   "reason": "unrelated lookups"
+  },
+  {
+   "id": "release_group_secondary_type.id -> label_type.id",
+   "verdict": "no",
+   "reason": "unrelated lookups"
+  },
+  {
+   "id": "release_meta.id -> release.id",
+   "verdict": "yes",
+   "reason": "meta extends release"
+  },
+  {
+   "id": "release_packaging.id -> recording_alias.id",
+   "verdict": "no",
+   "reason": "unrelated"
+  },
+  {
+   "id": "release_status.id -> recording_alias.id",
+   "verdict": "no",
+   "reason": "unrelated"
+  },
+  {
+   "id": "release_unknown_country.release -> release.id",
+   "verdict": "yes",
+   "reason": "release reference"
+  },
+  {
+   "id": "script.id -> work_attribute_type_allowed_value.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "series_alias.id -> language.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "series_alias_type.id -> event_alias_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "series_ordering_type.id -> event_alias_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "series_type.id -> recording_alias.id",
+   "verdict": "no",
+   "reason": "unrelated"
+  },
+  {
+   "id": "work.id -> work_meta.id",
+   "verdict": "yes",
+   "reason": "one-to-one split"
+  },
+  {
+   "id": "work_alias_type.id -> event_alias_type.id",
+   "verdict": "no",
+   "reason": "unrelated small lookups"
+  },
+  {
+   "id": "work_attribute_type.id -> genre_alias.id",
+   "verdict": "no",
+   "reason": "unrelated surrogate ids"
+  },
+  {
+   "id": "work_meta.id -> work.id",
+   "verdict": "yes",
+   "reason": "meta extends work"
+  },
+  {
+   "id": "work_type.id -> recording_alias.id",
+   "verdict": "no",
+   "reason": "unrelated"
+  }
+ ]
+}

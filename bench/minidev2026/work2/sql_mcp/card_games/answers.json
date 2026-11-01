@@ -1,0 +1,72 @@
+[
+ {
+  "question_id": 49,
+  "answer": "select uuid from cards where borderColor='borderless' and (cardKingdomId is null or cardKingdomFoilId is null)",
+  "attempts": 2
+ },
+ {
+  "question_id": 50,
+  "answer": "select distinct name, artist, isPromo from cards where uuid in (select uuid from rulings group by uuid having count(*)=(select max(c) from (select count(*) c from rulings group by uuid)))",
+  "attempts": 2
+ },
+ {
+  "question_id": 56,
+  "answer": "select count(distinct c.uuid) from cards c where (c.power is null or c.power like '%*%') and exists(select 1 from rulings r where r.uuid=c.uuid and r.text like '%triggered ability%')",
+  "attempts": 2
+ },
+ {
+  "question_id": 57,
+  "answer": "select 100.0*sum(c.hasContentWarning=0)/count(*) from cards c where exists(select 1 from legalities l where l.uuid=c.uuid and l.format='commander' and l.status='Legal')",
+  "attempts": 2
+ },
+ {
+  "question_id": 59,
+  "answer": "select count(distinct s.code) from sets s join set_translations t on t.setCode=s.code where s.block='Ice Age' and t.language='Italian' and t.translation is not null",
+  "attempts": 2
+ },
+ {
+  "question_id": 61,
+  "answer": "select l.format, c.name from legalities l join cards c on c.uuid=l.uuid where l.status='Banned' and l.format=(select format from legalities where status='Banned' group by format order by count(*) desc limit 1) group by l.format, c.name order by c.name",
+  "attempts": 2
+ },
+ {
+  "question_id": 81,
+  "answer": "with t as (select artist, count(*) n from cards where availability like '%arena%' and borderColor='black' and power glob '[0-9]*' and cast(power as integer)>=10 group by artist) select artist, n from t where n=(select max(n) from t)",
+  "attempts": 2
+ },
+ {
+  "question_id": 84,
+  "answer": "select count(distinct artist) from cards where availability like '%arena%' and availability not like '%mtgo%' and borderColor='black' and power glob '[0-9]*' and cast(power as integer)>=5",
+  "attempts": 2
+ },
+ {
+  "question_id": 89,
+  "answer": "select c.colors, count(distinct l.format) from cards c join legalities l on l.uuid=c.uuid and l.status='Legal' where c.id between 1 and 20 group by c.colors",
+  "attempts": 2
+ },
+ {
+  "question_id": 92,
+  "answer": "select cardKingdomFoilId, cardKingdomId from (select name, cardKingdomFoilId, cardKingdomId from cards where types like '%Creature%' and cardKingdomFoilId is not null and cardKingdomId is not null order by cast(cardKingdomFoilId as integer), cardKingdomId limit 3) order by name, cardKingdomId",
+  "attempts": 2
+ },
+ {
+  "question_id": 96,
+  "answer": "select count(distinct name) from cards where text is not null and frameVersion='2015'",
+  "attempts": 2
+ },
+ {
+  "question_id": 101,
+  "answer": "select s.name, s.releaseDate from sets s where s.type=(select type from sets where name='From the Vault: Lore') and not exists(select 1 from set_translations t where t.setCode=s.code and t.translation is not null and t.translation<>'') order by s.releaseDate",
+  "attempts": 2
+ },
+ {
+  "question_id": 107,
+  "answer": "select g.name, g.type, coalesce(sum(rc.n),0) as total_rulings from (select distinct f.name, c.type, c.uuid from cards c join foreign_data f on f.uuid=c.uuid and f.language='Japanese' where c.watermark='boros') g left join (select uuid, count(*) n from rulings group by uuid) rc on rc.uuid=g.uuid group by g.name, g.type",
+  "attempts": 2
+ },
+ {
+  "question_id": 114,
+  "answer": "select count(*) from foreign_data f join cards c on c.uuid=f.uuid join sets s on s.code=c.setCode where s.name='Coldsnap' and f.language='Italian' and f.text is not null and f.text<>''",
+  "attempts": 2
+ }
+]
