@@ -80,6 +80,7 @@ python3 reverse/reverse.py DB.sqlite -o out/ -n name
 | `--analyse-data` | read the data and *report* the constraints it supports; applies nothing |
 | `--infer-fks` | apply foreign keys guessed from column names (rule 9) |
 | `--infer-keys` | apply keys and references recovered from the data (rules 9b, 9c) |
+| `--export-candidates FILE`, `--verdicts FILE` | with `--infer-keys`: write what the gates throw away for a judge to read, and apply what it decides ([4 — Reverse engineering](04-reverse-engineering.md)) |
 | `--infer-domains` | apply value constraints the data supports, and types for undeclared columns |
 | `--infer-json` | recover the schema inside JSON columns (rule 12): one fact type per value of a record-shaped document, mapped to a path, beside the document itself; with `--infer-domains`, each path's value domain too |
 | `--infer-identifiers` | state the second identifiers the data supports (rule 5c): adds to the model, changes nothing in it |

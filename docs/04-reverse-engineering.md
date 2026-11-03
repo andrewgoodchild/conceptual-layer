@@ -106,6 +106,24 @@ Both are behind `--infer-keys`, because they *change* the model rather than addi
 `tags.WikiPostId` stops being a value and becomes a reference — and that is a migration, not a
 free upgrade.
 
+The gates on rule 9c favour precision and leave a good deal behind. A judge can do better, on a
+schema whose names mean something: 91% recall at 95% precision on AdventureWorks, 85% at 95% on
+MusicBrainz, and 70% at 95% on a far less known schema where almost everything out of reach is
+in empty tables (findings 182, 183). Nothing here calls a model. The tool writes the candidates,
+the judge writes verdicts, and the build reads them, so a build stays repeatable:
+
+```sh
+python3 reverse/reverse.py x.sqlite -o out/ --infer-keys --export-candidates out/x.candidates.json
+# an LLM or a person, given reverse/JUDGE.md, writes out/x.verdicts.json
+python3 reverse/reverse.py x.sqlite -o out/ --infer-keys --verdicts out/x.verdicts.json
+```
+
+The candidates hold five values a side from your data, so they go wherever the judge is. A
+column with a verdict is settled, so neither the gate nor rule 9 reads it again; a column with
+none stays with them. Each kept reference is a claim on the review file, and rejecting one there
+outlasts the judge. On a schema with no words in its column names nothing is exported and the
+rules stand, because there a judge does no better than they do.
+
 Watch it on a two-table database that declares nothing:
 
 ```sh

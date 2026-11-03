@@ -6219,3 +6219,33 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      MusicBrainz's `entity0`. The judge model's cutoff is not known, so "unlikely to know" is as far
      as it goes. Judges' own counts were wrong again, 126 candidates reported of 136; the files were
      checked, every candidate once.
+
+184. **The judge is in the tool, as a file it reads rather than a model it calls, and the tool
+     reproduces findings 182 and 183 exactly.**
+
+     `reverse.py --infer-keys --export-candidates FILE` writes what the gates throw away;
+     `--verdicts FILE` applies a judge's decisions in their place. Nothing in `reverse/` calls a
+     model, so a build needs no key and is repeatable from its inputs. `reverse/JUDGE.md` is the
+     measured brief, its paths apart, and a test holds the two together. `refs.py` now builds its
+     records with the tool's `candidate_record`, so there is one copy.
+
+     Run through `recover`, with the recorded verdicts and the keys stripped:
+
+     | | Candidates, same as measured | Recall / precision |
+     |---|---|---|
+     | AdventureWorks | 157 of 157 | 91% / 95% |
+     | MusicBrainz | 645 of 645 | 85% / 95% |
+     | DBBE | 136 of 136 | 70% / 95% |
+     | ACAI | 24 of 24 | 96% / 100% |
+
+     Every record is identical, not only the ids. The verdicts are old ones replayed, so this shows
+     the tool does what was measured and is no new evidence about judges.
+
+     **Decided, not measured.** A column with a verdict is settled, so neither the gate nor rule 9
+     can put a "no" back at another target. A column with none stays with them, so a partial or stale
+     file degrades to the rules. A schema with no words is not judged, by finding 183. A kept
+     reference is a `heuristic` claim, below `population`, because it rests on a reading. A person's
+     rejection beats a judge, as it does every other pass. A person's acceptance does not yet beat a
+     judge's "no". The candidates carry five values a side, which is a change in what leaves the
+     machine if the judge is remote, so the flag's help says so. `build_model` passes flags
+     through, and the MCP server does nothing more with them yet.

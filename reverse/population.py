@@ -41,6 +41,7 @@ the doubt. Data can refute a constraint outright; it can only ever make one plau
 from __future__ import annotations
 
 import bisect
+import json
 import itertools
 import re
 import sqlite3
@@ -2172,6 +2173,8 @@ def apply_references(analysis: Analysis, catalog, tables=None) -> List[tuple]:
     for f in analysis.of_kind("inclusion"):
         if not (f.preferred and f.significant and (f.corroborated or nameless)):
             continue
+        if review_mod.settled(f.table, f.columns[0]):
+            continue
         t, target = by_table.get(f.table), by_table.get(f.target_table)
         if t is None or target is None or t.fk_for(f.columns[0]) is not None:
             continue
@@ -2183,6 +2186,84 @@ def apply_references(analysis: Analysis, catalog, tables=None) -> List[tuple]:
         t.foreign_keys.append(catalog_mod.ForeignKey(
             columns=list(f.columns), ref_table=target.name,
             ref_columns=list(f.target_columns or target.primary_key)))
+        applied.append((f.table, list(f.columns), f.target_table, f.score, f.signals))
+    return applied
+
+
+def candidate_id(f: Finding) -> str:
+    return "%s.%s -> %s.%s" % (f.table, f.columns[0], f.target_table, f.target_columns[0])
+
+
+def _samples(conn, table: str, col: str, n: int = 5) -> List[str]:
+    try:
+        rows = conn.execute('SELECT DISTINCT %s FROM %s WHERE %s IS NOT NULL LIMIT %d'
+                            % (_q([col]), _t(table), _q([col]), n)).fetchall()
+        return [str(r[0])[:40] for r in rows]
+    except sqlite3.Error:
+        return []
+
+
+def candidate_record(conn, f: Finding, row_counts) -> dict:
+    """A candidate as a judge reads it (reverse/JUDGE.md): the evidence and five values a side."""
+    return {"id": candidate_id(f),
+            "source_table": f.table, "source_column": f.columns[0],
+            "target_table": f.target_table, "target_key": f.target_columns[0],
+            "source_rows": f.rows, "source_distinct": f.distinct,
+            "target_rows": row_counts.get(f.target_table),
+            "score": round(f.score, 2), "signals": f.signals,
+            "source_samples": _samples(conn, f.table, f.columns[0]),
+            "target_samples": _samples(conn, f.target_table, f.target_columns[0])}
+
+
+def reference_candidates(conn, catalog, tables, analysis: Analysis, also_unique) -> List[Finding]:
+    """Every best-scoring containment with the gates off, which is what a judge chooses from:
+    no floors, no threshold, the 1:1 shape included. Finding 182 measured this set and
+    `bench/ablation/refs.py` exports it through the same `candidate_record`.
+
+    None on a schema whose names are no words. A judge reads names: with them destroyed it
+    does no better than the rules (finding 183), so there the rules stand.
+    """
+    live = [t for t in (tables or catalog.tables) if not t.is_view]
+    if _names_say_nothing(live):
+        return []
+    scratch = Analysis()
+    scratch.row_counts = analysis.row_counts
+    _inclusions(conn, live, scratch, weights=SHAPE_ONLY, threshold=0.0,
+                also_unique=analysis.of_kind("unique") + list(also_unique))
+    return [f for k in ("inclusion", "inclusion-1to1") for f in scratch.of_kind(k)
+            if f.preferred and (f.distinct or 0) >= 1]
+
+
+def read_verdicts(path: str) -> dict:
+    """A judge's verdicts by candidate id: `{id: {"verdict", "reason"}}`."""
+    with open(path) as fh:
+        return {v["id"]: v for v in json.load(fh)["verdicts"]}
+
+
+def apply_verdicts(found: List[Finding], verdicts: dict, catalog, tables=None) -> List[tuple]:
+    """Put what a judge kept on the catalogue, in place of the gates of `apply_references`.
+
+    A column with a verdict is settled either way, so neither the gate nor rule 9 can put a
+    "no" back at another target; a column with none is left to them. Only "yes" keeps a
+    candidate, as it was scored: "unsure" does not. The 1:1 shape is kept here, since a judge
+    can read it and the gates cannot. A person who rejected the claim still wins.
+    """
+    applied = []
+    by_table = {t.name: t for t in (tables or catalog.tables)}
+    for f in found:
+        verdict = verdicts.get(candidate_id(f))
+        if verdict is None:
+            continue
+        review_mod.SETTLED.add((f.table.casefold(), f.columns[0].casefold()))
+        if not str(verdict.get("verdict", "")).lower().startswith("y"):
+            continue
+        t, target = by_table.get(f.table), by_table.get(f.target_table)
+        if t is None or target is None or t.fk_for(f.columns[0]) is not None:
+            continue
+        if review_mod.vetoed("rule 9c", "%s.%s -> %s" % (f.table, f.columns[0], f.target_table)):
+            continue
+        t.foreign_keys.append(catalog_mod.ForeignKey(
+            columns=list(f.columns), ref_table=target.name, ref_columns=list(f.target_columns)))
         applied.append((f.table, list(f.columns), f.target_table, f.score, f.signals))
     return applied
 
@@ -2215,8 +2296,9 @@ def apply_mandatory(analysis: Analysis, catalog, tables=None) -> List[tuple]:
     return applied
 
 
-def recover(conn: sqlite3.Connection, catalog, tables=None,
-            ignore_names: bool = False) -> Tuple[Analysis, List[tuple], List[tuple]]:
+def recover(conn: sqlite3.Connection, catalog, tables=None, ignore_names: bool = False,
+            verdicts: Optional[dict] = None,
+            candidates: Optional[list] = None) -> Tuple[Analysis, List[tuple], List[tuple]]:
     """Rules 9b and 9c: recover the keys a catalogue does not declare, then the references
     that point at them. Returns `(analysis, keys, references)`.
 
@@ -2224,6 +2306,10 @@ def recover(conn: sqlite3.Connection, catalog, tables=None,
     inclusion search has nothing to aim at until rule 9b has run -- and it was written out
     twice, once here and once in the harness that measures it. Two copies of an order is two
     chances to measure something the tool does not do, so both callers use this.
+
+    `candidates`, a list, is filled with the records a judge reads. `verdicts`, from
+    `read_verdicts`, are applied before the gates. Candidates are searched for before
+    anything is applied, because a column with a reference is out of the search.
     """
     before = analyse_keys(conn, catalog, tables)
     keys = apply_keys(before, catalog, tables=tables, conn=conn)
@@ -2243,7 +2329,14 @@ def recover(conn: sqlite3.Connection, catalog, tables=None,
             continue
         analysis.findings.append(Finding("alternate-key", f.table, list(f.columns),
                                          f.rows, distinct=f.distinct))
-    return analysis, keys, apply_references(analysis, catalog, tables)
+    judged = []
+    if verdicts is not None or candidates is not None:
+        found = reference_candidates(conn, catalog, tables, analysis, before.of_kind("unique"))
+        if candidates is not None:
+            candidates.extend(candidate_record(conn, f, analysis.row_counts) for f in found)
+        if verdicts is not None:
+            judged = apply_verdicts(found, verdicts, catalog, tables)
+    return analysis, keys, judged + apply_references(analysis, catalog, tables)
 
 
 def apply_column_types(analysis: Analysis, model: dict, report) -> None:

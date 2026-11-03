@@ -750,6 +750,89 @@ def search_cases():
         os.remove(path)
 
 
+def judge_cases():
+    import review as review_mod
+    path = os.path.join(HERE, ".judge.sqlite")
+    if os.path.exists(path):
+        os.remove(path)
+    conn = sqlite3.connect(path)
+    conn.executescript("""
+        CREATE TABLE parent (parent_id INTEGER PRIMARY KEY, name TEXT);
+        CREATE TABLE status (status_code INTEGER PRIMARY KEY, label TEXT);
+        CREATE TABLE child (id INTEGER PRIMARY KEY, parent_id INTEGER, status INTEGER, note TEXT);
+        CREATE TABLE parent_extra (parent_id INTEGER PRIMARY KEY, detail TEXT);
+    """)
+    conn.executemany("INSERT INTO parent VALUES (?, ?)", [(i * 7, "p%d" % i) for i in range(1, 201)])
+    conn.executemany("INSERT INTO status VALUES (?, ?)", [(i, "s%d" % i) for i in range(1, 6)])
+    conn.executemany("INSERT INTO child VALUES (?, ?, ?, ?)",
+                     [(i, (i % 200 + 1) * 7, i % 2 + 1, "n") for i in range(1, 1001)])
+    conn.executemany("INSERT INTO parent_extra VALUES (?, ?)",
+                     [(i * 7, "d") for i in range(1, 101)])
+    conn.commit()
+    parent = "child.parent_id -> parent.parent_id"
+    status = "child.status -> status.status_code"
+    subtype = "parent_extra.parent_id -> parent.parent_id"
+
+    def run(verdicts=None, veto=()):
+        review_mod.VETO.clear()
+        review_mod.SETTLED.clear()
+        review_mod.VETO.update(veto)
+        found = []
+        _, _, refs = pop.recover(conn, catalog_mod.from_sqlite(path), verdicts=verdicts,
+                                 candidates=found)
+        review_mod.VETO.clear()
+        return {c["id"] for c in found}, [r[:3] for r in refs]
+
+    yes, no = {"verdict": "yes"}, {"verdict": "no"}
+    to_parent, to_status = ("child", ["parent_id"], "parent"), ("child", ["status"], "status")
+    to_owner = ("parent_extra", ["parent_id"], "parent")
+    try:
+        ids, refs = run()
+        yield ("the gate stands with nothing judged", refs == [to_parent], repr(refs))
+        yield ("candidates are what the gates throw away", status in ids and subtype in ids,
+               repr(ids))
+        _, refs = run({status: yes})
+        yield ("a kept candidate below the gate is applied", to_status in refs, repr(refs))
+        yield ("a candidate with no verdict stays with the gate", to_parent in refs, repr(refs))
+        _, refs = run({subtype: yes})
+        yield ("a kept 1:1 is applied, which the gate cannot", to_owner in refs, repr(refs))
+        _, refs = run({parent: no})
+        yield ("a no is not put back by the gate", to_parent not in refs, repr(refs))
+        yield ("nor by rule 9", review_mod.settled("child", "parent_id"), "settled")
+        _, refs = run({status: {"verdict": "unsure"}})
+        yield ("only yes keeps a candidate, as it was scored", to_status not in refs, repr(refs))
+        _, refs = run({status: yes}, {("rule 9c", "child.status -> status")})
+        yield ("a person's rejection beats a judge", to_status not in refs, repr(refs))
+        _, refs = run({"gone.col -> parent.parent_id": yes})
+        yield ("a verdict on nothing applies nothing", refs == [to_parent], repr(refs))
+    finally:
+        review_mod.SETTLED.clear()
+        conn.close()
+        os.remove(path)
+
+    conn = sqlite3.connect(path)
+    conn.execute("CREATE TABLE t0001 (c0001 INTEGER PRIMARY KEY, c0002 TEXT)")
+    conn.execute("CREATE TABLE t0002 (c0001 INTEGER PRIMARY KEY, c0002 INTEGER, c0003 TEXT, "
+                 "c0004 TEXT)")
+    conn.executemany("INSERT INTO t0001 VALUES (?, ?)", [(i * 7, "p") for i in range(1, 201)])
+    conn.executemany("INSERT INTO t0002 VALUES (?, ?, ?, ?)",
+                     [(i, (i % 200 + 1) * 7, "x", "y") for i in range(1, 1001)])
+    conn.commit()
+    try:
+        found = []
+        pop.recover(conn, catalog_mod.from_sqlite(path), candidates=found)
+        yield ("with no words there is nothing for a judge to read", found == [], repr(found))
+    finally:
+        conn.close()
+        os.remove(path)
+
+    shipped = open(os.path.join(HERE, "..", "JUDGE.md")).read()
+    measured = open(os.path.join(HERE, "..", "..", "bench", "ablation", "JUDGE.md")).read()
+    yield ("the shipped brief is the measured one, its paths apart",
+           shipped == measured.replace("bench/ablation/work/llm/<database>", "<database>"),
+           "reverse/JUDGE.md and bench/ablation/JUDGE.md")
+
+
 def main(argv=None):
     p = argparse.ArgumentParser()
     p.add_argument("--only")
@@ -767,7 +850,8 @@ def main(argv=None):
         for name, ok, note in (list(cases(a)) + list(key_cases(a, cat))
                                + list(constraint_cases(a)) + list(reporting_cases(a, path))
                                + list(partition_cases(path)) + list(profile_cases())
-                               + list(review_cases()) + list(search_cases())):
+                               + list(review_cases()) + list(search_cases())
+                               + list(judge_cases())):
             if args.only and args.only.lower() not in name.lower():
                 continue
             if ok:

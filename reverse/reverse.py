@@ -147,6 +147,7 @@ class Build:
         self.json_shapes, self.absorb = {}, {}
         self.model, self.report = None, None
         self.verified, self.shared = [], []
+        self.verdicts = None
         self.ran = set()
 
     def data(self):
@@ -186,8 +187,21 @@ def _analyse(b):
         # it -- `tags.WikiPostId` stops being a value and becomes a reference to Post,
         # which is truer and breaks every query written for the old shape. That is a
         # migration, not a free upgrade, and it should be asked for.
-        b.analysis, b.keys, b.refs = pop.recover(b.data(), b.cat,
-                                                 ignore_names=b.args.ignore_names)
+        a = b.args
+        b.verdicts = pop.read_verdicts(a.verdicts) if a.verdicts else None
+        candidates = [] if a.export_candidates else None
+        b.analysis, b.keys, b.refs = pop.recover(b.data(), b.cat, ignore_names=a.ignore_names,
+                                                 verdicts=b.verdicts, candidates=candidates)
+        live = [t for t in b.cat.tables if not t.is_view]
+        if (a.verdicts or a.export_candidates) and pop._names_say_nothing(live):
+            print("the column names are no words, so nothing was judged and the rules stand "
+                  "(finding 183)")
+        if a.export_candidates:
+            with open(a.export_candidates, "w") as fh:
+                json.dump({"database": a.name or b.default_name,
+                           "tables": sorted(t.name for t in b.cat.tables),
+                           "candidates": candidates}, fh, indent=1)
+                fh.write("\n")
     else:
         b.analysis = pop.analyse(b.data(), b.cat, ignore_names=b.args.ignore_names)
 
@@ -249,6 +263,19 @@ def _derive(b):
                       probe=review_mod.contained(child, ccols, parent, pcols))
     for table, cols, target, score, signals in b.refs:
         target_cols = ref_columns(table, cols, target)
+        judged = (b.verdicts or {}).get("%s.%s -> %s.%s" % (table, cols[0], target,
+                                                            (target_cols or [""])[0]))
+        if judged:
+            report.refine("rule 9c", "heuristic", "%s.%s -> %s" % (table, ", ".join(cols), target),
+                          "No foreign key is declared and every value is present in %s's key. "
+                          "A judge reading the names and five values a side kept it: %s. "
+                          "Applied because --verdicts asked for it."
+                          % (target, judged.get("reason", "no reason given")),
+                          "Confirm it. Judges kept nearly every true reference and some "
+                          "that nobody meant (findings 182, 183).",
+                          probe=review_mod.contained(table, cols, target, target_cols)
+                          if target_cols else None)
+            continue
         report.refine("rule 9c", "population", "%s.%s -> %s" % (table, ", ".join(cols), target),
                       "No foreign key is declared, but every value is present in %s's key "
                       "and the shape of the match says reference rather than coincidence: %s. "
@@ -460,6 +487,17 @@ def main(argv=None):
                         "(reverse/tests/test_inference.py, which names its corpus because the "
                         "rates move with naming convention); each one is reported as the "
                         "guess it is. SQLite only.")
+    p.add_argument("--export-candidates", metavar="FILE",
+                   help="with --infer-keys, also write every best-scoring containment with the "
+                        "gates off for a judge to read (reverse/JUDGE.md). It holds five "
+                        "values a side from your data, so mind where the judge runs.")
+    p.add_argument("--verdicts", metavar="FILE",
+                   help="with --infer-keys, apply a judge's verdicts on those candidates in "
+                        "place of the gates. Nothing here calls a model: the file is an input "
+                        "like any other, so a build is repeatable. Measured at 91%%/95%% "
+                        "recall/precision on AdventureWorks and 70%%/95%% on a far less known "
+                        "schema (findings 182, 183). Each is a claim on the review file. A "
+                        "schema whose names are no words keeps the rules.")
     p.add_argument("--infer-mandatory", action="store_true",
                    help="read the data and make a role mandatory where its column is declared "
                         "nullable and is never null (rule 9a, Bird's 3.9-a). Mined since the "
@@ -566,6 +604,8 @@ def main(argv=None):
                         "data alone. For schemas that name references for the concept and "
                         "keys for the identifier, where string comparison is no evidence.")
     args = p.parse_args(argv)
+    if (args.export_candidates or args.verdicts) and not args.infer_keys:
+        p.error("--export-candidates and --verdicts need --infer-keys")
 
     if args.sqlite:
         # sqlite3 creates a database for a path that does not exist, so a typo used to
@@ -603,8 +643,10 @@ def main(argv=None):
     review_mod.VETO.clear()
     review_mod.VETO.update((c["rule"], c["subject"]) for c in previous
                            if c.get("status") == "rejected")
+    review_mod.SETTLED.clear()
 
     ctx = Build(args, cat, source)
+    ctx.default_name = default_name
     run_passes(ctx, p)
     model, report = ctx.model, ctx.report
     model["id"] = name

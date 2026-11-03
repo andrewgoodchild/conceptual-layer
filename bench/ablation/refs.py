@@ -69,16 +69,6 @@ def key3(f):
     return (f.table.casefold(), f.columns[0].casefold(), f.target_table.casefold())
 
 
-def samples(conn, table, col, n=5):
-    try:
-        rows = conn.execute('SELECT DISTINCT "%s" FROM "%s" WHERE "%s" IS NOT NULL LIMIT %d'
-                            % (col.replace('"', '""'), table.replace('"', '""'),
-                               col.replace('"', '""'), n)).fetchall()
-        return [str(r[0])[:40] for r in rows]
-    except sqlite3.Error:
-        return []
-
-
 def run_db(db, arm, args):
     path = dict(databases(args.dbdir))[db]
     cat = catalog_mod.from_sqlite(path)
@@ -115,16 +105,7 @@ def run_db(db, arm, args):
         for f in incl:
             if f.score < args.floor:
                 continue
-            cands.append({
-                "id": "%s.%s -> %s.%s" % (f.table, f.columns[0], f.target_table, f.target_columns[0]),
-                "source_table": f.table, "source_column": f.columns[0],
-                "target_table": f.target_table, "target_key": f.target_columns[0],
-                "source_rows": f.rows, "source_distinct": f.distinct,
-                "target_rows": analysis.row_counts.get(f.target_table),
-                "score": round(f.score, 2), "signals": f.signals,
-                "source_samples": samples(conn, f.table, f.columns[0]),
-                "target_samples": samples(conn, f.target_table, f.target_columns[0]),
-            })
+            cands.append(population_mod.candidate_record(conn, f, analysis.row_counts))
         os.makedirs(os.path.join(WORK, "llm"), exist_ok=True)
         with open(os.path.join(WORK, "llm", "%s.candidates.json" % db), "w") as fh:
             json.dump({"database": db, "tables": sorted(t.name for t in cat.tables),

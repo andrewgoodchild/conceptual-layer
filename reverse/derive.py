@@ -1104,6 +1104,8 @@ class Deriver:
             for col in t.columns:
                 if t.fk_for(col.name) is not None or t.is_key(col.name):
                     continue
+                if review_mod.settled(t.name, col.name):
+                    continue
                 targets = [x for x in pk_index.get(col.name.casefold(), [])
                            if x.name.casefold() != t.name.casefold()]
                 if len(targets) != 1:
