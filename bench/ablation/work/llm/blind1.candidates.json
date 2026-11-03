@@ -1,0 +1,757 @@
+{
+ "database": "blind1",
+ "tables": [
+  "t0000",
+  "t0001",
+  "t0002",
+  "t0003",
+  "t0004",
+  "t0005",
+  "t0006",
+  "t0007",
+  "t0008",
+  "t0009",
+  "t0010",
+  "t0011",
+  "t0012",
+  "t0013",
+  "t0014",
+  "t0015",
+  "t0016",
+  "t0017",
+  "t0018",
+  "t0019",
+  "t0020",
+  "t0021"
+ ],
+ "candidates": [
+  {
+   "id": "t0000.c0000 -> t0015.c0010",
+   "source_table": "t0000",
+   "source_column": "c0000",
+   "target_table": "t0015",
+   "target_key": "c0010",
+   "source_rows": 27073,
+   "source_distinct": 5505,
+   "target_rows": 5505,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "KW_00428",
+    "KW_01236",
+    "KW_02728",
+    "KW_02936",
+    "KW_04337"
+   ],
+   "target_samples": [
+    "KW_00001",
+    "KW_00002",
+    "KW_00003",
+    "KW_00004",
+    "KW_00005"
+   ]
+  },
+  {
+   "id": "t0002.c0001 -> t0018.c0005",
+   "source_table": "t0002",
+   "source_column": "c0001",
+   "target_table": "t0018",
+   "target_key": "c0005",
+   "source_rows": 7161,
+   "source_distinct": 6250,
+   "target_rows": 6250,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PRO_CUL_0001",
+    "PRO_CUL_0002",
+    "PRO_CUL_0003",
+    "PRO_CUL_0004",
+    "PRO_CUL_0005"
+   ],
+   "target_samples": [
+    "PRO_CUL_0001",
+    "PRO_CUL_0002",
+    "PRO_CUL_0003",
+    "PRO_CUL_0004",
+    "PRO_CUL_0005"
+   ]
+  },
+  {
+   "id": "t0002.c0002 -> t0014.c0001",
+   "source_table": "t0002",
+   "source_column": "c0002",
+   "target_table": "t0014",
+   "target_key": "c0001",
+   "source_rows": 7161,
+   "source_distinct": 390,
+   "target_rows": 1892,
+   "score": 2.67,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ORG_0234",
+    "ORG_0296",
+    "ORG_0266",
+    "ORG_0295",
+    "ORG_0044"
+   ],
+   "target_samples": [
+    "ORG_0001",
+    "ORG_0002",
+    "ORG_0003",
+    "ORG_0004",
+    "ORG_0005"
+   ]
+  },
+  {
+   "id": "t0003.c0000 -> t0004.c0001",
+   "source_table": "t0003",
+   "source_column": "c0000",
+   "target_table": "t0004",
+   "target_key": "c0001",
+   "source_rows": 1813,
+   "source_distinct": 1284,
+   "target_rows": 1775,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EXH_0007",
+    "EXH_0008",
+    "EXH_0010",
+    "EXH_0011",
+    "EXH_0024"
+   ],
+   "target_samples": [
+    "EXH_0001",
+    "EXH_0002",
+    "EXH_0003",
+    "EXH_0004",
+    "EXH_0005"
+   ]
+  },
+  {
+   "id": "t0003.c0002 -> t0013.c0003",
+   "source_table": "t0003",
+   "source_column": "c0002",
+   "target_table": "t0013",
+   "target_key": "c0003",
+   "source_rows": 1813,
+   "source_distinct": 193,
+   "target_rows": 698,
+   "score": 2.65,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VENUE_0115",
+    "VENUE_0112",
+    "VENUE_0114",
+    "VENUE_0104",
+    "VENUE_0085"
+   ],
+   "target_samples": [
+    "VENUE_0001",
+    "VENUE_0002",
+    "VENUE_0003",
+    "VENUE_0004",
+    "VENUE_0005"
+   ]
+  },
+  {
+   "id": "t0005.c0001 -> t0018.c0005",
+   "source_table": "t0005",
+   "source_column": "c0001",
+   "target_table": "t0018",
+   "target_key": "c0005",
+   "source_rows": 5892,
+   "source_distinct": 4682,
+   "target_rows": 6250,
+   "score": 4.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PRO_CUL_0010",
+    "PRO_CUL_0013",
+    "PRO_CUL_0022",
+    "PRO_CUL_0027",
+    "PRO_CUL_0028"
+   ],
+   "target_samples": [
+    "PRO_CUL_0001",
+    "PRO_CUL_0002",
+    "PRO_CUL_0003",
+    "PRO_CUL_0004",
+    "PRO_CUL_0005"
+   ]
+  },
+  {
+   "id": "t0005.c0000 -> t0013.c0003",
+   "source_table": "t0005",
+   "source_column": "c0000",
+   "target_table": "t0013",
+   "target_key": "c0003",
+   "source_rows": 5892,
+   "source_distinct": 636,
+   "target_rows": 698,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VENUE_0171",
+    "VENUE_0080",
+    "VENUE_0085",
+    "VENUE_0118",
+    "VENUE_0108"
+   ],
+   "target_samples": [
+    "VENUE_0001",
+    "VENUE_0002",
+    "VENUE_0003",
+    "VENUE_0004",
+    "VENUE_0005"
+   ]
+  },
+  {
+   "id": "t0006.c0001 -> t0004.c0001",
+   "source_table": "t0006",
+   "source_column": "c0001",
+   "target_table": "t0004",
+   "target_key": "c0001",
+   "source_rows": 13525,
+   "source_distinct": 1587,
+   "target_rows": 1775,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EXH_0001",
+    "EXH_0002",
+    "EXH_0003",
+    "EXH_0005",
+    "EXH_0006"
+   ],
+   "target_samples": [
+    "EXH_0001",
+    "EXH_0002",
+    "EXH_0003",
+    "EXH_0004",
+    "EXH_0005"
+   ]
+  },
+  {
+   "id": "t0006.c0003 -> t0020.c0009",
+   "source_table": "t0006",
+   "source_column": "c0003",
+   "target_table": "t0020",
+   "target_key": "c0009",
+   "source_rows": 13525,
+   "source_distinct": 6938,
+   "target_rows": 9759,
+   "score": 3.79,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PART_0001",
+    "PART_3194",
+    "PART_5217",
+    "PART_0350",
+    "PART_0245"
+   ],
+   "target_samples": [
+    "PART_0001",
+    "PART_0002",
+    "PART_0003",
+    "PART_0004",
+    "PART_0005"
+   ]
+  },
+  {
+   "id": "t0007.c0002 -> t0020.c0009",
+   "source_table": "t0007",
+   "source_column": "c0002",
+   "target_table": "t0020",
+   "target_key": "c0009",
+   "source_rows": 630,
+   "source_distinct": 592,
+   "target_rows": 9759,
+   "score": 2.69,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PART_0003",
+    "PART_0006",
+    "PART_0040",
+    "PART_0068",
+    "PART_0075"
+   ],
+   "target_samples": [
+    "PART_0001",
+    "PART_0002",
+    "PART_0003",
+    "PART_0004",
+    "PART_0005"
+   ]
+  },
+  {
+   "id": "t0007.c0001 -> t0014.c0001",
+   "source_table": "t0007",
+   "source_column": "c0001",
+   "target_table": "t0014",
+   "target_key": "c0001",
+   "source_rows": 630,
+   "source_distinct": 448,
+   "target_rows": 1892,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ORG_2000",
+    "ORG_0771",
+    "ORG_0546",
+    "ORG_0885",
+    "ORG_0919"
+   ],
+   "target_samples": [
+    "ORG_0001",
+    "ORG_0002",
+    "ORG_0003",
+    "ORG_0004",
+    "ORG_0005"
+   ]
+  },
+  {
+   "id": "t0008.c0002 -> t0004.c0001",
+   "source_table": "t0008",
+   "source_column": "c0002",
+   "target_table": "t0004",
+   "target_key": "c0001",
+   "source_rows": 3862,
+   "source_distinct": 1775,
+   "target_rows": 1775,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EXH_0001",
+    "EXH_0002",
+    "EXH_0003",
+    "EXH_0004",
+    "EXH_0005"
+   ],
+   "target_samples": [
+    "EXH_0001",
+    "EXH_0002",
+    "EXH_0003",
+    "EXH_0004",
+    "EXH_0005"
+   ]
+  },
+  {
+   "id": "t0008.c0000 -> t0014.c0001",
+   "source_table": "t0008",
+   "source_column": "c0000",
+   "target_table": "t0014",
+   "target_key": "c0001",
+   "source_rows": 3862,
+   "source_distinct": 610,
+   "target_rows": 1892,
+   "score": 2.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ORG_0234",
+    "ORG_0203",
+    "ORG_0295",
+    "ORG_0296",
+    "ORG_0479"
+   ],
+   "target_samples": [
+    "ORG_0001",
+    "ORG_0002",
+    "ORG_0003",
+    "ORG_0004",
+    "ORG_0005"
+   ]
+  },
+  {
+   "id": "t0010.c0000 -> t0021.c0003",
+   "source_table": "t0010",
+   "source_column": "c0000",
+   "target_table": "t0021",
+   "target_key": "c0003",
+   "source_rows": 7526,
+   "source_distinct": 5488,
+   "target_rows": 5490,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OPEN_0002",
+    "OPEN_0003",
+    "OPEN_0004",
+    "OPEN_0005",
+    "OPEN_0006"
+   ],
+   "target_samples": [
+    "OPEN_0002",
+    "OPEN_0003",
+    "OPEN_0004",
+    "OPEN_0005",
+    "OPEN_0006"
+   ]
+  },
+  {
+   "id": "t0010.c0002 -> t0014.c0001",
+   "source_table": "t0010",
+   "source_column": "c0002",
+   "target_table": "t0014",
+   "target_key": "c0001",
+   "source_rows": 7526,
+   "source_distinct": 784,
+   "target_rows": 1892,
+   "score": 3.22,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ORG_0285",
+    "ORG_1419",
+    "ORG_1514",
+    "ORG_1515",
+    "ORG_1236"
+   ],
+   "target_samples": [
+    "ORG_0001",
+    "ORG_0002",
+    "ORG_0003",
+    "ORG_0004",
+    "ORG_0005"
+   ]
+  },
+  {
+   "id": "t0011.c0000 -> t0001.c0004",
+   "source_table": "t0011",
+   "source_column": "c0000",
+   "target_table": "t0001",
+   "target_key": "c0004",
+   "source_rows": 239,
+   "source_distinct": 239,
+   "target_rows": 17929,
+   "score": 2.68,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "WORK_00227",
+    "WORK_00543",
+    "WORK_02285",
+    "WORK_02895",
+    "WORK_02896"
+   ],
+   "target_samples": [
+    "WORK_00001",
+    "WORK_00002",
+    "WORK_00003",
+    "WORK_00004",
+    "WORK_00005"
+   ]
+  },
+  {
+   "id": "t0011.c0001 -> t0014.c0001",
+   "source_table": "t0011",
+   "source_column": "c0001",
+   "target_table": "t0014",
+   "target_key": "c0001",
+   "source_rows": 239,
+   "source_distinct": 6,
+   "target_rows": 1892,
+   "score": 2.39,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ORG_1862",
+    "ORG_1863",
+    "ORG_1864",
+    "ORG_1861",
+    "ORG_1885"
+   ],
+   "target_samples": [
+    "ORG_0001",
+    "ORG_0002",
+    "ORG_0003",
+    "ORG_0004",
+    "ORG_0005"
+   ]
+  },
+  {
+   "id": "t0015.c0008 -> t0009.c0004",
+   "source_table": "t0015",
+   "source_column": "c0008",
+   "target_table": "t0009",
+   "target_key": "c0004",
+   "source_rows": 5505,
+   "source_distinct": 2277,
+   "target_rows": 2277,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CAT_1541",
+    "CAT_2277",
+    "CAT_0002",
+    "CAT_0925",
+    "CAT_0013"
+   ],
+   "target_samples": [
+    "CAT_0001",
+    "CAT_0002",
+    "CAT_0003",
+    "CAT_0004",
+    "CAT_0005"
+   ]
+  },
+  {
+   "id": "t0016.c0001 -> t0001.c0004",
+   "source_table": "t0016",
+   "source_column": "c0001",
+   "target_table": "t0001",
+   "target_key": "c0004",
+   "source_rows": 144,
+   "source_distinct": 141,
+   "target_rows": 17929,
+   "score": 2.63,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "WORK_00085",
+    "WORK_00086",
+    "WORK_00087",
+    "WORK_00088",
+    "WORK_00089"
+   ],
+   "target_samples": [
+    "WORK_00001",
+    "WORK_00002",
+    "WORK_00003",
+    "WORK_00004",
+    "WORK_00005"
+   ]
+  },
+  {
+   "id": "t0016.c0000 -> t0004.c0001",
+   "source_table": "t0016",
+   "source_column": "c0000",
+   "target_table": "t0004",
+   "target_key": "c0001",
+   "source_rows": 144,
+   "source_distinct": 8,
+   "target_rows": 1775,
+   "score": 2.67,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "EXH_0826",
+    "EXH_0840",
+    "EXH_0821",
+    "EXH_0588",
+    "EXH_0824"
+   ],
+   "target_samples": [
+    "EXH_0001",
+    "EXH_0002",
+    "EXH_0003",
+    "EXH_0004",
+    "EXH_0005"
+   ]
+  },
+  {
+   "id": "t0017.c0001 -> t0001.c0004",
+   "source_table": "t0017",
+   "source_column": "c0001",
+   "target_table": "t0001",
+   "target_key": "c0004",
+   "source_rows": 18534,
+   "source_distinct": 17928,
+   "target_rows": 17929,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WORK_00001",
+    "WORK_00002",
+    "WORK_00003",
+    "WORK_00004",
+    "WORK_00005"
+   ],
+   "target_samples": [
+    "WORK_00001",
+    "WORK_00002",
+    "WORK_00003",
+    "WORK_00004",
+    "WORK_00005"
+   ]
+  },
+  {
+   "id": "t0017.c0000 -> t0020.c0009",
+   "source_table": "t0017",
+   "source_column": "c0000",
+   "target_table": "t0020",
+   "target_key": "c0009",
+   "source_rows": 18534,
+   "source_distinct": 3373,
+   "target_rows": 9759,
+   "score": 3.64,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PART_7883",
+    "PART_0203",
+    "PART_0200",
+    "PART_1339",
+    "PART_0215"
+   ],
+   "target_samples": [
+    "PART_0001",
+    "PART_0002",
+    "PART_0003",
+    "PART_0004",
+    "PART_0005"
+   ]
+  },
+  {
+   "id": "t0019.c0003 -> t0018.c0005",
+   "source_table": "t0019",
+   "source_column": "c0003",
+   "target_table": "t0018",
+   "target_key": "c0005",
+   "source_rows": 2331,
+   "source_distinct": 1067,
+   "target_rows": 6250,
+   "score": 2.89,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PRO_CUL_0287",
+    "PRO_CUL_0544",
+    "PRO_CUL_0571",
+    "PRO_CUL_0606",
+    "PRO_CUL_0607"
+   ],
+   "target_samples": [
+    "PRO_CUL_0001",
+    "PRO_CUL_0002",
+    "PRO_CUL_0003",
+    "PRO_CUL_0004",
+    "PRO_CUL_0005"
+   ]
+  },
+  {
+   "id": "t0019.c0002 -> t0020.c0009",
+   "source_table": "t0019",
+   "source_column": "c0002",
+   "target_table": "t0020",
+   "target_key": "c0009",
+   "source_rows": 2331,
+   "source_distinct": 1566,
+   "target_rows": 9759,
+   "score": 2.82,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PART_3947",
+    "PART_5484",
+    "PART_7805",
+    "PART_7806",
+    "PART_7807"
+   ],
+   "target_samples": [
+    "PART_0001",
+    "PART_0002",
+    "PART_0003",
+    "PART_0004",
+    "PART_0005"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,757 @@
+{
+ "database": "acai",
+ "tables": [
+  "event_keyword",
+  "event_relation",
+  "exhibition",
+  "exhibition_organization",
+  "exhibition_participant",
+  "exhibition_venue",
+  "keyword",
+  "opencall",
+  "opencall_organization",
+  "organization",
+  "participant",
+  "participant_organization",
+  "program",
+  "program_organization",
+  "program_participant",
+  "program_venue",
+  "theme_category",
+  "venue",
+  "work",
+  "work_exhibition",
+  "work_organization",
+  "work_participant"
+ ],
+ "candidates": [
+  {
+   "id": "event_keyword.keyword_id -> keyword.keyword_id",
+   "source_table": "event_keyword",
+   "source_column": "keyword_id",
+   "target_table": "keyword",
+   "target_key": "keyword_id",
+   "source_rows": 27073,
+   "source_distinct": 5505,
+   "target_rows": 5505,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "KW_00428",
+    "KW_01236",
+    "KW_02728",
+    "KW_02936",
+    "KW_04337"
+   ],
+   "target_samples": [
+    "KW_00001",
+    "KW_00002",
+    "KW_00003",
+    "KW_00004",
+    "KW_00005"
+   ]
+  },
+  {
+   "id": "exhibition_organization.exhibition_id -> exhibition.exhibition_id",
+   "source_table": "exhibition_organization",
+   "source_column": "exhibition_id",
+   "target_table": "exhibition",
+   "target_key": "exhibition_id",
+   "source_rows": 3862,
+   "source_distinct": 1775,
+   "target_rows": 1775,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EXH_0001",
+    "EXH_0002",
+    "EXH_0003",
+    "EXH_0004",
+    "EXH_0005"
+   ],
+   "target_samples": [
+    "EXH_0001",
+    "EXH_0002",
+    "EXH_0003",
+    "EXH_0004",
+    "EXH_0005"
+   ]
+  },
+  {
+   "id": "exhibition_organization.organization_id -> organization.organization_id",
+   "source_table": "exhibition_organization",
+   "source_column": "organization_id",
+   "target_table": "organization",
+   "target_key": "organization_id",
+   "source_rows": 3862,
+   "source_distinct": 610,
+   "target_rows": 1892,
+   "score": 2.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ORG_0234",
+    "ORG_0203",
+    "ORG_0295",
+    "ORG_0296",
+    "ORG_0479"
+   ],
+   "target_samples": [
+    "ORG_0001",
+    "ORG_0002",
+    "ORG_0003",
+    "ORG_0004",
+    "ORG_0005"
+   ]
+  },
+  {
+   "id": "exhibition_participant.exhibition_id -> exhibition.exhibition_id",
+   "source_table": "exhibition_participant",
+   "source_column": "exhibition_id",
+   "target_table": "exhibition",
+   "target_key": "exhibition_id",
+   "source_rows": 13525,
+   "source_distinct": 1587,
+   "target_rows": 1775,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EXH_0001",
+    "EXH_0002",
+    "EXH_0003",
+    "EXH_0005",
+    "EXH_0006"
+   ],
+   "target_samples": [
+    "EXH_0001",
+    "EXH_0002",
+    "EXH_0003",
+    "EXH_0004",
+    "EXH_0005"
+   ]
+  },
+  {
+   "id": "exhibition_participant.participant_id -> participant.participant_id",
+   "source_table": "exhibition_participant",
+   "source_column": "participant_id",
+   "target_table": "participant",
+   "target_key": "participant_id",
+   "source_rows": 13525,
+   "source_distinct": 6938,
+   "target_rows": 9759,
+   "score": 3.79,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PART_0001",
+    "PART_3194",
+    "PART_5217",
+    "PART_0350",
+    "PART_0245"
+   ],
+   "target_samples": [
+    "PART_0001",
+    "PART_0002",
+    "PART_0003",
+    "PART_0004",
+    "PART_0005"
+   ]
+  },
+  {
+   "id": "exhibition_venue.exhibition_id -> exhibition.exhibition_id",
+   "source_table": "exhibition_venue",
+   "source_column": "exhibition_id",
+   "target_table": "exhibition",
+   "target_key": "exhibition_id",
+   "source_rows": 1813,
+   "source_distinct": 1284,
+   "target_rows": 1775,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "EXH_0007",
+    "EXH_0008",
+    "EXH_0010",
+    "EXH_0011",
+    "EXH_0024"
+   ],
+   "target_samples": [
+    "EXH_0001",
+    "EXH_0002",
+    "EXH_0003",
+    "EXH_0004",
+    "EXH_0005"
+   ]
+  },
+  {
+   "id": "exhibition_venue.venue_id -> venue.venue_id",
+   "source_table": "exhibition_venue",
+   "source_column": "venue_id",
+   "target_table": "venue",
+   "target_key": "venue_id",
+   "source_rows": 1813,
+   "source_distinct": 193,
+   "target_rows": 698,
+   "score": 2.65,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "VENUE_0115",
+    "VENUE_0112",
+    "VENUE_0114",
+    "VENUE_0104",
+    "VENUE_0085"
+   ],
+   "target_samples": [
+    "VENUE_0001",
+    "VENUE_0002",
+    "VENUE_0003",
+    "VENUE_0004",
+    "VENUE_0005"
+   ]
+  },
+  {
+   "id": "keyword.category_id -> theme_category.category_id",
+   "source_table": "keyword",
+   "source_column": "category_id",
+   "target_table": "theme_category",
+   "target_key": "category_id",
+   "source_rows": 5505,
+   "source_distinct": 2277,
+   "target_rows": 2277,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "CAT_1541",
+    "CAT_2277",
+    "CAT_0002",
+    "CAT_0925",
+    "CAT_0013"
+   ],
+   "target_samples": [
+    "CAT_0001",
+    "CAT_0002",
+    "CAT_0003",
+    "CAT_0004",
+    "CAT_0005"
+   ]
+  },
+  {
+   "id": "opencall_organization.opencall_id -> opencall.opencall_id",
+   "source_table": "opencall_organization",
+   "source_column": "opencall_id",
+   "target_table": "opencall",
+   "target_key": "opencall_id",
+   "source_rows": 7526,
+   "source_distinct": 5488,
+   "target_rows": 5490,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "OPEN_0002",
+    "OPEN_0003",
+    "OPEN_0004",
+    "OPEN_0005",
+    "OPEN_0006"
+   ],
+   "target_samples": [
+    "OPEN_0002",
+    "OPEN_0003",
+    "OPEN_0004",
+    "OPEN_0005",
+    "OPEN_0006"
+   ]
+  },
+  {
+   "id": "opencall_organization.organization_id -> organization.organization_id",
+   "source_table": "opencall_organization",
+   "source_column": "organization_id",
+   "target_table": "organization",
+   "target_key": "organization_id",
+   "source_rows": 7526,
+   "source_distinct": 784,
+   "target_rows": 1892,
+   "score": 3.22,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ORG_0285",
+    "ORG_1419",
+    "ORG_1514",
+    "ORG_1515",
+    "ORG_1236"
+   ],
+   "target_samples": [
+    "ORG_0001",
+    "ORG_0002",
+    "ORG_0003",
+    "ORG_0004",
+    "ORG_0005"
+   ]
+  },
+  {
+   "id": "participant_organization.participant_id -> participant.participant_id",
+   "source_table": "participant_organization",
+   "source_column": "participant_id",
+   "target_table": "participant",
+   "target_key": "participant_id",
+   "source_rows": 630,
+   "source_distinct": 592,
+   "target_rows": 9759,
+   "score": 2.69,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PART_0003",
+    "PART_0006",
+    "PART_0040",
+    "PART_0068",
+    "PART_0075"
+   ],
+   "target_samples": [
+    "PART_0001",
+    "PART_0002",
+    "PART_0003",
+    "PART_0004",
+    "PART_0005"
+   ]
+  },
+  {
+   "id": "participant_organization.organization_id -> organization.organization_id",
+   "source_table": "participant_organization",
+   "source_column": "organization_id",
+   "target_table": "organization",
+   "target_key": "organization_id",
+   "source_rows": 630,
+   "source_distinct": 448,
+   "target_rows": 1892,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ORG_2000",
+    "ORG_0771",
+    "ORG_0546",
+    "ORG_0885",
+    "ORG_0919"
+   ],
+   "target_samples": [
+    "ORG_0001",
+    "ORG_0002",
+    "ORG_0003",
+    "ORG_0004",
+    "ORG_0005"
+   ]
+  },
+  {
+   "id": "program_organization.program_id -> program.program_id",
+   "source_table": "program_organization",
+   "source_column": "program_id",
+   "target_table": "program",
+   "target_key": "program_id",
+   "source_rows": 7161,
+   "source_distinct": 6250,
+   "target_rows": 6250,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PRO_CUL_0001",
+    "PRO_CUL_0002",
+    "PRO_CUL_0003",
+    "PRO_CUL_0004",
+    "PRO_CUL_0005"
+   ],
+   "target_samples": [
+    "PRO_CUL_0001",
+    "PRO_CUL_0002",
+    "PRO_CUL_0003",
+    "PRO_CUL_0004",
+    "PRO_CUL_0005"
+   ]
+  },
+  {
+   "id": "program_organization.organization_id -> organization.organization_id",
+   "source_table": "program_organization",
+   "source_column": "organization_id",
+   "target_table": "organization",
+   "target_key": "organization_id",
+   "source_rows": 7161,
+   "source_distinct": 390,
+   "target_rows": 1892,
+   "score": 2.67,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ORG_0234",
+    "ORG_0296",
+    "ORG_0266",
+    "ORG_0295",
+    "ORG_0044"
+   ],
+   "target_samples": [
+    "ORG_0001",
+    "ORG_0002",
+    "ORG_0003",
+    "ORG_0004",
+    "ORG_0005"
+   ]
+  },
+  {
+   "id": "program_participant.program_id -> program.program_id",
+   "source_table": "program_participant",
+   "source_column": "program_id",
+   "target_table": "program",
+   "target_key": "program_id",
+   "source_rows": 2331,
+   "source_distinct": 1067,
+   "target_rows": 6250,
+   "score": 2.89,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PRO_CUL_0287",
+    "PRO_CUL_0544",
+    "PRO_CUL_0571",
+    "PRO_CUL_0606",
+    "PRO_CUL_0607"
+   ],
+   "target_samples": [
+    "PRO_CUL_0001",
+    "PRO_CUL_0002",
+    "PRO_CUL_0003",
+    "PRO_CUL_0004",
+    "PRO_CUL_0005"
+   ]
+  },
+  {
+   "id": "program_participant.participant_id -> participant.participant_id",
+   "source_table": "program_participant",
+   "source_column": "participant_id",
+   "target_table": "participant",
+   "target_key": "participant_id",
+   "source_rows": 2331,
+   "source_distinct": 1566,
+   "target_rows": 9759,
+   "score": 2.82,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PART_3947",
+    "PART_5484",
+    "PART_7805",
+    "PART_7806",
+    "PART_7807"
+   ],
+   "target_samples": [
+    "PART_0001",
+    "PART_0002",
+    "PART_0003",
+    "PART_0004",
+    "PART_0005"
+   ]
+  },
+  {
+   "id": "program_venue.program_id -> program.program_id",
+   "source_table": "program_venue",
+   "source_column": "program_id",
+   "target_table": "program",
+   "target_key": "program_id",
+   "source_rows": 5892,
+   "source_distinct": 4682,
+   "target_rows": 6250,
+   "score": 4.09,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "PRO_CUL_0010",
+    "PRO_CUL_0013",
+    "PRO_CUL_0022",
+    "PRO_CUL_0027",
+    "PRO_CUL_0028"
+   ],
+   "target_samples": [
+    "PRO_CUL_0001",
+    "PRO_CUL_0002",
+    "PRO_CUL_0003",
+    "PRO_CUL_0004",
+    "PRO_CUL_0005"
+   ]
+  },
+  {
+   "id": "program_venue.venue_id -> venue.venue_id",
+   "source_table": "program_venue",
+   "source_column": "venue_id",
+   "target_table": "venue",
+   "target_key": "venue_id",
+   "source_rows": 5892,
+   "source_distinct": 636,
+   "target_rows": 698,
+   "score": 4.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "VENUE_0171",
+    "VENUE_0080",
+    "VENUE_0085",
+    "VENUE_0118",
+    "VENUE_0108"
+   ],
+   "target_samples": [
+    "VENUE_0001",
+    "VENUE_0002",
+    "VENUE_0003",
+    "VENUE_0004",
+    "VENUE_0005"
+   ]
+  },
+  {
+   "id": "work_exhibition.work_id -> work.work_id",
+   "source_table": "work_exhibition",
+   "source_column": "work_id",
+   "target_table": "work",
+   "target_key": "work_id",
+   "source_rows": 144,
+   "source_distinct": 141,
+   "target_rows": 17929,
+   "score": 2.63,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "WORK_00085",
+    "WORK_00086",
+    "WORK_00087",
+    "WORK_00088",
+    "WORK_00089"
+   ],
+   "target_samples": [
+    "WORK_00001",
+    "WORK_00002",
+    "WORK_00003",
+    "WORK_00004",
+    "WORK_00005"
+   ]
+  },
+  {
+   "id": "work_exhibition.exhibition_id -> exhibition.exhibition_id",
+   "source_table": "work_exhibition",
+   "source_column": "exhibition_id",
+   "target_table": "exhibition",
+   "target_key": "exhibition_id",
+   "source_rows": 144,
+   "source_distinct": 8,
+   "target_rows": 1775,
+   "score": 2.67,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "EXH_0826",
+    "EXH_0840",
+    "EXH_0821",
+    "EXH_0588",
+    "EXH_0824"
+   ],
+   "target_samples": [
+    "EXH_0001",
+    "EXH_0002",
+    "EXH_0003",
+    "EXH_0004",
+    "EXH_0005"
+   ]
+  },
+  {
+   "id": "work_organization.work_id -> work.work_id",
+   "source_table": "work_organization",
+   "source_column": "work_id",
+   "target_table": "work",
+   "target_key": "work_id",
+   "source_rows": 239,
+   "source_distinct": 239,
+   "target_rows": 17929,
+   "score": 2.68,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "WORK_00227",
+    "WORK_00543",
+    "WORK_02285",
+    "WORK_02895",
+    "WORK_02896"
+   ],
+   "target_samples": [
+    "WORK_00001",
+    "WORK_00002",
+    "WORK_00003",
+    "WORK_00004",
+    "WORK_00005"
+   ]
+  },
+  {
+   "id": "work_organization.organization_id -> organization.organization_id",
+   "source_table": "work_organization",
+   "source_column": "organization_id",
+   "target_table": "organization",
+   "target_key": "organization_id",
+   "source_rows": 239,
+   "source_distinct": 6,
+   "target_rows": 1892,
+   "score": 2.39,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "ORG_1862",
+    "ORG_1863",
+    "ORG_1864",
+    "ORG_1861",
+    "ORG_1885"
+   ],
+   "target_samples": [
+    "ORG_0001",
+    "ORG_0002",
+    "ORG_0003",
+    "ORG_0004",
+    "ORG_0005"
+   ]
+  },
+  {
+   "id": "work_participant.work_id -> work.work_id",
+   "source_table": "work_participant",
+   "source_column": "work_id",
+   "target_table": "work",
+   "target_key": "work_id",
+   "source_rows": 18534,
+   "source_distinct": 17928,
+   "target_rows": 17929,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "WORK_00001",
+    "WORK_00002",
+    "WORK_00003",
+    "WORK_00004",
+    "WORK_00005"
+   ],
+   "target_samples": [
+    "WORK_00001",
+    "WORK_00002",
+    "WORK_00003",
+    "WORK_00004",
+    "WORK_00005"
+   ]
+  },
+  {
+   "id": "work_participant.participant_id -> participant.participant_id",
+   "source_table": "work_participant",
+   "source_column": "participant_id",
+   "target_table": "participant",
+   "target_key": "participant_id",
+   "source_rows": 18534,
+   "source_distinct": 3373,
+   "target_rows": 9759,
+   "score": 3.64,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "PART_7883",
+    "PART_0203",
+    "PART_0200",
+    "PART_1339",
+    "PART_0215"
+   ],
+   "target_samples": [
+    "PART_0001",
+    "PART_0002",
+    "PART_0003",
+    "PART_0004",
+    "PART_0005"
+   ]
+  }
+ ]
+}

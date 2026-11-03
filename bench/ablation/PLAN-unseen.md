@@ -62,3 +62,11 @@ AdventureWorks, kept 100% and rejected 92% on MusicBrainz.
 schema and one designer, and one reference is 4 points. DBBE is one schema, however many tables,
 and its columns almost all name their targets (96%), so it does not stand in for MusicBrainz's
 `entity0`. Destroying names removes the names, not the values, and a judge may still read shapes.
+
+## What actually happened
+
+Added after scoring; everything above is as committed. All four predictions held: true kept and
+false rejected were 24 of 24 on ACAI, 96 of 96 and 35 of 40 on DBBE, 24 of 24 on `blind1`, 84 of 85
+and 30 of 51 on `blind2`. DBBE reached 70% / 95%, past the bar for a named schema, and fell one
+candidate short of the 90% rejected set for "not mainly memory", with all five wrongly kept reading
+as references nobody declared. No file was rerun. Finding 183.
