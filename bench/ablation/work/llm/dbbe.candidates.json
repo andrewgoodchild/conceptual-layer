@@ -1,0 +1,4131 @@
+{
+ "database": "dbbe",
+ "tables": [
+  "acknowledgement",
+  "article",
+  "article_management",
+  "article_person_role",
+  "bib_varia",
+  "bib_varia_management",
+  "bib_varia_person_role",
+  "blog",
+  "blog_management",
+  "blog_person_role",
+  "blog_post",
+  "blog_post_management",
+  "blog_post_person_role",
+  "book",
+  "book_chapter",
+  "book_chapter_management",
+  "book_chapter_person_role",
+  "book_cluster",
+  "book_management",
+  "book_person_role",
+  "book_series",
+  "collection",
+  "content",
+  "editorial_status",
+  "genre",
+  "identification",
+  "journal",
+  "journal_issue",
+  "journal_issue_management",
+  "journal_issue_person_role",
+  "journal_management",
+  "journal_person_role",
+  "keyword",
+  "language",
+  "library",
+  "location",
+  "management",
+  "manuscript",
+  "manuscript_acknowledgement",
+  "manuscript_article",
+  "manuscript_bib_varia",
+  "manuscript_blog",
+  "manuscript_blog_post",
+  "manuscript_book",
+  "manuscript_book_chapter",
+  "manuscript_content",
+  "manuscript_journal",
+  "manuscript_journal_issue",
+  "manuscript_location",
+  "manuscript_management",
+  "manuscript_online_source",
+  "manuscript_person_role",
+  "manuscript_phd",
+  "metre",
+  "occurrence",
+  "occurrence_acknowledgement",
+  "occurrence_article",
+  "occurrence_bib_varia",
+  "occurrence_blog",
+  "occurrence_blog_post",
+  "occurrence_book",
+  "occurrence_book_chapter",
+  "occurrence_genre",
+  "occurrence_journal",
+  "occurrence_journal_issue",
+  "occurrence_keyword",
+  "occurrence_management",
+  "occurrence_metre",
+  "occurrence_online_source",
+  "occurrence_person_role",
+  "occurrence_phd",
+  "occurrence_related_occurrence",
+  "occurrence_relation_definition",
+  "occurrence_text_status",
+  "office",
+  "online_source",
+  "online_source_management",
+  "online_source_person_role",
+  "person",
+  "person_acknowledgement",
+  "person_article",
+  "person_bib_varia",
+  "person_blog",
+  "person_blog_post",
+  "person_book",
+  "person_book_chapter",
+  "person_journal",
+  "person_journal_issue",
+  "person_management",
+  "person_office",
+  "person_online_source",
+  "person_phd",
+  "person_self_designation",
+  "phd",
+  "phd_management",
+  "phd_person_role",
+  "roles",
+  "self_designation",
+  "tag",
+  "text_status",
+  "type",
+  "type_acknowledgement",
+  "type_article",
+  "type_bib_varia",
+  "type_blog",
+  "type_blog_post",
+  "type_book",
+  "type_book_chapter",
+  "type_editorial_status",
+  "type_genre",
+  "type_journal",
+  "type_journal_issue",
+  "type_keyword",
+  "type_management",
+  "type_metre",
+  "type_occurrence",
+  "type_online_source",
+  "type_person_role",
+  "type_phd",
+  "type_related_type",
+  "type_relation_definition",
+  "type_tag",
+  "type_text_status",
+  "type_translation",
+  "verses"
+ ],
+ "candidates": [
+  {
+   "id": "article.journal_issue_id -> journal_issue.id",
+   "source_table": "article",
+   "source_column": "journal_issue_id",
+   "target_table": "journal_issue",
+   "target_key": "id",
+   "source_rows": 905,
+   "source_distinct": 783,
+   "target_rows": 801,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7425",
+    "7429",
+    "33337",
+    "7442",
+    "7446"
+   ],
+   "target_samples": [
+    "7425",
+    "7429",
+    "7438",
+    "7442",
+    "7446"
+   ]
+  },
+  {
+   "id": "article_management.article_id -> article.id",
+   "source_table": "article_management",
+   "source_column": "article_id",
+   "target_table": "article",
+   "target_key": "id",
+   "source_rows": 634,
+   "source_distinct": 532,
+   "target_rows": 905,
+   "score": 3.89,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7422",
+    "7435",
+    "7439",
+    "7443",
+    "7447"
+   ],
+   "target_samples": [
+    "7422",
+    "7426",
+    "7435",
+    "7439",
+    "7443"
+   ]
+  },
+  {
+   "id": "article_management.management_id -> management.id",
+   "source_table": "article_management",
+   "source_column": "management_id",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 634,
+   "source_distinct": 6,
+   "target_rows": 47,
+   "score": 3.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "43",
+    "16",
+    "28",
+    "8",
+    "17"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "article_person_role.article_id -> article.id",
+   "source_table": "article_person_role",
+   "source_column": "article_id",
+   "target_table": "article",
+   "target_key": "id",
+   "source_rows": 987,
+   "source_distinct": 905,
+   "target_rows": 905,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7422",
+    "7426",
+    "7435",
+    "7439",
+    "7443"
+   ],
+   "target_samples": [
+    "7422",
+    "7426",
+    "7435",
+    "7439",
+    "7443"
+   ]
+  },
+  {
+   "id": "article_person_role.person_id -> person.id",
+   "source_table": "article_person_role",
+   "source_column": "person_id",
+   "target_table": "person",
+   "target_key": "id",
+   "source_rows": 987,
+   "source_distinct": 524,
+   "target_rows": 3726,
+   "score": 3.06,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7440",
+    "7448",
+    "7454",
+    "7458",
+    "7462"
+   ],
+   "target_samples": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+   ]
+  },
+  {
+   "id": "article_person_role.role_id -> roles.id",
+   "source_table": "article_person_role",
+   "source_column": "role_id",
+   "target_table": "roles",
+   "target_key": "id",
+   "source_rows": 987,
+   "source_distinct": 1,
+   "target_rows": 15,
+   "score": 2.57,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "bib_varia.year -> verses.id",
+   "source_table": "bib_varia",
+   "source_column": "year",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 53898,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2018",
+    "2022",
+    "2011",
+    "2012",
+    "2021"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "bib_varia.city -> verses.id",
+   "source_table": "bib_varia",
+   "source_column": "city",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 5,
+   "source_distinct": 4,
+   "target_rows": 53898,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "37463",
+    "37464",
+    "12558",
+    "37465"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "bib_varia_management.bib_varia_id -> bib_varia.id",
+   "source_table": "bib_varia_management",
+   "source_column": "bib_varia_id",
+   "target_table": "bib_varia",
+   "target_key": "id",
+   "source_rows": 2,
+   "source_distinct": 2,
+   "target_rows": 5,
+   "score": 2.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "34443",
+    "37254"
+   ],
+   "target_samples": [
+    "29943",
+    "34402",
+    "34443",
+    "35433",
+    "37254"
+   ]
+  },
+  {
+   "id": "bib_varia_management.management_id -> management.id",
+   "source_table": "bib_varia_management",
+   "source_column": "management_id",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 2,
+   "source_distinct": 2,
+   "target_rows": 47,
+   "score": 2.54,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "16",
+    "43"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "bib_varia_person_role.bib_varia_id -> bib_varia.id",
+   "source_table": "bib_varia_person_role",
+   "source_column": "bib_varia_id",
+   "target_table": "bib_varia",
+   "target_key": "id",
+   "source_rows": 9,
+   "source_distinct": 5,
+   "target_rows": 5,
+   "score": 4.1,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "29943",
+    "34402",
+    "34443",
+    "35433",
+    "37254"
+   ],
+   "target_samples": [
+    "29943",
+    "34402",
+    "34443",
+    "35433",
+    "37254"
+   ]
+  },
+  {
+   "id": "bib_varia_person_role.person_id -> person.id",
+   "source_table": "bib_varia_person_role",
+   "source_column": "person_id",
+   "target_table": "person",
+   "target_key": "id",
+   "source_rows": 9,
+   "source_distinct": 9,
+   "target_rows": 3726,
+   "score": 2.39,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "29942",
+    "34400",
+    "34401",
+    "28295",
+    "11360"
+   ],
+   "target_samples": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+   ]
+  },
+  {
+   "id": "bib_varia_person_role.role_id -> roles.id",
+   "source_table": "bib_varia_person_role",
+   "source_column": "role_id",
+   "target_table": "roles",
+   "target_key": "id",
+   "source_rows": 9,
+   "source_distinct": 2,
+   "target_rows": 15,
+   "score": 2.63,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "blog_management.blog_id -> blog.id",
+   "source_table": "blog_management",
+   "source_column": "blog_id",
+   "target_table": "blog",
+   "target_key": "id",
+   "source_rows": 10,
+   "source_distinct": 10,
+   "target_rows": 15,
+   "score": 3.37,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "29937",
+    "29992",
+    "30072",
+    "30073",
+    "30093"
+   ],
+   "target_samples": [
+    "29937",
+    "29992",
+    "30072",
+    "30073",
+    "30093"
+   ]
+  },
+  {
+   "id": "blog_management.management_id -> management.id",
+   "source_table": "blog_management",
+   "source_column": "management_id",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 10,
+   "source_distinct": 1,
+   "target_rows": 47,
+   "score": 2.52,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "20"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "blog_post.blog -> blog.id",
+   "source_table": "blog_post",
+   "source_column": "blog",
+   "target_table": "blog",
+   "target_key": "id",
+   "source_rows": 23,
+   "source_distinct": 14,
+   "target_rows": 15,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "30096",
+    "30277",
+    "29992",
+    "30073",
+    "29937"
+   ],
+   "target_samples": [
+    "29937",
+    "29992",
+    "30072",
+    "30073",
+    "30093"
+   ]
+  },
+  {
+   "id": "blog_post_person_role.blog_post_id -> blog_post.id",
+   "source_table": "blog_post_person_role",
+   "source_column": "blog_post_id",
+   "target_table": "blog_post",
+   "target_key": "id",
+   "source_rows": 24,
+   "source_distinct": 23,
+   "target_rows": 23,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "32416",
+    "32418",
+    "32421",
+    "32422",
+    "32423"
+   ],
+   "target_samples": [
+    "32416",
+    "32418",
+    "32421",
+    "32422",
+    "32423"
+   ]
+  },
+  {
+   "id": "blog_post_person_role.person_id -> person.id",
+   "source_table": "blog_post_person_role",
+   "source_column": "person_id",
+   "target_table": "person",
+   "target_key": "id",
+   "source_rows": 24,
+   "source_distinct": 20,
+   "target_rows": 3726,
+   "score": 2.38,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "32534",
+    "32535",
+    "9254",
+    "28296",
+    "28308"
+   ],
+   "target_samples": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+   ]
+  },
+  {
+   "id": "blog_post_person_role.role_id -> roles.id",
+   "source_table": "blog_post_person_role",
+   "source_column": "role_id",
+   "target_table": "roles",
+   "target_key": "id",
+   "source_rows": 24,
+   "source_distinct": 1,
+   "target_rows": 15,
+   "score": 2.57,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "book.year -> identification.id",
+   "source_table": "book",
+   "source_column": "year",
+   "target_table": "identification",
+   "target_key": "id",
+   "source_rows": 1215,
+   "source_distinct": 231,
+   "target_rows": 14260,
+   "score": 1.99,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1812",
+    "1764",
+    "1984",
+    "1914",
+    "1885"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "book.forthcoming -> occurrence_relation_definition.id",
+   "source_table": "book",
+   "source_column": "forthcoming",
+   "target_table": "occurrence_relation_definition",
+   "target_key": "id",
+   "source_rows": 1215,
+   "source_distinct": 1,
+   "target_rows": 2,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "0"
+   ],
+   "target_samples": [
+    "0",
+    "1"
+   ]
+  },
+  {
+   "id": "book.idcluster -> book_cluster.id",
+   "source_table": "book",
+   "source_column": "idcluster",
+   "target_table": "book_cluster",
+   "target_key": "id",
+   "source_rows": 1215,
+   "source_distinct": 222,
+   "target_rows": 222,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "32183",
+    "32179",
+    "32211",
+    "31986",
+    "31899"
+   ],
+   "target_samples": [
+    "31879",
+    "31880",
+    "31883",
+    "31885",
+    "31887"
+   ]
+  },
+  {
+   "id": "book.idseries -> book_series.id",
+   "source_table": "book",
+   "source_column": "idseries",
+   "target_table": "book_series",
+   "target_key": "id",
+   "source_rows": 1215,
+   "source_distinct": 144,
+   "target_rows": 144,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "32039",
+    "31920",
+    "31773",
+    "31809",
+    "31780"
+   ],
+   "target_samples": [
+    "31771",
+    "31772",
+    "31773",
+    "31774",
+    "31775"
+   ]
+  },
+  {
+   "id": "book_chapter.book_id -> book.id",
+   "source_table": "book_chapter",
+   "source_column": "book_id",
+   "target_table": "book",
+   "target_key": "id",
+   "source_rows": 379,
+   "source_distinct": 232,
+   "target_rows": 1215,
+   "score": 2.64,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "27272",
+    "27321",
+    "27278",
+    "27789",
+    "27284"
+   ],
+   "target_samples": [
+    "9749",
+    "9751",
+    "9753",
+    "9755",
+    "9757"
+   ]
+  },
+  {
+   "id": "book_chapter_management.book_chapter_id -> book_chapter.id",
+   "source_table": "book_chapter_management",
+   "source_column": "book_chapter_id",
+   "target_table": "book_chapter",
+   "target_key": "id",
+   "source_rows": 80,
+   "source_distinct": 80,
+   "target_rows": 379,
+   "score": 3.55,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "27273",
+    "27294",
+    "27328",
+    "27376",
+    "27382"
+   ],
+   "target_samples": [
+    "27270",
+    "27273",
+    "27276",
+    "27279",
+    "27282"
+   ]
+  },
+  {
+   "id": "book_chapter_management.management_id -> management.id",
+   "source_table": "book_chapter_management",
+   "source_column": "management_id",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 80,
+   "source_distinct": 4,
+   "target_rows": 47,
+   "score": 3.2,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "16",
+    "8",
+    "43",
+    "48"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "book_chapter_person_role.book_chapter_id -> book_chapter.id",
+   "source_table": "book_chapter_person_role",
+   "source_column": "book_chapter_id",
+   "target_table": "book_chapter",
+   "target_key": "id",
+   "source_rows": 417,
+   "source_distinct": 379,
+   "target_rows": 379,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "27270",
+    "27273",
+    "27276",
+    "27279",
+    "27282"
+   ],
+   "target_samples": [
+    "27270",
+    "27273",
+    "27276",
+    "27279",
+    "27282"
+   ]
+  },
+  {
+   "id": "book_chapter_person_role.person_id -> person.id",
+   "source_table": "book_chapter_person_role",
+   "source_column": "person_id",
+   "target_table": "person",
+   "target_key": "id",
+   "source_rows": 417,
+   "source_distinct": 238,
+   "target_rows": 3726,
+   "score": 2.85,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "27271",
+    "27338",
+    "27341",
+    "27356",
+    "27362"
+   ],
+   "target_samples": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+   ]
+  },
+  {
+   "id": "book_chapter_person_role.role_id -> roles.id",
+   "source_table": "book_chapter_person_role",
+   "source_column": "role_id",
+   "target_table": "roles",
+   "target_key": "id",
+   "source_rows": 417,
+   "source_distinct": 2,
+   "target_rows": 15,
+   "score": 2.63,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "7"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "book_management.book_id -> book.id",
+   "source_table": "book_management",
+   "source_column": "book_id",
+   "target_table": "book",
+   "target_key": "id",
+   "source_rows": 768,
+   "source_distinct": 636,
+   "target_rows": 1215,
+   "score": 3.88,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9749",
+    "9751",
+    "9757",
+    "9761",
+    "9765"
+   ],
+   "target_samples": [
+    "9749",
+    "9751",
+    "9753",
+    "9755",
+    "9757"
+   ]
+  },
+  {
+   "id": "book_management.management_id -> management.id",
+   "source_table": "book_management",
+   "source_column": "management_id",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 768,
+   "source_distinct": 7,
+   "target_rows": 47,
+   "score": 3.22,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "8",
+    "37",
+    "38",
+    "16",
+    "43"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "book_person_role.book_id -> book.id",
+   "source_table": "book_person_role",
+   "source_column": "book_id",
+   "target_table": "book",
+   "target_key": "id",
+   "source_rows": 1659,
+   "source_distinct": 1174,
+   "target_rows": 1215,
+   "score": 4.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "9749",
+    "9751",
+    "9753",
+    "9755",
+    "9757"
+   ],
+   "target_samples": [
+    "9749",
+    "9751",
+    "9753",
+    "9755",
+    "9757"
+   ]
+  },
+  {
+   "id": "book_person_role.person_id -> person.id",
+   "source_table": "book_person_role",
+   "source_column": "person_id",
+   "target_table": "person",
+   "target_key": "id",
+   "source_rows": 1659,
+   "source_distinct": 969,
+   "target_rows": 3726,
+   "score": 3.07,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "9752",
+    "9756",
+    "9758",
+    "9760",
+    "9762"
+   ],
+   "target_samples": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+   ]
+  },
+  {
+   "id": "book_person_role.role_id -> roles.id",
+   "source_table": "book_person_role",
+   "source_column": "role_id",
+   "target_table": "roles",
+   "target_key": "id",
+   "source_rows": 1659,
+   "source_distinct": 3,
+   "target_rows": 15,
+   "score": 2.32,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "7",
+    "2"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "content.parent_id -> verses.id",
+   "source_table": "content",
+   "source_column": "parent_id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 283,
+   "source_distinct": 33,
+   "target_rows": 53898,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "14",
+    "179",
+    "8",
+    "18",
+    "172"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "journal_issue.journal_id -> journal.id",
+   "source_table": "journal_issue",
+   "source_column": "journal_id",
+   "target_table": "journal",
+   "target_key": "id",
+   "source_rows": 801,
+   "source_distinct": 235,
+   "target_rows": 235,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7489",
+    "7428",
+    "7612",
+    "7441",
+    "7445"
+   ],
+   "target_samples": [
+    "7428",
+    "7441",
+    "7445",
+    "7455",
+    "7463"
+   ]
+  },
+  {
+   "id": "journal_issue.forthcoming -> occurrence_relation_definition.id",
+   "source_table": "journal_issue",
+   "source_column": "forthcoming",
+   "target_table": "occurrence_relation_definition",
+   "target_key": "id",
+   "source_rows": 801,
+   "source_distinct": 1,
+   "target_rows": 2,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "0"
+   ],
+   "target_samples": [
+    "0",
+    "1"
+   ]
+  },
+  {
+   "id": "journal_management.journal_id -> journal.id",
+   "source_table": "journal_management",
+   "source_column": "journal_id",
+   "target_table": "journal",
+   "target_key": "id",
+   "source_rows": 192,
+   "source_distinct": 192,
+   "target_rows": 235,
+   "score": 3.94,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7428",
+    "7441",
+    "7445",
+    "7455",
+    "7463"
+   ],
+   "target_samples": [
+    "7428",
+    "7441",
+    "7445",
+    "7455",
+    "7463"
+   ]
+  },
+  {
+   "id": "journal_management.management_id -> management.id",
+   "source_table": "journal_management",
+   "source_column": "management_id",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 192,
+   "source_distinct": 1,
+   "target_rows": 47,
+   "score": 2.52,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "43"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "library.location_id -> location.id",
+   "source_table": "library",
+   "source_column": "location_id",
+   "target_table": "location",
+   "target_key": "id",
+   "source_rows": 68,
+   "source_distinct": 54,
+   "target_rows": 407,
+   "score": 2.09,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11563",
+    "11585",
+    "11599",
+    "11620",
+    "11621"
+   ],
+   "target_samples": [
+    "11542",
+    "11553",
+    "11563",
+    "11564",
+    "11568"
+   ]
+  },
+  {
+   "id": "manuscript.library_id -> library.id",
+   "source_table": "manuscript",
+   "source_column": "library_id",
+   "target_table": "library",
+   "target_key": "id",
+   "source_rows": 4560,
+   "source_distinct": 68,
+   "target_rows": 68,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "12413",
+    "12331",
+    "12354",
+    "12462",
+    "12477"
+   ],
+   "target_samples": [
+    "11929",
+    "11933",
+    "11939",
+    "12013",
+    "12032"
+   ]
+  },
+  {
+   "id": "manuscript_acknowledgement.manuscript_id -> manuscript.id",
+   "source_table": "manuscript_acknowledgement",
+   "source_column": "manuscript_id",
+   "target_table": "manuscript",
+   "target_key": "id",
+   "source_rows": 73,
+   "source_distinct": 71,
+   "target_rows": 4560,
+   "score": 2.37,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12836",
+    "12883",
+    "13444",
+    "13499",
+    "13602"
+   ],
+   "target_samples": [
+    "12756",
+    "12757",
+    "12758",
+    "12759",
+    "12760"
+   ]
+  },
+  {
+   "id": "manuscript_acknowledgement.acknowledgement_id -> acknowledgement.id",
+   "source_table": "manuscript_acknowledgement",
+   "source_column": "acknowledgement_id",
+   "target_table": "acknowledgement",
+   "target_key": "id",
+   "source_rows": 73,
+   "source_distinct": 16,
+   "target_rows": 106,
+   "score": 3.35,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "143",
+    "127",
+    "95",
+    "11",
+    "99"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "manuscript_bib_varia.page_start -> verses.id",
+   "source_table": "manuscript_bib_varia",
+   "source_column": "page_start",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 10,
+   "source_distinct": 8,
+   "target_rows": 53898,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "6",
+    "7",
+    "5",
+    "17",
+    "34"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "manuscript_bib_varia.page_end -> self_designation.id",
+   "source_table": "manuscript_bib_varia",
+   "source_column": "page_end",
+   "target_table": "self_designation",
+   "target_key": "id",
+   "source_rows": 10,
+   "source_distinct": 9,
+   "target_rows": 322,
+   "score": 1.91,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "8",
+    "6",
+    "18",
+    "35"
+   ],
+   "target_samples": [
+    "1",
+    "3",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "manuscript_content.manuscript_id -> manuscript.id",
+   "source_table": "manuscript_content",
+   "source_column": "manuscript_id",
+   "target_table": "manuscript",
+   "target_key": "id",
+   "source_rows": 5502,
+   "source_distinct": 4540,
+   "target_rows": 4560,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "12756",
+    "12757",
+    "12758",
+    "12759",
+    "12760"
+   ],
+   "target_samples": [
+    "12756",
+    "12757",
+    "12758",
+    "12759",
+    "12760"
+   ]
+  },
+  {
+   "id": "manuscript_content.content_id -> content.id",
+   "source_table": "manuscript_content",
+   "source_column": "content_id",
+   "target_table": "content",
+   "target_key": "id",
+   "source_rows": 5502,
+   "source_distinct": 277,
+   "target_rows": 283,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "237",
+    "35",
+    "105",
+    "55",
+    "48"
+   ],
+   "target_samples": [
+    "8",
+    "9",
+    "10",
+    "11",
+    "12"
+   ]
+  },
+  {
+   "id": "manuscript_location.manuscript_id -> manuscript.id",
+   "source_table": "manuscript_location",
+   "source_column": "manuscript_id",
+   "target_table": "manuscript",
+   "target_key": "id",
+   "source_rows": 832,
+   "source_distinct": 832,
+   "target_rows": 4560,
+   "score": 3.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12756",
+    "12762",
+    "12766",
+    "12769",
+    "12790"
+   ],
+   "target_samples": [
+    "12756",
+    "12757",
+    "12758",
+    "12759",
+    "12760"
+   ]
+  },
+  {
+   "id": "manuscript_location.origin_id -> location.id",
+   "source_table": "manuscript_location",
+   "source_column": "origin_id",
+   "target_table": "location",
+   "target_key": "id",
+   "source_rows": 832,
+   "source_distinct": 170,
+   "target_rows": 407,
+   "score": 3.79,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12552",
+    "12573",
+    "12577",
+    "12553",
+    "12569"
+   ],
+   "target_samples": [
+    "11542",
+    "11553",
+    "11563",
+    "11564",
+    "11568"
+   ]
+  },
+  {
+   "id": "manuscript_management.manuscript_id -> manuscript.id",
+   "source_table": "manuscript_management",
+   "source_column": "manuscript_id",
+   "target_table": "manuscript",
+   "target_key": "id",
+   "source_rows": 1148,
+   "source_distinct": 1068,
+   "target_rows": 4560,
+   "score": 3.69,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "12758",
+    "12759",
+    "12760",
+    "12761",
+    "12763"
+   ],
+   "target_samples": [
+    "12756",
+    "12757",
+    "12758",
+    "12759",
+    "12760"
+   ]
+  },
+  {
+   "id": "manuscript_management.management_id -> management.id",
+   "source_table": "manuscript_management",
+   "source_column": "management_id",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 1148,
+   "source_distinct": 16,
+   "target_rows": 47,
+   "score": 3.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "14",
+    "36",
+    "23",
+    "31",
+    "24"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "manuscript_person_role.manuscript_id -> manuscript.id",
+   "source_table": "manuscript_person_role",
+   "source_column": "manuscript_id",
+   "target_table": "manuscript",
+   "target_key": "id",
+   "source_rows": 15386,
+   "source_distinct": 4560,
+   "target_rows": 4560,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "12756",
+    "12757",
+    "12758",
+    "12759",
+    "12760"
+   ],
+   "target_samples": [
+    "12756",
+    "12757",
+    "12758",
+    "12759",
+    "12760"
+   ]
+  },
+  {
+   "id": "manuscript_person_role.person_id -> person.id",
+   "source_table": "manuscript_person_role",
+   "source_column": "person_id",
+   "target_table": "person",
+   "target_key": "id",
+   "source_rows": 15386,
+   "source_distinct": 1929,
+   "target_rows": 3726,
+   "score": 3.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "28774",
+    "8202",
+    "28292",
+    "28305",
+    "28866"
+   ],
+   "target_samples": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+   ]
+  },
+  {
+   "id": "manuscript_person_role.role_id -> roles.id",
+   "source_table": "manuscript_person_role",
+   "source_column": "role_id",
+   "target_table": "roles",
+   "target_key": "id",
+   "source_rows": 15386,
+   "source_distinct": 8,
+   "target_rows": 15,
+   "score": 3.9,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "101",
+    "10",
+    "8",
+    "12",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "occurrence.is_dbbe -> occurrence_relation_definition.id",
+   "source_table": "occurrence",
+   "source_column": "is_dbbe",
+   "target_table": "occurrence_relation_definition",
+   "target_key": "id",
+   "source_rows": 13050,
+   "source_distinct": 2,
+   "target_rows": 2,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "0"
+   ],
+   "target_samples": [
+    "0",
+    "1"
+   ]
+  },
+  {
+   "id": "occurrence_acknowledgement.occurrence_id -> occurrence.id",
+   "source_table": "occurrence_acknowledgement",
+   "source_column": "occurrence_id",
+   "target_table": "occurrence",
+   "target_key": "id",
+   "source_rows": 3219,
+   "source_distinct": 2798,
+   "target_rows": 13050,
+   "score": 3.28,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "16897",
+    "16898",
+    "16921",
+    "16923",
+    "16936"
+   ],
+   "target_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ]
+  },
+  {
+   "id": "occurrence_acknowledgement.acknowledgement_id -> acknowledgement.id",
+   "source_table": "occurrence_acknowledgement",
+   "source_column": "acknowledgement_id",
+   "target_table": "acknowledgement",
+   "target_key": "id",
+   "source_rows": 3219,
+   "source_distinct": 70,
+   "target_rows": 106,
+   "score": 4.01,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "11",
+    "21",
+    "141",
+    "53",
+    "45"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "occurrence_bib_varia.page_start -> verses.id",
+   "source_table": "occurrence_bib_varia",
+   "source_column": "page_start",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 53898,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "17",
+    "35",
+    "38",
+    "3",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "occurrence_bib_varia.page_end -> self_designation.id",
+   "source_table": "occurrence_bib_varia",
+   "source_column": "page_end",
+   "target_table": "self_designation",
+   "target_key": "id",
+   "source_rows": 7,
+   "source_distinct": 5,
+   "target_rows": 322,
+   "score": 1.73,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "17",
+    "35",
+    "38",
+    "3",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "3",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "occurrence_genre.occurrence_id -> occurrence.id",
+   "source_table": "occurrence_genre",
+   "source_column": "occurrence_id",
+   "target_table": "occurrence",
+   "target_key": "id",
+   "source_rows": 15913,
+   "source_distinct": 12953,
+   "target_rows": 13050,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ],
+   "target_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ]
+  },
+  {
+   "id": "occurrence_genre.genre_id -> genre.id",
+   "source_table": "occurrence_genre",
+   "source_column": "genre_id",
+   "target_table": "genre",
+   "target_key": "id",
+   "source_rows": 15913,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "2",
+    "4",
+    "5",
+    "7"
+   ],
+   "target_samples": [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "occurrence_keyword.occurrence_id -> occurrence.id",
+   "source_table": "occurrence_keyword",
+   "source_column": "occurrence_id",
+   "target_table": "occurrence",
+   "target_key": "id",
+   "source_rows": 5400,
+   "source_distinct": 3287,
+   "target_rows": 13050,
+   "score": 3.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "16911",
+    "16927",
+    "16928",
+    "16929",
+    "16931"
+   ],
+   "target_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ]
+  },
+  {
+   "id": "occurrence_keyword.keyword_id -> keyword.id",
+   "source_table": "occurrence_keyword",
+   "source_column": "keyword_id",
+   "target_table": "keyword",
+   "target_key": "id",
+   "source_rows": 5400,
+   "source_distinct": 196,
+   "target_rows": 209,
+   "score": 4.36,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "30382",
+    "28057",
+    "28015",
+    "27949",
+    "30374"
+   ],
+   "target_samples": [
+    "27892",
+    "27893",
+    "27895",
+    "27899",
+    "27902"
+   ]
+  },
+  {
+   "id": "occurrence_management.occurrence_id -> occurrence.id",
+   "source_table": "occurrence_management",
+   "source_column": "occurrence_id",
+   "target_table": "occurrence",
+   "target_key": "id",
+   "source_rows": 22879,
+   "source_distinct": 12202,
+   "target_rows": 13050,
+   "score": 4.41,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ],
+   "target_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ]
+  },
+  {
+   "id": "occurrence_management.management_id -> management.id",
+   "source_table": "occurrence_management",
+   "source_column": "management_id",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 22879,
+   "source_distinct": 25,
+   "target_rows": 47,
+   "score": 3.62,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "39",
+    "5",
+    "22"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "occurrence_metre.occurrence_id -> occurrence.id",
+   "source_table": "occurrence_metre",
+   "source_column": "occurrence_id",
+   "target_table": "occurrence",
+   "target_key": "id",
+   "source_rows": 13119,
+   "source_distinct": 12970,
+   "target_rows": 13050,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ],
+   "target_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ]
+  },
+  {
+   "id": "occurrence_metre.metre_id -> metre.id",
+   "source_table": "occurrence_metre",
+   "source_column": "metre_id",
+   "target_table": "metre",
+   "target_key": "id",
+   "source_rows": 13119,
+   "source_distinct": 11,
+   "target_rows": 11,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "1",
+    "3",
+    "5",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "occurrence_person_role.occurrence_id -> occurrence.id",
+   "source_table": "occurrence_person_role",
+   "source_column": "occurrence_id",
+   "target_table": "occurrence",
+   "target_key": "id",
+   "source_rows": 55620,
+   "source_distinct": 13050,
+   "target_rows": 13050,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ],
+   "target_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ]
+  },
+  {
+   "id": "occurrence_person_role.role_id -> roles.id",
+   "source_table": "occurrence_person_role",
+   "source_column": "role_id",
+   "target_table": "roles",
+   "target_key": "id",
+   "source_rows": 55620,
+   "source_distinct": 6,
+   "target_rows": 15,
+   "score": 3.63,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "100",
+    "10",
+    "9",
+    "8",
+    "4"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "occurrence_related_occurrence.occurrence_id -> occurrence.id",
+   "source_table": "occurrence_related_occurrence",
+   "source_column": "occurrence_id",
+   "target_table": "occurrence",
+   "target_key": "id",
+   "source_rows": 464657,
+   "source_distinct": 9946,
+   "target_rows": 13050,
+   "score": 4.16,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ],
+   "target_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ]
+  },
+  {
+   "id": "occurrence_related_occurrence.relation_definition_id -> occurrence_relation_definition.id",
+   "source_table": "occurrence_related_occurrence",
+   "source_column": "relation_definition_id",
+   "target_table": "occurrence_relation_definition",
+   "target_key": "id",
+   "source_rows": 464657,
+   "source_distinct": 1,
+   "target_rows": 2,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "0"
+   ],
+   "target_samples": [
+    "0",
+    "1"
+   ]
+  },
+  {
+   "id": "occurrence_text_status.occurrence_id -> occurrence.id",
+   "source_table": "occurrence_text_status",
+   "source_column": "occurrence_id",
+   "target_table": "occurrence",
+   "target_key": "id",
+   "source_rows": 12969,
+   "source_distinct": 12969,
+   "target_rows": 13050,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ],
+   "target_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ]
+  },
+  {
+   "id": "occurrence_text_status.text_status_id -> text_status.id",
+   "source_table": "occurrence_text_status",
+   "source_column": "text_status_id",
+   "target_table": "text_status",
+   "target_key": "id",
+   "source_rows": 12969,
+   "source_distinct": 3,
+   "target_rows": 6,
+   "score": 3.33,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "21",
+    "20",
+    "19"
+   ],
+   "target_samples": [
+    "7",
+    "8",
+    "12",
+    "19",
+    "20"
+   ]
+  },
+  {
+   "id": "person.is_dbbe_person -> occurrence_relation_definition.id",
+   "source_table": "person",
+   "source_column": "is_dbbe_person",
+   "target_table": "occurrence_relation_definition",
+   "target_key": "id",
+   "source_rows": 3726,
+   "source_distinct": 2,
+   "target_rows": 2,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "0",
+    "1"
+   ],
+   "target_samples": [
+    "0",
+    "1"
+   ]
+  },
+  {
+   "id": "person.is_modern_person -> occurrence_relation_definition.id",
+   "source_table": "person",
+   "source_column": "is_modern_person",
+   "target_table": "occurrence_relation_definition",
+   "target_key": "id",
+   "source_rows": 3726,
+   "source_distinct": 2,
+   "target_rows": 2,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "0",
+    "1"
+   ],
+   "target_samples": [
+    "0",
+    "1"
+   ]
+  },
+  {
+   "id": "person.is_historical_person -> occurrence_relation_definition.id",
+   "source_table": "person",
+   "source_column": "is_historical_person",
+   "target_table": "occurrence_relation_definition",
+   "target_key": "id",
+   "source_rows": 3726,
+   "source_distinct": 2,
+   "target_rows": 2,
+   "score": 3.0,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "0"
+   ],
+   "target_samples": [
+    "0",
+    "1"
+   ]
+  },
+  {
+   "id": "person_management.person_id -> person.id",
+   "source_table": "person_management",
+   "source_column": "person_id",
+   "target_table": "person",
+   "target_key": "id",
+   "source_rows": 12371,
+   "source_distinct": 2293,
+   "target_rows": 3726,
+   "score": 3.67,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+   ],
+   "target_samples": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+   ]
+  },
+  {
+   "id": "person_management.management_id -> management.id",
+   "source_table": "person_management",
+   "source_column": "management_id",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 12371,
+   "source_distinct": 13,
+   "target_rows": 47,
+   "score": 3.24,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "7",
+    "32",
+    "33",
+    "34",
+    "35"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "person_office.person_id -> person.id",
+   "source_table": "person_office",
+   "source_column": "person_id",
+   "target_table": "person",
+   "target_key": "id",
+   "source_rows": 1344,
+   "source_distinct": 1030,
+   "target_rows": 3726,
+   "score": 3.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "42",
+    "43",
+    "44",
+    "46",
+    "51"
+   ],
+   "target_samples": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+   ]
+  },
+  {
+   "id": "person_office.office_id -> office.id",
+   "source_table": "person_office",
+   "source_column": "office_id",
+   "target_table": "office",
+   "target_key": "id",
+   "source_rows": 1344,
+   "source_distinct": 333,
+   "target_rows": 426,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "57795",
+    "57782",
+    "57799",
+    "57798",
+    "58168"
+   ],
+   "target_samples": [
+    "57781",
+    "57782",
+    "57783",
+    "57784",
+    "57785"
+   ]
+  },
+  {
+   "id": "person_self_designation.person_id -> person.id",
+   "source_table": "person_self_designation",
+   "source_column": "person_id",
+   "target_table": "person",
+   "target_key": "id",
+   "source_rows": 2086,
+   "source_distinct": 1192,
+   "target_rows": 3726,
+   "score": 3.22,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "42",
+    "43",
+    "44",
+    "46",
+    "51"
+   ],
+   "target_samples": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+   ]
+  },
+  {
+   "id": "person_self_designation.self_designation_id -> self_designation.id",
+   "source_table": "person_self_designation",
+   "source_column": "self_designation_id",
+   "target_table": "self_designation",
+   "target_key": "id",
+   "source_rows": 2086,
+   "source_distinct": 308,
+   "target_rows": 322,
+   "score": 4.44,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "28",
+    "53",
+    "1",
+    "26",
+    "97"
+   ],
+   "target_samples": [
+    "1",
+    "3",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "phd.year -> verses.id",
+   "source_table": "phd",
+   "source_column": "year",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 16,
+   "source_distinct": 11,
+   "target_rows": 53898,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2004",
+    "2014",
+    "1955",
+    "2018",
+    "2021"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "phd.city -> location.id",
+   "source_table": "phd",
+   "source_column": "city",
+   "target_table": "location",
+   "target_key": "id",
+   "source_rows": 16,
+   "source_distinct": 11,
+   "target_rows": 407,
+   "score": 2.74,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11642",
+    "11860",
+    "11763",
+    "12558",
+    "11780"
+   ],
+   "target_samples": [
+    "11542",
+    "11553",
+    "11563",
+    "11564",
+    "11568"
+   ]
+  },
+  {
+   "id": "phd.forthcoming -> occurrence_relation_definition.id",
+   "source_table": "phd",
+   "source_column": "forthcoming",
+   "target_table": "occurrence_relation_definition",
+   "target_key": "id",
+   "source_rows": 16,
+   "source_distinct": 1,
+   "target_rows": 2,
+   "score": 2.5,
+   "signals": [
+    "spread",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "0"
+   ],
+   "target_samples": [
+    "0",
+    "1"
+   ]
+  },
+  {
+   "id": "phd_management.phd_id -> phd.id",
+   "source_table": "phd_management",
+   "source_column": "phd_id",
+   "target_table": "phd",
+   "target_key": "id",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 16,
+   "score": 3.19,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11055",
+    "11346",
+    "35958",
+    "37251"
+   ],
+   "target_samples": [
+    "11055",
+    "11214",
+    "11346",
+    "11385",
+    "33066"
+   ]
+  },
+  {
+   "id": "phd_management.management_id -> management.id",
+   "source_table": "phd_management",
+   "source_column": "management_id",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 4,
+   "source_distinct": 4,
+   "target_rows": 47,
+   "score": 2.86,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "16",
+    "37",
+    "48",
+    "43"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "phd_person_role.phd_id -> phd.id",
+   "source_table": "phd_person_role",
+   "source_column": "phd_id",
+   "target_table": "phd",
+   "target_key": "id",
+   "source_rows": 31,
+   "source_distinct": 16,
+   "target_rows": 16,
+   "score": 4.38,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "11055",
+    "11214",
+    "11346",
+    "11385",
+    "33066"
+   ],
+   "target_samples": [
+    "11055",
+    "11214",
+    "11346",
+    "11385",
+    "33066"
+   ]
+  },
+  {
+   "id": "phd_person_role.person_id -> person.id",
+   "source_table": "phd_person_role",
+   "source_column": "person_id",
+   "target_table": "person",
+   "target_key": "id",
+   "source_rows": 31,
+   "source_distinct": 31,
+   "target_rows": 3726,
+   "score": 2.38,
+   "signals": [
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "11215",
+    "11347",
+    "9048",
+    "28301",
+    "33065"
+   ],
+   "target_samples": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+   ]
+  },
+  {
+   "id": "phd_person_role.role_id -> roles.id",
+   "source_table": "phd_person_role",
+   "source_column": "role_id",
+   "target_table": "roles",
+   "target_key": "id",
+   "source_rows": 31,
+   "source_distinct": 2,
+   "target_rows": 15,
+   "score": 2.63,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "type_acknowledgement.type_id -> type.id",
+   "source_table": "type_acknowledgement",
+   "source_column": "type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 151,
+   "source_distinct": 146,
+   "target_rows": 5226,
+   "score": 2.67,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1961",
+    "2042",
+    "2181",
+    "2398",
+    "2522"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_acknowledgement.acknowledgement_id -> acknowledgement.id",
+   "source_table": "type_acknowledgement",
+   "source_column": "acknowledgement_id",
+   "target_table": "acknowledgement",
+   "target_key": "id",
+   "source_rows": 151,
+   "source_distinct": 26,
+   "target_rows": 106,
+   "score": 3.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "2",
+    "121",
+    "150",
+    "1",
+    "116"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "type_bib_varia.page_start -> management.id",
+   "source_table": "type_bib_varia",
+   "source_column": "page_start",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 2,
+   "source_distinct": 2,
+   "target_rows": 47,
+   "score": 2.54,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "35",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "type_bib_varia.page_end -> management.id",
+   "source_table": "type_bib_varia",
+   "source_column": "page_end",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 2,
+   "source_distinct": 2,
+   "target_rows": 47,
+   "score": 2.54,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "35",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "type_editorial_status.type_id -> type.id",
+   "source_table": "type_editorial_status",
+   "source_column": "type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 5219,
+   "source_distinct": 5219,
+   "target_rows": 5226,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_editorial_status.editorial_status_id -> editorial_status.id",
+   "source_table": "type_editorial_status",
+   "source_column": "editorial_status_id",
+   "target_table": "editorial_status",
+   "target_key": "id",
+   "source_rows": 5219,
+   "source_distinct": 2,
+   "target_rows": 2,
+   "score": 3.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "type_genre.type_id -> type.id",
+   "source_table": "type_genre",
+   "source_column": "type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 6655,
+   "source_distinct": 5173,
+   "target_rows": 5226,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_genre.genre_id -> genre.id",
+   "source_table": "type_genre",
+   "source_column": "genre_id",
+   "target_table": "genre",
+   "target_key": "id",
+   "source_rows": 6655,
+   "source_distinct": 6,
+   "target_rows": 6,
+   "score": 4.17,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "2",
+    "3",
+    "4",
+    "7"
+   ],
+   "target_samples": [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "type_keyword.type_id -> type.id",
+   "source_table": "type_keyword",
+   "source_column": "type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 2241,
+   "source_distinct": 1455,
+   "target_rows": 5226,
+   "score": 3.42,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1858",
+    "1865",
+    "1871",
+    "1873",
+    "1875"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_keyword.keyword_id -> keyword.id",
+   "source_table": "type_keyword",
+   "source_column": "keyword_id",
+   "target_table": "keyword",
+   "target_key": "id",
+   "source_rows": 2241,
+   "source_distinct": 207,
+   "target_rows": 209,
+   "score": 4.47,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "27910",
+    "27909",
+    "27906",
+    "29968",
+    "27893"
+   ],
+   "target_samples": [
+    "27892",
+    "27893",
+    "27895",
+    "27899",
+    "27902"
+   ]
+  },
+  {
+   "id": "type_management.type_id -> type.id",
+   "source_table": "type_management",
+   "source_column": "type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 9769,
+   "source_distinct": 5008,
+   "target_rows": 5226,
+   "score": 4.45,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_management.management_id -> management.id",
+   "source_table": "type_management",
+   "source_column": "management_id",
+   "target_table": "management",
+   "target_key": "id",
+   "source_rows": 9769,
+   "source_distinct": 27,
+   "target_rows": 47,
+   "score": 3.75,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "6",
+    "17",
+    "18",
+    "4",
+    "13"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "type_metre.type_id -> type.id",
+   "source_table": "type_metre",
+   "source_column": "type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 5271,
+   "source_distinct": 5216,
+   "target_rows": 5226,
+   "score": 4.5,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_metre.metre_id -> metre.id",
+   "source_table": "type_metre",
+   "source_column": "metre_id",
+   "target_table": "metre",
+   "target_key": "id",
+   "source_rows": 5271,
+   "source_distinct": 11,
+   "target_rows": 11,
+   "score": 4.32,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "type_occurrence.type_id -> type.id",
+   "source_table": "type_occurrence",
+   "source_column": "type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 13101,
+   "source_distinct": 5137,
+   "target_rows": 5226,
+   "score": 4.48,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_occurrence.occurrence_id -> occurrence.id",
+   "source_table": "type_occurrence",
+   "source_column": "occurrence_id",
+   "target_table": "occurrence",
+   "target_key": "id",
+   "source_rows": 13101,
+   "source_distinct": 13000,
+   "target_rows": 13050,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "17238",
+    "27019",
+    "17384",
+    "22694",
+    "16977"
+   ],
+   "target_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ]
+  },
+  {
+   "id": "type_person_role.type_id -> type.id",
+   "source_table": "type_person_role",
+   "source_column": "type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 11369,
+   "source_distinct": 4562,
+   "target_rows": 5226,
+   "score": 4.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_person_role.person_id -> person.id",
+   "source_table": "type_person_role",
+   "source_column": "person_id",
+   "target_table": "person",
+   "target_key": "id",
+   "source_rows": 11369,
+   "source_distinct": 965,
+   "target_rows": 3726,
+   "score": 3.58,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "28292",
+    "28989",
+    "28297",
+    "28295",
+    "33713"
+   ],
+   "target_samples": [
+    "42",
+    "43",
+    "44",
+    "45",
+    "46"
+   ]
+  },
+  {
+   "id": "type_person_role.role_id -> roles.id",
+   "source_table": "type_person_role",
+   "source_column": "role_id",
+   "target_table": "roles",
+   "target_key": "id",
+   "source_rows": 11369,
+   "source_distinct": 4,
+   "target_rows": 15,
+   "score": 3.43,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "10",
+    "100",
+    "6",
+    "8"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "type_related_type.type_id -> type.id",
+   "source_table": "type_related_type",
+   "source_column": "type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 13217,
+   "source_distinct": 605,
+   "target_rows": 5226,
+   "score": 3.29,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1855",
+    "1857",
+    "1862",
+    "1865",
+    "1873"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_related_type.related_type_id -> type.id",
+   "source_table": "type_related_type",
+   "source_column": "related_type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 13217,
+   "source_distinct": 602,
+   "target_rows": 5226,
+   "score": 2.92,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "36402",
+    "36408",
+    "36411",
+    "36414",
+    "36417"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_related_type.relation_definition_id -> type_relation_definition.id",
+   "source_table": "type_related_type",
+   "source_column": "relation_definition_id",
+   "target_table": "type_relation_definition",
+   "target_key": "id",
+   "source_rows": 13217,
+   "source_distinct": 8,
+   "target_rows": 8,
+   "score": 4.25,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "17",
+    "18",
+    "14",
+    "15",
+    "13"
+   ],
+   "target_samples": [
+    "12",
+    "13",
+    "14",
+    "15",
+    "16"
+   ]
+  },
+  {
+   "id": "type_tag.type_id -> type.id",
+   "source_table": "type_tag",
+   "source_column": "type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 10739,
+   "source_distinct": 4859,
+   "target_rows": 5226,
+   "score": 4.39,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_tag.tag_id -> tag.id",
+   "source_table": "type_tag",
+   "source_column": "tag_id",
+   "target_table": "tag",
+   "target_key": "id",
+   "source_rows": 10739,
+   "source_distinct": 50,
+   "target_rows": 50,
+   "score": 4.46,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "28",
+    "38",
+    "13",
+    "7",
+    "14"
+   ],
+   "target_samples": [
+    "7",
+    "8",
+    "9",
+    "10",
+    "11"
+   ]
+  },
+  {
+   "id": "type_text_status.type_id -> type.id",
+   "source_table": "type_text_status",
+   "source_column": "type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 4131,
+   "source_distinct": 4131,
+   "target_rows": 5226,
+   "score": 4.22,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_text_status.text_status_id -> text_status.id",
+   "source_table": "type_text_status",
+   "source_column": "text_status_id",
+   "target_table": "text_status",
+   "target_key": "id",
+   "source_rows": 4131,
+   "source_distinct": 3,
+   "target_rows": 6,
+   "score": 2.67,
+   "signals": [
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "12",
+    "8"
+   ],
+   "target_samples": [
+    "7",
+    "8",
+    "12",
+    "19",
+    "20"
+   ]
+  },
+  {
+   "id": "type_translation.type_id -> type.id",
+   "source_table": "type_translation",
+   "source_column": "type_id",
+   "target_table": "type",
+   "target_key": "id",
+   "source_rows": 2504,
+   "source_distinct": 1681,
+   "target_rows": 5226,
+   "score": 3.61,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key"
+   ],
+   "source_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ],
+   "target_samples": [
+    "1855",
+    "1857",
+    "1858",
+    "1860",
+    "1862"
+   ]
+  },
+  {
+   "id": "type_translation.language_id -> language.id",
+   "source_table": "type_translation",
+   "source_column": "language_id",
+   "target_table": "language",
+   "target_key": "id",
+   "source_rows": 2504,
+   "source_distinct": 11,
+   "target_rows": 17,
+   "score": 3.68,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "7",
+    "3",
+    "6",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "verses.occurrence_id -> occurrence.id",
+   "source_table": "verses",
+   "source_column": "occurrence_id",
+   "target_table": "occurrence",
+   "target_key": "id",
+   "source_rows": 53898,
+   "source_distinct": 12928,
+   "target_rows": 13050,
+   "score": 4.49,
+   "signals": [
+    "spread",
+    "type_agree",
+    "not_own_key",
+    "coverage"
+   ],
+   "source_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ],
+   "target_samples": [
+    "16897",
+    "16898",
+    "16899",
+    "16900",
+    "16901"
+   ]
+  },
+  {
+   "id": "acknowledgement.id -> verses.id",
+   "source_table": "acknowledgement",
+   "source_column": "id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 106,
+   "source_distinct": 106,
+   "target_rows": 53898,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "bib_varia.id -> verses.id",
+   "source_table": "bib_varia",
+   "source_column": "id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 5,
+   "source_distinct": 5,
+   "target_rows": 53898,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "29943",
+    "34402",
+    "34443",
+    "35433",
+    "37254"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "blog.id -> verses.id",
+   "source_table": "blog",
+   "source_column": "id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 15,
+   "source_distinct": 15,
+   "target_rows": 53898,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "29937",
+    "29992",
+    "30072",
+    "30073",
+    "30093"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "blog_post.id -> verses.id",
+   "source_table": "blog_post",
+   "source_column": "id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 23,
+   "source_distinct": 23,
+   "target_rows": 53898,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "32416",
+    "32418",
+    "32421",
+    "32422",
+    "32423"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "book_series.id -> verses.id",
+   "source_table": "book_series",
+   "source_column": "id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 144,
+   "source_distinct": 144,
+   "target_rows": 53898,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "31771",
+    "31772",
+    "31773",
+    "31774",
+    "31775"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "content.id -> identification.id",
+   "source_table": "content",
+   "source_column": "id",
+   "target_table": "identification",
+   "target_key": "id",
+   "source_rows": 283,
+   "source_distinct": 283,
+   "target_rows": 14260,
+   "score": 0.56,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "8",
+    "9",
+    "10",
+    "11",
+    "12"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "editorial_status.id -> genre.id",
+   "source_table": "editorial_status",
+   "source_column": "id",
+   "target_table": "genre",
+   "target_key": "id",
+   "source_rows": 2,
+   "source_distinct": 2,
+   "target_rows": 6,
+   "score": 1.83,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ]
+  },
+  {
+   "id": "genre.id -> metre.id",
+   "source_table": "genre",
+   "source_column": "id",
+   "target_table": "metre",
+   "target_key": "id",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 11,
+   "score": 2.31,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "language.id -> verses.id",
+   "source_table": "language",
+   "source_column": "id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 17,
+   "source_distinct": 17,
+   "target_rows": 53898,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "management.id -> verses.id",
+   "source_table": "management",
+   "source_column": "id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 47,
+   "source_distinct": 47,
+   "target_rows": 53898,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "4",
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "metre.id -> roles.id",
+   "source_table": "metre",
+   "source_column": "id",
+   "target_table": "roles",
+   "target_key": "id",
+   "source_rows": 11,
+   "source_distinct": 11,
+   "target_rows": 15,
+   "score": 2.57,
+   "signals": [
+    "spread",
+    "type_agree",
+    "coverage"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "phd.id -> verses.id",
+   "source_table": "phd",
+   "source_column": "id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 16,
+   "source_distinct": 16,
+   "target_rows": 53898,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "11055",
+    "11214",
+    "11346",
+    "11385",
+    "33066"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "roles.id -> verses.id",
+   "source_table": "roles",
+   "source_column": "id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 15,
+   "source_distinct": 15,
+   "target_rows": 53898,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "self_designation.id -> identification.id",
+   "source_table": "self_designation",
+   "source_column": "id",
+   "target_table": "identification",
+   "target_key": "id",
+   "source_rows": 322,
+   "source_distinct": 322,
+   "target_rows": 14260,
+   "score": 0.57,
+   "signals": [
+    "type_agree"
+   ],
+   "source_samples": [
+    "1",
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "tag.id -> verses.id",
+   "source_table": "tag",
+   "source_column": "id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 50,
+   "source_distinct": 50,
+   "target_rows": 53898,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "7",
+    "8",
+    "9",
+    "10",
+    "11"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "text_status.id -> verses.id",
+   "source_table": "text_status",
+   "source_column": "id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 6,
+   "source_distinct": 6,
+   "target_rows": 53898,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "7",
+    "8",
+    "12",
+    "19",
+    "20"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  },
+  {
+   "id": "type_relation_definition.id -> verses.id",
+   "source_table": "type_relation_definition",
+   "source_column": "id",
+   "target_table": "verses",
+   "target_key": "id",
+   "source_rows": 8,
+   "source_distinct": 8,
+   "target_rows": 53898,
+   "score": 1.5,
+   "signals": [
+    "spread",
+    "type_agree"
+   ],
+   "source_samples": [
+    "12",
+    "13",
+    "14",
+    "15",
+    "16"
+   ],
+   "target_samples": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5"
+   ]
+  }
+ ]
+}

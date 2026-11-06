@@ -72,6 +72,11 @@ Included, and derived from the benchmarks under their terms above:
     inference is scored against, and a few sample values per column from BIRD
     and LiveSQLBench databases, as shown to a language model
     (`bench/ablation/work/`).
+  - Sample key values and the declared foreign keys of two Zenodo datasets, used
+    the same way: ACAI, H. Nam and E. Lee, CC BY 4.0,
+    doi:10.5281/zenodo.22960186, and the Database of Byzantine Book Epigrams
+    archive, K. Demoen et al., CC0, doi:10.5281/zenodo.23008642. The databases
+    are fetched by `bench/ablation/fetch-corpora.sh`, not included.
   - Short quotations of questions, evidence and knowledge-base entries in the
     write-ups, each identified by benchmark and question.
 

@@ -128,3 +128,4 @@ bench/minidev2026/work2/*/*/*
 bench/ablation/work/bar
 bench/ablation/work/bar-source
 bench/ablation/work/bar-blind
+bench/ablation/work/unseen

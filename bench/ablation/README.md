@@ -26,6 +26,7 @@ compared with afterwards.
   keeps these results apart from the recorded ones. **MusicBrainz**'s sample, 236 tables, 25.7M
   rows and 469 declared references, is built and run the same way, at 7 to 8 minutes an
   analysis (finding 180).
+  **ACAI** and **DBBE**, two schemas no benchmark here uses, are fetched the same way (finding 183).
 
 ## Arms (`refs.py`)
 

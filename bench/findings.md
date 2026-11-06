@@ -6171,3 +6171,81 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      shared and neither able to see the other, so the choice changed nothing and the decisions in
      that part are easy ones. The rerun's verdicts are the ones recorded. One judge's report of its
      own counts was wrong against its file; the files were checked, every candidate once.
+
+183. **On schemas it is unlikely to know, the judge still works, so finding 182 was not mainly
+     memory; with the names destroyed it adds nothing. What it brings is reading names, better than
+     a rule does.**
+
+     `bench/ablation/PLAN-unseen.md` was committed before any judge ran, with `JUDGE.md` unchanged
+     but for its paths, on two schemas from Zenodo that no benchmark here uses: ACAI, 22 tables,
+     first public 2026-08-22, and DBBE, the Byzantine Book Epigrams archive, 125 tables, public since
+     April 2026 from a dataset of 2023. Each went in twice, as published and with names destroyed,
+     under neutral file names. One Sonnet judge per file, about 240k tokens, some $0.90 on the
+     assumption in `bench/minidev2026/PLAN.md`. All four predictions held.
+
+     | | True candidates kept | False rejected | Judged, recall / precision | Shipped gate | Name rule |
+     |---|---|---|---|---|---|
+     | ACAI, 25 references | 24 of 24 | none to reject | 96% / 100% | 96% / 100% | 96% / 100% |
+     | DBBE, 137 references | **96 of 96** | **35 of 40** | **70% / 95%** | 55% / 96% | 68% / 83% |
+     | `blind1`, ACAI destroyed | 24 of 24 | none to reject | 96% / 100% | 92% / 100% | |
+     | `blind2`, DBBE destroyed | 84 of 85 | 30 of 51 | 61% / 80% | 53% / 94% | |
+
+     **Memory.** Finding 182's judges kept every true candidate and rejected 95% and 92% of the false
+     ones. On DBBE they kept every true one and rejected 88%, one candidate short of the 90% the plan
+     set for saying finding 182 was not mainly memory. All five "false" ones kept look like
+     references nobody declared, by reading the schema and the rows: `book_chapter.book_id` was added
+     by an `ALTER` with no constraint and all its values are book ids; `blog_post.blog`,
+     `book.idcluster`, `book.idseries` and `phd.city` read the same way. That reading is ours,
+     unconfirmed by the authors. Counted that way the judge rejected all 35 of the others. Against
+     declared references, as the plan scores, the result falls one candidate short; we read it as
+     not mainly memory, and DBBE is obscure, not unseen.
+
+     **ACAI proves little.** It is the one schema nobody can have seen, and every candidate is true,
+     with keys that carry their kind (`KW_00428`), so a judge could only lose ground. It lost none,
+     with names or without.
+
+     **Names.** Destroyed, the judge still kept 99% of the true candidates, but rejected only 59% of
+     the false, and its reasons became "codes into small lookup" and "sparse ids". At 61% / 80% its
+     F1 of .69 is close to the shipped gate's .67 on the same schema. The whole of the gain on DBBE, F1 .81
+     against .70, is in reading names, and it reads them better than the plain rule: 12 points of
+     precision and 2 of recall. That meets the bar the plan set, 66% at 90%, for a named schema.
+
+     **Recall is not the judge's to win here.** 36 of the 41 references never proposed start in
+     tables with no rows, and two more are broken by orphan rows, so nothing could find them. Of the
+     101 references with rows behind them the judge has 96.
+
+     **Cautions.** One obscure schema and one that cannot discriminate. DBBE's columns name their
+     targets 96% of the time, so it is an easy schema for names, and it says nothing about
+     MusicBrainz's `entity0`. The judge model's cutoff is not known, so "unlikely to know" is as far
+     as it goes. Judges' own counts were wrong again, 126 candidates reported of 136; the files were
+     checked, every candidate once.
+
+184. **The judge is in the tool, as a file it reads rather than a model it calls, and the tool
+     reproduces findings 182 and 183 exactly.**
+
+     `reverse.py --infer-keys --export-candidates FILE` writes what the gates throw away;
+     `--verdicts FILE` applies a judge's decisions in their place. Nothing in `reverse/` calls a
+     model, so a build needs no key and is repeatable from its inputs. `reverse/JUDGE.md` is the
+     measured brief, its paths apart, and a test holds the two together. `refs.py` now builds its
+     records with the tool's `candidate_record`, so there is one copy.
+
+     Run through `recover`, with the recorded verdicts and the keys stripped:
+
+     | | Candidates, same as measured | Recall / precision |
+     |---|---|---|
+     | AdventureWorks | 157 of 157 | 91% / 95% |
+     | MusicBrainz | 645 of 645 | 85% / 95% |
+     | DBBE | 136 of 136 | 70% / 95% |
+     | ACAI | 24 of 24 | 96% / 100% |
+
+     Every record is identical, not only the ids. The verdicts are old ones replayed, so this shows
+     the tool does what was measured and is no new evidence about judges.
+
+     **Decided, not measured.** A column with a verdict is settled, so neither the gate nor rule 9
+     can put a "no" back at another target. A column with none stays with them, so a partial or stale
+     file degrades to the rules. A schema with no words is not judged, by finding 183. A kept
+     reference is a `heuristic` claim, below `population`, because it rests on a reading. A person's
+     rejection beats a judge, as it does every other pass. A person's acceptance does not yet beat a
+     judge's "no". The candidates carry five values a side, which is a change in what leaves the
+     machine if the judge is remote, so the flag's help says so. `build_model` passes flags
+     through, and the MCP server does nothing more with them yet.

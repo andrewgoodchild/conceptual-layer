@@ -316,9 +316,13 @@ precision, in 8 minutes a run (finding 180). With names destroyed the search now
 them, and data-only recall on AdventureWorks went from 27% to 63%; on MusicBrainz, held back to
 test it, only from 32% to 38%, against a prediction of at least 15 points.
 
-A blind LLM judge over everything the gates discard, which the shipped path does not do, reaches
+A blind LLM judge over everything the gates discard, which the tool runs only when given a judge's
+verdicts (finding 184), reaches
 91% recall at 95% precision on AdventureWorks and 85% at 95% on MusicBrainz (finding 182). Both
 schemas are famous, so a judge may simply know them.
+On a much less known schema, the Byzantine Book Epigrams archive, the same judge reaches 70% at
+95%, with almost all it could not reach in empty tables, so it was not mainly memory; with the
+names destroyed it does no better than the rules (finding 183).
 
 Precision is the number that matters. A missing key costs one table; a wrong key is a wrong
 identity in every query that walks it, and a wrong foreign key is a join that answers a

@@ -49,6 +49,15 @@ def vetoed(rule, subject):
     return (rule, subject) in VETO
 
 
+# (table, column) casefolded, for a column a judge has given a verdict on: decided, so no
+# pass that guesses at references reads it again. Empty unless `--verdicts` is given.
+SETTLED = set()
+
+
+def settled(table, column):
+    return (table.casefold(), column.casefold()) in SETTLED
+
+
 def claim_id(rule, subject):
     """Stable across rebuilds: the rule and the subject, which the passes write the same way
     every time for the same finding."""
