@@ -1,0 +1,17 @@
+[
+ {
+  "question_id": 149,
+  "answer": "WITH x AS (SELECT c.c0002 seg, c.c0000 id, SUM(y.c0000) tot FROM t0004 c JOIN t0003 y ON y.c0001=c.c0000 WHERE c.c0001='CZK' AND substr(y.c0002,1,4)='2013' GROUP BY 1,2), r AS (SELECT seg,id,tot,ROW_NUMBER() OVER (PARTITION BY seg ORDER BY tot,id) rn FROM x), m AS (SELECT seg,tot FROM r WHERE rn=1) SELECT ROUND((SELECT tot FROM m WHERE seg='SME')-(SELECT tot FROM m WHERE seg='LAM'),2) AS sme_minus_lam, ROUND((SELECT tot FROM m WHERE seg='LAM')-(SELECT tot FROM m WHERE seg='KAM'),2) AS lam_minus_kam, ROUND((SELECT tot FROM m WHERE seg='KAM')-(SELECT tot FROM m WHERE seg='SME'),2) AS kam_minus_sme",
+  "attempts": 2
+ },
+ {
+  "question_id": 151,
+  "answer": "SELECT ROUND((SUM(CASE WHEN substr(c0002,1,4)='2013' THEN c0000 END)-SUM(CASE WHEN substr(c0002,1,4)='2012' THEN c0000 END))/SUM(CASE WHEN substr(c0002,1,4)='2012' THEN c0000 END),4) FROM t0003 WHERE c0001=(SELECT c0007 FROM t0001 WHERE c0000=634.8 AND c0004='2012-08-25')",
+  "attempts": 2
+ },
+ {
+  "question_id": 155,
+  "answer": "SELECT CAST((julianday(MAX(t.c0004||' '||t.c0006))-julianday(MIN(t.c0004||' '||t.c0006)))*1440 AS INTEGER) FROM t0001 t JOIN t0002 s ON s.c0003=t.c0001 WHERE s.c0001='CZE' AND t.c0000>1000",
+  "attempts": 2
+ }
+]

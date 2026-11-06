@@ -1,0 +1,17 @@
+[
+ {
+  "question_id": 149,
+  "answer": "WITH t AS (SELECT c.c0000 id, c.c0002 seg, SUM(y.c0000) tot FROM t0003 y JOIN t0004 c ON c.c0000=y.c0001 WHERE c.c0001='CZK' AND y.c0002 LIKE '2013%' GROUP BY c.c0000, c.c0002),\nm AS (SELECT seg, tot, ROW_NUMBER() OVER (PARTITION BY seg ORDER BY tot, id) rn FROM t)\nSELECT ROUND((SELECT tot FROM m WHERE seg='SME' AND rn=1)-(SELECT tot FROM m WHERE seg='LAM' AND rn=1),2) AS sme_minus_lam,\nROUND((SELECT tot FROM m WHERE seg='LAM' AND rn=1)-(SELECT tot FROM m WHERE seg='KAM' AND rn=1),2) AS lam_minus_kam,\nROUND((SELECT tot FROM m WHERE seg='KAM' AND rn=1)-(SELECT tot FROM m WHERE seg='SME' AND rn=1),2) AS kam_minus_sme",
+  "attempts": 1
+ },
+ {
+  "question_id": 151,
+  "answer": "SELECT ROUND((SUM(CASE WHEN y.c0002 LIKE '2013%' THEN y.c0000 END)-SUM(CASE WHEN y.c0002 LIKE '2012%' THEN y.c0000 END))*1.0/SUM(CASE WHEN y.c0002 LIKE '2012%' THEN y.c0000 END),4) AS rel_change\nFROM t0003 y WHERE y.c0001=(SELECT c0007 FROM t0001 WHERE c0000=634.8 AND c0004='2012-08-25')",
+  "attempts": 1
+ },
+ {
+  "question_id": 155,
+  "answer": "SELECT CAST((julianday(MAX(t.c0004||' '||t.c0006))-julianday(MIN(t.c0004||' '||t.c0006)))*1440 + 0.0001 AS INTEGER) AS minutes, MIN(t.c0004||' '||t.c0006) a, MAX(t.c0004||' '||t.c0006) b\nFROM t0001 t JOIN t0002 g ON g.c0003=t.c0001 WHERE g.c0001='CZE' AND t.c0000>1000",
+  "attempts": 1
+ }
+]

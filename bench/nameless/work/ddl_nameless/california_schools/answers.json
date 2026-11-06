@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 2,
+  "answer": "select round(f.c0014,6) from t0001 f join t0002 s on s.c0020=f.c0021 where s.c0029='66' order by f.c0019 desc limit 5",
+  "attempts": 2
+ },
+ {
+  "question_id": 4,
+  "answer": "select s.c0013, s.c0031 from t0000 d join t0002 s on s.c0020=d.c0008 where d.c0010='S' and d.c0007 is not null order by d.c0007 desc limit 1 offset 6",
+  "attempts": 2
+ },
+ {
+  "question_id": 13,
+  "answer": "select s.c0010 from t0002 s join t0001 f on f.c0021=s.c0020 where s.c0020='01611920113902' and s.c0028='Alameda' and f.c0020='Breakfast Provision 2' and f.c0008='9' and f.c0026='12'",
+  "attempts": 2
+ },
+ {
+  "question_id": 15,
+  "answer": "select s.c0031, s.c0026 from t0000 d join t0002 s on s.c0020=d.c0008 where s.c0044='Statewide Benefit Charter' and d.c0010='S' and d.c0004=(select max(d2.c0004) from t0000 d2 join t0002 s2 on s2.c0020=d2.c0008 where s2.c0044='Statewide Benefit Charter' and d2.c0010='S')",
+  "attempts": 2
+ },
+ {
+  "question_id": 19,
+  "answer": "select f.c0008 from t0001 f join t0002 s on s.c0020=f.c0021 where s.c0001='0632640' and f.c0008 not in ('P','Adult') order by case f.c0008 when 'K' then 0 else cast(f.c0008 as integer) end limit 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 24,
+  "answer": "select c0039, c0031, c0004 from t0002 where (c0039='Intermediate/Middle Schools (Public)' or c0031 like '%Middle%') and c0004 is not null and c0004=(select max(c0004) from t0002 where c0039='Intermediate/Middle Schools (Public)' or c0031 like '%Middle%')",
+  "attempts": 2
+ },
+ {
+  "question_id": 30,
+  "answer": "select s.c0031, s.c0006, s.c0028, d.c0001 from t0000 d join t0002 s on s.c0020=d.c0008 where d.c0010='S' and s.c0042='Closed' and d.c0001=(select max(d2.c0001) from t0000 d2 join t0002 s2 on s2.c0020=d2.c0008 where d2.c0010='S' and s2.c0042='Closed' and d2.c0001<(select max(d3.c0001) from t0000 d3 join t0002 s3 on s3.c0020=d3.c0008 where d3.c0010='S' and s3.c0042='Closed'))",
+  "attempts": 2
+ },
+ {
+  "question_id": 32,
+  "answer": "select f.c0009 as county, count(*) as n_schools, round(avg(round(f.c0003*100,2)),2) as avg_free_pct, round(avg(round(f.c0014*100,2)),2) as avg_frpm_pct, sum(f.c0017=1) as charter, sum(f.c0017=0) as non_charter, round(avg(d.c0007+d.c0006+d.c0001),2) as avg_sat from t0001 f left join t0000 d on d.c0008=f.c0021 and d.c0010='S' and d.c0007 is not null where f.c0024=(select c0024 from t0001 where c0021='01612590125716') and f.c0022>500 and f.c0019<700 group by f.c0009",
+  "attempts": 2
+ },
+ {
+  "question_id": 46,
+  "answer": "select s.c0010 as city, count(*) as magnet_provision2_schools from t0002 s join t0001 f on f.c0021=s.c0020 where s.c0027=1 and f.c0020='Provision 2' group by s.c0010",
+  "attempts": 2
+ },
+ {
+  "question_id": 47,
+  "answer": "select s.c0031 as name, s.c0030 as street, s.c0010 as city, s.c0003 as state, s.c0046 as zip from t0001 f join t0002 s on s.c0020=f.c0021 where f.c0009='Los Angeles' and f.c0000 in ('High Schools (Public)','Continuation High Schools','High Schools In 1 School Dist. (Public)') and f.c0010>500 order by s.c0031",
+  "attempts": 2
+ }
+]

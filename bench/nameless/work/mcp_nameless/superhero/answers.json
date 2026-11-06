@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 333,
+  "answer": "SELECT DISTINCT h.c0000 FROM t0007 h JOIN t0008 hp ON hp.c0000=h.c0010 WHERE hp.c0001=18 AND h.c0005=13",
+  "attempts": 1
+ },
+ {
+  "question_id": 337,
+  "answer": "SELECT ROUND(100.0*SUM(c0005=13)/COUNT(*),2) FROM t0007 WHERE c0008 BETWEEN 150 AND 180",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": "SELECT COUNT(*) FROM t0007 WHERE c0011 IS NULL OR c0011 NOT IN (1,2)",
+  "attempts": 1
+ },
+ {
+  "question_id": 347,
+  "answer": "SELECT p.c0001, COUNT(DISTINCT h.c0010) n FROM t0007 h JOIN t0008 hp ON hp.c0000=h.c0010 JOIN t0000 p ON p.c0000=hp.c0001 WHERE h.c0005=13 AND h.c0001 IS NOT NULL AND h.c0001<>'-' GROUP BY p.c0001 HAVING n=(SELECT MAX(c) FROM (SELECT COUNT(DISTINCT h2.c0010) c FROM t0007 h2 JOIN t0008 hp2 ON hp2.c0000=h2.c0010 WHERE h2.c0005=13 AND h2.c0001 IS NOT NULL AND h2.c0001<>'-' GROUP BY hp2.c0001))",
+  "attempts": 1
+ },
+ {
+  "question_id": 355,
+  "answer": "SELECT ROUND(AVG(c0003)) FROM t0007 WHERE c0005=4 AND c0003>0 AND c0002 IN (SELECT c0002 FROM t0007 WHERE c0005=13)",
+  "attempts": 1
+ },
+ {
+  "question_id": 357,
+  "answer": "SELECT AVG(c0003) FROM t0007 WHERE c0003>0 AND c0007 IN (SELECT c0007 FROM t0007 WHERE c0007 IS NOT NULL GROUP BY c0007 HAVING SUM(c0006=2)=0)",
+  "attempts": 1
+ },
+ {
+  "question_id": 365,
+  "answer": "SELECT h.c0006, ROUND(1.0*COUNT(hp.c0001)/COUNT(DISTINCT h.c0010),2) FROM t0007 h LEFT JOIN t0008 hp ON hp.c0000=h.c0010 WHERE h.c0006 IN (1,2) AND h.c0001 IS NOT NULL AND h.c0001<>'-' GROUP BY h.c0006 ORDER BY h.c0006",
+  "attempts": 1
+ },
+ {
+  "question_id": 367,
+  "answer": "SELECT ROUND(AVG(CASE WHEN c0008>0 THEN c0008 END),1), ROUND(AVG(CASE WHEN c0003>0 THEN c0003 END),1) FROM t0007 WHERE c0005=5",
+  "attempts": 1
+ },
+ {
+  "question_id": 372,
+  "answer": "SELECT COUNT(DISTINCT hp.c0001) FROM t0007 h JOIN t0008 hp ON hp.c0000=h.c0010 WHERE h.c0006=1 AND h.c0003>0 AND h.c0003<70",
+  "attempts": 1
+ },
+ {
+  "question_id": 379,
+  "answer": "SELECT ROUND(100.0*COUNT(DISTINCT CASE WHEN h.c0011=1 THEN h.c0010 END)/COUNT(DISTINCT h.c0010),2) FROM t0007 h JOIN t0008 hp ON hp.c0000=h.c0010 WHERE h.c0005=13",
+  "attempts": 1
+ }
+]

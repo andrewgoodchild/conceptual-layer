@@ -1,0 +1,89 @@
+[
+ {
+  "question_id": 388,
+  "answer": "select count(distinct l.c0039) from t0002 l join t0000 p on p.c0006=l.c0039 where l.c0043 like '%+%' and p.c0003 is null",
+  "attempts": 2,
+  "note": "positive CRP taken as a '+' style result"
+ },
+ {
+  "question_id": 398,
+  "answer": "select count(*) from t0000 p where p.c0002='-' and exists(select 1 from t0002 l where l.c0039=p.c0006 and l.c0033 not between 29 and 52) and exists(select 1 from t0002 l where l.c0039=p.c0006 and l.c0002 is not null and cast(l.c0002 as real)>16)",
+  "attempts": 2
+ },
+ {
+  "question_id": 401,
+  "answer": "select round(avg(l.c0041-8.5),3) from t0002 l where l.c0041>8.5 and l.c0039 in (select p.c0006 from t0000 p where p.c0000='F' and p.c0006 in (select c0006 from t0001 where c0008 like '%SLE%' and c0008 not like '%SLE susp%'))",
+  "attempts": 2
+ },
+ {
+  "question_id": 406,
+  "answer": "select sum(c0000='F') as women, sum(c0000='M') as men from t0000 p where p.c0006 in (select c0039 from t0002 where c0002 is not null and cast(c0002 as real)>32)",
+  "attempts": 2
+ },
+ {
+  "question_id": 409,
+  "answer": "select count(distinct c0006) from t0001 where c0003>0 and c0005 between '1997-01-01' and '1997-12-31'",
+  "attempts": 1
+ },
+ {
+  "question_id": 424,
+  "answer": "select count(*) from t0000 p where c0000='F' and exists(select 1 from t0002 l where l.c0039=p.c0006 and l.c0029 is not null and cast(l.c0029 as real)<8)",
+  "attempts": 1
+ },
+ {
+  "question_id": 435,
+  "answer": "select p.c0006,p.c0000,l.c0031,l.c0022 from t0000 p join t0002 l on l.c0039=p.c0006 where l.c0022 is not null and l.c0031=(select max(c0031) from t0002 x where x.c0039=p.c0006 and x.c0022 is not null)",
+  "attempts": 1
+ },
+ {
+  "question_id": 438,
+  "answer": "select p.c0001 from t0000 p join t0002 l on l.c0039=p.c0006 where l.c0003<60 and p.c0006 in (select c0039 from t0002 where c0002 is not null and cast(c0002 as real)>=16) group by p.c0006 order by max(l.c0003) desc, p.c0006 asc limit 3",
+  "attempts": 1
+ },
+ {
+  "question_id": 440,
+  "answer": "select cast(strftime('%Y',l.c0031)-strftime('%Y',p.c0001) - (strftime('%m-%d',l.c0031)<strftime('%m-%d',p.c0001)) as int) as age, p.c0004 from t0002 l join t0000 p on p.c0006=l.c0039 where p.c0002='+' and l.c0029 is not null order by cast(l.c0029 as real) desc, l.c0031 asc limit 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 446,
+  "answer": "select (select count(*) from t0000 p join t0002 l on l.c0039=p.c0006 where p.c0000='F' and l.c0031=(select max(c0031) from t0002 x where x.c0039=p.c0006) and l.c0002 is not null and cast(l.c0002 as real)>=32) - (select count(*) from t0000 p join t0002 l on l.c0039=p.c0006 where p.c0000='M' and l.c0031=(select max(c0031) from t0002 x where x.c0039=p.c0006) and l.c0002 is not null and cast(l.c0002 as real)>=32)",
+  "attempts": 1
+ },
+ {
+  "question_id": 451,
+  "answer": "select count(*) from t0000 where c0000='F' and c0002='+' and c0005 between '1998-01-01' and '1998-12-31'",
+  "attempts": 1
+ },
+ {
+  "question_id": 453,
+  "answer": "select c0004 from t0000 where c0002='+' and c0005 between '1998-02-15' and '1998-02-28' order by c0001 asc, c0006 asc limit 1",
+  "attempts": 2,
+  "note": "returns no rows: no patient has a first date in February 1998"
+ },
+ {
+  "question_id": 454,
+  "answer": "select round(avg(c0001),1) from t0001 where c0005 between '1993-10-01' and '1993-10-31' and c0008 like '%SLE%' and c0008 not like '%SLE susp%'",
+  "attempts": 1
+ },
+ {
+  "question_id": 455,
+  "answer": "select count(distinct c0006) from t0000 where lower(c0004) like '%psoria%'",
+  "attempts": 1
+ },
+ {
+  "question_id": 456,
+  "answer": "select c0000 as sex, count(*) from t0000 p where c0000 in ('M','F') and not exists(select 1 from t0002 l where l.c0039=p.c0006 and l.c0003>=60) group by c0000",
+  "attempts": 1
+ },
+ {
+  "question_id": 462,
+  "answer": "select count(distinct p.c0006) from t0000 p where exists(select 1 from t0002 l where l.c0039=p.c0006 and l.c0007 in ('negative','0')) and not exists(select 1 from t0001 e where e.c0006=p.c0006 and e.c0003>0) and exists(select 1 from t0002 l where l.c0039=p.c0006 and (l.c0022 like '>=%' or l.c0022 like '+%(%' or (l.c0022 glob '[0-9]*' and cast(l.c0022 as real)>=30)))",
+  "attempts": 1
+ },
+ {
+  "question_id": 465,
+  "answer": "select count(distinct p.c0006) from t0000 p join t0002 l on l.c0039=p.c0006 where p.c0000='F' and l.c0021 between 3.5 and 9.0 and l.c0012 not between 150 and 450 and l.c0002 is not null and cast(l.c0002 as real)>15",
+  "attempts": 1
+ }
+]

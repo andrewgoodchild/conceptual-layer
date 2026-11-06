@@ -1,0 +1,78 @@
+[
+ {
+  "question_id": 53,
+  "answer": "with fr as (select distinct c0004 u from t0002 where c0003='French') select round(100.0*sum(c0060 in (select u from fr))/count(*),2) from t0004 where c0053=1",
+  "attempts": 3,
+  "note": "c0053 assumed isStorySpotlight"
+ },
+ {
+  "question_id": 54,
+  "answer": "select c0044 from t0004 where c0058='a'",
+  "attempts": 1
+ },
+ {
+  "question_id": 60,
+  "answer": "select round(100.0*sum(c0067 is not null and c0018 is not null)/count(*),2) from t0004 where c0015='CSP'",
+  "attempts": 2
+ },
+ {
+  "question_id": 62,
+  "answer": "select count(distinct c0021) from t0004 where c0016=1 and c0034 like '%Creature%' and c0021 in (select c0021 from t0004 where c0047 like '%''brawl'': True%')",
+  "attempts": 3,
+  "note": "brawl flag taken from any printing of the card"
+ },
+ {
+  "question_id": 63,
+  "answer": "select max(cast(c0011 as integer))-min(cast(c0011 as integer)) from t0004 where c0021='Tarmogoyf' and c0011 glob '[0-9]*'",
+  "attempts": 1,
+  "note": "ignores the non-year frame value 'future'"
+ },
+ {
+  "question_id": 69,
+  "answer": "select c0011, (select count(*) from t0004 b where b.c0011=a.c0011) n from t0004 a where c0031=0 and c0011 glob '[0-9]*' group by c0011 order by c0011 desc limit 1",
+  "attempts": 1,
+  "note": "numeric years only; 'future' excluded"
+ },
+ {
+  "question_id": 73,
+  "answer": "with f as (select s.c0018 code from t0001 s where s.c0018 in (select c0015 from t0004 where c0021='Abyssal Horror') order by s.c0001, s.c0018 limit 1), l as (select c0018 code from t0001 order by c0001 desc, c0018 limit 1), pick as (select code from f union select code from l) select s.c0015, round(100.0*sum(case when t.c0046 is not null and t.c0046<>'' and t.c0031<=3 then 1 else 0 end)/count(*),2) from pick p join t0001 s on s.c0018=p.code join t0004 t on t.c0015=s.c0018 group by s.c0018, s.c0015 order by s.c0001",
+  "attempts": 3
+ },
+ {
+  "question_id": 77,
+  "answer": "select c0021 from t0004 where c0015='DKA' and ','||c0050||',' like '%,Flash,%' and c0031=(select max(c0031) from t0004 where c0015='DKA' and ','||c0050||',' like '%,Flash,%') group by c0021 order by c0021",
+  "attempts": 2
+ },
+ {
+  "question_id": 78,
+  "answer": "select s.c0015, s.c0019, (select count(distinct t.c0003) from t0003 t where t.c0000=s.c0018 and t.c0001 is not null and t.c0001<>'') from t0001 s where s.c0001 between '2020-01-01' and '2020-12-31' order by s.c0015",
+  "attempts": 3,
+  "note": "empty-string translations not counted"
+ },
+ {
+  "question_id": 79,
+  "answer": "with q as (select c0018 code from t0001 where c0001 between '2017-01-01' and '2017-12-31' and c0018 in (select c0000 from t0003 where c0001 is not null and c0001<>'' and c0003<>'English')) select count(*) from t0004 where c0015 in (select code from q) or c0015 in (select c0018 from t0001 where c0003 in (select code from q))",
+  "attempts": 3,
+  "note": "includes child sets via parent code"
+ },
+ {
+  "question_id": 83,
+  "answer": "select s.c0004, count(distinct case when t.c0003='Japanese' and t.c0001<>'' then s.c0018 end) from t0001 s left join t0003 t on t.c0000=s.c0018 group by s.c0004 order by s.c0004",
+  "attempts": 2
+ },
+ {
+  "question_id": 85,
+  "answer": "with ss as (select c0018 code, c0001 d from t0001 where c0018 in (select c0015 from t0004 where c0021='Ancestor''s Chosen')), m as (select code from ss where d=(select max(d) from ss)) select count(distinct c0021) from t0004 where c0015 in (select code from m) and c0034 like '%Creature%' and c0008 glob '[0-9]*' and c0043 glob '[0-9]*' and cast(c0008 as integer)>cast(c0043 as integer)",
+  "attempts": 3
+ },
+ {
+  "question_id": 98,
+  "answer": "select distinct c0021 from t0004 where c0016=1 and c0000 like '2019/%' and c0022 in ('split','transform','modal_dfc','adventure','flip','meld','reversible_card','double_faced_token') order by c0021",
+  "attempts": 2
+ },
+ {
+  "question_id": 104,
+  "answer": "select sum(c0031) from t0004 where c0020='Rob Alexander' and c0000 like '2013/%'",
+  "attempts": 2
+ }
+]

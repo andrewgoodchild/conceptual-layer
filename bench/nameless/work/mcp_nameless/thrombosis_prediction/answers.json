@@ -1,0 +1,88 @@
+[
+ {
+  "question_id": 388,
+  "answer": "SELECT COUNT(DISTINCT p.c0006) FROM t0000 p JOIN t0002 l ON l.c0039=p.c0006 WHERE l.c0043 IN ('+','2+','3+','4+') AND p.c0005 IS NULL",
+  "attempts": 1
+ },
+ {
+  "question_id": 398,
+  "answer": "SELECT COUNT(*) FROM t0000 p WHERE p.c0002='-'\nAND EXISTS (SELECT 1 FROM t0002 l WHERE l.c0039=p.c0006 AND (l.c0033<=29 OR l.c0033>=52))\nAND EXISTS (SELECT 1 FROM t0002 l WHERE l.c0039=p.c0006 AND CAST(l.c0002 AS REAL)>16)",
+  "attempts": 1
+ },
+ {
+  "question_id": 401,
+  "answer": "SELECT ROUND(AVG(l.c0041-8.5),3) FROM t0002 l JOIN t0000 p ON p.c0006=l.c0039\nWHERE p.c0000='F' AND l.c0041>8.5 AND EXISTS (SELECT 1 FROM t0001 e WHERE e.c0006=p.c0006 AND e.c0008 LIKE '%SLE%' AND e.c0008 NOT LIKE '%susp%' AND e.c0008 NOT LIKE 'JRA->%')",
+  "attempts": 1
+ },
+ {
+  "question_id": 406,
+  "answer": "SELECT SUM(p.c0000='F') AS women, SUM(p.c0000='M') AS men FROM t0000 p WHERE EXISTS (SELECT 1 FROM t0002 l WHERE l.c0039=p.c0006 AND CAST(l.c0002 AS REAL)>32)",
+  "attempts": 1
+ },
+ {
+  "question_id": 409,
+  "answer": "SELECT COUNT(DISTINCT c0006) FROM t0001 WHERE c0004>0 AND c0005>='1997-01-01' AND c0005<='1997-12-31'",
+  "attempts": 1
+ },
+ {
+  "question_id": 424,
+  "answer": "SELECT COUNT(*) FROM t0000 p WHERE p.c0000='F' AND EXISTS (SELECT 1 FROM t0002 l WHERE l.c0039=p.c0006 AND l.c0029 IS NOT NULL AND CAST(l.c0029 AS REAL)<8)",
+  "attempts": 1
+ },
+ {
+  "question_id": 435,
+  "answer": "SELECT p.c0006, p.c0000, l.c0031, l.c0022 FROM t0000 p JOIN (SELECT c0039, c0031, c0022, ROW_NUMBER() OVER (PARTITION BY c0039 ORDER BY c0031 DESC) rn FROM t0002 WHERE c0022 IS NOT NULL) l ON l.c0039=p.c0006 AND l.rn=1",
+  "attempts": 1
+ },
+ {
+  "question_id": 438,
+  "answer": "SELECT p.c0001 FROM t0000 p JOIN t0002 l ON l.c0039=p.c0006 WHERE l.c0003<60 AND p.c0006 IN (SELECT c0039 FROM t0002 WHERE CAST(c0002 AS REAL)>=16)\nGROUP BY p.c0006, p.c0001 ORDER BY MAX(l.c0003) DESC, p.c0006 ASC LIMIT 3",
+  "attempts": 1
+ },
+ {
+  "question_id": 440,
+  "answer": "SELECT CAST(strftime('%Y',l.c0031) AS INTEGER)-CAST(strftime('%Y',p.c0001) AS INTEGER)-(strftime('%m-%d',l.c0031)<strftime('%m-%d',p.c0001)) AS age, p.c0004 AS diagnosis FROM t0002 l JOIN t0000 p ON p.c0006=l.c0039 WHERE p.c0002='+' AND l.c0029 IS NOT NULL ORDER BY CAST(l.c0029 AS REAL) DESC, l.c0031 ASC LIMIT 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 446,
+  "answer": "WITH last AS (SELECT c0039 id, MAX(c0031) d FROM t0002 GROUP BY c0039)\nSELECT SUM(p.c0000='F') - SUM(p.c0000='M') FROM last JOIN t0002 l ON l.c0039=last.id AND l.c0031=last.d JOIN t0000 p ON p.c0006=last.id WHERE CAST(l.c0002 AS REAL)>=32",
+  "attempts": 1
+ },
+ {
+  "question_id": 451,
+  "answer": "SELECT COUNT(*) FROM t0000 WHERE c0000='F' AND c0002='+' AND c0003>='1998-01-01' AND c0003<='1998-12-31'",
+  "attempts": 1
+ },
+ {
+  "question_id": 453,
+  "answer": "SELECT c0004 FROM t0000 WHERE c0002='+' AND c0003>='1998-02-15' AND c0003<='1998-02-28' ORDER BY c0001 ASC, c0006 ASC LIMIT 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 454,
+  "answer": "SELECT ROUND(AVG(c0001),1) FROM t0001 WHERE c0005>='1993-10-01' AND c0005<='1993-10-31' AND c0008 LIKE '%SLE%' AND c0008 NOT LIKE '%susp%' AND c0008 NOT LIKE 'JRA->%'",
+  "attempts": 1
+ },
+ {
+  "question_id": 455,
+  "answer": "SELECT COUNT(*) FROM t0000 WHERE LOWER(c0004) LIKE '%psoriatic arthritis%'",
+  "attempts": 1
+ },
+ {
+  "question_id": 456,
+  "answer": "SELECT p.c0000 AS sex, COUNT(*) AS patients FROM t0000 p WHERE p.c0000 IN ('M','F') AND NOT EXISTS (SELECT 1 FROM t0002 l WHERE l.c0039=p.c0006 AND l.c0003>=60) GROUP BY p.c0000",
+  "attempts": 1
+ },
+ {
+  "question_id": 462,
+  "answer": "SELECT COUNT(*) FROM t0000 p WHERE EXISTS (SELECT 1 FROM t0002 l WHERE l.c0039=p.c0006 AND l.c0007 IN ('negative','0'))\nAND NOT EXISTS (SELECT 1 FROM t0001 e WHERE e.c0006=p.c0006 AND e.c0004>0)\nAND EXISTS (SELECT 1 FROM t0002 l WHERE l.c0039=p.c0006 AND l.c0022 IN ('30','100','300','>=300','>=1000','+1(30)','+2(100)'))",
+  "attempts": 1
+ },
+ {
+  "question_id": 465,
+  "answer": "SELECT COUNT(DISTINCT p.c0006) FROM t0000 p JOIN t0002 l ON l.c0039=p.c0006 WHERE p.c0000='F' AND l.c0021>3.5 AND l.c0021<9.0 AND (l.c0013<=150 OR l.c0013>=450) AND CAST(l.c0002 AS REAL)>15",
+  "attempts": 2,
+  "note": "Column names are opaque; fibrinogen column inferred (FG=c0013); same-row overlap is empty so 0."
+ }
+]

@@ -1,0 +1,8 @@
+[
+{"question_id":469,"answer":"select avg(c) from (select b.molecule_id, count(*) c from bond b join molecule m using(molecule_id) where m.label='+' and b.bond_type='-' group by 1)","attempts":1},
+{"question_id":471,"answer":"select sum(a.element='i') as iodine, sum(a.element='s') as sulfur from (select distinct a.atom_id, a.element from atom a join connected c on c.atom_id=a.atom_id join bond b on b.bond_id=c.bond_id where b.bond_type='-') a","attempts":1},
+{"question_id":476,"answer":"select count(*) from atom where molecule_id in (select molecule_id from bond where bond_type='#') and molecule_id in (select molecule_id from atom where element in ('p','br'))","attempts":1},
+{"question_id":490,"answer":"select m.molecule_id, count(distinct c.bond_id) as bond_count from molecule m join atom a on a.molecule_id=m.molecule_id join connected c on c.atom_id=a.atom_id where m.label='+' and a.element in (select element from atom group by 1 having count(distinct molecule_id)=1) group by 1 order by 1","attempts":1},
+{"question_id":493,"answer":"select round(1.0*(select count(*) from connected c join atom a on a.atom_id=c.atom_id where a.molecule_id='TR397')/(select count(*) from atom where molecule_id='TR397'),2)","attempts":1},
+{"question_id":497,"answer":"select a.element, count(*) from atom a where exists(select 1 from connected c where c.atom_id=a.atom_id) and not exists(select 1 from connected c join bond b on b.bond_id=c.bond_id where c.atom_id=a.atom_id and b.bond_type<>'-') group by 1 order by 1","attempts":1}
+]

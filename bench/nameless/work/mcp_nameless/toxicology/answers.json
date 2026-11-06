@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 469,
+  "answer": "select avg(n) from (select b.c0000, count(*) n from t0001 b join t0002 m on m.c0000=b.c0000 where m.c0001='+' and b.c0001='-' group by b.c0000)",
+  "attempts": 1
+ },
+ {
+  "question_id": 471,
+  "answer": "select sum(a.c0000='i'), sum(a.c0000='s') from t0003 a where a.c0000 in ('i','s') and exists (select 1 from t0000 c join t0001 b on b.c0002=c.c0001 where c.c0002=a.c0001 and b.c0001='-')",
+  "attempts": 1
+ },
+ {
+  "question_id": 476,
+  "answer": "select count(*) from t0003 where c0002 in (select c0000 from t0001 where c0001='#') and c0002 in (select c0002 from t0003 where c0000 in ('p','br'))",
+  "attempts": 1
+ },
+ {
+  "question_id": 490,
+  "answer": "with rare as (select c0000 e from t0003 group by 1 having count(distinct c0002)=1) select a.c0002 molecule_id, count(c.c0001) bond_count from t0003 a join t0002 m on m.c0000=a.c0002 and m.c0001='+' join rare on rare.e=a.c0000 left join t0000 c on c.c0002=a.c0001 group by a.c0002 order by a.c0002",
+  "attempts": 1
+ },
+ {
+  "question_id": 493,
+  "answer": "select round(1.0*(select count(*) from t0000 c join t0003 a on a.c0001=c.c0002 where a.c0002='TR397')/(select count(*) from t0003 where c0002='TR397'),2)",
+  "attempts": 1
+ },
+ {
+  "question_id": 497,
+  "answer": "select a.c0000 element, count(*) n from t0003 a where exists (select 1 from t0000 c where c.c0002=a.c0001) and not exists (select 1 from t0000 c join t0001 b on b.c0002=c.c0001 where c.c0002=a.c0001 and b.c0001<>'-') group by a.c0000 order by a.c0000",
+  "attempts": 1
+ }
+]

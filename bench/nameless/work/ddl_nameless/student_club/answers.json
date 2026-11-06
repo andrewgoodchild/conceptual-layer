@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 297,
+  "answer": "select c0003 from t0004 where c0002='Fundraising' and substr(c0004,1,10)='2019-09-14'",
+  "attempts": 2
+ },
+ {
+  "question_id": 300,
+  "answer": "select m.c0006||' '||m.c0001 as name from t0000 m join t0005 a on a.c0001=m.c0002 group by m.c0002 having count(*)>7",
+  "attempts": 2
+ },
+ {
+  "question_id": 302,
+  "answer": "with e as (select c0003 id from t0006 where substr(c0002,1,10) between '2019-09-01' and '2019-11-30'), cnt as (select e.id, (select count(*) from t0005 a where a.c0000=e.id) n from e), w as (select count(*) n from t0005 a join t0006 v on v.c0003=a.c0000 where v.c0006='Women''s Soccer'), av as (select round(avg(n),1) a from cnt) select w.n as women_soccer_attendance, av.a as avg_fall_2019, case when w.n>av.a then 'more' when w.n<av.a then 'fewer' else 'equal' end as verdict from w, av",
+  "attempts": 2
+ },
+ {
+  "question_id": 303,
+  "answer": "select d.c0000 as department, (select group_concat(c0002, ', ') from (select distinct x.c0002 from t0007 x where x.c0000=d.c0000 order by x.c0002)) as majors_offered, (select group_concat(c0002, ', ') from (select distinct x.c0002 from t0007 x join t0000 m on m.c0003=x.c0001 where x.c0000=d.c0000 order by x.c0002)) as majors_held, round(1.0*(select count(*) from t0000 m join t0007 x on m.c0003=x.c0001 where x.c0000=d.c0000)/count(distinct d.c0001),2) as avg_members_per_major from t0007 d where d.c0000 in (select c0000 from t0007 where c0003='College of Humanities and Social Sciences') group by d.c0000 order by d.c0000",
+  "attempts": 2
+ },
+ {
+  "question_id": 305,
+  "answer": "select d.c0000 as department, coalesce(sum(i.c0001),0) as total_dues from (select distinct c0000 from t0007 where c0003=(select c0003 from t0007 where c0000='Electrical and Computer Engineering Department' limit 1)) d left join t0007 mj on mj.c0000=d.c0000 left join t0000 m on m.c0003=mj.c0001 and m.c0002 in (select c0001 from t0005) left join t0004 i on i.c0000=m.c0002 and i.c0002='Dues' group by d.c0000 order by d.c0000",
+  "attempts": 2
+ },
+ {
+  "question_id": 307,
+  "answer": "select sum(i.c0001) as total_dues from t0004 i where i.c0002='Dues' and i.c0000 in (select c0001 from t0005 where c0000 in (select c0003 from t0006 where c0006='Football game'))",
+  "attempts": 1
+ },
+ {
+  "question_id": 310,
+  "answer": "select v.c0006 as event_name, v.c0004 as location, count(a.c0001) as members_attended from t0006 v left join t0005 a on a.c0000=v.c0003 where v.c0006 like '%Budget Review%' group by v.c0003",
+  "attempts": 1
+ },
+ {
+  "question_id": 322,
+  "answer": "select sum(b.c0003) from t0003 b where b.c0001 in (select b2.c0001 from t0003 b2 join t0002 x on x.c0004=b2.c0000 join t0006 e on e.c0003=b2.c0001 where x.c0000 like '%izza%' and substr(e.c0002,1,10) between '2019-09-01' and '2019-09-30')",
+  "attempts": 3
+ }
+]

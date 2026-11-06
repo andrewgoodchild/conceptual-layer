@@ -1,0 +1,47 @@
+[
+ {
+  "question_id": 201,
+  "answer": "select 100.0*(sum(case when substr(l.c0001,1,4)='1997' then l.c0006 end)-sum(case when substr(l.c0001,1,4)='1996' then l.c0006 end))/sum(case when substr(l.c0001,1,4)='1996' then l.c0006 end) as growth_pct from t0002 l where substr(l.c0001,1,4) in ('1996','1997') and exists (select 1 from t0005 d join t0001 c on c.c0003=d.c0002 where d.c0000=l.c0000 and d.c0003='OWNER' and c.c0002='M')",
+  "attempts": 2
+ },
+ {
+  "question_id": 210,
+  "answer": "select round(1.0*(select count(*) from t0002 l where l.c0000 in (select a.c0000 from t0006 a join t0005 d on d.c0000=a.c0000 and d.c0003='OWNER' join t0001 c on c.c0003=d.c0002 where c.c0000<'1950-01-01'))/(select count(*) from t0006 a join t0005 d on d.c0000=a.c0000 and d.c0003='OWNER' join t0001 c on c.c0003=d.c0002 where c.c0000<'1950-01-01'),2)",
+  "attempts": 2
+ },
+ {
+  "question_id": 217,
+  "answer": "with top3 as (select c0005 name, c0012 cr from t0003 where c0011='central Bohemia' order by cast(c0015 as integer) desc, c0005 limit 3), o as (select avg(c0012) oa from t0003), t as (select avg(cr) ta from top3) select name, cr as crimes_1996, round(ta,2) top3_avg, round(oa,2) overall_avg, round(ta-oa,2) diff from top3, o, t order by cr desc",
+  "attempts": 2
+ },
+ {
+  "question_id": 218,
+  "answer": "select x.ty card_type, d.c0005 district, d.c0015 inhabitants from (select distinct k.c0001 ty, d.c0008 id from t0007 k join t0005 s on s.c0001=k.c0003 join t0001 c on c.c0003=s.c0002 join t0003 d on d.c0008=c.c0001) x join t0003 d on d.c0008=x.id where cast(d.c0015 as integer)=(select min(cast(d2.c0015 as integer)) from t0007 k2 join t0005 s2 on s2.c0001=k2.c0003 join t0001 c2 on c2.c0003=s2.c0002 join t0003 d2 on d2.c0008=c2.c0001 where k2.c0001=x.ty) order by x.ty, d.c0005",
+  "attempts": 2
+ },
+ {
+  "question_id": 219,
+  "answer": "with acc as (\n select a.c0000 id, d.c0005 dn,\n  (select t.c0000 from t0000 t where t.c0006=a.c0000 and t.c0007<='1996-12-31' order by t.c0007 desc, t.c0002 desc limit 1) bal\n from t0006 a join t0003 d on d.c0008=a.c0001\n where a.c0002>='1996-01-01' and a.c0002<='1996-12-31'\n   and d.c0011=(select c0011 from t0003 where c0005 like 'Litom%' limit 1)\n), g as (select dn, count(*) n, avg(bal) ab from acc group by dn)\nselect dn district, n accounts_opened, round(ab,2) avg_balance,\n (select round(avg(bal),2) from acc) region_avg_balance,\n (select dn from g order by ab desc, dn limit 1) top_district\nfrom g order by dn",
+  "attempts": 2
+ },
+ {
+  "question_id": 229,
+  "answer": "select coalesce(sum(case when t.c0001='UROK' then t.c0008 when t.c0001='SANKC. UROK' then -t.c0008 end),0) from t0000 t where t.c0006 in (select c0000 from t0005 where c0002=2823) and t.c0007 between '1998-01-01' and '1998-12-31'",
+  "attempts": 2
+ },
+ {
+  "question_id": 235,
+  "answer": "with oc as (\n select distinct o.c0002 client, o.c0000 acct from t0005 o\n where o.c0003='OWNER' and exists (select 1 from t0005 s join t0007 k on k.c0003=s.c0001 where s.c0002=o.c0002 and k.c0001='classic')\n), cl as (select d.c0008 did, count(distinct oc.client) nc from oc join t0006 a on a.c0000=oc.acct join t0003 d on d.c0008=a.c0001 group by d.c0008),\npay as (select d.c0008 did, count(distinct r.c0002||'/'||r.c0005) na, sum(r.c0001) tot\n from (select distinct acct from oc) x join t0006 a on a.c0000=x.acct join t0003 d on d.c0008=a.c0001 join t0004 r on r.c0000=x.acct group by d.c0008)\nselect d.c0005 district, coalesce(cl.nc,0) clients, coalesce(pay.na,0) external_accounts, coalesce(pay.tot,0) total_amount\nfrom t0003 d left join cl on cl.did=d.c0008 left join pay on pay.did=d.c0008\norder by total_amount desc, d.c0005",
+  "attempts": 2
+ },
+ {
+  "question_id": 237,
+  "answer": "select round(avg(c0014),2) from t0003 where c0008 in (select c0001 from t0001 where c0002='F' and c0000<'1950-01-01')",
+  "attempts": 2
+ },
+ {
+  "question_id": 239,
+  "answer": "select 'young' cohort, round(avg(c0014)) avg_salary from t0003 where c0008 in (select a.c0001 from t0001 c join t0005 s on s.c0002=c.c0003 join t0006 a on a.c0000=s.c0000 where c.c0000>='1980-01-01') union all select 'old', round(avg(c0014)) from t0003 where c0008 in (select a.c0001 from t0001 c join t0005 s on s.c0002=c.c0003 join t0006 a on a.c0000=s.c0000 where c.c0000<'1920-01-01')",
+  "attempts": 2
+ }
+]

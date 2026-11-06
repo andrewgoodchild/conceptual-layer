@@ -1,0 +1,38 @@
+[
+ {
+  "question_id": 121,
+  "answer": "select round(100.0*sum(case when c0017 like '%<r>%' then 1 else 0 end)/count(*),2) from t0003 where c0016=-1",
+  "attempts": 2,
+  "note": "0.0 because Community posts carry no tags"
+ },
+ {
+  "question_id": 125,
+  "answer": "select round(100.0*sum(case when c0014>50 then 1 else 0 end)/count(*),2) from t0003 where c0016=(select c0012 from t0004 order by c0005 desc limit 1)",
+  "attempts": 1,
+  "note": ""
+ },
+ {
+  "question_id": 129,
+  "answer": "select count(*) from (select u.c0012, min(b.c0001) od from t0004 u join t0006 b on b.c0000=u.c0012 and b.c0002='Organizer' where lower(u.c0006) like '%germany%' group by u.c0012) o where (select count(*) from t0006 x where x.c0000=o.c0012 and x.c0001<o.od)>=5",
+  "attempts": 1,
+  "note": ""
+ },
+ {
+  "question_id": 137,
+  "answer": "select c0012,c0004,c0001,c0005 from t0004 where (lower(c0006) like '%california%' or c0006 like '% CA' or c0006 like '%,CA' or c0006 like '% CA,%' or c0006 like '% CA %' or c0006 like '%,CA,%' or c0006='CA') and c0001=(select max(c0001) from t0004 where (lower(c0006) like '%california%' or c0006 like '% CA' or c0006 like '%,CA' or c0006 like '% CA,%' or c0006 like '% CA %' or c0006 like '%,CA,%' or c0006='CA'))",
+  "attempts": 3,
+  "note": "first pattern matched Canada; fixed"
+ },
+ {
+  "question_id": 139,
+  "answer": "select count(distinct u.c0012) from t0004 u join t0006 b on b.c0000=u.c0012 where b.c0002='Yearling' and b.c0001<'2014-01-01' and lower(u.c0006) like '%india%' and lower(u.c0006) not like '%indian%' and u.c0006 not like '%text%'",
+  "attempts": 1,
+  "note": ""
+ },
+ {
+  "question_id": 143,
+  "answer": "select count(distinct coalesce(p.c0016, p.c0015)) from t0000 v join t0003 p on p.c0020=v.c0003 where v.c0000>=30 and v.c0001>='2010-01-01' and v.c0001<'2011-01-01'",
+  "attempts": 1,
+  "note": ""
+ }
+]

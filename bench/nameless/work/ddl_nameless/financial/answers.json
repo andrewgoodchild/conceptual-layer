@@ -1,0 +1,51 @@
+[
+ {
+  "question_id": 201,
+  "answer": "select 100.0*(sum(case when substr(l.c0001,1,4)='1997' then l.c0006 end)-sum(case when substr(l.c0001,1,4)='1996' then l.c0006 end))/sum(case when substr(l.c0001,1,4)='1996' then l.c0006 end) as growth_pct\nfrom t0002 l join t0005 d on d.c0000=l.c0000 and d.c0003='OWNER' join t0001 c on c.c0003=d.c0002 and c.c0002='M' where substr(l.c0001,1,4) in ('1996','1997')",
+  "attempts": 2
+ },
+ {
+  "question_id": 210,
+  "answer": "select round(1.0*(select count(*) from t0002 l where l.c0000 in (select d.c0000 from t0005 d join t0001 c on c.c0003=d.c0002 where d.c0003='OWNER' and c.c0000<'1950-01-01'))/(select count(*) from t0005 d join t0001 c on c.c0003=d.c0002 where d.c0003='OWNER' and c.c0000<'1950-01-01'),2) as avg_loans",
+  "attempts": 2
+ },
+ {
+  "question_id": 217,
+  "answer": "with top as (select c0005 n,c0012 cr,cast(c0015 as int) inh from t0003 where c0011='central Bohemia' order by cast(c0015 as int) desc, c0005 limit 3)\nselect n as district_name, cr as crimes_1996, round((select avg(cr) from top),2) as three_district_avg, round((select avg(c0012) from t0003),2) as overall_avg, round((select avg(cr) from top)-(select avg(c0012) from t0003),2) as diff from top order by inh desc, n",
+  "attempts": 1,
+  "note": "one row per district, averages repeated"
+ },
+ {
+  "question_id": 218,
+  "answer": "with h as (select distinct k.c0001 ct, dd.c0005 dn, cast(dd.c0015 as int) inh from t0007 k join t0005 d on d.c0001=k.c0003 join t0001 c on c.c0003=d.c0002 join t0003 dd on dd.c0008=c.c0001)\nselect ct as card_type, dn as district_name, inh as inhabitants from h where inh=(select min(inh) from h h2 where h2.ct=h.ct) order by ct, dn",
+  "attempts": 2
+ },
+ {
+  "question_id": 219,
+  "answer": "with ac as (select a.c0000 aid, dd.c0005 dn from t0006 a join t0003 dd on dd.c0008=a.c0001 where dd.c0011=(select c0011 from t0003 where c0005='Litomerice') and a.c0002 between '1996-01-01' and '1996-12-31'),\neb as (select ac.aid, ac.dn, (select t.c0000 from t0000 t where t.c0006=ac.aid and t.c0007<='1996-12-31' order by t.c0007 desc, t.c0002 desc limit 1) bal from ac),\npd as (select dn, count(*) n, round(avg(bal),2) av, avg(bal) rawav from eb group by dn)\nselect dn as district_name, n as accounts_opened_1996, av as avg_end_1996_balance,\n (select round(avg(bal),2) from eb) as region_avg_end_1996_balance,\n (select dn from pd order by rawav desc, dn limit 1) as top_district from pd order by dn",
+  "attempts": 1,
+  "note": "region avg and top district repeated on each row"
+ },
+ {
+  "question_id": 229,
+  "answer": "select sum(case when c0001='UROK' then c0008 when c0001='SANKC. UROK' then -c0008 else 0 end) as net_interest from t0000 where c0006 in (select c0000 from t0005 where c0002=2823) and c0007 between '1998-01-01' and '1998-12-31'",
+  "attempts": 2
+ },
+ {
+  "question_id": 235,
+  "answer": "with q as (select distinct o.c0000 aid, o.c0002 cid from t0005 o where o.c0003='OWNER' and o.c0002 in (select d.c0002 from t0007 k join t0005 d on d.c0001=k.c0003 where k.c0001='classic')),\nqa as (select q.aid, q.cid, a.c0001 did from q join t0006 a on a.c0000=q.aid),\ncl as (select did, count(distinct cid) n from qa group by did),\nod as (select qa.did, count(distinct o.c0002||'|'||o.c0005) ext, sum(o.c0001) tot from qa join t0004 o on o.c0000=qa.aid group by qa.did)\nselect dd.c0005 as district_name, coalesce(cl.n,0) as clients, coalesce(od.ext,0) as external_accounts, coalesce(od.tot,0) as total_amount\nfrom t0003 dd left join cl on cl.did=dd.c0008 left join od on od.did=dd.c0008 order by total_amount desc, district_name",
+  "attempts": 1
+ },
+ {
+  "question_id": 237,
+  "answer": "select round(avg(c0014),2) as avg_salary from t0003 where c0008 in (select distinct c.c0001 from t0001 c where c.c0002='F' and c.c0000<'1950-01-01')",
+  "attempts": 1,
+  "note": "distinct districts"
+ },
+ {
+  "question_id": 239,
+  "answer": "with x as (select distinct case when c.c0000>='1980-01-01' then 'young' when c.c0000<='1919-12-31' then 'old' end cohort, a.c0001 did from t0001 c join t0005 d on d.c0002=c.c0003 join t0006 a on a.c0000=d.c0000)\nselect cohort, cast(round(avg(dd.c0014)) as int) as avg_salary from x join t0003 dd on dd.c0008=x.did where cohort is not null group by cohort order by cohort desc",
+  "attempts": 1,
+  "note": "distinct districts"
+ }
+]

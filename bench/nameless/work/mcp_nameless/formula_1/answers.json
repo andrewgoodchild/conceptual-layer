@@ -1,0 +1,61 @@
+[
+ {
+  "question_id": 242,
+  "answer": "select d.c0003 forename, d.c0006 surname, d.c0004 nationality, (select max(s.c0004) from t0006 s where s.c0000=d.c0000) maxpts \nfrom (select c0014 did, count(*) n from t0010 where c0011=1 group by c0014 order by n desc limit 1) w join t0003 d on d.c0000=w.did",
+  "attempts": 1,
+  "note": "maxpts = max driver standings points"
+ },
+ {
+  "question_id": 244,
+  "answer": "with w as (select distinct c0000, c0002 from t0010 where c0011=1)\nselect round(100.0*sum(case when exists(select 1 from w where w.c0000=r.c0000 and w.c0002=r.c0002) then 1 else 0 end)/count(*),2) pct\nfrom t0010 r join t0003 d on d.c0000=r.c0014 join t0002 ra on ra.c0006=r.c0000\nwhere d.c0004='Japanese' and ra.c0002 between 2007 and 2009",
+  "attempts": 2
+ },
+ {
+  "question_id": 247,
+  "answer": "select sum(r.c0003) pts, c.c0003 name, c.c0001 nat from t0010 r join t0002 ra on ra.c0006=r.c0000 join t0011 c on c.c0000=r.c0013\nwhere ra.c0001='Monaco Grand Prix' and ra.c0002 between 1980 and 2010 group by c.c0000 order by pts desc limit 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 251,
+  "answer": "select round(avg(n),2) from (select ra.c0006, (select count(*) from t0001 p where p.c0003=ra.c0006) n\nfrom t0002 ra where ra.c0002=2017 and ra.c0001 not in (select c0001 from t0002 where c0002=2000))",
+  "attempts": 1,
+  "note": "zero pit stops counted for the 2 races with no pit data (7 races)"
+ },
+ {
+  "question_id": 252,
+  "answer": "select d.c0003, d.c0006, d.c0005, d.c0001 dob, (select count(*) from t0004 q where q.c0007=d.c0000 and q.c0001 is not null and q.c0001<>'') q3_count\nfrom t0003 d where d.c0004='German' and d.c0001 between '1971-01-01' and '1985-12-31' order by q3_count desc, d.c0001",
+  "attempts": 1,
+  "note": "drivers with no Q3 included with 0"
+ },
+ {
+  "question_id": 255,
+  "answer": "with t as (select q.c0007 did, q.c0006 q1, cast(substr(q.c0006,1,instr(q.c0006,':')-1) as integer)*60.0+cast(substr(q.c0006,instr(q.c0006,':')+1) as real) s\n from t0004 q where q.c0005=255 and q.c0006<>'' and q.c0006 is not null)\nselect d.c0003 forename, d.c0006 surname, t.q1 from t join t0003 d on d.c0000=t.did where t.s=(select min(s) from t)",
+  "attempts": 2
+ },
+ {
+  "question_id": 258,
+  "answer": "select d.c0003 forename, count(distinct d.c0000) n\nfrom t0010 r join t0002 ra on ra.c0006=r.c0000 join t0003 d on d.c0000=r.c0014\nwhere ra.c0001='Italian Grand Prix' and r.c0011=2 group by d.c0003 having count(distinct d.c0000)>=2 order by n desc, forename",
+  "attempts": 2
+ },
+ {
+  "question_id": 264,
+  "answer": "select round(1.0*sum(n)/count(*),2) from (select d.c0000, (select count(*) from t0004 q where q.c0007=d.c0000 and q.c0001<>'' and q.c0001 is not null) n from t0003 d where d.c0001 between '1981-01-01' and '1991-12-31')",
+  "attempts": 1
+ },
+ {
+  "question_id": 267,
+  "answer": "with fl as (select c0000 rid, c0003 did, min(c0005) ms from t0007 group by 1,2 having min(c0005)>90000)\nselect ra.c0007 date, d.c0003 forename, d.c0006 surname,\n  case when fl.ms is null then null else (fl.ms/60000)||':'||substr('0'||(fl.ms%60000/1000),-2)||'.'||substr('00'||(fl.ms%1000),-3) end fastest_lap\nfrom t0002 ra left join fl on fl.rid=ra.c0006 left join t0003 d on d.c0000=fl.did\nwhere ra.c0001='French Grand Prix' and ra.c0002>=1990\norder by ra.c0007, d.c0006, d.c0003",
+  "attempts": 3,
+  "note": "fastest lap per driver from lap-times table min, since race results lack fastest-lap times before 2004"
+ },
+ {
+  "question_id": 279,
+  "answer": "with wd as (select d.* from t0003 d where d.c0000 in (select c0014 from t0010 where c0011=1)\n  order by d.c0001, d.c0003||' '||d.c0006 limit 1)\nselect wd.c0003||' '||wd.c0006 full_name, wd.c0004 nationality,\n (select ra.c0001 from t0010 r join t0002 ra on ra.c0006=r.c0000 where r.c0014=wd.c0000 and r.c0011=1 order by ra.c0007, ra.c0001 limit 1) first_win_race,\n (select ra.c0007 from t0010 r join t0002 ra on ra.c0006=r.c0000 where r.c0014=wd.c0000 and r.c0011=1 order by ra.c0007, ra.c0001 limit 1) first_win_date,\n (select count(distinct r.c0000) from t0010 r where r.c0014=wd.c0000) races\nfrom wd",
+  "attempts": 2
+ },
+ {
+  "question_id": 282,
+  "answer": "with t as (select q.c0007 did, q.c0005 rid, q.c0003 q2,\n cast(substr(q.c0003,1,instr(q.c0003,':')-1) as integer)*60.0+cast(substr(q.c0003,instr(q.c0003,':')+1) as real) s\n from t0004 q join t0002 ra on ra.c0006=q.c0005 where ra.c0002=2017 and q.c0003<>'' and q.c0003 is not null and instr(q.c0003,':')>0)\nselect d.c0006 surname, ra.c0001 race, t.q2 from t join t0003 d on d.c0000=t.did join t0002 ra on ra.c0006=t.rid where t.s=(select min(s) from t)",
+  "attempts": 1
+ }
+]

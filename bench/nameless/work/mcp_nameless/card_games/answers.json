@@ -1,0 +1,78 @@
+[
+ {
+  "question_id": 53,
+  "answer": "SELECT ROUND(100.0*SUM(EXISTS(SELECT 1 FROM t0002 f WHERE f.c0004=t0004.c0060 AND f.c0003='French'))/COUNT(*),2) FROM t0004 WHERE c0007=1",
+  "attempts": 3,
+  "note": "c0007 inferred as Story Spotlight flag"
+ },
+ {
+  "question_id": 54,
+  "answer": "SELECT c0044 FROM t0004 WHERE c0030='a'",
+  "attempts": 2
+ },
+ {
+  "question_id": 60,
+  "answer": "SELECT ROUND(100.0*SUM(c0067 IS NOT NULL AND c0018 IS NOT NULL)/COUNT(*),2) FROM t0004 WHERE c0015='CSP'",
+  "attempts": 3
+ },
+ {
+  "question_id": 62,
+  "answer": "SELECT COUNT(DISTINCT c0021) FROM t0004 WHERE c0034 LIKE '%Creature%' AND c0047 LIKE '%''brawl'': True%' AND c0021 IN (SELECT c0021 FROM t0004 WHERE c0016=1)",
+  "attempts": 3,
+  "note": "card-level reading (any printing promo, any printing flagged brawl commander); same-row reading gives 7"
+ },
+ {
+  "question_id": 63,
+  "answer": "SELECT MAX(CAST(c0011 AS INTEGER))-MIN(CAST(c0011 AS INTEGER)) FROM t0004 WHERE c0021='Tarmogoyf' AND c0011 GLOB '[0-9]*'",
+  "attempts": 2,
+  "note": "'future' frame excluded as non-year"
+ },
+ {
+  "question_id": 69,
+  "answer": "SELECT c0011, COUNT(*) FROM t0004 WHERE c0011='2015' GROUP BY c0011",
+  "attempts": 2,
+  "note": "newest numeric frame among cmc 0 cards is 2015; 'future' is not a year"
+ },
+ {
+  "question_id": 73,
+  "answer": "with t as ( select * from (select s.c0018 code, s.c0015 name from t0001 s where s.c0018 in (select c0015 from t0004 where c0021='Abyssal Horror') order by s.c0001, s.c0018 limit 1) union all select * from (select s.c0018, s.c0015 from t0001 s order by s.c0001 desc, s.c0018 limit 1)) select t.name, round(100.0*sum(c.c0046 is not null and c.c0046<>'' and c.c0031<=3)/count(*),2) pct from t left join t0004 c on c.c0015=t.code group by t.code, t.name",
+  "attempts": 3
+ },
+ {
+  "question_id": 77,
+  "answer": "SELECT DISTINCT c0021 FROM t0004 WHERE c0015='DKA' AND ','||c0050||',' LIKE '%,Flash,%' AND c0031=(SELECT MAX(c0031) FROM t0004 WHERE c0015='DKA' AND ','||c0050||',' LIKE '%,Flash,%') ORDER BY c0021",
+  "attempts": 2
+ },
+ {
+  "question_id": 78,
+  "answer": "SELECT s.c0015, s.c0019, (SELECT COUNT(DISTINCT t.c0003) FROM t0003 t WHERE t.c0000=s.c0018 AND t.c0001 IS NOT NULL AND t.c0001<>'') FROM t0001 s WHERE s.c0001>='2020-01-01' AND s.c0001<='2020-12-31'",
+  "attempts": 3,
+  "note": "most sets have no non-null translation rows so show 0"
+ },
+ {
+  "question_id": 79,
+  "answer": "select count(*) from t0004 c where c.c0015 in ( select s.c0018 from t0001 s where s.c0001>='2017-01-01' and s.c0001<='2017-12-31' and (s.c0018 in (select t.c0000 from t0003 t where t.c0001 is not null and t.c0001<>'') or s.c0003 in (select t.c0000 from t0003 t where t.c0001 is not null and t.c0001<>'')))",
+  "attempts": 3,
+  "note": "qualifying sets AER, AKH, C17 plus child sets via parent code"
+ },
+ {
+  "question_id": 83,
+  "answer": "SELECT s.c0004, COUNT(DISTINCT CASE WHEN EXISTS(SELECT 1 FROM t0003 t WHERE t.c0000=s.c0018 AND t.c0003='Japanese' AND t.c0001 IS NOT NULL AND t.c0001<>'') THEN s.c0018 END) FROM t0001 s GROUP BY s.c0004 ORDER BY s.c0004",
+  "attempts": 2
+ },
+ {
+  "question_id": 85,
+  "answer": "SELECT COUNT(*) FROM t0004 WHERE c0015=(SELECT s.c0018 FROM t0001 s WHERE s.c0018 IN (SELECT c0015 FROM t0004 WHERE c0021='Ancestor''s Chosen') ORDER BY s.c0001 DESC LIMIT 1) AND c0034 LIKE '%Creature%' AND c0008 GLOB '[0-9]*' AND c0043 GLOB '[0-9]*' AND CAST(c0008 AS INTEGER)>CAST(c0043 AS INTEGER)",
+  "attempts": 2
+ },
+ {
+  "question_id": 98,
+  "answer": "SELECT DISTINCT c0021 FROM t0004 WHERE c0016=1 AND c0021 LIKE '%//%' AND c0000 LIKE '2019/%'",
+  "attempts": 2
+ },
+ {
+  "question_id": 104,
+  "answer": "SELECT SUM(c0031) FROM t0004 WHERE c0020='Rob Alexander' AND c0000 LIKE '2013/%'",
+  "attempts": 1
+ }
+]

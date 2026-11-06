@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 333,
+  "answer": "SELECT DISTINCT s.superhero_name FROM superhero s JOIN publisher p ON p.id=s.publisher_id JOIN hero_power hp ON hp.hero_id=s.id JOIN superpower sp ON sp.id=hp.power_id WHERE p.publisher_name='Marvel Comics' AND sp.power_name='Super Strength'",
+  "attempts": 1
+ },
+ {
+  "question_id": 337,
+  "answer": "SELECT ROUND(100.0*SUM(CASE WHEN p.publisher_name='Marvel Comics' THEN 1 ELSE 0 END)/COUNT(*),2) FROM superhero s LEFT JOIN publisher p ON p.id=s.publisher_id WHERE s.height_cm BETWEEN 150 AND 180",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": "SELECT COUNT(*) FROM superhero WHERE alignment_id IS NULL OR alignment_id NOT IN (1,2)",
+  "attempts": 1
+ },
+ {
+  "question_id": 347,
+  "answer": "WITH c AS (SELECT sp.power_name, COUNT(DISTINCT s.id) n FROM superhero s JOIN hero_power hp ON hp.hero_id=s.id JOIN superpower sp ON sp.id=hp.power_id WHERE s.publisher_id=13 AND s.full_name IS NOT NULL AND s.full_name<>'-' GROUP BY sp.id) SELECT power_name, n FROM c WHERE n=(SELECT MAX(n) FROM c)",
+  "attempts": 1
+ },
+ {
+  "question_id": 355,
+  "answer": "SELECT ROUND(AVG(weight_kg)) FROM superhero WHERE publisher_id=4 AND weight_kg>0 AND eye_colour_id IN (SELECT eye_colour_id FROM superhero WHERE publisher_id=13)",
+  "attempts": 1
+ },
+ {
+  "question_id": 357,
+  "answer": "SELECT ROUND(AVG(weight_kg),2) FROM superhero WHERE weight_kg>0 AND race_id IN (SELECT r.id FROM race r WHERE r.race<>'-' AND r.id IN (SELECT race_id FROM superhero) AND r.id NOT IN (SELECT race_id FROM superhero WHERE gender_id=2 AND race_id IS NOT NULL))",
+  "attempts": 1
+ },
+ {
+  "question_id": 365,
+  "answer": "SELECT ROUND(1.0*SUM(CASE WHEN gender_id=1 THEN n END)/SUM(gender_id=1),2) AS male_avg, ROUND(1.0*SUM(CASE WHEN gender_id=2 THEN n END)/SUM(gender_id=2),2) AS female_avg FROM (SELECT s.id, s.gender_id, (SELECT COUNT(*) FROM hero_power hp WHERE hp.hero_id=s.id) n FROM superhero s WHERE s.full_name IS NOT NULL AND s.full_name<>'-' AND s.gender_id IN (1,2))",
+  "attempts": 1
+ },
+ {
+  "question_id": 367,
+  "answer": "SELECT ROUND(AVG(CASE WHEN height_cm>0 THEN height_cm END),1), ROUND(AVG(CASE WHEN weight_kg>0 THEN weight_kg END),1) FROM superhero WHERE publisher_id=5",
+  "attempts": 1
+ },
+ {
+  "question_id": 372,
+  "answer": "SELECT COUNT(DISTINCT hp.power_id) FROM superhero s JOIN hero_power hp ON hp.hero_id=s.id WHERE s.gender_id=1 AND s.weight_kg>0 AND s.weight_kg<70",
+  "attempts": 1
+ },
+ {
+  "question_id": 379,
+  "answer": "SELECT ROUND(100.0*COUNT(DISTINCT CASE WHEN alignment_id=1 THEN s.id END)/COUNT(DISTINCT s.id),2) FROM superhero s JOIN hero_power hp ON hp.hero_id=s.id WHERE s.publisher_id=13",
+  "attempts": 1
+ }
+]
