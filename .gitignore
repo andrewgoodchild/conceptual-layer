@@ -129,3 +129,12 @@ bench/ablation/work/bar
 bench/ablation/work/bar-source
 bench/ablation/work/bar-blind
 bench/ablation/work/unseen
+
+# The undocumented-database round: BIRD's rows in two copies and the models built from them,
+# rebuilt by bench/nameless/build.py (data/ may be a symlink, hence no trailing slash), and the
+# writers' directories, of which only what they wrote is tracked.
+bench/nameless/data
+bench/nameless/work/mcp-*.json
+bench/nameless/work/*/*/*
+!bench/nameless/work/*/*/answers.json
+bench/nameless/results.json

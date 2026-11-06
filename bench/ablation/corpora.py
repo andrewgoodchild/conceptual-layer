@@ -12,6 +12,7 @@ from TPC's EGen, under a licence a person has to accept.
     corpora.py adventureworks SOURCE_DIR OUT.sqlite
     corpora.py musicbrainz SOURCE_DIR OUT.sqlite
     corpora.py destroy IN.sqlite OUT.sqlite        every table and column renamed, in a shuffle
+    corpora.py strip IN.sqlite OUT.sqlite          every foreign key dropped, all else kept
 """
 import csv
 import os
@@ -187,7 +188,9 @@ def destroy(source, out):
     kept. Everything name evidence could read is gone, so what is recovered is the data's."""
     s = sqlite3.connect(source)
     rng = random.Random(20261101)
-    names = [r[0] for r in s.execute("SELECT name FROM sqlite_master WHERE type='table'")]
+    # SQLite's own tables are left behind: `sqlite_sequence` holds the old table names.
+    names = [r[0] for r in s.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND substr(name, 1, 7) != 'sqlite_'")]
     rng.shuffle(names)
     table = {t: "t%04d" % i for i, t in enumerate(names)}
     folded = {t.casefold(): t for t in names}
@@ -220,6 +223,30 @@ def destroy(source, out):
     c.close()
 
 
+def strip(source, out, seed=None):
+    """The same tables, names, rows and primary keys, with no foreign key declared: what an
+    undocumented database looks like to whoever has to query it. With a seed each table's
+    columns are put in a shuffled order, so a remembered schema cannot be read off position."""
+    s = sqlite3.connect(source)
+    rng = random.Random(seed) if seed is not None else None
+    names = [r[0] for r in s.execute(
+        "SELECT name FROM sqlite_master WHERE type='table' AND substr(name, 1, 7) != 'sqlite_'")]
+    tables, primary = {}, {}
+    for t in names:
+        info = s.execute('PRAGMA table_info("%s")' % t).fetchall()
+        tables[t] = [(col[1], col[2]) for col in info]
+        if rng:
+            rng.shuffle(tables[t])
+        primary[t] = [col[1] for col in sorted((col for col in info if col[5]), key=lambda col: col[5])]
+    c = build(out, tables, primary, [])
+    c.execute("ATTACH ? AS src", (source,))
+    for t in names:
+        c.execute('INSERT INTO "%s" SELECT %s FROM src."%s"' % (
+            t, ", ".join('"%s"' % col for col, _ in tables[t]), t))
+    c.commit()
+    c.close()
+
+
 if __name__ == "__main__":
     {"adventureworks": adventureworks, "musicbrainz": musicbrainz,
-     "destroy": destroy}[sys.argv[1]](*sys.argv[2:])
+     "destroy": destroy, "strip": strip}[sys.argv[1]](*sys.argv[2:])
