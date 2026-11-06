@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 333,
+  "answer": "select h.c0000 from t0007 h join t0008 hp on hp.c0000=h.c0010 join t0000 p on p.c0000=hp.c0001 where h.c0005=13 and p.c0001='Super Strength'",
+  "attempts": 1
+ },
+ {
+  "question_id": 337,
+  "answer": "select round(100.0*sum(c0005=13)/count(*),2) from t0007 where c0008 between 150 and 180",
+  "attempts": 2
+ },
+ {
+  "question_id": 346,
+  "answer": "select count(*) from t0007 where c0006 not in (1,2)",
+  "attempts": 2
+ },
+ {
+  "question_id": 347,
+  "answer": "with t as (select p.c0001 as power, count(*) n from t0007 h join t0008 hp on hp.c0000=h.c0010 join t0000 p on p.c0000=hp.c0001 where h.c0005=13 and h.c0001 is not null and h.c0001<>'-' and h.c0001<>'' group by p.c0000) select power, n from t where n=(select max(n) from t)",
+  "attempts": 2
+ },
+ {
+  "question_id": 355,
+  "answer": "select round(avg(c0003)) from t0007 where c0005=4 and c0003>0 and c0002 in (select c0002 from t0007 where c0005=13)",
+  "attempts": 2
+ },
+ {
+  "question_id": 357,
+  "answer": "select round(avg(c0003),2) from t0007 where c0003>0 and c0007 not in (select c0007 from t0007 where c0011=2 and c0007 is not null)",
+  "attempts": 2
+ },
+ {
+  "question_id": 365,
+  "answer": "select round(1.0*(select count(*) from t0008 hp join t0007 x on x.c0010=hp.c0000 where x.c0011=h.c0011 and x.c0001 is not null and x.c0001<>'-' and x.c0001<>'')/count(*),2) as avg_powers from t0007 h where c0011 in (1,2) and h.c0001 is not null and h.c0001<>'-' and h.c0001<>'' group by c0011 order by c0011",
+  "attempts": 2
+ },
+ {
+  "question_id": 367,
+  "answer": "select round(avg(case when c0008>0 then c0008 end),1), round(avg(case when c0003>0 then c0003 end),1) from t0007 where c0005=5",
+  "attempts": 2
+ },
+ {
+  "question_id": 372,
+  "answer": "select count(distinct hp.c0001) from t0007 h join t0008 hp on hp.c0000=h.c0010 where h.c0011=1 and h.c0003>0 and h.c0003<70",
+  "attempts": 2
+ },
+ {
+  "question_id": 379,
+  "answer": "select round(100.0*sum(c0006=1)/count(*),2) from t0007 where c0005=13 and c0010 in (select c0000 from t0008)",
+  "attempts": 2
+ }
+]

@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 121,
+  "answer": "SELECT ROUND(100.0*SUM(CASE WHEN Tags LIKE '%<r>%' THEN 1 ELSE 0 END)/COUNT(*),2) FROM posts WHERE OwnerUserId=(SELECT Id FROM users WHERE DisplayName='Community')",
+  "attempts": 1
+ },
+ {
+  "question_id": 125,
+  "answer": "SELECT ROUND(100.0*SUM(CASE WHEN Score>50 THEN 1 ELSE 0 END)/COUNT(*),2) FROM posts WHERE OwnerUserId=(SELECT Id FROM users ORDER BY Reputation DESC LIMIT 1)",
+  "attempts": 1
+ },
+ {
+  "question_id": 129,
+  "answer": "SELECT COUNT(*) FROM (SELECT u.Id, MIN(o.Date) od FROM users u JOIN badges o ON o.UserId=u.Id AND o.Name='Organizer' WHERE u.Location LIKE '%Germany%' GROUP BY u.Id) x WHERE (SELECT COUNT(*) FROM badges b WHERE b.UserId=x.Id AND b.Date<x.od)>=5",
+  "attempts": 1
+ },
+ {
+  "question_id": 137,
+  "answer": "SELECT Id,DisplayName,Views,Reputation FROM users WHERE (Location LIKE '%California%' OR Location LIKE '%, CA' OR Location LIKE '%, CA,%' OR Location LIKE '%, CA %') AND Views=(SELECT MAX(Views) FROM users WHERE (Location LIKE '%California%' OR Location LIKE '%, CA' OR Location LIKE '%, CA,%' OR Location LIKE '%, CA %'))",
+  "attempts": 1
+ },
+ {
+  "question_id": 139,
+  "answer": "SELECT COUNT(DISTINCT u.Id) FROM users u JOIN badges b ON b.UserId=u.Id WHERE b.Name='Yearling' AND b.Date<'2014-01-01' AND u.Location LIKE '%India%' AND u.Location NOT LIKE '%Indiana%'",
+  "attempts": 1
+ },
+ {
+  "question_id": 143,
+  "answer": "SELECT COUNT(DISTINCT COALESCE(CAST(p.OwnerUserId AS TEXT),p.OwnerDisplayName)) FROM votes v JOIN posts p ON p.Id=v.PostId WHERE v.BountyAmount>=30 AND v.CreationDate>='2010-01-01' AND v.CreationDate<'2011-01-01' AND COALESCE(CAST(p.OwnerUserId AS TEXT),p.OwnerDisplayName) IS NOT NULL",
+  "attempts": 1
+ }
+]

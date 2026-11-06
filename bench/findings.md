@@ -6249,3 +6249,56 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      judge's "no". The candidates carry five values a side, which is a change in what leaves the
      machine if the judge is remote, so the flag's help says so. `build_model` passes flags
      through, and the MCP server does nothing more with them yet.
+
+185. **With every name, key and line of evidence gone, the description still did not beat the
+     DDL: 78 against 75, no difference shown, as predicted. What failed was the premise: destroying
+     the names cost the DDL writer 3 points, not the 40 predicted.**
+
+     `bench/nameless/PLAN.md` was committed before any writer ran. BIRD's 11 mini-dev databases in
+     two copies, every foreign key dropped from both, and in one every table and column renamed
+     (`t0003`, `c0012`) and each table's columns shuffled. The first 100 October questions, with
+     no evidence for any arm. 44 fresh blind Sonnet writers, one per (arm, database). 2.07M tokens,
+     about $7.50 on the assumption in `bench/minidev2026/PLAN.md`.
+
+     | Arm, of 100 | Score | Predicted |
+     |---|---|---|
+     | DDL, names kept | 78 | 74, within 64 to 84 |
+     | description, names kept | 84 | DDL -2, within -10 to +5 |
+     | DDL, names destroyed | **75** | **35, within 20 to 50** |
+     | description, names destroyed | 78 | DDL +3, within -5 to +10 |
+
+     **The primary comparison**, the description against the DDL with names destroyed, is +3 (11
+     gained, 8 lost), McNemar p=0.648, database interval -8.1 to +13.7: no difference shown, as
+     predicted. With names kept it is +6 (11, 5), p=0.210, -4.4 to +16.5, also no difference shown,
+     and one point past the predicted range. So the description led on both copies, and neither
+     lead is distinguishable from finding 176's swing of nine points in one draw.
+
+     **The names were worth little.** Without them the DDL writer fell 3 points (10 gained, 13
+     lost, -13.7 to +9.5) and the description's writer 6 (-15.2 to +1.8). The prediction of 35 rested
+     on the idea that a writer could not tell columns apart by their values. It could. Writers
+     read sample rows, matched the values a question names, and told GOT from GPT by how they
+     behave. Where they could not, they said so: which SAT average is reading and which
+     is writing, which of two antibody columns is anti-SM. What names buy is time. Without them a
+     DDL writer took 30.6 writer-minutes against 12.5, and the description's 38.3 against 21.1.
+
+     **The description's references were partly wrong**, since rule 9c with no names is the data
+     alone (finding 180). One writer on a renamed copy reported references that were wrong in places
+     and read the rows instead. The tool's recovery was not scored here.
+
+     **Memory, as far as it can be seen.** BIRD is famous and its questions are recognisable.
+     Shuffling the columns stops a remembered schema being read off position, and 4 of the 200
+     renamed-copy answers name an original identifier their question does not use: three generic
+     (`first_name`, `last_name`, `event_name`) and one, `isStorySpotlight`, that looks remembered.
+     Silent use of a remembered schema cannot be seen this way, so 75 may overstate what an
+     unknown database allows. A schema the writer cannot know would test it.
+
+     **What it means for the advice that prompted it.** It held that a DDL-only writer falls apart
+     without names, and that a method built from rows pulls ahead there. On BIRD, with a writer that
+     can query, neither happened. Removing the evidence cost more than removing the names: 78 here
+     against October's 88 with evidence and declared keys, two changes at once, so not a clean
+     measure.
+
+     **Departures.** None from the plan. Four writers tried `sqlite3` on their copy directly and were
+     refused; 20 of 44 wrote helper scripts or scratch files outside their directory; none reported reading
+     outside it. One writer was stopped after scoring, while a background command of its own was
+     still running; rescoring gave the same results. Per writer in `bench/nameless/ledger.jsonl`.

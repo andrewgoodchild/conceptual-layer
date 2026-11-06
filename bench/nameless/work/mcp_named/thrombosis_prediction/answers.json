@@ -1,0 +1,94 @@
+[
+ {
+  "question_id": 388,
+  "answer": "SELECT COUNT(DISTINCT l.ID) FROM Laboratory l JOIN Patient p ON p.ID = l.ID WHERE l.CRP IN ('+','2+','3+','4+','5+','6+','6+<') AND p.Description IS NULL",
+  "attempts": 3,
+  "note": "positive = '+' family; '+' alone gives 25"
+ },
+ {
+  "question_id": 398,
+  "answer": "SELECT COUNT(*) FROM Patient p WHERE p.Admission = '-' AND EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID = p.ID AND (l.HCT <= 29 OR l.HCT >= 52)) AND EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID = p.ID AND l.RNP IN ('64','256'))",
+  "attempts": 2,
+  "note": "normal HCT taken as 29<HCT<52"
+ },
+ {
+  "question_id": 401,
+  "answer": "SELECT ROUND(AVG(l.TP - 8.5), 3) FROM Laboratory l WHERE l.TP > 8.5 AND l.ID IN (SELECT p.ID FROM Patient p JOIN Examination e ON e.ID = p.ID WHERE p.SEX = 'F' AND e.Diagnosis LIKE '%SLE%')",
+  "attempts": 2
+ },
+ {
+  "question_id": 406,
+  "answer": "SELECT p.SEX, COUNT(DISTINCT CASE WHEN EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID = p.ID AND l.RNP IN ('64','256')) THEN p.ID END) AS n FROM Patient p WHERE p.SEX IN ('F','M') GROUP BY p.SEX",
+  "attempts": 2
+ },
+ {
+  "question_id": 409,
+  "answer": "SELECT COUNT(DISTINCT ID) FROM Examination WHERE Thrombosis > 0 AND \"Examination Date\" >= '1997-01-01' AND \"Examination Date\" <= '1997-12-31'",
+  "attempts": 1
+ },
+ {
+  "question_id": 424,
+  "answer": "SELECT COUNT(DISTINCT p.ID) FROM Patient p JOIN Laboratory l ON l.ID = p.ID WHERE p.SEX = 'F' AND l.DNA IS NOT NULL AND CAST(l.DNA AS REAL) < 8",
+  "attempts": 1
+ },
+ {
+  "question_id": 435,
+  "answer": "SELECT p.ID, p.SEX, l.Date, l.\"U-PRO\" FROM Patient p JOIN Laboratory l ON l.ID = p.ID WHERE l.\"U-PRO\" IS NOT NULL AND l.Date = (SELECT MAX(l2.Date) FROM Laboratory l2 WHERE l2.ID = p.ID AND l2.\"U-PRO\" IS NOT NULL)",
+  "attempts": 2
+ },
+ {
+  "question_id": 438,
+  "answer": "SELECT p.Birthday FROM Patient p JOIN Laboratory l ON l.ID = p.ID WHERE l.GPT < 60 AND p.ID IN (SELECT ID FROM Laboratory WHERE RNP IN ('16','64','256')) GROUP BY p.ID ORDER BY MAX(l.GPT) DESC, p.ID ASC LIMIT 3",
+  "attempts": 2
+ },
+ {
+  "question_id": 440,
+  "answer": "SELECT CAST((julianday(l.Date) - julianday(p.Birthday)) / 365.25 AS INTEGER) AS age, p.Diagnosis FROM Laboratory l JOIN Patient p ON p.ID = l.ID WHERE p.Admission = '+' AND l.DNA IS NOT NULL ORDER BY CAST(l.DNA AS REAL) DESC, l.Date ASC LIMIT 1",
+  "attempts": 2,
+  "note": "age approximated with 365.25-day years"
+ },
+ {
+  "question_id": 446,
+  "answer": "SELECT SUM(CASE WHEN p.SEX = 'F' THEN 1 ELSE -1 END) FROM Patient p JOIN Laboratory l ON l.ID = p.ID WHERE p.SEX IN ('F','M') AND l.Date = (SELECT MAX(l2.Date) FROM Laboratory l2 WHERE l2.ID = p.ID) AND l.RNP IN ('64','256')",
+  "attempts": 2
+ },
+ {
+  "question_id": 451,
+  "answer": "SELECT COUNT(*) FROM Patient WHERE SEX = 'F' AND Admission = '+' AND \"First Date\" >= '1998-01-01' AND \"First Date\" <= '1998-12-31'",
+  "attempts": 2,
+  "note": "Admission '+' only; '+(' (3 more) excluded"
+ },
+ {
+  "question_id": 453,
+  "answer": "SELECT Diagnosis FROM Patient WHERE Admission = '+' AND \"First Date\" >= '1998-02-15' AND \"First Date\" <= '1998-02-28' ORDER BY Birthday ASC, ID ASC LIMIT 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 454,
+  "answer": "SELECT ROUND(AVG(\"aCL IgM\"), 1) FROM Examination WHERE Diagnosis LIKE '%SLE%' AND \"Examination Date\" >= '1993-10-01' AND \"Examination Date\" <= '1993-10-31'",
+  "attempts": 1
+ },
+ {
+  "question_id": 455,
+  "answer": "SELECT COUNT(*) FROM Patient WHERE LOWER(Diagnosis) LIKE '%psoriatic arthritis%'",
+  "attempts": 2
+ },
+ {
+  "question_id": 456,
+  "answer": "SELECT p.SEX, COUNT(*) FROM Patient p WHERE p.SEX IN ('F','M') AND NOT EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID = p.ID AND l.GPT >= 60) GROUP BY p.SEX",
+  "attempts": 2,
+  "note": "ALT=GPT, normal <60"
+ },
+ {
+  "question_id": 462,
+  "answer": "SELECT COUNT(*) FROM Patient p WHERE EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID = p.ID AND l.SM IN ('negative','0')) AND EXISTS (SELECT 1 FROM Examination e WHERE e.ID = p.ID) AND NOT EXISTS (SELECT 1 FROM Examination e WHERE e.ID = p.ID AND e.Thrombosis > 0) AND EXISTS (SELECT 1 FROM Laboratory l WHERE l.ID = p.ID AND l.\"U-PRO\" IN ('30','+1(30)','+2(100)','100','300','>=300','>=1000'))",
+  "attempts": 3,
+  "note": "requires at least one examination; ambiguous whether patients with none count (49 then)"
+ },
+ {
+  "question_id": 465,
+  "answer": "SELECT COUNT(DISTINCT p.ID) FROM Patient p JOIN Laboratory l ON l.ID = p.ID WHERE p.SEX = 'F' AND l.WBC > 3.5 AND l.WBC < 9 AND (l.FG <= 150 OR l.FG >= 450) AND l.RNP IN ('16','64','256')",
+  "attempts": 2,
+  "note": "FG column holds values 24-106, so every non-null FG is abnormal by 150-450"
+ }
+]

@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 2,
+  "answer": "SELECT ROUND(f.\"FRPM Count (K-12)\"/f.\"Enrollment (K-12)\",6) AS rate FROM schools s JOIN frpm f ON f.CDSCode=s.CDSCode WHERE s.SOC='66' ORDER BY f.\"FRPM Count (K-12)\" DESC LIMIT 5",
+  "attempts": 1
+ },
+ {
+  "question_id": 4,
+  "answer": "SELECT s.MailStreet, s.School FROM satscores t JOIN schools s ON s.CDSCode=t.cds WHERE t.rtype='S' AND t.AvgScrMath IS NOT NULL ORDER BY t.AvgScrMath DESC LIMIT 1 OFFSET 6",
+  "attempts": 1
+ },
+ {
+  "question_id": 13,
+  "answer": "SELECT s.City FROM schools s JOIN frpm f ON f.CDSCode=s.CDSCode WHERE s.CDSCode LIKE '%1611920113902' AND f.\"NSLP Provision Status\"='Breakfast Provision 2' AND f.\"County Name\"='Alameda' AND f.\"Low Grade\"='9' AND f.\"High Grade\"='12'",
+  "attempts": 1
+ },
+ {
+  "question_id": 15,
+  "answer": "SELECT s.School, s.Phone FROM schools s JOIN satscores t ON t.cds=s.CDSCode WHERE s.DOC='03' AND t.rtype='S' AND t.NumGE1500=(SELECT MAX(t2.NumGE1500) FROM schools s2 JOIN satscores t2 ON t2.cds=s2.CDSCode WHERE s2.DOC='03' AND t2.rtype='S')",
+  "attempts": 1
+ },
+ {
+  "question_id": 19,
+  "answer": "SELECT g FROM (SELECT f.\"Low Grade\" AS g, CASE f.\"Low Grade\" WHEN 'P' THEN -1 WHEN 'K' THEN 0 WHEN 'Adult' THEN 99 ELSE CAST(f.\"Low Grade\" AS INTEGER) END AS r FROM schools s JOIN frpm f ON f.CDSCode=s.CDSCode WHERE s.NCESDist='0632640' AND f.\"Low Grade\" IS NOT NULL) ORDER BY r LIMIT 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 24,
+  "answer": "SELECT COALESCE(f.\"School Type\",s.SOCType) AS school_type, s.School, s.Latitude FROM schools s LEFT JOIN frpm f ON f.CDSCode=s.CDSCode WHERE s.Latitude IS NOT NULL AND (f.\"School Type\" IN ('Intermediate/Middle Schools (Public)','Junior High Schools (Public)') OR (f.\"School Type\" IS NULL AND s.SOCType IN ('Intermediate/Middle Schools (Public)','Junior High Schools (Public)')) OR s.School LIKE '%Middle%') AND s.Latitude=(SELECT MAX(s2.Latitude) FROM schools s2 LEFT JOIN frpm f2 ON f2.CDSCode=s2.CDSCode WHERE s2.Latitude IS NOT NULL AND (f2.\"School Type\" IN ('Intermediate/Middle Schools (Public)','Junior High Schools (Public)') OR (f2.\"School Type\" IS NULL AND s2.SOCType IN ('Intermediate/Middle Schools (Public)','Junior High Schools (Public)')) OR s2.School LIKE '%Middle%'))",
+  "attempts": 1
+ },
+ {
+  "question_id": 30,
+  "answer": "WITH c AS (SELECT s.School, s.District, s.County, t.AvgScrWrite w FROM satscores t JOIN schools s ON s.CDSCode=t.cds WHERE t.rtype='S' AND s.StatusType='Closed' AND t.AvgScrWrite IS NOT NULL) SELECT School, District, County, w AS AvgScrWrite FROM c WHERE w=(SELECT MAX(w) FROM c WHERE w<(SELECT MAX(w) FROM c))",
+  "attempts": 1
+ },
+ {
+  "question_id": 32,
+  "answer": "WITH cty AS (SELECT \"County Name\" n FROM frpm WHERE CDSCode LIKE '%1612590125716'), b AS (SELECT f.*, ROUND(f.\"Percent (%) Eligible Free (K-12)\"*100,2) fp, ROUND(f.\"Percent (%) Eligible FRPM (K-12)\"*100,2) pp, (SELECT t.AvgScrRead+t.AvgScrMath+t.AvgScrWrite FROM satscores t WHERE t.cds=f.CDSCode AND t.AvgScrRead IS NOT NULL AND t.AvgScrMath IS NOT NULL AND t.AvgScrWrite IS NOT NULL) sat FROM frpm f WHERE f.\"County Name\"=(SELECT n FROM cty) AND f.\"Free Meal Count (K-12)\">500 AND f.\"FRPM Count (K-12)\"<700) SELECT (SELECT n FROM cty) AS county, COUNT(*) AS num_schools, ROUND(AVG(fp),2) AS avg_free_pct, ROUND(AVG(pp),2) AS avg_frpm_pct, SUM(\"Charter School (Y/N)\"=1) AS charter, SUM(\"Charter School (Y/N)\"=0) AS non_charter, ROUND(AVG(sat),2) AS avg_sat FROM b",
+  "attempts": 1
+ },
+ {
+  "question_id": 46,
+  "answer": "SELECT s.City, COUNT(*) AS magnet_provision2_schools FROM schools s JOIN frpm f ON f.CDSCode=s.CDSCode WHERE s.Magnet=1 AND f.\"NSLP Provision Status\"='Provision 2' GROUP BY s.City",
+  "attempts": 1
+ },
+ {
+  "question_id": 47,
+  "answer": "SELECT s.School, s.Street, s.City, s.State, s.Zip FROM frpm f JOIN schools s ON s.CDSCode=f.CDSCode WHERE f.\"County Name\"='Los Angeles' AND f.\"School Type\" IN ('High Schools (Public)','Continuation High Schools','High Schools In 1 School Dist. (Public)') AND f.\"FRPM Count (Ages 5-17)\">500 ORDER BY s.School",
+  "attempts": 1
+ }
+]

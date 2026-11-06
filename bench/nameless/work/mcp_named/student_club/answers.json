@@ -1,0 +1,42 @@
+[
+ {
+  "question_id": 297,
+  "answer": "SELECT notes FROM income WHERE source='Fundraising' AND date_received='2019-09-14'",
+  "attempts": 1
+ },
+ {
+  "question_id": 300,
+  "answer": "SELECT m.first_name, m.last_name FROM member m JOIN attendance a ON a.link_to_member=m.member_id GROUP BY m.member_id HAVING COUNT(DISTINCT a.link_to_event)>7",
+  "attempts": 1
+ },
+ {
+  "question_id": 302,
+  "answer": "WITH f AS (SELECT e.event_id,(SELECT COUNT(*) FROM attendance a WHERE a.link_to_event=e.event_id) c FROM event e WHERE date(e.event_date) BETWEEN '2019-09-01' AND '2019-11-30'),\nw AS (SELECT COUNT(*) c FROM attendance a JOIN event e ON e.event_id=a.link_to_event WHERE e.event_name='Women''s Soccer'),\nv AS (SELECT ROUND(AVG(c),1) avg FROM f)\nSELECT w.c AS womens_soccer_attendees, v.avg AS avg_fall_2019_attendees, CASE WHEN w.c>v.avg THEN 'more' WHEN w.c<v.avg THEN 'fewer' ELSE 'equal' END AS verdict FROM w, v",
+  "attempts": 1
+ },
+ {
+  "question_id": 303,
+  "answer": "WITH d AS (SELECT DISTINCT department FROM major WHERE college='College of Humanities and Social Sciences')\nSELECT d.department, GROUP_CONCAT(DISTINCT mj.major_name) AS majors_offered,\n (SELECT GROUP_CONCAT(DISTINCT mj2.major_name) FROM major mj2 WHERE mj2.department=d.department AND EXISTS (SELECT 1 FROM member m WHERE m.link_to_major=mj2.major_id)) AS majors_held,\n ROUND(1.0*(SELECT COUNT(*) FROM member m JOIN major mj3 ON mj3.major_id=m.link_to_major WHERE mj3.department=d.department)/COUNT(DISTINCT mj.major_id),2) AS avg_members_per_major\nFROM d JOIN major mj ON mj.department=d.department GROUP BY d.department",
+  "attempts": 1
+ },
+ {
+  "question_id": 305,
+  "answer": "SELECT mj.department, COALESCE(SUM(i.amount),0) AS total_dues FROM (SELECT DISTINCT department FROM major WHERE college=(SELECT college FROM major WHERE department='Electrical and Computer Engineering Department')) d\nJOIN major mj ON mj.department=d.department\nLEFT JOIN member m ON m.link_to_major=mj.major_id AND EXISTS (SELECT 1 FROM attendance a WHERE a.link_to_member=m.member_id)\nLEFT JOIN income i ON i.link_to_member=m.member_id AND i.source='Dues'\nGROUP BY mj.department",
+  "attempts": 1
+ },
+ {
+  "question_id": 307,
+  "answer": "SELECT SUM(i.amount) FROM income i WHERE i.source='Dues' AND i.link_to_member IN (SELECT a.link_to_member FROM attendance a JOIN event e ON e.event_id=a.link_to_event WHERE e.event_name='Football game')",
+  "attempts": 1
+ },
+ {
+  "question_id": 310,
+  "answer": "SELECT e.event_name, e.location, COUNT(a.link_to_member) AS attendees FROM event e LEFT JOIN attendance a ON a.link_to_event=e.event_id WHERE e.type='Budget' GROUP BY e.event_id",
+  "attempts": 1
+ },
+ {
+  "question_id": 322,
+  "answer": "SELECT SUM(b.amount) FROM budget b WHERE b.link_to_event IN (SELECT e.event_id FROM event e WHERE date(e.event_date) BETWEEN '2019-09-01' AND '2019-09-30' AND EXISTS (SELECT 1 FROM budget b2 JOIN expense x ON x.link_to_budget=b2.budget_id WHERE b2.link_to_event=e.event_id AND x.expense_description LIKE '%pizza%'))",
+  "attempts": 1
+ }
+]

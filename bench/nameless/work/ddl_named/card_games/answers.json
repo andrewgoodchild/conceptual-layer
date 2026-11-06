@@ -1,0 +1,72 @@
+[
+ {
+  "question_id": 53,
+  "answer": "SELECT ROUND(100.0*SUM(CASE WHEN EXISTS(SELECT 1 FROM foreign_data f WHERE f.uuid=c.uuid AND f.language='French') THEN 1 ELSE 0 END)/COUNT(*),2) FROM cards c WHERE c.isStorySpotlight=1",
+  "attempts": 1
+ },
+ {
+  "question_id": 54,
+  "answer": "SELECT id FROM cards WHERE duelDeck='a'",
+  "attempts": 1
+ },
+ {
+  "question_id": 60,
+  "answer": "SELECT 100.0*SUM(cardKingdomId IS NOT NULL AND cardKingdomFoilId IS NOT NULL)/COUNT(*) FROM cards WHERE setCode=(SELECT code FROM sets WHERE name='Coldsnap')",
+  "attempts": 1
+ },
+ {
+  "question_id": 62,
+  "answer": "SELECT COUNT(DISTINCT c.name) FROM cards c WHERE c.isPromo=1 AND c.types LIKE '%Creature%' AND c.supertypes LIKE '%Legendary%' AND EXISTS(SELECT 1 FROM legalities l JOIN cards d ON d.uuid=l.uuid WHERE d.name=c.name AND l.format='brawl' AND l.status='Legal')",
+  "attempts": 1
+ },
+ {
+  "question_id": 63,
+  "answer": "SELECT MAX(CAST(frameVersion AS INTEGER))-MIN(CAST(frameVersion AS INTEGER)) FROM cards WHERE name='Tarmogoyf' AND frameVersion GLOB '[0-9]*'",
+  "attempts": 1
+ },
+ {
+  "question_id": 69,
+  "answer": "SELECT frameVersion, COUNT(*) FROM cards WHERE frameVersion=(SELECT MAX(CAST(frameVersion AS INTEGER)) FROM cards WHERE convertedManaCost=0 AND frameVersion GLOB '[0-9]*') GROUP BY frameVersion",
+  "attempts": 1
+ },
+ {
+  "question_id": 73,
+  "answer": "SELECT s.name, ROUND(100.0*SUM(c.manaCost IS NOT NULL AND c.convertedManaCost<=3)/COUNT(*),2) FROM sets s JOIN cards c ON c.setCode=s.code WHERE s.code IN ((SELECT s2.code FROM sets s2 WHERE s2.code IN (SELECT setCode FROM cards WHERE name='Abyssal Horror') ORDER BY s2.releaseDate, s2.code LIMIT 1),(SELECT code FROM sets ORDER BY releaseDate DESC, code LIMIT 1)) GROUP BY s.code ORDER BY s.releaseDate",
+  "attempts": 1
+ },
+ {
+  "question_id": 77,
+  "answer": "SELECT DISTINCT name FROM cards WHERE setCode='DKA' AND ','||keywords||',' LIKE '%,Flash,%' AND convertedManaCost=(SELECT MAX(convertedManaCost) FROM cards WHERE setCode='DKA' AND ','||keywords||',' LIKE '%,Flash,%') ORDER BY name",
+  "attempts": 1
+ },
+ {
+  "question_id": 78,
+  "answer": "SELECT s.name, s.keyruneCode, COUNT(DISTINCT t.language) FROM sets s LEFT JOIN set_translations t ON t.setCode=s.code AND t.translation IS NOT NULL AND t.translation<>'' WHERE s.releaseDate BETWEEN '2020-01-01' AND '2020-12-31' GROUP BY s.id",
+  "attempts": 1
+ },
+ {
+  "question_id": 79,
+  "answer": "SELECT COUNT(*) FROM cards WHERE setCode IN (SELECT code FROM sets s WHERE releaseDate BETWEEN '2017-01-01' AND '2017-12-31' AND EXISTS(SELECT 1 FROM set_translations t WHERE t.setCode=s.code AND t.language<>'English' AND t.translation<>'')) OR setCode IN (SELECT code FROM sets WHERE parentCode IN (SELECT code FROM sets s WHERE releaseDate BETWEEN '2017-01-01' AND '2017-12-31' AND EXISTS(SELECT 1 FROM set_translations t WHERE t.setCode=s.code AND t.language<>'English' AND t.translation<>'')))",
+  "attempts": 1
+ },
+ {
+  "question_id": 83,
+  "answer": "SELECT s.type, SUM(EXISTS(SELECT 1 FROM set_translations t WHERE t.setCode=s.code AND t.language='Japanese' AND t.translation IS NOT NULL AND t.translation<>'')) FROM sets s GROUP BY s.type ORDER BY s.type",
+  "attempts": 1
+ },
+ {
+  "question_id": 85,
+  "answer": "SELECT COUNT(*) FROM cards WHERE setCode IN (SELECT code FROM sets WHERE releaseDate=(SELECT MAX(s.releaseDate) FROM sets s WHERE s.code IN (SELECT setCode FROM cards WHERE name=\"Ancestor's Chosen\")) AND code IN (SELECT setCode FROM cards WHERE name=\"Ancestor's Chosen\")) AND types LIKE '%Creature%' AND power GLOB '[0-9]*' AND toughness GLOB '[0-9]*' AND CAST(power AS REAL)>CAST(toughness AS REAL)",
+  "attempts": 1
+ },
+ {
+  "question_id": 98,
+  "answer": "SELECT DISTINCT name FROM cards WHERE isPromo=1 AND originalReleaseDate LIKE '2019/%' AND otherFaceIds IS NOT NULL AND otherFaceIds<>''",
+  "attempts": 1
+ },
+ {
+  "question_id": 104,
+  "answer": "SELECT SUM(convertedManaCost) FROM cards WHERE artist='Rob Alexander' AND originalReleaseDate LIKE '2013/%'",
+  "attempts": 1
+ }
+]

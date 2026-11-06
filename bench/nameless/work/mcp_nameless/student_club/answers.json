@@ -1,0 +1,44 @@
+[
+ {
+  "question_id": 297,
+  "answer": "SELECT c0003 FROM t0004 WHERE c0004='2019-09-14' AND c0002='Fundraising'",
+  "attempts": 1
+ },
+ {
+  "question_id": 300,
+  "answer": "SELECT m.c0006 AS first_name, m.c0001 AS last_name FROM t0000 m JOIN t0005 a ON a.c0001=m.c0002 GROUP BY m.c0002 HAVING COUNT(DISTINCT a.c0000)>7",
+  "attempts": 2
+ },
+ {
+  "question_id": 302,
+  "answer": "WITH fall AS (SELECT c0003 id FROM t0006 WHERE date(c0002) BETWEEN '2019-09-01' AND '2019-11-30'),\ncnt AS (SELECT f.id, (SELECT COUNT(DISTINCT a.c0001) FROM t0005 a WHERE a.c0000=f.id) n FROM fall f),\nws AS (SELECT COUNT(DISTINCT a.c0001) n FROM t0005 a JOIN t0006 e ON a.c0000=e.c0003 WHERE e.c0006='Women''s Soccer'),\nav AS (SELECT ROUND(AVG(n),1) a FROM cnt)\nSELECT ws.n AS women_soccer_attendees, av.a AS avg_fall_2019_attendees,\n CASE WHEN ws.n>av.a THEN 'more' WHEN ws.n<av.a THEN 'fewer' ELSE 'equal' END AS verdict FROM ws, av",
+  "attempts": 1
+ },
+ {
+  "question_id": 303,
+  "answer": "SELECT j.c0000 AS department,\n COUNT(DISTINCT j.c0001) AS majors_offered,\n COUNT(DISTINCT m.c0003) AS majors_held,\n ROUND(1.0*COUNT(m.c0002)/COUNT(DISTINCT j.c0001),2) AS avg_members_per_major\nFROM t0007 j LEFT JOIN t0000 m ON m.c0003=j.c0001\nWHERE j.c0000 IN (SELECT c0000 FROM t0007 WHERE c0003='College of Humanities and Social Sciences')\nGROUP BY j.c0000",
+  "attempts": 1,
+  "note": "returned counts of majors offered/held; question could also mean name lists"
+ },
+ {
+  "question_id": 305,
+  "answer": "SELECT d.dept AS department, COALESCE(SUM(i.c0001),0) AS total_dues\nFROM (SELECT DISTINCT c0000 AS dept FROM t0007 WHERE c0003='College of Engineering') d\nLEFT JOIN t0007 j ON j.c0000=d.dept\nLEFT JOIN t0000 m ON m.c0003=j.c0001 AND m.c0002 IN (SELECT c0001 FROM t0005)\nLEFT JOIN t0004 i ON i.c0000=m.c0002 AND i.c0002='Dues'\nGROUP BY d.dept",
+  "attempts": 1
+ },
+ {
+  "question_id": 307,
+  "answer": "SELECT SUM(c0001) AS total_dues FROM t0004 WHERE c0002='Dues' AND c0000 IN (SELECT a.c0001 FROM t0005 a JOIN t0006 e ON a.c0000=e.c0003 WHERE e.c0006='Football game')",
+  "attempts": 2,
+  "note": "two events are named Football game; students who attended either"
+ },
+ {
+  "question_id": 310,
+  "answer": "SELECT e.c0006 AS event_name, e.c0004 AS location, (SELECT COUNT(DISTINCT a.c0001) FROM t0005 a WHERE a.c0000=e.c0003) AS members_attended FROM t0006 e WHERE e.c0005='Budget'",
+  "attempts": 1
+ },
+ {
+  "question_id": 322,
+  "answer": "SELECT SUM(b.c0003) AS total_budgeted FROM t0003 b WHERE b.c0001 IN (SELECT e.c0003 FROM t0006 e JOIN t0003 b2 ON b2.c0001=e.c0003 JOIN t0002 x ON x.c0004=b2.c0000 WHERE date(e.c0002) BETWEEN '2019-09-01' AND '2019-09-30' AND lower(x.c0000) LIKE '%pizza%')",
+  "attempts": 2
+ }
+]

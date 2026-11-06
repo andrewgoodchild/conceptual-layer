@@ -513,6 +513,13 @@ the same text, the description scored 90 and the DDL 88 (finding 177). Both roun
 200, with an interval from -18.8 to +3.2. So one draw of this size can move the comparison by nine
 points, and a small loss is not ruled out.
 
+Nor did the description pull ahead where the database is undocumented. With every foreign key
+and line of evidence removed and every table and column renamed, the DDL writer still scored 75
+of 100 against 78 with the names (finding 185). The writers read the rows and matched the
+question's own words to values, so destroying the names cost time, not answers. The description
+scored 78 there, no difference shown. BIRD is famous enough that a writer may know it, which a
+renamed copy blunts and does not remove.
+
 ### At scale, nothing beat the DDL
 
 Every result above had schemas small enough for a writer to take in whole. On LiveSQLBench's

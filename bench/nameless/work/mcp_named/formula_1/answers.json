@@ -1,0 +1,58 @@
+[
+ {
+  "question_id": 242,
+  "answer": "SELECT d.forename, d.surname, d.nationality, (SELECT MAX(ds.points) FROM driverStandings ds WHERE ds.driverId=d.driverId) AS maxpts\nFROM drivers d JOIN results r ON r.driverId=d.driverId\nWHERE r.position=1\nGROUP BY d.driverId ORDER BY COUNT(*) DESC LIMIT 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 244,
+  "answer": "SELECT ROUND(100.0*SUM(CASE WHEN r.laps=w.laps THEN 1 ELSE 0 END)/COUNT(*),2) AS pct\nFROM results r JOIN races ra ON ra.raceId=r.raceId JOIN drivers d ON d.driverId=r.driverId\nJOIN results w ON w.raceId=r.raceId AND w.position=1\nWHERE d.nationality='Japanese' AND ra.year BETWEEN 2007 AND 2009",
+  "attempts": 1
+ },
+ {
+  "question_id": 247,
+  "answer": "SELECT SUM(r.points) AS score, c.name, c.nationality\nFROM results r JOIN races ra ON ra.raceId=r.raceId JOIN constructors c ON c.constructorId=r.constructorId\nWHERE ra.name='Monaco Grand Prix' AND ra.year BETWEEN 1980 AND 2010\nGROUP BY c.constructorId ORDER BY score DESC LIMIT 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 251,
+  "answer": "SELECT ROUND(AVG(n),2)FROM (\nSELECT ra.raceId, (SELECT COUNT(*) FROM pitStops p WHERE p.raceId=ra.raceId) AS n\nFROM races ra WHERE ra.year=2017 AND ra.name NOT IN (SELECT name FROM races WHERE year=2000))",
+  "attempts": 1
+ },
+ {
+  "question_id": 252,
+  "answer": "SELECT d.forename, d.surname, d.url, d.dob, COUNT(q.q3) AS q3count\nFROM drivers d LEFT JOIN qualifying q ON q.driverId=d.driverId AND q.q3 IS NOT NULL AND q.q3<>''\nWHERE d.nationality='German' AND d.dob BETWEEN '1971-01-01' AND '1985-12-31'\nGROUP BY d.driverId ORDER BY q3count DESC, d.dob ASC",
+  "attempts": 1
+ },
+ {
+  "question_id": 255,
+  "answer": "WITH t AS (SELECT d.forename, d.surname, q.q1,\n CAST(substr(q.q1,1,instr(q.q1,':')-1) AS INT)*60000 + CAST(substr(q.q1,instr(q.q1,':')+1,2) AS INT)*1000 + CAST(substr(q.q1,instr(q.q1,'.')+1) AS INT) AS ms\n FROM qualifying q JOIN races ra ON ra.raceId=q.raceId JOIN drivers d ON d.driverId=q.driverId\n WHERE ra.year=1995 AND ra.name='Japanese Grand Prix' AND q.q1 IS NOT NULL AND q.q1<>'')\nSELECT forename, surname, q1 FROM t WHERE ms=(SELECT MIN(ms) FROM t WHERE ms>0 AND ms<300000)",
+  "attempts": 2
+ },
+ {
+  "question_id": 258,
+  "answer": "SELECT d.forename, COUNT(DISTINCT d.driverId) AS n\nFROM results r JOIN races ra ON ra.raceId=r.raceId JOIN drivers d ON d.driverId=r.driverId\nWHERE ra.name='Italian Grand Prix' AND r.position=2\nGROUP BY d.forename HAVING n>=2 ORDER BY n DESC, d.forename ASC",
+  "attempts": 1
+ },
+ {
+  "question_id": 264,
+  "answer": "SELECT ROUND(1.0*(SELECT COUNT(*) FROM qualifying q JOIN drivers d ON d.driverId=q.driverId WHERE q.q3 IS NOT NULL AND q.q3<>'' AND d.dob BETWEEN '1981-01-01' AND '1991-12-31')\n / (SELECT COUNT(*) FROM drivers WHERE dob BETWEEN '1981-01-01' AND '1991-12-31'),2)",
+  "attempts": 1
+ },
+ {
+  "question_id": 267,
+  "answer": "WITH best AS (\n SELECT l.raceId, l.driverId, MIN(l.milliseconds) AS ms FROM lapTimes l GROUP BY l.raceId, l.driverId HAVING MIN(l.milliseconds) > 90000)\nSELECT ra.date, d.forename, d.surname,\n CASE WHEN b.ms IS NULL THEN NULL ELSE (b.ms/60000) || ':' || printf('%02d', (b.ms%60000)/1000) || '.' || printf('%03d', b.ms%1000) END AS fastest_lap\nFROM races ra LEFT JOIN best b ON b.raceId=ra.raceId LEFT JOIN drivers d ON d.driverId=b.driverId\nWHERE ra.name='French Grand Prix' AND ra.year>=1990\nORDER BY ra.date, d.surname, d.forename, b.ms",
+  "attempts": 3,
+  "note": "results.fastestLapTime has none >90s; used per-driver best lapTimes; 255: Blundell q1 16:42.640 is a data outlier, excluded by <5min cap"
+ },
+ {
+  "question_id": 279,
+  "answer": "WITH w AS (SELECT d.* FROM drivers d WHERE EXISTS (SELECT 1 FROM results r WHERE r.driverId=d.driverId AND r.positionOrder=1) ORDER BY d.dob ASC, d.forename||' '||d.surname ASC LIMIT 1)\nSELECT w.forename||' '||w.surname AS full_name, w.nationality,\n (SELECT ra.name FROM results r JOIN races ra ON ra.raceId=r.raceId WHERE r.driverId=w.driverId AND r.positionOrder=1 ORDER BY ra.date, ra.name LIMIT 1) AS first_win_race,\n (SELECT ra.date FROM results r JOIN races ra ON ra.raceId=r.raceId WHERE r.driverId=w.driverId AND r.positionOrder=1 ORDER BY ra.date, ra.name LIMIT 1) AS first_win_date,\n (SELECT COUNT(DISTINCT r.raceId) FROM results r WHERE r.driverId=w.driverId) AS races_started\nFROM w",
+  "attempts": 1
+ },
+ {
+  "question_id": 282,
+  "answer": "WITH t AS (SELECT d.surname, ra.name AS race, q.q2,\n CAST(substr(q.q2,1,instr(q.q2,':')-1) AS INT)*60000 + CAST(substr(q.q2,instr(q.q2,':')+1,2) AS INT)*1000 + CAST(substr(q.q2,instr(q.q2,'.')+1) AS INT) AS ms\n FROM qualifying q JOIN races ra ON ra.raceId=q.raceId JOIN drivers d ON d.driverId=q.driverId\n WHERE ra.year=2017 AND q.q2 IS NOT NULL AND q.q2<>'')\nSELECT surname, race FROM t WHERE ms=(SELECT MIN(ms) FROM t)",
+  "attempts": 1
+ }
+]

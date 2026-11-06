@@ -78,3 +78,11 @@ read outside its directory. Scores are not comparable with October's: no evidenc
 **Cost.** About 2.5 to 4M tokens, some $9 to $15 on PLAN.md's assumption, scaled from October's
 52k a writer and allowing for longer exploration without names. Usage is recorded per writer in
 `ledger.jsonl`.
+
+## What actually happened
+
+Added after scoring; everything above is as committed. `ddl_named` 78, `mcp_named` 84,
+`ddl_nameless` 75, `mcp_nameless` 78. The primary comparison is +3 with an interval of -8.1 to
++13.7: no difference shown, as predicted. `ddl_named` fell in its range. The named margin, +6,
+was one point past its range. `ddl_nameless` at 75 was far outside 20 to 50: the names were worth
+3 points to the DDL writer, not 40. 2.07M tokens. Finding 185.

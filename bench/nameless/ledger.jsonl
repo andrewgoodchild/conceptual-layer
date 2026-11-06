@@ -1,0 +1,44 @@
+{"arm": "ddl_named", "db": "debit_card_specializing", "subagent_tokens": 28919, "tool_uses": 6, "duration_ms": 21136}
+{"arm": "ddl_nameless", "db": "debit_card_specializing", "subagent_tokens": 31365, "tool_uses": 8, "duration_ms": 40716, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "ddl_named", "db": "codebase_community", "subagent_tokens": 35049, "tool_uses": 9, "duration_ms": 47414, "note": "wrote a helper script to /private/tmp outside its own directory"}
+{"arm": "mcp_nameless", "db": "debit_card_specializing", "subagent_tokens": 33114, "tool_uses": 8, "duration_ms": 48292}
+{"arm": "ddl_named", "db": "california_schools", "subagent_tokens": 39786, "tool_uses": 10, "duration_ms": 68216, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "mcp_named", "db": "codebase_community", "subagent_tokens": 42160, "tool_uses": 12, "duration_ms": 76898, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "ddl_named", "db": "card_games", "subagent_tokens": 41617, "tool_uses": 14, "duration_ms": 96464, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "mcp_named", "db": "california_schools", "subagent_tokens": 51110, "tool_uses": 13, "duration_ms": 109990}
+{"arm": "mcp_named", "db": "card_games", "subagent_tokens": 49882, "tool_uses": 15, "duration_ms": 115449, "note": "wrote helper files to /tmp and /private/tmp outside its own directory"}
+{"arm": "ddl_nameless", "db": "codebase_community", "subagent_tokens": 45089, "tool_uses": 17, "duration_ms": 123039}
+{"arm": "ddl_named", "db": "financial", "subagent_tokens": 36891, "tool_uses": 11, "duration_ms": 84836, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "ddl_named", "db": "formula_1", "subagent_tokens": 38068, "tool_uses": 10, "duration_ms": 58602, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "mcp_named", "db": "financial", "subagent_tokens": 42117, "tool_uses": 11, "duration_ms": 90668}
+{"arm": "mcp_nameless", "db": "codebase_community", "subagent_tokens": 52521, "tool_uses": 18, "duration_ms": 147205}
+{"arm": "mcp_nameless", "db": "european_football_2", "subagent_tokens": 59285, "tool_uses": 17, "duration_ms": 155181, "note": "reported the described references wrong in places"}
+{"arm": "mcp_named", "db": "debit_card_specializing", "subagent_tokens": 36945, "tool_uses": 11, "duration_ms": 177044}
+{"arm": "mcp_named", "db": "formula_1", "subagent_tokens": 46610, "tool_uses": 12, "duration_ms": 90942}
+{"arm": "ddl_named", "db": "student_club", "subagent_tokens": 35841, "tool_uses": 11, "duration_ms": 55134, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "ddl_named", "db": "superhero", "subagent_tokens": 33740, "tool_uses": 8, "duration_ms": 38882, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "ddl_nameless", "db": "financial", "subagent_tokens": 42345, "tool_uses": 15, "duration_ms": 128821, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "mcp_nameless", "db": "financial", "subagent_tokens": 46301, "tool_uses": 13, "duration_ms": 131119, "note": "wrote and ran two scratch files outside its own directory"}
+{"arm": "ddl_named", "db": "european_football_2", "subagent_tokens": 35804, "tool_uses": 11, "duration_ms": 199414}
+{"arm": "mcp_named", "db": "student_club", "subagent_tokens": 41964, "tool_uses": 10, "duration_ms": 71088}
+{"arm": "ddl_nameless", "db": "student_club", "subagent_tokens": 40085, "tool_uses": 14, "duration_ms": 69768, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "mcp_named", "db": "superhero", "subagent_tokens": 35302, "tool_uses": 7, "duration_ms": 47958}
+{"arm": "mcp_nameless", "db": "california_schools", "subagent_tokens": 67477, "tool_uses": 18, "duration_ms": 214865}
+{"arm": "mcp_named", "db": "european_football_2", "subagent_tokens": 49958, "tool_uses": 17, "duration_ms": 228752, "note": "stopped once with a background command of its own running, then finished; final usage"}
+{"arm": "ddl_nameless", "db": "superhero", "subagent_tokens": 36626, "tool_uses": 10, "duration_ms": 60918}
+{"arm": "ddl_named", "db": "toxicology", "subagent_tokens": 29843, "tool_uses": 6, "duration_ms": 29749}
+{"arm": "ddl_named", "db": "thrombosis_prediction", "subagent_tokens": 37697, "tool_uses": 6, "duration_ms": 49644, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "ddl_nameless", "db": "california_schools", "subagent_tokens": 64337, "tool_uses": 21, "duration_ms": 251515, "note": "one direct sqlite3 call on the database was blocked and not retried; wrote a helper script outside its own directory"}
+{"arm": "ddl_nameless", "db": "toxicology", "subagent_tokens": 32925, "tool_uses": 8, "duration_ms": 45557, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "mcp_named", "db": "toxicology", "subagent_tokens": 34344, "tool_uses": 11, "duration_ms": 50304}
+{"arm": "ddl_nameless", "db": "european_football_2", "subagent_tokens": 47817, "tool_uses": 22, "duration_ms": 271854, "note": "one direct sqlite3 call on the database was denied; wrote a scratch file to /tmp and deleted it"}
+{"arm": "mcp_nameless", "db": "superhero", "subagent_tokens": 41400, "tool_uses": 11, "duration_ms": 92294, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "ddl_nameless", "db": "formula_1", "subagent_tokens": 56158, "tool_uses": 27, "duration_ms": 193774, "note": "wrote a helper script in a scratch directory outside its own"}
+{"arm": "mcp_nameless", "db": "student_club", "subagent_tokens": 55816, "tool_uses": 21, "duration_ms": 172899}
+{"arm": "mcp_nameless", "db": "formula_1", "subagent_tokens": 72039, "tool_uses": 36, "duration_ms": 254156}
+{"arm": "ddl_nameless", "db": "card_games", "subagent_tokens": 77676, "tool_uses": 34, "duration_ms": 396931, "note": "one direct sqlite3 call on the database was blocked and not retried"}
+{"arm": "mcp_named", "db": "thrombosis_prediction", "subagent_tokens": 61158, "tool_uses": 19, "duration_ms": 204321}
+{"arm": "mcp_nameless", "db": "toxicology", "subagent_tokens": 43864, "tool_uses": 23, "duration_ms": 476932, "note": "stopped with a background command of its own still running; read that command's empty output file, outside its directory; answers written; stopped by the coordinator after scoring, its answers unchanged"}
+{"arm": "ddl_nameless", "db": "thrombosis_prediction", "subagent_tokens": 69678, "tool_uses": 20, "duration_ms": 251844, "note": "one direct sqlite3 call on the database was denied and not retried"}
+{"arm": "mcp_nameless", "db": "card_games", "subagent_tokens": 92166, "tool_uses": 44, "duration_ms": 499092, "note": "started a stray command aimed at /tmp/x and stopped it before it ran"}
+{"arm": "mcp_nameless", "db": "thrombosis_prediction", "subagent_tokens": 75887, "tool_uses": 23, "duration_ms": 351290}

@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 2,
+  "answer": "SELECT ROUND(f.c0004, 6) AS eligible_meal_rate\nFROM t0001 f JOIN t0002 s ON s.c0020 = f.c0021\nWHERE s.c0029 = '66' AND f.c0010 IS NOT NULL\nORDER BY f.c0010 DESC\nLIMIT 5",
+  "attempts": 1
+ },
+ {
+  "question_id": 4,
+  "answer": "SELECT s.c0030 AS mailing_street, s.c0031 AS school_name\nFROM t0000 t JOIN t0002 s ON s.c0020 = t.c0008\nWHERE t.c0010 = 'S' AND t.c0007 IS NOT NULL\nORDER BY t.c0007 DESC\nLIMIT 1 OFFSET 6",
+  "attempts": 1
+ },
+ {
+  "question_id": 13,
+  "answer": "SELECT c0000 AS city FROM t0002 WHERE c0020 = '01611920113902'",
+  "attempts": 1
+ },
+ {
+  "question_id": 15,
+  "answer": "SELECT s.c0031 AS school_name, s.c0026 AS phone\nFROM t0000 t JOIN t0002 s ON s.c0020 = t.c0008\nWHERE t.c0010 = 'S' AND s.c0044 = 'Statewide Benefit Charter'\nAND t.c0004 = (SELECT MAX(t2.c0004) FROM t0000 t2 JOIN t0002 s2 ON s2.c0020 = t2.c0008\n               WHERE t2.c0010 = 'S' AND s2.c0044 = 'Statewide Benefit Charter')",
+  "attempts": 1
+ },
+ {
+  "question_id": 19,
+  "answer": "SELECT f.c0008 AS lowest_grade\nFROM t0001 f JOIN t0002 s ON s.c0020 = f.c0021\nWHERE s.c0001 = '0632640' AND f.c0008 IS NOT NULL\nORDER BY CASE f.c0008 WHEN 'P' THEN -1 WHEN 'K' THEN 0 ELSE CAST(f.c0008 AS INTEGER) END\nLIMIT 1",
+  "attempts": 1
+ },
+ {
+  "question_id": 24,
+  "answer": "SELECT c0039 AS school_type, c0031 AS school_name, c0004 AS latitude\nFROM t0002\nWHERE (c0039 IN ('Intermediate/Middle Schools (Public)', 'Junior High Schools (Public)') OR c0031 LIKE '%Middle%')\nAND c0004 = (SELECT MAX(c0004) FROM t0002\n             WHERE c0039 IN ('Intermediate/Middle Schools (Public)', 'Junior High Schools (Public)') OR c0031 LIKE '%Middle%')",
+  "attempts": 1
+ },
+ {
+  "question_id": 30,
+  "answer": "SELECT s.c0031 AS school_name, s.c0006 AS district, s.c0028 AS county, t.c0001 AS avg_writing\nFROM t0000 t JOIN t0002 s ON s.c0020 = t.c0008\nWHERE t.c0010 = 'S' AND s.c0042 = 'Closed' AND t.c0001 IS NOT NULL\nAND t.c0001 = (SELECT MAX(t2.c0001) FROM t0000 t2 JOIN t0002 s2 ON s2.c0020 = t2.c0008\n               WHERE t2.c0010 = 'S' AND s2.c0042 = 'Closed' AND t2.c0001 IS NOT NULL\n               AND t2.c0001 < (SELECT MAX(t3.c0001) FROM t0000 t3 JOIN t0002 s3 ON s3.c0020 = t3.c0008\n                               WHERE t3.c0010 = 'S' AND s3.c0042 = 'Closed' AND t3.c0001 IS NOT NULL))",
+  "attempts": 1
+ },
+ {
+  "question_id": 32,
+  "answer": "WITH cty AS (SELECT c0028 AS county FROM t0002 WHERE c0020 = '01612590125716'),\nb AS (\n  SELECT f.c0009 AS county, f.c0017 AS charter,\n         ROUND(f.c0018 * 100, 2) AS pf, ROUND(f.c0004 * 100, 2) AS pr,\n         CASE WHEN t.c0007 IS NOT NULL AND t.c0006 IS NOT NULL AND t.c0001 IS NOT NULL\n              THEN t.c0007 + t.c0006 + t.c0001 END AS sat\n  FROM t0001 f\n  LEFT JOIN t0000 t ON t.c0008 = f.c0021 AND t.c0010 = 'S'\n  WHERE f.c0009 = (SELECT county FROM cty) AND f.c0013 > 500 AND f.c0010 < 700)\nSELECT county, COUNT(*) AS num_schools, ROUND(AVG(pf), 2) AS avg_free_pct, ROUND(AVG(pr), 2) AS avg_frpm_pct,\n       SUM(charter = 1) AS charter_schools, SUM(charter = 0) AS non_charter_schools,\n       ROUND(AVG(sat), 2) AS avg_sat\nFROM b GROUP BY county",
+  "attempts": 1
+ },
+ {
+  "question_id": 46,
+  "answer": "SELECT s.c0000 AS city, COUNT(*) AS magnet_provision2_schools\nFROM t0002 s JOIN t0001 f ON f.c0021 = s.c0020\nWHERE s.c0027 = 1 AND f.c0020 IN ('Provision 2', 'Breakfast Provision 2', 'Lunch Provision 2')\nGROUP BY s.c0000 ORDER BY s.c0000",
+  "attempts": 1
+ },
+ {
+  "question_id": 47,
+  "answer": "SELECT s.c0031 AS school_name, s.c0013 AS street, s.c0000 AS city, s.c0034 AS state, s.c0037 AS zip\nFROM t0001 f JOIN t0002 s ON s.c0020 = f.c0021\nWHERE f.c0009 = 'Los Angeles'\nAND f.c0000 IN ('High Schools (Public)', 'Continuation High Schools', 'High Schools In 1 School Dist. (Public)')\nAND f.c0019 > 500\nORDER BY s.c0031",
+  "attempts": 1
+ }
+]

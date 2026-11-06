@@ -1,0 +1,47 @@
+[
+ {
+  "question_id": 201,
+  "answer": "SELECT 100.0*(SUM(CASE WHEN substr(l.date,1,4)='1997' THEN l.amount END)-SUM(CASE WHEN substr(l.date,1,4)='1996' THEN l.amount END))/SUM(CASE WHEN substr(l.date,1,4)='1996' THEN l.amount END) AS growth_pct FROM loan l WHERE substr(l.date,1,4) IN ('1996','1997') AND l.account_id IN (SELECT d.account_id FROM disp d JOIN client c ON c.client_id=d.client_id WHERE d.type='OWNER' AND c.gender='M')",
+  "attempts": 1
+ },
+ {
+  "question_id": 210,
+  "answer": "SELECT ROUND(1.0*(SELECT COUNT(*) FROM loan WHERE account_id IN (SELECT d.account_id FROM disp d JOIN client c ON c.client_id=d.client_id WHERE d.type='OWNER' AND c.birth_date<'1950-01-01'))/COUNT(*),2) FROM (SELECT DISTINCT d.account_id FROM disp d JOIN client c ON c.client_id=d.client_id WHERE d.type='OWNER' AND c.birth_date<'1950-01-01')",
+  "attempts": 1
+ },
+ {
+  "question_id": 217,
+  "answer": "WITH t AS (SELECT A2, CAST(A4 AS INTEGER) pop, A16 FROM district WHERE A3='central Bohemia' ORDER BY pop DESC, A2 LIMIT 3)\nSELECT A2, A16, ROUND((SELECT AVG(A16) FROM t),2) AS avg3, ROUND((SELECT AVG(A16) FROM district),2) AS avg_all, ROUND((SELECT AVG(A16) FROM t)-(SELECT AVG(A16) FROM district),2) AS diff FROM t ORDER BY pop DESC, A2",
+  "attempts": 1
+ },
+ {
+  "question_id": 218,
+  "answer": "WITH h AS (SELECT DISTINCT c.type, dt.district_id, CAST(dt.A4 AS INTEGER) pop, dt.A2 FROM card c JOIN disp d ON d.disp_id=c.disp_id JOIN client cl ON cl.client_id=d.client_id JOIN district dt ON dt.district_id=cl.district_id)\nSELECT type, A2, pop FROM h h1 WHERE pop=(SELECT MIN(pop) FROM h h2 WHERE h2.type=h1.type) ORDER BY type, A2",
+  "attempts": 1
+ },
+ {
+  "question_id": 219,
+  "answer": "WITH reg AS (SELECT district_id, A2 FROM district WHERE A3=(SELECT A3 FROM district WHERE A2 LIKE 'Litomerice%')),\na AS (SELECT ac.account_id, r.A2 dname, (SELECT t.balance FROM trans t WHERE t.account_id=ac.account_id AND t.date<='1996-12-31' ORDER BY t.date DESC, t.trans_id DESC LIMIT 1) bal FROM account ac JOIN reg r ON r.district_id=ac.district_id WHERE ac.date>='1996-01-01' AND ac.date<='1996-12-31'),\nd AS (SELECT dname, COUNT(*) n, AVG(bal) av FROM a GROUP BY dname)\nSELECT dname AS district, n AS accounts_opened_1996, ROUND(av,2) AS avg_balance, (SELECT ROUND(AVG(bal),2) FROM a) AS region_avg_balance, (SELECT dname FROM d ORDER BY av DESC, dname LIMIT 1) AS top_district FROM d ORDER BY dname",
+  "attempts": 1
+ },
+ {
+  "question_id": 229,
+  "answer": "SELECT SUM(CASE WHEN k_symbol='UROK' THEN amount WHEN k_symbol='SANKC. UROK' THEN -amount ELSE 0 END) AS net_interest FROM trans WHERE account_id IN (SELECT account_id FROM disp WHERE client_id=2823) AND date>='1998-01-01' AND date<='1998-12-31'",
+  "attempts": 1
+ },
+ {
+  "question_id": 235,
+  "answer": "WITH cl AS (SELECT DISTINCT d.client_id, d.account_id, a.district_id FROM disp d JOIN account a ON a.account_id=d.account_id WHERE d.type='OWNER' AND d.client_id IN (SELECT dd.client_id FROM card c JOIN disp dd ON dd.disp_id=c.disp_id WHERE c.type='classic')),\no AS (SELECT cl.district_id, o.bank_to, o.account_to, o.amount FROM cl JOIN \"order\" o ON o.account_id=cl.account_id)\nSELECT dt.A2 AS district, (SELECT COUNT(DISTINCT client_id) FROM cl WHERE cl.district_id=dt.district_id) AS clients, (SELECT COUNT(DISTINCT bank_to||'|'||account_to) FROM o WHERE o.district_id=dt.district_id) AS external_accounts, COALESCE((SELECT SUM(amount) FROM o WHERE o.district_id=dt.district_id),0) AS total FROM district dt ORDER BY total DESC, dt.A2",
+  "attempts": 1
+ },
+ {
+  "question_id": 237,
+  "answer": "SELECT ROUND(AVG(dt.A11),2) FROM (SELECT DISTINCT district_id FROM client WHERE gender='F' AND birth_date<'1950-01-01') x JOIN district dt ON dt.district_id=x.district_id",
+  "attempts": 1
+ },
+ {
+  "question_id": 239,
+  "answer": "WITH x AS (SELECT CASE WHEN c.birth_date>='1980-01-01' THEN 'young' WHEN c.birth_date<='1919-12-31' THEN 'old' END coh, a.district_id FROM client c JOIN disp d ON d.client_id=c.client_id JOIN account a ON a.account_id=d.account_id)\nSELECT coh, ROUND(AVG(dt.A11)) FROM (SELECT DISTINCT coh, district_id FROM x WHERE coh IS NOT NULL) y JOIN district dt ON dt.district_id=y.district_id GROUP BY coh ORDER BY coh='old'",
+  "attempts": 1
+ }
+]

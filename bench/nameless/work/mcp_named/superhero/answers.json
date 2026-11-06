@@ -1,0 +1,52 @@
+[
+ {
+  "question_id": 333,
+  "answer": "select s.superhero_name from superhero s join hero_power hp on hp.hero_id=s.id join superpower p on p.id=hp.power_id where s.publisher_id=(select id from publisher where publisher_name='Marvel Comics') and p.power_name='Super Strength'",
+  "attempts": 1
+ },
+ {
+  "question_id": 337,
+  "answer": "select round(100.0*sum(case when publisher_id=(select id from publisher where publisher_name='Marvel Comics') then 1 else 0 end)/count(*),2) from superhero where height_cm between 150 and 180",
+  "attempts": 1
+ },
+ {
+  "question_id": 346,
+  "answer": "select count(*) from superhero s left join alignment a on a.id=s.alignment_id where a.alignment is null or a.alignment not in ('Good','Bad')",
+  "attempts": 1
+ },
+ {
+  "question_id": 347,
+  "answer": "with c as (select p.power_name, count(distinct s.id) n from superhero s join hero_power hp on hp.hero_id=s.id join superpower p on p.id=hp.power_id where s.publisher_id=(select id from publisher where publisher_name='Marvel Comics') and s.full_name is not null and s.full_name<>'-' group by p.id) select power_name, n from c where n=(select max(n) from c)",
+  "attempts": 1
+ },
+ {
+  "question_id": 355,
+  "answer": "select round(avg(weight_kg)) from superhero where publisher_id=(select id from publisher where publisher_name='DC Comics') and weight_kg>0 and eye_colour_id in (select eye_colour_id from superhero where publisher_id=(select id from publisher where publisher_name='Marvel Comics') and eye_colour_id is not null)",
+  "attempts": 1
+ },
+ {
+  "question_id": 357,
+  "answer": "select avg(weight_kg) from superhero where weight_kg>0 and race_id is not null and race_id not in (select race_id from superhero where gender_id=(select id from gender where gender='Female') and race_id is not null)",
+  "attempts": 1
+ },
+ {
+  "question_id": 365,
+  "answer": "select g.gender, round(1.0*count(hp.hero_id)/count(distinct s.id),2) from superhero s join gender g on g.id=s.gender_id left join hero_power hp on hp.hero_id=s.id where g.gender in ('Male','Female') and s.full_name is not null and s.full_name<>'-' group by g.gender",
+  "attempts": 1
+ },
+ {
+  "question_id": 367,
+  "answer": "select round(avg(case when height_cm>0 then height_cm end),1), round(avg(case when weight_kg>0 then weight_kg end),1) from superhero where publisher_id=(select id from publisher where publisher_name='George Lucas')",
+  "attempts": 1
+ },
+ {
+  "question_id": 372,
+  "answer": "select count(distinct hp.power_id) from superhero s join hero_power hp on hp.hero_id=s.id where s.gender_id=(select id from gender where gender='Male') and s.weight_kg>0 and s.weight_kg<70",
+  "attempts": 1
+ },
+ {
+  "question_id": 379,
+  "answer": "select round(100.0*sum(case when a.alignment='Good' then 1 else 0 end)/count(*),2) from superhero s left join alignment a on a.id=s.alignment_id where s.publisher_id=(select id from publisher where publisher_name='Marvel Comics') and exists (select 1 from hero_power hp where hp.hero_id=s.id)",
+  "attempts": 1
+ }
+]

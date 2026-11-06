@@ -1,0 +1,57 @@
+[
+ {
+  "question_id": 242,
+  "answer": "select d.c0003, d.c0006, d.c0004, (select max(s.c0004) from t0006 s where s.c0000=d.c0000) from t0010 r join t0003 d on d.c0000=r.c0014 where r.c0017=1 group by d.c0000 order by count(*) desc limit 1",
+  "attempts": 3
+ },
+ {
+  "question_id": 244,
+  "answer": "select round(100.0*sum(t.c0002=w.c0002)/count(*),2) from t0010 t join t0002 r on r.c0006=t.c0000 join t0003 d on d.c0000=t.c0014 join t0010 w on w.c0000=t.c0000 and w.c0017=1 where d.c0004='Japanese' and r.c0002 between 2007 and 2009",
+  "attempts": 2
+ },
+ {
+  "question_id": 247,
+  "answer": "select sum(t.c0003) p, c.c0003, c.c0001 from t0010 t join t0002 r on r.c0006=t.c0000 join t0011 c on c.c0000=t.c0013 where r.c0001='Monaco Grand Prix' and r.c0002 between 1980 and 2010 group by c.c0000 order by p desc limit 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 251,
+  "answer": "select round(avg(n),2) from (select (select count(*) from t0001 p where p.c0003=r.c0006) n from t0002 r where r.c0002=2017 and r.c0001 not in (select c0001 from t0002 where c0002=2000))",
+  "attempts": 3
+ },
+ {
+  "question_id": 252,
+  "answer": "select d.c0003, d.c0006, d.c0005, d.c0001, count(q.c0001) n from t0003 d left join t0004 q on q.c0007=d.c0000 and q.c0001 is not null and q.c0001<>'' where d.c0004='German' and d.c0001 between '1971-01-01' and '1985-12-31' group by d.c0000 order by n desc, d.c0001",
+  "attempts": 2
+ },
+ {
+  "question_id": 255,
+  "answer": "with x as (select q.c0007 d, q.c0006 t, (substr(q.c0006,1,instr(q.c0006,':')-1)*60000+round(substr(q.c0006,instr(q.c0006,':')+1)*1000)) ms from t0004 q where q.c0005=255 and q.c0006 is not null and q.c0006<>'') select dr.c0003, dr.c0006, x.t from x join t0003 dr on dr.c0000=x.d where ms=(select min(ms) from x)",
+  "attempts": 3
+ },
+ {
+  "question_id": 258,
+  "answer": "select d.c0003, count(distinct d.c0000) n from t0010 t join t0002 r on r.c0006=t.c0000 join t0003 d on d.c0000=t.c0014 where r.c0001='Italian Grand Prix' and t.c0017=2 group by d.c0003 having n>=2 order by n desc, d.c0003",
+  "attempts": 3
+ },
+ {
+  "question_id": 264,
+  "answer": "select round(1.0*(select count(*) from t0004 q join t0003 d on d.c0000=q.c0007 where q.c0001<>'' and d.c0001 between '1981-01-01' and '1991-12-31')/(select count(*) from t0003 d where d.c0001 between '1981-01-01' and '1991-12-31'),2)",
+  "attempts": 2
+ },
+ {
+  "question_id": 267,
+  "answer": "select r.c0007, x.c0003, x.c0006, x.c0016 from t0002 r left join (select t.c0000 race, d.c0003, d.c0006, t.c0016 from t0010 t join t0003 d on d.c0000=t.c0014 where t.c0016 is not null and t.c0016<>'' and (substr(t.c0016,1,instr(t.c0016,':')-1)*60000+round(substr(t.c0016,instr(t.c0016,':')+1)*1000)) > 90000) x on x.race=r.c0006 where r.c0001='French Grand Prix' and r.c0002>=1990 order by r.c0007, x.c0006, x.c0003",
+  "attempts": 3
+ },
+ {
+  "question_id": 279,
+  "answer": "with w as (select distinct c0014 d from t0010 where c0017=1), o as (select d.* from t0003 d join w on w.d=d.c0000 order by d.c0001, d.c0003||' '||d.c0006 limit 1) select o.c0003||' '||o.c0006, o.c0004, (select ra.c0001 from t0010 t join t0002 ra on ra.c0006=t.c0000 where t.c0014=o.c0000 and t.c0017=1 order by ra.c0007, ra.c0001 limit 1), (select ra.c0007 from t0010 t join t0002 ra on ra.c0006=t.c0000 where t.c0014=o.c0000 and t.c0017=1 order by ra.c0007, ra.c0001 limit 1), (select count(distinct c0000) from t0010 where c0014=o.c0000) from o",
+  "attempts": 2
+ },
+ {
+  "question_id": 282,
+  "answer": "with x as (select q.c0007 d, q.c0005 r, q.c0003 t, (substr(q.c0003,1,instr(q.c0003,':')-1)*60000+round(substr(q.c0003,instr(q.c0003,':')+1)*1000)) ms from t0004 q join t0002 ra on ra.c0006=q.c0005 where ra.c0002=2017 and q.c0003 is not null and q.c0003<>'') select dr.c0006, ra.c0001 from x join t0003 dr on dr.c0000=x.d join t0002 ra on ra.c0006=x.r where ms=(select min(ms) from x)",
+  "attempts": 2
+ }
+]

@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 121,
+  "answer": "SELECT ROUND(100.0*SUM(CASE WHEN c0017 LIKE '%<r>%' THEN 1 ELSE 0 END)/COUNT(*),2) FROM t0003 WHERE c0016=-1",
+  "attempts": 3
+ },
+ {
+  "question_id": 125,
+  "answer": "SELECT ROUND(100.0*SUM(CASE WHEN c0014>50 THEN 1 ELSE 0 END)/COUNT(*),2) FROM t0003 WHERE c0016=(SELECT c0012 FROM t0004 ORDER BY c0005 DESC LIMIT 1)",
+  "attempts": 2
+ },
+ {
+  "question_id": 129,
+  "answer": "SELECT COUNT(*) FROM t0004 u JOIN t0006 o ON o.c0000=u.c0012 AND o.c0002='Organizer' WHERE u.c0006 LIKE '%Germany%' AND (SELECT COUNT(*) FROM t0006 b WHERE b.c0000=u.c0012 AND b.c0001<o.c0001)>=5",
+  "attempts": 1
+ },
+ {
+  "question_id": 137,
+  "answer": "SELECT c0012, c0004, c0001, c0005 FROM t0004 WHERE (c0006 LIKE '%California%' OR c0006 LIKE '%, CA' OR c0006 LIKE '%, CA,%' OR c0006 LIKE '% CA') AND c0001=(SELECT MAX(c0001) FROM t0004 WHERE c0006 LIKE '%California%' OR c0006 LIKE '%, CA' OR c0006 LIKE '%, CA,%' OR c0006 LIKE '% CA')",
+  "attempts": 3
+ },
+ {
+  "question_id": 139,
+  "answer": "SELECT COUNT(DISTINCT u.c0012) FROM t0004 u JOIN t0006 y ON y.c0000=u.c0012 AND y.c0002='Yearling' WHERE u.c0006 LIKE '%India%' AND y.c0001<'2014-01-01'",
+  "attempts": 1
+ },
+ {
+  "question_id": 143,
+  "answer": "SELECT COUNT(DISTINCT CASE WHEN p.c0016 IS NOT NULL THEN 'i'||p.c0016 ELSE 'n'||p.c0015 END) FROM t0000 v JOIN t0003 p ON p.c0020=v.c0003 WHERE v.c0005=8 AND v.c0004>=30 AND v.c0001>='2010-01-01' AND v.c0001<'2011-01-01'",
+  "attempts": 3
+ }
+]

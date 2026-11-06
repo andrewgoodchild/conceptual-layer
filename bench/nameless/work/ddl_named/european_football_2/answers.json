@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 173,
+  "answer": "select round(100.0*sum(h)/count(*),2) from (select p.player_api_id, max(a.defensive_work_rate='high') h from Player p join Player_Attributes a on a.player_api_id=p.player_api_id where p.birthday>='1991' and a.defensive_work_rate in ('low','medium','high') group by p.player_api_id)",
+  "attempts": 1
+ },
+ {
+  "question_id": 176,
+  "answer": "select t.team_short_name AS short_name, count(distinct t.team_api_id) n, round(avg(a.chanceCreationPassing),1) av from Team t left join Team_Attributes a on a.team_api_id=t.team_api_id and a.date like '2014-09-19%' where t.team_api_id in (select team_api_id from Team_Attributes where chanceCreationPassingClass='Risky') group by 1 having count(distinct t.team_api_id)>1 order by av desc, 1",
+  "attempts": 2
+ },
+ {
+  "question_id": 177,
+  "answer": "select round(avg(height),2) from Player p where birthday>='1990' and birthday<'1996' and (select defensive_work_rate from Player_Attributes a where a.player_api_id=p.player_api_id and defensive_work_rate in ('low','medium','high') order by date desc, id desc limit 1)='medium'",
+  "attempts": 1
+ },
+ {
+  "question_id": 178,
+  "answer": "select round(avg(weight),1) from Player p where exists(select 1 from Player_Attributes a where a.player_api_id=p.player_api_id and preferred_foot='left')",
+  "attempts": 2
+ },
+ {
+  "question_id": 180,
+  "answer": "select a.buildUpPlayDribblingClass from Team t join Team_Attributes a using(team_api_id) where t.team_short_name='POR' and a.date like '2015-09-10%' and t.team_api_id in (select home_team_api_id from Match m join Country c on c.id=m.country_id where c.name='England')",
+  "attempts": 2
+ },
+ {
+  "question_id": 183,
+  "answer": "with pm as (select country_id,home_player_1 p from Match union all select country_id,home_player_2 p from Match union all select country_id,home_player_3 p from Match union all select country_id,home_player_4 p from Match union all select country_id,home_player_5 p from Match union all select country_id,home_player_6 p from Match union all select country_id,home_player_7 p from Match union all select country_id,home_player_8 p from Match union all select country_id,home_player_9 p from Match union all select country_id,home_player_10 p from Match union all select country_id,home_player_11 p from Match union all select country_id,away_player_1 p from Match union all select country_id,away_player_2 p from Match union all select country_id,away_player_3 p from Match union all select country_id,away_player_4 p from Match union all select country_id,away_player_5 p from Match union all select country_id,away_player_6 p from Match union all select country_id,away_player_7 p from Match union all select country_id,away_player_8 p from Match union all select country_id,away_player_9 p from Match union all select country_id,away_player_10 p from Match union all select country_id,away_player_11 p from Match), r as (select c.name name, count(*) n from pm join Player pl on pl.player_api_id=pm.p and pl.weight>=210 join Country c on c.id=pm.country_id group by c.name) select name, n from r where n=(select max(n) from r) order by name",
+  "attempts": 1
+ }
+]

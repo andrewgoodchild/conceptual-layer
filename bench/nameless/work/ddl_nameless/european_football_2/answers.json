@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 173,
+  "answer": "select round(100.0*count(distinct case when a.c0021='high' then p.c0004 end)/count(distinct p.c0004),2) from t0000 p join t0005 a on a.c0031=p.c0004 where p.c0002>='1991' and a.c0021 in ('high','medium','low')",
+  "attempts": 3
+ },
+ {
+  "question_id": 176,
+  "answer": "with r as (select c0004 sn, c0000 tid from t0002 where c0000 in (select c0002 from t0006 where c0015='Risky')), d as (select sn, count(*) n from r group by sn having count(*)>1), v as (select r.sn, r.tid, (select a.c0021 from t0006 a where a.c0002=r.tid and a.c0017<='2014-09-19 23:59:59' order by a.c0017 desc limit 1) pv from r) select d.sn, d.n, round(avg(v.pv),1) av from d join v on v.sn=d.sn group by d.sn, d.n order by av desc, d.sn",
+  "attempts": 3
+ },
+ {
+  "question_id": 177,
+  "answer": "with l as (select c0031 pid, c0021 g, row_number() over (partition by c0031 order by c0008 desc) rn from t0005 where c0021 in ('high','medium','low')) select round(avg(p.c0005),2) from t0000 p join l on l.pid=p.c0004 and rn=1 where g='medium' and p.c0002>='1990' and p.c0002<'1996'",
+  "attempts": 3
+ },
+ {
+  "question_id": 178,
+  "answer": "select round(avg(c0001),1) from t0000 where c0004 in (select c0031 from t0005 where c0009='left')",
+  "attempts": 3
+ },
+ {
+  "question_id": 180,
+  "answer": "select a.c0008 from t0002 t join t0006 a on a.c0002=t.c0000 where t.c0004='POR' and t.c0003='Portsmouth' and a.c0017 like '2015-09-10%'",
+  "attempts": 3
+ },
+ {
+  "question_id": 183,
+  "answer": "with mp as (select c0058 cid, c0071 pid from t0004 union select c0058 cid, c0020 pid from t0004 union select c0058 cid, c0021 pid from t0004 union select c0058 cid, c0054 pid from t0004 union select c0058 cid, c0044 pid from t0004 union select c0058 cid, c0040 pid from t0004 union select c0058 cid, c0112 pid from t0004 union select c0058 cid, c0066 pid from t0004 union select c0058 cid, c0109 pid from t0004 union select c0058 cid, c0023 pid from t0004 union select c0058 cid, c0083 pid from t0004 union select c0058 cid, c0067 pid from t0004 union select c0058 cid, c0086 pid from t0004 union select c0058 cid, c0064 pid from t0004 union select c0058 cid, c0055 pid from t0004 union select c0058 cid, c0063 pid from t0004 union select c0058 cid, c0042 pid from t0004 union select c0058 cid, c0090 pid from t0004 union select c0058 cid, c0084 pid from t0004 union select c0058 cid, c0088 pid from t0004 union select c0058 cid, c0050 pid from t0004 union select c0058 cid, c0073 pid from t0004), x as (select t.c0000 country, count(distinct mp.pid) n from mp join t0000 p on p.c0004=mp.pid join t0003 t on t.c0001=mp.cid where p.c0001>=210 group by t.c0000) select country, n from x where n=(select max(n) from x) order by country",
+  "attempts": 3
+ }
+]

@@ -1,0 +1,51 @@
+[
+ {
+  "question_id": 201,
+  "answer": "select round(100.0*(sum(case when substr(l.date,1,4)='1997' then amount end)-sum(case when substr(l.date,1,4)='1996' then amount end))/sum(case when substr(l.date,1,4)='1996' then amount end),2) as growth_pct from loan l where l.account_id in (select d.account_id from disp d join client c using(client_id) where d.type='OWNER' and c.gender='M') and substr(l.date,1,4) in ('1996','1997')",
+  "attempts": 1
+ },
+ {
+  "question_id": 210,
+  "answer": "select round(avg(n),2) from (select a.account_id, (select count(*) from loan l where l.account_id=a.account_id) n from account a where exists(select 1 from disp d join client c using(client_id) where d.account_id=a.account_id and d.type='OWNER' and c.birth_date<'1950-01-01'))",
+  "attempts": 2
+ },
+ {
+  "question_id": 217,
+  "answer": "with t as (select district_id,A2,A4,A16 from district where A3='central Bohemia' order by A4 desc, A2 limit 3)\nselect A2 as district, A16 as crimes_1996, round((select avg(A16) from t),2) as avg_top3, round((select avg(A16) from district),2) as avg_all, round((select avg(A16) from t)-(select avg(A16) from district),2) as diff from t order by A4 desc, A2",
+  "attempts": 1,
+  "note": "A4=inhabitants, A16=crimes 1996 inferred from data"
+ },
+ {
+  "question_id": 218,
+  "answer": "with x as (select ca.type, dist.A2, dist.A4 from card ca join disp d using(disp_id) join client c using(client_id) join district dist on dist.district_id=c.district_id)\nselect type, A2 as district, A4 as inhabitants from x where (type,A4) in (select type,min(A4) from x group by type) group by type,A2 order by type,A2",
+  "attempts": 1
+ },
+ {
+  "question_id": 219,
+  "answer": "with a as (select account_id, district_id from account where date>='1996-01-01' and date<='1996-12-31' and district_id in (select district_id from district where A3='north Bohemia')),\nb as (select a.account_id,a.district_id,(select t.balance from trans t where t.account_id=a.account_id and t.date<='1996-12-31' order by t.date desc, t.trans_id desc limit 1) bal from a),\nr as (select d.A2 name, count(*) n, avg(bal) av from b join district d using(district_id) group by d.district_id)\nselect name as district_name, n as accounts_opened, round(av,2) as avg_balance, (select round(avg(bal),2) from b) as region_avg, (select name from r order by av desc, name limit 1) as top_district from r order by name",
+  "attempts": 1,
+  "note": "region of Litomerice = north Bohemia (A3)"
+ },
+ {
+  "question_id": 229,
+  "answer": "select sum(case when k_symbol='UROK' then amount when k_symbol='SANKC. UROK' then -amount else 0 end) as net_interest from trans where account_id=(select account_id from disp where client_id=2823 limit 1) and date between '1998-01-01' and '1998-12-31'",
+  "attempts": 1
+ },
+ {
+  "question_id": 235,
+  "answer": "with cc as (select distinct o.client_id, o.account_id from disp o where o.type='OWNER' and exists (select 1 from disp d2 join card ca on ca.disp_id=d2.disp_id where d2.client_id=o.client_id and ca.type='classic')),\nac as (select distinct account_id from cc)\nselect d.A2 as district_name,\n (select count(distinct cc.client_id) from cc join account a using(account_id) where a.district_id=d.district_id) as clients,\n (select count(distinct o.bank_to||'|'||o.account_to) from ac join account a using(account_id) join \"order\" o on o.account_id=ac.account_id where a.district_id=d.district_id) as external_accounts,\n coalesce((select sum(o.amount) from ac join account a using(account_id) join \"order\" o on o.account_id=ac.account_id where a.district_id=d.district_id),0) as total_amount\nfrom district d order by total_amount desc, d.A2",
+  "attempts": 1
+ },
+ {
+  "question_id": 237,
+  "answer": "select round(avg(A11),2) from district where district_id in (select district_id from client where gender='F' and birth_date<'1950-01-01')",
+  "attempts": 2,
+  "note": "averaged over distinct districts"
+ },
+ {
+  "question_id": 239,
+  "answer": "select 'young' as cohort, round(avg(dd.A11)) as avg_salary from district dd where dd.district_id in (select a.district_id from account a join disp d using(account_id) join client c using(client_id) where c.birth_date>='1980-01-01')\nunion all select 'old', round(avg(dd.A11)) from district dd where dd.district_id in (select a.district_id from account a join disp d using(account_id) join client c using(client_id) where c.birth_date<'1920-01-01')",
+  "attempts": 1,
+  "note": "distinct districts; A11 = average salary inferred"
+ }
+]

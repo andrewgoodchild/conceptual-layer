@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 173,
+  "answer": "SELECT ROUND(100.0 * COUNT(DISTINCT CASE WHEN a.c0021 = 'high' THEN p.c0004 END) / COUNT(DISTINCT p.c0004), 2) AS pct\nFROM t0000 p JOIN t0005 a ON a.c0031 = p.c0004\nWHERE p.c0002 >= '1991-01-01' AND a.c0021 IS NOT NULL AND a.c0021 <> ''",
+  "attempts": 1
+ },
+ {
+  "question_id": 176,
+  "answer": "WITH risky AS (SELECT DISTINCT c0002 AS tid FROM t0006 WHERE c0015 = 'Risky'),\ninforce AS (\n  SELECT ta.c0002 AS tid, ta.c0010 AS ccp,\n         ROW_NUMBER() OVER (PARTITION BY ta.c0002 ORDER BY ta.c0017 DESC) AS rn\n  FROM t0006 ta WHERE ta.c0017 <= '2014-09-19 23:59:59')\nSELECT t.c0004 AS short_name, COUNT(DISTINCT t.c0000) AS clubs, ROUND(AVG(i.ccp), 1) AS avg_risk\nFROM t0002 t\nJOIN risky r ON r.tid = t.c0000\nLEFT JOIN inforce i ON i.tid = t.c0000 AND i.rn = 1\nWHERE t.c0004 IN (SELECT t2.c0004 FROM t0002 t2 JOIN risky r2 ON r2.tid = t2.c0000 GROUP BY t2.c0004 HAVING COUNT(DISTINCT t2.c0000) > 1)\nGROUP BY t.c0004\nORDER BY avg_risk DESC, short_name ASC",
+  "attempts": 1
+ },
+ {
+  "question_id": 177,
+  "answer": "SELECT ROUND(AVG(p.c0005), 2) AS avg_height\nFROM t0000 p\nJOIN (SELECT a.c0031 AS pid, a.c0021 AS dwr,\n             ROW_NUMBER() OVER (PARTITION BY a.c0031 ORDER BY a.c0008 DESC, a.c0035 DESC) AS rn\n      FROM t0005 a WHERE a.c0021 IS NOT NULL AND a.c0021 <> '') r ON r.pid = p.c0004 AND r.rn = 1\nWHERE p.c0002 >= '1990-01-01' AND p.c0002 < '1996-01-01' AND r.dwr = 'medium'",
+  "attempts": 2
+ },
+ {
+  "question_id": 178,
+  "answer": "SELECT ROUND(AVG(p.c0001), 1) AS avg_weight\nFROM t0000 p\nWHERE p.c0004 IN (SELECT c0031 FROM t0005 WHERE c0009 = 'left')",
+  "attempts": 2
+ },
+ {
+  "question_id": 180,
+  "answer": "SELECT ta.c0008 AS build_up_play_dribbling_class\nFROM t0002 t JOIN t0006 ta ON ta.c0002 = t.c0000\nWHERE t.c0004 = 'POR' AND ta.c0017 LIKE '2015-09-10%'\n  AND t.c0000 IN (SELECT c0085 FROM t0004 m JOIN t0001 l ON l.c0002 = m.c0015 JOIN t0003 c ON c.c0001 = l.c0001 WHERE c.c0000='England'\n                  UNION SELECT c0013 FROM t0004 m JOIN t0001 l ON l.c0002 = m.c0015 JOIN t0003 c ON c.c0001 = l.c0001 WHERE c.c0000='England')",
+  "attempts": 1
+ },
+ {
+  "question_id": 183,
+  "answer": "WITH mp AS (\n  SELECT c0015 AS lg, c0020 AS p FROM t0004 UNION SELECT c0015, c0021 FROM t0004 UNION SELECT c0015, c0023 FROM t0004\n  UNION SELECT c0015, c0040 FROM t0004 UNION SELECT c0015, c0042 FROM t0004 UNION SELECT c0015, c0044 FROM t0004\n  UNION SELECT c0015, c0050 FROM t0004 UNION SELECT c0015, c0054 FROM t0004 UNION SELECT c0015, c0055 FROM t0004\n  UNION SELECT c0015, c0063 FROM t0004 UNION SELECT c0015, c0064 FROM t0004 UNION SELECT c0015, c0066 FROM t0004\n  UNION SELECT c0015, c0067 FROM t0004 UNION SELECT c0015, c0071 FROM t0004 UNION SELECT c0015, c0073 FROM t0004\n  UNION SELECT c0015, c0083 FROM t0004 UNION SELECT c0015, c0084 FROM t0004 UNION SELECT c0015, c0086 FROM t0004\n  UNION SELECT c0015, c0088 FROM t0004 UNION SELECT c0015, c0090 FROM t0004 UNION SELECT c0015, c0109 FROM t0004\n  UNION SELECT c0015, c0112 FROM t0004),\ncnt AS (\n  SELECT c.c0000 AS country, COUNT(DISTINCT pl.c0004) AS n\n  FROM mp JOIN t0001 l ON l.c0002 = mp.lg JOIN t0003 c ON c.c0001 = l.c0001\n  JOIN t0000 pl ON pl.c0004 = mp.p\n  WHERE pl.c0001 >= 210 GROUP BY c.c0000)\nSELECT country, n AS player_count FROM cnt WHERE n = (SELECT MAX(n) FROM cnt) ORDER BY country",
+  "attempts": 2
+ }
+]

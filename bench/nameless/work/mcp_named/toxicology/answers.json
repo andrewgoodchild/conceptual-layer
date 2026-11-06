@@ -1,0 +1,32 @@
+[
+ {
+  "question_id": 469,
+  "answer": "select 1.0*count(*)/count(distinct b.molecule_id) from bond b join molecule m on m.molecule_id=b.molecule_id where m.label='+' and b.bond_type='-'",
+  "attempts": 1
+ },
+ {
+  "question_id": 471,
+  "answer": "select count(distinct case when a.element='i' then a.atom_id end) as iodine, count(distinct case when a.element='s' then a.atom_id end) as sulfur from atom a join connected c on c.atom_id=a.atom_id join bond b on b.bond_id=c.bond_id where b.bond_type='-' and a.element in ('i','s')",
+  "attempts": 1
+ },
+ {
+  "question_id": 476,
+  "answer": "select count(*) from atom where molecule_id in (select molecule_id from bond where bond_type='#') and molecule_id in (select molecule_id from atom where element in ('p','br'))",
+  "attempts": 1
+ },
+ {
+  "question_id": 490,
+  "answer": "with rare as (select element from atom group by element having count(distinct molecule_id)=1) select a.molecule_id, count(distinct c.bond_id) as bond_count from atom a join rare r on r.element=a.element join molecule m on m.molecule_id=a.molecule_id and m.label='+' join connected c on c.atom_id=a.atom_id group by a.molecule_id order by a.molecule_id",
+  "attempts": 1
+ },
+ {
+  "question_id": 493,
+  "answer": "select round(1.0*count(c.atom_id)/count(distinct a.atom_id),2) from atom a left join connected c on c.atom_id=a.atom_id where a.molecule_id='TR397'",
+  "attempts": 1
+ },
+ {
+  "question_id": 497,
+  "answer": "select a.element, count(*) as n from atom a where exists (select 1 from connected c where c.atom_id=a.atom_id) and not exists (select 1 from connected c join bond b on b.bond_id=c.bond_id where c.atom_id=a.atom_id and b.bond_type<>'-') group by a.element order by a.element",
+  "attempts": 1
+ }
+]
