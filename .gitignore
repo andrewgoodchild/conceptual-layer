@@ -138,3 +138,10 @@ bench/nameless/work/mcp-*.json
 bench/nameless/work/*/*/*
 !bench/nameless/work/*/*/answers.json
 bench/nameless/results.json
+
+# bench/readback: the labels, the items (BIRD's questions) and the listings are rebuilt by
+# build.py and not distributed (data/ may be a symlink); each checker's verdicts are kept
+bench/readback/data
+bench/readback/work/*/*/*
+!bench/readback/work/*/*/checks.json
+bench/readback/results.json
