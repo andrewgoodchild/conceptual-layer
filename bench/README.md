@@ -15,6 +15,8 @@ up, numbered, is [`findings.md`](findings.md).
 | [`ablation/`](ablation/README.md) | LiveSQLBench, BIRD, AdventureWorks and MusicBrainz | A published foreign-key recovery pipeline, one step at a time, and what each step's references do to a query writer downstream |
 | [`malloy-probe/`](malloy-probe/README.md) | the company fixture | How Malloy handles the fan traps the compiler was refusing at the time, which the compiler now computes |
 | [`minidev2026/`](minidev2026/PLAN.md) | BIRD's October 2026 mini-dev, 200 questions | Paired arms on the new release, planned before they ran: SQL from the DDL, SQL from the description, ConQuer (finding 176), its [repeat](minidev2026/PLAN2.md) (finding 177), and second opinions on the same answers (finding 178) |
+| [`nameless/`](nameless/PLAN.md) | BIRD's October 2026 mini-dev, 100 questions, in copies with no foreign keys, and with every name destroyed | The description against the DDL where the database is undocumented, no evidence for any arm, planned before it ran (finding 185) |
+| [`readback/`](readback/PLAN.md) | 144 of the pilot's ConQuer answers, 76 wrong, rescored now | Blind checkers judging each answer with and without `explain_query`'s reading, planned before they ran (finding 186) |
 | [`archive/hand-run/`](archive/hand-run/README.md) | BIRD mini-dev, 70 questions | The first measurement, answered by hand while the compiler was being built. Superseded by `pilot/`, kept for its trace of where ConQuer lost |
 
 ## Getting the data

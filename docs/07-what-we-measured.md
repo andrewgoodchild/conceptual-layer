@@ -637,7 +637,8 @@ is why the thesis is not rescued by a better compiler.
 
 The pilot's write-up, arm by arm, is [`bench/pilot/README.md`](../bench/pilot/README.md); the
 LiveSQLBench rounds are in [`bench/livesql/README.md`](../bench/livesql/README.md), and
-[`bench/README.md`](../bench/README.md) indexes every experiment. All 171 findings the work
+[`bench/README.md`](../bench/README.md) indexes every experiment, and
+[`REPORT.md`](../REPORT.md) is the short version. All 186 findings the work
 produced, with what each cost and how it was found, are in
 [`bench/findings.md`](../bench/findings.md).
 
