@@ -1,0 +1,72 @@
+[
+ {
+  "item": "for-01",
+  "verdict": "wrong",
+  "reason": "Takes the largest single-race Result points rather than the driver's standings points maximum."
+ },
+ {
+  "item": "for-02",
+  "verdict": "wrong",
+  "reason": "Putting the Status branch inside the count path makes it count the wrong end of the path rather than Results."
+ },
+ {
+  "item": "for-03",
+  "verdict": "right",
+  "reason": "Counts Results with a time, status 2 and race id strictly between 50 and 100, as the evidence says."
+ },
+ {
+  "item": "for-04",
+  "verdict": "wrong",
+  "reason": "Returns a fraction instead of the percentage the evidence asks for."
+ },
+ {
+  "item": "for-05",
+  "verdict": "right",
+  "reason": "Takes the top DriverStanding points row with the driver's forename and surname."
+ },
+ {
+  "item": "for-06",
+  "verdict": "right",
+  "reason": "Filters Results to status 2, with a time, race id strictly between 50 and 100, and counts them."
+ },
+ {
+  "item": "for-07",
+  "verdict": "wrong",
+  "reason": "Returns a fraction, not a percentage, and the nested race bracket is doubtful."
+ },
+ {
+  "item": "for-08",
+  "verdict": "right",
+  "reason": "Counts Finished results on that date times 100 over all results on that date, which matches having a time."
+ },
+ {
+  "item": "for-09",
+  "verdict": "wrong",
+  "reason": "Uses single-race Result points rather than the standings maximum."
+ },
+ {
+  "item": "for-10",
+  "verdict": "wrong",
+  "reason": "Returns a fraction, not a percentage."
+ },
+ {
+  "item": "for-11",
+  "verdict": "wrong",
+  "reason": "Ranks by career summed points rather than the maximum points value."
+ },
+ {
+  "item": "for-12",
+  "verdict": "wrong",
+  "reason": "Uses inclusive race bounds 50 and 100 and does not require a finisher time."
+ },
+ {
+  "item": "for-13",
+  "verdict": "wrong",
+  "reason": "Uses inclusive bounds and no finisher condition, and counts the end of the path."
+ },
+ {
+  "item": "for-14",
+  "verdict": "right",
+  "reason": "Orders DriverStanding points descending, takes the first, with the driver's names."
+ }
+]

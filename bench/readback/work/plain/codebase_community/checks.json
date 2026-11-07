@@ -1,0 +1,5 @@
+[
+ {"item":"cod-01","verdict":"right","reason":"Grouping by the constant v-v collapses to one row, the correlated WHERE keeps only users with more than 10 owned posts, and OPTIONALLY keeps users with no age so the upvote average is not narrowed while AVERAGE a skips nulls."},
+ {"item":"cod-02","verdict":"right","reason":"Two whole-query averages each filtered to users with more than 10 owned posts give one row of average upvotes and average age, the age average being over users who have an age."},
+ {"item":"cod-03","verdict":"wrong","reason":"The age average divides the sum of ages by the count of all qualifying users including those with no age, which understates the average user age."}
+]

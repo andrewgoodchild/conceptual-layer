@@ -520,6 +520,14 @@ question's own words to values, so destroying the names cost time, not answers. 
 scored 78 there, no difference shown. BIRD is famous enough that a writer may know it, which a
 renamed copy blunts and does not remove.
 
+Nor did the English read-back help someone check a query. Twenty blind checkers judged 144
+ConQuer answers that earlier writers had written, 76 of them wrong, by reading them without
+running them. Without the read-back they caught 84% of the wrong answers, and with it 79%, no
+difference shown (finding 186). In the four answers the read-back arm passed and the other
+caught, the read-back corrected the checker's misreading of the syntax, and the query was still
+wrong for another reason. Each checker saw several answers to the same question, so it could
+compare them, which may be why both arms caught so many.
+
 ### At scale, nothing beat the DDL
 
 Every result above had schemas small enough for a writer to take in whole. On LiveSQLBench's

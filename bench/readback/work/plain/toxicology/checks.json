@@ -1,0 +1,11 @@
+[
+{"item":"tox-01","verdict":"wrong","reason":"Connected stores each bond in both directions, so matching atom 19 on either role counts the same bond twice; only the first atom role should be matched."},
+{"item":"tox-02","verdict":"wrong","reason":"It counts bond connections that have a double bond rather than the atoms of molecules with a double bond, so the carbon share is computed over the wrong population."},
+{"item":"tox-03","verdict":"right","reason":"It counts distinct atoms that are carbon over distinct atoms in molecules having a double bond, times 100, which is the percentage asked for."},
+{"item":"tox-04","verdict":"right","reason":"It counts Connected rows whose first atom id matches 'TR%_19', one per connection of atom 19."},
+{"item":"tox-05","verdict":"wrong","reason":"Same as tox-01: the OR over both atom roles double counts each bond because connections are stored in both directions."},
+{"item":"tox-06","verdict":"right","reason":"It counts Connected rows with first atom id like 'TR%_19', the same as tox-04 and the connections of atom 19."},
+{"item":"tox-07","verdict":"wrong","reason":"The double-bond condition is not bracketed, so '* 100 / ...' attaches to the '=' value and the percentage is not computed as intended."},
+{"item":"tox-08","verdict":"wrong","reason":"Counting a path counts its end, so it counts Bonds rather than Atoms, giving a ratio of bonds instead of the carbon atom percentage."},
+{"item":"tox-09","verdict":"wrong","reason":"The trailing filter is unbracketed, so '* 100 / THE COUNT...' binds to the bond type comparison rather than dividing the counts."}
+]

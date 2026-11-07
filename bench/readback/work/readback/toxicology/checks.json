@@ -1,0 +1,11 @@
+[
+{"item":"tox-01","verdict":"wrong","reason":"Counting Connected rows where the atom is either end double-counts, since each bond is stored in both directions; only one end should be matched."},
+{"item":"tox-02","verdict":"wrong","reason":"It counts Connected rows (bond ends) rather than atoms of the double-bond molecules, so the percentage is of the wrong population."},
+{"item":"tox-03","verdict":"right","reason":"Counts distinct atoms in molecules having a double bond, with carbon over all of them, times 100."},
+{"item":"tox-04","verdict":"right","reason":"Counts Connected rows whose first atom id matches 'TR%_19', which is the atom's connections."},
+{"item":"tox-05","verdict":"wrong","reason":"The OR over both atom roles counts each connection twice because rows exist in both directions."},
+{"item":"tox-06","verdict":"right","reason":"Same as tox-04: counts Connected rows for atoms matching 'TR%_19'."},
+{"item":"tox-07","verdict":"wrong","reason":"The count runs over atom-by-bond rows, so atoms are weighted by their molecule's number of double bonds and the percentage is skewed."},
+{"item":"tox-08","verdict":"wrong","reason":"The count ends on Bond, so atoms are counted once per double bond rather than once per atom."},
+{"item":"tox-09","verdict":"right","reason":"The normalised form filters Atom with bracketed conditions, so it counts atoms once each, carbon over all atoms in double-bond molecules."}
+]

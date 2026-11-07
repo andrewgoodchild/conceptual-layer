@@ -1,0 +1,82 @@
+[
+ {
+  "item": "fin-01",
+  "verdict": "wrong",
+  "reason": "Returns a count of SLUZBY transactions and a k_symbol from Tran, but not the account's statement frequency and the order k_symbol for amount 3539."
+ },
+ {
+  "item": "fin-02",
+  "verdict": "right",
+  "reason": "Distinct accounts in district 1 with a loan of status C or D, counted at the Account head."
+ },
+ {
+  "item": "fin-03",
+  "verdict": "wrong",
+  "reason": "The path ends on LoanStatus, so the distinct count counts statuses (at most 2), not accounts."
+ },
+ {
+  "item": "fin-04",
+  "verdict": "right",
+  "reason": "Gives account 3's statement frequency and the k_symbol of its order with amount 3539, which are the two things asked."
+ },
+ {
+  "item": "fin-05",
+  "verdict": "wrong",
+  "reason": "Counts female clients in qualifying districts, not districts."
+ },
+ {
+  "item": "fin-06",
+  "verdict": "right",
+  "reason": "Counts Districts (bracket filters do not fan out) that have a female client and A11 between 6000 and 10000."
+ },
+ {
+  "item": "fin-07",
+  "verdict": "right",
+  "reason": "Female clients per district name, descending, top 9, with both the district and the count."
+ },
+ {
+  "item": "fin-08",
+  "verdict": "wrong",
+  "reason": "Gives a SLUZBY transaction count and a Tran k_symbol rather than the account's frequency and the order's k_symbol."
+ },
+ {
+  "item": "fin-09",
+  "verdict": "right",
+  "reason": "Bracketed filters keep one row per Account, so it counts accounts in district 1 with a C or D loan."
+ },
+ {
+  "item": "fin-10",
+  "verdict": "right",
+  "reason": "Path ends on District, so the distinct count counts districts that have a female client and A11 in range."
+ },
+ {
+  "item": "fin-11",
+  "verdict": "wrong",
+  "reason": "Lists only the district names and omits the number of female account holders the question asks for."
+ },
+ {
+  "item": "fin-12",
+  "verdict": "wrong",
+  "reason": "Takes k_symbol from Tran rather than Order and lacks the order-based answer; pairs frequency with transaction symbols."
+ },
+ {
+  "item": "fin-13",
+  "verdict": "wrong",
+  "reason": "Lists only the district names and omits the count of female account holders."
+ },
+ {
+  "item": "fin-14",
+  "verdict": "wrong",
+  "reason": "Lists DistrictId instead of the district name A2 and restricts to owners."
+ },
+ {
+  "item": "fin-15",
+  "verdict": "wrong",
+  "reason": "Returns a transaction count and order k_symbol but not the account's statement frequency."
+ },
+ {
+  "item": "fin-16",
+  "verdict": "right",
+  "reason": "Same as the plain per-district female count, restricted to clients with a disposition, which is every account-holding client."
+ }
+]

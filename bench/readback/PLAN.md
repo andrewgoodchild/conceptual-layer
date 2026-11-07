@@ -85,3 +85,11 @@ reads a listing and a primer once and then judges fourteen items on average, wit
 Usage is recorded per checker in `ledger.jsonl`.
 
 ## What actually happened
+
+Added after scoring; everything above is as committed. `plain` caught 84.2% of the wrong answers
+and flagged 16.2% of the right ones, J +68.0; `readback` 78.9% and 17.6%, J +61.3. The primary
+comparison is -6.7 with an interval of -19.9 to +4.4: no difference shown, as predicted, but on
+the other side of zero from the prediction. The catch rate was far outside its range of 20 to
+50. Every question has 3 to 5 items in one checker's file, so a checker could compare the
+answers to one question with each other; the plan did not foresee it, and it is the same in
+both arms. 0.93M tokens. Finding 186.

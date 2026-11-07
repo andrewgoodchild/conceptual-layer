@@ -1,0 +1,82 @@
+[
+ {
+  "item": "fin-01",
+  "verdict": "wrong",
+  "reason": "Counts SLUZBY transactions and a max k_symbol from debit transactions instead of the account's statement frequency and the order's k_symbol."
+ },
+ {
+  "item": "fin-02",
+  "verdict": "right",
+  "reason": "Counts distinct accounts in district 1 whose loan status is C or D."
+ },
+ {
+  "item": "fin-03",
+  "verdict": "wrong",
+  "reason": "The distinct count applies to the end of the path (LoanStatus), so it returns the number of distinct statuses, not accounts."
+ },
+ {
+  "item": "fin-04",
+  "verdict": "right",
+  "reason": "Returns the account 3 statement frequency beside the k_symbol of its order of amount 3539."
+ },
+ {
+  "item": "fin-05",
+  "verdict": "wrong",
+  "reason": "Counts female clients in qualifying districts, not districts."
+ },
+ {
+  "item": "fin-06",
+  "verdict": "right",
+  "reason": "Counts districts that have a female client and A11 between 6000 and 10000."
+ },
+ {
+  "item": "fin-07",
+  "verdict": "right",
+  "reason": "Female clients counted per district A2, top nine by count descending, with name and count."
+ },
+ {
+  "item": "fin-08",
+  "verdict": "wrong",
+  "reason": "Counts SLUZBY transactions and takes the k_symbol from a Tran rather than from the order, so it does not give the frequency or the order purpose."
+ },
+ {
+  "item": "fin-09",
+  "verdict": "right",
+  "reason": "Counts head accounts in district 1 having a loan with status C or D."
+ },
+ {
+  "item": "fin-10",
+  "verdict": "right",
+  "reason": "Distinct count of districts of female clients with A11 between 6000 and 10000."
+ },
+ {
+  "item": "fin-11",
+  "verdict": "wrong",
+  "reason": "Lists only the district names and omits the female-holder count the question asks for."
+ },
+ {
+  "item": "fin-12",
+  "verdict": "wrong",
+  "reason": "Takes k_symbol from a Tran of amount 3539 on any account, not from account 3's order, and lacks the order link."
+ },
+ {
+  "item": "fin-13",
+  "verdict": "wrong",
+  "reason": "Lists only the district names and omits the female-holder count the question asks for."
+ },
+ {
+  "item": "fin-14",
+  "verdict": "wrong",
+  "reason": "Lists DistrictId rather than the A2 district name and restricts to owners."
+ },
+ {
+  "item": "fin-15",
+  "verdict": "wrong",
+  "reason": "Returns a count of SLUZBY transactions as c rather than the account's statement frequency."
+ },
+ {
+  "item": "fin-16",
+  "verdict": "right",
+  "reason": "Counts female clients with a disposition per district A2, top nine descending, with name and count."
+ }
+]

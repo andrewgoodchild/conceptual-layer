@@ -1,0 +1,5 @@
+[
+ {"item":"cod-01","verdict":"right","reason":"Groups all users with more than 10 posts under one constant key and averages UpVotes and the optional Age (nulls skipped), giving one row of the two averages."},
+ {"item":"cod-02","verdict":"right","reason":"Each average is taken over users with more than 10 posts (age only over those with an age), giving one row of the two averages, the same as a plain per-user average."},
+ {"item":"cod-03","verdict":"wrong","reason":"Divides the age sum by the count of all qualifying users, including those with no recorded age, so the age figure is understated compared with the average age."}
+]

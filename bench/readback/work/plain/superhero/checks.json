@@ -1,0 +1,16 @@
+[
+{"item":"sup-01","verdict":"right","reason":"Takes the HeroAttribute rows of 3-D Man and lists each one's attribute name and value."},
+{"item":"sup-02","verdict":"wrong","reason":"Divides by all female heroes, but the evidence defines the percentage over Marvel heroes (count of Marvel as denominator)."},
+{"item":"sup-03","verdict":"right","reason":"Blue skin-colour female heroes over all female heroes, times 100."},
+{"item":"sup-04","verdict":"right","reason":"Female Marvel heroes over all Marvel heroes times 100, matching the evidence formula."},
+{"item":"sup-05","verdict":"right","reason":"Attribute name and value come from the same HeroAttribute, filtered to the one belonging to 3-D Man."},
+{"item":"sup-06","verdict":"right","reason":"Female and blue skin colour filters with female denominator; 100.0 gives real division."},
+{"item":"sup-07","verdict":"right","reason":"Hero with the highest Speed value, taking the top row."},
+{"item":"sup-08","verdict":"wrong","reason":"'a is of HeroAttribute' goes from the Attribute to every hero's HeroAttribute, so values are not restricted to 3-D Man."},
+{"item":"sup-09","verdict":"right","reason":"Value and attribute are bound on the same HeroAttribute, sorted descending, first one."},
+{"item":"sup-10","verdict":"wrong","reason":"Uses eye colour where the evidence says skin colour."},
+{"item":"sup-11","verdict":"wrong","reason":"Divides by all female heroes, but the evidence defines the denominator as Marvel heroes."},
+{"item":"sup-12","verdict":"wrong","reason":"'Attribute is of HeroAttribute' is not tied to the outer hero, so every hero with a Speed attribute matches the global maximum."},
+{"item":"sup-13","verdict":"right","reason":"Female Marvel heroes over Marvel heroes times 100.0, matching the evidence."},
+{"item":"sup-14","verdict":"wrong","reason":"Uses eye colour instead of skin colour."}
+]

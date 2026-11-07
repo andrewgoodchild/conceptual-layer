@@ -1,0 +1,72 @@
+[
+ {
+  "item": "sup-01",
+  "verdict": "right",
+  "reason": "Lists attribute name and value for each HeroAttribute of the superhero named 3-D Man."
+ },
+ {
+  "item": "sup-02",
+  "verdict": "wrong",
+  "reason": "The denominator counts all female heroes, but the question wants the share of Marvel heroes that are female (as sup-04 and sup-13 do)."
+ },
+ {
+  "item": "sup-03",
+  "verdict": "right",
+  "reason": "Female skin-colour-blue count over female count, matching the evidence's skin_colour_id."
+ },
+ {
+  "item": "sup-04",
+  "verdict": "right",
+  "reason": "Female Marvel heroes over all Marvel heroes, times 100, is the evidence's formula."
+ },
+ {
+  "item": "sup-05",
+  "verdict": "right",
+  "reason": "All branches continue from the same HeroAttribute, filtered to 3-D Man, giving each attribute name with its value."
+ },
+ {
+  "item": "sup-06",
+  "verdict": "right",
+  "reason": "Female skin-blue count over female count with 100.0, giving the right percentage."
+ },
+ {
+  "item": "sup-07",
+  "verdict": "wrong",
+  "reason": "THE FIRST 1 picks one arbitrary row when several heroes tie on the top Speed value, so tied fastest heroes are missing."
+ },
+ {
+  "item": "sup-08",
+  "verdict": "wrong",
+  "reason": "Attribute is re-entered through HeroAttribute without being tied to 3-D Man, so each attribute is paired with every hero's values, not just his."
+ },
+ {
+  "item": "sup-09",
+  "verdict": "wrong",
+  "reason": "THE FIRST 1 without WITH TIES drops heroes tied on the maximum Speed value."
+ },
+ {
+  "item": "sup-10",
+  "verdict": "wrong",
+  "reason": "Uses eye colour, but the evidence specifies skin colour."
+ },
+ {
+  "item": "sup-11",
+  "verdict": "wrong",
+  "reason": "The denominator counts all female heroes, not Marvel heroes, so it gives the share of Marvel among females."
+ },
+ {
+  "item": "sup-12",
+  "verdict": "right",
+  "reason": "Returns every hero whose Speed equals the maximum Speed, including ties; the second HeroAttribute entry is an independent subquery for the max."
+ },
+ {
+  "item": "sup-13",
+  "verdict": "right",
+  "reason": "Marvel female count over Marvel count, times 100.0, is the right percentage."
+ },
+ {
+  "item": "sup-14",
+  "verdict": "wrong",
+  "reason": "Uses eye colour instead of skin colour as the evidence specifies."
+ }
+]

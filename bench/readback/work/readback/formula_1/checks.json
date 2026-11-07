@@ -1,0 +1,16 @@
+[
+{"item":"for-01","verdict":"wrong","reason":"Orders single Result rows by points, so it returns the best single-race score rather than the driver with the most points (standings or total)."},
+{"item":"for-02","verdict":"right","reason":"Counts Results at that race with Status Finished, times 100, over all Results at that race, giving the completion percentage."},
+{"item":"for-03","verdict":"right","reason":"Counts Results with a time, status id 2 and race id strictly between 50 and 100, matching the evidence."},
+{"item":"for-04","verdict":"wrong","reason":"Divides the counts without multiplying by 100, so it returns a fraction instead of the percentage the evidence asks for."},
+{"item":"for-05","verdict":"right","reason":"Takes the highest DriverStanding points with that driver's forename and surname, which is what the question and evidence describe."},
+{"item":"for-06","verdict":"right","reason":"Filters Results by status 2, a non-null time and race id strictly between 50 and 100, then counts them."},
+{"item":"for-07","verdict":"wrong","reason":"Returns the ratio without multiplying by 100, so it is not a percentage."},
+{"item":"for-08","verdict":"right","reason":"Finished-status count times 100 over all results at that race gives the completion percentage, and finishing matches having a time."},
+{"item":"for-09","verdict":"wrong","reason":"Same as for-01: it takes the top single-race Result points, not the driver's most points."},
+{"item":"for-10","verdict":"wrong","reason":"No multiplication by 100, so it returns a fraction rather than a percentage."},
+{"item":"for-11","verdict":"wrong","reason":"Sums career Result points per driver, which gives a different driver and value than the max of points the evidence specifies."},
+{"item":"for-12","verdict":"wrong","reason":"Uses inclusive bounds 50 to 100 and has no requirement for a non-null time, so it counts extra rows."},
+{"item":"for-13","verdict":"wrong","reason":"Uses inclusive bounds 50 to 100 and does not require a non-null finishing time, so it over-counts."},
+{"item":"for-14","verdict":"right","reason":"Same as for-05: top DriverStanding points with the driver's forename and surname."}
+]

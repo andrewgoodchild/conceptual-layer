@@ -6302,3 +6302,55 @@ or from BIRD -- which is the argument for a second corpus, not for more tests on
      refused; 20 of 44 wrote helper scripts or scratch files outside their directory; none reported reading
      outside it. One writer was stopped after scoring, while a background command of its own was
      still running; rescoring gave the same results. Per writer in `bench/nameless/ledger.jsonl`.
+
+186. **The read-back did not help a checker catch a wrong ConQuer query: 79% caught with it, 84%
+     without, no difference shown. What failed was the premise that wrong answers are hard to
+     see: without any help the checker caught 84%, not the 35% predicted.**
+
+     `bench/readback/PLAN.md` was committed before any checker ran. No new writers: every
+     distinct ConQuer answer the pilot's base-model arms wrote, rescored by strict EX with the
+     compiler as it stands, and from the 34 questions with both a right and a wrong answer up to
+     3 wrong and 2 right, a wrong one only if no declared forgiveness accepts it. 144 items, 76
+     wrong and 68 right, in 10 databases. 20 fresh blind Sonnet checkers, one per (arm,
+     database), each seeing the question with its evidence, the primer, the schema listing and
+     the query, and in one arm `explain_query`'s reading. Nobody ran anything. 0.93M tokens,
+     about $3.40.
+
+     | Arm | Wrong caught | Right flagged | J | Predicted |
+     |---|---|---|---|---|
+     | `plain` | **84.2%** | 16.2% | +68.0 | **35% (20 to 50)**, 15% |
+     | `readback` | 78.9% | 17.6% | +61.3 | 45%, 15% |
+
+     **The primary comparison**, J with the read-back minus J without, is -6.7, interval -19.9
+     to +4.4 resampling questions: no difference shown, as predicted, and on the wrong side of
+     the predicted +8. The two arms agreed on 133 of 144. Of the wrong answers, the read-back
+     arm caught none the plain arm missed and missed 4 it caught (McNemar p=0.125); of the right
+     ones each flagged a few the other did not (4 and 3, p=1.0).
+
+     **The four it missed are the interesting part.** In each, the plain checker's reason
+     included a misreading of the syntax: a path it took to restart at a new head (cal-04,
+     cal-10), a filter it took to swallow the arithmetic after it (tox-09), a step it took to be
+     unbound (sup-12). The read-back's normal form settled the doubt, and its checker, told
+     correctly what the query does, passed a query that was still wrong for another reason: in
+     cal-04 and cal-10 a stored percentage where the evidence gives a formula. So the read-back
+     corrected the reader's parse and in doing so removed a flag that had been right for the
+     wrong reason. Four items do not establish that this is how it works; they are what there is.
+
+     **Why the catch rate was high, as far as it can be seen.** Two reasons, neither measured.
+     The checkers were good: the questions are short and the evidence often says exactly what to
+     compute, so a query that departs from it reads wrong. And the design let a checker compare:
+     every question had 3 to 5 answers in one checker's file, so the odd one out could be seen
+     without reading any one of them closely. Only 12 of 288 reasons cite another item, but
+     comparing does not have to be said. Both arms had it, so it does not bias the comparison;
+     it does leave less room for the read-back to add anything. The plan did not foresee it.
+
+     **What it means.** The read-back is not shown to help a second reader find wrong queries, on
+     these answers, and the point estimate is against it. The case for it now rests on the
+     author's own use (`--check` while writing), which this round did not test and which the
+     material selects against: every wrong answer here is one its writer saw read back and kept.
+     A round that gives each checker one answer per question would remove the comparison; it is
+     not run.
+
+     **Departures.** None from the plan. Three checkers read through the harness's spill file of a
+     long tool output, which held their own directory's files, and two more noted one without
+     opening it; none reported reading anything else outside the directory. Per checker in `bench/readback/ledger.jsonl`.

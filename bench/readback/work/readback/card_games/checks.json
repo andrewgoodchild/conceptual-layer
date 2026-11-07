@@ -1,0 +1,117 @@
+[
+ {
+  "item": "car-01",
+  "verdict": "right",
+  "reason": "Counts textless normal-layout cards over all cards with real division, times 100, matching the evidence."
+ },
+ {
+  "item": "car-02",
+  "verdict": "right",
+  "reason": "Same numerator and denominator as the evidence formula, with real division."
+ },
+ {
+  "item": "car-03",
+  "verdict": "right",
+  "reason": "Returns CardId of mythic cards with a gladiator legality status of Banned, as asked."
+ },
+ {
+  "item": "car-04",
+  "verdict": "right",
+  "reason": "Legal commander cards with artist, excluding those whose power is present and not '*', so null and '*' remain."
+ },
+ {
+  "item": "car-05",
+  "verdict": "wrong",
+  "reason": "Hardcodes set code 'JUD' instead of finding every set containing the card named Ancestor's Chosen, so other sets' Italian names are missed."
+ },
+ {
+  "item": "car-06",
+  "verdict": "right",
+  "reason": "Returns CardId of mythic cards with a Banned gladiator legality, as asked."
+ },
+ {
+  "item": "car-07",
+  "verdict": "right",
+  "reason": "Italian translations of every set that has a card named Ancestor's Chosen, via a count over matching set code."
+ },
+ {
+  "item": "car-08",
+  "verdict": "right",
+  "reason": "Legal commander cards with artist where power is absent or '*', via correlated counts that are correct."
+ },
+ {
+  "item": "car-09",
+  "verdict": "wrong",
+  "reason": "Subtracting cards with any power also removes '*' cards, and the denominator counts all cards rather than foreign-data rows of cards without power."
+ },
+ {
+  "item": "car-10",
+  "verdict": "wrong",
+  "reason": "Uses absence of card text rather than isTextless = 1, a different set of cards than the evidence defines."
+ },
+ {
+  "item": "car-11",
+  "verdict": "wrong",
+  "reason": "Returns card names rather than card ids for the mythic banned cards, collapsing printings and giving the wrong column."
+ },
+ {
+  "item": "car-12",
+  "verdict": "right",
+  "reason": "Percentage of foreign-data rows in French among those whose card has no power or '*', matching the evidence formula."
+ },
+ {
+  "item": "car-13",
+  "verdict": "right",
+  "reason": "Legal commander cards with id and artist where power is null or '*', optional artist keeps cards lacking one."
+ },
+ {
+  "item": "car-14",
+  "verdict": "wrong",
+  "reason": "Denominator counts only textless cards instead of all cards, so the proportion is wrong."
+ },
+ {
+  "item": "car-15",
+  "verdict": "right",
+  "reason": "French share of foreign-data rows whose card has no power or '*', excluding rows with a real power value."
+ },
+ {
+  "item": "car-16",
+  "verdict": "wrong",
+  "reason": "Returns card names instead of card ids for mythic banned gladiator cards."
+ },
+ {
+  "item": "car-17",
+  "verdict": "wrong",
+  "reason": "Defines the cards by absence of CardText instead of isTextless = 1."
+ },
+ {
+  "item": "car-18",
+  "verdict": "right",
+  "reason": "Italian translations of sets that contain a card named Ancestor's Chosen, via SOME tied to the set code."
+ },
+ {
+  "item": "car-19",
+  "verdict": "wrong",
+  "reason": "Filters power = '*' only and so omits cards with no power value, which the question counts as unknown."
+ },
+ {
+  "item": "car-20",
+  "verdict": "right",
+  "reason": "Legal commander cards with id and artist for which no card record has a power other than '*', keeping null power."
+ },
+ {
+  "item": "car-21",
+  "verdict": "right",
+  "reason": "Same as the French share of foreign-data rows with no power or '*', with distinct variable names."
+ },
+ {
+  "item": "car-22",
+  "verdict": "wrong",
+  "reason": "Returns card names instead of card ids for the mythic banned gladiator cards."
+ },
+ {
+  "item": "car-23",
+  "verdict": "right",
+  "reason": "French share of foreign-data rows whose card has no power or '*', excluding rows with a real power value."
+ }
+]
