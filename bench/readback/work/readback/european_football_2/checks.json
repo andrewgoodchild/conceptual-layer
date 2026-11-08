@@ -1,0 +1,97 @@
+[
+ {
+  "item": "eur-01",
+  "verdict": "wrong",
+  "reason": "Compares only each player's earliest-id rating row rather than the overall rating summed across the player's rows the evidence implies."
+ },
+ {
+  "item": "eur-02",
+  "verdict": "wrong",
+  "reason": "Returns Player ids grouped by minimum potential, but the question's ids are the PlayerAttribute ids ordered by potential."
+ },
+ {
+  "item": "eur-03",
+  "verdict": "right",
+  "reason": "Subtracts jumping of PlayerAttribute ids 6 and 23, each a single row, matching the question."
+ },
+ {
+  "item": "eur-04",
+  "verdict": "right",
+  "reason": "Sums each player's ratings and applies (A-B)*100/B as the evidence specifies."
+ },
+ {
+  "item": "eur-05",
+  "verdict": "wrong",
+  "reason": "Divides by Jordan Bowery's rating whereas the evidence divides by Landon Donovan's."
+ },
+ {
+  "item": "eur-06",
+  "verdict": "wrong",
+  "reason": "Treats 6 and 23 as Player ids rather than PlayerAttribute ids and wraps in abs, changing the sign."
+ },
+ {
+  "item": "eur-07",
+  "verdict": "wrong",
+  "reason": "Returns Player ids grouped by minimum potential instead of PlayerAttribute ids ordered by potential."
+ },
+ {
+  "item": "eur-08",
+  "verdict": "wrong",
+  "reason": "Uses only each player's latest-dated row instead of the summed ratings the evidence implies."
+ },
+ {
+  "item": "eur-09",
+  "verdict": "right",
+  "reason": "Takes jumping of PlayerAttribute ids 6 and 23 and subtracts, matching the question."
+ },
+ {
+  "item": "eur-10",
+  "verdict": "wrong",
+  "reason": "Uses Player ids 6 and 23 with latest-date rows and abs, not the PlayerAttribute ids 6 and 23."
+ },
+ {
+  "item": "eur-11",
+  "verdict": "wrong",
+  "reason": "Uses Player ids 6 and 23 with the lowest attribute id rather than PlayerAttribute ids 6 and 23."
+ },
+ {
+  "item": "eur-12",
+  "verdict": "right",
+  "reason": "Lists PlayerAttribute ids with right preferred foot ordered by potential ascending, first 4."
+ },
+ {
+  "item": "eur-13",
+  "verdict": "right",
+  "reason": "Sums each player's ratings and applies (A-B)*100/B as the evidence specifies."
+ },
+ {
+  "item": "eur-14",
+  "verdict": "right",
+  "reason": "Sums ratings on 2013-07-12 and divides the difference by Landon Donovan's, as the evidence specifies."
+ },
+ {
+  "item": "eur-15",
+  "verdict": "wrong",
+  "reason": "Uses only each player's latest-dated row instead of the summed ratings the evidence implies."
+ },
+ {
+  "item": "eur-16",
+  "verdict": "right",
+  "reason": "Lists PlayerAttribute ids with right preferred foot ordered by potential ascending, first 4."
+ },
+ {
+  "item": "eur-17",
+  "verdict": "wrong",
+  "reason": "Returns Player api ids rather than the PlayerAttribute ids."
+ },
+ {
+  "item": "eur-18",
+  "verdict": "wrong",
+  "reason": "Divides by Jordan Bowery's rating whereas the evidence divides by Landon Donovan's."
+ },
+ {
+  "item": "eur-19",
+  "verdict": "right",
+  "reason": "Sums ratings on 2013-07-12 and divides the difference by Landon Donovan's, as the evidence specifies."
+ }
+]

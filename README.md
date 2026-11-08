@@ -70,14 +70,15 @@ Where this project differs:
 | **Querying, two ways** | *SQL*, with the description beside you. Or *ConQuer* (Proper, 1994): a path through the model's sentences, compiled to SQL for SQLite or PostgreSQL (and DuckDB's dialect, untested against DuckDB), read back, and summing each value once however the path fans out. | [3](docs/03-writing-conquer.md), [6](docs/06-inside-the-compiler.md) |
 | **The MCP server** | The description and both runners for any agent, read-only: `describe_schema`, `run_sql`, `run_query`, `explain_query`, `build_model`, a brief. | [`mcp/`](mcp/README.md) |
 | **CLI, diagram, examples** | Every piece is a command needing only the standard library for SQLite; the model draws as an ORM diagram; Chinook and Northwind run end to end against reference SQL. | [`render/`](render/), [`examples/`](examples/) |
-| **The measurements** | Harnesses, every writer's answers, 165 findings. | [7](docs/07-what-we-measured.md), [`bench/`](bench/) |
+| **The measurements** | Harnesses, every writer's answers, 186 findings; the summary in [REPORT.md](REPORT.md). | [7](docs/07-what-we-measured.md), [`bench/`](bench/) |
 
 ## What it is worth, measured
 
 Blind LLM writers, each given one database and its questions, scored by whether the rows their
 query returns match the benchmark's answer. On 100 questions, three points either way is
-noise. BIRD figures are on its 2025-07-04 annotations; the October 2026 release is close to a
-new test set and has not been run.
+noise. BIRD figures are on its 2025-07-04 annotations unless they say otherwise; the October
+2026 release, close to a new test set, has had three rounds of its own. The short version of
+everything below, with every pre-registered round in one table, is [REPORT.md](REPORT.md).
 
 **The conceptual model helped only where it said something the DDL does not.** In place of
 the DDL it did as well as the DDL and no better; beside it, the same schema restated as
@@ -119,6 +120,11 @@ description of the schema helps an LLM write SQL is a known research result, but
 result for one-shot systems; once the LLM iterates and explores the data itself, the benefit
 diminishes.
 
+**Nor where the database is undocumented.** On BIRD's October 2026 release, with every
+foreign key and hint removed and every table and column renamed, a SQL writer with the DDL
+scored 75 of 100 and one with the description 78, no difference shown: the writers worked the
+columns out from their values (finding 185).
+
 **ConQuer, the language, gave no measurable help, and it cost more.** Given the same
 information, ConQuer writers and SQL writers scored the same on every benchmark: 71 v 70 and 76
 v 74 on BIRD, 82 v 85 and 20 v 21 on LiveSQLBench's two tiers. A ConQuer writer never writes a
@@ -127,8 +133,9 @@ compiles to — but the queries came out no shorter than the SQL writers' own on
 a tenth shorter on LiveSQLBench. They took more attempts to get right (1.7 against 1.25 per
 question on BIRD), and used 1.3–1.5 times the tokens. The likeliest reason is that the writers
 have seen a great deal of SQL and no ConQuer before its one-page primer. What ConQuer does give
-is a query read back in English and the fan trap handled from the model: it is for a query you
-want checked, not for accuracy.
+is a query read back in English and the fan trap handled from the model. That the read-back
+helps someone check a query is not shown either: blind checkers caught 84% of earlier writers'
+wrong ConQuer answers without it and 79% with it (finding 186).
 
 Every arm, what each writer was given, and the caveats are in [7 — What we
 measured](docs/07-what-we-measured.md); the experiments themselves, with every writer's
@@ -165,7 +172,7 @@ compiler, `mcp/` the server, `render/` the diagram, `examples/`, `bench/` the me
 ## Tests, proofs and benchmarks
 
 ~2,200 assertions, property tests, a round-trip proof that `--normalise` is a fixed point, a
-corpus of 2,175 recorded queries that must compile identically after every change, and 165
+corpus of 2,175 recorded queries that must compile identically after every change, and 186
 findings ([`bench/findings.md`](bench/findings.md)). Not a production query
 engine: the SQL is meant to be readable, not fast, and the findings include wrong answers the
 compiler gave silently until a test caught them. [CONTRIBUTING.md](CONTRIBUTING.md) says

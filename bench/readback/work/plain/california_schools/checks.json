@@ -1,0 +1,62 @@
+[
+ {
+  "item": "cal-01",
+  "verdict": "wrong",
+  "reason": "Lists SchoolDOC (the numeric code) instead of the DOC type."
+ },
+ {
+  "item": "cal-02",
+  "verdict": "right",
+  "reason": "Names of schools with free-meal/enrollment > 0.1 and NumGE1500 >= 1, matching the question."
+ },
+ {
+  "item": "cal-03",
+  "verdict": "right",
+  "reason": "Same filter as the question: f/k > 0.1 and NumGE1500 > 0, listing school names."
+ },
+ {
+  "item": "cal-04",
+  "verdict": "wrong",
+  "reason": "Malformed path restarts at Frpm and Satscore after a School head, and uses the stored percent rather than the evidence formula."
+ },
+ {
+  "item": "cal-05",
+  "verdict": "wrong",
+  "reason": "Orders by raw longitude, but the evidence says maximum absolute longitude (California values are negative)."
+ },
+ {
+  "item": "cal-06",
+  "verdict": "wrong",
+  "reason": "Sorts by an expression abs(lon) rather than a bound name, which the language does not allow, so it will not return the intended row."
+ },
+ {
+  "item": "cal-07",
+  "verdict": "wrong",
+  "reason": "Compares the difference to avg(K12) minus avg(Ages517) computed over separate ranges, which differs from the average difference when either value is missing."
+ },
+ {
+  "item": "cal-08",
+  "verdict": "right",
+  "reason": "Binds abs(lo) and orders by it descending, taking the first, which is the school with maximum absolute longitude."
+ },
+ {
+  "item": "cal-09",
+  "verdict": "right",
+  "reason": "Correct average-of-differences subquery over locally funded schools, listing name and DOC type."
+ },
+ {
+  "item": "cal-10",
+  "verdict": "wrong",
+  "reason": "Uses the stored FrpmPercentEligibleFreeK12 rather than free count / enrollment per the evidence, and mixes Frpm and Satscore readings off a School head."
+ },
+ {
+  "item": "cal-11",
+  "verdict": "wrong",
+  "reason": "Lists SchoolDOC (code) instead of the DOC type."
+ },
+ {
+  "item": "cal-12",
+  "verdict": "right",
+  "reason": "Correct average-of-differences subquery over locally funded schools, listing name and DOC type."
+ }
+]

@@ -1,0 +1,117 @@
+[
+ {
+  "item": "car-01",
+  "verdict": "right",
+  "reason": "Counts textless normal-layout cards over all cards, times 100, as the evidence formula says."
+ },
+ {
+  "item": "car-02",
+  "verdict": "right",
+  "reason": "Same as 01 with chained filters and 100.0; numerator and denominator are correct."
+ },
+ {
+  "item": "car-03",
+  "verdict": "right",
+  "reason": "Returns ids of mythic cards with a banned gladiator legality, with format and status filtered on the same legality."
+ },
+ {
+  "item": "car-04",
+  "verdict": "right",
+  "reason": "Legal commander cards with power absent or '*', excluding any card whose power differs from '*', with id and artist."
+ },
+ {
+  "item": "car-05",
+  "verdict": "wrong",
+  "reason": "It hardcodes set code 'JUD' instead of finding the sets that contain the card, so it can miss or mis-pick sets."
+ },
+ {
+  "item": "car-06",
+  "verdict": "right",
+  "reason": "Lists ids of mythic cards with a banned gladiator legality."
+ },
+ {
+  "item": "car-07",
+  "verdict": "right",
+  "reason": "Italian translations of sets whose code matches a card named Ancestor's Chosen, correlated by set code."
+ },
+ {
+  "item": "car-08",
+  "verdict": "right",
+  "reason": "Id and artist of commander-legal cards whose power is absent or '*', checked per card by correlated counts."
+ },
+ {
+  "item": "car-09",
+  "verdict": "wrong",
+  "reason": "It counts distinct cards over all cards without power, but the evidence formula counts foreign-data rows, so the denominator and numerator differ."
+ },
+ {
+  "item": "car-10",
+  "verdict": "wrong",
+  "reason": "It measures normal-layout cards with no text over normal-layout cards, not textless normal cards over all cards."
+ },
+ {
+  "item": "car-11",
+  "verdict": "wrong",
+  "reason": "It lists card names rather than card ids, so rows repeat across printings and the wrong column is returned."
+ },
+ {
+  "item": "car-12",
+  "verdict": "right",
+  "reason": "French foreign-data rows whose card has no power or '*', over all such rows, times 100."
+ },
+ {
+  "item": "car-13",
+  "verdict": "right",
+  "reason": "Commander-legal cards with null or '*' power, with id and optional artist; null power passes the if() test."
+ },
+ {
+  "item": "car-14",
+  "verdict": "wrong",
+  "reason": "The denominator is only textless cards instead of all cards, so the proportion is wrong."
+ },
+ {
+  "item": "car-15",
+  "verdict": "right",
+  "reason": "French foreign-data rows whose card has no power or '*' over all such rows, times 100."
+ },
+ {
+  "item": "car-16",
+  "verdict": "wrong",
+  "reason": "It lists card names rather than card ids, so the column is wrong."
+ },
+ {
+  "item": "car-17",
+  "verdict": "wrong",
+  "reason": "It computes normal-layout cards with no text over normal-layout cards, which is not the textless proportion over all cards."
+ },
+ {
+  "item": "car-18",
+  "verdict": "wrong",
+  "reason": "It uses SOME, which the language does not document, so it is unlikely to run as written."
+ },
+ {
+  "item": "car-19",
+  "verdict": "wrong",
+  "reason": "It requires power to be exactly '*' and so drops cards with no power recorded."
+ },
+ {
+  "item": "car-20",
+  "verdict": "right",
+  "reason": "Commander-legal cards with no power other than '*', with id and optional artist."
+ },
+ {
+  "item": "car-21",
+  "verdict": "right",
+  "reason": "French foreign-data rows whose card has no power or '*' over all such rows, times 100."
+ },
+ {
+  "item": "car-22",
+  "verdict": "wrong",
+  "reason": "It lists card names rather than card ids, so the column is wrong."
+ },
+ {
+  "item": "car-23",
+  "verdict": "right",
+  "reason": "French foreign-data rows whose card has no power or '*' over all such rows, times 100."
+ }
+]

@@ -1,0 +1,77 @@
+[
+ {
+  "item": "deb-01",
+  "verdict": "right",
+  "reason": "Counts distinct EUR customers having some Yearmonth with consumption over 1000."
+ },
+ {
+  "item": "deb-02",
+  "verdict": "wrong",
+  "reason": "Counts transactions rather than distinct customers, and the denominator is all transactions."
+ },
+ {
+  "item": "deb-03",
+  "verdict": "right",
+  "reason": "Distinct EUR customers on that date over distinct customers on that date, times 100."
+ },
+ {
+  "item": "deb-04",
+  "verdict": "right",
+  "reason": "Distinct count of EUR customers with a consumption over 1000."
+ },
+ {
+  "item": "deb-05",
+  "verdict": "wrong",
+  "reason": "Filters transaction dates on 2013-06 but transactions only span August 2012, so it returns nothing; June 2013 lives in Yearmonth."
+ },
+ {
+  "item": "deb-06",
+  "verdict": "wrong",
+  "reason": "Right path via Yearmonth 201306 but not DISTINCT, so countries repeat once per transaction."
+ },
+ {
+  "item": "deb-07",
+  "verdict": "wrong",
+  "reason": "Counts Yearmonth rows, not customers, so a customer with several high months is counted repeatedly."
+ },
+ {
+  "item": "deb-08",
+  "verdict": "right",
+  "reason": "Distinct count of EUR customers with a consumption over 1000."
+ },
+ {
+  "item": "deb-09",
+  "verdict": "right",
+  "reason": "Distinct EUR customers over distinct customers with transactions that date, times 100."
+ },
+ {
+  "item": "deb-10",
+  "verdict": "right",
+  "reason": "Distinct countries via Yearmonth 201306 customers' transactions' gas stations."
+ },
+ {
+  "item": "deb-11",
+  "verdict": "wrong",
+  "reason": "Uses transaction dates, which are all in August 2012, so June 2013 returns nothing and the list is not distinct."
+ },
+ {
+  "item": "deb-12",
+  "verdict": "wrong",
+  "reason": "Counts transactions rather than distinct customers."
+ },
+ {
+  "item": "deb-13",
+  "verdict": "right",
+  "reason": "Distinct customers (end of path) with EUR over distinct customers on that date, times 100."
+ },
+ {
+  "item": "deb-14",
+  "verdict": "wrong",
+  "reason": "Non-distinct count of Customer; customers with several months over 1000 can be counted more than once."
+ },
+ {
+  "item": "deb-15",
+  "verdict": "wrong",
+  "reason": "Filters on transaction dates, all in August 2012, so June 2013 returns nothing."
+ }
+]

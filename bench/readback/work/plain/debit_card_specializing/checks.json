@@ -1,0 +1,77 @@
+[
+ {
+  "item": "deb-01",
+  "verdict": "right",
+  "reason": "Counts distinct EUR customers having some yearmonth consumption over 1000."
+ },
+ {
+  "item": "deb-02",
+  "verdict": "wrong",
+  "reason": "Counts transactions rather than distinct customers, so the percentage is of transactions."
+ },
+ {
+  "item": "deb-03",
+  "verdict": "right",
+  "reason": "Distinct EUR customers over distinct customers on that date, as a real-division percentage."
+ },
+ {
+  "item": "deb-04",
+  "verdict": "right",
+  "reason": "Distinct EUR customers with a yearmonth consumption over 1000."
+ },
+ {
+  "item": "deb-05",
+  "verdict": "wrong",
+  "reason": "Filters transaction dates starting '2013-06', but transactions only span August 2012, so it returns nothing instead of using the yearmonth 201306 link."
+ },
+ {
+  "item": "deb-06",
+  "verdict": "wrong",
+  "reason": "Without DISTINCT it returns a country row per transaction rather than each country once."
+ },
+ {
+  "item": "deb-07",
+  "verdict": "wrong",
+  "reason": "Counts yearmonth rows, so a customer with several months over 1000 is counted repeatedly."
+ },
+ {
+  "item": "deb-08",
+  "verdict": "right",
+  "reason": "Distinct EUR customers with some consumption over 1000."
+ },
+ {
+  "item": "deb-09",
+  "verdict": "right",
+  "reason": "Distinct EUR customers over distinct customers with transactions on 2012-08-25, times 100."
+ },
+ {
+  "item": "deb-10",
+  "verdict": "right",
+  "reason": "Distinct countries of gas stations used by customers who have a 201306 yearmonth record."
+ },
+ {
+  "item": "deb-11",
+  "verdict": "wrong",
+  "reason": "Filters transaction date to June 2013, which has no transactions; ignores the yearmonth 201306 evidence and returns duplicate rows."
+ },
+ {
+  "item": "deb-12",
+  "verdict": "wrong",
+  "reason": "Counts transactions rather than customers."
+ },
+ {
+  "item": "deb-13",
+  "verdict": "right",
+  "reason": "Counts distinct customers on the date, EUR ones over all, times 100."
+ },
+ {
+  "item": "deb-14",
+  "verdict": "right",
+  "reason": "Bracket form counts distinct EUR customers having a consumption over 1000."
+ },
+ {
+  "item": "deb-15",
+  "verdict": "wrong",
+  "reason": "Filters transaction dates for June 2013, where none exist, ignoring the yearmonth 201306 evidence."
+ }
+]

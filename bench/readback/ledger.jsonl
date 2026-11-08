@@ -1,0 +1,20 @@
+{"arm": "plain", "db": "codebase_community", "tokens": 39464, "tool_uses": 4, "ms": 20033, "outside": false, "note": "unsure whether an average age divides by users with an age or by all"}
+{"arm": "readback", "db": "superhero", "tokens": 46156, "tool_uses": 5, "ms": 20294, "outside": false}
+{"arm": "readback", "db": "codebase_community", "tokens": 40946, "tool_uses": 6, "ms": 20862, "outside": false, "note": "same doubt on the average age's denominator"}
+{"arm": "readback", "db": "debit_card_specializing", "tokens": 45974, "tool_uses": 5, "ms": 21029, "outside": false}
+{"arm": "plain", "db": "debit_card_specializing", "tokens": 40656, "tool_uses": 5, "ms": 25879, "outside": false, "note": "took how many customers to mean distinct customers"}
+{"arm": "plain", "db": "formula_1", "tokens": 43407, "tool_uses": 5, "ms": 26936, "outside": false}
+{"arm": "readback", "db": "toxicology", "tokens": 41446, "tool_uses": 4, "ms": 26931, "outside": false, "note": "took the percentages over distinct atoms, not atom-per-bond rows"}
+{"arm": "plain", "db": "california_schools", "tokens": 47850, "tool_uses": 5, "ms": 29551, "outside": false, "note": "opened the harness's spill file of a long tool output, which held this directory's own files"}
+{"arm": "readback", "db": "european_football_2", "tokens": 47929, "tool_uses": 6, "ms": 30152, "outside": false, "note": "the primer's output was spilled to a tool-results file, not opened; read the primer again from the directory"}
+{"arm": "plain", "db": "superhero", "tokens": 42266, "tool_uses": 4, "ms": 30601, "outside": false, "note": "followed the evidence's denominator for the Marvel percentage; a single row for a tied 'fastest' marked right"}
+{"arm": "plain", "db": "financial", "tokens": 42778, "tool_uses": 5, "ms": 31023, "outside": false, "note": "judgement calls on 'account holders' and whether the district count column is required"}
+{"arm": "plain", "db": "toxicology", "tokens": 40028, "tool_uses": 4, "ms": 31200, "outside": false}
+{"arm": "plain", "db": "thrombosis_prediction", "tokens": 45589, "tool_uses": 5, "ms": 31654, "outside": false, "note": "a count of examinations rather than patients marked right on the assumption the counts match"}
+{"arm": "readback", "db": "california_schools", "tokens": 53750, "tool_uses": 7, "ms": 32105, "outside": false}
+{"arm": "readback", "db": "thrombosis_prediction", "tokens": 45929, "tool_uses": 6, "ms": 33705, "outside": false, "note": "a tool-output spill file was written outside, not opened"}
+{"arm": "readback", "db": "formula_1", "tokens": 47862, "tool_uses": 7, "ms": 33852, "outside": false}
+{"arm": "readback", "db": "financial", "tokens": 49677, "tool_uses": 5, "ms": 34943, "outside": false}
+{"arm": "plain", "db": "european_football_2", "tokens": 53885, "tool_uses": 9, "ms": 47311, "outside": false, "note": "the listing does not say which value identifies Player or PlayerAttribute; took ratings summed over all rows for the Ariel/Paulin question"}
+{"arm": "plain", "db": "card_games", "tokens": 54131, "tool_uses": 5, "ms": 57157, "outside": false, "note": "read back the harness spill file of the primer; close calls on names vs ids, cards vs foreign-data rows, and SOME, which the primer does not document"}
+{"arm": "readback", "db": "card_games", "tokens": 60839, "tool_uses": 9, "ms": 79373, "outside": false, "note": "read items.json through the harness spill file of its own read; guesses on name versus id (car-11, 16, 22) and a hardcoded code (car-05)"}

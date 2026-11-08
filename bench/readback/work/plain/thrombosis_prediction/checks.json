@@ -1,0 +1,97 @@
+[
+ {
+  "item": "thr-01",
+  "verdict": "right",
+  "reason": "Patients with an examination of thrombosis 2, with optional sex and diagnosis."
+ },
+ {
+  "item": "thr-02",
+  "verdict": "right",
+  "reason": "Distinct patients with thrombosis '2' exams and their id, sex and diagnosis."
+ },
+ {
+  "item": "thr-03",
+  "verdict": "wrong",
+  "reason": "Filters thrombosis 2 although the evidence says '1', and counts examinations rather than patients."
+ },
+ {
+  "item": "thr-04",
+  "verdict": "wrong",
+  "reason": "Uses PatientFirstDate for the 1997 test where the evidence says Description."
+ },
+ {
+  "item": "thr-05",
+  "verdict": "right",
+  "reason": "Requires GPT>30, ALB<4 and the date range on the same laboratory row and lists distinct patient IDs."
+ },
+ {
+  "item": "thr-06",
+  "verdict": "right",
+  "reason": "Counts female-patient examinations with thrombosis '1' in 1997, as the evidence defines."
+ },
+ {
+  "item": "thr-07",
+  "verdict": "wrong",
+  "reason": "Takes the date range from Examination rather than the laboratory date, so it changes the set of patients."
+ },
+ {
+  "item": "thr-08",
+  "verdict": "wrong",
+  "reason": "Filters thrombosis 3, which is not the '1' the evidence gives."
+ },
+ {
+  "item": "thr-09",
+  "verdict": "right",
+  "reason": "Same laboratory row has date in range, GPT>30 and ALB<4; distinct patient IDs listed."
+ },
+ {
+  "item": "thr-10",
+  "verdict": "right",
+  "reason": "Distinct patients with a lab row having GLU>=180 and TCHO<250, with id, sex and age."
+ },
+ {
+  "item": "thr-11",
+  "verdict": "right",
+  "reason": "Distinct female patients with Description year 1997 and Admission '-'."
+ },
+ {
+  "item": "thr-12",
+  "verdict": "wrong",
+  "reason": "Filters thrombosis '3' instead of 2."
+ },
+ {
+  "item": "thr-13",
+  "verdict": "right",
+  "reason": "GLU>=180 and TCHO<250 on one lab row, with id, sex and computed age."
+ },
+ {
+  "item": "thr-14",
+  "verdict": "wrong",
+  "reason": "Uses PatientFirstDate rather than Description for the 1997 test."
+ },
+ {
+  "item": "thr-15",
+  "verdict": "wrong",
+  "reason": "Uses different normal-range cut-offs than the evidence's GLU>=180 and TCHO<250."
+ },
+ {
+  "item": "thr-16",
+  "verdict": "wrong",
+  "reason": "Uses GLU<70 or >109 and TCHO 150-219 instead of the evidence's thresholds."
+ },
+ {
+  "item": "thr-17",
+  "verdict": "right",
+  "reason": "Distinct female patients with a thrombosis 1 examination dated 1997."
+ },
+ {
+  "item": "thr-18",
+  "verdict": "wrong",
+  "reason": "Filters thrombosis 3 instead of 2."
+ },
+ {
+  "item": "thr-19",
+  "verdict": "right",
+  "reason": "Counts female patients with Description year 1997 and Admission '-'."
+ }
+]

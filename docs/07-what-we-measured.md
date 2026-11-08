@@ -520,6 +520,14 @@ question's own words to values, so destroying the names cost time, not answers. 
 scored 78 there, no difference shown. BIRD is famous enough that a writer may know it, which a
 renamed copy blunts and does not remove.
 
+Nor did the English read-back help someone check a query. Twenty blind checkers judged 144
+ConQuer answers that earlier writers had written, 76 of them wrong, by reading them without
+running them. Without the read-back they caught 84% of the wrong answers, and with it 79%, no
+difference shown (finding 186). In the four answers the read-back arm passed and the other
+caught, the read-back corrected the checker's misreading of the syntax, and the query was still
+wrong for another reason. Each checker saw several answers to the same question, so it could
+compare them, which may be why both arms caught so many.
+
 ### At scale, nothing beat the DDL
 
 Every result above had schemas small enough for a writer to take in whole. On LiveSQLBench's
@@ -629,7 +637,8 @@ is why the thesis is not rescued by a better compiler.
 
 The pilot's write-up, arm by arm, is [`bench/pilot/README.md`](../bench/pilot/README.md); the
 LiveSQLBench rounds are in [`bench/livesql/README.md`](../bench/livesql/README.md), and
-[`bench/README.md`](../bench/README.md) indexes every experiment. All 171 findings the work
+[`bench/README.md`](../bench/README.md) indexes every experiment, and
+[`REPORT.md`](../REPORT.md) is the short version. All 186 findings the work
 produced, with what each cost and how it was found, are in
 [`bench/findings.md`](../bench/findings.md).
 

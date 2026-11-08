@@ -1,0 +1,14 @@
+[
+{"item":"cal-01","verdict":"wrong","reason":"Lists SchoolDOC (the code) where the question asks for the DOC type, which is SchoolDOCType."},
+{"item":"cal-02","verdict":"right","reason":"Names of schools with free-meal count/enrollment above 0.1 and at least one test taker scoring 1500 or more."},
+{"item":"cal-03","verdict":"right","reason":"Same conditions as the question, with NumGE1500 > 0 equivalent to >= 1."},
+{"item":"cal-04","verdict":"right","reason":"The stored free-meal percent over 0.1 and NumGE1500 > 0, joined on the same school, give the intended names."},
+{"item":"cal-05","verdict":"wrong","reason":"Orders by raw longitude descending, but California longitudes are negative so this picks the least extreme school; the evidence asks for maximum absolute value."},
+{"item":"cal-06","verdict":"right","reason":"Orders by abs(longitude) descending and takes the first, returning the grade span offered."},
+{"item":"cal-07","verdict":"wrong","reason":"Compares the difference to avg(K12) minus avg(Ages517), each over its own row set, instead of the average of the per-school difference; the two diverge where one value is missing."},
+{"item":"cal-08","verdict":"right","reason":"Orders by abs(longitude) descending and takes the first, returning the grade span offered."},
+{"item":"cal-09","verdict":"right","reason":"Lists name and DOC type for locally funded schools whose K12 minus Ages517 exceeds the average of that per-school difference."},
+{"item":"cal-10","verdict":"right","reason":"Same as cal-04: names of schools with free-eligible percent above 0.1 and NumGE1500 > 0."},
+{"item":"cal-11","verdict":"wrong","reason":"Lists SchoolDOC (the code) where the question asks for the DOC type."},
+{"item":"cal-12","verdict":"right","reason":"Lists name and DOC type for locally funded schools whose difference exceeds the average difference."}
+]

@@ -1,0 +1,97 @@
+[
+ {
+  "item": "thr-01",
+  "verdict": "right",
+  "reason": "Patients with an examination of thrombosis 2, with sex and diagnosis kept optionally, as asked."
+ },
+ {
+  "item": "thr-02",
+  "verdict": "right",
+  "reason": "Distinct patients with thrombosis 2 examination listing id, sex and diagnosis."
+ },
+ {
+  "item": "thr-03",
+  "verdict": "wrong",
+  "reason": "Uses thrombosis 2 instead of 1 and counts examinations rather than distinct patients."
+ },
+ {
+  "item": "thr-04",
+  "verdict": "wrong",
+  "reason": "Filters on PatientFirstDate instead of PatientDescription as the evidence specifies."
+ },
+ {
+  "item": "thr-05",
+  "verdict": "right",
+  "reason": "Distinct patient IDs with a lab row in the date range having GPT>30 and ALB<4."
+ },
+ {
+  "item": "thr-06",
+  "verdict": "wrong",
+  "reason": "Counts examinations rather than distinct patients, so patients with several qualifying examinations are overcounted."
+ },
+ {
+  "item": "thr-07",
+  "verdict": "wrong",
+  "reason": "Takes the date from Examination while GPT/ALB come from separate lab rows, so it is not the same row set as the lab-date condition."
+ },
+ {
+  "item": "thr-08",
+  "verdict": "wrong",
+  "reason": "Uses thrombosis 3 instead of 1 as the evidence says."
+ },
+ {
+  "item": "thr-09",
+  "verdict": "right",
+  "reason": "Same lab row must satisfy date range, GPT>30 and ALB<4; distinct patient IDs listed."
+ },
+ {
+  "item": "thr-10",
+  "verdict": "right",
+  "reason": "Distinct patients with a lab row GLU>=180 and TCHO<250, listing id, sex and computed age."
+ },
+ {
+  "item": "thr-11",
+  "verdict": "right",
+  "reason": "Distinct count of female patients with Description year 1997 and Admission - ."
+ },
+ {
+  "item": "thr-12",
+  "verdict": "wrong",
+  "reason": "Uses thrombosis 3 instead of 2 and is not distinct."
+ },
+ {
+  "item": "thr-13",
+  "verdict": "right",
+  "reason": "Distinct patients with a lab row GLU>=180 and TCHO<250 with id, sex and age."
+ },
+ {
+  "item": "thr-14",
+  "verdict": "wrong",
+  "reason": "Filters on PatientFirstDate rather than PatientDescription."
+ },
+ {
+  "item": "thr-15",
+  "verdict": "wrong",
+  "reason": "Invents normal ranges instead of the evidence thresholds GLU>=180 and TCHO<250."
+ },
+ {
+  "item": "thr-16",
+  "verdict": "wrong",
+  "reason": "Uses invented ranges instead of the evidence thresholds."
+ },
+ {
+  "item": "thr-17",
+  "verdict": "right",
+  "reason": "Distinct female patients with a thrombosis 1 examination dated 1997, matching the evidence."
+ },
+ {
+  "item": "thr-18",
+  "verdict": "wrong",
+  "reason": "Uses thrombosis 3 instead of 2."
+ },
+ {
+  "item": "thr-19",
+  "verdict": "right",
+  "reason": "Patient is one row per patient so the count is correct with Description year 1997, F and Admission - ."
+ }
+]
